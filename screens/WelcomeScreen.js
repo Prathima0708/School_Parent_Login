@@ -3,7 +3,7 @@ import StudentItem from "../components/StudentItem/StudentItem";
 import { studentList } from "./Login";
 
 function WelcomeScreen() {
-  // console.log(studentList);
+  //console.log(studentList);
   function renderStudentDetails(itemData) {
     return <StudentItem {...itemData.item} />;
   }

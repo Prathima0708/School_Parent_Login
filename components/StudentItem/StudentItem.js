@@ -1,22 +1,36 @@
-import { StyleSheet, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { studentList } from "../../screens/Login";
+import StudentCategories from "../../screens/StudentCategories";
+import StudentGrid from "./StudentGrid";
 
 function StudentItem({ student_name, class_name, father_name }) {
+  const navigation = useNavigation();
+  function navigateHandler() {
+    console.log(studentList);
+    navigation.navigate("Category");
+  }
   return (
-    <View style={styles.studentItem}>
-      <View style={styles.studentItem}>
-        <Text style={[styles.textBase, styles.description]}>
-          <Text>Student Name:</Text>
-          {student_name}
-        </Text>
-        <Text style={[styles.textBase, styles.description]}>
-          <Text>Class:</Text>
-          {class_name}
-        </Text>
-      </View>
-      {/* <View style={styles.amountContainer}>
+    <>
+      <Pressable onPress={navigateHandler}>
+        <View style={styles.studentItem}>
+          <View style={styles.studentItem}>
+            <Text style={[styles.textBase, styles.description]}>
+              <Text>Student Name:</Text>
+              {student_name}
+            </Text>
+            <Text style={[styles.textBase, styles.description]}>
+              <Text>Class:</Text>
+              {class_name}
+            </Text>
+          </View>
+
+          {/* <View style={styles.amountContainer}>
         <Text style={styles.amount}>{father_name}</Text>
       </View> */}
-    </View>
+        </View>
+      </Pressable>
+    </>
   );
 }
 export default StudentItem;
