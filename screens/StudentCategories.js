@@ -5,13 +5,17 @@ import { CATEGORIES } from "../components/utils/DummyData";
 function StudentCategories({ navigation }) {
   function renderCategoryItem(itemData) {
     function pressHandler() {
-      navigation.navigate("StudentsOverview");
+      // if (itemData.item.id === "c1") {
+      navigation.navigate("StudentsOverview", {
+        stdId: itemData.item.id,
+      });
+      // }
     }
     return (
       <CategoryGridTile
         title={itemData.item.title}
         color={itemData.item.color}
-        //  image={itemData.item.image}
+        icon={itemData.item.icon}
         onPress={pressHandler}
       />
     );

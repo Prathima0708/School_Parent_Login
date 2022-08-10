@@ -1,8 +1,8 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { Button, FlatList, StyleSheet, Text, View } from "react-native";
 import StudentItem from "../components/StudentItem/StudentItem";
 import { studentList } from "./Login";
 
-function WelcomeScreen() {
+function WelcomeScreen({ navigation }) {
   //console.log(studentList);
   function renderStudentDetails(itemData) {
     return <StudentItem {...itemData.item} />;
@@ -10,6 +10,8 @@ function WelcomeScreen() {
   return (
     <View style={styles.rootContainer}>
       <Text style={styles.title}>Welcome</Text>
+
+      {/* <Button title="Chat" /> */}
 
       <FlatList data={studentList} renderItem={renderStudentDetails} />
     </View>

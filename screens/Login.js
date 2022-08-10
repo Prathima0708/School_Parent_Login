@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Alert,
+  FlatList,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import Button from "../components/UI/Button";
 import axios from "axios";
 import { Colors } from "../components/constants/styles";
@@ -29,7 +36,9 @@ function Login() {
       studentList = filteredlist;
       //console.log(filteredlist);
       if (filteredlist.length == 0) {
-        <Text>No Data</Text>;
+        // <Text>No Data</Text>;
+        Alert.alert("Invalid Input", "Please enter valid credentials");
+        setEnteredPhone("");
       } else {
         navigation.navigate("Welcome");
         setEnteredPhone("");

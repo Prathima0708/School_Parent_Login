@@ -1,9 +1,13 @@
 import { StyleSheet, Text, View } from "react-native";
+import { className, studentId } from "../components/StudentItem/StudentItem";
 
-function StudentsOverviewScreen() {
+function StudentsOverviewScreen({ route }) {
+  const stdId = route.params.stdId;
   return (
     <View style={styles.container}>
-      <Text>Students Overview Screen</Text>
+      <Text>
+        Students Overview Screen {stdId} {className}
+      </Text>
     </View>
   );
 }
