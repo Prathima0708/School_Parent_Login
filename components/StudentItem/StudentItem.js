@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import {
+  Button,
   Image,
   Pressable,
   ScrollView,
@@ -9,7 +10,13 @@ import {
 } from "react-native";
 
 export var studentId, className;
-function StudentItem({ student_name, class_name, id, student_photo }) {
+function StudentItem({
+  student_name,
+  class_name,
+  id,
+  student_photo,
+  reg_number,
+}) {
   const navigation = useNavigation();
   function navigateHandler() {
     studentId = id;
@@ -36,14 +43,13 @@ function StudentItem({ student_name, class_name, id, student_photo }) {
               {/* <Text>Class:</Text> */}
               {class_name}
             </Text>
-            {/* <View style={styles.imageContainer}> */}
             {/* <Image
+              resizeMode="contain"
               source={{
-                uri: `http://localhost:8000/${student_photo}`,
+                uri: `http://10.0.2.2:8000/${student_photo}`,
               }}
               style={styles.image}
             /> */}
-            {/* </View> */}
           </View>
         </View>
       </Pressable>
@@ -56,17 +62,17 @@ const styles = StyleSheet.create({
   studentItem: {
     width: "100%",
 
-    padding: 12,
+    padding: 19,
     marginVertical: 8,
     backgroundColor: "#3e04c3",
     flexDirection: "row",
     justifyContent: "space-between",
     borderRadius: 6,
-    elevation: 3,
-    shadowColor: "#39324a",
-    shadowRadius: 4,
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.4,
+    // elevation: 3,
+    // shadowColor: "#39324a",
+    // shadowRadius: 4,
+    // shadowOffset: { width: 1, height: 1 },
+    // shadowOpacity: 0.4,
   },
   textBase: {
     color: "#e4d9fd",
@@ -87,7 +93,7 @@ const styles = StyleSheet.create({
     //minWidth: 80,
   },
   image: {
-    height: "100%",
+    height: "50%",
     width: "50%",
   },
 });

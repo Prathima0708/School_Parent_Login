@@ -41,13 +41,13 @@
 // });
 
 import Login from "./screens/Login";
-
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import { NavigationContainer } from "@react-navigation/native";
 
 import StudentCategories from "./screens/StudentCategories";
 import StudentsOverviewScreen from "./screens/StudentsOverviewScreen";
+import Chat from "./components/ChatApplication/Chat";
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -62,6 +62,7 @@ export default function App() {
             name="StudentsOverview"
             component={StudentsOverviewScreen}
           />
+          <Stack.Screen name="Chat" component={Chat} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

@@ -5,7 +5,7 @@ export const CATEGORIES = [
     "c1",
     "Attendance",
     "#f5428d",
-    "https://cdn-icons.flaticon.com/png/512/4210/premium/4210407.png?token=exp=1660121952~hmac=b16a53837d8ad6640c15e22de565b0aa"
+    "https://cdn-icons-png.flaticon.com/512/2/2123.png"
   ),
   new Category(
     "c2",
