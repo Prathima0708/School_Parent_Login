@@ -9,18 +9,19 @@ import {
   View,
 } from "react-native";
 
-export var studentId, className;
+export var studentId, className, motherName;
 function StudentItem({
   student_name,
   class_name,
   id,
   student_photo,
-  reg_number,
+  mother_name,
 }) {
   const navigation = useNavigation();
   function navigateHandler() {
     studentId = id;
     className = class_name;
+    motherName = mother_name;
     console.log(id);
     navigation.navigate("Category");
   }
@@ -29,12 +30,15 @@ function StudentItem({
       <Pressable onPress={navigateHandler.bind(this, id)}>
         <View style={styles.studentItem}>
           <View style={styles.studentItem}>
-            {/* <Image
-              source={{
-                uri: `http://localhost:8000/${student_photo}`,
-              }}
-              style={styles.image}
-            /> */}
+            <View style={styles.imageContainer}>
+              <Image
+                source={{
+                  uri: `http://10.0.2.2:8000${student_photo}`,
+                }}
+                style={styles.image}
+                width="100px"
+              />
+            </View>
             <Text style={[styles.textBase, styles.description]}>
               {/* <Text>Student Name:</Text> */}
               {student_name}
@@ -43,13 +47,6 @@ function StudentItem({
               {/* <Text>Class:</Text> */}
               {class_name}
             </Text>
-            {/* <Image
-              resizeMode="contain"
-              source={{
-                uri: `http://10.0.2.2:8000/${student_photo}`,
-              }}
-              style={styles.image}
-            /> */}
           </View>
         </View>
       </Pressable>
@@ -62,23 +59,22 @@ const styles = StyleSheet.create({
   studentItem: {
     width: "100%",
 
-    padding: 19,
+    padding: 11,
     marginVertical: 8,
     backgroundColor: "#3e04c3",
     flexDirection: "row",
+    alignItems: "center",
+
     justifyContent: "space-between",
     borderRadius: 6,
-    // elevation: 3,
-    // shadowColor: "#39324a",
-    // shadowRadius: 4,
-    // shadowOffset: { width: 1, height: 1 },
-    // shadowOpacity: 0.4,
   },
   textBase: {
     color: "#e4d9fd",
+    marginRight: 33,
   },
   description: {
     fontSize: 16,
+
     marginBottom: 4,
     fontWeight: "bold",
   },
@@ -93,7 +89,7 @@ const styles = StyleSheet.create({
     //minWidth: 80,
   },
   image: {
-    height: "50%",
-    width: "50%",
+    height: 70,
+    width: 50,
   },
 });

@@ -48,6 +48,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import StudentCategories from "./screens/StudentCategories";
 import StudentsOverviewScreen from "./screens/StudentsOverviewScreen";
 import Chat from "./components/ChatApplication/Chat";
+import ChatScreen from "./components/ChatApplication/ChatScreen";
+import SingleUser from "./components/ChatApplication/SingleUser";
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -63,6 +65,7 @@ export default function App() {
             component={StudentsOverviewScreen}
           />
           <Stack.Screen name="Chat" component={Chat} />
+          <Stack.Screen name="SingleUser" component={SingleUser} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

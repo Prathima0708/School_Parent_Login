@@ -13,9 +13,11 @@ import { Colors } from "../components/constants/styles";
 import { useNavigation } from "@react-navigation/native";
 
 export var studentList = [];
+export var Token, UserId;
 function Login() {
   const navigation = useNavigation();
-  const [enteredPhone, setEnteredPhone] = useState("");
+  const [enteredUser, setEnteredUser] = useState("");
+  const [enteredPassword, setEnteredPassword] = useState("");
   const [students, setStudents] = useState([]);
 
   // function login() {
@@ -24,31 +26,51 @@ function Login() {
   //   // local storage  fitertedstdData  window.localstorage.setItem(stdentList, fitertedstdData)
   //   // if fitertedstdData.length == 0 ? errMsg : Dashboard redirection (  window.localstorage.getItem(stdentList) )
   // }
+
   async function login() {
     try {
-      const res = await axios.get("http://10.0.2.2:8000/school/Student/");
-
-      // console.log(res.data);
-      setStudents(res.data);
-      let filteredlist = res.data.filter(
-        (ele) => ele.contact_num == enteredPhone
+      //  const token = "c4e8c2613ea3f60e47de0bd593ec2d71357e934b";
+      let headers = {
+        "Content-Type": "application/json; charset=utf-8",
+      };
+      const user = { username: enteredUser, password: enteredPassword };
+      const res = await axios.post(
+        "http://10.0.2.2:8000/school/api-token-auth/",
+        user,
+        {
+          headers: headers,
+        }
       );
-      studentList = filteredlist;
-      //console.log(filteredlist);
-      if (filteredlist.length == 0) {
-        // <Text>No Data</Text>;
-        Alert.alert("Invalid Input", "Please enter valid credentials");
-        setEnteredPhone("");
-      } else {
-        navigation.navigate("Welcome");
-        setEnteredPhone("");
-      }
+      const token = res.data.token;
+      const userId = res.data.user_id;
+
+      Token = token;
+      UserId = userId;
+
+      console.log(res.data);
+      setStudents(res.data);
+
+      // let filteredlist = res.data.filter((ele) => ele.username == enteredPhone);
+      // studentList = filteredlist;
+      // console.log(filteredlist);
+      // if (filteredlist.length == 0) {
+      //   Alert.alert("Invalid Input", "Please enter valid credentials");
+      //   setEnteredPhone("");
+      // } else {
+      navigation.navigate("Welcome");
+
+      setEnteredUser("");
+      setEnteredPassword("");
+      // }
     } catch (error) {
       console.log(error);
     }
   }
-  function phoneInputHandler(enteredValue) {
-    setEnteredPhone(enteredValue);
+  function userInputHandler(enteredValue) {
+    setEnteredUser(enteredValue);
+  }
+  function passwordInputHandler(enteredValue) {
+    setEnteredPassword(enteredValue);
   }
 
   return (
@@ -56,12 +78,17 @@ function Login() {
       <View style={styles.mainContainer}>
         <Text style={styles.mainHeader}>Login Form</Text>
         <View style={styles.inputContainer}>
-          <Text style={styles.labels}> Contact Number</Text>
+          <Text style={styles.labels}> User Name</Text>
           <TextInput
-            onChangeText={phoneInputHandler}
+            onChangeText={userInputHandler}
             style={styles.inputStyle}
-            value={enteredPhone}
-            keyboardType="number-pad"
+            value={enteredUser}
+          />
+          <Text style={styles.labels}> Password</Text>
+          <TextInput
+            onChangeText={passwordInputHandler}
+            style={styles.inputStyle}
+            value={enteredPassword}
           />
           <View style={styles.buttons}>
             <Button onPress={login}>Login</Button>
@@ -88,7 +115,7 @@ const styles = StyleSheet.create({
     // paddingTop: 30,
     // backgroundColor: "#fff",
     minHeight: "40%",
-    marginTop: 184,
+    marginTop: 100,
     marginHorizontal: 32,
     padding: 26,
     borderRadius: 8,
