@@ -77,6 +77,11 @@ function Login() {
     <>
       <View style={styles.mainContainer}>
         <Text style={styles.mainHeader}>Login Form</Text>
+        {/* <View style={styles.select}>
+          <Text style={styles.select}>Teachers</Text>
+          <Text style={styles.select}>Parents</Text>
+        </View> */}
+
         <View style={styles.inputContainer}>
           <Text style={styles.labels}> User Name</Text>
           <TextInput
@@ -90,6 +95,12 @@ function Login() {
             style={styles.inputStyle}
             value={enteredPassword}
           />
+          {/* <Text style={styles.labels}> Contact Number</Text>
+          <TextInput
+            onChangeText={passwordInputHandler}
+            style={styles.inputStyle}
+            value={enteredPassword}
+          /> */}
           <View style={styles.buttons}>
             <Button onPress={login}>Login</Button>
           </View>
@@ -125,6 +136,13 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.35,
     shadowRadius: 4,
+  },
+  select: {
+    flexDirection: "row",
+    fontSize: 15,
+    color: "white",
+    justifyContent: "space-between",
+    fontWeight: "500",
   },
   mainHeader: {
     fontSize: 25,
