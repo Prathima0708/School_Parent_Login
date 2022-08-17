@@ -6,19 +6,22 @@ import {
   Text,
   TextInput,
   View,
+  Button as Btn,
 } from "react-native";
 import Button from "../components/UI/Button";
 import axios from "axios";
 import { Colors } from "../components/constants/styles";
 import { useNavigation } from "@react-navigation/native";
+import WelcomeScreen from "./WelcomeScreen";
 
-export var studentList = [];
-export var Token, UserId;
+export var Token, UserId, LoginResponse;
 function Login() {
   const navigation = useNavigation();
   const [enteredUser, setEnteredUser] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
+  const [enteredPhone, setEnteredPhone] = useState("");
   const [students, setStudents] = useState([]);
+  const [show, setShow] = useState(false);
 
   // function login() {
   //   //fun call get stdent  --  [{ctnum},{}]
@@ -34,21 +37,23 @@ function Login() {
         "Content-Type": "application/json; charset=utf-8",
       };
       const user = { username: enteredUser, password: enteredPassword };
-      const res = await axios.post(
+      const resLogin = await axios.post(
         "http://10.0.2.2:8000/school/api-token-auth/",
         user,
         {
           headers: headers,
         }
       );
-      const token = res.data.token;
-      const userId = res.data.user_id;
+      // LoginResponse = resLogin;
+      const token = resLogin.data.token;
+      const userId = resLogin.data.user_id;
 
       Token = token;
       UserId = userId;
+      console.log(resLogin.data);
+      console.log(resLogin.data.groups);
 
-      console.log(res.data);
-      setStudents(res.data);
+      // setStudents(resLogin.data);
 
       // let filteredlist = res.data.filter((ele) => ele.username == enteredPhone);
       // studentList = filteredlist;
@@ -57,14 +62,29 @@ function Login() {
       //   Alert.alert("Invalid Input", "Please enter valid credentials");
       //   setEnteredPhone("");
       // } else {
-      navigation.navigate("Welcome");
+
+      if (resLogin.data.groups[0] === "parents") {
+        // <WelcomeScreen />;
+
+        navigation.navigate("Welcome", {
+          phone: enteredPhone,
+        });
+      } else {
+        console.log("TEACHERS PAGE");
+        navigation.navigate("TeachersLogin");
+      }
 
       setEnteredUser("");
       setEnteredPassword("");
+      setEnteredPhone("");
       // }
     } catch (error) {
       console.log(error);
     }
+  }
+  async function toggleParents() {
+    setShow(true);
+    //navigation.navigate("TeachersLogin");
   }
   function userInputHandler(enteredValue) {
     setEnteredUser(enteredValue);
@@ -72,15 +92,28 @@ function Login() {
   function passwordInputHandler(enteredValue) {
     setEnteredPassword(enteredValue);
   }
+  function phoneInputHandler(enteredValue) {
+    setEnteredPhone(enteredValue);
+  }
+
+  function toggleTeachers() {
+    setShow(false);
+  }
 
   return (
     <>
       <View style={styles.mainContainer}>
         <Text style={styles.mainHeader}>Login Form</Text>
-        {/* <View style={styles.select}>
-          <Text style={styles.select}>Teachers</Text>
-          <Text style={styles.select}>Parents</Text>
-        </View> */}
+        <View style={styles.select}>
+          {/* <Text style={styles.select}>Teachers</Text>
+          <Text style={styles.select}>Parents</Text> */}
+          <Btn
+            style={styles.select}
+            title="Teachers"
+            onPress={toggleTeachers}
+          />
+          <Btn style={styles.select} title="Parents" onPress={toggleParents} />
+        </View>
 
         <View style={styles.inputContainer}>
           <Text style={styles.labels}> User Name</Text>
@@ -95,12 +128,17 @@ function Login() {
             style={styles.inputStyle}
             value={enteredPassword}
           />
-          {/* <Text style={styles.labels}> Contact Number</Text>
-          <TextInput
-            onChangeText={passwordInputHandler}
-            style={styles.inputStyle}
-            value={enteredPassword}
-          /> */}
+          {show && (
+            <>
+              <Text style={styles.labels}>Registered Phone Number</Text>
+              <TextInput
+                onChangeText={phoneInputHandler}
+                style={styles.inputStyle}
+                value={enteredPhone}
+                keyboardType="number-pad"
+              />
+            </>
+          )}
           <View style={styles.buttons}>
             <Button onPress={login}>Login</Button>
           </View>
@@ -126,7 +164,7 @@ const styles = StyleSheet.create({
     // paddingTop: 30,
     // backgroundColor: "#fff",
     minHeight: "40%",
-    marginTop: 100,
+    marginTop: 50,
     marginHorizontal: 32,
     padding: 26,
     borderRadius: 8,

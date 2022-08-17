@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   FlatList,
   Pressable,
@@ -7,11 +8,43 @@ import {
   View,
 } from "react-native";
 import StudentItem from "../components/StudentItem/StudentItem";
-import { studentList } from "./Login";
-import { Ionicons } from "@expo/vector-icons";
+import axios from "axios";
+import { useEffect } from "react";
+import { useState } from "react";
 
-function WelcomeScreen({ navigation }) {
-  //console.log(studentList);
+import { useNavigation, useRoute } from "@react-navigation/native";
+
+export var studentList = [];
+function WelcomeScreen() {
+  const [students, setStudents] = useState([]);
+  const route = useRoute();
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    async function login() {
+      try {
+        const ph = route.params.phone.toString();
+        const res = await axios.get("http://10.0.2.2:8000/school/Student/");
+        //  console.log(res.data);
+        setStudents(res.data);
+        let filteredlist = res.data.filter(
+          (ele) => ele.contact_num == route.params.phone
+        );
+        console.log(filteredlist);
+        studentList = filteredlist;
+        if (filteredlist.length == 0) {
+          Alert.alert("Invalid Input", "Please enter valid credentials");
+          //setEnteredPhone("");
+        } else {
+          navigation.navigate("ParentsLogin");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    login();
+  }, []);
+
   function renderStudentDetails(itemData) {
     return <StudentItem {...itemData.item} />;
   }
@@ -19,15 +52,18 @@ function WelcomeScreen({ navigation }) {
     <>
       <View style={styles.rootContainer}>
         <Text style={styles.title}>Welcome</Text>
+        <Text>{route.params.phone}</Text>
+        {/* <FlatList data={studentList} renderItem={renderStudentDetails} /> */}
+        {/* <ParentsLogin /> */}
 
-        <FlatList data={studentList} renderItem={renderStudentDetails} />
+        {/* <FlatList data={studentList} renderItem={renderStudentDetails} />
         <Pressable
           style={styles.btnContainer}
           onPress={() => navigation.navigate("Chat")}
         >
           <Ionicons name="chatbubble" size={28} color="black" />
           <Text style={styles.btnText}>Chat</Text>
-        </Pressable>
+        </Pressable> */}
       </View>
     </>
   );

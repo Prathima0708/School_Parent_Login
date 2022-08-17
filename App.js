@@ -50,6 +50,8 @@ import StudentsOverviewScreen from "./screens/StudentsOverviewScreen";
 import Chat from "./components/ChatApplication/Chat";
 import ChatScreen from "./components/ChatApplication/ChatScreen";
 import SingleUser from "./components/ChatApplication/SingleUser";
+import TeachersLoginScreen from "./screens/TeachersLoginScreen";
+import ParentsLoginScreen from "./screens/ParentsLoginScreen";
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -58,6 +60,8 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="TeachersLogin" component={TeachersLoginScreen} />
+          <Stack.Screen name="ParentsLogin" component={ParentsLoginScreen} />
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
           <Stack.Screen name="Category" component={StudentCategories} />
           <Stack.Screen
