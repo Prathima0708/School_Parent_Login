@@ -103,17 +103,19 @@ function Login() {
   return (
     <>
       <View style={styles.mainContainer}>
-        <Text style={styles.mainHeader}>Login Form</Text>
         <View style={styles.select}>
           {/* <Text style={styles.select}>Teachers</Text>
           <Text style={styles.select}>Parents</Text> */}
           <Btn
-            style={styles.select}
             title="Teachers"
             onPress={toggleTeachers}
+            style={styles.btnT}
           />
-          <Btn style={styles.select} title="Parents" onPress={toggleParents} />
+          <Btn title="Parents" style={styles.btnP} onPress={toggleParents} />
         </View>
+        
+        <Text style={styles.mainHeader}>Login Form</Text>
+        
 
         <View style={styles.inputContainer}>
           <Text style={styles.labels}> User Name</Text>
@@ -166,7 +168,9 @@ const styles = StyleSheet.create({
     minHeight: "40%",
     marginTop: 50,
     marginHorizontal: 32,
-    padding: 26,
+    paddingBottom: 26,
+    // paddingLeft:26,
+    // paddingRight:26,
     borderRadius: 8,
     backgroundColor: Colors.primary800,
     elevation: 2,
@@ -174,13 +178,17 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.35,
     shadowRadius: 4,
+
   },
   select: {
-    flexDirection: "row",
+    // flexDirection: "row",
     fontSize: 15,
     color: "white",
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
     fontWeight: "500",
+    display:'flex'
+    // alignItems:'center',
+    // justifyContent:'center'
   },
   mainHeader: {
     fontSize: 25,
@@ -188,9 +196,13 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     paddingTop: 20,
     paddingBottom: 15,
+    textAlign:'center'
+    
   },
   inputContainer: {
     marginTop: 20,
+    paddingLeft:26,
+    paddingRight:26,
   },
   labels: {
     fontSize: 18,
