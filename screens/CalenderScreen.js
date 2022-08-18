@@ -45,7 +45,7 @@ const CalenderScreen = () => {
               }}
             >
               <Text>{item.name}</Text>
-              <Avatar.Text label="J" />
+              {/* <Avatar.Text label="J" /> */}
             </View>
           </Card.Content>
         </Card>
