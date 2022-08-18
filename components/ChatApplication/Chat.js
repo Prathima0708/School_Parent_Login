@@ -35,9 +35,8 @@ const Chat = () => {
   }
   return (
     <>
-      <Text style={styles.description}>List of users:</Text>
+      <Text style={styles.description}>List of teachers:</Text>
       <View style={[styles.root, styles.description]}>
-        <Text> {motherName}</Text>
         <View>
           <FlatList data={users} renderItem={renderChatList} />
         </View>

@@ -35,18 +35,18 @@ const SingleUser = ({ messages_data }) => {
         // const user = getChat.data.chatroom_data.user1;
         setChat(getChat.data.chatroom_data);
 
-        var ws = new WebSocket(
-          `ws://10.0.2.2:8000/ws/socket-server/ + ${chatuid} `
-        );
-        ws.current.onopen = () => {
-          console.log("Connection established open");
-        };
-        ws.current.onclose = () => {
-          console.log("Connection established closed");
-        };
-        return () => {
-          ws.current.onclose();
-        };
+        // var ws = new WebSocket(
+        //   `ws://10.0.2.2:8000/ws/socket-server/ + ${chatuid} `
+        // );
+        // ws.current.onopen = () => {
+        //   console.log("Connection established open");
+        // };
+        // ws.current.onclose = () => {
+        //   console.log("Connection established closed");
+        // };
+        // return () => {
+        //   ws.current.onclose();
+        // };
       } catch (error) {
         console.log(error);
       }
@@ -96,7 +96,7 @@ const SingleUser = ({ messages_data }) => {
     <View>
       <Text>{chat.user1}</Text>
       <Text>{chat.user2}</Text>
-      <GiftedChat messages={chat} onSend={(messages) => onSend(messages)} />
+      {/* <GiftedChat messages={chat} onSend={(messages) => onSend(messages)} /> */}
     </View>
   );
 };

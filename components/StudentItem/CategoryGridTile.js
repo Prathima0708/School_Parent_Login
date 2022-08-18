@@ -6,7 +6,6 @@ import {
   Text,
   View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 
 function CategoryGridTile({ title, color, icon, onPress }) {
   return (
@@ -33,9 +32,10 @@ export default CategoryGridTile;
 const styles = StyleSheet.create({
   gridItem: {
     flex: 1,
-    margin: 16,
+    margin: 26,
+
     height: 150,
-    borderRadius: 8,
+    borderRadius: 18,
     elevation: 4,
     shadowColor: "black",
     backgroundColor: "white",

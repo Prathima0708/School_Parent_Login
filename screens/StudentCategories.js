@@ -5,11 +5,19 @@ import { CATEGORIES } from "../components/utils/DummyData";
 function StudentCategories({ navigation }) {
   function renderCategoryItem(itemData) {
     function pressHandler() {
-      // if (itemData.item.id === "c1") {
-      navigation.navigate("StudentsOverview", {
-        stdId: itemData.item.id,
-      });
-      // }
+      if (itemData.item.id === "c5") {
+        navigation.navigate("Leave", {
+          stdId: itemData.item.id,
+        });
+      } else if (itemData.item.id === "c1") {
+        navigation.navigate("Transport", {
+          stdId: itemData.item.id,
+        });
+      } else if (itemData.item.id === "c2") {
+        navigation.navigate("Calender", {
+          stdId: itemData.item.id,
+        });
+      }
     }
     return (
       <CategoryGridTile

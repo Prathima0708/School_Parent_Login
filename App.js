@@ -52,6 +52,10 @@ import ChatScreen from "./components/ChatApplication/ChatScreen";
 import SingleUser from "./components/ChatApplication/SingleUser";
 import TeachersLoginScreen from "./screens/TeachersLoginScreen";
 import ParentsLoginScreen from "./screens/ParentsLoginScreen";
+import TeachersOverviewScreen from "./screens/TeachersOverviewScreen";
+import LeaveScreen from "./screens/LeaveScreen";
+import TransportScreen from "./screens/TransportScreen";
+import CalenderScreen from "./screens/CalenderScreen";
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -61,15 +65,25 @@ export default function App() {
         <Stack.Navigator>
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="TeachersLogin" component={TeachersLoginScreen} />
+
           <Stack.Screen name="ParentsLogin" component={ParentsLoginScreen} />
-          <Stack.Screen name="Welcome" component={WelcomeScreen} />
+
           <Stack.Screen name="Category" component={StudentCategories} />
           <Stack.Screen
             name="StudentsOverview"
             component={StudentsOverviewScreen}
           />
+          <Stack.Screen name="Leave" component={LeaveScreen} />
+          <Stack.Screen name="Calender" component={CalenderScreen} />
+          <Stack.Screen name="Transport" component={TransportScreen} />
+          <Stack.Screen
+            name="TeachersOverview"
+            component={TeachersOverviewScreen}
+          />
           <Stack.Screen name="Chat" component={Chat} />
+          <Stack.Screen name="ChatScreen" component={ChatScreen} />
           <Stack.Screen name="SingleUser" component={SingleUser} />
+          {/* <Stack.Screen name="Welcome" component={WelcomeScreen} /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </>

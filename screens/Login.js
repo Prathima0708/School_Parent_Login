@@ -66,11 +66,11 @@ function Login() {
       if (resLogin.data.groups[0] === "parents") {
         // <WelcomeScreen />;
 
-        navigation.navigate("Welcome", {
+        navigation.navigate("ParentsLogin", {
           phone: enteredPhone,
         });
       } else {
-        console.log("TEACHERS PAGE");
+        // console.log("TEACHERS PAGE");
         navigation.navigate("TeachersLogin");
       }
 
@@ -106,16 +106,11 @@ function Login() {
         <View style={styles.select}>
           {/* <Text style={styles.select}>Teachers</Text>
           <Text style={styles.select}>Parents</Text> */}
-          <Btn
-            title="Teachers"
-            onPress={toggleTeachers}
-            style={styles.btnT}
-          />
+          <Btn title="Teachers" onPress={toggleTeachers} style={styles.btnT} />
           <Btn title="Parents" style={styles.btnP} onPress={toggleParents} />
         </View>
-        
+
         <Text style={styles.mainHeader}>Login Form</Text>
-        
 
         <View style={styles.inputContainer}>
           <Text style={styles.labels}> User Name</Text>
@@ -178,7 +173,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.35,
     shadowRadius: 4,
-
   },
   select: {
     // flexDirection: "row",
@@ -186,7 +180,7 @@ const styles = StyleSheet.create({
     color: "white",
     // justifyContent: "space-between",
     fontWeight: "500",
-    display:'flex'
+    display: "flex",
     // alignItems:'center',
     // justifyContent:'center'
   },
@@ -196,13 +190,12 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     paddingTop: 20,
     paddingBottom: 15,
-    textAlign:'center'
-    
+    textAlign: "center",
   },
   inputContainer: {
     marginTop: 20,
-    paddingLeft:26,
-    paddingRight:26,
+    paddingLeft: 26,
+    paddingRight: 26,
   },
   labels: {
     fontSize: 18,

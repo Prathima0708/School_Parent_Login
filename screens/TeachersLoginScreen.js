@@ -1,23 +1,39 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, FlatList } from "react-native";
 import React from "react";
-import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 
-const TeachersLoginScreen = () => {
-  const navigation = useNavigation();
+import CategoryGridTile from "../components/StudentItem/CategoryGridTile";
+import { CATEGORIES } from "../components/utils/DummyData";
+import { TEACHERS } from "../components/utils/TeachersDashboard";
+
+const TeachersLoginScreen = ({ navigation }) => {
+  function renderCategoryItem(itemData) {
+    function pressHandler() {
+      // if (itemData.item.id === "c1") {
+      navigation.navigate("TeachersOverview");
+      // }
+    }
+    return (
+      <CategoryGridTile
+        title={itemData.item.title}
+        color={itemData.item.color}
+        icon={itemData.item.icon}
+        onPress={pressHandler}
+      />
+    );
+  }
   return (
     <>
-      <View style={styles.rootContainer}>
-        <Text style={styles.title}>Welcome</Text>
+      {/* <View style={styles.rootContainer}>
+        <Text style={styles.title}>Welcome</Text> */}
 
-        <Pressable
-          style={styles.btnContainer}
-          onPress={() => navigation.navigate("Chat")}
-        >
-          <Ionicons name="chatbubble" size={28} color="black" />
-          <Text style={styles.btnText}>Chat</Text>
-        </Pressable>
-      </View>
+      <FlatList
+        data={TEACHERS}
+        keyExtractor={(item) => item.id}
+        renderItem={renderCategoryItem}
+        numColumns={2}
+      />
+
+      {/* </View> */}
     </>
   );
 };
@@ -35,22 +51,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "500",
     marginBottom: 8,
-  },
-  btnContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    padding: 10,
-
-    borderRadius: 20,
-    backgroundColor: "#368dff",
-    marginTop: -39,
-    marginLeft: 250,
-  },
-
-  btnText: {
-    fontSize: 18,
-    color: "black",
-    marginLeft: 3,
-    marginTop: 2,
   },
 });

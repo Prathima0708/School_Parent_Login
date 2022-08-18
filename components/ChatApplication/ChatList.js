@@ -7,7 +7,7 @@ const ChatList = ({ username, id }) => {
   function navigateHandler() {
     console.log(id);
     selectedUserId = id;
-    navigation.navigate("SingleUser");
+    navigation.navigate("ChatScreen");
   }
   return (
     <Pressable onPress={navigateHandler.bind(this, id)}>
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   ChatItem: {
     width: "95%",
     marginLeft: 5,
-
+    overflow: "hidden",
     padding: 5,
     marginVertical: 8,
     backgroundColor: "#9eecff",

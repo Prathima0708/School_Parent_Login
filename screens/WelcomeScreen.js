@@ -1,12 +1,4 @@
-import {
-  Alert,
-  Button,
-  FlatList,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import StudentItem from "../components/StudentItem/StudentItem";
 import axios from "axios";
 import { useEffect } from "react";
