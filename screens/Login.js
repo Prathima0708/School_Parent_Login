@@ -181,12 +181,12 @@ const styles = StyleSheet.create({
 
   },
   select: {
-    // flexDirection: "row",
+    flexDirection: "row",
     fontSize: 15,
     color: "white",
-    // justifyContent: "space-between",
+    justifyContent: "space-between",
     fontWeight: "500",
-    display:'flex'
+    // display:'flex'
     // alignItems:'center',
     // justifyContent:'center'
   },
