@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Test from "../components/UI/LgButton";
 import {
   Alert,
   FlatList,
@@ -13,10 +14,12 @@ import axios from "axios";
 import { Colors } from "../components/constants/styles";
 import { useNavigation } from "@react-navigation/native";
 import WelcomeScreen from "./WelcomeScreen";
+import LgButton from "../components/UI/LgButton";
 
 export var Token, UserId, LoginResponse;
 function Login() {
   const navigation = useNavigation();
+  const [selected, setSelected] = useState(false);
   const [enteredUser, setEnteredUser] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
   const [enteredPhone, setEnteredPhone] = useState("");
@@ -84,6 +87,8 @@ function Login() {
   }
   async function toggleParents() {
     setShow(true);
+    setSelected(!selected);
+
     //navigation.navigate("TeachersLogin");
   }
   function userInputHandler(enteredValue) {
@@ -106,12 +111,11 @@ function Login() {
         <View style={styles.select}>
           {/* <Text style={styles.select}>Teachers</Text>
           <Text style={styles.select}>Parents</Text> */}
-          <Btn
-            title="Teachers"
+          <LgButton
             onPress={toggleTeachers}
-            style={styles.btnT}
-          />
-          <Btn title="Parents" style={styles.btnP} onPress={toggleParents} />
+          >Teachers</LgButton>
+          {/* <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton> */}
+          <LgButton onPress={toggleParents} >Parents</LgButton>
         </View>
         
         <Text style={styles.mainHeader}>Login Form</Text>
@@ -184,8 +188,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     fontSize: 15,
     color: "white",
-    justifyContent: "space-between",
+    justifyContent:"space-between",
     fontWeight: "500",
+    backgroundColor:'white'
     // display:'flex'
     // alignItems:'center',
     // justifyContent:'center'
@@ -203,6 +208,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     paddingLeft:26,
     paddingRight:26,
+  },
+  selected:{
+    backgroundColor:'grey'
   },
   labels: {
     fontSize: 18,
