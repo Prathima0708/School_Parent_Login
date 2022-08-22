@@ -63,7 +63,7 @@ export default function App() {
       {/* <Login /> */}
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Login" component={Login} options={{title:'Kinara'}} />
           <Stack.Screen name="TeachersLogin" component={TeachersLoginScreen} />
 
           <Stack.Screen name="ParentsLogin" component={ParentsLoginScreen} />

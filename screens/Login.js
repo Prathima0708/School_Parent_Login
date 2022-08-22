@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Test from "../components/UI/LgButton";
+import { Ionicons } from '@expo/vector-icons';
 import {
   Alert,
   FlatList,
@@ -8,6 +9,8 @@ import {
   TextInput,
   View,
   Button as Btn,
+  KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
 import Button from "../components/UI/Button";
 import axios from "axios";
@@ -25,6 +28,7 @@ function Login() {
   const [enteredPhone, setEnteredPhone] = useState("");
   const [students, setStudents] = useState([]);
   const [show, setShow] = useState(false);
+  const [showLine,setShowLine]=useState(false);
 
   // function login() {
   //   //fun call get stdent  --  [{ctnum},{}]
@@ -88,6 +92,7 @@ function Login() {
   async function toggleParents() {
     setShow(true);
     setSelected(!selected);
+    setShowLine(true)
 
     //navigation.navigate("TeachersLogin");
   }
@@ -103,18 +108,50 @@ function Login() {
 
   function toggleTeachers() {
     setShow(false);
+    setShowLine(false)
   }
 
   return (
     <>
-      <View style={styles.mainContainer}>
-        <View style={styles.select}>
-          {/* <Text style={styles.select}>Teachers</Text>
-          <Text style={styles.select}>Parents</Text> */}
-
-          <LgButton onPress={toggleTeachers}>Teachers</LgButton>
-          {/* <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton> */}
-          <LgButton onPress={toggleParents}>Parents</LgButton>
+    <ScrollView>
+    <View style={{
+      marginLeft:30,
+      marginTop:20,
+      width:'75%'
+    }}>
+      <Text style={{
+        color:'#999999',
+        fontSize:24,
+      }}>
+        Welcome To
+      </Text>
+      <Text style={{
+        fontWeight:'bold',
+        fontSize:34
+      }}>Kinara school</Text>
+      <Text style={{
+        color:'#999999',
+        fontSize:15
+      }}>
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit, 
+      sed diam nonummy nibh euismod tincidunt ut 
+      laoreet dolore magna aliquam erat volutpat.
+      </Text>
+    </View>
+    <View style={styles.mainContainer}>
+      <View style={styles.select}>
+          <LgButton onPress={toggleTeachers}>
+            Teachers
+          {!showLine && <View>
+              {/* <Ionicons name="checkmark" size={20} color="#00008B" /> */}
+            </View>}
+            </LgButton>
+          <LgButton onPress={toggleParents}>
+            Parents
+          {showLine && <View>
+              {/* <Ionicons name="checkmark" size={20} color="#00008B" /> */}
+            </View>}
+            </LgButton>
         </View>
 
         <Text style={styles.mainHeader}>Login Form</Text>
@@ -156,6 +193,8 @@ function Login() {
           {/* <WelcomeScreen enteredPhone={enteredPhone} /> */}
         </View>
       </View>
+    </ScrollView>
+    
     </>
   );
 }
@@ -169,23 +208,23 @@ const styles = StyleSheet.create({
     // paddingTop: 30,
     // backgroundColor: "#fff",
     minHeight: "40%",
-    marginTop: 50,
+    marginTop: 30,
     marginHorizontal: 32,
     paddingBottom: 26,
     // paddingLeft:26,
     // paddingRight:26,
     borderRadius: 8,
-    backgroundColor: Colors.primary800,
+    backgroundColor: '#4169E1',
     elevation: 2,
     shadowColor: "black",
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.35,
     shadowRadius: 4,
+
   },
   select: {
     flexDirection: "row",
     fontSize: 15,
-    color: "white",
     justifyContent: "space-between",
     fontWeight: "500",
     backgroundColor: "white",
@@ -202,13 +241,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   inputContainer: {
-    marginTop: 20,
+    marginTop: 10,
     paddingLeft: 26,
     paddingRight: 26,
   },
-  selected: {
-    backgroundColor: "grey",
-  },
+
   labels: {
     fontSize: 18,
     color: "#7d7d7d",
@@ -231,4 +268,6 @@ const styles = StyleSheet.create({
     borderRadius: 1,
     fontSize: 18,
   },
+
+  
 });
