@@ -22,13 +22,15 @@ import LgButton from "../components/UI/LgButton";
 export var Token, UserId, LoginResponse;
 function Login() {
   const navigation = useNavigation();
-  const [selected, setSelected] = useState(false);
   const [enteredUser, setEnteredUser] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
   const [enteredPhone, setEnteredPhone] = useState("");
   const [students, setStudents] = useState([]);
   const [show, setShow] = useState(false);
-  const [showLine,setShowLine]=useState(false);
+  const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
+  const [forPartentBackground,setForPartentBackground]=useState({backgroundColor:'#4169E1',color:'white'})
+  const [forTeacherBackground,setForTeacherBackground]=useState({backgroundColor:'white',color:'black'})
+
 
   // function login() {
   //   //fun call get stdent  --  [{ctnum},{}]
@@ -89,10 +91,11 @@ function Login() {
       console.log(error);
     }
   }
-  async function toggleParents() {
+   function toggleParents() {
     setShow(true);
-    setSelected(!selected);
-    setShowLine(true)
+    setForPartentBackground({backgroundColor:'white',color:'black'})
+   
+    setForTeacherBackground({backgroundColor:'#4169E1',color:'white'})
 
     //navigation.navigate("TeachersLogin");
   }
@@ -108,31 +111,19 @@ function Login() {
 
   function toggleTeachers() {
     setShow(false);
-    setShowLine(false)
+    setForTeacherBackground({backgroundColor:'white',color:'black'})
+    setForPartentBackground({backgroundColor:'#4169E1',color:'white'})
   }
 
   return (
     <>
-    <ScrollView>
-    <View style={{
-      marginLeft:30,
-      marginTop:20,
-      width:'75%'
-    }}>
-      <Text style={{
-        color:'#999999',
-        fontSize:24,
-      }}>
-        Welcome To
-      </Text>
-      <Text style={{
-        fontWeight:'bold',
-        fontSize:34
-      }}>Kinara school</Text>
-      <Text style={{
-        color:'#999999',
-        fontSize:15
-      }}>
+
+    <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={keyboardVerticalOffset}>
+        {/* <ScrollView> */}
+    <View style={styles.textContainer}>
+      <Text style={{ color:'#999999',fontSize:24}}>Welcome To</Text>
+      <Text style={{ fontWeight:'bold', fontSize:34}}>Kinara school</Text>
+      <Text style={{color:'#999999',fontSize:15}}>
       Lorem ipsum dolor sit amet, consectetuer adipiscing elit, 
       sed diam nonummy nibh euismod tincidunt ut 
       laoreet dolore magna aliquam erat volutpat.
@@ -140,18 +131,8 @@ function Login() {
     </View>
     <View style={styles.mainContainer}>
       <View style={styles.select}>
-          <LgButton onPress={toggleTeachers}>
-            Teachers
-          {!showLine && <View>
-              {/* <Ionicons name="checkmark" size={20} color="#00008B" /> */}
-            </View>}
-            </LgButton>
-          <LgButton onPress={toggleParents}>
-            Parents
-          {showLine && <View>
-              {/* <Ionicons name="checkmark" size={20} color="#00008B" /> */}
-            </View>}
-            </LgButton>
+          <LgButton onPress={toggleTeachers} style={forPartentBackground}>Teachers</LgButton>
+          <LgButton onPress={toggleParents} style={forTeacherBackground}>Parents</LgButton>
         </View>
 
         <Text style={styles.mainHeader}>Login Form</Text>
@@ -193,8 +174,8 @@ function Login() {
           {/* <WelcomeScreen enteredPhone={enteredPhone} /> */}
         </View>
       </View>
-    </ScrollView>
-    
+    {/* </ScrollView> */}
+    </KeyboardAvoidingView>
     </>
   );
 }
@@ -220,7 +201,12 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.35,
     shadowRadius: 4,
+  },
 
+  textContainer:{
+    marginLeft:30,
+    marginTop:20,
+    width:'75%'
   },
   select: {
     flexDirection: "row",
@@ -228,9 +214,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     fontWeight: "500",
     backgroundColor: "white",
-    // display:'flex'
-    // alignItems:'center',
-    // justifyContent:'center'
   },
   mainHeader: {
     fontSize: 25,
@@ -268,6 +251,4 @@ const styles = StyleSheet.create({
     borderRadius: 1,
     fontSize: 18,
   },
-
-  
 });
