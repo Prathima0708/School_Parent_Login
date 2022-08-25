@@ -119,7 +119,7 @@ function Login() {
     <>
 
     <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={keyboardVerticalOffset}>
-        {/* <ScrollView> */}
+        <ScrollView>
     <View style={styles.textContainer}>
       <Text style={{ color:'#999999',fontSize:24}}>Welcome To</Text>
       <Text style={{ fontWeight:'bold', fontSize:34}}>Kinara school</Text>
@@ -174,7 +174,7 @@ function Login() {
           {/* <WelcomeScreen enteredPhone={enteredPhone} /> */}
         </View>
       </View>
-    {/* </ScrollView> */}
+    </ScrollView>
     </KeyboardAvoidingView>
     </>
   );

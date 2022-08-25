@@ -1,10 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
 import { className, studentId } from "../components/StudentItem/StudentItem";
+import TransportScreen from "./TransportScreen";
 
 function TeachersOverviewScreen() {
   return (
     <View style={styles.container}>
-      <Text>Teachers Overview Screen</Text>
+      {/* <Text>Teachers Overview Screen</Text> */}
+      <TransportScreen />
     </View>
   );
 }
