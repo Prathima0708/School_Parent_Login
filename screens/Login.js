@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Test from "../components/UI/LgButton";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 import {
   Alert,
   FlatList,
@@ -27,10 +27,15 @@ function Login() {
   const [enteredPhone, setEnteredPhone] = useState("");
   const [students, setStudents] = useState([]);
   const [show, setShow] = useState(false);
-  const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
-  const [forPartentBackground,setForPartentBackground]=useState({backgroundColor:'#4169E1',color:'white'})
-  const [forTeacherBackground,setForTeacherBackground]=useState({backgroundColor:'white',color:'black'})
-
+  const keyboardVerticalOffset = Platform.OS === "ios" ? 40 : 0;
+  const [forPartentBackground, setForPartentBackground] = useState({
+    backgroundColor: "#4169E1",
+    color: "white",
+  });
+  const [forTeacherBackground, setForTeacherBackground] = useState({
+    backgroundColor: "white",
+    color: "black",
+  });
 
   // function login() {
   //   //fun call get stdent  --  [{ctnum},{}]
@@ -49,6 +54,7 @@ function Login() {
       const resLogin = await axios.post(
         "http://10.0.2.2:8000/school/api-token-auth/",
         user,
+        
         {
           headers: headers,
         }
@@ -91,11 +97,11 @@ function Login() {
       console.log(error);
     }
   }
-   function toggleParents() {
+  function toggleParents() {
     setShow(true);
-    setForPartentBackground({backgroundColor:'white',color:'black'})
-   
-    setForTeacherBackground({backgroundColor:'#4169E1',color:'white'})
+    setForPartentBackground({ backgroundColor: "white", color: "black" });
+
+    setForTeacherBackground({ backgroundColor: "#4169E1", color: "white" });
 
     //navigation.navigate("TeachersLogin");
   }
@@ -111,71 +117,76 @@ function Login() {
 
   function toggleTeachers() {
     setShow(false);
-    setForTeacherBackground({backgroundColor:'white',color:'black'})
-    setForPartentBackground({backgroundColor:'#4169E1',color:'white'})
+    setForTeacherBackground({ backgroundColor: "white", color: "black" });
+    setForPartentBackground({ backgroundColor: "#4169E1", color: "white" });
   }
 
   return (
     <>
-
-    <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={keyboardVerticalOffset}>
-        <ScrollView>
-    <View style={styles.textContainer}>
-      <Text style={{ color:'#999999',fontSize:24}}>Welcome To</Text>
-      <Text style={{ fontWeight:'bold', fontSize:34}}>Kinara school</Text>
-      <Text style={{color:'#999999',fontSize:15}}>
-      Lorem ipsum dolor sit amet, consectetuer adipiscing elit, 
-      sed diam nonummy nibh euismod tincidunt ut 
-      laoreet dolore magna aliquam erat volutpat.
-      </Text>
-    </View>
-    <View style={styles.mainContainer}>
-      <View style={styles.select}>
-          <LgButton onPress={toggleTeachers} style={forPartentBackground}>Teachers</LgButton>
-          <LgButton onPress={toggleParents} style={forTeacherBackground}>Parents</LgButton>
+      {/* <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={keyboardVerticalOffset}> */}
+      <ScrollView>
+        <View style={styles.textContainer}>
+          <Text style={{ color: "#999999", fontSize: 24 }}>Welcome To</Text>
+          <Text style={{ fontWeight: "bold", fontSize: 34 }}>
+            Kinara school
+          </Text>
+          <Text style={{ color: "#999999", fontSize: 15 }}>
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+            nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
+            volutpat.
+          </Text>
         </View>
-
-        <Text style={styles.mainHeader}>Login Form</Text>
-
-        <View style={styles.inputContainer}>
-          <Text style={styles.labels}> User Name</Text>
-          <TextInput
-            onChangeText={userInputHandler}
-            style={styles.inputStyle}
-            value={enteredUser}
-          />
-          <Text style={styles.labels}> Password</Text>
-          <TextInput
-            secureTextEntry
-            onChangeText={passwordInputHandler}
-            style={styles.inputStyle}
-            value={enteredPassword}
-          />
-          {show && (
-            <>
-              <Text style={styles.labels}>Registered Phone Number</Text>
-              <TextInput
-                onChangeText={phoneInputHandler}
-                style={styles.inputStyle}
-                value={enteredPhone}
-                keyboardType="number-pad"
-              />
-            </>
-          )}
-          <View style={styles.buttons}>
-            <Button onPress={login}>Login</Button>
+        <View style={styles.mainContainer}>
+          <View style={styles.select}>
+            <LgButton onPress={toggleTeachers} style={forPartentBackground}>
+              Teachers
+            </LgButton>
+            <LgButton onPress={toggleParents} style={forTeacherBackground}>
+              Parents
+            </LgButton>
           </View>
 
-          {/* <FlatList
+          <Text style={styles.mainHeader}>Login Form</Text>
+
+          <View style={styles.inputContainer}>
+            <Text style={styles.labels}> User Name</Text>
+            <TextInput
+              onChangeText={userInputHandler}
+              style={styles.inputStyle}
+              value={enteredUser}
+            />
+            <Text style={styles.labels}> Password</Text>
+            <TextInput
+              secureTextEntry
+              onChangeText={passwordInputHandler}
+              style={styles.inputStyle}
+              value={enteredPassword}
+            />
+            {show && (
+              <>
+                <Text style={styles.labels}>Registered Phone Number</Text>
+                <TextInput
+                  onChangeText={phoneInputHandler}
+                  style={styles.inputStyle}
+                  value={enteredPhone}
+                  keyboardType="number-pad"
+                />
+              </>
+            )}
+            <View style={styles.buttons}>
+              <Button onPress={login}>Login</Button>
+            </View>
+
+            {/* <FlatList
             data={students.filter((ele) => ele.contact_num == enteredPhone)}
             renderItem={({ item }) => <Text>{item.student_name}</Text>}
           /> */}
 
-          {/* <WelcomeScreen enteredPhone={enteredPhone} /> */}
+            {/* <WelcomeScreen enteredPhone={enteredPhone} /> */}
+          </View>
         </View>
-      </View>
-    </ScrollView>
-    </KeyboardAvoidingView>
+      </ScrollView>
+      {/* </KeyboardAvoidingView> */}
     </>
   );
 }
@@ -195,7 +206,7 @@ const styles = StyleSheet.create({
     // paddingLeft:26,
     // paddingRight:26,
     borderRadius: 8,
-    backgroundColor: '#4169E1',
+    backgroundColor: "#4169E1",
     elevation: 2,
     shadowColor: "black",
     shadowOffset: { width: 1, height: 1 },
@@ -203,10 +214,10 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
 
-  textContainer:{
-    marginLeft:30,
-    marginTop:20,
-    width:'75%'
+  textContainer: {
+    marginLeft: 30,
+    marginTop: 20,
+    width: "75%",
   },
   select: {
     flexDirection: "row",

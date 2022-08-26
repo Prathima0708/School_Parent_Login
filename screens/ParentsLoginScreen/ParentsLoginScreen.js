@@ -71,7 +71,7 @@ import {
   Text,
   View,
 } from "react-native";
-import StudentItem from "../components/StudentItem/StudentItem";
+import StudentItem from "../../components/StudentItem/StudentItem";
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";

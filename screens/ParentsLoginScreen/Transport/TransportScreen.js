@@ -1,9 +1,9 @@
 import { View,StyleSheet, TextInput,Text, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
-import BgButton from "../components/UI/BgButton";
-import VerticalLine from "../components/UI/VerticalLine";
+import BgButton from "../../../components/UI/BgButton";
+import VerticalLine from "../../../components/UI/VerticalLine";
 import { DataTable } from "react-native-paper";
-import Button from "../components/UI/Button";
+import Button from "../../../components/UI/Button";
 import axios from "axios";
 
 const TransportScreen = () => {

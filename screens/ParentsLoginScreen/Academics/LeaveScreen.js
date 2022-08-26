@@ -2,7 +2,7 @@ import { View, Text, Button, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import { TextInput } from "react-native-web";
 import axios from "axios";
-import { studentId } from "../components/StudentItem/StudentItem";
+import { studentId } from "../../../components/StudentItem/StudentItem";
 
 const LeaveScreen = () => {
   const [showform, setShowForm] = useState(false);

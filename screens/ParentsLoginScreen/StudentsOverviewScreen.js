@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import { className, studentId } from "../components/StudentItem/StudentItem";
+import { className, studentId } from "../../components/StudentItem/StudentItem";
 
 function StudentsOverviewScreen({ route }) {
   const stdId = route.params.stdId;

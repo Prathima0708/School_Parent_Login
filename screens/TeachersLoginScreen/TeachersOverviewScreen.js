@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
-import { className, studentId } from "../components/StudentItem/StudentItem";
-import TransportScreen from "./TransportScreen";
+import { className, studentId } from "../../components/StudentItem/StudentItem";
+import TransportScreen from "../ParentsLoginScreen/Transport/TransportScreen";
 
 function TeachersOverviewScreen() {
   return (

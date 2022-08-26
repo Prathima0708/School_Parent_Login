@@ -1,6 +1,6 @@
 import { FlatList } from "react-native";
-import CategoryGridTile from "../components/StudentItem/CategoryGridTile";
-import { CATEGORIES } from "../components/utils/DummyData";
+import CategoryGridTile from "../../components/StudentItem/CategoryGridTile";
+import { CATEGORIES } from "../../components/utils/DummyData";
 
 function StudentCategories({ navigation }) {
   function renderCategoryItem(itemData) {
@@ -19,6 +19,10 @@ function StudentCategories({ navigation }) {
         });
       } else if (itemData.item.id === "c3") {
         navigation.navigate("MarksCard", {
+          stdId: itemData.item.id,
+        });
+      } else if (itemData.item.id === "c4") {
+        navigation.navigate("Academics", {
           stdId: itemData.item.id,
         });
       }

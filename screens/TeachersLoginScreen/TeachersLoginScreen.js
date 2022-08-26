@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet, Pressable, FlatList } from "react-native";
 import React from "react";
 import { useState } from "react";
-import CategoryGridTile from "../components/StudentItem/CategoryGridTile";
-import { CATEGORIES } from "../components/utils/DummyData";
-import { TEACHERS } from "../components/utils/TeachersDashboard";
+import CategoryGridTile from "../../components/StudentItem/CategoryGridTile";
+import { CATEGORIES } from "../../components/utils/DummyData";
+import { TEACHERS } from "../../components/utils/TeachersDashboard";
 import { useEffect } from "react";
 
 const TeachersLoginScreen = ({ navigation }) => {

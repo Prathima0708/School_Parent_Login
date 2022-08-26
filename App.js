@@ -45,18 +45,20 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import { NavigationContainer } from "@react-navigation/native";
 
-import StudentCategories from "./screens/StudentCategories";
-import StudentsOverviewScreen from "./screens/StudentsOverviewScreen";
 import Chat from "./components/ChatApplication/Chat";
 import ChatScreen from "./components/ChatApplication/ChatScreen";
 import SingleUser from "./components/ChatApplication/SingleUser";
-import TeachersLoginScreen from "./screens/TeachersLoginScreen";
-import ParentsLoginScreen from "./screens/ParentsLoginScreen";
-import TeachersOverviewScreen from "./screens/TeachersOverviewScreen";
-import LeaveScreen from "./screens/LeaveScreen";
-import TransportScreen from "./screens/TransportScreen";
-import CalenderScreen from "./screens/CalenderScreen";
-import Exam from "./screens/Exam";
+import TeachersLoginScreen from "./screens/TeachersLoginScreen/TeachersLoginScreen";
+import ParentsLoginScreen from "./screens/ParentsLoginScreen/ParentsLoginScreen";
+import TeachersOverviewScreen from "./screens/TeachersLoginScreen/TeachersOverviewScreen";
+import LeaveScreen from "./screens/ParentsLoginScreen/Academics/LeaveScreen";
+import TransportScreen from "./screens/ParentsLoginScreen/Transport/TransportScreen";
+import CalenderScreen from "./screens/ParentsLoginScreen/Calendar/CalenderScreen";
+import Exam from "./screens/ParentsLoginScreen/Academics/Exam";
+import Academics from "./screens/ParentsLoginScreen/Academics/Academics";
+import HomeworkScreen from "./screens/ParentsLoginScreen/Academics/HomeworkScreen";
+import StudentCategories from "./screens/ParentsLoginScreen/StudentCategories";
+import StudentsOverviewScreen from "./screens/ParentsLoginScreen/StudentsOverviewScreen";
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -89,7 +91,8 @@ export default function App() {
           <Stack.Screen name="Chat" component={Chat} />
           <Stack.Screen name="ChatScreen" component={ChatScreen} />
           <Stack.Screen name="SingleUser" component={SingleUser} />
-          {/* <Stack.Screen name="Welcome" component={WelcomeScreen} /> */}
+          <Stack.Screen name="Academics" component={Academics} />
+          <Stack.Screen name="Homework" component={HomeworkScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
