@@ -99,7 +99,7 @@ function ParentsLoginScreen() {
         console.log(filteredlist);
         studentList = filteredlist;
         if (filteredlist.length == 0) {
-          Alert.alert("Invalid Input", "Please enter valid credentials");
+          Alert.alert("Invalid Input", "Please enter valid phone number");
           navigation.navigate("Login");
         }
         // else {

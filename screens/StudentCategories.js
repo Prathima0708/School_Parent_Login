@@ -17,6 +17,10 @@ function StudentCategories({ navigation }) {
         navigation.navigate("Calender", {
           stdId: itemData.item.id,
         });
+      } else if (itemData.item.id === "c3") {
+        navigation.navigate("MarksCard", {
+          stdId: itemData.item.id,
+        });
       }
     }
     return (

@@ -7,7 +7,7 @@ const ChatList = ({ username, id }) => {
   function navigateHandler() {
     console.log(id);
     selectedUserId = id;
-    navigation.navigate("ChatScreen");
+    navigation.navigate("SingleUser");
   }
   return (
     <Pressable onPress={navigateHandler.bind(this, id)}>

@@ -21,7 +21,7 @@ const Chat = () => {
         const users = await axios.get("http://10.0.2.2:8000/chat/list/", {
           headers: headers,
         });
-        // console.log(users);
+        //  console.log(users.data);
         setUsers(users.data);
       } catch (error) {
         console.log(error);

@@ -56,6 +56,7 @@ import TeachersOverviewScreen from "./screens/TeachersOverviewScreen";
 import LeaveScreen from "./screens/LeaveScreen";
 import TransportScreen from "./screens/TransportScreen";
 import CalenderScreen from "./screens/CalenderScreen";
+import Exam from "./screens/Exam";
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -63,7 +64,11 @@ export default function App() {
       {/* <Login /> */}
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Login" component={Login} options={{title:'Kinara'}} />
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ title: "Kinara" }}
+          />
           <Stack.Screen name="TeachersLogin" component={TeachersLoginScreen} />
 
           <Stack.Screen name="ParentsLogin" component={ParentsLoginScreen} />
@@ -75,6 +80,7 @@ export default function App() {
           />
           <Stack.Screen name="Leave" component={LeaveScreen} />
           <Stack.Screen name="Calender" component={CalenderScreen} />
+          <Stack.Screen name="MarksCard" component={Exam} />
           <Stack.Screen name="Transport" component={TransportScreen} />
           <Stack.Screen
             name="TeachersOverview"
