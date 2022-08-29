@@ -7,13 +7,14 @@ import { TEACHERS } from "../../components/utils/TeachersDashboard";
 import { useEffect } from "react";
 
 const TeachersLoginScreen = ({ navigation }) => {
-
-  function renderCategoryItem(itemData) {   
+  function renderCategoryItem(itemData) {
     function pressHandler() {
-      
-      // if (itemData.item.id === "c1") {
-      navigation.navigate("TeachersOverview");
-      // }
+      if (itemData.item.id === "c1") {
+        navigation.navigate("TeachersTransport");
+      }
+      if (itemData.item.id === "c4") {
+        navigation.navigate("TeachersHomework");
+      }
     }
     return (
       <CategoryGridTile

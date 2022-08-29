@@ -50,7 +50,7 @@ import ChatScreen from "./components/ChatApplication/ChatScreen";
 import SingleUser from "./components/ChatApplication/SingleUser";
 import TeachersLoginScreen from "./screens/TeachersLoginScreen/TeachersLoginScreen";
 import ParentsLoginScreen from "./screens/ParentsLoginScreen/ParentsLoginScreen";
-import TeachersOverviewScreen from "./screens/TeachersLoginScreen/TeachersOverviewScreen";
+import TeachersOverviewScreen from "./screens/TeachersLoginScreen/TeachersTransport";
 import LeaveScreen from "./screens/ParentsLoginScreen/Academics/LeaveScreen";
 import TransportScreen from "./screens/ParentsLoginScreen/Transport/TransportScreen";
 import CalenderScreen from "./screens/ParentsLoginScreen/Calendar/CalenderScreen";
@@ -59,6 +59,11 @@ import Academics from "./screens/ParentsLoginScreen/Academics/Academics";
 import HomeworkScreen from "./screens/ParentsLoginScreen/Academics/HomeworkScreen";
 import StudentCategories from "./screens/ParentsLoginScreen/StudentCategories";
 import StudentsOverviewScreen from "./screens/ParentsLoginScreen/StudentsOverviewScreen";
+import Noticeboard from "./screens/ParentsLoginScreen/Academics/Noticeboard";
+import Attendance from "./screens/ParentsLoginScreen/Academics/Attendance";
+import TeachersTransport from "./screens/TeachersLoginScreen/TeachersTransport";
+import TimeTable from "./screens/ParentsLoginScreen/Academics/TimeTable";
+import TeachersHomework from "./screens/TeachersLoginScreen/TeachersHomeWork";
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -82,8 +87,16 @@ export default function App() {
           />
           <Stack.Screen name="Leave" component={LeaveScreen} />
           <Stack.Screen name="Calender" component={CalenderScreen} />
-          <Stack.Screen name="MarksCard" component={Exam} />
+          {/* <Stack.Screen name="MarksCard" component={Exam} /> */}
+          <Stack.Screen name="NoticeBoard" component={Noticeboard} />
+          <Stack.Screen name="TimeTable" component={TimeTable} />
+          <Stack.Screen name="Attendance" component={Attendance} />
           <Stack.Screen name="Transport" component={TransportScreen} />
+          <Stack.Screen
+            name="TeachersTransport"
+            component={TeachersTransport}
+          />
+          <Stack.Screen name="TeachersHomework" component={TeachersHomework} />
           <Stack.Screen
             name="TeachersOverview"
             component={TeachersOverviewScreen}

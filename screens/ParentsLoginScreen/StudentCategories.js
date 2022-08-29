@@ -1,4 +1,4 @@
-import { FlatList } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import CategoryGridTile from "../../components/StudentItem/CategoryGridTile";
 import { CATEGORIES } from "../../components/utils/DummyData";
 
@@ -18,7 +18,7 @@ function StudentCategories({ navigation }) {
           stdId: itemData.item.id,
         });
       } else if (itemData.item.id === "c3") {
-        navigation.navigate("MarksCard", {
+        navigation.navigate("NoticeBoard", {
           stdId: itemData.item.id,
         });
       } else if (itemData.item.id === "c4") {
@@ -46,3 +46,7 @@ function StudentCategories({ navigation }) {
   );
 }
 export default StudentCategories;
+
+const styles = StyleSheet.create({
+  profile: {},
+});

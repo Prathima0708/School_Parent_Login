@@ -16,7 +16,7 @@ export const CATEGORIES = [
 
   new Category(
     "c3",
-    "Marks Card",
+    "Notice Board",
     "#9eecff",
     "https://img.icons8.com/ios-filled/344/report-card.png"
   ),
@@ -29,12 +29,6 @@ export const CATEGORIES = [
 
   new Category(
     "c5",
-    "Leave",
-    "#9eecff",
-    "https://img.icons8.com/dotty/344/sign-up-in-calendar.png"
-  ),
-  new Category(
-    "c6",
     "Profile",
     "#9eecff",
     "https://cdn-icons-png.flaticon.com/512/64/64572.png"
