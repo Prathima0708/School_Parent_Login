@@ -10,6 +10,16 @@ function Academics({ navigation }) {
           stdId: itemData.item.id,
         });
       }
+      if (itemData.item.id === "c2") {
+        navigation.navigate("TimeTable", {
+          stdId: itemData.item.id,
+        });
+      }
+      if (itemData.item.id === "c3") {
+        navigation.navigate("Attendance", {
+          stdId: itemData.item.id,
+        });
+      }
     }
     return (
       <CategoryGridTile

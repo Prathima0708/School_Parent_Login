@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TeachersLoginScreen = ({ navigation }) => {
+<<<<<<< HEAD
 
   async function logoutHandler() {
     try {
@@ -47,11 +48,16 @@ const TeachersLoginScreen = ({ navigation }) => {
   },[])
 
   function renderCategoryItem(itemData) {   
+=======
+  function renderCategoryItem(itemData) {
+>>>>>>> 061d1a50c8a5d441beb946c249c58b09dccd4677
     function pressHandler() {
-      
-      // if (itemData.item.id === "c1") {
-      navigation.navigate("TeachersOverview");
-      // }
+      if (itemData.item.id === "c1") {
+        navigation.navigate("TeachersTransport");
+      }
+      if (itemData.item.id === "c4") {
+        navigation.navigate("TeachersHomework");
+      }
     }
     return (
       <CategoryGridTile

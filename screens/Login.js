@@ -28,13 +28,19 @@ function Login() {
   const [enteredPassword, setEnteredPassword] = useState("");
   const [enteredPhone, setEnteredPhone] = useState("");
   const [students, setStudents] = useState([]);
+<<<<<<< HEAD
   const [show, setShow] = useState(false);
   const [authToken, setAuthToken] = useState();
   const [forPartentBackground, setForPartentBackground] = useState({
+=======
+  const [show, setShow] = useState(true);
+  const keyboardVerticalOffset = Platform.OS === "ios" ? 40 : 0;
+  const [forTeacherBackground, setForTeacherBackground] = useState({
+>>>>>>> 061d1a50c8a5d441beb946c249c58b09dccd4677
     backgroundColor: "#4169E1",
     color: "white",
   });
-  const [forTeacherBackground, setForTeacherBackground] = useState({
+  const [forPartentBackground, setForPartentBackground] = useState({
     backgroundColor: "white",
     color: "black",
   });
@@ -56,7 +62,7 @@ function Login() {
       const resLogin = await axios.post(
         "http://10.0.2.2:8000/school/api-token-auth/",
         user,
-        
+
         {
           headers: headers,
         }
@@ -162,11 +168,11 @@ function Login() {
         </View>
         <View style={styles.mainContainer}>
           <View style={styles.select}>
-            <LgButton onPress={toggleTeachers} style={forPartentBackground}>
-              Teachers
-            </LgButton>
             <LgButton onPress={toggleParents} style={forTeacherBackground}>
               Parents
+            </LgButton>
+            <LgButton onPress={toggleTeachers} style={forPartentBackground}>
+              Teachers
             </LgButton>
           </View>
 
