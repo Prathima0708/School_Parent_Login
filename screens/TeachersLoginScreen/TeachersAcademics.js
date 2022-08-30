@@ -21,9 +21,14 @@ function TeachersAcademics({ navigation }) {
           stdId: itemData.item.id,
         });
       }
+      if (itemData.item.id === "c5") {
+        navigation.navigate("TeachersLeave", {
+          stdId: itemData.item.id,
+        });
+      }
     }
     return (
-      <View style={styles.root}>
+      <View style={styles.test}>
         <CategoryGridTile
           title={itemData.item.title}
           color={itemData.item.color}
@@ -38,7 +43,8 @@ function TeachersAcademics({ navigation }) {
       data={TEACHERSACADEMICS}
       keyExtractor={(item) => item.id}
       renderItem={renderCategoryItem}
-      //    numColumns={2}
+      // horizontal={true}
+      numColumns={2}
     />
   );
 }
@@ -47,13 +53,10 @@ export default TeachersAcademics;
 const styles = StyleSheet.create({
   root: {
     // marginHorizontal: 50,
-    width: "70%",
     // flexDirection: "row",
-
-    flex: 1,
-    flexDirection: "row",
-
-    // justifyContent: "center",
-    // alignItems: "center",
+  },
+  test: {
+    width: "50%",
+    display: "flex",
   },
 });

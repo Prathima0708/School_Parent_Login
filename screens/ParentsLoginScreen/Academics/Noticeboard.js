@@ -26,39 +26,16 @@ function Noticeboard() {
 
   return (
     <>
-      <View style={styles.BtnContainer}>
-        <BgButton onPress={NoticeList} style={forNoticeList}>
-          List
-        </BgButton>
-        <VerticalLine>|</VerticalLine>
-        <BgButton onPress={addNotice} style={forAddNotice}>
-          Add Notice
-        </BgButton>
+      <View style={styles.root}>
+        <Text style={styles.labels}>Creator of notice</Text>
+        <Text style={styles.inputStyle}></Text>
+        <Text style={styles.labels}>Title</Text>
+        <Text style={styles.inputStyle}></Text>
+        <Text style={styles.labels}>Description</Text>
+        <Text style={styles.inputStyle}></Text>
+        <Text style={styles.labels}>Date of creation</Text>
+        <Text style={styles.inputStyle}></Text>
       </View>
-      {showForm && (
-        <View>
-          <Text style={styles.labels}>Creator of notice</Text>
-          <Text style={styles.inputStyle}></Text>
-          <Text style={styles.labels}>Title</Text>
-          <Text style={styles.inputStyle}></Text>
-          <Text style={styles.labels}>Description</Text>
-          <Text style={styles.inputStyle}></Text>
-          <Text style={styles.labels}>Date of creation</Text>
-          <Text style={styles.inputStyle}></Text>
-        </View>
-      )}
-      {showTable && (
-        <View>
-          <Text style={styles.labels}>Creator of notice</Text>
-          <TextInput style={styles.inputStyle} />
-          <Text style={styles.labels}>Title</Text>
-          <TextInput style={styles.inputStyle} />
-          <Text style={styles.labels}>Description</Text>
-          <TextInput style={styles.inputStyle} />
-          <Text style={styles.labels}>Date of creation</Text>
-          <TextInput style={styles.inputStyle} />
-        </View>
-      )}
     </>
   );
 }
@@ -66,20 +43,28 @@ function Noticeboard() {
 export default Noticeboard;
 
 const styles = StyleSheet.create({
+  root: {
+    backgroundColor: "skyblue",
+    padding: 20,
+    margin: 20,
+    borderRadius: 15,
+  },
   labels: {
     fontSize: 18,
-    color: "#7d7d7d",
+    color: "black",
+    //  color: "#7d7d7d",
     marginTop: 10,
     marginBottom: 5,
     lineHeight: 25,
-    color: "white",
+
     marginBottom: 4,
     //fontFamily: "regular",
   },
   inputStyle: {
-    color: "white",
+    color: "black",
+    // color: "white",
     borderWidth: 2,
-    borderColor: "white",
+
     paddingHorizontal: 15,
     paddingVertical: 7,
     borderRadius: 1,

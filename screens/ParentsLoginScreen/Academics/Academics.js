@@ -1,4 +1,4 @@
-import { FlatList } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import CategoryGridTile from "../../../components/StudentItem/CategoryGridTile";
 import { ACADEMICS } from "../../../components/utils/Academics";
 
@@ -32,12 +32,16 @@ function Academics({ navigation }) {
       }
     }
     return (
-      <CategoryGridTile
-        title={itemData.item.title}
-        color={itemData.item.color}
-        icon={itemData.item.icon}
-        onPress={pressHandler}
-      />
+      <View style={styles.root}>
+        <View style={styles.main}>
+          <CategoryGridTile
+            title={itemData.item.title}
+            color={itemData.item.color}
+            icon={itemData.item.icon}
+            onPress={pressHandler}
+          />
+        </View>
+      </View>
     );
   }
   return (
@@ -50,3 +54,14 @@ function Academics({ navigation }) {
   );
 }
 export default Academics;
+
+const styles = StyleSheet.create({
+  root: {
+    width: "50%",
+  },
+  main: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+});

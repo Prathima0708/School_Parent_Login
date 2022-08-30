@@ -11,6 +11,12 @@ const TimeTable = () => {
   const [showForm, setShowForm] = useState(false);
   const [showTable, setShowTable] = useState(true);
   const [data, setData] = useState();
+  const [forTimeTableList, setForTimeTableList] = useState({
+    color: "black",
+    fontWeight: "bold",
+  });
+  const [forExamTimeTable, setForExamTimeTable] = useState({ color: "black" });
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -27,6 +33,8 @@ const TimeTable = () => {
     fetchData();
   }, []);
   async function viewExam() {
+    setForExamTimeTable({ fontWeight: "bold", color: "black" });
+    setForTimeTableList({ color: "black" });
     setShowTable(false);
     setShowForm(true);
     try {
@@ -38,7 +46,9 @@ const TimeTable = () => {
       console.log(error);
     }
   }
-  async function transportList() {
+  async function timeTableList() {
+    setForTimeTableList({ fontWeight: "bold", color: "black" });
+    setForExamTimeTable({ color: "black" });
     setShowForm(false);
     setShowTable(true);
 
@@ -57,9 +67,13 @@ const TimeTable = () => {
   return (
     <>
       <View style={styles.BtnContainer}>
-        <BgButton onPress={transportList}>TimeTable List</BgButton>
+        <BgButton onPress={timeTableList} style={forTimeTableList}>
+          TimeTable List
+        </BgButton>
         <VerticalLine>|</VerticalLine>
-        <BgButton onPress={viewExam}>View Exam TimeTable</BgButton>
+        <BgButton onPress={viewExam} style={forExamTimeTable}>
+          View Exam TimeTable
+        </BgButton>
       </View>
       {showTable && (
         <ScrollView horizontal={true}>
@@ -86,7 +100,7 @@ const TimeTable = () => {
             </DataTable.Header>
             {data &&
               data.map((data, key) => (
-                <DataTable.Row>
+                <DataTable.Row style={styles.tableRow}>
                   <DataTable.Cell style={styles.tableCell}>
                     {data.monday}
                   </DataTable.Cell>
@@ -120,20 +134,38 @@ const TimeTable = () => {
               <DataTable.Title style={styles.tableTitle}>
                 START DATE
               </DataTable.Title>
-              <DataTable.Title>END DATE</DataTable.Title>
-              <DataTable.Title>TOTAL MARKS </DataTable.Title>
-              <DataTable.Title>HOUR </DataTable.Title>
-              <DataTable.Title>CLASSNAME</DataTable.Title>
+              <DataTable.Title style={styles.tableTitle}>
+                END DATE
+              </DataTable.Title>
+              <DataTable.Title style={styles.tableTitle}>
+                TOTAL MARKS{" "}
+              </DataTable.Title>
+              <DataTable.Title style={styles.tableTitle}>HOUR </DataTable.Title>
+              <DataTable.Title style={styles.tableTitle}>
+                CLASSNAME
+              </DataTable.Title>
             </DataTable.Header>
             {data &&
               data.map((data, key) => (
-                <DataTable.Row>
-                  <DataTable.Cell>{data.exam_name}</DataTable.Cell>
-                  <DataTable.Cell>{data.start_date}</DataTable.Cell>
-                  <DataTable.Cell>{data.end_date}</DataTable.Cell>
-                  <DataTable.Cell>{data.Total_marks}</DataTable.Cell>
-                  <DataTable.Cell>{data.hour}</DataTable.Cell>
-                  <DataTable.Cell>{data.class_name}</DataTable.Cell>
+                <DataTable.Row style={styles.tableRow}>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.exam_name}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.start_date}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.end_date}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.Total_marks}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.hour}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.class_name}
+                  </DataTable.Cell>
                 </DataTable.Row>
               ))}
           </DataTable>
@@ -154,17 +186,27 @@ const styles = StyleSheet.create({
 
     padding: 5,
   },
+  BtnContainer: {
+    flexDirection: "row",
+  },
   container: {
-    padding: 15,
+    padding: 10,
   },
   tableHeader: {
-    backgroundColor: "#DCDCDC",
+    backgroundColor: "skyblue",
+    height: 60,
   },
   tableTitle: {
-    marginLeft: 7,
+    padding: 5,
+    margin: 5,
   },
   tableCell: {
-    marginLeft: 7,
+    padding: 2,
+    margin: 9,
+  },
+  tableRow: {
+    borderBottomColor: "black",
+    borderBottomWidth: 2,
   },
   inputForm: {
     padding: 20,

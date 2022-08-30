@@ -28,15 +28,12 @@ function Login() {
   const [enteredPassword, setEnteredPassword] = useState("");
   const [enteredPhone, setEnteredPhone] = useState("");
   const [students, setStudents] = useState([]);
-<<<<<<< HEAD
-  const [show, setShow] = useState(false);
+
   const [authToken, setAuthToken] = useState();
-  const [forPartentBackground, setForPartentBackground] = useState({
-=======
+
   const [show, setShow] = useState(true);
-  const keyboardVerticalOffset = Platform.OS === "ios" ? 40 : 0;
+
   const [forTeacherBackground, setForTeacherBackground] = useState({
->>>>>>> 061d1a50c8a5d441beb946c249c58b09dccd4677
     backgroundColor: "#4169E1",
     color: "white",
   });
@@ -70,7 +67,7 @@ function Login() {
       // LoginResponse = resLogin;
       const token = resLogin.data.token;
       const userId = resLogin.data.user_id;
-      
+
       Token = token;
       UserId = userId;
       // setAuthToken(token);
@@ -79,7 +76,6 @@ function Login() {
       // console.log(tokenValue)
       console.log(resLogin.data);
       console.log(resLogin.data.groups);
-  
 
       // setStudents(resLogin.data);
 
@@ -110,18 +106,15 @@ function Login() {
       console.log(error);
     }
     try {
-      await AsyncStorage.setItem(
-        'token',
-        Token
-      );
+      await AsyncStorage.setItem("token", Token);
     } catch (error) {
       // Error saving data
     }
     try {
-      const value = await AsyncStorage.getItem('token');
-     
+      const value = await AsyncStorage.getItem("token");
+
       if (value !== null) {
-        console.log("This is the token :"+value)
+        console.log("This is the token :" + value);
       }
     } catch (error) {
       // Error retrieving data

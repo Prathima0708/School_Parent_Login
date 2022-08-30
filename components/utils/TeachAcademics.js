@@ -20,12 +20,6 @@ export const TEACHERSACADEMICS = [
     "#9eecff",
     "https://img.icons8.com/ios-filled/344/report-card.png"
   ),
-  new Category(
-    "c4",
-    "ReportCard",
-    "#9eecff",
-    "https://img.icons8.com/external-stick-figures-gan-khoon-lay/344/external-academic-coach-instructor-trainer-teacher-jobs-occupations-careers-stick-figures-gan-khoon-lay.png"
-  ),
 
   new Category(
     "c5",

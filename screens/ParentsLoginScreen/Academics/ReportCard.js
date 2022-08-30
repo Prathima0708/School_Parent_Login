@@ -7,15 +7,7 @@ import axios from "axios";
 import BgButton from "../../../components/UI/BgButton";
 
 const ReportCard = () => {
-  const [forTransportList, setForTransportList] = useState({
-    color: "black",
-    fontWeight: "bold",
-  });
-  const [forAddTransport, setForAddTransport] = useState({ color: "black" });
-  const [showForm, setShowForm] = useState(false);
-  const [showTable, setShowTable] = useState(true);
   const [data, setData] = useState();
-  const [formData, setFormData] = useState();
 
   useEffect(() => {
     async function fetchData() {
@@ -31,54 +23,70 @@ const ReportCard = () => {
     fetchData();
   }, []);
 
-  function transportList() {
-    setForTransportList({ fontWeight: "bold", color: "black" });
-    setForAddTransport({ color: "black" });
-    setShowForm(false);
-    setShowTable(true);
-  }
-
   return (
     <>
       <View style={styles.BtnContainer}>
-        <BgButton onPress={transportList} style={forTransportList}>
-          Marksheet
-        </BgButton>
+        <BgButton>Marksheet</BgButton>
       </View>
-      {showTable && (
-        <ScrollView horizontal={true}>
-          <DataTable style={styles.container}>
-            <DataTable.Header style={styles.tableHeader}>
-              <DataTable.Title>ID</DataTable.Title>
-              <DataTable.Title>STUDENT NAME</DataTable.Title>
-              <DataTable.Title>CLASSNAME</DataTable.Title>
-              <DataTable.Title>ROLL NO</DataTable.Title>
-              <DataTable.Title>MATHS</DataTable.Title>
-              <DataTable.Title>ENGLISH</DataTable.Title>
-              <DataTable.Title>SCIENCE</DataTable.Title>
-              <DataTable.Title>HINDI</DataTable.Title>
-              <DataTable.Title>SOCIAL</DataTable.Title>
-              <DataTable.Title>KANNADA</DataTable.Title>
-              <DataTable.Title>COMPUTER</DataTable.Title>
-            </DataTable.Header>
-            {data &&
-              data.map((data, key) => (
-                <DataTable.Row>
-                  <DataTable.Cell>{data.id}</DataTable.Cell>
-                  <DataTable.Cell>{data.student_name}</DataTable.Cell>
-                  <DataTable.Cell>{data.class_name}</DataTable.Cell>
-                  <DataTable.Cell>{data.maths_obt_mark}</DataTable.Cell>
-                  <DataTable.Cell>{data.english_obt_mark}</DataTable.Cell>
-                  <DataTable.Cell>{data.science_obt_mark}</DataTable.Cell>
-                  <DataTable.Cell>{data.hindi_obt_mark}</DataTable.Cell>
-                  <DataTable.Cell>{data.social_obt_mark}</DataTable.Cell>
-                  <DataTable.Cell>{data.kannada_obt_mark}</DataTable.Cell>
-                  <DataTable.Cell>{data.computer_obt_mark}</DataTable.Cell>
-                </DataTable.Row>
-              ))}
-          </DataTable>
-        </ScrollView>
-      )}
+
+      <ScrollView horizontal={true}>
+        <DataTable style={styles.container}>
+          <DataTable.Header style={styles.tableHeader}>
+            <DataTable.Title style={styles.tableTitle}>ID</DataTable.Title>
+            <DataTable.Title style={styles.tableTitle}>
+              STUDENT NAME
+            </DataTable.Title>
+            <DataTable.Title style={styles.tableTitle}>
+              CLASSNAME
+            </DataTable.Title>
+            <DataTable.Title style={styles.tableTitle}>ROLL NO</DataTable.Title>
+            <DataTable.Title style={styles.tableTitle}>MATHS</DataTable.Title>
+            <DataTable.Title style={styles.tableTitle}>ENGLISH</DataTable.Title>
+            <DataTable.Title style={styles.tableTitle}>SCIENCE</DataTable.Title>
+            <DataTable.Title style={styles.tableTitle}>HINDI</DataTable.Title>
+            <DataTable.Title style={styles.tableTitle}>SOCIAL</DataTable.Title>
+            <DataTable.Title style={styles.tableTitle}>KANNADA</DataTable.Title>
+            <DataTable.Title style={styles.tableTitle}>
+              COMPUTER
+            </DataTable.Title>
+          </DataTable.Header>
+          {data &&
+            data.map((data, key) => (
+              <DataTable.Row style={styles.tableRow}>
+                <DataTable.Cell style={styles.tableCell}>
+                  {data.id}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  {data.student_name}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  {data.class_name}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  {data.maths_obt_mark}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  {data.english_obt_mark}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  {data.science_obt_mark}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  {data.hindi_obt_mark}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  {data.social_obt_mark}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  {data.kannada_obt_mark}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  {data.computer_obt_mark}
+                </DataTable.Cell>
+              </DataTable.Row>
+            ))}
+        </DataTable>
+      </ScrollView>
     </>
   );
 };
@@ -90,10 +98,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   container: {
-    padding: 15,
+    padding: 10,
   },
   tableHeader: {
-    backgroundColor: "#DCDCDC",
+    backgroundColor: "skyblue",
+    height: 60,
+  },
+  tableTitle: {
+    padding: 5,
+    margin: 5,
+    fontWeight: "bold",
+  },
+  tableCell: {
+    padding: 5,
+    margin: 9,
+  },
+  tableRow: {
+    borderBottomColor: "black",
+    borderBottomWidth: 2,
   },
   inputForm: {
     padding: 20,

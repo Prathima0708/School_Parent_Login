@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 var Title;
-function CategoryGridTile({ title, color, icon, onPress }) {
+function CategoryGridTile({ title, color, icon, onPress, style }) {
   Title = title;
   return (
     <View style={styles.gridItem}>
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     width: Title == "Profile" ? "50% !important" : "70%",
     //width: 50,
     height: 150,
-    borderRadius: 38,
+    borderRadius: 18,
     elevation: 4,
     shadowColor: "black",
     backgroundColor: "white",

@@ -1,25 +1,23 @@
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import CategoryGridTile from "../../components/StudentItem/CategoryGridTile";
 import { CATEGORIES } from "../../components/utils/DummyData";
 import IconButton from "../../components/UI/IconButton";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { useLayoutEffect } from "react";
 
 function StudentCategories({ navigation }) {
-
   async function logoutHandler() {
     try {
       // const value = await AsyncStorage.getItem('token');
-    const value=  await AsyncStorage.removeItem("token");
-    if(value==null){
-      console.log('Data removed')
-      navigation.navigate("Login");
-    }
-    else{
-      console.log('Data not removed')
-    }
-      
+      const value = await AsyncStorage.removeItem("token");
+      if (value == null) {
+        console.log("Data removed");
+        navigation.navigate("Login");
+      } else {
+        console.log("Data not removed");
+      }
+
       // if (value == null) {
       //   console.log("Token is removed"+value)
       //   //  AsyncStorage.removeItem("token");
@@ -29,24 +27,28 @@ function StudentCategories({ navigation }) {
     } catch (error) {
       // Error retrieving data
     }
-  };
+  }
 
-  useLayoutEffect(()=>{
+  useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight:()=>{
-        return(
+      headerRight: () => {
+        return (
           // <LogoutButton onPress={LogoutBtnPressHandler}>Test</LogoutButton>
-          <IconButton onPress={logoutHandler} icon="log-out-outline" size={30}/>
-        )
-      }
-    })
-  },[])
+          <IconButton
+            onPress={logoutHandler}
+            icon="log-out-outline"
+            size={30}
+          />
+        );
+      },
+    });
+  }, []);
   function renderCategoryItem(itemData) {
     function pressHandler() {
       if (itemData.item.id === "c5") {
-        navigation.navigate("Leave", {
-          stdId: itemData.item.id,
-        });
+        // navigation.navigate("Leave", {
+        //   stdId: itemData.item.id,
+        // });
       } else if (itemData.item.id === "c1") {
         navigation.navigate("Transport", {
           stdId: itemData.item.id,
@@ -66,12 +68,14 @@ function StudentCategories({ navigation }) {
       }
     }
     return (
-      <CategoryGridTile
-        title={itemData.item.title}
-        color={itemData.item.color}
-        icon={itemData.item.icon}
-        onPress={pressHandler}
-      />
+      <View style={styles.root}>
+        <CategoryGridTile
+          title={itemData.item.title}
+          color={itemData.item.color}
+          icon={itemData.item.icon}
+          onPress={pressHandler}
+        />
+      </View>
     );
   }
   return (
@@ -86,5 +90,8 @@ function StudentCategories({ navigation }) {
 export default StudentCategories;
 
 const styles = StyleSheet.create({
-  profile: {},
+  root: {
+    width: "50%",
+    display: "flex",
+  },
 });
