@@ -76,14 +76,50 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-
+import { useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import IconButton from "../../components/UI/IconButton";
 export var studentList = [];
+
 function ParentsLoginScreen() {
   const [students, setStudents] = useState([]);
   const route = useRoute();
   const navigation = useNavigation();
+
+  async function logoutHandler() {
+    try {
+      // const value = await AsyncStorage.getItem('token');
+    const value=  await AsyncStorage.removeItem("token");
+    if(value==null){
+      console.log('Data removed')
+      navigation.navigate("Login");
+    }
+    else{
+      console.log('Data not removed')
+    }
+      
+      // if (value == null) {
+      //   console.log("Token is removed"+value)
+      //   //  AsyncStorage.removeItem("token");
+      //   //  console.log(value)
+      //   //  navigation.navigate("Login");
+      // }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
+
+  useLayoutEffect(()=>{
+    navigation.setOptions({
+      headerRight:()=>{
+        return(
+          // <LogoutButton onPress={LogoutBtnPressHandler}>Test</LogoutButton>
+          <IconButton onPress={logoutHandler} icon="log-out-outline" size={30}/>
+        )
+      }
+    })
+  },[])
 
   useEffect(() => {
     async function login() {
@@ -127,6 +163,7 @@ function ParentsLoginScreen() {
           <Text style={styles.btnText}>Chat</Text>
         </Pressable>
       </View>
+      
     </>
   );
 }

@@ -59,26 +59,54 @@ import Academics from "./screens/ParentsLoginScreen/Academics/Academics";
 import HomeworkScreen from "./screens/ParentsLoginScreen/Academics/HomeworkScreen";
 import StudentCategories from "./screens/ParentsLoginScreen/StudentCategories";
 import StudentsOverviewScreen from "./screens/ParentsLoginScreen/StudentsOverviewScreen";
+<<<<<<< HEAD
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from "@react-navigation/native";
+import IconButton from "./components/UI/IconButton";
+import { useEffect, useState } from "react";
+=======
 import Noticeboard from "./screens/ParentsLoginScreen/Academics/Noticeboard";
 import Attendance from "./screens/ParentsLoginScreen/Academics/Attendance";
 import TeachersTransport from "./screens/TeachersLoginScreen/TeachersTransport";
 import TimeTable from "./screens/ParentsLoginScreen/Academics/TimeTable";
 import TeachersHomework from "./screens/TeachersLoginScreen/TeachersHomeWork";
+<<<<<<< HEAD
 import TeachersAcademics from "./screens/TeachersLoginScreen/TeachersAcademics";
 import TeachersCalendar from "./screens/TeachersLoginScreen/TeachersCalendar";
 import ReportCard from "./screens/ParentsLoginScreen/Academics/ReportCard";
 import TeachersTimetable from "./screens/TeachersLoginScreen/TeachersTimeTable";
+=======
+>>>>>>> 061d1a50c8a5d441beb946c249c58b09dccd4677
+>>>>>>> d36a14c78ceebe4e3407ac030067288406d2ae1f
 const Stack = createNativeStackNavigator();
+import { Token } from "./screens/Login";
 export default function App() {
+
+  const [tokenIsPresent,setTokenIsPresent]=useState(false);
+
+
+  useEffect(()=>{
+  async function getToken(){
+    const value= await AsyncStorage.getItem('token')
+    if (value !== null) {
+      setTokenIsPresent(true)
+    }else{
+      setTokenIsPresent(false)
+    }
+  }
+  getToken()
+  },[])
+
   return (
     <>
       {/* <Login /> */}
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen
+          {!tokenIsPresent && <Stack.Screen
             name="Login"
             component={Login}
             options={{ title: "Kinara" }}
+<<<<<<< HEAD
           />
           <Stack.Screen name="TeachersLogin" component={TeachersLoginScreen} />
           <Stack.Screen
@@ -90,6 +118,11 @@ export default function App() {
             component={TeachersTimetable}
           />
           <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} />
+=======
+          />}
+          <Stack.Screen name="TeachersLogin" component={TeachersLoginScreen}/>
+
+>>>>>>> d36a14c78ceebe4e3407ac030067288406d2ae1f
           <Stack.Screen name="ParentsLogin" component={ParentsLoginScreen} />
 
           <Stack.Screen name="Category" component={StudentCategories} />
