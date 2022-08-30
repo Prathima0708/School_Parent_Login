@@ -5,8 +5,46 @@ import CategoryGridTile from "../../components/StudentItem/CategoryGridTile";
 import { CATEGORIES } from "../../components/utils/DummyData";
 import { TEACHERS } from "../../components/utils/TeachersDashboard";
 import { useEffect } from "react";
+import { useLayoutEffect } from "react";
+import IconButton from "../../components/UI/IconButton";
+import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TeachersLoginScreen = ({ navigation }) => {
+
+  async function logoutHandler() {
+    try {
+      // const value = await AsyncStorage.getItem('token');
+    const value=  await AsyncStorage.removeItem("token");
+    if(value==null){
+      console.log('Data removed')
+      navigation.navigate("Login");
+    }
+    else{
+      console.log('Data not removed')
+    }
+      
+      // if (value == null) {
+      //   console.log("Token is removed"+value)
+      //   //  AsyncStorage.removeItem("token");
+      //   //  console.log(value)
+      //   //  navigation.navigate("Login");
+      // }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
+
+  useLayoutEffect(()=>{
+    navigation.setOptions({
+      headerRight:()=>{
+        return(
+          // <LogoutButton onPress={LogoutBtnPressHandler}>Test</LogoutButton>
+          <IconButton onPress={logoutHandler} icon="log-out-outline" size={30}/>
+        )
+      }
+    })
+  },[])
 
   function renderCategoryItem(itemData) {   
     function pressHandler() {

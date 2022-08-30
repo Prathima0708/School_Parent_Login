@@ -59,19 +59,40 @@ import Academics from "./screens/ParentsLoginScreen/Academics/Academics";
 import HomeworkScreen from "./screens/ParentsLoginScreen/Academics/HomeworkScreen";
 import StudentCategories from "./screens/ParentsLoginScreen/StudentCategories";
 import StudentsOverviewScreen from "./screens/ParentsLoginScreen/StudentsOverviewScreen";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from "@react-navigation/native";
+import IconButton from "./components/UI/IconButton";
+import { useEffect, useState } from "react";
 const Stack = createNativeStackNavigator();
+import { Token } from "./screens/Login";
 export default function App() {
+
+  const [tokenIsPresent,setTokenIsPresent]=useState(false);
+
+
+  useEffect(()=>{
+  async function getToken(){
+    const value= await AsyncStorage.getItem('token')
+    if (value !== null) {
+      setTokenIsPresent(true)
+    }else{
+      setTokenIsPresent(false)
+    }
+  }
+  getToken()
+  },[])
+
   return (
     <>
       {/* <Login /> */}
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen
+          {!tokenIsPresent && <Stack.Screen
             name="Login"
             component={Login}
             options={{ title: "Kinara" }}
-          />
-          <Stack.Screen name="TeachersLogin" component={TeachersLoginScreen} />
+          />}
+          <Stack.Screen name="TeachersLogin" component={TeachersLoginScreen}/>
 
           <Stack.Screen name="ParentsLogin" component={ParentsLoginScreen} />
 

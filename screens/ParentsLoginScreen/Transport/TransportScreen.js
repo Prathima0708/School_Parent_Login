@@ -7,6 +7,7 @@ import axios from "axios";
 import BgButton from "../../../components/UI/BgButton";
 import { UserId } from "../../Login";
 const TransportScreen = () => {
+ 
 
   const [creator, setEnteredStudent] = useState("");
   const [vehicleno, setEnteredVehicleNumber] = useState("");
@@ -22,8 +23,15 @@ const TransportScreen = () => {
   const [data,setData]=useState();
   const [formData,setFormData]=useState();
 
-
+  // useEffect(()=>{
+  //   async function getToken(){
+  //     const value= await AsyncStorage.getItem('token')
+  //     console.log(value)
+  //   }
+  //   getToken()
+  //     },[]);
   useEffect(() => {
+
     async function fetchData() {
       try {
         const res = await axios.get("http://10.0.2.2:8000/school/Transportreport/");
@@ -33,6 +41,14 @@ const TransportScreen = () => {
       } catch (error) {
         console.log(error);
       }
+      // try {
+      //   // const value = await AsyncStorage.getItem('token');
+      // const value=  await AsyncStorage.getItem('token')
+      // console.log(value)
+      // } catch (error) {
+      //   // Error retrieving data
+      // }
+     
     }
     fetchData();
   }, []);

@@ -16,7 +16,9 @@ import Button from "../components/UI/Button";
 import axios from "axios";
 import { Colors } from "../components/constants/styles";
 import { useNavigation } from "@react-navigation/native";
+import { AsyncStorageStatic } from "react-native";
 import WelcomeScreen from "./WelcomeScreen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import LgButton from "../components/UI/LgButton";
 
 export var Token, UserId, LoginResponse;
@@ -27,7 +29,7 @@ function Login() {
   const [enteredPhone, setEnteredPhone] = useState("");
   const [students, setStudents] = useState([]);
   const [show, setShow] = useState(false);
-  const keyboardVerticalOffset = Platform.OS === "ios" ? 40 : 0;
+  const [authToken, setAuthToken] = useState();
   const [forPartentBackground, setForPartentBackground] = useState({
     backgroundColor: "#4169E1",
     color: "white",
@@ -62,11 +64,16 @@ function Login() {
       // LoginResponse = resLogin;
       const token = resLogin.data.token;
       const userId = resLogin.data.user_id;
-
+      
       Token = token;
       UserId = userId;
+      // setAuthToken(token);
+      // AsyncStorage.setItem("token", token);
+      // const tokenValue=AsyncStorage.getItem("token", token);
+      // console.log(tokenValue)
       console.log(resLogin.data);
       console.log(resLogin.data.groups);
+  
 
       // setStudents(resLogin.data);
 
@@ -95,6 +102,23 @@ function Login() {
       // }
     } catch (error) {
       console.log(error);
+    }
+    try {
+      await AsyncStorage.setItem(
+        'token',
+        Token
+      );
+    } catch (error) {
+      // Error saving data
+    }
+    try {
+      const value = await AsyncStorage.getItem('token');
+     
+      if (value !== null) {
+        console.log("This is the token :"+value)
+      }
+    } catch (error) {
+      // Error retrieving data
     }
   }
   function toggleParents() {
