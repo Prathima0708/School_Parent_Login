@@ -64,6 +64,10 @@ import Attendance from "./screens/ParentsLoginScreen/Academics/Attendance";
 import TeachersTransport from "./screens/TeachersLoginScreen/TeachersTransport";
 import TimeTable from "./screens/ParentsLoginScreen/Academics/TimeTable";
 import TeachersHomework from "./screens/TeachersLoginScreen/TeachersHomeWork";
+import TeachersAcademics from "./screens/TeachersLoginScreen/TeachersAcademics";
+import TeachersCalendar from "./screens/TeachersLoginScreen/TeachersCalendar";
+import ReportCard from "./screens/ParentsLoginScreen/Academics/ReportCard";
+import TeachersTimetable from "./screens/TeachersLoginScreen/TeachersTimeTable";
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -77,7 +81,15 @@ export default function App() {
             options={{ title: "Kinara" }}
           />
           <Stack.Screen name="TeachersLogin" component={TeachersLoginScreen} />
-
+          <Stack.Screen
+            name="TeachersAcademics"
+            component={TeachersAcademics}
+          />
+          <Stack.Screen
+            name="TeachersTimetable"
+            component={TeachersTimetable}
+          />
+          <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} />
           <Stack.Screen name="ParentsLogin" component={ParentsLoginScreen} />
 
           <Stack.Screen name="Category" component={StudentCategories} />
@@ -87,6 +99,7 @@ export default function App() {
           />
           <Stack.Screen name="Leave" component={LeaveScreen} />
           <Stack.Screen name="Calender" component={CalenderScreen} />
+          <Stack.Screen name="ReportCard" component={ReportCard} />
           {/* <Stack.Screen name="MarksCard" component={Exam} /> */}
           <Stack.Screen name="NoticeBoard" component={Noticeboard} />
           <Stack.Screen name="TimeTable" component={TimeTable} />

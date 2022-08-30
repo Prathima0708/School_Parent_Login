@@ -5,47 +5,48 @@ import Button from "../../components/UI/Button";
 import axios from "axios";
 
 import { UserId } from "../Login";
+import BgButton from "../../components/UI/BgButton";
 const TeachersTransport = () => {
-  const [creator, setEnteredStudent] = useState("");
-  const [vehicleno, setEnteredVehicleNumber] = useState("");
-  const [types, setEnteredTypes] = useState("");
-  const [driver_name, setEnteredDriverName] = useState("");
-  const [emp_mobile, setEnteredEmpMobile] = useState();
-  const [route_name, setEnteredRoute] = useState("");
-  const [stop_name, setEnteredStopName] = useState("");
+  const [studentID, setEnteredStudentID] = useState("");
+  const [vehicleno, setEnteredVehicleNo] = useState("");
+  const [type, setEnteredType] = useState("");
+  const [drivername, setEnteredDriverName] = useState("");
+  const [mobile, setEnteredMobile] = useState();
+  const [routename, setEnteredRouteName] = useState("");
+  const [stopname, setEnteredStopName] = useState("");
 
-  function studentTextChanged(enteredValue) {
-    setEnteredStudent(enteredValue);
+  function studentIDChangeHandler(enteredValue) {
+    setEnteredStudentID(enteredValue);
   }
-  function vehicleNumberChanged(enteredValue) {
-    setEnteredVehicleNumber(enteredValue);
+  function vehicleChangeHandler(enteredValue) {
+    setEnteredVehicleNo(enteredValue);
   }
-  function typesChanged(enteredValue) {
-    setEnteredTypes(enteredValue);
+  function typeChangeHandler(enteredValue) {
+    setEnteredType(enteredValue);
   }
-  function driverNameChanged(enteredValue) {
+  function driverNameChangeHandler(enteredValue) {
     setEnteredDriverName(enteredValue);
   }
-  function empChnaged(enteredValue) {
-    setEnteredEmpMobile(enteredValue);
+  function mobileChangeHandler(enteredValue) {
+    setEnteredMobile(enteredValue);
   }
-  function routeChnaged(enteredValue) {
-    setEnteredRoute(enteredValue);
+  function routeNameChangeHandler(enteredValue) {
+    setEnteredRouteName(enteredValue);
   }
-  function stopChnaged(enteredValue) {
+  function stopNameChangeHandler(enteredValue) {
     setEnteredStopName(enteredValue);
   }
 
   function buttonPressedHandler() {
     console.log(UserId);
     const FormData = {
-      creator,
+      studentID,
       vehicleno,
-      types,
-      driver_name,
-      emp_mobile,
-      route_name,
-      stop_name,
+      type,
+      drivername,
+      mobile,
+      routename,
+      stopname,
     };
     console.log(FormData);
     async function storeData() {
@@ -73,58 +74,55 @@ const TeachersTransport = () => {
   return (
     <>
       <View style={styles.BtnContainer}>
-        <Text>Add Transport</Text>
+        <BgButton>Add Transport</BgButton>
       </View>
 
-      <ScrollView horizontal={true}>
+      <ScrollView>
         <View style={styles.inputForm}>
-          <Text style={styles.labels}>STUDENT</Text>
+          <Text style={styles.labels}>STUDENT ID</Text>
           <TextInput
             style={styles.inputStyle}
-            onChangeText={studentTextChanged}
-            value={creator}
+            onChangeText={studentIDChangeHandler}
+            value={studentID}
           />
-
-          <Text style={styles.labels}>VEHICLENO</Text>
+          <Text style={styles.labels}>VEHICLE NO</Text>
           <TextInput
             keyboardType="number-pad"
             style={styles.inputStyle}
-            onChangeText={vehicleNumberChanged}
+            onChangeText={vehicleChangeHandler}
             value={vehicleno}
           />
-
-          <Text style={styles.labels}>TYPES</Text>
+          <Text style={styles.labels}>TYPE</Text>
           <TextInput
             style={styles.inputStyle}
-            onChangeText={typesChanged}
-            value={types}
+            onChangeText={typeChangeHandler}
+            value={type}
           />
-
-          <Text style={styles.labels}>DRIVERS NAME</Text>
+          <Text style={styles.labels}>DRIVER NAME</Text>
           <TextInput
             style={styles.inputStyle}
-            onChangeText={driverNameChanged}
-            value={driver_name}
+            onChangeText={driverNameChangeHandler}
+            value={drivername}
           />
-
-          <Text style={styles.labels}>EMP MOBILE</Text>
+          <Text style={styles.labels}>MOBILE NO</Text>
           <TextInput
             style={styles.inputStyle}
-            onChangeText={empChnaged}
-            value={emp_mobile}
+            onChangeText={mobileChangeHandler}
+            value={mobile}
           />
           <Text style={styles.labels}>ROUTE NAME</Text>
           <TextInput
             style={styles.inputStyle}
-            onChangeText={routeChnaged}
-            value={route_name}
+            onChangeText={routeNameChangeHandler}
+            value={routename}
           />
           <Text style={styles.labels}>STOP NAME</Text>
           <TextInput
             style={styles.inputStyle}
-            onChangeText={stopChnaged}
-            value={stop_name}
+            onChangeText={stopNameChangeHandler}
+            value={stopname}
           />
+
           <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Transport</Button>
           </View>
@@ -137,21 +135,23 @@ const TeachersTransport = () => {
 export default TeachersTransport;
 
 const styles = StyleSheet.create({
+  BtnContainer: {
+    flexDirection: "row",
+  },
+
   inputForm: {
-    width: "100%",
-    padding: 10,
-    marginTop: 10,
+    padding: 20,
+    paddingTop: 5,
   },
   inputStyle: {
-    marginTop: 10,
-    width: "100%",
     borderWidth: 2,
     borderColor: "grey",
+    borderRadius: 5,
   },
   labels: {
-    marginTop: 12,
+    marginTop: 17,
   },
   btnSubmit: {
-    marginTop: 15,
+    marginTop: 17,
   },
 });

@@ -1,44 +1,98 @@
-import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
-import React, { useEffect, useState } from "react";
-
-import Button from "../../components/UI/Button";
+import { View, StyleSheet, Text, ScrollView, TextInput } from "react-native";
+import React, { useState } from "react";
 import axios from "axios";
+import BgButton from "../../components/UI/BgButton";
+import VerticalLine from "../../components/UI/VerticalLine";
+import Button from "../../components/UI/Button";
 
-import { UserId } from "../Login";
-const TeachersTimeTable = () => {
-  const [creator, setEnteredStudent] = useState("");
-  const [vehicleno, setEnteredVehicleNumber] = useState("");
-  const [types, setEnteredTypes] = useState("");
-  const [driver_name, setEnteredDriverName] = useState("");
-  const [emp_mobile, setEnteredEmpMobile] = useState();
-  const [route_name, setEnteredRoute] = useState("");
-  const [stop_name, setEnteredStopName] = useState("");
-  
+const TeachersTimetable = () => {
+  const [showForm, setShowForm] = useState(false);
+  const [showTable, setShowTable] = useState(true);
+  const [forTimeTableList, setForTimeTableList] = useState({
+    color: "black",
+    fontWeight: "bold",
+  });
+  const [forExamTimeTable, setForExamTimeTable] = useState({ color: "black" });
 
-  function studentTextChanged(enteredValue) {
-    setEnteredStudent(enteredValue);
+  const [studentID, setEnteredStudentID] = useState("");
+  const [timeTab, setEnteredTimeTab] = useState("");
+  const [fromTime, setEnteredFromTime] = useState("");
+  const [toTime, setEnteredToTime] = useState("");
+  const [days, setEnteredDays] = useState({
+    monday: "",
+    tuesday: "",
+    wednesday: "",
+    thursday: "",
+    friday: "",
+    saturday: "",
+  });
+  const [createdDate, setEnteredCreatedDate] = useState();
+
+  const [examName, setEnteredExamName] = useState("");
+  const [startDate, setEnteredStartDate] = useState("");
+  const [endDate, setEnteredEndDate] = useState("");
+  const [totalMarks, setEnteredTotalMarks] = useState("");
+  const [hour, setEnteredHour] = useState("");
+  const [className, setEnteredClassName] = useState("");
+
+  function studentIDChangeHandler(enteredValue) {
+    setEnteredStudentID(enteredValue);
   }
-  function vehicleNumberChanged(enteredValue) {
-    setEnteredVehicleNumber(enteredValue);
+  function timeTabChangeHandler(enteredValue) {
+    setEnteredTimeTab(enteredValue);
   }
-  function typesChanged(enteredValue) {
-    setEnteredTypes(enteredValue);
+  function fromTimeChangeHandler(enteredValue) {
+    setEnteredFromTime(enteredValue);
+  }
+  function toTimeChangeHandler(enteredValue) {
+    setEnteredToTime(enteredValue);
+  }
+  function daysChangeHandler(enteredValue) {
+    setEnteredDays(enteredValue);
+  }
+  function createdDateChangeHandler(enteredValue) {
+    setEnteredCreatedDate(enteredValue);
   }
 
-  function buttonPressedHandler() {
-    setShowTable(true);
+  function examNameChangeHandler(enteredValue) {
+    setEnteredExamName(enteredValue);
+  }
+  function startDateChangeHandler(enteredValue) {
+    setEnteredStartDate(enteredValue);
+  }
+  function endDateChangeHandler(enteredValue) {
+    setEnteredEndDate(enteredValue);
+  }
+  function totalMarksChangeHandler(enteredValue) {
+    setEnteredTotalMarks(enteredValue);
+  }
+  function hourChangeHandler(enteredValue) {
+    setEnteredHour(enteredValue);
+  }
+  function classNameChangeHandler(enteredValue) {
+    setEnteredClassName(enteredValue);
+  }
+
+  function viewExam() {
+    setForExamTimeTable({ fontWeight: "bold", color: "black" });
+    setForTimeTableList({ color: "black" });
+    setShowForm(true);
+    setShowTable(false);
+  }
+  function timeTableList() {
+    setForTimeTableList({ fontWeight: "bold", color: "black" });
+    setForExamTimeTable({ color: "black" });
     setShowForm(false);
-    setForTransportList({ fontWeight: "bold", color: "black" });
-    setForAddTransport({ color: "black" });
-    console.log(UserId);
+    setShowTable(true);
+  }
+  function addDailyTimeTableHandler() {
     const FormData = {
-      creator,
-      vehicleno,
-      types,
-      driver_name,
-      emp_mobile,
-      route_name,
-      stop_name,
+      studentID,
+      timeTab,
+      fromTime,
+      toTime,
+      days,
+      createdDate,
     };
     console.log(FormData);
     async function storeData() {
@@ -48,14 +102,58 @@ const TeachersTimeTable = () => {
         };
         const dataForm = FormData;
         const resLogin = await axios.post(
-          `http://10.0.2.2:8000/school/Timetable/${UserId}/`,
+          `http://10.0.2.2:8000/school/AddmoreTimetable_list`,
           dataForm,
           {
             headers: headers,
           }
         );
+        const token = resLogin.data.token;
+        const userId = resLogin.data.user_id;
+        console.log(token);
+        // Token = token;
+        // UserId = userId;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    storeData();
+    setEnteredStudentID("");
+    setEnteredTimeTab("");
+    setEnteredFromTime("");
+    setEnteredToTime("");
+    setEnteredDays("");
+    setEnteredCreatedDate("");
+  }
 
-        console.log(resLogin);
+  function addExamTimeTableHandler() {
+    const FormData = {
+      examName,
+      startDate,
+      endDate,
+      totalMarks,
+      hour,
+      className,
+    };
+    console.log(FormData);
+    async function storeData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+        };
+        const dataForm = FormData;
+        const resLogin = await axios.post(
+          `http://10.0.2.2:8000/school/Exam`,
+          dataForm,
+          {
+            headers: headers,
+          }
+        );
+        const token = resLogin.data.token;
+        const userId = resLogin.data.user_id;
+        console.log(token);
+        // Token = token;
+        // UserId = userId;
       } catch (error) {
         console.log(error);
       }
@@ -65,60 +163,141 @@ const TeachersTimeTable = () => {
   return (
     <>
       <View style={styles.BtnContainer}>
-        <Text>Add TimeTable</Text>
+        <BgButton onPress={timeTableList} style={forTimeTableList}>
+          Add Daily TimeTable
+        </BgButton>
+        <VerticalLine>|</VerticalLine>
+        <BgButton onPress={viewExam} style={forExamTimeTable}>
+          Add Exam TimeTable
+        </BgButton>
       </View>
+      {showTable && (
+        <ScrollView>
+          <View style={styles.inputForm}>
+            <Text style={styles.labels}>STUDENT ID</Text>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={studentIDChangeHandler}
+              value={studentID}
+            />
+            <Text style={styles.labels}>TIME TAB</Text>
+            <TextInput
+              keyboardType="number-pad"
+              style={styles.inputStyle}
+              onChangeText={timeTabChangeHandler}
+              value={timeTab}
+            />
+            <Text style={styles.labels}>FROM TIME</Text>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={fromTimeChangeHandler}
+              value={fromTime}
+            />
+            <Text style={styles.labels}>TO TIME</Text>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={toTimeChangeHandler}
+              value={toTime}
+            />
+            <Text style={styles.labels}>DAYS</Text>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={daysChangeHandler}
+              value={
+                (days.monday,
+                days.tuesday,
+                days.wednesday,
+                days.thursday,
+                days.friday,
+                days.saturday)
+              }
+            />
+            <Text style={styles.labels}>CREATED DATE</Text>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={createdDateChangeHandler}
+              value={createdDate}
+            />
 
-      <ScrollView horizontal={true}>
-        <View style={styles.inputForm}>
-          <Text style={styles.labels}>CLASSNAME</Text>
-          <TextInput
-            style={styles.inputStyle}
-            onChangeText={studentTextChanged}
-            value={creator}
-          />
-
-          <Text style={styles.labels}>SECTION</Text>
-          <TextInput
-            keyboardType="number-pad"
-            style={styles.inputStyle}
-            onChangeText={vehicleNumberChanged}
-            value={vehicleno}
-          />
-
-          <Text style={styles.labels}>TIMETABLE DATE</Text>
-          <TextInput
-            style={styles.inputStyle}
-            onChangeText={typesChanged}
-            value={types}
-          />
-
-          <View style={styles.btnSubmit}>
-            <Button onPress={buttonPressedHandler}>Add TimeTable</Button>
+            <View style={styles.btnSubmit}>
+              <Button onPress={addDailyTimeTableHandler}>Add TimeTable</Button>
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      )}
+      {showForm && (
+        <ScrollView>
+          <View style={styles.inputForm}>
+            <Text style={styles.labels}>EXAM NAME</Text>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={examNameChangeHandler}
+              value={examName}
+            />
+            <Text style={styles.labels}>START DATE</Text>
+            <TextInput
+              keyboardType="number-pad"
+              style={styles.inputStyle}
+              onChangeText={startDateChangeHandler}
+              value={startDate}
+            />
+            <Text style={styles.labels}>END DATE</Text>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={endDateChangeHandler}
+              value={endDate}
+            />
+            <Text style={styles.labels}>TOTAL MARKS</Text>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={totalMarksChangeHandler}
+              value={totalMarks}
+            />
+            <Text style={styles.labels}>HOUR</Text>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={hourChangeHandler}
+              value={hour}
+            />
+            <Text style={styles.labels}>CLASS NAME</Text>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={classNameChangeHandler}
+              value={className}
+            />
+
+            <View style={styles.btnSubmit}>
+              <Button onPress={addExamTimeTableHandler}>
+                Add Exam TimeTable
+              </Button>
+            </View>
+          </View>
+        </ScrollView>
+      )}
     </>
   );
 };
 
-export default TeachersTimeTable;
+export default TeachersTimetable;
 
 const styles = StyleSheet.create({
+  BtnContainer: {
+    flexDirection: "row",
+  },
+
   inputForm: {
-    width: "100%",
-    padding: 10,
-    marginTop: 10,
+    padding: 20,
+    paddingTop: 5,
   },
   inputStyle: {
-    marginTop: 10,
-    width: "100%",
     borderWidth: 2,
     borderColor: "grey",
+    borderRadius: 5,
   },
   labels: {
-    marginTop: 12,
+    marginTop: 17,
   },
   btnSubmit: {
-    marginTop: 15,
+    marginTop: 17,
   },
 });

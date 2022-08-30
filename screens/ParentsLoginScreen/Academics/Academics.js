@@ -20,6 +20,16 @@ function Academics({ navigation }) {
           stdId: itemData.item.id,
         });
       }
+      if (itemData.item.id === "c4") {
+        navigation.navigate("ReportCard", {
+          stdId: itemData.item.id,
+        });
+      }
+      if (itemData.item.id === "c5") {
+        navigation.navigate("Leave", {
+          stdId: itemData.item.id,
+        });
+      }
     }
     return (
       <CategoryGridTile

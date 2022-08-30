@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     width: Title == "Profile" ? "50% !important" : "70%",
     //width: 50,
     height: 150,
-    borderRadius: 18,
+    borderRadius: 38,
     elevation: 4,
     shadowColor: "black",
     backgroundColor: "white",
