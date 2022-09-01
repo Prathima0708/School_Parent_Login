@@ -1,6 +1,14 @@
-import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Text,
+  ScrollView,
+  Platform,
+  Button as Btn,
+} from "react-native";
 import React, { useState } from "react";
-
+import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../components/UI/Button";
 import axios from "axios";
 
@@ -12,6 +20,31 @@ const TeachersLeave = () => {
   const [leaveFrom, setEnteredLeaveFrom] = useState("");
   const [leaveTo, setEnteredLeaveTo] = useState("");
 
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(false);
+  const [text, setText] = useState("empty");
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === "android");
+    setDate(currentDate);
+
+    let tempDate = new Date(currentDate);
+    let fDate =
+      tempDate.getDate() +
+      "/" +
+      (tempDate.getMonth() + 1) +
+      "/" +
+      tempDate.getFullYear();
+    setText(fDate);
+    console.log(fDate);
+  };
   function leaveTypeChangeHandler(enteredValue) {
     setEnteredLeaveType(enteredValue);
   }
@@ -83,12 +116,25 @@ const TeachersLeave = () => {
             onChangeText={leaveFromChangeHandler}
             value={leaveFrom}
           />
-          <Text style={styles.labels}>LEAVE TO</Text>
-          <TextInput
+          <Text style={styles.labels}>{text}</Text>
+          {/* <TextInput
             style={styles.inputStyle}
             onChangeText={leaveToChangeHandler}
             value={leaveTo}
-          />
+          /> */}
+          <View style={{ margin: 20 }}>
+            <Btn title="DatePicker" onPress={() => showMode("date")} />
+          </View>
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode={mode}
+              is24Hour={true}
+              display="default"
+              onChange={onChange}
+            />
+          )}
 
           <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Leave</Button>

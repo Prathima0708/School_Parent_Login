@@ -6,6 +6,7 @@ import axios from "axios";
 
 import { UserId } from "../Login";
 import BgButton from "../../components/UI/BgButton";
+import TeachersHome from "./TeachersHome";
 const TeachersTransport = () => {
   const [studentID, setEnteredStudentID] = useState("");
   const [vehicleno, setEnteredVehicleNo] = useState("");
@@ -14,6 +15,7 @@ const TeachersTransport = () => {
   const [mobile, setEnteredMobile] = useState();
   const [routename, setEnteredRouteName] = useState("");
   const [stopname, setEnteredStopName] = useState("");
+  const [busNumber, setEnteredBusNumber] = useState("");
 
   function studentIDChangeHandler(enteredValue) {
     setEnteredStudentID(enteredValue);
@@ -35,6 +37,9 @@ const TeachersTransport = () => {
   }
   function stopNameChangeHandler(enteredValue) {
     setEnteredStopName(enteredValue);
+  }
+  function busNumberChangeHandler(enteredValue) {
+    setEnteredBusNumber(enteredValue);
   }
 
   function buttonPressedHandler() {
@@ -85,6 +90,12 @@ const TeachersTransport = () => {
             onChangeText={studentIDChangeHandler}
             value={studentID}
           />
+          <Text style={styles.labels}>BUS NUMBER</Text>
+          <TextInput
+            style={styles.inputStyle}
+            onChangeText={busNumberChangeHandler}
+            value={busNumber}
+          />
           <Text style={styles.labels}>VEHICLE NO</Text>
           <TextInput
             keyboardType="number-pad"
@@ -127,6 +138,9 @@ const TeachersTransport = () => {
             <Button onPress={buttonPressedHandler}>Add Transport</Button>
           </View>
         </View>
+        <View>
+          <TeachersHome />
+        </View>
       </ScrollView>
     </>
   );
@@ -138,6 +152,11 @@ const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
   },
+  // home: {
+  //   width: "100%",
+  //   margin: 0,
+  //   padding: 0,
+  // },
 
   inputForm: {
     padding: 20,

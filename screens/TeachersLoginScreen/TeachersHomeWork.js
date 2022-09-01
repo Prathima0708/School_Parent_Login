@@ -14,7 +14,8 @@ const TeachersHomework = () => {
 
   const [remark, setEnteredRemark] = useState();
   const [hw, setHW] = useState("");
-  const [date, setDate] = useState(new Date());
+  const [date, setEnteredDate] = useState(new Date());
+  const [dueDate, setEnteredDueDate] = useState(new Date());
 
   function classNameHandler(enteredValue) {
     setEnteredClassName(enteredValue);
@@ -27,6 +28,9 @@ const TeachersHomework = () => {
   }
   function dateChangeHandler(enteredValue) {
     setEnteredDate(enteredValue);
+  }
+  function dueDateChangeHandler(enteredValue) {
+    setEnteredDueDate(enteredValue);
   }
   function remarkChangeHandler(enteredValue) {
     setEnteredRemark(enteredValue);
@@ -61,7 +65,7 @@ const TeachersHomework = () => {
         );
         // const token = resLogin.data.token;
         // const userId = resLogin.data.user_id;
-        //console.log(token);
+        console.log(resLogin);
       } catch (error) {
         console.log(error);
       }
@@ -100,6 +104,12 @@ const TeachersHomework = () => {
             style={styles.inputStyle}
             onChangeText={dateChangeHandler}
             value={date}
+          />
+          <Text style={styles.labels}>DUE DATE</Text>
+          <TextInput
+            style={styles.inputStyle}
+            onChangeText={dueDateChangeHandler}
+            value={dueDate}
           />
           <Text style={styles.labels}>REMARK</Text>
           <TextInput

@@ -6,6 +6,7 @@ import Button from "../../../components/UI/Button";
 import axios from "axios";
 import BgButton from "../../../components/UI/BgButton";
 import { UserId } from "../../Login";
+import { busNumber } from "../../../components/StudentItem/StudentItem";
 const TransportScreen = () => {
   const [creator, setEnteredStudent] = useState("");
   const [vehicleno, setEnteredVehicleNumber] = useState("");
@@ -37,7 +38,7 @@ const TransportScreen = () => {
     async function fetchData() {
       try {
         const res = await axios.get(
-          "http://10.0.2.2:8000/school/Transportreport/"
+          `http://10.0.2.2:8000/school/Transportreport/`
         );
         console.log(res.data);
 

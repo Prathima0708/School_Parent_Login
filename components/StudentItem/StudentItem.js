@@ -8,20 +8,22 @@ import {
   Text,
   View,
 } from "react-native";
+import ImageSlider from "../../screens/ParentsLoginScreen/ImageSlider";
 
-export var studentId, className, motherName;
+export var studentId, className, motherName, busNumber;
 function StudentItem({
   student_name,
   class_name,
   id,
   student_photo,
   mother_name,
+  busnumber,
 }) {
   const navigation = useNavigation();
   function navigateHandler() {
     studentId = id;
     className = class_name;
-    motherName = mother_name;
+    busNumber = busnumber;
     console.log(id);
     navigation.navigate("Category");
   }

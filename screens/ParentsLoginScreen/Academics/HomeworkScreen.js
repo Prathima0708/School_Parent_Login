@@ -161,6 +161,7 @@
 import { View, Text, FlatList, StyleSheet, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { className } from "../../../components/StudentItem/StudentItem";
 
 const HomeworkScreen = () => {
   const [data, setData] = useState([]);
@@ -168,11 +169,14 @@ const HomeworkScreen = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get("http://10.0.2.2:8000/school/Homework/");
+        const res = await axios.get(
+          `http://10.0.2.2:8000/school/Homework/${className}/`
+        );
         console.log(res.data);
         setIsLoading(false);
-
-        setData(res.data);
+        var Homeworkdata = [];
+        Homeworkdata.push(res.data);
+        setData(Homeworkdata);
       } catch (error) {
         console.log(error);
       }
@@ -215,9 +219,9 @@ export default HomeworkScreen;
 
 const styles = StyleSheet.create({
   card: {
-    width: 250,
+    width: 350,
 
-    borderRadius: 5,
+    borderRadius: 25,
     //marginVertical: 20,
     display: "flex",
     flexDirection: "column",
@@ -228,11 +232,13 @@ const styles = StyleSheet.create({
     width: 200,
   },
   homewrk: {
+    padding: 5,
     color: "white",
+    fontSize: 20,
   },
   main: {
     width: "100%",
-    paddingTop: 5,
+    padding: 15,
     backgroundColor: "#b696d7",
     display: "flex",
     justifyContent: "center",
