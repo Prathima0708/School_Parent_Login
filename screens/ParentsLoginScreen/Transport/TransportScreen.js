@@ -7,6 +7,7 @@ import axios from "axios";
 import BgButton from "../../../components/UI/BgButton";
 import { UserId } from "../../Login";
 import { busNumber } from "../../../components/StudentItem/StudentItem";
+import ParentsHome from "../ParentsHome";
 const TransportScreen = () => {
   const [creator, setEnteredStudent] = useState("");
   const [vehicleno, setEnteredVehicleNumber] = useState("");
@@ -128,6 +129,7 @@ const TransportScreen = () => {
           </DataTable>
         </ScrollView>
       )}
+      <ParentsHome />
     </>
   );
 };

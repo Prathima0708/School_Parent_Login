@@ -162,6 +162,7 @@ import { View, Text, FlatList, StyleSheet, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { className } from "../../../components/StudentItem/StudentItem";
+import ParentsHome from "../ParentsHome";
 
 const HomeworkScreen = () => {
   const [data, setData] = useState([]);
@@ -184,34 +185,39 @@ const HomeworkScreen = () => {
     fetchData();
   }, []);
   return (
-    <View style={styles.root}>
-      <FlatList
-        data={data}
-        renderItem={({ item }) => {
-          return (
-            <View style={styles.card}>
-              <View style={styles.imgContainer}></View>
-              <View>
-                <View style={styles.bio}>
-                  <Text style={styles.homewrk}>{item.class_name}</Text>
-                  <Text style={styles.homewrk}>{item.subject}</Text>
-                </View>
+    <>
+      <View style={styles.root}>
+        <FlatList
+          data={data}
+          renderItem={({ item }) => {
+            return (
+              <View style={styles.card}>
+                <View style={styles.imgContainer}></View>
+                <View>
+                  <View style={styles.bio}>
+                    <Text style={styles.homewrk}>{item.class_name}</Text>
+                    <Text style={styles.homewrk}>{item.subject}</Text>
+                  </View>
 
-                <View style={styles.main}>
-                  <Image
-                    style={styles.img}
-                    resizeMode="cover"
-                    source={{
-                      uri: `http://10.0.2.2:8000${item.homework_photo}`,
-                    }}
-                  />
+                  <View style={styles.main}>
+                    <Image
+                      style={styles.img}
+                      resizeMode="cover"
+                      source={{
+                        uri: `http://10.0.2.2:8000${item.homework_photo}`,
+                      }}
+                    />
+                  </View>
                 </View>
               </View>
-            </View>
-          );
-        }}
-      />
-    </View>
+            );
+          }}
+        />
+      </View>
+      <View style={styles.home}>
+        <ParentsHome />
+      </View>
+    </>
   );
 };
 
@@ -226,6 +232,9 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
+  },
+  home: {
+    marginTop: 380,
   },
   img: {
     height: 150,

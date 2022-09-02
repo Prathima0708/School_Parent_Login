@@ -4,10 +4,11 @@ import axios from "axios";
 import BgButton from "../../components/UI/BgButton";
 import VerticalLine from "../../components/UI/VerticalLine";
 import Button from "../../components/UI/Button";
-
+import DateTimePicker from "@react-native-community/datetimepicker";
 import TeachersLoginScreen from "./TeachersLoginScreen";
 import TeachersCalendar from "./TeachersCalendar";
 import TeachersHome from "./TeachersHome";
+import { Ionicons } from "@expo/vector-icons";
 
 const TeachersTimetable = () => {
   const [showForm, setShowForm] = useState(false);
@@ -18,10 +19,33 @@ const TeachersTimetable = () => {
   });
   const [forExamTimeTable, setForExamTimeTable] = useState({ color: "black" });
 
+  const [fromTime, setFromTime] = useState(new Date());
+  const [toTime, setToTime] = useState(new Date());
+
+  const [fromTimemode, setFromTimeMode] = useState("time");
+  const [toTimemode, setToTimeMode] = useState("time");
+
+  const [fromTimeShow, setFromTimeShow] = useState(false);
+  const [toTimeShow, setToTimeShow] = useState(false);
+
+  const [fromTimeText, setFromTimeText] = useState("");
+  const [toTimeText, setToTimeText] = useState("");
+
+  const showTimeFromMode = (currentFromTimeMode) => {
+    setFromTimeShow(true);
+
+    setFromTimeMode(currentFromTimeMode);
+  };
+
+  const showTimeToMode = (currentTimeToMode) => {
+    setToTimeShow(true);
+
+    setToTimeMode(currentTimeToMode);
+  };
+
   const [studentID, setEnteredStudentID] = useState("");
   const [timeTab, setEnteredTimeTab] = useState("");
-  const [fromTime, setEnteredFromTime] = useState("");
-  const [toTime, setEnteredToTime] = useState("");
+
   const [days, setEnteredDays] = useState({
     monday: "",
     tuesday: "",
@@ -33,8 +57,19 @@ const TeachersTimetable = () => {
   const [createdDate, setEnteredCreatedDate] = useState();
 
   const [examName, setEnteredExamName] = useState("");
-  const [startDate, setEnteredStartDate] = useState("");
-  const [endDate, setEnteredEndDate] = useState("");
+
+  const [fromDate, setFromDate] = useState(new Date());
+  const [toDate, setToDate] = useState(new Date());
+
+  const [frommode, setFromMode] = useState("date");
+  const [tomode, setToMode] = useState("date");
+
+  const [fromShow, setFromShow] = useState(false);
+  const [toShow, setToShow] = useState(false);
+
+  const [fromText, setFromText] = useState("");
+  const [toText, setToText] = useState("");
+
   const [totalMarks, setEnteredTotalMarks] = useState("");
   const [hour, setEnteredHour] = useState("");
   const [className, setEnteredClassName] = useState("");
@@ -45,12 +80,80 @@ const TeachersTimetable = () => {
   function timeTabChangeHandler(enteredValue) {
     setEnteredTimeTab(enteredValue);
   }
-  function fromTimeChangeHandler(enteredValue) {
-    setEnteredFromTime(enteredValue);
-  }
-  function toTimeChangeHandler(enteredValue) {
-    setEnteredToTime(enteredValue);
-  }
+  const showFromMode = (currentFromMode) => {
+    setFromShow(true);
+
+    setFromMode(currentFromMode);
+  };
+
+  const showToMode = (currentToMode) => {
+    setToShow(true);
+
+    setToMode(currentToMode);
+  };
+  const fromDateChangeHandler = (event, selectedFromDate) => {
+    const currentFromDate = selectedFromDate || fromDate;
+    setFromShow(Platform.OS === "ios");
+    setFromDate(currentFromDate);
+
+    let tempFromDate = new Date(currentFromDate);
+    let fDate =
+      tempFromDate.getDate() +
+      "/" +
+      (tempFromDate.getMonth() + 1) +
+      "/" +
+      tempFromDate.getFullYear();
+    setFromText(fDate);
+    //console.log(fDate);
+  };
+
+  const toDateChangeHandler = (event, selectedToDate) => {
+    const currentToDate = selectedToDate || toDate;
+    setToShow(Platform.OS === "ios");
+    setToDate(currentToDate);
+
+    let tempToDate = new Date(currentToDate);
+    let tDate =
+      tempToDate.getDate() +
+      "/" +
+      (tempToDate.getMonth() + 1) +
+      "/" +
+      tempToDate.getFullYear();
+    setToText(tDate);
+    // console.log(fDate);
+  };
+
+  const fromTimeChangeHandler = (event, selectedFromTime) => {
+    const currentFromTime = selectedFromTime || fromTime;
+    setFromTimeShow(Platform.OS === "ios");
+    setFromTime(currentFromTime);
+
+    let tempFromTime = new Date(currentFromTime);
+    let fTime =
+      tempFromTime.getHours() +
+      ":" +
+      tempFromTime.getMinutes() +
+      ":" +
+      tempFromTime.getSeconds();
+    setFromTimeText(fTime);
+    //console.log(fDate);
+  };
+
+  const toTimeChangeHandler = (event, selectedToTime) => {
+    const currentToTime = selectedToTime || toTime;
+    setToTimeShow(Platform.OS === "ios");
+    setToTime(currentToTime);
+
+    let tempToTime = new Date(currentToTime);
+    let tTime =
+      tempToTime.getHours() +
+      ":" +
+      tempToTime.getMinutes() +
+      ":" +
+      tempToTime.getSeconds();
+    setToTimeText(tTime);
+    // console.log(fDate);
+  };
   function daysChangeHandler(enteredValue) {
     setEnteredDays(enteredValue);
   }
@@ -192,7 +295,7 @@ const TeachersTimetable = () => {
               onChangeText={timeTabChangeHandler}
               value={timeTab}
             />
-            <Text style={styles.labels}>FROM TIME</Text>
+            {/* <Text style={styles.labels}>FROM TIME</Text>
             <TextInput
               style={styles.inputStyle}
               onChangeText={fromTimeChangeHandler}
@@ -203,7 +306,90 @@ const TeachersTimetable = () => {
               style={styles.inputStyle}
               onChangeText={toTimeChangeHandler}
               value={toTime}
-            />
+            /> */}
+            <View
+              style={{
+                paddingVertical: 15,
+                paddingHorizontal: 10,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: "black",
+                }}
+              >
+                FROM TIME: {fromTimeText}
+              </Text>
+
+              <Ionicons
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textAlign: "right",
+                }}
+                name="timer-sharp"
+                size={24}
+                color="black"
+                onPress={() => showTimeFromMode("time")}
+              />
+            </View>
+
+            {fromTimeShow && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={fromTime}
+                mode={fromTimemode}
+                is24Hour={true}
+                display="default"
+                onChange={fromTimeChangeHandler}
+              />
+            )}
+
+            <View
+              style={{
+                paddingVertical: 15,
+                paddingHorizontal: 10,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: "black",
+                }}
+              >
+                TO TIME: {toTimeText}
+              </Text>
+
+              <Ionicons
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textAlign: "right",
+                }}
+                name="timer-sharp"
+                size={24}
+                color="black"
+                onPress={() => showTimeToMode("time")}
+              />
+            </View>
+            {toTimeShow && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={toTime}
+                mode={toTimemode}
+                is24Hour={true}
+                display="default"
+                onChange={toTimeChangeHandler}
+                //  minimumDate={fromDate}
+              />
+            )}
             <Text style={styles.labels}>DAYS</Text>
             <TextInput
               style={styles.inputStyle}
@@ -242,7 +428,7 @@ const TeachersTimetable = () => {
               onChangeText={examNameChangeHandler}
               value={examName}
             />
-            <Text style={styles.labels}>START DATE</Text>
+            {/* <Text style={styles.labels}>START DATE</Text>
             <TextInput
               keyboardType="number-pad"
               style={styles.inputStyle}
@@ -254,7 +440,91 @@ const TeachersTimetable = () => {
               style={styles.inputStyle}
               onChangeText={endDateChangeHandler}
               value={endDate}
-            />
+            /> */}
+
+            <View
+              style={{
+                paddingVertical: 15,
+                paddingHorizontal: 10,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: "black",
+                }}
+              >
+                EXAM START DATE: {fromText}
+              </Text>
+
+              <Ionicons
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textAlign: "right",
+                }}
+                name="calendar"
+                size={24}
+                color="black"
+                onPress={() => showFromMode("date")}
+              />
+            </View>
+
+            {fromShow && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={fromDate}
+                mode={frommode}
+                is24Hour={true}
+                display="default"
+                onChange={fromDateChangeHandler}
+              />
+            )}
+
+            <View
+              style={{
+                paddingVertical: 15,
+                paddingHorizontal: 10,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: "black",
+                }}
+              >
+                EXAM END DATE: {toText}
+              </Text>
+
+              <Ionicons
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textAlign: "right",
+                }}
+                name="calendar"
+                size={24}
+                color="black"
+                onPress={() => showToMode("date")}
+              />
+            </View>
+            {toShow && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={toDate}
+                mode={tomode}
+                is24Hour={true}
+                display="default"
+                onChange={toDateChangeHandler}
+                //  minimumDate={fromDate}
+              />
+            )}
             <Text style={styles.labels}>TOTAL MARKS</Text>
             <TextInput
               style={styles.inputStyle}
@@ -280,7 +550,7 @@ const TeachersTimetable = () => {
               </Button>
             </View>
           </View>
-          <View>
+          <View style={styles.home}>
             <TeachersHome />
           </View>
         </ScrollView>
@@ -296,7 +566,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   home: {
-    marginTop: 120,
+    marginTop: 150,
   },
   inputForm: {
     padding: 20,

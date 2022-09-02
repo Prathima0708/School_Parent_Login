@@ -28,9 +28,9 @@ export const TEACHERS = [
   ),
 
   new Category(
-    "c6",
-    "NoticeBoard",
+    "c5",
+    "Profile",
     "#9eecff",
-    "https://img.icons8.com/dotty/344/sign-up-in-calendar.png"
+    "https://cdn-icons-png.flaticon.com/512/64/64572.png"
   ),
 ];

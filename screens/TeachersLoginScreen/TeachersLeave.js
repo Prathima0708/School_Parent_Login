@@ -14,48 +14,71 @@ import axios from "axios";
 
 import { UserId } from "../Login";
 import BgButton from "../../components/UI/BgButton";
+import { Ionicons } from "@expo/vector-icons";
 const TeachersLeave = () => {
   const [leaveType, setEnteredLeaveType] = useState("");
   const [leaveReason, setEnteredLeaveReason] = useState("");
-  const [leaveFrom, setEnteredLeaveFrom] = useState("");
-  const [leaveTo, setEnteredLeaveTo] = useState("");
 
-  const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState("date");
-  const [show, setShow] = useState(false);
-  const [text, setText] = useState("empty");
+  const [fromDate, setFromDate] = useState(new Date());
+  const [toDate, setToDate] = useState(new Date());
 
-  const showMode = (currentMode) => {
-    setShow(true);
-    setMode(currentMode);
+  const [frommode, setFromMode] = useState("date");
+  const [tomode, setToMode] = useState("date");
+
+  const [fromShow, setFromShow] = useState(false);
+  const [toShow, setToShow] = useState(false);
+
+  const [fromText, setFromText] = useState("");
+  const [toText, setToText] = useState("");
+
+  const showFromMode = (currentFromMode) => {
+    setFromShow(true);
+
+    setFromMode(currentFromMode);
   };
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === "android");
-    setDate(currentDate);
+  const showToMode = (currentToMode) => {
+    setToShow(true);
 
-    let tempDate = new Date(currentDate);
+    setToMode(currentToMode);
+  };
+
+  const fromDateChangeHandler = (event, selectedFromDate) => {
+    const currentFromDate = selectedFromDate || fromDate;
+    setFromShow(Platform.OS === "ios");
+    setFromDate(currentFromDate);
+
+    let tempFromDate = new Date(currentFromDate);
     let fDate =
-      tempDate.getDate() +
+      tempFromDate.getDate() +
       "/" +
-      (tempDate.getMonth() + 1) +
+      (tempFromDate.getMonth() + 1) +
       "/" +
-      tempDate.getFullYear();
-    setText(fDate);
-    console.log(fDate);
+      tempFromDate.getFullYear();
+    setFromText(fDate);
+    //console.log(fDate);
+  };
+
+  const toDateChangeHandler = (event, selectedToDate) => {
+    const currentToDate = selectedToDate || toDate;
+    setToShow(Platform.OS === "ios");
+    setToDate(currentToDate);
+
+    let tempToDate = new Date(currentToDate);
+    let tDate =
+      tempToDate.getDate() +
+      "/" +
+      (tempToDate.getMonth() + 1) +
+      "/" +
+      tempToDate.getFullYear();
+    setToText(tDate);
+    // console.log(fDate);
   };
   function leaveTypeChangeHandler(enteredValue) {
     setEnteredLeaveType(enteredValue);
   }
   function leaveReasonChangeHandler(enteredValue) {
     setEnteredLeaveReason(enteredValue);
-  }
-  function leaveFromChangeHandler(enteredValue) {
-    setEnteredLeaveFrom(enteredValue);
-  }
-  function leaveToChangeHandler(enteredValue) {
-    setEnteredLeaveTo(enteredValue);
   }
 
   function buttonPressedHandler() {
@@ -110,29 +133,88 @@ const TeachersLeave = () => {
             onChangeText={leaveReasonChangeHandler}
             value={leaveReason}
           />
-          <Text style={styles.labels}>LEAVE FROM</Text>
-          <TextInput
-            style={styles.inputStyle}
-            onChangeText={leaveFromChangeHandler}
-            value={leaveFrom}
-          />
-          <Text style={styles.labels}>{text}</Text>
-          {/* <TextInput
-            style={styles.inputStyle}
-            onChangeText={leaveToChangeHandler}
-            value={leaveTo}
-          /> */}
-          <View style={{ margin: 20 }}>
-            <Btn title="DatePicker" onPress={() => showMode("date")} />
+
+          <View
+            style={{
+              paddingVertical: 15,
+              paddingHorizontal: 10,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 16,
+                color: "black",
+              }}
+            >
+              LEAVE FROM: {fromText}
+            </Text>
+
+            <Ionicons
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "right",
+              }}
+              name="calendar"
+              size={24}
+              color="black"
+              onPress={() => showFromMode("date")}
+            />
           </View>
-          {show && (
+
+          {fromShow && (
             <DateTimePicker
               testID="dateTimePicker"
-              value={date}
-              mode={mode}
+              value={fromDate}
+              mode={frommode}
               is24Hour={true}
               display="default"
-              onChange={onChange}
+              onChange={fromDateChangeHandler}
+            />
+          )}
+
+          <View
+            style={{
+              paddingVertical: 15,
+              paddingHorizontal: 10,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 16,
+                color: "black",
+              }}
+            >
+              LEAVE TO: {toText}
+            </Text>
+
+            <Ionicons
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "right",
+              }}
+              name="calendar"
+              size={24}
+              color="black"
+              onPress={() => showToMode("date")}
+            />
+          </View>
+          {toShow && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={toDate}
+              mode={tomode}
+              is24Hour={true}
+              display="default"
+              onChange={toDateChangeHandler}
+              //  minimumDate={fromDate}
             />
           )}
 
@@ -163,6 +245,9 @@ const styles = StyleSheet.create({
   },
   labels: {
     marginTop: 17,
+  },
+  row: {
+    margin: 30,
   },
   btnSubmit: {
     marginTop: 17,

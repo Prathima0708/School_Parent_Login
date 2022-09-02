@@ -7,13 +7,12 @@ import axios from "axios";
 import BgButton from "../../../components/UI/BgButton";
 import { UserId } from "../../Login";
 const LeaveScreen = () => {
-  const [creator, setEnteredStudent] = useState("");
-  const [vehicleno, setEnteredVehicleNumber] = useState("");
-  const [types, setEnteredTypes] = useState("");
-  const [driver_name, setEnteredDriverName] = useState("");
-  const [emp_mobile, setEnteredEmpMobile] = useState();
-  const [route_name, setEnteredRoute] = useState("");
-  const [stop_name, setEnteredStopName] = useState("");
+  const [regno, setEnteredRegno] = useState("");
+  const [leaveType, setEnteredLeaveType] = useState("");
+  const [leaveFrom, setEnteredLeaveFrom] = useState("");
+  const [leaveTo, setEnteredLeaveTo] = useState("");
+  const [leaveReason, setEnteredLeaveReason] = useState();
+
   const [forTransportList, setForTransportList] = useState({
     color: "black",
     fontWeight: "bold",
@@ -22,7 +21,6 @@ const LeaveScreen = () => {
   const [showForm, setShowForm] = useState(false);
   const [showTable, setShowTable] = useState(true);
   const [data, setData] = useState();
-  const [formData, setFormData] = useState();
 
   useEffect(() => {
     async function fetchData() {
@@ -38,27 +36,22 @@ const LeaveScreen = () => {
     fetchData();
   }, []);
 
-  function studentTextChanged(enteredValue) {
-    setEnteredStudent(enteredValue);
+  function regnoChangeHandler(enteredValue) {
+    setEnteredRegno(enteredValue);
   }
-  function vehicleNumberChanged(enteredValue) {
-    setEnteredVehicleNumber(enteredValue);
+  function leaveTypeChangeHandler(enteredValue) {
+    setEnteredLeaveType(enteredValue);
   }
-  function typesChanged(enteredValue) {
-    setEnteredTypes(enteredValue);
+  function leaveFromChangeHandler(enteredValue) {
+    setEnteredLeaveFrom(enteredValue);
   }
-  function driverNameChanged(enteredValue) {
-    setEnteredDriverName(enteredValue);
+  function leaveToChangeHandler(enteredValue) {
+    setEnteredLeaveTo(enteredValue);
   }
-  function empChnaged(enteredValue) {
-    setEnteredEmpMobile(enteredValue);
+  function leaveReasonChangeHandler(enteredValue) {
+    setEnteredLeaveReason(enteredValue);
   }
-  function routeChnaged(enteredValue) {
-    setEnteredRoute(enteredValue);
-  }
-  function stopChnaged(enteredValue) {
-    setEnteredStopName(enteredValue);
-  }
+
   function transportList() {
     setForTransportList({ fontWeight: "bold", color: "black" });
     setForAddTransport({ color: "black" });
@@ -79,13 +72,11 @@ const LeaveScreen = () => {
     setForAddTransport({ color: "black" });
     console.log(UserId);
     const FormData = {
-      creator,
-      vehicleno,
-      types,
-      driver_name,
-      emp_mobile,
-      route_name,
-      stop_name,
+      regno,
+      leaveType,
+      leaveFrom,
+      leaveTo,
+      leaveReason,
     };
     console.log(FormData);
     async function storeData() {
@@ -95,7 +86,7 @@ const LeaveScreen = () => {
         };
         const dataForm = FormData;
         const resLogin = await axios.post(
-          `http://10.0.2.2:8000/school/Leave/${UserId}`,
+          `http://10.0.2.2:8000/school/Leave/`,
           dataForm,
           {
             headers: headers,
@@ -124,27 +115,53 @@ const LeaveScreen = () => {
         </BgButton>
       </View>
       {showTable && (
-        <ScrollView>
+        <ScrollView horizontal={true}>
           <DataTable style={styles.container}>
             <DataTable.Header style={styles.tableHeader}>
-              <DataTable.Title>ID</DataTable.Title>
-              <DataTable.Title>STUDENT REG NO</DataTable.Title>
-              <DataTable.Title>LEAVE TYPE</DataTable.Title>
-              <DataTable.Title>LEAVE FROM</DataTable.Title>
-              <DataTable.Title>LEAVE TO</DataTable.Title>
-              <DataTable.Title>LEAVE REASON</DataTable.Title>
-              <DataTable.Title>LEAVE STATUS</DataTable.Title>
+              <DataTable.Title style={styles.tableTitle}>ID</DataTable.Title>
+              <DataTable.Title style={styles.tableTitle}>
+                STUDENT REG NO
+              </DataTable.Title>
+              <DataTable.Title style={styles.tableTitle}>
+                LEAVE TYPE
+              </DataTable.Title>
+              <DataTable.Title style={styles.tableTitle}>
+                LEAVE FROM
+              </DataTable.Title>
+              <DataTable.Title style={styles.tableTitle}>
+                LEAVE TO
+              </DataTable.Title>
+              <DataTable.Title style={styles.tableTitle}>
+                LEAVE REASON
+              </DataTable.Title>
+              <DataTable.Title style={styles.tableTitle}>
+                LEAVE STATUS
+              </DataTable.Title>
             </DataTable.Header>
             {data &&
               data.map((data, key) => (
-                <DataTable.Row>
-                  <DataTable.Cell>{data.id}</DataTable.Cell>
-                  <DataTable.Cell>{data.user_num}</DataTable.Cell>
-                  <DataTable.Cell>{data.leave_type}</DataTable.Cell>
-                  <DataTable.Cell>{data.leave_form}</DataTable.Cell>
-                  <DataTable.Cell>{data.leave_to}</DataTable.Cell>
-                  <DataTable.Cell>{data.leave_reason}</DataTable.Cell>
-                  <DataTable.Cell>{data.leave_status}</DataTable.Cell>
+                <DataTable.Row style={styles.tableRow}>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.id}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.user_num}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.leave_type}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.leave_form}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.leave_to}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.leave_reason}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.leave_status}
+                  </DataTable.Cell>
                 </DataTable.Row>
               ))}
           </DataTable>
@@ -153,42 +170,36 @@ const LeaveScreen = () => {
       {showForm && (
         <ScrollView>
           <View style={styles.inputForm}>
-            <Text style={styles.labels}>STUDENT ID</Text>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={studentTextChanged}
-              value={creator}
-            />
             <Text style={styles.labels}>STUDENT REG NO</Text>
             <TextInput
               keyboardType="number-pad"
               style={styles.inputStyle}
-              onChangeText={vehicleNumberChanged}
-              value={vehicleno}
+              onChangeText={regnoChangeHandler}
+              value={regno}
             />
             <Text style={styles.labels}>LEAVE TYPE</Text>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={typesChanged}
-              value={types}
+              onChangeText={leaveTypeChangeHandler}
+              value={leaveType}
             />
             <Text style={styles.labels}>LEAVE FROM</Text>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={driverNameChanged}
-              value={driver_name}
+              onChangeText={leaveFromChangeHandler}
+              value={leaveFrom}
             />
             <Text style={styles.labels}>LEAVE TO</Text>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={empChnaged}
-              value={emp_mobile}
+              onChangeText={leaveToChangeHandler}
+              value={leaveTo}
             />
             <Text style={styles.labels}>LEAVE REASON</Text>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={routeChnaged}
-              value={route_name}
+              onChangeText={leaveReasonChangeHandler}
+              value={leaveReason}
             />
 
             <View style={styles.btnSubmit}>
@@ -211,7 +222,20 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   tableHeader: {
-    backgroundColor: "#DCDCDC",
+    backgroundColor: "skyblue",
+    height: 60,
+  },
+  tableTitle: {
+    padding: 5,
+    margin: 5,
+  },
+  tableCell: {
+    padding: 2,
+    margin: 9,
+  },
+  tableRow: {
+    borderBottomColor: "black",
+    borderBottomWidth: 2,
   },
   inputForm: {
     padding: 20,

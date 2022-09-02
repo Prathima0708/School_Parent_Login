@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Agenda } from "react-native-calendars";
 import { Avatar, Card } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ParentsHome from "../ParentsHome";
 const timeToString = (time) => {
   const date = new Date(time);
   return date.toISOString().split("T")[0];
@@ -10,13 +11,13 @@ const timeToString = (time) => {
 
 const CalenderScreen = () => {
   const [items, setItems] = useState({});
-  useEffect(()=>{
-async function getToken(){
-  const value= await AsyncStorage.getItem('token')
-  console.log(value)
-}
-getToken()
-  },[])
+  useEffect(() => {
+    async function getToken() {
+      const value = await AsyncStorage.getItem("token");
+      console.log(value);
+    }
+    getToken();
+  }, []);
   const loadItems = (day) => {
     setTimeout(() => {
       for (let i = -15; i < 85; i++) {
@@ -68,6 +69,7 @@ getToken()
         selected={"2022-08-18"}
         renderItem={renderItem}
       />
+      <ParentsHome />
     </View>
   );
 };

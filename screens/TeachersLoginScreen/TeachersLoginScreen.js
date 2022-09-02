@@ -57,12 +57,9 @@ const TeachersLoginScreen = ({ navigation }) => {
       if (itemData.item.id === "c4") {
         navigation.navigate("TeachersAcademics");
       }
-      if (itemData.item.id === "c6") {
-        navigation.navigate("TeachersNoticeBoard");
-      }
     }
     return (
-      <View style={styles.test}>
+      <View style={styles.rootContainer}>
         <CategoryGridTile
           title={itemData.item.title}
           color={itemData.item.color}
@@ -92,7 +89,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 32,
+    //padding: 32,
   },
   title: {
     fontSize: 20,
