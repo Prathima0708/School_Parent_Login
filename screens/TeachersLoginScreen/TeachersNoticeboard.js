@@ -26,20 +26,12 @@ const TeachersNoticeboard = () => {
   }
 
   function buttonPressedHandler() {
-    console.log(UserId);
-    const FormData = {
-      username,
-      title,
-      description,
-      dateOfCreation,
-    };
-    console.log(FormData);
     async function storeData() {
       try {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
         };
-        const dataForm = FormData;
+
         const resLogin = await axios.post(
           `http://10.0.2.2:8000/school/NoticeBoard/`,
           dataForm,

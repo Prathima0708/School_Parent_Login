@@ -82,6 +82,7 @@ import { Token } from "./screens/Login";
 import TeachersNoticeboard from "./screens/TeachersLoginScreen/TeachersNoticeboard";
 import TeachersLeave from "./screens/TeachersLoginScreen/TeachersLeave";
 import TeachersHome from "./screens/TeachersLoginScreen/TeachersHome";
+import TeachersMarksheet from "./screens/TeachersLoginScreen/TeachersMarksheet";
 // function Bottom() {
 //   return (
 //     <Tab.Navigator>
@@ -126,6 +127,10 @@ export default function App() {
             component={TeachersTimetable}
           />
           <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} />
+          <Stack.Screen
+            name="TeachersMarksheet"
+            component={TeachersMarksheet}
+          />
           <Stack.Screen name="TeachersLeave" component={TeachersLeave} />
           <Stack.Screen
             name="TeachersNoticeBoard"

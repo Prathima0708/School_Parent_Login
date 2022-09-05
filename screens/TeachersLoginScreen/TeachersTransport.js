@@ -45,13 +45,13 @@ const TeachersTransport = () => {
   function buttonPressedHandler() {
     console.log(UserId);
     const FormData = {
-      studentID,
-      vehicleno,
-      type,
-      drivername,
-      mobile,
-      routename,
-      stopname,
+      busnumber: busNumber,
+      vehicleno: vehicleno,
+      types: type,
+      driver_name: drivername,
+      emp_mobile: mobile,
+      route_name: routename,
+      stop_name: stopname,
     };
     console.log(FormData);
     async function storeData() {
@@ -59,22 +59,30 @@ const TeachersTransport = () => {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
         };
-        const dataForm = FormData;
+
         const resLogin = await axios.post(
           `http://10.0.2.2:8000/school/Transportreport/${UserId}/`,
-          dataForm,
+          FormData,
           {
             headers: headers,
           }
         );
         // const token = resLogin.data.token;
         // const userId = resLogin.data.user_id;
-        //console.log(token);
+        console.log(resLogin.data);
       } catch (error) {
         console.log(error);
       }
     }
     storeData();
+    setEnteredStudentID("");
+    setEnteredBusNumber("");
+    setEnteredVehicleNo("");
+    setEnteredType("");
+    setEnteredDriverName("");
+    setEnteredMobile("");
+    setEnteredRouteName("");
+    setEnteredStopName("");
   }
   return (
     <>
@@ -84,12 +92,6 @@ const TeachersTransport = () => {
 
       <ScrollView>
         <View style={styles.inputForm}>
-          <Text style={styles.labels}>STUDENT ID</Text>
-          <TextInput
-            style={styles.inputStyle}
-            onChangeText={studentIDChangeHandler}
-            value={studentID}
-          />
           <Text style={styles.labels}>BUS NUMBER</Text>
           <TextInput
             style={styles.inputStyle}
@@ -138,7 +140,7 @@ const TeachersTransport = () => {
             <Button onPress={buttonPressedHandler}>Add Transport</Button>
           </View>
         </View>
-        <View>
+        <View style={styles.home}>
           <TeachersHome />
         </View>
       </ScrollView>
@@ -152,11 +154,9 @@ const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
   },
-  // home: {
-  //   width: "100%",
-  //   margin: 0,
-  //   padding: 0,
-  // },
+  home: {
+    marginTop: 70,
+  },
 
   inputForm: {
     padding: 20,

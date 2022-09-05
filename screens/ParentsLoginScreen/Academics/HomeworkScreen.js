@@ -187,6 +187,7 @@ const HomeworkScreen = () => {
   return (
     <>
       <View style={styles.root}>
+        <Text>{className}</Text>
         <FlatList
           data={data}
           renderItem={({ item }) => {
@@ -234,7 +235,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   home: {
-    marginTop: 380,
+    marginTop: 620,
   },
   img: {
     height: 150,

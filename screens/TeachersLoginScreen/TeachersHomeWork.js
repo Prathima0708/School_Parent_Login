@@ -133,37 +133,46 @@ const TeachersHomework = () => {
     imagePreView = <Image style={styles.image} source={{ uri: pickedImage }} />;
   }
   function buttonPressedHandler() {
-    console.log(UserId);
-    const FormData = {
-      classname,
-      section,
-      subject,
-      date,
-      remark,
-      hw,
+    const formdata = {
+      class_name: classname,
+      section: section,
+      subject: subject,
+      homework_date: fromDate,
+      due_date: toDate,
+      homework_photo: pickedImage,
+      remark: remark,
+      description: hw,
     };
-    console.log(FormData);
+    console.log(formdata);
+
     async function storeData() {
       try {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
         };
-        const dataForm = FormData;
+
         const resLogin = await axios.post(
           "http://10.0.2.2:8000/school/Homework/",
-          dataForm,
+          formdata,
           {
             headers: headers,
           }
         );
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
-        console.log(resLogin);
+
+        console.log(resLogin.data);
       } catch (error) {
         console.log(error);
       }
     }
     storeData();
+    setEnteredClassName("");
+    setEnteredSection("");
+    setEnteredSubject("");
+    setFromText("");
+    setToText("");
+    setPickedImage("");
+    setEnteredRemark("");
+    setHW("");
   }
   return (
     <>
@@ -274,11 +283,7 @@ const TeachersHomework = () => {
               onChange={toDateChangeHandler}
             />
           )}
-          <View>
-            <Text style={styles.labels}>UPLOAD IMAGE</Text>
-            <View style={styles.imagePreView}>{imagePreView}</View>
-            <Btn title="take image" onPress={takeImageHanlder} />
-          </View>
+
           <Text style={styles.labels}>REMARK</Text>
           <TextInput
             style={styles.inputStyle}
@@ -291,7 +296,13 @@ const TeachersHomework = () => {
             onChangeText={hwChangeHandler}
             value={hw}
           />
+          <View>
+            <Text style={styles.labels}>UPLOAD IMAGE</Text>
 
+            <View style={styles.imagePreView}>{imagePreView}</View>
+
+            <Btn title="take image" onPress={takeImageHanlder} />
+          </View>
           <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Homework</Button>
           </View>
@@ -336,72 +347,3 @@ const styles = StyleSheet.create({
     height: "100%",
   },
 });
-
-// import { Alert, Button, Image, StyleSheet, Text, View } from "react-native";
-// import {launchCameraAsync,useCameraPermissions,PermissionStatus} from 'expo-image-picker';
-// import { useState } from "react";
-
-// function ImagePicker(){
-
-//     const[pickedImage,setPickedImage]=useState();
-//     const [cameraPermissionInformation,requestPermission]=useCameraPermissions();
-
-//     async function verifyPermissions(){
-//         if(cameraPermissionInformation.status===PermissionStatus.UNDERTERMINED){
-//             const permissionResponse=await requestPermission();
-
-//             return permissionResponse.granted;
-//         }
-
-//         if(cameraPermissionInformation.status===PermissionStatus.DENIED){
-//             Alert.alert('Insuffcient Permissions',
-//             'You need to grant camera permission to use this app.');
-//             return false;
-//         }
-//         return true;
-//     }
-//     async function takeImageHanlder(){
-//         const hasPermission=await verifyPermissions();
-
-//         if(!hasPermission){
-//             return;
-//         }
-//         const image=await launchCameraAsync({
-//             allowsEditing:true,
-//             aspect:[16,9],
-//             quality:0.5
-//         });
-//         setPickedImage(image.uri);
-//         // console.log(image);
-//     }
-//     let imagePreView=<Text>No image taken yet.</Text>;
-
-//     if(pickedImage){
-//         imagePreView=<Image style={styles.image} source={{uri:pickedImage}}/>;
-//     }
-//     return(
-//         <View>
-//             <View style={styles.imagePreView}>
-//                 {imagePreView}
-//             </View>
-//             <Button title="take image" onPress={takeImageHanlder}/>
-//         </View>
-//     )
-// }
-
-// export default ImagePicker;
-
-// const styles = StyleSheet.create({
-//     imagePreView:{
-//         width:'100%',
-//         height:200,
-//         marginVertical:8,
-//         justifyContent:'center',
-//         alignItems:'center',
-//         borderRadius:8
-//     },
-//     image:{
-//         width:'100%',
-//         height:'100%'
-//     }
-// })

@@ -84,12 +84,12 @@ const TeachersLeave = () => {
   function buttonPressedHandler() {
     console.log(UserId);
     const FormData = {
-      leaveType,
-      leaveReason,
-      leaveFrom,
-      leaveTo,
+      leave_type: leaveType,
+      leave_reason: leaveReason,
+      leave_form: fromDate,
+      leave_to: toDate,
     };
-    console.log(FormData);
+    // console.log(FormData);
     async function storeData() {
       try {
         let headers = {
@@ -105,12 +105,16 @@ const TeachersLeave = () => {
         );
         // const token = resLogin.data.token;
         // const userId = resLogin.data.user_id;
-        //console.log(token);
+        console.log(resLogin.data);
       } catch (error) {
         console.log(error);
       }
     }
     storeData();
+    setEnteredLeaveType("");
+    setEnteredLeaveReason("");
+    setFromText("");
+    setToText("");
   }
   return (
     <>
@@ -128,7 +132,6 @@ const TeachersLeave = () => {
           />
           <Text style={styles.labels}>LEAVE REASON</Text>
           <TextInput
-            keyboardType="number-pad"
             style={styles.inputStyle}
             onChangeText={leaveReasonChangeHandler}
             value={leaveReason}

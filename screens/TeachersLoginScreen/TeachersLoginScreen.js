@@ -54,6 +54,9 @@ const TeachersLoginScreen = ({ navigation }) => {
       if (itemData.item.id === "c2") {
         navigation.navigate("TeachersCalendar");
       }
+      if (itemData.item.id === "c3") {
+        navigation.navigate("TeachersMarksheet");
+      }
       if (itemData.item.id === "c4") {
         navigation.navigate("TeachersAcademics");
       }

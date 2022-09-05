@@ -46,15 +46,17 @@ const TeachersTimetable = () => {
   const [studentID, setEnteredStudentID] = useState("");
   const [timeTab, setEnteredTimeTab] = useState("");
 
-  const [days, setEnteredDays] = useState({
-    monday: "",
-    tuesday: "",
-    wednesday: "",
-    thursday: "",
-    friday: "",
-    saturday: "",
-  });
-  const [createdDate, setEnteredCreatedDate] = useState();
+  const [monday, setEnteredMonday] = useState();
+  const [tuesday, setEnteredTuesday] = useState();
+  const [wednesday, setEnteredWednesday] = useState();
+  const [thursday, setEnteredThursday] = useState();
+  const [friday, setEnteredFriday] = useState();
+  const [saturday, setEnteredSaturday] = useState();
+
+  const [createdDate, setEnteredCreatedDate] = useState(new Date());
+  const [dateShow, setDateShow] = useState(false);
+  const [dateText, setDateText] = useState("");
+  const [datemode, setDateMode] = useState("date");
 
   const [examName, setEnteredExamName] = useState("");
 
@@ -89,7 +91,7 @@ const TeachersTimetable = () => {
   const showToMode = (currentToMode) => {
     setToShow(true);
 
-    setToMode(currentToMode);
+    setDateMode(currentToMode);
   };
   const fromDateChangeHandler = (event, selectedFromDate) => {
     const currentFromDate = selectedFromDate || fromDate;
@@ -154,22 +156,33 @@ const TeachersTimetable = () => {
     setToTimeText(tTime);
     // console.log(fDate);
   };
-  function daysChangeHandler(enteredValue) {
-    setEnteredDays(enteredValue);
-  }
-  function createdDateChangeHandler(enteredValue) {
-    setEnteredCreatedDate(enteredValue);
-  }
+
+  const DateChangeHandler = (event, selectedToDate) => {
+    const currentToDate = selectedToDate || toDate;
+    setDateShow(Platform.OS === "ios");
+    setEnteredCreatedDate(currentToDate);
+
+    let tempToDate = new Date(currentToDate);
+    let tDate =
+      tempToDate.getDate() +
+      "/" +
+      (tempToDate.getMonth() + 1) +
+      "/" +
+      tempToDate.getFullYear();
+    setDateText(tDate);
+    // console.log(fDate);
+  };
+
+  const showDateMode = (currentToMode) => {
+    setDateShow(true);
+
+    setToMode(currentToMode);
+  };
 
   function examNameChangeHandler(enteredValue) {
     setEnteredExamName(enteredValue);
   }
-  function startDateChangeHandler(enteredValue) {
-    setEnteredStartDate(enteredValue);
-  }
-  function endDateChangeHandler(enteredValue) {
-    setEnteredEndDate(enteredValue);
-  }
+
   function totalMarksChangeHandler(enteredValue) {
     setEnteredTotalMarks(enteredValue);
   }
@@ -194,12 +207,16 @@ const TeachersTimetable = () => {
   }
   function addDailyTimeTableHandler() {
     const FormData = {
-      studentID,
-      timeTab,
-      fromTime,
-      toTime,
-      days,
-      createdDate,
+      timetab: timeTab,
+      from_time: fromTime,
+      to_time: toTime,
+      monday: monday,
+      Tuesday: tuesday,
+      wednesday: wednesday,
+      thursday: thursday,
+      friday: friday,
+      saturday: saturday,
+      createdDate: createdDate,
     };
     console.log(FormData);
     async function storeData() {
@@ -209,15 +226,14 @@ const TeachersTimetable = () => {
         };
         const dataForm = FormData;
         const resLogin = await axios.post(
-          `http://10.0.2.2:8000/school/AddmoreTimetable_list`,
+          `http://10.0.2.2:8000/school/AddmoreTimetable_list/`,
           dataForm,
           {
             headers: headers,
           }
         );
         const token = resLogin.data.token;
-        const userId = resLogin.data.user_id;
-        console.log(token);
+
         // Token = token;
         // UserId = userId;
       } catch (error) {
@@ -227,20 +243,26 @@ const TeachersTimetable = () => {
     storeData();
     setEnteredStudentID("");
     setEnteredTimeTab("");
-    setEnteredFromTime("");
-    setEnteredToTime("");
-    setEnteredDays("");
-    setEnteredCreatedDate("");
+    setFromTimeText("");
+    setToTimeText("");
+    setToTime("");
+    setEnteredMonday("");
+    setEnteredTuesday("");
+    setEnteredWednesday("");
+    setEnteredThursday("");
+    setEnteredFriday("");
+    setEnteredSaturday("");
+    setDateText("");
   }
 
   function addExamTimeTableHandler() {
     const FormData = {
-      examName,
-      startDate,
-      endDate,
-      totalMarks,
-      hour,
-      className,
+      exam_name: examName,
+      start_date: fromDate,
+      end_date: toDate,
+      Total_marks: totalMarks,
+      hour: hour,
+      class_name: className,
     };
     console.log(FormData);
     async function storeData() {
@@ -250,7 +272,7 @@ const TeachersTimetable = () => {
         };
         const dataForm = FormData;
         const resLogin = await axios.post(
-          `http://10.0.2.2:8000/school/Exam`,
+          "http://10.0.2.2:8000/school/Exam/",
           dataForm,
           {
             headers: headers,
@@ -266,6 +288,12 @@ const TeachersTimetable = () => {
       }
     }
     storeData();
+    setEnteredExamName("");
+    setFromText("");
+    setToText("");
+    setEnteredTotalMarks("");
+    setEnteredHour("");
+    setEnteredClassName("");
   }
 
   return (
@@ -282,12 +310,6 @@ const TeachersTimetable = () => {
       {showTable && (
         <ScrollView>
           <View style={styles.inputForm}>
-            <Text style={styles.labels}>STUDENT ID</Text>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={studentIDChangeHandler}
-              value={studentID}
-            />
             <Text style={styles.labels}>TIME TAB</Text>
             <TextInput
               keyboardType="number-pad"
@@ -295,18 +317,7 @@ const TeachersTimetable = () => {
               onChangeText={timeTabChangeHandler}
               value={timeTab}
             />
-            {/* <Text style={styles.labels}>FROM TIME</Text>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={fromTimeChangeHandler}
-              value={fromTime}
-            />
-            <Text style={styles.labels}>TO TIME</Text>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={toTimeChangeHandler}
-              value={toTime}
-            /> */}
+
             <View
               style={{
                 paddingVertical: 15,
@@ -390,25 +401,84 @@ const TeachersTimetable = () => {
                 //  minimumDate={fromDate}
               />
             )}
-            <Text style={styles.labels}>DAYS</Text>
+            <Text style={styles.labels}>MONDAY SUBJECT</Text>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={daysChangeHandler}
-              value={
-                (days.monday,
-                days.tuesday,
-                days.wednesday,
-                days.thursday,
-                days.friday,
-                days.saturday)
-              }
+              onChangeText={setEnteredMonday}
+              value={monday}
             />
-            <Text style={styles.labels}>CREATED DATE</Text>
+            <Text style={styles.labels}>TUESDAY SUBJECT</Text>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={createdDateChangeHandler}
-              value={createdDate}
+              onChangeText={setEnteredTuesday}
+              value={tuesday}
             />
+            <Text style={styles.labels}>WEDNESDAY SUBJECT</Text>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={setEnteredWednesday}
+              value={wednesday}
+            />
+            <Text style={styles.labels}>THURSDAY SUBJECT</Text>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={setEnteredThursday}
+              value={thursday}
+            />
+            <Text style={styles.labels}>FRIDAY SUBJECT</Text>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={setEnteredFriday}
+              value={friday}
+            />
+            <Text style={styles.labels}>SATURDAY SUBJECT</Text>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={setEnteredSaturday}
+              value={saturday}
+            />
+            <View
+              style={{
+                paddingVertical: 15,
+                paddingHorizontal: 10,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: "black",
+                }}
+              >
+                CREATED DATE:
+              </Text>
+
+              <Ionicons
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textAlign: "right",
+                }}
+                name="calendar"
+                size={24}
+                color="black"
+                onPress={() => showDateMode("date")}
+              />
+            </View>
+            <TextInput style={styles.inputStyle} value={dateText} />
+            {dateShow && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={createdDate}
+                mode={datemode}
+                is24Hour={true}
+                display="default"
+                onChange={DateChangeHandler}
+                //  minimumDate={fromDate}
+              />
+            )}
 
             <View style={styles.btnSubmit}>
               <Button onPress={addDailyTimeTableHandler}>Add TimeTable</Button>
@@ -428,19 +498,6 @@ const TeachersTimetable = () => {
               onChangeText={examNameChangeHandler}
               value={examName}
             />
-            {/* <Text style={styles.labels}>START DATE</Text>
-            <TextInput
-              keyboardType="number-pad"
-              style={styles.inputStyle}
-              onChangeText={startDateChangeHandler}
-              value={startDate}
-            />
-            <Text style={styles.labels}>END DATE</Text>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={endDateChangeHandler}
-              value={endDate}
-            /> */}
 
             <View
               style={{

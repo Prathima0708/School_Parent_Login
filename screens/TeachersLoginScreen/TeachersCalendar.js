@@ -74,11 +74,13 @@ const TeachersCalendar = () => {
   }
 
   function buttonPressedHandler() {
-    console.log(UserId);
     const FormData = {
-      title,
-      description,
+      description: description,
+      startdate: fromDate,
+      enddate: toDate,
+      titlee: title,
     };
+
     console.log(FormData);
     async function storeData() {
       try {
@@ -95,12 +97,16 @@ const TeachersCalendar = () => {
         );
         // const token = resLogin.data.token;
         // const userId = resLogin.data.user_id;
-        //console.log(token);
+        console.log(resLogin.data);
       } catch (error) {
         console.log(error);
       }
     }
     storeData();
+    setEnteredDescription("");
+    setEnteredTitle("");
+    setFromText("");
+    setToText("");
   }
   return (
     <>
@@ -138,7 +144,7 @@ const TeachersCalendar = () => {
                 color: "black",
               }}
             >
-              EVENT START DATE: {fromText}
+              EVENT START DATE:
             </Text>
 
             <Ionicons
@@ -153,7 +159,7 @@ const TeachersCalendar = () => {
               onPress={() => showFromMode("date")}
             />
           </View>
-
+          <TextInput style={styles.inputStyle} value={fromText} />
           {fromShow && (
             <DateTimePicker
               testID="dateTimePicker"
@@ -180,7 +186,7 @@ const TeachersCalendar = () => {
                 color: "black",
               }}
             >
-              EVENT END DATE: {toText}
+              EVENT END DATE:
             </Text>
 
             <Ionicons
@@ -195,6 +201,7 @@ const TeachersCalendar = () => {
               onPress={() => showToMode("date")}
             />
           </View>
+          <TextInput style={styles.inputStyle} value={toText} />
           {toShow && (
             <DateTimePicker
               testID="dateTimePicker"
