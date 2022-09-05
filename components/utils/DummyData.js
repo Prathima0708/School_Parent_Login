@@ -31,6 +31,6 @@ export const CATEGORIES = [
     "c5",
     "Profile",
     "#9eecff",
-    "https://cdn-icons-png.flaticon.com/512/64/64572.png"
+    "https://img.icons8.com/external-stick-figures-gan-khoon-lay/344/external-academic-coach-instructor-trainer-teacher-jobs-occupations-careers-stick-figures-gan-khoon-lay.png"
   ),
 ];
