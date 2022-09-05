@@ -26,9 +26,14 @@ function TeachersAcademics({ navigation }) {
           stdId: itemData.item.id,
         });
       }
+      if (itemData.item.id === "c6") {
+        navigation.navigate("TeachersNoticeBoard", {
+          stdId: itemData.item.id,
+        });
+      }
     }
     return (
-      <View style={styles.test}>
+      <View style={styles.root}>
         <CategoryGridTile
           title={itemData.item.title}
           color={itemData.item.color}
@@ -54,9 +59,12 @@ const styles = StyleSheet.create({
   root: {
     // marginHorizontal: 50,
     // flexDirection: "row",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   test: {
-    width: "50%",
-    display: "flex",
+    textAlign:"center",
+
   },
 });

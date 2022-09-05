@@ -33,11 +33,11 @@ function Login() {
 
   const [show, setShow] = useState(true);
 
-  const [forTeacherBackground, setForTeacherBackground] = useState({
+  const [forPartentBackground, setForPartentBackground] = useState({
     backgroundColor: "#4169E1",
     color: "white",
   });
-  const [forPartentBackground, setForPartentBackground] = useState({
+  const [forTeacherBackground, setForTeacherBackground] = useState({
     backgroundColor: "white",
     color: "black",
   });
@@ -122,9 +122,9 @@ function Login() {
   }
   function toggleParents() {
     setShow(true);
-    setForPartentBackground({ backgroundColor: "white", color: "black" });
+    setForTeacherBackground({ backgroundColor: "white", color: "black" });
 
-    setForTeacherBackground({ backgroundColor: "#4169E1", color: "white" });
+    setForPartentBackground({ backgroundColor: "#4169E1", color: "white" });
 
     //navigation.navigate("TeachersLogin");
   }
@@ -140,8 +140,8 @@ function Login() {
 
   function toggleTeachers() {
     setShow(false);
-    setForTeacherBackground({ backgroundColor: "white", color: "black" });
-    setForPartentBackground({ backgroundColor: "#4169E1", color: "white" });
+    setForPartentBackground({ backgroundColor: "white", color: "black" });
+    setForTeacherBackground({ backgroundColor: "#4169E1", color: "white" });
   }
 
   return (
@@ -161,11 +161,11 @@ function Login() {
         </View>
         <View style={styles.mainContainer}>
           <View style={styles.select}>
-            <LgButton onPress={toggleParents} style={forTeacherBackground}>
-              Parents
-            </LgButton>
-            <LgButton onPress={toggleTeachers} style={forPartentBackground}>
+            <LgButton onPress={toggleTeachers} style={forTeacherBackground}>
               Teachers
+            </LgButton>
+            <LgButton onPress={toggleParents} style={forPartentBackground}>
+              Parents
             </LgButton>
           </View>
 

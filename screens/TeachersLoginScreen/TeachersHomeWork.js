@@ -6,6 +6,7 @@ import axios from "axios";
 
 import { UserId } from "../Login";
 import BgButton from "../../components/UI/BgButton";
+// import ImagePicker from "./ImagePicker";
 
 const TeachersHomework = () => {
   const [classname, setEnteredClassName] = useState("");
@@ -113,7 +114,7 @@ const TeachersHomework = () => {
             onChangeText={hwChangeHandler}
             value={hw}
           />
-
+          {/* <ImagePicker /> */}
           <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Homework</Button>
           </View>

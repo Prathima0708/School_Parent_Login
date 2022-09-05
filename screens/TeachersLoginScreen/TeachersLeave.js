@@ -3,14 +3,15 @@ import React, { useState } from "react";
 
 import Button from "../../components/UI/Button";
 import axios from "axios";
-
 import { UserId } from "../Login";
 import BgButton from "../../components/UI/BgButton";
+
 const TeachersLeave = () => {
   const [leaveType, setEnteredLeaveType] = useState("");
   const [leaveReason, setEnteredLeaveReason] = useState("");
   const [leaveFrom, setEnteredLeaveFrom] = useState("");
   const [leaveTo, setEnteredLeaveTo] = useState("");
+
 
   function leaveTypeChangeHandler(enteredValue) {
     setEnteredLeaveType(enteredValue);
@@ -56,6 +57,9 @@ const TeachersLeave = () => {
     }
     storeData();
   }
+
+ 
+  
   return (
     <>
       <View style={styles.BtnContainer}>
@@ -89,7 +93,18 @@ const TeachersLeave = () => {
             onChangeText={leaveToChangeHandler}
             value={leaveTo}
           />
-
+          <View>
+          <DateTimePickerModal isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker} />
+          <DateTimePickerModal isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker} />
+          </View>
+         
+      <Button title="Show Date Picker" onPress={showDatePicker} />
           <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Leave</Button>
           </View>
@@ -121,4 +136,7 @@ const styles = StyleSheet.create({
   btnSubmit: {
     marginTop: 17,
   },
+  dateContainer:{
+    width:'10%'
+  }
 });

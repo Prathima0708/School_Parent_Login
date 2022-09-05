@@ -26,11 +26,11 @@ export const TEACHERS = [
     "#9eecff",
     "https://img.icons8.com/dotty/344/sign-up-in-calendar.png"
   ),
-
   new Category(
-    "c6",
-    "NoticeBoard",
+    "c5",
+    "Profile",
     "#9eecff",
-    "https://img.icons8.com/dotty/344/sign-up-in-calendar.png"
+    "https://img.icons8.com/ios-filled/344/report-card.png"
   ),
+  
 ];
