@@ -32,15 +32,13 @@ function Academics({ navigation }) {
       }
     }
     return (
-      <View style={styles.root}>
-        <View style={styles.main}>
-          <CategoryGridTile
-            title={itemData.item.title}
-            color={itemData.item.color}
-            icon={itemData.item.icon}
-            onPress={pressHandler}
-          />
-        </View>
+      <View style={styles.rootContainer}>
+        <CategoryGridTile
+          title={itemData.item.title}
+          color={itemData.item.color}
+          icon={itemData.item.icon}
+          onPress={pressHandler}
+        />
       </View>
     );
   }
@@ -63,5 +61,11 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  rootContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    //padding: 32,
   },
 });

@@ -75,13 +75,24 @@ import TeachersAcademics from "./screens/TeachersLoginScreen/TeachersAcademics";
 import TeachersCalendar from "./screens/TeachersLoginScreen/TeachersCalendar";
 import ReportCard from "./screens/ParentsLoginScreen/Academics/ReportCard";
 import TeachersTimetable from "./screens/TeachersLoginScreen/TeachersTimeTable";
-
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 import { Token } from "./screens/Login";
 import TeachersNoticeboard from "./screens/TeachersLoginScreen/TeachersNoticeboard";
 import TeachersLeave from "./screens/TeachersLoginScreen/TeachersLeave";
+import TeachersHome from "./screens/TeachersLoginScreen/TeachersHome";
+// function Bottom() {
+//   return (
+//     <Tab.Navigator>
+//       <Tab.Screen name="Teacher" component={TeachersLoginScreen} />
+//       {/* <Tab.Screen name="Logout" component={TeachersHome} /> */}
+//     </Tab.Navigator>
+//   );
+// }
 export default function App() {
   const [tokenIsPresent, setTokenIsPresent] = useState(false);
+  const [showtab, setShowTab] = useState(false);
 
   useEffect(() => {
     async function getToken() {
@@ -122,6 +133,11 @@ export default function App() {
           />
 
           <Stack.Screen name="TeachersLogin" component={TeachersLoginScreen} />
+          {/* <Stack.Screen
+            name="TeachersLogin"
+            component={Bottom}
+            options={{ headerShown: false }}
+          /> */}
 
           <Stack.Screen name="ParentsLogin" component={ParentsLoginScreen} />
 
@@ -142,11 +158,12 @@ export default function App() {
             name="TeachersTransport"
             component={TeachersTransport}
           />
+
           <Stack.Screen name="TeachersHomework" component={TeachersHomework} />
-          <Stack.Screen
+          {/* <Stack.Screen
             name="TeachersOverview"
             component={TeachersOverviewScreen}
-          />
+          /> */}
           <Stack.Screen name="Chat" component={Chat} />
           <Stack.Screen name="ChatScreen" component={ChatScreen} />
           <Stack.Screen name="SingleUser" component={SingleUser} />

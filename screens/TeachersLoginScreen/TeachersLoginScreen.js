@@ -57,9 +57,6 @@ const TeachersLoginScreen = ({ navigation }) => {
       if (itemData.item.id === "c4") {
         navigation.navigate("TeachersAcademics");
       }
-      if (itemData.item.id === "c6") {
-        navigation.navigate("TeachersNoticeBoard");
-      }
     }
     return (
       <View style={styles.rootContainer}>
@@ -92,7 +89,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+<<<<<<< HEAD
     // padding: 32,
+=======
+    //padding: 32,
+>>>>>>> 4bfc13dd402e0fdafbb5fcec3dc14418cfd8c9e5
   },
   title: {
     fontSize: 20,

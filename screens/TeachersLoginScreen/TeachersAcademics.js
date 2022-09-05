@@ -57,8 +57,11 @@ export default TeachersAcademics;
 
 const styles = StyleSheet.create({
   root: {
+<<<<<<< HEAD
     // marginHorizontal: 50,
     // flexDirection: "row",
+=======
+>>>>>>> 4bfc13dd402e0fdafbb5fcec3dc14418cfd8c9e5
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

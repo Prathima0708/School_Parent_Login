@@ -68,7 +68,7 @@ function StudentCategories({ navigation }) {
       }
     }
     return (
-      <View style={styles.root}>
+      <View style={styles.rootContainer}>
         <CategoryGridTile
           title={itemData.item.title}
           color={itemData.item.color}
@@ -93,5 +93,11 @@ const styles = StyleSheet.create({
   root: {
     width: "50%",
     display: "flex",
+  },
+  rootContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    //padding: 32,
   },
 });

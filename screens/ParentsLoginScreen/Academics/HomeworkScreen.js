@@ -161,6 +161,8 @@
 import { View, Text, FlatList, StyleSheet, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { className } from "../../../components/StudentItem/StudentItem";
+import ParentsHome from "../ParentsHome";
 
 const HomeworkScreen = () => {
   const [data, setData] = useState([]);
@@ -168,11 +170,14 @@ const HomeworkScreen = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get("http://10.0.2.2:8000/school/Homework/");
+        const res = await axios.get(
+          `http://10.0.2.2:8000/school/Homework/${className}/`
+        );
         console.log(res.data);
         setIsLoading(false);
-
-        setData(res.data);
+        var Homeworkdata = [];
+        Homeworkdata.push(res.data);
+        setData(Homeworkdata);
       } catch (error) {
         console.log(error);
       }
@@ -180,34 +185,39 @@ const HomeworkScreen = () => {
     fetchData();
   }, []);
   return (
-    <View style={styles.root}>
-      <FlatList
-        data={data}
-        renderItem={({ item }) => {
-          return (
-            <View style={styles.card}>
-              <View style={styles.imgContainer}></View>
-              <View>
-                <View style={styles.bio}>
-                  <Text style={styles.homewrk}>{item.class_name}</Text>
-                  <Text style={styles.homewrk}>{item.subject}</Text>
-                </View>
+    <>
+      <View style={styles.root}>
+        <FlatList
+          data={data}
+          renderItem={({ item }) => {
+            return (
+              <View style={styles.card}>
+                <View style={styles.imgContainer}></View>
+                <View>
+                  <View style={styles.bio}>
+                    <Text style={styles.homewrk}>{item.class_name}</Text>
+                    <Text style={styles.homewrk}>{item.subject}</Text>
+                  </View>
 
-                <View style={styles.main}>
-                  <Image
-                    style={styles.img}
-                    resizeMode="cover"
-                    source={{
-                      uri: `http://10.0.2.2:8000${item.homework_photo}`,
-                    }}
-                  />
+                  <View style={styles.main}>
+                    <Image
+                      style={styles.img}
+                      resizeMode="cover"
+                      source={{
+                        uri: `http://10.0.2.2:8000${item.homework_photo}`,
+                      }}
+                    />
+                  </View>
                 </View>
               </View>
-            </View>
-          );
-        }}
-      />
-    </View>
+            );
+          }}
+        />
+      </View>
+      <View style={styles.home}>
+        <ParentsHome />
+      </View>
+    </>
   );
 };
 
@@ -215,24 +225,29 @@ export default HomeworkScreen;
 
 const styles = StyleSheet.create({
   card: {
-    width: 250,
+    width: 350,
 
-    borderRadius: 5,
+    borderRadius: 25,
     //marginVertical: 20,
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
+  },
+  home: {
+    marginTop: 380,
   },
   img: {
     height: 150,
     width: 200,
   },
   homewrk: {
+    padding: 5,
     color: "white",
+    fontSize: 20,
   },
   main: {
     width: "100%",
-    paddingTop: 5,
+    padding: 15,
     backgroundColor: "#b696d7",
     display: "flex",
     justifyContent: "center",

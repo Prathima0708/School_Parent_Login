@@ -31,15 +31,22 @@ function Login() {
 
   const [authToken, setAuthToken] = useState();
 
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
 
   const [forPartentBackground, setForPartentBackground] = useState({
+<<<<<<< HEAD
     backgroundColor: "#4169E1",
     color: "white",
   });
   const [forTeacherBackground, setForTeacherBackground] = useState({
+=======
+>>>>>>> 4bfc13dd402e0fdafbb5fcec3dc14418cfd8c9e5
     backgroundColor: "white",
     color: "black",
+  });
+  const [forTeacherBackground, setForTeacherBackground] = useState({
+    backgroundColor: "#4169E1",
+    color: "white",
   });
 
   // function login() {

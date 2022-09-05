@@ -2,6 +2,7 @@ import { View, StyleSheet, TextInput, Text } from "react-native";
 import { useState } from "react";
 import BgButton from "../../../components/UI/BgButton";
 import VerticalLine from "../../../components/UI/VerticalLine";
+import ParentsHome from "../ParentsHome";
 function Noticeboard() {
   const [forNoticeList, setForNoticeList] = useState({
     color: "black",
@@ -36,6 +37,9 @@ function Noticeboard() {
         <Text style={styles.labels}>Date of creation</Text>
         <Text style={styles.inputStyle}></Text>
       </View>
+      <View style={styles.home}>
+        <ParentsHome />
+      </View>
     </>
   );
 }
@@ -48,6 +52,9 @@ const styles = StyleSheet.create({
     padding: 20,
     margin: 20,
     borderRadius: 15,
+  },
+  home: {
+    marginTop: 230,
   },
   labels: {
     fontSize: 18,

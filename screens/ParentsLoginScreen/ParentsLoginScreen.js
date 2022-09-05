@@ -66,6 +66,7 @@
 import {
   Alert,
   FlatList,
+  Image,
   Pressable,
   StyleSheet,
   Text,
@@ -78,8 +79,9 @@ import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useLayoutEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import IconButton from "../../components/UI/IconButton";
+import ImageSlider from "./ImageSlider";
 export var studentList = [];
 
 function ParentsLoginScreen() {
@@ -90,15 +92,14 @@ function ParentsLoginScreen() {
   async function logoutHandler() {
     try {
       // const value = await AsyncStorage.getItem('token');
-    const value=  await AsyncStorage.removeItem("token");
-    if(value==null){
-      console.log('Data removed')
-      navigation.navigate("Login");
-    }
-    else{
-      console.log('Data not removed')
-    }
-      
+      const value = await AsyncStorage.removeItem("token");
+      if (value == null) {
+        console.log("Data removed");
+        navigation.navigate("Login");
+      } else {
+        console.log("Data not removed");
+      }
+
       // if (value == null) {
       //   console.log("Token is removed"+value)
       //   //  AsyncStorage.removeItem("token");
@@ -108,18 +109,22 @@ function ParentsLoginScreen() {
     } catch (error) {
       // Error retrieving data
     }
-  };
+  }
 
-  useLayoutEffect(()=>{
+  useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight:()=>{
-        return(
+      headerRight: () => {
+        return (
           // <LogoutButton onPress={LogoutBtnPressHandler}>Test</LogoutButton>
-          <IconButton onPress={logoutHandler} icon="log-out-outline" size={30}/>
-        )
-      }
-    })
-  },[])
+          <IconButton
+            onPress={logoutHandler}
+            icon="log-out-outline"
+            size={30}
+          />
+        );
+      },
+    });
+  }, []);
 
   useEffect(() => {
     async function login() {
@@ -155,6 +160,7 @@ function ParentsLoginScreen() {
     <>
       <View style={styles.rootContainer}>
         <FlatList data={students} renderItem={renderStudentDetails} />
+        <ImageSlider />
         <Pressable
           style={styles.btnContainer}
           onPress={() => navigation.navigate("Chat")}
@@ -163,7 +169,6 @@ function ParentsLoginScreen() {
           <Text style={styles.btnText}>Chat</Text>
         </Pressable>
       </View>
-      
     </>
   );
 }

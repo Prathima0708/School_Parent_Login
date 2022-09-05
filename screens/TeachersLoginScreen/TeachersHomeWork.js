@@ -1,12 +1,21 @@
 import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
 import React, { useState } from "react";
-
+import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../components/UI/Button";
 import axios from "axios";
-
+import { Alert, Button as Btn, Image } from "react-native";
+import {
+  launchCameraAsync,
+  useCameraPermissions,
+  PermissionStatus,
+} from "expo-image-picker";
 import { UserId } from "../Login";
 import BgButton from "../../components/UI/BgButton";
+<<<<<<< HEAD
 // import ImagePicker from "./ImagePicker";
+=======
+import { Ionicons } from "@expo/vector-icons";
+>>>>>>> 4bfc13dd402e0fdafbb5fcec3dc14418cfd8c9e5
 
 const TeachersHomework = () => {
   const [classname, setEnteredClassName] = useState("");
@@ -15,7 +24,33 @@ const TeachersHomework = () => {
 
   const [remark, setEnteredRemark] = useState();
   const [hw, setHW] = useState("");
-  const [date, setDate] = useState(new Date());
+
+  const [fromDate, setFromDate] = useState(new Date());
+  const [toDate, setToDate] = useState(new Date());
+
+  const [frommode, setFromMode] = useState("date");
+  const [tomode, setToMode] = useState("date");
+
+  const [fromShow, setFromShow] = useState(false);
+  const [toShow, setToShow] = useState(false);
+
+  const [fromText, setFromText] = useState("");
+  const [toText, setToText] = useState("");
+  const [pickedImage, setPickedImage] = useState();
+  const [cameraPermissionInformation, requestPermission] =
+    useCameraPermissions();
+
+  const showFromMode = (currentFromMode) => {
+    setFromShow(true);
+
+    setFromMode(currentFromMode);
+  };
+
+  const showToMode = (currentToMode) => {
+    setToShow(true);
+
+    setToMode(currentToMode);
+  };
 
   function classNameHandler(enteredValue) {
     setEnteredClassName(enteredValue);
@@ -26,9 +61,7 @@ const TeachersHomework = () => {
   function subjectChangeHandler(enteredValue) {
     setEnteredSubject(enteredValue);
   }
-  function dateChangeHandler(enteredValue) {
-    setEnteredDate(enteredValue);
-  }
+
   function remarkChangeHandler(enteredValue) {
     setEnteredRemark(enteredValue);
   }
@@ -36,6 +69,73 @@ const TeachersHomework = () => {
     setHW(enteredValue);
   }
 
+  const fromDateChangeHandler = (event, selectedFromDate) => {
+    const currentFromDate = selectedFromDate || fromDate;
+    setFromShow(Platform.OS === "ios");
+    setFromDate(currentFromDate);
+
+    let tempFromDate = new Date(currentFromDate);
+    let fDate =
+      tempFromDate.getDate() +
+      "/" +
+      (tempFromDate.getMonth() + 1) +
+      "/" +
+      tempFromDate.getFullYear();
+    setFromText(fDate);
+    //console.log(fDate);
+  };
+
+  const toDateChangeHandler = (event, selectedToDate) => {
+    const currentToDate = selectedToDate || toDate;
+    setToShow(Platform.OS === "ios");
+    setToDate(currentToDate);
+
+    let tempToDate = new Date(currentToDate);
+    let tDate =
+      tempToDate.getDate() +
+      "/" +
+      (tempToDate.getMonth() + 1) +
+      "/" +
+      tempToDate.getFullYear();
+    setToText(tDate);
+    // console.log(fDate);
+  };
+
+  async function verifyPermissions() {
+    if (cameraPermissionInformation.status === PermissionStatus.UNDERTERMINED) {
+      const permissionResponse = await requestPermission();
+
+      return permissionResponse.granted;
+    }
+
+    if (cameraPermissionInformation.status === PermissionStatus.DENIED) {
+      Alert.alert(
+        "Insuffcient Permissions",
+        "You need to grant camera permission to use this app."
+      );
+      return false;
+    }
+    return true;
+  }
+  async function takeImageHanlder() {
+    const hasPermission = await verifyPermissions();
+
+    if (!hasPermission) {
+      return;
+    }
+    const image = await launchCameraAsync({
+      allowsEditing: true,
+      aspect: [16, 9],
+      quality: 0.5,
+    });
+    setPickedImage(image.uri);
+    // console.log(image);
+  }
+  let imagePreView = <Text>No image taken yet.</Text>;
+
+  if (pickedImage) {
+    imagePreView = <Image style={styles.image} source={{ uri: pickedImage }} />;
+  }
   function buttonPressedHandler() {
     console.log(UserId);
     const FormData = {
@@ -62,7 +162,7 @@ const TeachersHomework = () => {
         );
         // const token = resLogin.data.token;
         // const userId = resLogin.data.user_id;
-        //console.log(token);
+        console.log(resLogin);
       } catch (error) {
         console.log(error);
       }
@@ -96,12 +196,93 @@ const TeachersHomework = () => {
             onChangeText={subjectChangeHandler}
             value={subject}
           />
-          <Text style={styles.labels}>HOMEWORK DATE</Text>
-          <TextInput
-            style={styles.inputStyle}
-            onChangeText={dateChangeHandler}
-            value={date}
-          />
+          <View
+            style={{
+              paddingVertical: 15,
+              paddingHorizontal: 10,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 16,
+                color: "black",
+              }}
+            >
+              HOMEWORK DATE: {fromText}
+            </Text>
+
+            <Ionicons
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "right",
+              }}
+              name="calendar"
+              size={24}
+              color="black"
+              onPress={() => showFromMode("date")}
+            />
+          </View>
+
+          {fromShow && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={fromDate}
+              mode={frommode}
+              is24Hour={true}
+              display="default"
+              onChange={fromDateChangeHandler}
+            />
+          )}
+
+          <View
+            style={{
+              paddingVertical: 15,
+              paddingHorizontal: 10,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 16,
+                color: "black",
+              }}
+            >
+              HOMEWORK DUE DATE: {toText}
+            </Text>
+
+            <Ionicons
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "right",
+              }}
+              name="calendar"
+              size={24}
+              color="black"
+              onPress={() => showToMode("date")}
+            />
+          </View>
+          {toShow && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={toDate}
+              mode={tomode}
+              is24Hour={true}
+              display="default"
+              onChange={toDateChangeHandler}
+            />
+          )}
+          <View>
+            <Text style={styles.labels}>UPLOAD IMAGE</Text>
+            <View style={styles.imagePreView}>{imagePreView}</View>
+            <Btn title="take image" onPress={takeImageHanlder} />
+          </View>
           <Text style={styles.labels}>REMARK</Text>
           <TextInput
             style={styles.inputStyle}
@@ -146,162 +327,85 @@ const styles = StyleSheet.create({
   btnSubmit: {
     marginTop: 17,
   },
+  imagePreView: {
+    width: "100%",
+    height: 200,
+    marginVertical: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 8,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+  },
 });
 
-// import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
-// import React, { useState } from "react";
+// import { Alert, Button, Image, StyleSheet, Text, View } from "react-native";
+// import {launchCameraAsync,useCameraPermissions,PermissionStatus} from 'expo-image-picker';
+// import { useState } from "react";
 
-// import Button from "../../components/UI/Button";
-// import axios from "axios";
+// function ImagePicker(){
 
-// import { UserId } from "../Login";
-// import BgButton from "../../components/UI/BgButton";
-// const TeachersTransport = () => {
-//   const [studentID, setEnteredStudentID] = useState("");
-//   const [vehicleno, setEnteredVehicleNo] = useState("");
-//   const [type, setEnteredType] = useState("");
-//   const [drivername, setEnteredDriverName] = useState("");
-//   const [mobile, setEnteredMobile] = useState();
-//   const [routename, setEnteredRouteName] = useState("");
-//   const [stopname, setEnteredStopName] = useState("");
+//     const[pickedImage,setPickedImage]=useState();
+//     const [cameraPermissionInformation,requestPermission]=useCameraPermissions();
 
-//   function studentIDChangeHandler(enteredValue) {
-//     setEnteredStudentID(enteredValue);
-//   }
-//   function vehicleChangeHandler(enteredValue) {
-//     setEnteredVehicleNo(enteredValue);
-//   }
-//   function typeChangeHandler(enteredValue) {
-//     setEnteredType(enteredValue);
-//   }
-//   function driverNameChangeHandler(enteredValue) {
-//     setEnteredDriverName(enteredValue);
-//   }
-//   function mobileChangeHandler(enteredValue) {
-//     setEnteredMobile(enteredValue);
-//   }
-//   function routeNameChangeHandler(enteredValue) {
-//     setEnteredRouteName(enteredValue);
-//   }
-//   function stopNameChangeHandler(enteredValue) {
-//     setEnteredStopName(enteredValue);
-//   }
+//     async function verifyPermissions(){
+//         if(cameraPermissionInformation.status===PermissionStatus.UNDERTERMINED){
+//             const permissionResponse=await requestPermission();
 
-//   function buttonPressedHandler() {
-//     console.log(UserId);
-//     const FormData = {
-//       studentID,
-//       vehicleno,
-//       type,
-//       drivername,
-//       mobile,
-//       routename,
-//       stopname,
-//     };
-//     console.log(FormData);
-//     async function storeData() {
-//       try {
-//         let headers = {
-//           "Content-Type": "application/json; charset=utf-8",
-//         };
-//         const dataForm = FormData;
-//         const resLogin = await axios.post(
-//           `http://10.0.2.2:8000/school/Transportreport/${UserId}/`,
-//           dataForm,
-//           {
-//             headers: headers,
-//           }
-//         );
-//         // const token = resLogin.data.token;
-//         // const userId = resLogin.data.user_id;
-//         //console.log(token);
-//       } catch (error) {
-//         console.log(error);
-//       }
+//             return permissionResponse.granted;
+//         }
+
+//         if(cameraPermissionInformation.status===PermissionStatus.DENIED){
+//             Alert.alert('Insuffcient Permissions',
+//             'You need to grant camera permission to use this app.');
+//             return false;
+//         }
+//         return true;
 //     }
-//     storeData();
-//   }
-//   return (
-//     <>
-//       <View style={styles.BtnContainer}>
-//         <BgButton>Add Transport</BgButton>
-//       </View>
+//     async function takeImageHanlder(){
+//         const hasPermission=await verifyPermissions();
 
-//       <ScrollView>
-//         <View style={styles.inputForm}>
-//           <Text style={styles.labels}>STUDENT ID</Text>
-//           <TextInput
-//             style={styles.inputStyle}
-//             onChangeText={studentIDChangeHandler}
-//             value={studentID}
-//           />
-//           <Text style={styles.labels}>VEHICLE NO</Text>
-//           <TextInput
-//             keyboardType="number-pad"
-//             style={styles.inputStyle}
-//             onChangeText={vehicleChangeHandler}
-//             value={vehicleno}
-//           />
-//           <Text style={styles.labels}>TYPE</Text>
-//           <TextInput
-//             style={styles.inputStyle}
-//             onChangeText={typeChangeHandler}
-//             value={type}
-//           />
-//           <Text style={styles.labels}>DRIVER NAME</Text>
-//           <TextInput
-//             style={styles.inputStyle}
-//             onChangeText={driverNameChangeHandler}
-//             value={drivername}
-//           />
-//           <Text style={styles.labels}>MOBILE NO</Text>
-//           <TextInput
-//             style={styles.inputStyle}
-//             onChangeText={mobileChangeHandler}
-//             value={mobile}
-//           />
-//           <Text style={styles.labels}>ROUTE NAME</Text>
-//           <TextInput
-//             style={styles.inputStyle}
-//             onChangeText={routeNameChangeHandler}
-//             value={routename}
-//           />
-//           <Text style={styles.labels}>STOP NAME</Text>
-//           <TextInput
-//             style={styles.inputStyle}
-//             onChangeText={stopNameChangeHandler}
-//             value={stopname}
-//           />
+//         if(!hasPermission){
+//             return;
+//         }
+//         const image=await launchCameraAsync({
+//             allowsEditing:true,
+//             aspect:[16,9],
+//             quality:0.5
+//         });
+//         setPickedImage(image.uri);
+//         // console.log(image);
+//     }
+//     let imagePreView=<Text>No image taken yet.</Text>;
 
-//           <View style={styles.btnSubmit}>
-//             <Button onPress={buttonPressedHandler}>Add Transport</Button>
-//           </View>
+//     if(pickedImage){
+//         imagePreView=<Image style={styles.image} source={{uri:pickedImage}}/>;
+//     }
+//     return(
+//         <View>
+//             <View style={styles.imagePreView}>
+//                 {imagePreView}
+//             </View>
+//             <Button title="take image" onPress={takeImageHanlder}/>
 //         </View>
-//       </ScrollView>
-//     </>
-//   );
-// };
+//     )
+// }
 
-// export default TeachersTransport;
+// export default ImagePicker;
 
 // const styles = StyleSheet.create({
-//   BtnContainer: {
-//     flexDirection: "row",
-//   },
-
-//   inputForm: {
-//     padding: 20,
-//     paddingTop: 5,
-//   },
-//   inputStyle: {
-//     borderWidth: 2,
-//     borderColor: "grey",
-//     borderRadius: 5,
-//   },
-//   labels: {
-//     marginTop: 17,
-//   },
-//   btnSubmit: {
-//     marginTop: 17,
-//   },
-// });
+//     imagePreView:{
+//         width:'100%',
+//         height:200,
+//         marginVertical:8,
+//         justifyContent:'center',
+//         alignItems:'center',
+//         borderRadius:8
+//     },
+//     image:{
+//         width:'100%',
+//         height:'100%'
+//     }
+// })
