@@ -30,13 +30,8 @@ const styles = StyleSheet.create({
   gridItem: {
     flex: 1,
     margin: 16,
-<<<<<<< HEAD
-   // width: Title == "Profile" ? "50%" : "70%",
-   width: 150,
-=======
     //width: Title == "Profile" ? "50% !important" : "70%",
     width: 150,
->>>>>>> 4bfc13dd402e0fdafbb5fcec3dc14418cfd8c9e5
     height: 150,
     borderRadius: 18,
     elevation: 4,

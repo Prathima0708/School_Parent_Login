@@ -30,11 +30,7 @@ export const TEACHERS = [
     "c5",
     "Profile",
     "#9eecff",
-<<<<<<< HEAD
-    "https://img.icons8.com/ios-filled/344/report-card.png"
-=======
     "https://cdn-icons-png.flaticon.com/512/64/64572.png"
->>>>>>> 4bfc13dd402e0fdafbb5fcec3dc14418cfd8c9e5
   ),
   
 ];

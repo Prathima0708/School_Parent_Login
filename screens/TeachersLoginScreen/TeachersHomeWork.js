@@ -11,11 +11,7 @@ import {
 } from "expo-image-picker";
 import { UserId } from "../Login";
 import BgButton from "../../components/UI/BgButton";
-<<<<<<< HEAD
-// import ImagePicker from "./ImagePicker";
-=======
 import { Ionicons } from "@expo/vector-icons";
->>>>>>> 4bfc13dd402e0fdafbb5fcec3dc14418cfd8c9e5
 
 const TeachersHomework = () => {
   const [classname, setEnteredClassName] = useState("");
@@ -300,7 +296,6 @@ const TeachersHomework = () => {
             onChangeText={hwChangeHandler}
             value={hw}
           />
-<<<<<<< HEAD
           <View>
             <Text style={styles.labels}>UPLOAD IMAGE</Text>
 
@@ -308,9 +303,6 @@ const TeachersHomework = () => {
 
             <Btn title="take image" onPress={takeImageHanlder} />
           </View>
-=======
-          {/* <ImagePicker /> */}
->>>>>>> fbaf77c291c3bb50f02ba332a092df0c038e3b9f
           <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Homework</Button>
           </View>

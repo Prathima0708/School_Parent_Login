@@ -76,9 +76,12 @@ const TransportScreen = () => {
         <ScrollView horizontal={true}>
           <DataTable style={styles.container}>
             <DataTable.Header style={styles.tableHeader}>
-              <DataTable.Title style={styles.tableTitle}>ID</DataTable.Title>
+              <View style={styles.th}>
+                <DataTable.Title style={styles.tableTitle}>ID</DataTable.Title>
+              </View>
+
               <DataTable.Title style={styles.tableTitle}>
-                STUDENT
+                BUS NUMBER
               </DataTable.Title>
               <DataTable.Title style={styles.tableTitle}>
                 VEHICLENO
@@ -97,6 +100,7 @@ const TransportScreen = () => {
                 STOP NAME
               </DataTable.Title>
             </DataTable.Header>
+
             {data &&
               data.map((data, key) => (
                 <DataTable.Row style={styles.tableRow}>
@@ -104,7 +108,7 @@ const TransportScreen = () => {
                     {data.id}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.tableCell}>
-                    {data.student}
+                    {data.busnumber}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.tableCell}>
                     {data.vehicleno}
@@ -139,13 +143,18 @@ export default TransportScreen;
 const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
+    width: 220,
   },
   container: {
     padding: 10,
   },
+  th: {
+    backgroundColor: "red",
+  },
   tableHeader: {
     backgroundColor: "skyblue",
     height: 60,
+    fontWeight: "bold",
   },
   tableTitle: {
     padding: 5,
@@ -154,9 +163,14 @@ const styles = StyleSheet.create({
   },
   tableCell: {
     padding: 5,
-    margin: 9,
+    marginLeft: 7,
+    marginTop: 7,
+    alignItems: "stretch",
   },
+
   tableRow: {
+    alignItems: "stretch",
+    height: 20,
     borderBottomColor: "black",
     borderBottomWidth: 2,
   },

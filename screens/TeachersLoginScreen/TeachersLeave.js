@@ -13,18 +13,13 @@ import Button from "../../components/UI/Button";
 import axios from "axios";
 import { UserId } from "../Login";
 import BgButton from "../../components/UI/BgButton";
-<<<<<<< HEAD
 
-=======
 import { Ionicons } from "@expo/vector-icons";
->>>>>>> 4bfc13dd402e0fdafbb5fcec3dc14418cfd8c9e5
 const TeachersLeave = () => {
   const [leaveType, setEnteredLeaveType] = useState("");
   const [leaveReason, setEnteredLeaveReason] = useState("");
 
-<<<<<<< HEAD
 
-=======
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
 
@@ -80,7 +75,6 @@ const TeachersLeave = () => {
     setToText(tDate);
     // console.log(fDate);
   };
->>>>>>> 4bfc13dd402e0fdafbb5fcec3dc14418cfd8c9e5
   function leaveTypeChangeHandler(enteredValue) {
     setEnteredLeaveType(enteredValue);
   }
@@ -146,7 +140,6 @@ const TeachersLeave = () => {
             onChangeText={leaveReasonChangeHandler}
             value={leaveReason}
           />
-<<<<<<< HEAD
           <Text style={styles.labels}>LEAVE FROM</Text>
           <TextInput
             style={styles.inputStyle}
@@ -171,7 +164,6 @@ const TeachersLeave = () => {
           </View>
          
       <Button title="Show Date Picker" onPress={showDatePicker} />
-=======
 
           <View
             style={{
@@ -257,7 +249,6 @@ const TeachersLeave = () => {
             />
           )}
 
->>>>>>> 4bfc13dd402e0fdafbb5fcec3dc14418cfd8c9e5
           <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Leave</Button>
           </View>
