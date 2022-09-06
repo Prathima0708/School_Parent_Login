@@ -9,6 +9,8 @@ import { useLayoutEffect } from "react";
 import IconButton from "../../components/UI/IconButton";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Text } from "react-native";
+import { Image } from "react-native";
 
 const TeachersLoginScreen = ({ navigation }) => {
   async function logoutHandler() {
@@ -60,6 +62,9 @@ const TeachersLoginScreen = ({ navigation }) => {
       if (itemData.item.id === "c4") {
         navigation.navigate("TeachersAcademics");
       }
+      if (itemData.item.id === "c5") {
+        navigation.navigate("TeachersLeave");
+      }
     }
     return (
       <View style={styles.rootContainer}>
@@ -75,6 +80,21 @@ const TeachersLoginScreen = ({ navigation }) => {
 
   return (
     <>
+      <Text style={styles.heading}>Teachers Dashboard</Text>
+      <View style={styles.studentItem}>
+        <View style={styles.studentItem}>
+          <View style={styles.imageContainer}>
+            <Image
+              source={{
+                uri: "https://cdn-icons-png.flaticon.com/512/1144/1144760.png",
+              }}
+              style={styles.image}
+              width="100px"
+            />
+          </View>
+          <Text style={[styles.textBase, styles.description]}>Name</Text>
+        </View>
+      </View>
       <FlatList
         data={TEACHERS}
         keyExtractor={(item) => item.id}
@@ -103,5 +123,49 @@ const styles = StyleSheet.create({
   test: {
     width: "50%",
     display: "flex",
+  },
+  heading: {
+    textAlign: "center",
+    marginTop: 13,
+    fontWeight: "bold",
+    color: "gray",
+    fontSize: 20,
+  },
+  studentItem: {
+    width: "80%",
+
+    padding: 11,
+    marginVertical: 8,
+    marginHorizontal: 38,
+    backgroundColor: "#23215b",
+    //flexDirection: "row",
+    alignItems: "center",
+
+    justifyContent: "space-between",
+    borderRadius: 16,
+  },
+  textBase: {
+    color: "#e4d9fd",
+    textAlign: "center",
+  },
+  description: {
+    fontSize: 16,
+
+    marginBottom: 4,
+    fontWeight: "bold",
+  },
+  imageContainer: {
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    backgroundColor: "white",
+
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 4,
+    //minWidth: 80,
+  },
+  image: {
+    height: 80,
+    width: 80,
   },
 });

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../components/UI/Button";
 import axios from "axios";
+import SelectList from "react-native-dropdown-select-list";
 import { Alert, Button as Btn, Image } from "react-native";
 import {
   launchCameraAsync,
@@ -12,8 +13,15 @@ import {
 import { UserId } from "../Login";
 import BgButton from "../../components/UI/BgButton";
 import { Ionicons } from "@expo/vector-icons";
+import { useEffect } from "react";
 
 const TeachersHomework = () => {
+  const [selected, setSelected] = useState("");
+  const [data, setData] = useState([]);
+
+  const [selectedsection, setSelectedsection] = useState("");
+  const [sectiondata, setSectionData] = useState([]);
+
   const [classname, setEnteredClassName] = useState("");
   const [section, setEnteredSection] = useState("");
   const [subject, setEnteredSubject] = useState("");
@@ -35,6 +43,31 @@ const TeachersHomework = () => {
   const [pickedImage, setPickedImage] = useState();
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
+
+  useEffect(() => {
+    axios
+      .get("http://10.0.2.2:8000/school/Studentclass/")
+      .then((response) => {
+        let newArray = response.data.map((item) => {
+          return {
+            //   key: item.id,
+            value: item.class_name,
+          };
+        });
+        let newArray1 = response.data.map((item) => {
+          return {
+            //   key: item.id,
+            value: item.section,
+          };
+        });
+
+        setData(newArray);
+        setSectionData(newArray1);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
 
   const showFromMode = (currentFromMode) => {
     setFromShow(true);
@@ -124,18 +157,22 @@ const TeachersHomework = () => {
       aspect: [16, 9],
       quality: 0.5,
     });
+
     setPickedImage(image.uri);
-    // console.log(image);
   }
   let imagePreView = <Text>No image taken yet.</Text>;
 
   if (pickedImage) {
     imagePreView = <Image style={styles.image} source={{ uri: pickedImage }} />;
   }
+
   function buttonPressedHandler() {
+    console.log(selected);
+    console.log(selectedsection);
+    // console.log(pickedImage);
     const formdata = {
-      class_name: classname,
-      section: section,
+      class_name: selected,
+      section: selectedsection,
       subject: subject,
       homework_date: fromDate,
       due_date: toDate,
@@ -164,9 +201,10 @@ const TeachersHomework = () => {
         console.log(error);
       }
     }
+
     storeData();
-    setEnteredClassName("");
-    setEnteredSection("");
+    setData("");
+    setSectionData("");
     setEnteredSubject("");
     setFromText("");
     setToText("");
@@ -183,18 +221,30 @@ const TeachersHomework = () => {
       <ScrollView>
         <View style={styles.inputForm}>
           <Text style={styles.labels}>CLASS NAME</Text>
-          <TextInput
+          {/* <TextInput
             keyboardType="number-pad"
             style={styles.inputStyle}
             onChangeText={classNameHandler}
             value={classname}
-          />
+          /> */}
+          <View style={{ width: 250 }}>
+            <SelectList
+              setSelected={setSelected}
+              data={data}
+              placeholder="select class"
+              // onSelect={() => alert(selected)} //{label: '', classname:'', section:''}
+            />
+          </View>
           <Text style={styles.labels}>SECTION</Text>
-          <TextInput
-            style={styles.inputStyle}
-            onChangeText={sectionHandler}
-            value={section}
-          />
+
+          <View style={{ width: 250 }}>
+            <SelectList
+              setSelected={setSelectedsection}
+              data={sectiondata}
+              placeholder="select section"
+              //  value={sectiondata}
+            />
+          </View>
           <Text style={styles.labels}>SUBJECT</Text>
           <TextInput
             style={styles.inputStyle}
@@ -216,7 +266,7 @@ const TeachersHomework = () => {
                 color: "black",
               }}
             >
-              HOMEWORK DATE: {fromText}
+              HOMEWORK DATE:
             </Text>
 
             <Ionicons
@@ -231,6 +281,7 @@ const TeachersHomework = () => {
               onPress={() => showFromMode("date")}
             />
           </View>
+          <TextInput style={styles.inputStyle} value={fromText} />
 
           {fromShow && (
             <DateTimePicker
@@ -258,7 +309,7 @@ const TeachersHomework = () => {
                 color: "black",
               }}
             >
-              HOMEWORK DUE DATE: {toText}
+              HOMEWORK DUE DATE:
             </Text>
 
             <Ionicons
@@ -273,6 +324,7 @@ const TeachersHomework = () => {
               onPress={() => showToMode("date")}
             />
           </View>
+          <TextInput style={styles.inputStyle} value={toText} />
           {toShow && (
             <DateTimePicker
               testID="dateTimePicker"

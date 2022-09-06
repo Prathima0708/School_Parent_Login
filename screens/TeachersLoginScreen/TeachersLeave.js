@@ -19,7 +19,6 @@ const TeachersLeave = () => {
   const [leaveType, setEnteredLeaveType] = useState("");
   const [leaveReason, setEnteredLeaveReason] = useState("");
 
-
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
 
@@ -118,8 +117,6 @@ const TeachersLeave = () => {
     setToText("");
   }
 
- 
-  
   return (
     <>
       <View style={styles.BtnContainer}>
@@ -140,7 +137,7 @@ const TeachersLeave = () => {
             onChangeText={leaveReasonChangeHandler}
             value={leaveReason}
           />
-          <Text style={styles.labels}>LEAVE FROM</Text>
+          {/* <Text style={styles.labels}>LEAVE FROM</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={leaveFromChangeHandler}
@@ -163,7 +160,7 @@ const TeachersLeave = () => {
             onCancel={hideDatePicker} />
           </View>
          
-      <Button title="Show Date Picker" onPress={showDatePicker} />
+      <Button title="Show Date Picker" onPress={showDatePicker} /> */}
 
           <View
             style={{
@@ -283,7 +280,7 @@ const styles = StyleSheet.create({
   btnSubmit: {
     marginTop: 17,
   },
-  dateContainer:{
-    width:'10%'
-  }
+  dateContainer: {
+    width: "10%",
+  },
 });

@@ -21,11 +21,7 @@ function TeachersAcademics({ navigation }) {
           stdId: itemData.item.id,
         });
       }
-      if (itemData.item.id === "c5") {
-        navigation.navigate("TeachersLeave", {
-          stdId: itemData.item.id,
-        });
-      }
+
       if (itemData.item.id === "c6") {
         navigation.navigate("TeachersNoticeBoard", {
           stdId: itemData.item.id,
@@ -62,7 +58,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   test: {
-    textAlign:"center",
-
+    textAlign: "center",
   },
 });

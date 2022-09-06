@@ -11,6 +11,7 @@ import {
   Button as Btn,
   KeyboardAvoidingView,
   ScrollView,
+  Image,
 } from "react-native";
 import Button from "../components/UI/Button";
 import axios from "axios";
@@ -150,6 +151,12 @@ function Login() {
       {/* <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={keyboardVerticalOffset}> */}
       <ScrollView>
         <View style={styles.textContainer}>
+          {/* <Image
+            source={require("../assets/Asset3.png")}
+            style={{ width: 50, height: 100 }}
+            resizeMode="contain"
+          /> */}
+
           <Text style={{ color: "#999999", fontSize: 24 }}>Welcome To</Text>
           <Text style={{ fontWeight: "bold", fontSize: 34 }}>
             Kinara school
