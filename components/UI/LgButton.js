@@ -17,18 +17,20 @@ const styles = StyleSheet.create({
   button: {
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
     paddingVertical: 6,
     paddingHorizontal: 12,
     width: "50%",
-    borderColor:'black',
-    borderTopWidth: 2,
-    borderRightWidth: 2,
-    borderLeftWidth: 2,
+    borderTopWidth: 1,
+    borderRightWidth: 1,
+    borderLeftWidth: 1,
+    borderBottomWidth:1,
+
   },
   
   buttonText: {
     textAlign: "center",
     fontSize: 16,
-    
   },
 });

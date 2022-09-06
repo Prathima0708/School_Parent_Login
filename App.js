@@ -144,7 +144,7 @@ export default function App() {
             options={{ headerShown: false }}
           /> */}
 
-          <Stack.Screen name="ParentsLogin" component={ParentsLoginScreen} />
+          <Stack.Screen name="Parent's Dashboard" component={ParentsLoginScreen} />
 
           <Stack.Screen name="Category" component={StudentCategories} />
           <Stack.Screen

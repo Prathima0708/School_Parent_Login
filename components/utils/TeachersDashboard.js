@@ -4,14 +4,15 @@ export const TEACHERS = [
   new Category(
     "c1",
     "Transport",
-    "#9eecff",
-    "https://img.icons8.com/external-yogi-aprelliyanto-basic-outline-yogi-aprelliyanto/344/external-calender-time-and-date-yogi-aprelliyanto-basic-outline-yogi-aprelliyanto.png"
+    "red",
+    "https://img.icons8.com/external-yogi-aprelliyanto-basic-outline-yogi-aprelliyanto/344/external-calender-time-and-date-yogi-aprelliyanto-basic-outline-yogi-aprelliyanto.png",
+    'yellow'
   ),
 
   new Category(
     "c2",
     "Calender",
-    "#9eecff",
+    "yellow",
     "https://img.icons8.com/carbon-copy/344/truck--v1.png"
   ),
   new Category(
@@ -30,6 +31,7 @@ export const TEACHERS = [
     "c5",
     "Profile",
     "#9eecff",
+    "red",
     "https://cdn-icons-png.flaticon.com/512/64/64572.png"
   ),
   

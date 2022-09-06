@@ -2,20 +2,26 @@ import { View, StyleSheet, ScrollView, Button } from "react-native";
 import React, { useState } from "react";
 import { DataTable } from "react-native-paper";
 import SelectDropdown from "react-native-select-dropdown";
+import SelectList from 'react-native-dropdown-select-list'
+import { Ionicons } from "@expo/vector-icons";
+import Checkbox from "react-native-paper";
+import {  Text, TouchableOpacity, Image } from 'react-native';
+import axios from "axios";
 // import RadioButton from "react-native-paper";
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+import { useEffect } from "react";
   const classData = [
-    {label:'1st Standard' },
-    {label:'2nd Standard' },
-    {label:'3rd Standard' },
-    {label:'4th Standard' },
+    '1st Standard',
+    '2nd Standard',
+    '3rd Standard',
+    '4th Standard',
   ];
 
   const sectionData = [
-    { label: '1A', value: '1' },
-    { label: '2A', value: '2' },
-    { label: '3A', value: '3' },
-    { label: '4A', value: '4' },
+    '1A',
+    '2A',
+    '3A',
+    '4A',
   ];
 
   const studentData = [
@@ -27,8 +33,32 @@ import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-
 
 const Attendance = () => {
   
-    const [checked, setChecked] = useState();
+const [data,setData]=useState()
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await axios.get(
+          `http://10.0.2.2:8000/school/Studentclass/`
+        );
+        console.log(res.data);
 
+        setData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+      // try {
+      //   // const value = await AsyncStorage.getItem('token');
+      // const value=  await AsyncStorage.getItem('token')
+      // console.log(value)
+      // } catch (error) {
+      //   // Error retrieving data
+      // }
+    }
+    fetchData();
+  }, []);
+
+    const [checked, setChecked] = useState();
+    const [selected, setSelected] = useState("");
     var todayDate;
     var date = new Date().getDate();
     var month = new Date().getMonth() + 1;
@@ -40,49 +70,28 @@ const Attendance = () => {
       setChecked(value)
     }
     var radio_props = [
-      {label: 'Present', value: 0 },
-      {label: 'Absent', value: 1 },
-      {label: 'Holiday', value: 2 }
+      {label: 'P', value: 0 },
+      {label: 'A', value: 1 },
+      {label: 'H', value: 2 }
     ];
   return (
     <>
     <View style={[styles.container, {flexDirection: "row"}]}>
       <View style={{ flex: 2 }}>
-      <SelectDropdown
-	      data={classData.map((classdata,key)=>(classdata.label))}
-	      onSelect={(selectedItem, index) => {
-		    console.log(selectedItem, index)
-	    }}
-	    buttonTextAfterSelection={(selectedItem, index) => {
-        // text represented after item is selected
-        // if data array is an array of objects then return selectedItem.property to render after item is selected
-        return selectedItem
-	    }}
-      rowTextForSelection={(item, index) => {
-        // text represented for each item in dropdown
-        // if data array is an array of objects then return item.property to represent item in dropdown
-        return item
-	    }}/>
+       <SelectList setSelected={setSelected} 
+       data={data}  />
       </View>
-      <View style={{ flex: 2}}>
-      <SelectDropdown
-	      data={sectionData.map((sectiondata,key)=>(sectiondata.label))}
-	      onSelect={(selectedItem, index) => {
-		    console.log(selectedItem, index)
-	    }}
-      buttonTextAfterSelection={(selectedItem, index) => {
-        return selectedItem
-	    }}
-      rowTextForSelection={(item, index) => {
-        return item
-	    }} />
-      </View>
-      <View style={{ flex: 2,marginTop:10}}>
-        <Button title="Search"/>
+      <View style={{ flex: 2,marginTop:5}}>
+      {/* <Ionicons
+              name="search-circle-outline"
+              size={34}
+              color="black"
+              
+            /> */}
       </View>
     </View>
         <ScrollView horizontal={true}>
-          <DataTable style={styles.container}>
+          <DataTable style={styles.tableContainer}>
             <DataTable.Header style={styles.tableHeader}>
               <DataTable.Title style={styles.tableTitle}>ID</DataTable.Title>
               <DataTable.Title style={styles.tableTitle}>STUDENT NAME</DataTable.Title>
@@ -91,14 +100,18 @@ const Attendance = () => {
             {studentData &&
               studentData.map((studentData, key) => (
                 <DataTable.Row style={styles.tableRow}>
-                  <DataTable.Cell style={styles.tableCell}>
+                   <DataTable.Cell style={styles.tableCell}>
                     {studentData.id}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.tableCell}>
                     {studentData.name}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.tableCell}>
+                    
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
                     <View style={{ flexDirection:'row' }}>
+                      {/* <Checkbox /> */}
                       <RadioForm style={{flexDirection:'row'}}
                         radio_props={radio_props}
                         initial={0}
@@ -119,35 +132,12 @@ export default Attendance;
 
 const styles = StyleSheet.create({
 
-  dropdown: {
-    height: 50,
-    borderColor: 'gray',
-    borderWidth: 0.5,
-    borderRadius: 8,
-    paddingHorizontal: 8,
+  container:{
+    marginLeft:50,
   },
-  icon: {
-    marginRight: 5,
+  tableContainer:{
+    marginTop:20
   },
-  label: {
-    position: 'absolute',
-    backgroundColor: 'white',
-    left: 22,
-    top: 8,
-    zIndex: 999,
-    paddingHorizontal: 8,
-    fontSize: 14,
-  },
-  placeholderStyle: {
-    fontSize: 16,
-  },
-  selectedTextStyle: {
-    fontSize: 16,
-  },
-  // iconStyle: {
-  //   width: 20,
-  //   height: 20,
-  // },
   tableHeader: {
     backgroundColor: "skyblue",
     height: 60,

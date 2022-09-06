@@ -20,7 +20,7 @@ import { AsyncStorageStatic } from "react-native";
 import WelcomeScreen from "./WelcomeScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LgButton from "../components/UI/LgButton";
-
+import { Image } from "react-native";
 export var Token, UserId, LoginResponse;
 function Login() {
   const navigation = useNavigation();
@@ -34,13 +34,13 @@ function Login() {
   const [show, setShow] = useState(false);
 
   const [forPartentBackground, setForPartentBackground] = useState({
-    backgroundColor: "white",
-    color: "black",
+    color: "#d9dffc",
+    borderColor:"#d9dffc"
   });
 
   const [forTeacherBackground, setForTeacherBackground] = useState({
-    backgroundColor: "#4169E1",
-    color: "white",
+    color: "#3d4590",
+    borderColor:"#3d4590"
   });
 
   // function login() {
@@ -91,7 +91,7 @@ function Login() {
       if (resLogin.data.groups[0] === "parents") {
         // <WelcomeScreen />;
 
-        navigation.navigate("ParentsLogin", {
+        navigation.navigate("Parent's Dashboard", {
           phone: enteredPhone,
         });
       } else {
@@ -123,9 +123,9 @@ function Login() {
   }
   function toggleParents() {
     setShow(true);
-    setForTeacherBackground({ backgroundColor: "white", color: "black" });
+    setForTeacherBackground({ color: "#d9dffc",borderColor:'#d9dffc'});
 
-    setForPartentBackground({ backgroundColor: "#4169E1", color: "white" });
+    setForPartentBackground({   color: "#3d4590",borderColor:'#3d4590' });
 
     //navigation.navigate("TeachersLogin");
   }
@@ -141,59 +141,54 @@ function Login() {
 
   function toggleTeachers() {
     setShow(false);
-    setForPartentBackground({ backgroundColor: "white", color: "black" });
-    setForTeacherBackground({ backgroundColor: "#4169E1", color: "white" });
+    setForPartentBackground({ color: "#d9dffc", borderColor:'#d9dffc'});
+    setForTeacherBackground({  color: "#3d4590",borderColor:'#3d4590' });
   }
 
   return (
     <>
-      {/* <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={keyboardVerticalOffset}> */}
-      <ScrollView>
-        <View style={styles.textContainer}>
-          <Text style={{ color: "#999999", fontSize: 24 }}>Welcome To</Text>
-          <Text style={{ fontWeight: "bold", fontSize: 34 }}>
-            Kinara school
-          </Text>
-          <Text style={{ color: "#999999", fontSize: 15 }}>
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
-            nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
-            volutpat.
-          </Text>
+      <View style={styles.mainContainer}>
+      <Image
+          style={styles.bannerImage}
+          source={require('../assets/Asset3.png')}
+      />
+      <Image
+          style={styles.logo}
+          source={require('../assets/Asset2.png')}
+      />
+      <Text style={{top:33,left:30,color:'grey',fontSize:16}}>Welcome to</Text>
+      <Text style={{top:35,left:30,color:'#660000',fontSize:20,fontWeight:'bold'}}>KINARA SCHOOL</Text>
+      <View style={styles.loginTypeText}>
+        <Text style={{color:'grey',fontWeight:'bold'}}>Choose Account Type</Text>
+      </View>
+      <View>
+        <View style={styles.buttonContainer}>
+          <LgButton onPress={toggleTeachers} style={forTeacherBackground}>Teachers</LgButton>
+          <LgButton onPress={toggleParents} style={forPartentBackground}>Parents</LgButton>
         </View>
-        <View style={styles.mainContainer}>
-          <View style={styles.select}>
-            <LgButton onPress={toggleTeachers} style={forTeacherBackground}>
-              Teachers
-            </LgButton>
-            <LgButton onPress={toggleParents} style={forPartentBackground}>
-              Parents
-            </LgButton>
-          </View>
-
-          <Text style={styles.mainHeader}>Login Form</Text>
-
-          <View style={styles.inputContainer}>
-            <Text style={styles.labels}> User Name</Text>
+      </View>
+      <View style={styles.inputContainer}>
             <TextInput
               onChangeText={userInputHandler}
               style={styles.inputStyle}
               value={enteredUser}
+              placeholder="Username"
             />
-            <Text style={styles.labels}> Password</Text>
             <TextInput
               secureTextEntry
               onChangeText={passwordInputHandler}
               style={styles.inputStyle}
               value={enteredPassword}
+              placeholder="Password"
             />
             {show && (
               <>
-                <Text style={styles.labels}>Registered Phone Number</Text>
                 <TextInput
                   onChangeText={phoneInputHandler}
                   style={styles.inputStyle}
                   value={enteredPhone}
                   keyboardType="number-pad"
+                  placeholder="Registered Phone Number"
                 />
               </>
             )}
@@ -208,9 +203,7 @@ function Login() {
 
             {/* <WelcomeScreen enteredPhone={enteredPhone} /> */}
           </View>
-        </View>
-      </ScrollView>
-      {/* </KeyboardAvoidingView> */}
+    </View>
     </>
   );
 }
@@ -218,72 +211,53 @@ function Login() {
 export default Login;
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    // height: "100%",
-    // paddingHorizontal: 30,
-    // paddingTop: 30,
-    // backgroundColor: "#fff",
-    minHeight: "40%",
-    marginTop: 30,
-    marginHorizontal: 32,
-    paddingBottom: 26,
-    // paddingLeft:26,
-    // paddingRight:26,
-    borderRadius: 8,
-    backgroundColor: "#4169E1",
-    elevation: 2,
-    shadowColor: "black",
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.35,
-    shadowRadius: 4,
-  },
 
-  textContainer: {
-    marginLeft: 30,
-    marginTop: 20,
-    width: "75%",
+  mainContainer:{
+    height:600
   },
-  select: {
-    flexDirection: "row",
-    fontSize: 15,
-    justifyContent: "space-between",
-    fontWeight: "500",
-    backgroundColor: "white",
+  bannerImage:{
+    width: '100%',
+    height: '35%',
   },
-  mainHeader: {
-    fontSize: 25,
-    color: "white",
-    fontWeight: "500",
-    paddingTop: 20,
-    paddingBottom: 15,
-    textAlign: "center",
+  loginTypeText:{
+    justifyContent:'center',
+    alignItems:'center',
+    top:55,
   },
+  logo:{
+    width: '30%',
+    height: '20%',
+    marginLeft:25,
+    position: 'absolute',
+    top: 130,
+
+  },
+  buttonContainer:{
+    flexDirection:'row',
+    padding:50,
+    top:30,
+    display:'flex',
+    justifyContent:'space-between',
+  },
+  
   inputContainer: {
-    marginTop: 10,
-    paddingLeft: 26,
-    paddingRight: 26,
+    paddingLeft: 47,
+    paddingRight: 47,
+    top:20,
+    position:'relative'
   },
 
-  labels: {
-    fontSize: 18,
-    color: "#7d7d7d",
-    marginTop: 10,
-    marginBottom: 5,
-    lineHeight: 25,
-    color: "white",
-    marginBottom: 4,
-    //fontFamily: "regular",
-  },
-  buttons: {
-    marginTop: 22,
-  },
   inputStyle: {
-    color: "white",
+    color: "black",
     borderWidth: 2,
-    borderColor: "white",
+    borderColor: "#dddddd",
     paddingHorizontal: 15,
     paddingVertical: 7,
     borderRadius: 1,
-    fontSize: 18,
+    fontSize: 12,
+    margin:5
   },
+  buttons:{
+    top:15
+  }
 });
