@@ -4,14 +4,14 @@ export const CATEGORIES = [
   new Category(
     "c1",
     "Transport",
-    "#9eecff",
-    "https://img.icons8.com/carbon-copy/344/truck--v1.png"
+    "#eff7ff",
+    "https://cdn-icons-png.flaticon.com/512/3231/3231977.png"
   ),
   new Category(
     "c2",
     "Calender",
-    "#9eecff",
-    "https://img.icons8.com/external-yogi-aprelliyanto-basic-outline-yogi-aprelliyanto/344/external-calender-time-and-date-yogi-aprelliyanto-basic-outline-yogi-aprelliyanto.png"
+    "#fffaed",
+    "https://cdn-icons-png.flaticon.com/512/5957/5957461.png"
   ),
 
   new Category(
@@ -23,14 +23,14 @@ export const CATEGORIES = [
   new Category(
     "c4",
     "Academics",
-    "#9eecff",
-    "https://img.icons8.com/external-stick-figures-gan-khoon-lay/344/external-academic-coach-instructor-trainer-teacher-jobs-occupations-careers-stick-figures-gan-khoon-lay.png"
+    "#eff7ff",
+    "https://cdn-icons-png.flaticon.com/512/1125/1125916.png"
   ),
 
   new Category(
     "c5",
     "Profile",
-    "#9eecff",
-    "https://img.icons8.com/external-stick-figures-gan-khoon-lay/344/external-academic-coach-instructor-trainer-teacher-jobs-occupations-careers-stick-figures-gan-khoon-lay.png"
+    "#eff7ff",
+    "https://cdn-icons-png.flaticon.com/512/5249/5249066.png"
   ),
 ];

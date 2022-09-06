@@ -1,10 +1,10 @@
 class Category {
-  constructor(id, title, color, icon,text) {
+  constructor(id, title, color, icon, txtclr) {
     this.id = id;
     this.title = title;
     this.color = color;
     this.icon = icon;
-    this.text=text;
+    this.txtclr = txtclr;
   }
 }
 

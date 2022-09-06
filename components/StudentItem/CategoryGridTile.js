@@ -6,9 +6,9 @@ import {
   Text,
   View,
 } from "react-native";
-var ID;
-function CategoryGridTile({ title, color, icon, onPress, id,text,style }) {
-  ID = id;
+var Title;
+function CategoryGridTile({ title, color, icon, onPress, txtclr }) {
+  Title = title;
   return (
     <View style={styles.gridItem}>
       <Pressable
@@ -16,9 +16,10 @@ function CategoryGridTile({ title, color, icon, onPress, id,text,style }) {
         style={({ pressed }) => [styles.buttton, pressed && styles.pressed]}
         onPress={onPress}
       >
-        <View style={[styles.innerContainer, , { backgroundColor: color }]}>
+        <View style={[styles.innerContainer, { backgroundColor: color }]}>
           <Image source={{ uri: icon }} style={styles.icon} />
-          <Text style={styles.title} >{title}</Text>
+
+          <Text style={[styles.title, { color: txtclr }]}>{title}</Text>
         </View>
       </Pressable>
     </View>
@@ -64,6 +65,6 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "bold",
     fontSize: 18,
-    
+    //  color: "red",
   },
 });

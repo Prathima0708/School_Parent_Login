@@ -11,6 +11,7 @@ import {
   Button as Btn,
   KeyboardAvoidingView,
   ScrollView,
+  Image,
 } from "react-native";
 import Button from "../components/UI/Button";
 import axios from "axios";
@@ -20,7 +21,6 @@ import { AsyncStorageStatic } from "react-native";
 import WelcomeScreen from "./WelcomeScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LgButton from "../components/UI/LgButton";
-import { Image } from "react-native";
 export var Token, UserId, LoginResponse;
 function Login() {
   const navigation = useNavigation();

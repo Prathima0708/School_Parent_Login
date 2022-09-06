@@ -63,7 +63,8 @@ const styles = StyleSheet.create({
 
     padding: 11,
     marginVertical: 8,
-    backgroundColor: "#3e04c3",
+    //  backgroundColor: "#3e04c3",
+    backgroundColor: "#DDD5F3",
     flexDirection: "row",
     alignItems: "center",
 
@@ -71,11 +72,11 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   textBase: {
-    color: "#e4d9fd",
+    color: "#0D98BA",
     marginRight: 33,
   },
   description: {
-    fontSize: 16,
+    fontSize: 20,
 
     marginBottom: 4,
     fontWeight: "bold",

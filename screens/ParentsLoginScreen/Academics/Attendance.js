@@ -41,8 +41,9 @@ const [data,setData]=useState()
           `http://10.0.2.2:8000/school/Studentclass/`
         );
         console.log(res.data);
-
-        setData(res.data);
+var arr=[]
+arr.push(res.data)
+        setData(arr);
       } catch (error) {
         console.log(error);
       }
@@ -79,7 +80,7 @@ const [data,setData]=useState()
     <View style={[styles.container, {flexDirection: "row"}]}>
       <View style={{ flex: 2 }}>
        <SelectList setSelected={setSelected} 
-       data={data}  />
+       data={classData}  />
       </View>
       <View style={{ flex: 2,marginTop:5}}>
       {/* <Ionicons

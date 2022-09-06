@@ -171,13 +171,13 @@ const HomeworkScreen = () => {
     async function fetchData() {
       try {
         const res = await axios.get(
-          `http://10.0.2.2:8000/school/Homework/${className}/`
+          `http://10.0.2.2:8000/school/HomeworkByClass/${className}/`
         );
         console.log(res.data);
         setIsLoading(false);
         var Homeworkdata = [];
         Homeworkdata.push(res.data);
-        setData(Homeworkdata);
+        setData(res.data);
       } catch (error) {
         console.log(error);
       }
