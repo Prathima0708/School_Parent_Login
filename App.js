@@ -115,7 +115,7 @@ export default function App() {
           <Stack.Screen
             name="Login"
             component={Login}
-            options={{ title: "Kinara" }}
+            options={{ title: "Kinara"}}
           />
 
           <Stack.Screen

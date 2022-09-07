@@ -7,6 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import Checkbox from "react-native-paper";
 import {  Text, TouchableOpacity, Image } from 'react-native';
 import axios from "axios";
+
 // import RadioButton from "react-native-paper";
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import { useEffect } from "react";
@@ -34,16 +35,25 @@ import { useEffect } from "react";
 const Attendance = () => {
   
 const [data,setData]=useState()
+const [checked, setChecked] = useState();
+const [selected, setSelected] = useState("");
+var todayDate;
+var date = new Date().getDate();
+var month = new Date().getMonth() + 1;
+var year = new Date().getFullYear();
+todayDate= date + '-' + month + '-' + year;//format: d-m-y;
+
   useEffect(() => {
     async function fetchData() {
       try {
         const res = await axios.get(
           `http://10.0.2.2:8000/school/Studentclass/`
         );
-        console.log(res.data);
-var arr=[]
-arr.push(res.data)
-        setData(arr);
+        // console.log(res.data);
+        // var arr=[]
+        // arr.push(res.data);
+        setData(res.data);
+        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -57,14 +67,6 @@ arr.push(res.data)
     }
     fetchData();
   }, []);
-
-    const [checked, setChecked] = useState();
-    const [selected, setSelected] = useState("");
-    var todayDate;
-    var date = new Date().getDate();
-    var month = new Date().getMonth() + 1;
-    var year = new Date().getFullYear();
-    todayDate= date + '-' + month + '-' + year;//format: d-m-y;
 
 
     function radioHandler(value){
@@ -80,7 +82,7 @@ arr.push(res.data)
     <View style={[styles.container, {flexDirection: "row"}]}>
       <View style={{ flex: 2 }}>
        <SelectList setSelected={setSelected} 
-       data={classData}  />
+         />
       </View>
       <View style={{ flex: 2,marginTop:5}}>
       {/* <Ionicons

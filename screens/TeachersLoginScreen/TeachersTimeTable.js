@@ -333,9 +333,9 @@ const TeachersTimetable = () => {
                   color: "black",
                 }}
               >
-                FROM TIME: {fromTimeText}
+                FROM TIME:
               </Text>
-
+              
               <Ionicons
                 style={{
                   alignItems: "center",
@@ -348,7 +348,7 @@ const TeachersTimetable = () => {
                 onPress={() => showTimeFromMode("time")}
               />
             </View>
-
+            <TextInput style={styles.inputStyle} value={fromTimeText} />
             {fromTimeShow && (
               <DateTimePicker
                 testID="dateTimePicker"
@@ -375,9 +375,9 @@ const TeachersTimetable = () => {
                   color: "black",
                 }}
               >
-                TO TIME: {toTimeText}
+                TO TIME: 
               </Text>
-
+              
               <Ionicons
                 style={{
                   alignItems: "center",
@@ -390,6 +390,7 @@ const TeachersTimetable = () => {
                 onPress={() => showTimeToMode("time")}
               />
             </View>
+            <TextInput style={styles.inputStyle} value={toTimeText} />
             {toTimeShow && (
               <DateTimePicker
                 testID="dateTimePicker"
@@ -514,7 +515,7 @@ const TeachersTimetable = () => {
                   color: "black",
                 }}
               >
-                EXAM START DATE: {fromText}
+                EXAM START DATE:
               </Text>
 
               <Ionicons
@@ -529,7 +530,7 @@ const TeachersTimetable = () => {
                 onPress={() => showFromMode("date")}
               />
             </View>
-
+            <TextInput style={styles.inputStyle} value={fromText} />
             {fromShow && (
               <DateTimePicker
                 testID="dateTimePicker"
@@ -554,11 +555,11 @@ const TeachersTimetable = () => {
                 style={{
                   fontSize: 16,
                   color: "black",
+
                 }}
               >
-                EXAM END DATE: {toText}
+                EXAM END DATE:
               </Text>
-
               <Ionicons
                 style={{
                   alignItems: "center",
@@ -571,6 +572,7 @@ const TeachersTimetable = () => {
                 onPress={() => showToMode("date")}
               />
             </View>
+            <TextInput style={styles.inputStyle} value={toText} />
             {toShow && (
               <DateTimePicker
                 testID="dateTimePicker"
@@ -630,9 +632,14 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   inputStyle: {
+    color: "black",
     borderWidth: 2,
     borderColor: "grey",
-    borderRadius: 5,
+    // paddingHorizontal: 15,
+    // paddingVertical: 7,
+    borderRadius: 10,
+    fontSize: 18,
+    // margin:5
   },
   labels: {
     marginTop: 17,
