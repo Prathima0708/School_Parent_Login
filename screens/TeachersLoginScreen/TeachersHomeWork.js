@@ -2,7 +2,9 @@ import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
 import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../components/UI/Button";
+
 import axios from "axios";
+import * as ImagePicker from "expo-image-picker";
 import SelectList from "react-native-dropdown-select-list";
 import { Alert, Button as Btn, Image } from "react-native";
 import {
@@ -44,6 +46,33 @@ const TeachersHomework = () => {
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
 
+  const [image, setImage] = useState();
+
+  useEffect(async () => {
+    if (Platform.OS !== "web") {
+      const { status } =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== "granted") {
+        alert("Permission denied!");
+      }
+    }
+  }, []);
+
+  const PickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result);
+
+    // location = result.uri;
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+
   useEffect(() => {
     axios
       .get("http://10.0.2.2:8000/school/Studentclass/")
@@ -51,18 +80,18 @@ const TeachersHomework = () => {
         let newArray = response.data.map((item) => {
           return {
             //   key: item.id,
-            value: item.class_name,
+            value: item.class_name + " - " + item.section,
           };
         });
-        let newArray1 = response.data.map((item) => {
-          return {
-            //   key: item.id,
-            value: item.section,
-          };
-        });
+        // let newArray1 = response.data.map((item) => {
+        //   return {
+        //     //   key: item.id,
+        //     value: item.section,
+        //   };
+        // });
 
         setData(newArray);
-        setSectionData(newArray1);
+        // setSectionData(newArray1);
       })
       .catch((e) => {
         console.log(e);
@@ -168,15 +197,18 @@ const TeachersHomework = () => {
 
   function buttonPressedHandler() {
     console.log(selected);
-    console.log(selectedsection);
+    // console.log(selectedsection);
     // console.log(pickedImage);
+    let selectedData = selected.split(" - ");
+    let class_name = selectedData[0];
+    let section = selectedData[1];
     const formdata = {
-      class_name: selected,
-      section: selectedsection,
+      class_name: class_name,
+      section: section,
       subject: subject,
       homework_date: fromDate,
       due_date: toDate,
-      homework_photo: pickedImage,
+      homework_photo: `/assets/images/${image}`,
       remark: remark,
       description: hw,
     };
@@ -221,30 +253,15 @@ const TeachersHomework = () => {
       <ScrollView>
         <View style={styles.inputForm}>
           <Text style={styles.labels}>CLASS NAME</Text>
-          {/* <TextInput
-            keyboardType="number-pad"
-            style={styles.inputStyle}
-            onChangeText={classNameHandler}
-            value={classname}
-          /> */}
+
           <View style={{ width: 250 }}>
             <SelectList
               setSelected={setSelected}
               data={data}
               placeholder="select class"
-              // onSelect={() => alert(selected)} //{label: '', classname:'', section:''}
             />
           </View>
-          <Text style={styles.labels}>SECTION</Text>
 
-          <View style={{ width: 250 }}>
-            <SelectList
-              setSelected={setSelectedsection}
-              data={sectiondata}
-              placeholder="select section"
-              //  value={sectiondata}
-            />
-          </View>
           <Text style={styles.labels}>SUBJECT</Text>
           <TextInput
             style={styles.inputStyle}
@@ -348,12 +365,23 @@ const TeachersHomework = () => {
             onChangeText={hwChangeHandler}
             value={hw}
           />
-          <View>
+          {/* <View>
             <Text style={styles.labels}>UPLOAD IMAGE</Text>
 
             <View style={styles.imagePreView}>{imagePreView}</View>
 
             <Btn title="take image" onPress={takeImageHanlder} />
+          </View> */}
+
+          <Text style={styles.labels}>UPLOAD IMAGE</Text>
+          <View style={{ marginTop: 13 }}>
+            <Btn title="Upload Image" onPress={PickImage} />
+            {image && (
+              <Image
+                source={{ uri: image }}
+                style={{ width: 200, height: 200 }}
+              />
+            )}
           </View>
           <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Homework</Button>
@@ -399,3 +427,50 @@ const styles = StyleSheet.create({
     height: "100%",
   },
 });
+
+// import { View, Text } from "react-native";
+// import React from "react";
+// import { Button } from "react-native";
+// import * as ImagePicker from "expo-image-picker";
+// import Constants from "expo-constants";
+// import { useState } from "react";
+// import { useEffect } from "react";
+// import { Platform } from "react-native";
+// import { Image } from "react-native";
+
+// const TeachersHomeWork = () => {
+//   const [image, setImage] = useState(null);
+//   useEffect(async () => {
+//     if (Platform.OS !== "web") {
+//       const { status } =
+//         await ImagePicker.requestMediaLibraryPermissionsAsync();
+//       if (status !== "granted") {
+//         alert("Permission denied!");
+//       }
+//     }
+//   }, []);
+
+//   const PickImage = async () => {
+//     let result = await ImagePicker.launchImageLibraryAsync({
+//       mediaTypes: ImagePicker.MediaTypeOptions.All,
+//       allowsEditing: true,
+//       aspect: [4, 3],
+//       quality: 1,
+//     });
+//     console.log(result);
+//     if (!result.cancelled) {
+//       setImage(result.uri);
+//     }
+//   };
+//   return (
+//     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+//       <Text>TeachersHomeWork</Text>
+//       <Button title="Open Image" onPress={PickImage} />
+//       {image && (
+//         <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+//       )}
+//     </View>
+//   );
+// };
+
+// export default TeachersHomeWork;

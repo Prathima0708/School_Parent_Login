@@ -19,7 +19,9 @@ function CategoryGridTile({ title, color, icon, onPress, txtclr }) {
         <View style={[styles.innerContainer, { backgroundColor: color }]}>
           <Image source={{ uri: icon }} style={styles.icon} />
 
-          <Text style={[styles.title, { color: txtclr }]}>{title}</Text>
+          {/* <Text style={styles.title}>{title}</Text> */}
+
+          <Text style={styles.title}>{title}</Text>
         </View>
       </Pressable>
     </View>
@@ -32,7 +34,7 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 16,
     //width: Title == "Profile" ? "50% !important" : "70%",
-    width:150,
+    width: 150,
     height: 150,
     borderRadius: 18,
     elevation: 4,
