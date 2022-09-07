@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Test from "../components/UI/LgButton";
 import { Ionicons } from "@expo/vector-icons";
+import KeyboardAccessory from 'react-native-sticky-keyboard-accessory';
 import {
   Alert,
   FlatList,
@@ -12,6 +13,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Image,
+  Keyboard,
 } from "react-native";
 import Button from "../components/UI/Button";
 import axios from "axios";
@@ -28,7 +30,7 @@ function Login() {
   const [enteredPassword, setEnteredPassword] = useState("");
   const [enteredPhone, setEnteredPhone] = useState("");
   const [students, setStudents] = useState([]);
-
+  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
   const [authToken, setAuthToken] = useState();
 
   const [show, setShow] = useState(false);
@@ -49,6 +51,20 @@ function Login() {
   //   // local storage  fitertedstdData  window.localstorage.setItem(stdentList, fitertedstdData)
   //   // if fitertedstdData.length == 0 ? errMsg : Dashboard redirection (  window.localstorage.getItem(stdentList) )
   // }
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardStatus("Keyboard Shown");
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardStatus("Keyboard Hidden");
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   async function login() {
     try {
@@ -156,18 +172,27 @@ function Login() {
           style={styles.logo}
           source={require('../assets/Asset2.png')}
       />
-      <Text style={{top:33,left:30,color:'grey',fontSize:16}}>Welcome to</Text>
-      <Text style={{top:35,left:30,color:'#660000',fontSize:20,fontWeight:'bold'}}>KINARA SCHOOL</Text>
-      <View style={styles.loginTypeText}>
-        <Text style={{color:'grey',fontWeight:'bold'}}>Choose Account Type</Text>
-      </View>
-      <View>
+      {keyboardStatus==='Keyboard Hidden' && <Text style={{top:43,left:30,color:'grey',fontSize:16}}>Welcome to</Text>}
+      {keyboardStatus==='Keyboard Hidden' && <Text style={{top:45,left:30,color:'#660000',fontSize:20,fontWeight:'bold'}}>KINARA SCHOOL</Text>}
+      {keyboardStatus==='Keyboard Hidden' &&<View style={styles.loginTypeText}>
+          <Text style={{color:'grey',fontWeight:'bold'}}>Choose Account Type</Text>
+      </View>}
+      {keyboardStatus==='Keyboard Hidden'  && <View>
         <View style={styles.buttonContainer}>
           <LgButton onPress={toggleTeachers} style={forTeacherBackground}>Teachers</LgButton>
           <LgButton onPress={toggleParents} style={forPartentBackground}>Parents</LgButton>
         </View>
-      </View>
-      <View style={styles.inputContainer}>
+      </View>}
+      <KeyboardAccessory style={styles.test}>
+        <View style={{flexDirection:'row'}}>
+          {keyboardStatus==='Keyboard Shown' && <Image
+          style={{width:'20%',height:'100%',top:30,padding:35,left:55}}
+          source={require('../assets/Asset2.png')}
+          />}
+          {keyboardStatus==='Keyboard Shown' && <Text style={{top:45,left:60,color:'#660000',fontSize:20,fontWeight:'bold'}}>KINARA SCHOOL</Text>}
+        </View>
+      
+        <View style={styles.inputContainer}>
             <TextInput
               onChangeText={userInputHandler}
               style={styles.inputStyle}
@@ -195,6 +220,9 @@ function Login() {
             <View style={styles.buttons}>
               <Button onPress={login}>Login</Button>
             </View>
+            </View>
+          </KeyboardAccessory>
+            
 
             {/* <FlatList
             data={students.filter((ele) => ele.contact_num == enteredPhone)}
@@ -202,7 +230,8 @@ function Login() {
           /> */}
 
             {/* <WelcomeScreen enteredPhone={enteredPhone} /> */}
-          </View>
+            
+        
     </View>
     </>
   );
@@ -213,7 +242,7 @@ export default Login;
 const styles = StyleSheet.create({
 
   mainContainer:{
-    height:600
+    height:630,
   },
   bannerImage:{
     width: '100%',
@@ -222,7 +251,7 @@ const styles = StyleSheet.create({
   loginTypeText:{
     justifyContent:'center',
     alignItems:'center',
-    top:55,
+    top:65,
   },
   logo:{
     width: '30%',
@@ -234,8 +263,8 @@ const styles = StyleSheet.create({
   },
   buttonContainer:{
     flexDirection:'row',
-    padding:50,
-    top:30,
+    padding:40,
+    top:50,
     display:'flex',
     justifyContent:'space-between',
   },
@@ -243,8 +272,8 @@ const styles = StyleSheet.create({
   inputContainer: {
     paddingLeft: 47,
     paddingRight: 47,
-    top:20,
-    position:'relative'
+    top:30,
+    position:'relative',
   },
 
   inputStyle: {
@@ -254,9 +283,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 7,
     borderRadius: 1,
-    fontSize: 12,
+    fontSize: 18,
     margin:5
   },
+
   buttons:{
     top:15
   }

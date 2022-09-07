@@ -267,9 +267,14 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   inputStyle: {
+    color: "black",
     borderWidth: 2,
     borderColor: "grey",
-    borderRadius: 5,
+    // paddingHorizontal: 15,
+    // paddingVertical: 7,
+    borderRadius: 10,
+    fontSize: 18,
+    // margin:5
   },
   labels: {
     marginTop: 17,
