@@ -7,6 +7,7 @@ import axios from "axios";
 import { UserId } from "../Login";
 import BgButton from "../../components/UI/BgButton";
 import { Ionicons } from "@expo/vector-icons";
+import TeachersHome from "./TeachersHome";
 const TeachersCalendar = () => {
   const [title, setEnteredTitle] = useState("");
   const [description, setEnteredDescription] = useState("");
@@ -132,7 +133,7 @@ const TeachersCalendar = () => {
           <View
             style={{
               paddingVertical: 15,
-              paddingHorizontal: 10,
+              // paddingHorizontal: 10,
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
@@ -140,7 +141,7 @@ const TeachersCalendar = () => {
           >
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 18,
                 color: "black",
               }}
             >
@@ -174,7 +175,7 @@ const TeachersCalendar = () => {
           <View
             style={{
               paddingVertical: 15,
-              paddingHorizontal: 10,
+              //  paddingHorizontal: 10,
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
@@ -182,7 +183,7 @@ const TeachersCalendar = () => {
           >
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 18,
                 color: "black",
               }}
             >
@@ -219,6 +220,7 @@ const TeachersCalendar = () => {
           </View>
         </View>
       </ScrollView>
+      <TeachersHome />
     </>
   );
 };
@@ -240,11 +242,12 @@ const styles = StyleSheet.create({
     borderColor: "grey",
     // paddingHorizontal: 15,
     // paddingVertical: 7,
-    borderRadius: 10,
+    borderRadius: 5,
     fontSize: 18,
     // margin:5
   },
   labels: {
+    fontSize: 18,
     marginTop: 17,
   },
   btnSubmit: {

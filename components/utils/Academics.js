@@ -4,8 +4,8 @@ export const ACADEMICS = [
   new Category(
     "c1",
     "Homework",
-    "#9eecff",
-    "https://img.icons8.com/carbon-copy/344/truck--v1.png"
+    "#FFFEE9",
+    "https://cdn-icons-png.flaticon.com/512/3218/3218713.png"
   ),
   new Category(
     "c2",

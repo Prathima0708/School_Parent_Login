@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Test from "../components/UI/LgButton";
 import { Ionicons } from "@expo/vector-icons";
-import KeyboardAccessory from 'react-native-sticky-keyboard-accessory';
+import KeyboardAccessory from "react-native-sticky-keyboard-accessory";
 import {
   Alert,
   FlatList,
@@ -30,19 +30,19 @@ function Login() {
   const [enteredPassword, setEnteredPassword] = useState("");
   const [enteredPhone, setEnteredPhone] = useState("");
   const [students, setStudents] = useState([]);
-  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
+  const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [authToken, setAuthToken] = useState();
 
   const [show, setShow] = useState(false);
 
   const [forPartentBackground, setForPartentBackground] = useState({
     color: "#d9dffc",
-    borderColor:"#d9dffc"
+    borderColor: "#d9dffc",
   });
 
   const [forTeacherBackground, setForTeacherBackground] = useState({
     color: "#3d4590",
-    borderColor:"#3d4590"
+    borderColor: "#3d4590",
   });
 
   // function login() {
@@ -139,9 +139,9 @@ function Login() {
   }
   function toggleParents() {
     setShow(true);
-    setForTeacherBackground({ color: "#d9dffc",borderColor:'#d9dffc'});
+    setForTeacherBackground({ color: "#d9dffc", borderColor: "#d9dffc" });
 
-    setForPartentBackground({   color: "#3d4590",borderColor:'#3d4590' });
+    setForPartentBackground({ color: "#3d4590", borderColor: "#3d4590" });
 
     //navigation.navigate("TeachersLogin");
   }
@@ -157,42 +157,85 @@ function Login() {
 
   function toggleTeachers() {
     setShow(false);
-    setForPartentBackground({ color: "#d9dffc", borderColor:'#d9dffc'});
-    setForTeacherBackground({  color: "#3d4590",borderColor:'#3d4590' });
+    setForPartentBackground({ color: "#d9dffc", borderColor: "#d9dffc" });
+    setForTeacherBackground({ color: "#3d4590", borderColor: "#3d4590" });
   }
 
   return (
     <>
       <View style={styles.mainContainer}>
-      <Image
+        <Image
           style={styles.bannerImage}
-          source={require('../assets/Asset3.png')}
-      />
-      <Image
-          style={styles.logo}
-          source={require('../assets/Asset2.png')}
-      />
-      {keyboardStatus==='Keyboard Hidden' && <Text style={{top:43,left:30,color:'grey',fontSize:16}}>Welcome to</Text>}
-      {keyboardStatus==='Keyboard Hidden' && <Text style={{top:45,left:30,color:'#660000',fontSize:20,fontWeight:'bold'}}>KINARA SCHOOL</Text>}
-      {keyboardStatus==='Keyboard Hidden' &&<View style={styles.loginTypeText}>
-          <Text style={{color:'grey',fontWeight:'bold'}}>Choose Account Type</Text>
-      </View>}
-      {keyboardStatus==='Keyboard Hidden'  && <View>
-        <View style={styles.buttonContainer}>
-          <LgButton onPress={toggleTeachers} style={forTeacherBackground}>Teachers</LgButton>
-          <LgButton onPress={toggleParents} style={forPartentBackground}>Parents</LgButton>
-        </View>
-      </View>}
-      <KeyboardAccessory style={styles.test}>
-        <View style={{flexDirection:'row'}}>
-          {keyboardStatus==='Keyboard Shown' && <Image
-          style={{width:'20%',height:'100%',top:30,padding:35,left:55}}
-          source={require('../assets/Asset2.png')}
-          />}
-          {keyboardStatus==='Keyboard Shown' && <Text style={{top:45,left:60,color:'#660000',fontSize:20,fontWeight:'bold'}}>KINARA SCHOOL</Text>}
-        </View>
-      
-        <View style={styles.inputContainer}>
+          source={require("../assets/Asset3.png")}
+        />
+        <Image style={styles.logo} source={require("../assets/Asset2.png")} />
+        {keyboardStatus === "Keyboard Hidden" && (
+          <Text style={{ top: 43, left: 30, color: "grey", fontSize: 16 }}>
+            Welcome to
+          </Text>
+        )}
+        {keyboardStatus === "Keyboard Hidden" && (
+          <Text
+            style={{
+              top: 45,
+              left: 30,
+              color: "#660000",
+              fontSize: 20,
+              fontWeight: "bold",
+            }}
+          >
+            KINARA SCHOOL
+          </Text>
+        )}
+        {keyboardStatus === "Keyboard Hidden" && (
+          <View style={styles.loginTypeText}>
+            <Text style={{ color: "grey", fontWeight: "bold" }}>
+              Choose Account Type
+            </Text>
+          </View>
+        )}
+        {keyboardStatus === "Keyboard Hidden" && (
+          <View>
+            <View style={styles.buttonContainer}>
+              <LgButton onPress={toggleTeachers} style={forTeacherBackground}>
+                Teachers
+              </LgButton>
+              <LgButton onPress={toggleParents} style={forPartentBackground}>
+                Parents
+              </LgButton>
+            </View>
+          </View>
+        )}
+        <KeyboardAccessory style={styles.test}>
+          <View style={{ flexDirection: "row" }}>
+            {keyboardStatus === "Keyboard Shown" && (
+              <Image
+                style={{
+                  width: "20%",
+                  height: "100%",
+                  top: 30,
+                  padding: 35,
+                  left: 55,
+                }}
+                source={require("../assets/Asset2.png")}
+              />
+            )}
+            {keyboardStatus === "Keyboard Shown" && (
+              <Text
+                style={{
+                  top: 45,
+                  left: 60,
+                  color: "#660000",
+                  fontSize: 20,
+                  fontWeight: "bold",
+                }}
+              >
+                KINARA SCHOOL
+              </Text>
+            )}
+          </View>
+
+          <View style={styles.inputContainer}>
             <TextInput
               onChangeText={userInputHandler}
               style={styles.inputStyle}
@@ -220,19 +263,16 @@ function Login() {
             <View style={styles.buttons}>
               <Button onPress={login}>Login</Button>
             </View>
-            </View>
-          </KeyboardAccessory>
-            
+          </View>
+        </KeyboardAccessory>
 
-            {/* <FlatList
+        {/* <FlatList
             data={students.filter((ele) => ele.contact_num == enteredPhone)}
             renderItem={({ item }) => <Text>{item.student_name}</Text>}
           /> */}
 
-            {/* <WelcomeScreen enteredPhone={enteredPhone} /> */}
-            
-        
-    </View>
+        {/* <WelcomeScreen enteredPhone={enteredPhone} /> */}
+      </View>
     </>
   );
 }
@@ -240,40 +280,39 @@ function Login() {
 export default Login;
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    height: 630,
+  },
+  bannerImage: {
+    width: "100%",
+    height: "40%",
+    top: -39,
+  },
+  loginTypeText: {
+    justifyContent: "center",
+    alignItems: "center",
+    top: 65,
+  },
+  logo: {
+    width: "30%",
+    height: "20%",
+    marginLeft: 25,
+    position: "absolute",
+    top: 120,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    padding: 40,
+    top: 50,
+    display: "flex",
+    justifyContent: "space-between",
+  },
 
-  mainContainer:{
-    height:630,
-  },
-  bannerImage:{
-    width: '100%',
-    height: '35%',
-  },
-  loginTypeText:{
-    justifyContent:'center',
-    alignItems:'center',
-    top:65,
-  },
-  logo:{
-    width: '30%',
-    height: '20%',
-    marginLeft:25,
-    position: 'absolute',
-    top: 130,
-
-  },
-  buttonContainer:{
-    flexDirection:'row',
-    padding:40,
-    top:50,
-    display:'flex',
-    justifyContent:'space-between',
-  },
-  
   inputContainer: {
     paddingLeft: 47,
     paddingRight: 47,
-    top:30,
-    position:'relative',
+    top: 30,
+    // position: "relative",
   },
 
   inputStyle: {
@@ -284,10 +323,10 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
     borderRadius: 1,
     fontSize: 18,
-    margin:5
+    margin: 5,
   },
 
-  buttons:{
-    top:15
-  }
+  buttons: {
+    top: 15,
+  },
 });

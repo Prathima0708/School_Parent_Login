@@ -1,6 +1,6 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import CategoryGridTile from "../../components/StudentItem/CategoryGridTile";
-
+import TeachersHome from "./TeachersHome";
 import { TEACHERSACADEMICS } from "../../components/utils/TeachAcademics";
 
 function TeachersAcademics({ navigation }) {
@@ -40,21 +40,27 @@ function TeachersAcademics({ navigation }) {
     );
   }
   return (
-    <FlatList
-      data={TEACHERSACADEMICS}
-      keyExtractor={(item) => item.id}
-      renderItem={renderCategoryItem}
-      // horizontal={true}
-      numColumns={2}
-    />
+    <>
+      <FlatList
+        data={TEACHERSACADEMICS}
+        keyExtractor={(item) => item.id}
+        renderItem={renderCategoryItem}
+        // horizontal={true}
+        numColumns={2}
+        // contentContainerStyle={{ margin: 12 }}
+      />
+    </>
   );
 }
 export default TeachersAcademics;
 
 const styles = StyleSheet.create({
   root: {
+    height: 150,
+    width: 150,
+    marginTop: 20,
     flex: 1,
-    justifyContent: "center",
+    //justifyContent: "center",
     alignItems: "center",
   },
   test: {

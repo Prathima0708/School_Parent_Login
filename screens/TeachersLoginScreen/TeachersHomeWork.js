@@ -16,6 +16,7 @@ import { UserId } from "../Login";
 import BgButton from "../../components/UI/BgButton";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect } from "react";
+import TeachersHome from "./TeachersHome";
 
 const TeachersHomework = () => {
   const [selected, setSelected] = useState("");
@@ -72,6 +73,11 @@ const TeachersHomework = () => {
       setImage(result.uri);
     }
   };
+  let imagePreView = <Text>No image taken yet.</Text>;
+
+  if (image) {
+    imagePreView = <Image style={styles.image} source={{ uri: image }} />;
+  }
 
   useEffect(() => {
     axios
@@ -189,11 +195,6 @@ const TeachersHomework = () => {
 
     setPickedImage(image.uri);
   }
-  let imagePreView = <Text>No image taken yet.</Text>;
-
-  if (pickedImage) {
-    imagePreView = <Image style={styles.image} source={{ uri: pickedImage }} />;
-  }
 
   function buttonPressedHandler() {
     console.log(selected);
@@ -254,7 +255,7 @@ const TeachersHomework = () => {
         <View style={styles.inputForm}>
           <Text style={styles.labels}>CLASS NAME</Text>
 
-          <View style={{ width: 250 }}>
+          <View style={{ width: 350, fontSize: 18, marginTop: 3 }}>
             <SelectList
               setSelected={setSelected}
               data={data}
@@ -374,20 +375,24 @@ const TeachersHomework = () => {
           </View> */}
 
           <Text style={styles.labels}>UPLOAD IMAGE</Text>
+          <View style={styles.imagePreView}>{imagePreView}</View>
           <View style={{ marginTop: 13 }}>
             <Btn title="Upload Image" onPress={PickImage} />
-            {image && (
+            {/* {image && (
               <Image
                 source={{ uri: image }}
                 style={{ width: 200, height: 200 }}
               />
-            )}
+            )} */}
           </View>
           <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Homework</Button>
           </View>
         </View>
       </ScrollView>
+      <View>
+        <TeachersHome />
+      </View>
     </>
   );
 };
@@ -404,20 +409,22 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   inputStyle: {
-        color: "black",
+    color: "black",
     borderWidth: 2,
     borderColor: "grey",
     // paddingHorizontal: 15,
     // paddingVertical: 7,
-    borderRadius: 10,
+    borderRadius: 5,
     fontSize: 18,
     // margin:5
   },
   labels: {
+    fontSize: 18,
     marginTop: 17,
   },
   btnSubmit: {
-    marginTop: 17,
+    marginTop: 27,
+    marginBottom: 39,
   },
   imagePreView: {
     width: "100%",
@@ -432,50 +439,3 @@ const styles = StyleSheet.create({
     height: "100%",
   },
 });
-
-// import { View, Text } from "react-native";
-// import React from "react";
-// import { Button } from "react-native";
-// import * as ImagePicker from "expo-image-picker";
-// import Constants from "expo-constants";
-// import { useState } from "react";
-// import { useEffect } from "react";
-// import { Platform } from "react-native";
-// import { Image } from "react-native";
-
-// const TeachersHomeWork = () => {
-//   const [image, setImage] = useState(null);
-//   useEffect(async () => {
-//     if (Platform.OS !== "web") {
-//       const { status } =
-//         await ImagePicker.requestMediaLibraryPermissionsAsync();
-//       if (status !== "granted") {
-//         alert("Permission denied!");
-//       }
-//     }
-//   }, []);
-
-//   const PickImage = async () => {
-//     let result = await ImagePicker.launchImageLibraryAsync({
-//       mediaTypes: ImagePicker.MediaTypeOptions.All,
-//       allowsEditing: true,
-//       aspect: [4, 3],
-//       quality: 1,
-//     });
-//     console.log(result);
-//     if (!result.cancelled) {
-//       setImage(result.uri);
-//     }
-//   };
-//   return (
-//     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-//       <Text>TeachersHomeWork</Text>
-//       <Button title="Open Image" onPress={PickImage} />
-//       {image && (
-//         <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-//       )}
-//     </View>
-//   );
-// };
-
-// export default TeachersHomeWork;

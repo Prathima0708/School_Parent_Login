@@ -5,7 +5,7 @@ export const TEACHERS = [
     "c1",
     "Transport",
     "#eff7ff",
-    "https://cdn-icons-png.flaticon.com/512/3231/3231977.png",
+    "https://cdn-icons-png.flaticon.com/512/973/973774.png",
     "red"
   ),
 
@@ -13,14 +13,14 @@ export const TEACHERS = [
     "c2",
     "Calender",
     "#fffaed",
-    "https://cdn-icons-png.flaticon.com/512/5957/5957461.png",
+    "https://cdn-icons-png.flaticon.com/512/3334/3334141.png",
     "#fffaed"
   ),
   new Category(
     "c3",
     "Marks Card",
     "#feedee",
-    "https://cdn-icons-png.flaticon.com/512/7385/7385778.png",
+    "https://cdn-icons-png.flaticon.com/512/972/972301.png",
     "#feedee"
   ),
   new Category(
@@ -42,7 +42,7 @@ export const TEACHERS = [
     "c6",
     "Profile",
     "#eff7ff",
-    "https://cdn-icons-png.flaticon.com/512/5249/5249066.png",
+    "https://cdn-icons-png.flaticon.com/512/1160/1160865.png",
     "#eff7ff"
   ),
 ];

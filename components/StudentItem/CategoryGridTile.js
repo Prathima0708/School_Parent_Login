@@ -32,10 +32,10 @@ export default CategoryGridTile;
 const styles = StyleSheet.create({
   gridItem: {
     flex: 1,
-    margin: 16,
+    margin: 10,
     //width: Title == "Profile" ? "50% !important" : "70%",
-    width: 150,
-    height: 150,
+    width: 140,
+    height: 110,
     borderRadius: 18,
     elevation: 4,
     shadowColor: "black",
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     height: "50%",
-    width: "50%",
+    width: "40%",
     // borderColor: "black",
     borderWidth: 3,
   },
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     flex: 1,
-    padding: 16,
+    //padding: 16,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 8,
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
+    marginTop: 3,
     fontWeight: "bold",
     fontSize: 18,
     //  color: "red",

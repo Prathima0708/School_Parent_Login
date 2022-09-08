@@ -5,7 +5,7 @@ export const CATEGORIES = [
     "c1",
     "Transport",
     "#eff7ff",
-    "https://cdn-icons-png.flaticon.com/512/3231/3231977.png"
+    "https://cdn-icons-png.flaticon.com/512/973/973774.png"
   ),
   new Category(
     "c2",
@@ -17,8 +17,8 @@ export const CATEGORIES = [
   new Category(
     "c3",
     "Notice Board",
-    "#9eecff",
-    "https://img.icons8.com/ios-filled/344/report-card.png"
+    "#feedee",
+    "https://cdn-icons-png.flaticon.com/512/7718/7718582.png"
   ),
   new Category(
     "c4",
@@ -31,6 +31,6 @@ export const CATEGORIES = [
     "c5",
     "Profile",
     "#eff7ff",
-    "https://cdn-icons-png.flaticon.com/512/5249/5249066.png"
+    "https://cdn-icons-png.flaticon.com/512/8428/8428788.png"
   ),
 ];

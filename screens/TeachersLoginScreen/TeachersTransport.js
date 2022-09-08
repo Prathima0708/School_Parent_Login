@@ -94,6 +94,7 @@ const TeachersTransport = () => {
         <View style={styles.inputForm}>
           <Text style={styles.labels}>BUS NUMBER</Text>
           <TextInput
+            keyboardType="number-pad"
             style={styles.inputStyle}
             onChangeText={busNumberChangeHandler}
             value={busNumber}
@@ -119,6 +120,7 @@ const TeachersTransport = () => {
           />
           <Text style={styles.labels}>MOBILE NO</Text>
           <TextInput
+            keyboardType="number-pad"
             style={styles.inputStyle}
             onChangeText={mobileChangeHandler}
             value={mobile}
@@ -140,10 +142,10 @@ const TeachersTransport = () => {
             <Button onPress={buttonPressedHandler}>Add Transport</Button>
           </View>
         </View>
-        <View style={styles.home}>
-          <TeachersHome />
-        </View>
       </ScrollView>
+      <View style={styles.home}>
+        <TeachersHome />
+      </View>
     </>
   );
 };
@@ -152,10 +154,10 @@ export default TeachersTransport;
 
 const styles = StyleSheet.create({
   BtnContainer: {
-    flexDirection: "row",
+    fontSize: 24,
   },
   home: {
-    marginTop: 70,
+    marginTop: 29,
   },
 
   inputForm: {
@@ -163,19 +165,21 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   inputStyle: {
-     color: "black",
+    color: "black",
     borderWidth: 2,
     borderColor: "grey",
     // paddingHorizontal: 15,
     // paddingVertical: 7,
-    borderRadius: 10,
+    borderRadius: 5,
     fontSize: 18,
     // margin:5
   },
   labels: {
+    fontSize: 18,
     marginTop: 17,
   },
   btnSubmit: {
-    marginTop: 17,
+    marginTop: 30,
+    marginBottom: 30,
   },
 });

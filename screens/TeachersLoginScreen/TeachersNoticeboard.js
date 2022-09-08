@@ -6,6 +6,7 @@ import axios from "axios";
 
 import { UserId } from "../Login";
 import BgButton from "../../components/UI/BgButton";
+import TeachersHome from "./TeachersHome";
 const TeachersNoticeboard = () => {
   const [username, setEnteredUserName] = useState("");
   const [title, setEnteredTitle] = useState("");
@@ -87,6 +88,7 @@ const TeachersNoticeboard = () => {
           </View>
         </View>
       </ScrollView>
+      <TeachersHome />
     </>
   );
 };

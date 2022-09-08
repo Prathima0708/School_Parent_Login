@@ -85,10 +85,10 @@ const TeachersMarksheet = () => {
             <Button onPress={buttonPressedHandler}>Add Marksheet</Button>
           </View>
         </View>
-        <View style={styles.home}>
-          <TeachersHome />
-        </View>
       </ScrollView>
+      <View style={styles.home}>
+        <TeachersHome />
+      </View>
     </>
   );
 };
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   home: {
-    marginTop: 330,
+    // marginTop: 330,
   },
 
   inputForm: {
@@ -113,14 +113,16 @@ const styles = StyleSheet.create({
     borderColor: "grey",
     // paddingHorizontal: 15,
     // paddingVertical: 7,
-    borderRadius: 10,
+    borderRadius: 5,
     fontSize: 18,
     // margin:5
   },
   labels: {
+    fontSize: 18,
     marginTop: 17,
   },
   btnSubmit: {
-    marginTop: 17,
+    marginTop: 27,
+    marginBottom: 39,
   },
 });

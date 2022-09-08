@@ -308,311 +308,316 @@ const TeachersTimetable = () => {
         </BgButton>
       </View>
       {showTable && (
-        <ScrollView>
-          <View style={styles.inputForm}>
-            <Text style={styles.labels}>TIME TAB</Text>
-            <TextInput
-              keyboardType="number-pad"
-              style={styles.inputStyle}
-              onChangeText={timeTabChangeHandler}
-              value={timeTab}
-            />
+        <>
+          <ScrollView>
+            <View style={styles.inputForm}>
+              <Text style={styles.labels}>TIME TAB</Text>
+              <TextInput
+                keyboardType="number-pad"
+                style={styles.inputStyle}
+                onChangeText={timeTabChangeHandler}
+                value={timeTab}
+              />
 
-            <View
-              style={{
-                paddingVertical: 15,
-                paddingHorizontal: 10,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Text
+              <View
                 style={{
-                  fontSize: 16,
-                  color: "black",
+                  paddingVertical: 15,
+                  paddingHorizontal: 10,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
                 }}
               >
-                FROM TIME:
-              </Text>
-              
-              <Ionicons
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  textAlign: "right",
-                }}
-                name="timer-sharp"
-                size={24}
-                color="black"
-                onPress={() => showTimeFromMode("time")}
-              />
-            </View>
-            <TextInput style={styles.inputStyle} value={fromTimeText} />
-            {fromTimeShow && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={fromTime}
-                mode={fromTimemode}
-                is24Hour={true}
-                display="default"
-                onChange={fromTimeChangeHandler}
-              />
-            )}
+                <Text
+                  style={{
+                    fontSize: 16,
+                    color: "black",
+                  }}
+                >
+                  FROM TIME:
+                </Text>
 
-            <View
-              style={{
-                paddingVertical: 15,
-                paddingHorizontal: 10,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Text
+                <Ionicons
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    textAlign: "right",
+                  }}
+                  name="timer-sharp"
+                  size={24}
+                  color="black"
+                  onPress={() => showTimeFromMode("time")}
+                />
+              </View>
+              <TextInput style={styles.inputStyle} value={fromTimeText} />
+              {fromTimeShow && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={fromTime}
+                  mode={fromTimemode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={fromTimeChangeHandler}
+                />
+              )}
+
+              <View
                 style={{
-                  fontSize: 16,
-                  color: "black",
+                  paddingVertical: 15,
+                  paddingHorizontal: 10,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
                 }}
               >
-                TO TIME: 
-              </Text>
-              
-              <Ionicons
+                <Text
+                  style={{
+                    fontSize: 16,
+                    color: "black",
+                  }}
+                >
+                  TO TIME:
+                </Text>
+
+                <Ionicons
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    textAlign: "right",
+                  }}
+                  name="timer-sharp"
+                  size={24}
+                  color="black"
+                  onPress={() => showTimeToMode("time")}
+                />
+              </View>
+              <TextInput style={styles.inputStyle} value={toTimeText} />
+              {toTimeShow && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={toTime}
+                  mode={toTimemode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={toTimeChangeHandler}
+                  //  minimumDate={fromDate}
+                />
+              )}
+              <Text style={styles.labels}>MONDAY SUBJECT</Text>
+              <TextInput
+                style={styles.inputStyle}
+                onChangeText={setEnteredMonday}
+                value={monday}
+              />
+              <Text style={styles.labels}>TUESDAY SUBJECT</Text>
+              <TextInput
+                style={styles.inputStyle}
+                onChangeText={setEnteredTuesday}
+                value={tuesday}
+              />
+              <Text style={styles.labels}>WEDNESDAY SUBJECT</Text>
+              <TextInput
+                style={styles.inputStyle}
+                onChangeText={setEnteredWednesday}
+                value={wednesday}
+              />
+              <Text style={styles.labels}>THURSDAY SUBJECT</Text>
+              <TextInput
+                style={styles.inputStyle}
+                onChangeText={setEnteredThursday}
+                value={thursday}
+              />
+              <Text style={styles.labels}>FRIDAY SUBJECT</Text>
+              <TextInput
+                style={styles.inputStyle}
+                onChangeText={setEnteredFriday}
+                value={friday}
+              />
+              <Text style={styles.labels}>SATURDAY SUBJECT</Text>
+              <TextInput
+                style={styles.inputStyle}
+                onChangeText={setEnteredSaturday}
+                value={saturday}
+              />
+              <View
                 style={{
+                  paddingVertical: 15,
+                  paddingHorizontal: 10,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
                   alignItems: "center",
-                  justifyContent: "center",
-                  textAlign: "right",
-                }}
-                name="timer-sharp"
-                size={24}
-                color="black"
-                onPress={() => showTimeToMode("time")}
-              />
-            </View>
-            <TextInput style={styles.inputStyle} value={toTimeText} />
-            {toTimeShow && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={toTime}
-                mode={toTimemode}
-                is24Hour={true}
-                display="default"
-                onChange={toTimeChangeHandler}
-                //  minimumDate={fromDate}
-              />
-            )}
-            <Text style={styles.labels}>MONDAY SUBJECT</Text>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={setEnteredMonday}
-              value={monday}
-            />
-            <Text style={styles.labels}>TUESDAY SUBJECT</Text>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={setEnteredTuesday}
-              value={tuesday}
-            />
-            <Text style={styles.labels}>WEDNESDAY SUBJECT</Text>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={setEnteredWednesday}
-              value={wednesday}
-            />
-            <Text style={styles.labels}>THURSDAY SUBJECT</Text>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={setEnteredThursday}
-              value={thursday}
-            />
-            <Text style={styles.labels}>FRIDAY SUBJECT</Text>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={setEnteredFriday}
-              value={friday}
-            />
-            <Text style={styles.labels}>SATURDAY SUBJECT</Text>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={setEnteredSaturday}
-              value={saturday}
-            />
-            <View
-              style={{
-                paddingVertical: 15,
-                paddingHorizontal: 10,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: "black",
                 }}
               >
-                CREATED DATE:
-              </Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    color: "black",
+                  }}
+                >
+                  CREATED DATE:
+                </Text>
 
-              <Ionicons
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  textAlign: "right",
-                }}
-                name="calendar"
-                size={24}
-                color="black"
-                onPress={() => showDateMode("date")}
-              />
-            </View>
-            <TextInput style={styles.inputStyle} value={dateText} />
-            {dateShow && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={createdDate}
-                mode={datemode}
-                is24Hour={true}
-                display="default"
-                onChange={DateChangeHandler}
-                //  minimumDate={fromDate}
-              />
-            )}
+                <Ionicons
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    textAlign: "right",
+                  }}
+                  name="calendar"
+                  size={24}
+                  color="black"
+                  onPress={() => showDateMode("date")}
+                />
+              </View>
+              <TextInput style={styles.inputStyle} value={dateText} />
+              {dateShow && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={createdDate}
+                  mode={datemode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={DateChangeHandler}
+                  //  minimumDate={fromDate}
+                />
+              )}
 
-            <View style={styles.btnSubmit}>
-              <Button onPress={addDailyTimeTableHandler}>Add TimeTable</Button>
+              <View style={styles.btnSubmit}>
+                <Button onPress={addDailyTimeTableHandler}>
+                  Add TimeTable
+                </Button>
+              </View>
             </View>
-          </View>
+          </ScrollView>
           <View style={styles.home}>
             <TeachersHome />
           </View>
-        </ScrollView>
+        </>
       )}
       {showForm && (
-        <ScrollView>
-          <View style={styles.inputForm}>
-            <Text style={styles.labels}>EXAM NAME</Text>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={examNameChangeHandler}
-              value={examName}
-            />
+        <>
+          <ScrollView>
+            <View style={styles.inputForm}>
+              <Text style={styles.labels}>EXAM NAME</Text>
+              <TextInput
+                style={styles.inputStyle}
+                onChangeText={examNameChangeHandler}
+                value={examName}
+              />
 
-            <View
-              style={{
-                paddingVertical: 15,
-                paddingHorizontal: 10,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Text
+              <View
                 style={{
-                  fontSize: 16,
-                  color: "black",
+                  paddingVertical: 15,
+                  paddingHorizontal: 10,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
                 }}
               >
-                EXAM START DATE:
-              </Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    color: "black",
+                  }}
+                >
+                  EXAM START DATE:
+                </Text>
 
-              <Ionicons
+                <Ionicons
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    textAlign: "right",
+                  }}
+                  name="calendar"
+                  size={24}
+                  color="black"
+                  onPress={() => showFromMode("date")}
+                />
+              </View>
+              <TextInput style={styles.inputStyle} value={fromText} />
+              {fromShow && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={fromDate}
+                  mode={frommode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={fromDateChangeHandler}
+                />
+              )}
+
+              <View
                 style={{
+                  paddingVertical: 15,
+                  paddingHorizontal: 10,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
                   alignItems: "center",
-                  justifyContent: "center",
-                  textAlign: "right",
-                }}
-                name="calendar"
-                size={24}
-                color="black"
-                onPress={() => showFromMode("date")}
-              />
-            </View>
-            <TextInput style={styles.inputStyle} value={fromText} />
-            {fromShow && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={fromDate}
-                mode={frommode}
-                is24Hour={true}
-                display="default"
-                onChange={fromDateChangeHandler}
-              />
-            )}
-
-            <View
-              style={{
-                paddingVertical: 15,
-                paddingHorizontal: 10,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: "black",
-
                 }}
               >
-                EXAM END DATE:
-              </Text>
-              <Ionicons
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  textAlign: "right",
-                }}
-                name="calendar"
-                size={24}
-                color="black"
-                onPress={() => showToMode("date")}
+                <Text
+                  style={{
+                    fontSize: 16,
+                    color: "black",
+                  }}
+                >
+                  EXAM END DATE:
+                </Text>
+                <Ionicons
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    textAlign: "right",
+                  }}
+                  name="calendar"
+                  size={24}
+                  color="black"
+                  onPress={() => showToMode("date")}
+                />
+              </View>
+              <TextInput style={styles.inputStyle} value={toText} />
+              {toShow && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={toDate}
+                  mode={tomode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={toDateChangeHandler}
+                  //  minimumDate={fromDate}
+                />
+              )}
+              <Text style={styles.labels}>TOTAL MARKS</Text>
+              <TextInput
+                style={styles.inputStyle}
+                onChangeText={totalMarksChangeHandler}
+                value={totalMarks}
               />
-            </View>
-            <TextInput style={styles.inputStyle} value={toText} />
-            {toShow && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={toDate}
-                mode={tomode}
-                is24Hour={true}
-                display="default"
-                onChange={toDateChangeHandler}
-                //  minimumDate={fromDate}
+              <Text style={styles.labels}>HOUR</Text>
+              <TextInput
+                style={styles.inputStyle}
+                onChangeText={hourChangeHandler}
+                value={hour}
               />
-            )}
-            <Text style={styles.labels}>TOTAL MARKS</Text>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={totalMarksChangeHandler}
-              value={totalMarks}
-            />
-            <Text style={styles.labels}>HOUR</Text>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={hourChangeHandler}
-              value={hour}
-            />
-            <Text style={styles.labels}>CLASS NAME</Text>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={classNameChangeHandler}
-              value={className}
-            />
+              <Text style={styles.labels}>CLASS NAME</Text>
+              <TextInput
+                style={styles.inputStyle}
+                onChangeText={classNameChangeHandler}
+                value={className}
+              />
 
-            <View style={styles.btnSubmit}>
-              <Button onPress={addExamTimeTableHandler}>
-                Add Exam TimeTable
-              </Button>
+              <View style={styles.btnSubmit}>
+                <Button onPress={addExamTimeTableHandler}>
+                  Add Exam TimeTable
+                </Button>
+              </View>
             </View>
-          </View>
+          </ScrollView>
           <View style={styles.home}>
             <TeachersHome />
           </View>
-        </ScrollView>
+        </>
       )}
     </>
   );
@@ -625,10 +630,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   home: {
-    marginTop: 150,
+    // marginTop: 150,
   },
   inputForm: {
-    padding: 20,
+    padding: 10,
     paddingTop: 5,
   },
   inputStyle: {
@@ -637,7 +642,7 @@ const styles = StyleSheet.create({
     borderColor: "grey",
     // paddingHorizontal: 15,
     // paddingVertical: 7,
-    borderRadius: 10,
+    borderRadius: 5,
     fontSize: 18,
     // margin:5
   },
@@ -645,7 +650,8 @@ const styles = StyleSheet.create({
     marginTop: 17,
   },
   btnSubmit: {
-    marginTop: 17,
+    marginTop: 27,
+    marginBottom: 69,
   },
 });
 

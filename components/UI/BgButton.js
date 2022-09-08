@@ -1,12 +1,11 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Colors } from "../constants/styles";
 
-function BgButton({ children, onPress,style }) {
+function BgButton({ children, onPress, style }) {
   return (
-    <Pressable
-    style={[styles.button]} onPress={onPress}>
+    <Pressable style={[styles.button]} onPress={onPress}>
       <View>
-        <Text style={[styles.buttonText,style]}>{children}</Text>
+        <Text style={[styles.buttonText, style]}>{children}</Text>
       </View>
     </Pressable>
   );
@@ -20,9 +19,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   pressed: {
-    opacity: 0.7,
+    // opacity: 0.7,
   },
   buttonText: {
-    textAlign: "center",
+    fontSize: 18,
+    //fontWeight: "bold",
+    // textAlign: "center",
   },
 });

@@ -4,27 +4,27 @@ export const TEACHERSACADEMICS = [
   new Category(
     "c1",
     "Homework",
-    "#9eecff",
-    "https://img.icons8.com/carbon-copy/344/truck--v1.png"
+    "#FFFEE9",
+    "https://cdn-icons-png.flaticon.com/512/3218/3218713.png"
   ),
   new Category(
     "c2",
     "TimeTable",
-    "#9eecff",
-    "https://img.icons8.com/external-yogi-aprelliyanto-basic-outline-yogi-aprelliyanto/344/external-calender-time-and-date-yogi-aprelliyanto-basic-outline-yogi-aprelliyanto.png"
+    "#DDE8FF",
+    "https://cdn-icons-png.flaticon.com/512/4695/4695007.png"
   ),
 
   new Category(
     "c3",
     "Attendance",
-    "#9eecff",
-    "https://img.icons8.com/ios-filled/344/report-card.png"
+    "#e1fff0",
+    "https://cdn-icons-png.flaticon.com/512/1286/1286965.png"
   ),
 
   new Category(
     "c6",
     "NoticeBoard",
-    "#9eecff",
-    "https://img.icons8.com/dotty/344/sign-up-in-calendar.png"
+    "#feedee",
+    "https://cdn-icons-png.flaticon.com/512/7993/7993491.png"
   ),
 ];
