@@ -3,12 +3,8 @@ import { useState } from "react";
 import BgButton from "../../../components/UI/BgButton";
 import VerticalLine from "../../../components/UI/VerticalLine";
 import ParentsHome from "../ParentsHome";
-<<<<<<< HEAD
-import { ScrollView } from "react-native";
-=======
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
->>>>>>> 369b60dfc25e7391c5ccb8e25eed5ac4fe59d50b
 function Noticeboard() {
   const [forNoticeList, setForNoticeList] = useState({
     color: "black",
@@ -58,21 +54,6 @@ function Noticeboard() {
   };
   return (
     <>
-<<<<<<< HEAD
-      <ScrollView>
-        <View style={styles.root}>
-          <Text style={styles.labels}>Creator of notice</Text>
-          <Text style={styles.inputStyle}></Text>
-          <Text style={styles.labels}>Title</Text>
-          <Text style={styles.inputStyle}></Text>
-          <Text style={styles.labels}>Description</Text>
-          <Text style={styles.inputStyle}></Text>
-          <Text style={styles.labels}>Date of creation</Text>
-          <Text style={styles.inputStyle}></Text>
-        </View>
-      </ScrollView>
-      <View>
-=======
       <View style={styles.root}>
         <Text style={styles.labels}>Creator of notice</Text>
         <TextInput style={styles.inputStyle}/>
@@ -123,7 +104,6 @@ function Noticeboard() {
           <TextInput style={styles.inputStyle} value={fromText} />
       </View>
       <View style={styles.home}>
->>>>>>> 369b60dfc25e7391c5ccb8e25eed5ac4fe59d50b
         <ParentsHome />
       </View>
     </>
