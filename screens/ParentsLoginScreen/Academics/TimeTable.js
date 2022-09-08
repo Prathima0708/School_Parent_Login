@@ -6,6 +6,8 @@ import { DataTable } from "react-native-paper";
 import axios from "axios";
 import BgButton from "../../../components/UI/BgButton";
 import VerticalLine from "../../../components/UI/VerticalLine";
+import { Text } from "react-native";
+import ParentsHome from "../ParentsHome";
 
 const TimeTable = () => {
   const [showForm, setShowForm] = useState(false);
@@ -79,24 +81,29 @@ const TimeTable = () => {
         <ScrollView horizontal={true}>
           <DataTable style={styles.container}>
             <DataTable.Header style={styles.tableHeader}>
-              <DataTable.Title style={styles.tableTitle}>
-                MONDAY
-              </DataTable.Title>
-              <DataTable.Title style={styles.tableTitle}>
-                TUESDAY
-              </DataTable.Title>
-              <DataTable.Title style={styles.tableTitle}>
-                WEDNESDAY
-              </DataTable.Title>
-              <DataTable.Title style={styles.tableTitle}>
-                THURSDAY
-              </DataTable.Title>
-              <DataTable.Title style={styles.tableTitle}>
-                FRIDAY
-              </DataTable.Title>
-              <DataTable.Title style={styles.tableTitle}>
-                SATURDAY
-              </DataTable.Title>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> MONDAY</Text>
+              </View>
+
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> TUESDAY</Text>
+              </View>
+
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> WEDNESDAY</Text>
+              </View>
+
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}>THURSDAY</Text>
+              </View>
+
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> FRIDAY</Text>
+              </View>
+
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> SATURDAY</Text>
+              </View>
             </DataTable.Header>
             {data &&
               data.map((data, key) => (
@@ -128,22 +135,27 @@ const TimeTable = () => {
         <ScrollView horizontal={true}>
           <DataTable style={styles.container}>
             <DataTable.Header style={styles.tableHeader}>
-              <DataTable.Title style={styles.tableTitle}>
-                EXAM NAME
-              </DataTable.Title>
-              <DataTable.Title style={styles.tableTitle}>
-                START DATE
-              </DataTable.Title>
-              <DataTable.Title style={styles.tableTitle}>
-                END DATE
-              </DataTable.Title>
-              <DataTable.Title style={styles.tableTitle}>
-                TOTAL MARKS{" "}
-              </DataTable.Title>
-              <DataTable.Title style={styles.tableTitle}>HOUR </DataTable.Title>
-              <DataTable.Title style={styles.tableTitle}>
-                CLASSNAME
-              </DataTable.Title>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> EXAM NAME</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> START DATE</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> END DATE</Text>
+              </View>
+
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> TOTAL MARKS</Text>
+              </View>
+
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> HOUR</Text>
+              </View>
+
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> CLASS NAME</Text>
+              </View>
             </DataTable.Header>
             {data &&
               data.map((data, key) => (
@@ -171,6 +183,7 @@ const TimeTable = () => {
           </DataTable>
         </ScrollView>
       )}
+      <ParentsHome />
     </>
   );
 };
@@ -180,31 +193,38 @@ export default TimeTable;
 const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
-  },
-  viewexam: {
-    right: -110,
-
-    padding: 5,
-  },
-  BtnContainer: {
-    flexDirection: "row",
+    width: 220,
   },
   container: {
     padding: 10,
   },
+  type: {
+    marginLeft: 10,
+  },
+  th: {
+    padding: 5,
+    marginRight: 13,
+    fontSize: 24,
+  },
   tableHeader: {
     backgroundColor: "skyblue",
-    height: 60,
+
+    height: 50,
+    fontWeight: "bold",
   },
   tableTitle: {
     padding: 5,
-    margin: 5,
+    margin: 7,
+    fontWeight: "bold",
   },
   tableCell: {
-    padding: 2,
-    margin: 9,
+    width: 20,
+
+    marginLeft: 35,
   },
+
   tableRow: {
+    height: "9%",
     borderBottomColor: "black",
     borderBottomWidth: 2,
   },

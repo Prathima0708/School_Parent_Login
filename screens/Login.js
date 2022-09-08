@@ -165,75 +165,129 @@ function Login() {
 
   return (
     <>
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.inner}>
-        <View style={styles.mainContainer}>
-          {keyboardStatus==='Keyboard Hidden' && <Image
-              style={styles.bannerImage}
-              source={require('../assets/bgelement.png')}
-          />}
-          {keyboardStatus==='Keyboard Hidden' && <Image
-              style={styles.logo}
-              source={require('../assets/Asset2.png')}
-          />}
-          {keyboardStatus==='Keyboard Hidden' && <Text style={{left:30,color:'grey',fontSize:16,top:5}}>Welcome to</Text>}
-          {keyboardStatus==='Keyboard Hidden' && <Text style={{left:30,color:'#660000',fontSize:20,fontWeight:'bold',top:5}}>KINARA SCHOOL</Text>}
-          {keyboardStatus==='Keyboard Hidden' &&
-          <View style={styles.loginTypeText}>
-            <Text style={{color:'grey',fontWeight:'bold'}}>Choose Account Type</Text>
-          </View>}
-        {keyboardStatus==='Keyboard Hidden'  && 
-        <View>
-          <View style={styles.buttonContainer}>
-            <LgButton onPress={toggleTeachers} style={forTeacherBackground}>Teachers</LgButton>
-            <View style={styles.space} />
-            <LgButton onPress={toggleParents} style={forPartentBackground}>Parents</LgButton>
-          </View>
-        </View>}
-        <View style={styles.inputContainer}>
-        {keyboardStatus==='Keyboard Shown' && <Image
-          style={{width:'20%',height:'10%',padding:35,left:100}}
-          source={require('../assets/Asset2.png')}
-          />}
-          {keyboardStatus==='Keyboard Shown' && <Text style={{left:60,color:'#660000',fontSize:20,fontWeight:'bold',bottom:5}}>KINARA SCHOOL</Text>}
-            <TextInput
-              onChangeText={userInputHandler}
-              style={styles.inputStyle}
-              value={enteredUser}
-              placeholder="Username"
-            />
-            <TextInput
-              secureTextEntry
-              onChangeText={passwordInputHandler}
-              style={styles.inputStyle}
-              value={enteredPassword}
-              placeholder="Password"
-            />
-            {show && (
-              <>
-                <TextInput
-                  onChangeText={phoneInputHandler}
-                  style={styles.inputStyle}
-                  value={enteredPhone}
-                  keyboardType="number-pad"
-                  placeholder="Registered Phone Number"
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.inner}>
+            <View style={styles.mainContainer}>
+              {keyboardStatus === "Keyboard Hidden" && (
+                <Image
+                  style={styles.bannerImage}
+                  source={require("../assets/bgelement.png")}
                 />
-              </>
-            )}
-            <View style={styles.buttons}>
-              <Button onPress={login}>Login</Button>
+              )}
+              {keyboardStatus === "Keyboard Hidden" && (
+                <Image
+                  style={styles.logo}
+                  source={require("../assets/Asset2.png")}
+                />
+              )}
+              {keyboardStatus === "Keyboard Hidden" && (
+                <Text style={{ left: 30, color: "grey", fontSize: 18, top: 5 }}>
+                  Welcome to
+                </Text>
+              )}
+              {keyboardStatus === "Keyboard Hidden" && (
+                <Text
+                  style={{
+                    left: 30,
+                    color: "red",
+                    fontSize: 23,
+                    fontWeight: "800",
+                    top: 5,
+                  }}
+                >
+                  KINARA SCHOOL
+                </Text>
+              )}
+              {keyboardStatus === "Keyboard Hidden" && (
+                <View style={styles.loginTypeText}>
+                  <Text
+                    style={{ color: "grey", fontWeight: "bold", fontSize: 18 }}
+                  >
+                    Choose Account Type
+                  </Text>
+                </View>
+              )}
+              {keyboardStatus === "Keyboard Hidden" && (
+                <View>
+                  <View style={styles.buttonContainer}>
+                    <LgButton
+                      onPress={toggleTeachers}
+                      style={forTeacherBackground}
+                    >
+                      Teachers
+                    </LgButton>
+                    <View style={styles.space} />
+                    <LgButton
+                      onPress={toggleParents}
+                      style={forPartentBackground}
+                    >
+                      Parents
+                    </LgButton>
+                  </View>
+                </View>
+              )}
+              <View style={styles.inputContainer}>
+                {keyboardStatus === "Keyboard Shown" && (
+                  <Image
+                    style={{
+                      width: "20%",
+                      height: "10%",
+                      padding: 35,
+                      left: 100,
+                    }}
+                    source={require("../assets/Asset2.png")}
+                  />
+                )}
+                {keyboardStatus === "Keyboard Shown" && (
+                  <Text
+                    style={{
+                      left: 60,
+                      color: "red",
+                      fontSize: 20,
+                      fontWeight: "800",
+                      bottom: 5,
+                    }}
+                  >
+                    KINARA SCHOOL
+                  </Text>
+                )}
+                <TextInput
+                  onChangeText={userInputHandler}
+                  style={styles.inputStyle}
+                  value={enteredUser}
+                  placeholder="Username"
+                />
+                <TextInput
+                  secureTextEntry
+                  onChangeText={passwordInputHandler}
+                  style={styles.inputStyle}
+                  value={enteredPassword}
+                  placeholder="Password"
+                />
+                {show && (
+                  <>
+                    <TextInput
+                      onChangeText={phoneInputHandler}
+                      style={styles.inputStyle}
+                      value={enteredPhone}
+                      keyboardType="number-pad"
+                      placeholder="Registered Phone Number"
+                    />
+                  </>
+                )}
+                <View style={styles.buttons}>
+                  <Button onPress={login}>Login</Button>
+                </View>
+              </View>
+              {/* </KeyboardAccessory> */}
             </View>
           </View>
-          {/* </KeyboardAccessory> */}
-      </View> 
-        </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
-    
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </>
   );
 }
@@ -256,39 +310,38 @@ const styles = StyleSheet.create({
   //   marginTop: 12
   // },
   container: {
-    flex: 1
+    flex: 1,
   },
   inner: {
     // padding: 24,
     // flex: 1,
-    justifyContent: "space-around"
+    justifyContent: "space-around",
   },
 
-  mainContainer:{
-    height:630,
+  mainContainer: {
+    height: 630,
   },
-  bannerImage:{
-    width: '100%',
-    height: '38%',
+  bannerImage: {
+    width: "100%",
+    height: "38%",
   },
-  loginTypeText:{
-    justifyContent:'center',
-    alignItems:'center',
-    top:20,
+  loginTypeText: {
+    justifyContent: "center",
+    alignItems: "center",
+    top: 20,
   },
-  logo:{
-    width: '30%',
-    height: '20%',
-    marginLeft:5,
-    position: 'absolute',
+  logo: {
+    width: "30%",
+    height: "20%",
+    marginLeft: 25,
+    position: "absolute",
     top: 120,
-
   },
-  buttonContainer:{
-    flexDirection:'row',
+  buttonContainer: {
+    flexDirection: "row",
     paddingLeft: 47,
     paddingRight: 57,
-    top:45,
+    top: 45,
     // display:'flex',
     // justifyContent:'space-between',
   },
@@ -299,8 +352,8 @@ const styles = StyleSheet.create({
   inputContainer: {
     paddingLeft: 47,
     paddingRight: 47,
-    position:'relative',
-    top:70
+    position: "relative",
+    top: 70,
   },
 
   inputStyle: {

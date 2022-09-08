@@ -85,19 +85,11 @@ const TeachersHomework = () => {
       .then((response) => {
         let newArray = response.data.map((item) => {
           return {
-            //   key: item.id,
             value: item.class_name + " - " + item.section,
           };
         });
-        // let newArray1 = response.data.map((item) => {
-        //   return {
-        //     //   key: item.id,
-        //     value: item.section,
-        //   };
-        // });
 
         setData(newArray);
-        // setSectionData(newArray1);
       })
       .catch((e) => {
         console.log(e);
@@ -424,7 +416,7 @@ const styles = StyleSheet.create({
   },
   btnSubmit: {
     marginTop: 27,
-    marginBottom: 39,
+    marginBottom: 59,
   },
   imagePreView: {
     width: "100%",

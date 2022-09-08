@@ -1,6 +1,6 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import CategoryGridTile from "../../components/StudentItem/CategoryGridTile";
-import ZigzagView from "react-native-zigzag-view"
+
 import { TEACHERSACADEMICS } from "../../components/utils/TeachAcademics";
 
 function TeachersAcademics({ navigation }) {
@@ -29,12 +29,12 @@ function TeachersAcademics({ navigation }) {
       }
     }
     return (
-  //     <ZigzagView
-  //   backgroundColor="#CCC"
-  //   surfaceColor="#FFF"
-  //   style={{}}
-    
-  // >
+      //     <ZigzagView
+      //   backgroundColor="#CCC"
+      //   surfaceColor="#FFF"
+      //   style={{}}
+
+      // >
       <View style={styles.root}>
         <CategoryGridTile
           title={itemData.item.title}
@@ -47,7 +47,8 @@ function TeachersAcademics({ navigation }) {
     );
   }
   return (
-    <FlatList style={styles.test}
+    <FlatList
+      style={styles.test}
       data={TEACHERSACADEMICS}
       keyExtractor={(item) => item.id}
       renderItem={renderCategoryItem}
@@ -66,8 +67,8 @@ const styles = StyleSheet.create({
   },
   test: {
     // textAlign: "center",
-    top:120,
-    left:15,
-    
+    top: 120,
+    left: 15,
+    width:400,
   },
 });

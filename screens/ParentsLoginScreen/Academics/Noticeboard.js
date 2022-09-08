@@ -3,6 +3,7 @@ import { useState } from "react";
 import BgButton from "../../../components/UI/BgButton";
 import VerticalLine from "../../../components/UI/VerticalLine";
 import ParentsHome from "../ParentsHome";
+import { ScrollView } from "react-native";
 function Noticeboard() {
   const [forNoticeList, setForNoticeList] = useState({
     color: "black",
@@ -27,17 +28,19 @@ function Noticeboard() {
 
   return (
     <>
-      <View style={styles.root}>
-        <Text style={styles.labels}>Creator of notice</Text>
-        <Text style={styles.inputStyle}></Text>
-        <Text style={styles.labels}>Title</Text>
-        <Text style={styles.inputStyle}></Text>
-        <Text style={styles.labels}>Description</Text>
-        <Text style={styles.inputStyle}></Text>
-        <Text style={styles.labels}>Date of creation</Text>
-        <Text style={styles.inputStyle}></Text>
-      </View>
-      <View style={styles.home}>
+      <ScrollView>
+        <View style={styles.root}>
+          <Text style={styles.labels}>Creator of notice</Text>
+          <Text style={styles.inputStyle}></Text>
+          <Text style={styles.labels}>Title</Text>
+          <Text style={styles.inputStyle}></Text>
+          <Text style={styles.labels}>Description</Text>
+          <Text style={styles.inputStyle}></Text>
+          <Text style={styles.labels}>Date of creation</Text>
+          <Text style={styles.inputStyle}></Text>
+        </View>
+      </ScrollView>
+      <View>
         <ParentsHome />
       </View>
     </>
@@ -53,9 +56,7 @@ const styles = StyleSheet.create({
     margin: 20,
     borderRadius: 15,
   },
-  home: {
-    marginTop: 230,
-  },
+
   labels: {
     fontSize: 18,
     color: "black",

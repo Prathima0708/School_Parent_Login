@@ -5,6 +5,7 @@ import { DataTable } from "react-native-paper";
 
 import axios from "axios";
 import BgButton from "../../../components/UI/BgButton";
+import ParentsHome from "../ParentsHome";
 
 const ReportCard = () => {
   const [data, setData] = useState();
@@ -32,30 +33,38 @@ const ReportCard = () => {
       <ScrollView horizontal={true}>
         <DataTable style={styles.container}>
           <DataTable.Header style={styles.tableHeader}>
-            <DataTable.Title style={styles.tableTitle}>ID</DataTable.Title>
-            <DataTable.Title style={styles.tableTitle}>
-              STUDENT NAME
-            </DataTable.Title>
-            <DataTable.Title style={styles.tableTitle}>
-              CLASSNAME
-            </DataTable.Title>
-            <DataTable.Title style={styles.tableTitle}>ROLL NO</DataTable.Title>
-            <DataTable.Title style={styles.tableTitle}>MATHS</DataTable.Title>
-            <DataTable.Title style={styles.tableTitle}>ENGLISH</DataTable.Title>
-            <DataTable.Title style={styles.tableTitle}>SCIENCE</DataTable.Title>
-            <DataTable.Title style={styles.tableTitle}>HINDI</DataTable.Title>
-            <DataTable.Title style={styles.tableTitle}>SOCIAL</DataTable.Title>
-            <DataTable.Title style={styles.tableTitle}>KANNADA</DataTable.Title>
-            <DataTable.Title style={styles.tableTitle}>
-              COMPUTER
-            </DataTable.Title>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> STUDENT NAME</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> CLASS NAME</Text>
+            </View>
+
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> MATHS MARKS</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> ENGLISH MARKS</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> SCIENCE MARKS</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> HINDI MARKS</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> SOCIAL MARKS</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> KANNADA MARKS</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> COMPUTER MARKS</Text>
+            </View>
           </DataTable.Header>
           {data &&
             data.map((data, key) => (
               <DataTable.Row style={styles.tableRow}>
-                <DataTable.Cell style={styles.tableCell}>
-                  {data.id}
-                </DataTable.Cell>
                 <DataTable.Cell style={styles.tableCell}>
                   {data.student_name}
                 </DataTable.Cell>
@@ -87,6 +96,7 @@ const ReportCard = () => {
             ))}
         </DataTable>
       </ScrollView>
+      <ParentsHome />
     </>
   );
 };
@@ -96,24 +106,38 @@ export default ReportCard;
 const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
+    width: 220,
   },
   container: {
     padding: 10,
   },
+  type: {
+    marginLeft: 10,
+  },
+  th: {
+    padding: 5,
+    marginRight: 13,
+    fontSize: 24,
+  },
   tableHeader: {
     backgroundColor: "skyblue",
-    height: 60,
+
+    height: 50,
+    fontWeight: "bold",
   },
   tableTitle: {
     padding: 5,
-    margin: 5,
+    margin: 7,
     fontWeight: "bold",
   },
   tableCell: {
-    padding: 5,
-    margin: 9,
+    width: 20,
+
+    marginLeft: 35,
   },
+
   tableRow: {
+    height: "9%",
     borderBottomColor: "black",
     borderBottomWidth: 2,
   },

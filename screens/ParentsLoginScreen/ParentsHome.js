@@ -22,11 +22,17 @@ export default ParentsHome;
 
 const styles = StyleSheet.create({
   root: {
-    // backgroundColor: "red",
+    backgroundColor: "#0072AF",
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor: "white",
-    paddingHorizontal: 20,
+   borderBottomEndRadius: 25,
+    borderBottomStartRadius: 25,
+    position: "absolute",
+    width: "100%",
+    //top: 5,
+    bottom: 0,
+    paddingHorizontal: 35,
+    paddingVertical: 10,
     borderColor: "white",
     elevation: 2,
     borderWidth: 1,

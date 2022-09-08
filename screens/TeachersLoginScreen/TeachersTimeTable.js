@@ -5,10 +5,10 @@ import BgButton from "../../components/UI/BgButton";
 import VerticalLine from "../../components/UI/VerticalLine";
 import Button from "../../components/UI/Button";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import TeachersLoginScreen from "./TeachersLoginScreen";
-import TeachersCalendar from "./TeachersCalendar";
+import SelectList from "react-native-dropdown-select-list";
 import TeachersHome from "./TeachersHome";
 import { Ionicons } from "@expo/vector-icons";
+import { useEffect } from "react";
 
 const TeachersTimetable = () => {
   const [showForm, setShowForm] = useState(false);
@@ -43,8 +43,11 @@ const TeachersTimetable = () => {
     setToTimeMode(currentTimeToMode);
   };
 
-  const [studentID, setEnteredStudentID] = useState("");
-  const [timeTab, setEnteredTimeTab] = useState("");
+  const [selectedTimeTable, setSelectedTimeTable] = useState("");
+  const [TimeTableData, setTimeTableData] = useState([]);
+
+  const [selectedExamTimeTable, setSelectedExamTimeTable] = useState("");
+  const [ExamTimeTableData, setExamTimeTableData] = useState([]);
 
   const [monday, setEnteredMonday] = useState();
   const [tuesday, setEnteredTuesday] = useState();
@@ -74,11 +77,24 @@ const TeachersTimetable = () => {
 
   const [totalMarks, setEnteredTotalMarks] = useState("");
   const [hour, setEnteredHour] = useState("");
-  const [className, setEnteredClassName] = useState("");
 
-  function studentIDChangeHandler(enteredValue) {
-    setEnteredStudentID(enteredValue);
-  }
+  useEffect(() => {
+    axios
+      .get("http://10.0.2.2:8000/school/Studentclass/")
+      .then((response) => {
+        let newArray = response.data.map((item) => {
+          return {
+            value: item.class_name + " - " + item.section,
+          };
+        });
+
+        setTimeTableData(newArray);
+        setExamTimeTableData(newArray);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
   function timeTabChangeHandler(enteredValue) {
     setEnteredTimeTab(enteredValue);
   }
@@ -206,8 +222,12 @@ const TeachersTimetable = () => {
     setShowTable(true);
   }
   function addDailyTimeTableHandler() {
+    let selectedData = selectedTimeTable.split(" - ");
+    let class_name = selectedData[0];
+    let section = selectedData[1];
     const FormData = {
-      timetab: timeTab,
+      class_name: class_name,
+      section: section,
       from_time: fromTime,
       to_time: toTime,
       monday: monday,
@@ -241,8 +261,7 @@ const TeachersTimetable = () => {
       }
     }
     storeData();
-    setEnteredStudentID("");
-    setEnteredTimeTab("");
+
     setFromTimeText("");
     setToTimeText("");
     setToTime("");
@@ -256,13 +275,16 @@ const TeachersTimetable = () => {
   }
 
   function addExamTimeTableHandler() {
+    let selectedData = selectedExamTimeTable.split(" - ");
+    let class_name = selectedData[0];
+    let section = selectedData[1];
     const FormData = {
       exam_name: examName,
       start_date: fromDate,
       end_date: toDate,
       Total_marks: totalMarks,
       hour: hour,
-      class_name: className,
+      class_name: class_name,
     };
     console.log(FormData);
     async function storeData() {
@@ -288,12 +310,12 @@ const TeachersTimetable = () => {
       }
     }
     storeData();
+
     setEnteredExamName("");
     setFromText("");
     setToText("");
     setEnteredTotalMarks("");
     setEnteredHour("");
-    setEnteredClassName("");
   }
 
   return (
@@ -311,13 +333,16 @@ const TeachersTimetable = () => {
         <>
           <ScrollView>
             <View style={styles.inputForm}>
-              <Text style={styles.labels}>TIME TAB</Text>
-              <TextInput
-                keyboardType="number-pad"
-                style={styles.inputStyle}
-                onChangeText={timeTabChangeHandler}
-                value={timeTab}
-              />
+              <Text style={styles.labels}>CLASS NAME</Text>
+
+              <View style={{ width: 350, fontSize: 18, marginTop: 3 }}>
+                <SelectList
+                  setSelected={setSelectedTimeTable}
+                  data={TimeTableData}
+                  placeholder="select class"
+                  style={{ fontSize: 16 }}
+                />
+              </View>
 
               <View
                 style={{
@@ -601,12 +626,15 @@ const TeachersTimetable = () => {
                 value={hour}
               />
               <Text style={styles.labels}>CLASS NAME</Text>
-              <TextInput
-                style={styles.inputStyle}
-                onChangeText={classNameChangeHandler}
-                value={className}
-              />
 
+              <View style={{ width: 350, fontSize: 18, marginTop: 3 }}>
+                <SelectList
+                  setSelected={setSelectedExamTimeTable}
+                  data={ExamTimeTableData}
+                  placeholder="select class"
+                  style={{ fontSize: 16 }}
+                />
+              </View>
               <View style={styles.btnSubmit}>
                 <Button onPress={addExamTimeTableHandler}>
                   Add Exam TimeTable
@@ -654,80 +682,3 @@ const styles = StyleSheet.create({
     marginBottom: 69,
   },
 });
-
-// import React, { useState } from "react";
-// import { SafeAreaView, StyleSheet, Text, View } from "react-native";
-// import DatePicker from "react-native-datepicker";
-
-// const TeachersTimetable = () => {
-//   const [date, setDate] = useState("09-10-2021");
-
-//   return (
-//     <SafeAreaView style={styles.container}>
-//       <View style={styles.container}>
-//         <Text style={styles.text}>Birth Date :</Text>
-//         <DatePicker
-//           style={styles.datePickerStyle}
-//           date={date}
-//           mode="date"
-//           placeholder="select date"
-//           format="DD/MM/YYYY"
-//           minDate="01-01-1900"
-//           maxDate="01-01-2000"
-//           confirmBtnText="Confirm"
-//           cancelBtnText="Cancel"
-//           customStyles={{
-//             dateIcon: {
-//               position: "absolute",
-//               right: -5,
-//               top: 4,
-//               marginLeft: 0,
-//             },
-//             dateInput: {
-//               borderColor: "gray",
-//               alignItems: "flex-start",
-//               borderWidth: 0,
-//               borderBottomWidth: 1,
-//             },
-//             placeholderText: {
-//               fontSize: 17,
-//               color: "gray",
-//             },
-//             dateText: {
-//               fontSize: 17,
-//             },
-//           }}
-//           onDateChange={(date) => {
-//             setDate(date);
-//           }}
-//         />
-//       </View>
-//     </SafeAreaView>
-//   );
-// };
-
-// export default TeachersTimetable;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     padding: 10,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     backgroundColor: "#A8E9CA",
-//   },
-//   title: {
-//     textAlign: "left",
-//     fontSize: 20,
-//     fontWeight: "bold",
-//   },
-//   datePickerStyle: {
-//     width: 230,
-//   },
-//   text: {
-//     textAlign: "left",
-//     width: 230,
-//     fontSize: 16,
-//     color: "#000",
-//   },
-// });
