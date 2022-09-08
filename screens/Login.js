@@ -165,81 +165,6 @@ function Login() {
 
   return (
     <>
-<<<<<<< HEAD
-      <View style={styles.mainContainer}>
-        <Image
-          style={styles.bannerImage}
-          source={require("../assets/Asset3.png")}
-        />
-        <Image style={styles.logo} source={require("../assets/Asset2.png")} />
-        {keyboardStatus === "Keyboard Hidden" && (
-          <Text style={{ top: 43, left: 30, color: "grey", fontSize: 16 }}>
-            Welcome to
-          </Text>
-        )}
-        {keyboardStatus === "Keyboard Hidden" && (
-          <Text
-            style={{
-              top: 45,
-              left: 30,
-              color: "#660000",
-              fontSize: 20,
-              fontWeight: "bold",
-            }}
-          >
-            KINARA SCHOOL
-          </Text>
-        )}
-        {keyboardStatus === "Keyboard Hidden" && (
-          <View style={styles.loginTypeText}>
-            <Text style={{ color: "grey", fontWeight: "bold" }}>
-              Choose Account Type
-            </Text>
-          </View>
-        )}
-        {keyboardStatus === "Keyboard Hidden" && (
-          <View>
-            <View style={styles.buttonContainer}>
-              <LgButton onPress={toggleTeachers} style={forTeacherBackground}>
-                Teachers
-              </LgButton>
-              <LgButton onPress={toggleParents} style={forPartentBackground}>
-                Parents
-              </LgButton>
-            </View>
-          </View>
-        )}
-        <KeyboardAccessory style={styles.test}>
-          <View style={{ flexDirection: "row" }}>
-            {keyboardStatus === "Keyboard Shown" && (
-              <Image
-                style={{
-                  width: "20%",
-                  height: "100%",
-                  top: 30,
-                  padding: 35,
-                  left: 55,
-                }}
-                source={require("../assets/Asset2.png")}
-              />
-            )}
-            {keyboardStatus === "Keyboard Shown" && (
-              <Text
-                style={{
-                  top: 45,
-                  left: 60,
-                  color: "#660000",
-                  fontSize: 20,
-                  fontWeight: "bold",
-                }}
-              >
-                KINARA SCHOOL
-              </Text>
-            )}
-          </View>
-
-          <View style={styles.inputContainer}>
-=======
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
@@ -275,7 +200,6 @@ function Login() {
           source={require('../assets/Asset2.png')}
           />}
           {keyboardStatus==='Keyboard Shown' && <Text style={{left:60,color:'#660000',fontSize:20,fontWeight:'bold',bottom:5}}>KINARA SCHOOL</Text>}
->>>>>>> ca80fe1714fa2a8ce73c25761c0c36cb1a8b0111
             <TextInput
               onChangeText={userInputHandler}
               style={styles.inputStyle}
@@ -304,24 +228,12 @@ function Login() {
               <Button onPress={login}>Login</Button>
             </View>
           </View>
-<<<<<<< HEAD
-        </KeyboardAccessory>
-
-        {/* <FlatList
-            data={students.filter((ele) => ele.contact_num == enteredPhone)}
-            renderItem={({ item }) => <Text>{item.student_name}</Text>}
-          /> */}
-
-        {/* <WelcomeScreen enteredPhone={enteredPhone} /> */}
-      </View>
-=======
           {/* </KeyboardAccessory> */}
       </View> 
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
     
->>>>>>> ca80fe1714fa2a8ce73c25761c0c36cb1a8b0111
     </>
   );
 }
@@ -329,41 +241,6 @@ function Login() {
 export default Login;
 
 const styles = StyleSheet.create({
-<<<<<<< HEAD
-  mainContainer: {
-    height: 630,
-  },
-  bannerImage: {
-    width: "100%",
-    height: "40%",
-    top: -39,
-  },
-  loginTypeText: {
-    justifyContent: "center",
-    alignItems: "center",
-    top: 65,
-  },
-  logo: {
-    width: "30%",
-    height: "20%",
-    marginLeft: 25,
-    position: "absolute",
-    top: 120,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    padding: 40,
-    top: 50,
-    display: "flex",
-    justifyContent: "space-between",
-  },
-
-  inputContainer: {
-    paddingLeft: 47,
-    paddingRight: 47,
-    top: 30,
-    // position: "relative",
-=======
   // header: {
   //   fontSize: 36,
   //   marginBottom: 48
@@ -424,7 +301,6 @@ const styles = StyleSheet.create({
     paddingRight: 47,
     position:'relative',
     top:70
->>>>>>> ca80fe1714fa2a8ce73c25761c0c36cb1a8b0111
   },
 
   inputStyle: {
