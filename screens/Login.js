@@ -23,6 +23,8 @@ import { AsyncStorageStatic } from "react-native";
 import WelcomeScreen from "./WelcomeScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LgButton from "../components/UI/LgButton";
+import { TouchableWithoutFeedback } from "react-native";
+import { Platform } from "react-native";
 export var Token, UserId, LoginResponse;
 function Login() {
   const navigation = useNavigation();
@@ -163,6 +165,7 @@ function Login() {
 
   return (
     <>
+<<<<<<< HEAD
       <View style={styles.mainContainer}>
         <Image
           style={styles.bannerImage}
@@ -236,6 +239,43 @@ function Login() {
           </View>
 
           <View style={styles.inputContainer}>
+=======
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.inner}>
+        <View style={styles.mainContainer}>
+          {keyboardStatus==='Keyboard Hidden' && <Image
+              style={styles.bannerImage}
+              source={require('../assets/bgelement.png')}
+          />}
+          {keyboardStatus==='Keyboard Hidden' && <Image
+              style={styles.logo}
+              source={require('../assets/Asset2.png')}
+          />}
+          {keyboardStatus==='Keyboard Hidden' && <Text style={{left:30,color:'grey',fontSize:16,top:5}}>Welcome to</Text>}
+          {keyboardStatus==='Keyboard Hidden' && <Text style={{left:30,color:'#660000',fontSize:20,fontWeight:'bold',top:5}}>KINARA SCHOOL</Text>}
+          {keyboardStatus==='Keyboard Hidden' &&
+          <View style={styles.loginTypeText}>
+            <Text style={{color:'grey',fontWeight:'bold'}}>Choose Account Type</Text>
+          </View>}
+        {keyboardStatus==='Keyboard Hidden'  && 
+        <View>
+          <View style={styles.buttonContainer}>
+            <LgButton onPress={toggleTeachers} style={forTeacherBackground}>Teachers</LgButton>
+            <View style={styles.space} />
+            <LgButton onPress={toggleParents} style={forPartentBackground}>Parents</LgButton>
+          </View>
+        </View>}
+        <View style={styles.inputContainer}>
+        {keyboardStatus==='Keyboard Shown' && <Image
+          style={{width:'20%',height:'10%',padding:35,left:100}}
+          source={require('../assets/Asset2.png')}
+          />}
+          {keyboardStatus==='Keyboard Shown' && <Text style={{left:60,color:'#660000',fontSize:20,fontWeight:'bold',bottom:5}}>KINARA SCHOOL</Text>}
+>>>>>>> ca80fe1714fa2a8ce73c25761c0c36cb1a8b0111
             <TextInput
               onChangeText={userInputHandler}
               style={styles.inputStyle}
@@ -264,6 +304,7 @@ function Login() {
               <Button onPress={login}>Login</Button>
             </View>
           </View>
+<<<<<<< HEAD
         </KeyboardAccessory>
 
         {/* <FlatList
@@ -273,6 +314,14 @@ function Login() {
 
         {/* <WelcomeScreen enteredPhone={enteredPhone} /> */}
       </View>
+=======
+          {/* </KeyboardAccessory> */}
+      </View> 
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
+    
+>>>>>>> ca80fe1714fa2a8ce73c25761c0c36cb1a8b0111
     </>
   );
 }
@@ -280,6 +329,7 @@ function Login() {
 export default Login;
 
 const styles = StyleSheet.create({
+<<<<<<< HEAD
   mainContainer: {
     height: 630,
   },
@@ -313,6 +363,68 @@ const styles = StyleSheet.create({
     paddingRight: 47,
     top: 30,
     // position: "relative",
+=======
+  // header: {
+  //   fontSize: 36,
+  //   marginBottom: 48
+  // },
+  // textInput: {
+  //   height: 40,
+  //   borderColor: "#000000",
+  //   borderBottomWidth: 1,
+  //   marginBottom: 36
+  // },
+  // btnContainer: {
+  //   backgroundColor: "white",
+  //   marginTop: 12
+  // },
+  container: {
+    flex: 1
+  },
+  inner: {
+    // padding: 24,
+    // flex: 1,
+    justifyContent: "space-around"
+  },
+
+  mainContainer:{
+    height:630,
+  },
+  bannerImage:{
+    width: '100%',
+    height: '38%',
+  },
+  loginTypeText:{
+    justifyContent:'center',
+    alignItems:'center',
+    top:20,
+  },
+  logo:{
+    width: '30%',
+    height: '20%',
+    marginLeft:5,
+    position: 'absolute',
+    top: 120,
+
+  },
+  buttonContainer:{
+    flexDirection:'row',
+    paddingLeft: 47,
+    paddingRight: 57,
+    top:45,
+    // display:'flex',
+    // justifyContent:'space-between',
+  },
+  space: {
+    width: 20, // or whatever size you need
+    height: 20,
+  },
+  inputContainer: {
+    paddingLeft: 47,
+    paddingRight: 47,
+    position:'relative',
+    top:70
+>>>>>>> ca80fe1714fa2a8ce73c25761c0c36cb1a8b0111
   },
 
   inputStyle: {
