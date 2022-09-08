@@ -49,6 +49,7 @@ const TeachersLoginScreen = ({ navigation }) => {
   }, []);
 
   function renderCategoryItem(itemData) {
+    // console.log(itemData)
     function pressHandler() {
       if (itemData.item.id === "c1") {
         navigation.navigate("TeachersTransport");
@@ -73,6 +74,7 @@ const TeachersLoginScreen = ({ navigation }) => {
           color={itemData.item.color}
           icon={itemData.item.icon}
           onPress={pressHandler}
+          txtclr={itemData.item.txtclr}
         />
       </View>
     );

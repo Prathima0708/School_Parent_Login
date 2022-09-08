@@ -74,12 +74,13 @@ function StudentCategories({ navigation }) {
           color={itemData.item.color}
           icon={itemData.item.icon}
           onPress={pressHandler}
+          txtclr={itemData.item.txtclr}
         />
       </View>
     );
   }
   return (
-    <FlatList
+    <FlatList style={styles.test}
       data={CATEGORIES}
       keyExtractor={(item) => item.id}
       renderItem={renderCategoryItem}
@@ -99,5 +100,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     //padding: 32,
+  },
+  test: {
+    // textAlign: "center",
+    top:30,
   },
 });

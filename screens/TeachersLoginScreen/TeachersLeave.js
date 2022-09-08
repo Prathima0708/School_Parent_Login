@@ -177,7 +177,7 @@ const TeachersLeave = () => {
                 color: "black",
               }}
             >
-              LEAVE FROM: {fromText}
+              LEAVE FROM:
             </Text>
 
             <Ionicons
@@ -192,7 +192,7 @@ const TeachersLeave = () => {
               onPress={() => showFromMode("date")}
             />
           </View>
-
+          <TextInput style={styles.inputStyle} value={fromText} />
           {fromShow && (
             <DateTimePicker
               testID="dateTimePicker"
@@ -219,7 +219,7 @@ const TeachersLeave = () => {
                 color: "black",
               }}
             >
-              LEAVE TO: {toText}
+              LEAVE TO:
             </Text>
 
             <Ionicons
@@ -234,6 +234,7 @@ const TeachersLeave = () => {
               onPress={() => showToMode("date")}
             />
           </View>
+          <TextInput style={styles.inputStyle} value={toText} />
           {toShow && (
             <DateTimePicker
               testID="dateTimePicker"

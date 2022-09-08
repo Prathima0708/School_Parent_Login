@@ -3,14 +3,10 @@ import React, { useState } from "react";
 import { DataTable } from "react-native-paper";
 import SelectDropdown from "react-native-select-dropdown";
 import SelectList from 'react-native-dropdown-select-list'
-import { Ionicons } from "@expo/vector-icons";
-import Checkbox from "react-native-paper";
-import {  Text, TouchableOpacity, Image } from 'react-native';
 import axios from "axios";
-
-// import RadioButton from "react-native-paper";
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import { useEffect } from "react";
+import { Checkbox } from 'react-native-paper';
+
   const classData = [
     '1st Standard',
     '2nd Standard',
@@ -34,14 +30,15 @@ import { useEffect } from "react";
 
 const Attendance = () => {
   
-const [data,setData]=useState()
-const [checked, setChecked] = useState();
-const [selected, setSelected] = useState("");
-var todayDate;
-var date = new Date().getDate();
-var month = new Date().getMonth() + 1;
-var year = new Date().getFullYear();
-todayDate= date + '-' + month + '-' + year;//format: d-m-y;
+  const [data,setData]=useState()
+  const [checked, setChecked] = useState();
+  const [selected, setSelected] = useState("");
+
+  var todayDate;
+  var date = new Date().getDate();
+  var month = new Date().getMonth() + 1;
+  var year = new Date().getFullYear();
+  todayDate= date + '-' + month + '-' + year;//format: d-m-y;
 
   useEffect(() => {
     async function fetchData() {
@@ -69,14 +66,6 @@ todayDate= date + '-' + month + '-' + year;//format: d-m-y;
   }, []);
 
 
-    function radioHandler(value){
-      setChecked(value)
-    }
-    var radio_props = [
-      {label: 'P', value: 0 },
-      {label: 'A', value: 1 },
-      {label: 'H', value: 2 }
-    ];
   return (
     <>
     <View style={[styles.container, {flexDirection: "row"}]}>
@@ -110,17 +99,17 @@ todayDate= date + '-' + month + '-' + year;//format: d-m-y;
                     {studentData.name}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.tableCell}>
-                    
+                  <Checkbox
+                    status={checked ? 'checked' : 'unchecked'}
+                    onPress={() => {
+                      setChecked(!checked);
+                    }}
+                    color={'green'}
+                    uncheckColor={'red'}
+                  />
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.tableCell}>
                     <View style={{ flexDirection:'row' }}>
-                      {/* <Checkbox /> */}
-                      <RadioForm style={{flexDirection:'row'}}
-                        radio_props={radio_props}
-                        initial={0}
-                        buttonColor={'#2196f3'}
-                        animation={true}
-                        onPress={radioHandler}/>
                     </View>
                   </DataTable.Cell>
                 </DataTable.Row>
@@ -145,13 +134,7 @@ const styles = StyleSheet.create({
     backgroundColor: "skyblue",
     height: 60,
   },
-  tableTitle: {
-    // padding: 5,
-    // margin: 10,
-    // fontWeight: "bold",
-    // fontSize:32
 
-  },
   tableCell: {
     padding: 5,
     margin: 5,
