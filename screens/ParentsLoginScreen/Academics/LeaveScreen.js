@@ -6,6 +6,8 @@ import Button from "../../../components/UI/Button";
 import axios from "axios";
 import BgButton from "../../../components/UI/BgButton";
 import { UserId } from "../../Login";
+import { Ionicons } from "@expo/vector-icons";
+import DateTimePicker from "@react-native-community/datetimepicker";
 const LeaveScreen = () => {
   const [regno, setEnteredRegno] = useState("");
   const [leaveType, setEnteredLeaveType] = useState("");
@@ -21,6 +23,58 @@ const LeaveScreen = () => {
   const [showForm, setShowForm] = useState(false);
   const [showTable, setShowTable] = useState(true);
   const [data, setData] = useState();
+  const [fromShow, setFromShow] = useState(false);
+  const [frommode, setFromMode] = useState("date");
+  const [fromDate, setFromDate] = useState(new Date());
+  const [toDate, setToDate] = useState(new Date());
+  const [fromText, setFromText] = useState("");
+  const [toShow, setToShow] = useState(false);
+  const [tomode, setToMode] = useState("date");
+  const [toText, setToText] = useState("");
+  
+  const showFromMode = (currentFromMode) => {
+    setFromShow(true);
+
+    setFromMode(currentFromMode);
+  };
+
+  const showToMode = (currentToMode) => {
+    setToShow(true);
+
+    setToMode(currentToMode);
+  };
+
+  const fromDateChangeHandler = (event, selectedFromDate) => {
+    const currentFromDate = selectedFromDate || fromDate;
+    setFromShow(Platform.OS === "ios");
+    setFromDate(currentFromDate);
+
+    let tempFromDate = new Date(currentFromDate);
+    let fDate =
+      tempFromDate.getDate() +
+      "/" +
+      (tempFromDate.getMonth() + 1) +
+      "/" +
+      tempFromDate.getFullYear();
+    setFromText(fDate);
+    //console.log(fDate);
+  };
+
+  const toDateChangeHandler = (event, selectedToDate) => {
+    const currentToDate = selectedToDate || toDate;
+    setToShow(Platform.OS === "ios");
+    setToDate(currentToDate);
+
+    let tempToDate = new Date(currentToDate);
+    let tDate =
+      tempToDate.getDate() +
+      "/" +
+      (tempToDate.getMonth() + 1) +
+      "/" +
+      tempToDate.getFullYear();
+    setToText(tDate);
+    // console.log(fDate);
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -183,18 +237,90 @@ const LeaveScreen = () => {
               onChangeText={leaveTypeChangeHandler}
               value={leaveType}
             />
-            <Text style={styles.labels}>LEAVE FROM</Text>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={leaveFromChangeHandler}
-              value={leaveFrom}
+            <View
+            style={{
+              paddingVertical: 15,
+              paddingHorizontal: 10,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 16,
+                color: "black",
+              }}
+            >
+              LEAVE FROM:
+            </Text>
+
+            <Ionicons
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "right",
+              }}
+              name="calendar"
+              size={24}
+              color="black"
+              onPress={() => showFromMode("date")}
             />
-            <Text style={styles.labels}>LEAVE TO</Text>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={leaveToChangeHandler}
-              value={leaveTo}
+            {fromShow && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={fromDate}
+              mode={frommode}
+              is24Hour={true}
+              display="default"
+              onChange={fromDateChangeHandler}
             />
+          )}
+           
+          </View>
+          <TextInput style={styles.inputStyle} value={fromText} />
+          <View
+            style={{
+              paddingVertical: 15,
+              paddingHorizontal: 10,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 16,
+                color: "black",
+              }}
+            >
+              LEAVE TO:
+            </Text>
+
+            <Ionicons
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "right",
+              }}
+              name="calendar"
+              size={24}
+              color="black"
+              onPress={() => showToMode("date")}
+            />
+          </View>
+          <TextInput style={styles.inputStyle} value={toText} />
+          {toShow && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={toDate}
+              mode={tomode}
+              is24Hour={true}
+              display="default"
+              onChange={toDateChangeHandler}
+              //  minimumDate={fromDate}
+            />
+          )}
             <Text style={styles.labels}>LEAVE REASON</Text>
             <TextInput
               style={styles.inputStyle}
@@ -241,9 +367,13 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   inputStyle: {
-    borderWidth: 1,
+    color: "black",
+    borderWidth: 2,
     borderColor: "grey",
-    borderRadius: 5,
+    // paddingHorizontal: 15,
+    // paddingVertical: 7,
+    borderRadius: 10,
+    fontSize: 18,
   },
   labels: {
     marginTop: 2,

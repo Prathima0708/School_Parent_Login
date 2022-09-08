@@ -3,7 +3,8 @@ import React, { useState } from "react";
 
 import Button from "../../components/UI/Button";
 import axios from "axios";
-
+import { Ionicons } from "@expo/vector-icons";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { UserId } from "../Login";
 import BgButton from "../../components/UI/BgButton";
 import TeachersHome from "./TeachersHome";
@@ -12,7 +13,32 @@ const TeachersNoticeboard = () => {
   const [title, setEnteredTitle] = useState("");
   const [description, setEnteredDescription] = useState("");
   const [dateOfCreation, setEnteredDateOfCreation] = useState("");
+  const [fromShow, setFromShow] = useState(false);
+  const [frommode, setFromMode] = useState("date");
+  const [fromDate, setFromDate] = useState(new Date());
+  const [fromText, setFromText] = useState("");
+  
 
+  const showFromMode = (currentFromMode) => {
+    setFromShow(true);
+
+    setFromMode(currentFromMode);
+  };
+  const fromDateChangeHandler = (event, selectedFromDate) => {
+    const currentFromDate = selectedFromDate || fromDate;
+    setFromShow(Platform.OS === "ios");
+    setFromDate(currentFromDate);
+
+    let tempFromDate = new Date(currentFromDate);
+    let fDate =
+      tempFromDate.getDate() +
+      "/" +
+      (tempFromDate.getMonth() + 1) +
+      "/" +
+      tempFromDate.getFullYear();
+    setFromText(fDate);
+    //console.log(fDate);
+  };
   function userNameChangeHandler(enteredValue) {
     setEnteredUserName(enteredValue);
   }
@@ -76,12 +102,52 @@ const TeachersNoticeboard = () => {
             onChangeText={descriptionChangeHandler}
             value={description}
           />
-          <Text style={styles.labels}>DATE OF CREATION</Text>
-          <TextInput
+          {/* <TextInput
             style={styles.inputStyle}
             onChangeText={dateOfCreationChangeHandler}
             value={dateOfCreation}
-          />
+          /> */}
+           <View
+            style={{
+              paddingVertical: 15,
+              paddingHorizontal: 10,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 16,
+                color: "black",
+              }}
+            >
+              DATE OF CREATION:
+            </Text>
+
+            <Ionicons
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                textAlign: "right",
+              }}
+              name="calendar"
+              size={24}
+              color="black"
+              onPress={() => showFromMode("date")}
+            />
+            {fromShow && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={fromDate}
+              mode={frommode}
+              is24Hour={true}
+              display="default"
+              onChange={fromDateChangeHandler}
+            />
+          )}
+          </View>
+          <TextInput style={styles.inputStyle} value={fromText} />
 
           <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Notice</Button>
