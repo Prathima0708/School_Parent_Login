@@ -23,6 +23,8 @@ import { AsyncStorageStatic } from "react-native";
 import WelcomeScreen from "./WelcomeScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LgButton from "../components/UI/LgButton";
+import { TouchableWithoutFeedback } from "react-native";
+import { Platform } from "react-native";
 export var Token, UserId, LoginResponse;
 function Login() {
   const navigation = useNavigation();
@@ -163,36 +165,41 @@ function Login() {
 
   return (
     <>
-      <View style={styles.mainContainer}>
-      <Image
-          style={styles.bannerImage}
-          source={require('../assets/Asset3.png')}
-      />
-      <Image
-          style={styles.logo}
-          source={require('../assets/Asset2.png')}
-      />
-      {keyboardStatus==='Keyboard Hidden' && <Text style={{top:43,left:30,color:'grey',fontSize:16}}>Welcome to</Text>}
-      {keyboardStatus==='Keyboard Hidden' && <Text style={{top:45,left:30,color:'#660000',fontSize:20,fontWeight:'bold'}}>KINARA SCHOOL</Text>}
-      {keyboardStatus==='Keyboard Hidden' &&<View style={styles.loginTypeText}>
-          <Text style={{color:'grey',fontWeight:'bold'}}>Choose Account Type</Text>
-      </View>}
-      {keyboardStatus==='Keyboard Hidden'  && <View>
-        <View style={styles.buttonContainer}>
-          <LgButton onPress={toggleTeachers} style={forTeacherBackground}>Teachers</LgButton>
-          <LgButton onPress={toggleParents} style={forPartentBackground}>Parents</LgButton>
-        </View>
-      </View>}
-      <KeyboardAccessory style={styles.test}>
-        <View style={{flexDirection:'row'}}>
-          {keyboardStatus==='Keyboard Shown' && <Image
-          style={{width:'20%',height:'100%',top:30,padding:35,left:55}}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.inner}>
+        <View style={styles.mainContainer}>
+          {keyboardStatus==='Keyboard Hidden' && <Image
+              style={styles.bannerImage}
+              source={require('../assets/bgelement.png')}
+          />}
+          {keyboardStatus==='Keyboard Hidden' && <Image
+              style={styles.logo}
+              source={require('../assets/Asset2.png')}
+          />}
+          {keyboardStatus==='Keyboard Hidden' && <Text style={{left:30,color:'grey',fontSize:16,top:5}}>Welcome to</Text>}
+          {keyboardStatus==='Keyboard Hidden' && <Text style={{left:30,color:'#660000',fontSize:20,fontWeight:'bold',top:5}}>KINARA SCHOOL</Text>}
+          {keyboardStatus==='Keyboard Hidden' &&
+          <View style={styles.loginTypeText}>
+            <Text style={{color:'grey',fontWeight:'bold'}}>Choose Account Type</Text>
+          </View>}
+        {keyboardStatus==='Keyboard Hidden'  && 
+        <View>
+          <View style={styles.buttonContainer}>
+            <LgButton onPress={toggleTeachers} style={forTeacherBackground}>Teachers</LgButton>
+            <View style={styles.space} />
+            <LgButton onPress={toggleParents} style={forPartentBackground}>Parents</LgButton>
+          </View>
+        </View>}
+        <View style={styles.inputContainer}>
+        {keyboardStatus==='Keyboard Shown' && <Image
+          style={{width:'20%',height:'10%',padding:35,left:100}}
           source={require('../assets/Asset2.png')}
           />}
-          {keyboardStatus==='Keyboard Shown' && <Text style={{top:45,left:60,color:'#660000',fontSize:20,fontWeight:'bold'}}>KINARA SCHOOL</Text>}
-        </View>
-      
-        <View style={styles.inputContainer}>
+          {keyboardStatus==='Keyboard Shown' && <Text style={{left:60,color:'#660000',fontSize:20,fontWeight:'bold',bottom:5}}>KINARA SCHOOL</Text>}
             <TextInput
               onChangeText={userInputHandler}
               style={styles.inputStyle}
@@ -220,19 +227,13 @@ function Login() {
             <View style={styles.buttons}>
               <Button onPress={login}>Login</Button>
             </View>
-            </View>
-          </KeyboardAccessory>
-            
-
-            {/* <FlatList
-            data={students.filter((ele) => ele.contact_num == enteredPhone)}
-            renderItem={({ item }) => <Text>{item.student_name}</Text>}
-          /> */}
-
-            {/* <WelcomeScreen enteredPhone={enteredPhone} /> */}
-            
-        
-    </View>
+          </View>
+          {/* </KeyboardAccessory> */}
+      </View> 
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
+    
     </>
   );
 }
@@ -240,40 +241,66 @@ function Login() {
 export default Login;
 
 const styles = StyleSheet.create({
+  // header: {
+  //   fontSize: 36,
+  //   marginBottom: 48
+  // },
+  // textInput: {
+  //   height: 40,
+  //   borderColor: "#000000",
+  //   borderBottomWidth: 1,
+  //   marginBottom: 36
+  // },
+  // btnContainer: {
+  //   backgroundColor: "white",
+  //   marginTop: 12
+  // },
+  container: {
+    flex: 1
+  },
+  inner: {
+    // padding: 24,
+    // flex: 1,
+    justifyContent: "space-around"
+  },
 
   mainContainer:{
     height:630,
   },
   bannerImage:{
     width: '100%',
-    height: '35%',
+    height: '38%',
   },
   loginTypeText:{
     justifyContent:'center',
     alignItems:'center',
-    top:65,
+    top:20,
   },
   logo:{
     width: '30%',
     height: '20%',
-    marginLeft:25,
+    marginLeft:5,
     position: 'absolute',
-    top: 130,
+    top: 120,
 
   },
   buttonContainer:{
     flexDirection:'row',
-    padding:40,
-    top:50,
-    display:'flex',
-    justifyContent:'space-between',
+    paddingLeft: 47,
+    paddingRight: 57,
+    top:45,
+    // display:'flex',
+    // justifyContent:'space-between',
   },
-  
+  space: {
+    width: 20, // or whatever size you need
+    height: 20,
+  },
   inputContainer: {
     paddingLeft: 47,
     paddingRight: 47,
-    top:30,
     position:'relative',
+    top:70
   },
 
   inputStyle: {
