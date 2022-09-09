@@ -8,8 +8,6 @@ import {
 } from "react-native";
 var Title;
 function CategoryGridTile({ title, color, icon, onPress, txtclr }) {
-  console.log(color)
-  console.log(txtclr)
   Title = title;
   return (
     <View style={styles.gridItem}>
@@ -23,12 +21,13 @@ function CategoryGridTile({ title, color, icon, onPress, txtclr }) {
 
           {/* <Text style={styles.title}>{title}</Text> */}
 
-          <Text style={[styles.title,{color:txtclr}]}>{title}</Text>
+          <Text style={[styles.title, { color: txtclr }]}>{title}</Text>
         </View>
       </Pressable>
     </View>
   );
 }
+
 export default CategoryGridTile;
 
 const styles = StyleSheet.create({

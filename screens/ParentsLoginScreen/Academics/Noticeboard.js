@@ -5,6 +5,7 @@ import VerticalLine from "../../../components/UI/VerticalLine";
 import ParentsHome from "../ParentsHome";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { ScrollView } from "react-native";
 function Noticeboard() {
   const [forNoticeList, setForNoticeList] = useState({
     color: "black",
@@ -17,7 +18,6 @@ function Noticeboard() {
   const [frommode, setFromMode] = useState("date");
   const [fromDate, setFromDate] = useState(new Date());
   const [fromText, setFromText] = useState("");
-  
 
   const showFromMode = (currentFromMode) => {
     setFromShow(true);
@@ -54,17 +54,18 @@ function Noticeboard() {
   };
   return (
     <>
-      <View style={styles.root}>
-        <Text style={styles.labels}>Creator of notice</Text>
-        <TextInput style={styles.inputStyle}/>
-        <Text style={styles.labels}>Title</Text>
-        <TextInput style={styles.inputStyle}/>
-        <Text style={styles.labels}>Description</Text>
-        <TextInput style={styles.inputStyle}/>
-        <View
+      <ScrollView>
+        <View style={styles.root}>
+          <Text style={styles.labels}>Creator of notice</Text>
+          <TextInput style={styles.inputStyle} />
+          <Text style={styles.labels}>Title</Text>
+          <TextInput style={styles.inputStyle} />
+          <Text style={styles.labels}>Description</Text>
+          <TextInput style={styles.inputStyle} />
+          <View
             style={{
               paddingVertical: 15,
-              paddingHorizontal: 10,
+            //  paddingHorizontal: 10,
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
@@ -72,7 +73,7 @@ function Noticeboard() {
           >
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 18,
                 color: "black",
               }}
             >
@@ -91,18 +92,19 @@ function Noticeboard() {
               onPress={() => showFromMode("date")}
             />
             {fromShow && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={fromDate}
-              mode={frommode}
-              is24Hour={true}
-              display="default"
-              onChange={fromDateChangeHandler}
-            />
-          )}
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={fromDate}
+                mode={frommode}
+                is24Hour={true}
+                display="default"
+                onChange={fromDateChangeHandler}
+              />
+            )}
           </View>
           <TextInput style={styles.inputStyle} value={fromText} />
-      </View>
+        </View>
+      </ScrollView>
       <View style={styles.home}>
         <ParentsHome />
       </View>

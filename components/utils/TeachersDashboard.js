@@ -5,20 +5,20 @@ export const TEACHERS = [
     "c1",
     "Transport",
     "#eff7ff",
-    "https://cdn-icons-png.flaticon.com/512/973/973774.png",
-    "#0000FF"
+    "https://cdn-icons-png.flaticon.com/512/1023/1023362.png",
+    "#1520A6"
   ),
 
   new Category(
     "c2",
     "Calender",
     "#fffaed",
-    "https://cdn-icons-png.flaticon.com/512/3334/3334141.png",
+    "https://cdn-icons-png.flaticon.com/512/2738/2738459.png",
     "#E4D00A"
   ),
   new Category(
     "c3",
-    "Marks Card",
+    "MarksCard",
     "#feedee",
     "https://cdn-icons-png.flaticon.com/512/972/972301.png",
     "#C40234"

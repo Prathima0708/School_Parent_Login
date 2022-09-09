@@ -35,11 +35,7 @@ export const CATEGORIES = [
     "c5",
     "Profile",
     "#eff7ff",
-<<<<<<< HEAD
-    "https://cdn-icons-png.flaticon.com/512/1160/1160865.png"
-=======
     "https://cdn-icons-png.flaticon.com/512/8428/8428788.png",
     "#0047ab"
->>>>>>> 369b60dfc25e7391c5ccb8e25eed5ac4fe59d50b
   ),
 ];

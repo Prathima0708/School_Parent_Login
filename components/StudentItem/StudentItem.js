@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     padding: 11,
     marginVertical: 8,
     //  backgroundColor: "#3e04c3",
-    backgroundColor: "#DDD5F3",
+    backgroundColor: "#f0f0fc",
     flexDirection: "row",
     alignItems: "center",
 
@@ -85,7 +85,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 4,
     backgroundColor: "white",
-
+    borderColor: "#23215b",
+    borderWidth: 5,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 4,

@@ -8,6 +8,7 @@ import BgButton from "../../../components/UI/BgButton";
 import { UserId } from "../../Login";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import ParentsHome from "../ParentsHome";
 const LeaveScreen = () => {
   const [regno, setEnteredRegno] = useState("");
   const [leaveType, setEnteredLeaveType] = useState("");
@@ -384,7 +385,7 @@ const styles = StyleSheet.create({
     borderColor: "grey",
     // paddingHorizontal: 15,
     // paddingVertical: 7,
-    borderRadius: 10,
+    borderRadius: 5,
     fontSize: 18,
   },
   labels: {

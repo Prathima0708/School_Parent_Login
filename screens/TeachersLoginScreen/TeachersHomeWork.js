@@ -195,13 +195,15 @@ const TeachersHomework = () => {
     let selectedData = selected.split(" - ");
     let class_name = selectedData[0];
     let section = selectedData[1];
+    let uploaduri = image;
+    let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
     const formdata = {
       class_name: class_name,
       section: section,
       subject: subject,
       homework_date: fromDate,
       due_date: toDate,
-      homework_photo: `/assets/images/${image}`,
+      homework_photo: `/assets/images/${filename}`,
       remark: remark,
       description: hw,
     };
@@ -228,8 +230,7 @@ const TeachersHomework = () => {
     }
 
     storeData();
-    setData("");
-    setSectionData("");
+
     setEnteredSubject("");
     setFromText("");
     setToText("");

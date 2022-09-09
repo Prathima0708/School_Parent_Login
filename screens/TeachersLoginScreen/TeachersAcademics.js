@@ -2,6 +2,7 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import CategoryGridTile from "../../components/StudentItem/CategoryGridTile";
 
 import { TEACHERSACADEMICS } from "../../components/utils/TeachAcademics";
+import TeachersHome from "./TeachersHome";
 
 function TeachersAcademics({ navigation }) {
   function renderCategoryItem(itemData) {
@@ -48,40 +49,35 @@ function TeachersAcademics({ navigation }) {
     );
   }
   return (
-    <FlatList
-      style={styles.test}
-      data={TEACHERSACADEMICS}
-      keyExtractor={(item) => item.id}
-      renderItem={renderCategoryItem}
-      // horizontal={true}
-      numColumns={2}
-    />
+    <>
+      <FlatList
+        style={styles.test}
+        data={TEACHERSACADEMICS}
+        keyExtractor={(item) => item.id}
+        renderItem={renderCategoryItem}
+        // horizontal={true}
+        numColumns={2}
+      />
+      <TeachersHome />
+    </>
   );
 }
 export default TeachersAcademics;
 
 const styles = StyleSheet.create({
   root: {
-//marginVertical:40,
-//marginTop:10,
-    marginHorizontal:10,
+    //marginVertical:40,
+    //marginTop:10,
+    marginHorizontal: 10,
     // flex: 1,
     justifyContent: "center",
     alignItems: "center",
-   // height:'60%',
-    width:'40%',
+    // height:'60%',
+    width: "40%",
   },
   test: {
     // textAlign: "center",
-<<<<<<< HEAD
-    top: 120,
+    top: 25,
     left: 15,
-    width:400,
-=======
-    top:25,
-    left:15,
-   
-    
->>>>>>> 369b60dfc25e7391c5ccb8e25eed5ac4fe59d50b
   },
 });

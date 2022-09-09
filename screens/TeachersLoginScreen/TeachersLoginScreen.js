@@ -11,6 +11,7 @@ import IconButton from "../../components/UI/IconButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Text } from "react-native";
 import { Image } from "react-native";
+import TeachersCategoryGridTile from "../../components/StudentItem/TeachersCategoryGridTile";
 
 const TeachersLoginScreen = ({ navigation }) => {
   async function logoutHandler() {
@@ -68,15 +69,13 @@ const TeachersLoginScreen = ({ navigation }) => {
       }
     }
     return (
-      <View style={styles.rootContainer}>
-        <CategoryGridTile
-          title={itemData.item.title}
-          color={itemData.item.color}
-          icon={itemData.item.icon}
-          onPress={pressHandler}
-          txtclr={itemData.item.txtclr}
-        />
-      </View>
+      <TeachersCategoryGridTile
+        title={itemData.item.title}
+        color={itemData.item.color}
+        icon={itemData.item.icon}
+        onPress={pressHandler}
+        txtclr={itemData.item.txtclr}
+      />
     );
   }
 
@@ -85,18 +84,19 @@ const TeachersLoginScreen = ({ navigation }) => {
       <Text style={styles.heading}>Teachers Dashboard</Text>
       <View style={styles.studentItem}>
         <View style={styles.studentItem}>
-          <View style={styles.imageContainer}>
-            <Image
-              source={{
-                uri: "https://cdn-icons-png.flaticon.com/512/1144/1144760.png",
-              }}
-              style={styles.image}
-              width="100px"
-            />
-          </View>
-          <Text style={[styles.textBase, styles.description]}>Name</Text>
+          <Image
+            source={{
+              uri: "https://cdn-icons-png.flaticon.com/512/848/848006.png",
+            }}
+            style={styles.image}
+          />
+
+          <Text style={[styles.textBase, styles.description]}>
+            Teacher name
+          </Text>
         </View>
       </View>
+
       <FlatList
         data={TEACHERS}
         keyExtractor={(item) => item.id}
@@ -111,7 +111,7 @@ export default TeachersLoginScreen;
 
 const styles = StyleSheet.create({
   rootContainer: {
-    flex: 1,
+    // flex: 1,
     justifyContent: "center",
     alignItems: "center",
     // padding: 32,
@@ -123,8 +123,10 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   test: {
-    width: "50%",
-    display: "flex",
+    //   width: "100%",
+    //padding: 30,
+    // margin: 10,
+    // display: "flex",
   },
   heading: {
     textAlign: "center",
@@ -135,39 +137,30 @@ const styles = StyleSheet.create({
   },
   studentItem: {
     width: "80%",
-
+    marginHorizontal: 35,
     padding: 11,
     marginVertical: 8,
-    marginHorizontal: 38,
+    //  backgroundColor: "#3e04c3",
     backgroundColor: "#23215b",
-    //flexDirection: "row",
+    //   flexDirection: "row",
     alignItems: "center",
 
     justifyContent: "space-between",
     borderRadius: 16,
   },
   textBase: {
-    color: "#e4d9fd",
-    textAlign: "center",
+    color: "#0D98BA",
+    // marginRight: 33,
   },
   description: {
-    fontSize: 16,
+    fontSize: 20,
 
     marginBottom: 4,
     fontWeight: "bold",
   },
-  imageContainer: {
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    backgroundColor: "white",
 
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 4,
-    //minWidth: 80,
-  },
   image: {
-    height: 80,
-    width: 80,
+    height: 70,
+    width: 70,
   },
 });

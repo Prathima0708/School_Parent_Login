@@ -17,7 +17,6 @@ const TeachersNoticeboard = () => {
   const [frommode, setFromMode] = useState("date");
   const [fromDate, setFromDate] = useState(new Date());
   const [fromText, setFromText] = useState("");
-  
 
   const showFromMode = (currentFromMode) => {
     setFromShow(true);
@@ -107,7 +106,7 @@ const TeachersNoticeboard = () => {
             onChangeText={dateOfCreationChangeHandler}
             value={dateOfCreation}
           /> */}
-           <View
+          <View
             style={{
               paddingVertical: 15,
               paddingHorizontal: 10,
@@ -137,15 +136,15 @@ const TeachersNoticeboard = () => {
               onPress={() => showFromMode("date")}
             />
             {fromShow && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={fromDate}
-              mode={frommode}
-              is24Hour={true}
-              display="default"
-              onChange={fromDateChangeHandler}
-            />
-          )}
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={fromDate}
+                mode={frommode}
+                is24Hour={true}
+                display="default"
+                onChange={fromDateChangeHandler}
+              />
+            )}
           </View>
           <TextInput style={styles.inputStyle} value={fromText} />
 
@@ -176,7 +175,7 @@ const styles = StyleSheet.create({
     borderColor: "grey",
     // paddingHorizontal: 15,
     // paddingVertical: 7,
-    borderRadius: 10,
+    borderRadius: 5,
     fontSize: 18,
     // margin:5
   },

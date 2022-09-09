@@ -1,6 +1,7 @@
 import { FlatList, StyleSheet, View } from "react-native";
 import CategoryGridTile from "../../../components/StudentItem/CategoryGridTile";
 import { ACADEMICS } from "../../../components/utils/Academics";
+import ParentsHome from "../ParentsHome";
 
 function Academics({ navigation }) {
   function renderCategoryItem(itemData) {
@@ -44,12 +45,16 @@ function Academics({ navigation }) {
     );
   }
   return (
-    <FlatList style={styles.test}
-      data={ACADEMICS}
-      keyExtractor={(item) => item.id}
-      renderItem={renderCategoryItem}
-      numColumns={2}
-    />
+    <>
+      <FlatList
+        style={styles.test}
+        data={ACADEMICS}
+        keyExtractor={(item) => item.id}
+        renderItem={renderCategoryItem}
+        numColumns={2}
+      />
+      <ParentsHome />
+    </>
   );
 }
 export default Academics;
@@ -71,6 +76,6 @@ const styles = StyleSheet.create({
   },
   test: {
     // textAlign: "center",
-    top:20,
+    top: 20,
   },
 });
