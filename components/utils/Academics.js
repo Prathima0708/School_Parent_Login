@@ -4,38 +4,38 @@ export const ACADEMICS = [
   new Category(
     "c1",
     "Homework",
-    "#FFFEE9",
+    "#9bddff",
     "https://cdn-icons-png.flaticon.com/512/3218/3218713.png",
-    "red"
+    "#4169e1"
   ),
   new Category(
     "c2",
     "TimeTable",
-    "#DDE8FF",
+    "#FFFDD0",
     "https://cdn-icons-png.flaticon.com/512/4695/4695007.png",
-    "blue"
+    "#D6E300"
   ),
 
   new Category(
     "c3",
     "Attendance",
-    "#e1fff0",
+    "#FFD0CE",
     "https://cdn-icons-png.flaticon.com/512/1286/1286965.png",
-    "#008080"
+    "#FF6353"
   ),
   new Category(
     "c4",
     "ReportCard",
-    "#feedee",
+    "#A0FEFF",
     "https://cdn-icons-png.flaticon.com/512/972/972301.png",
-    "#C40234"
+    "#008080"
   ),
 
   new Category(
     "c5",
     "Leave",
-    "#e1fff0",
+    "#9bddff",
     "https://cdn-icons-png.flaticon.com/512/3230/3230366.png",
-    "blue"
+    "#4169e1"
   ),
 ];

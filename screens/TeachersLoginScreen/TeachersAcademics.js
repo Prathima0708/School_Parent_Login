@@ -68,16 +68,13 @@ const styles = StyleSheet.create({
   root: {
     //marginVertical:40,
     //marginTop:10,
-    marginHorizontal: 10,
-    // flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    // height:'60%',
-    width: "40%",
+    // flex:1,
+    marginHorizontal: 5,
+    marginVertical: 5,
+    // width: 180,
+    left:25
   },
   test: {
-    // textAlign: "center",
     top: 25,
-    left: 15,
   },
 });

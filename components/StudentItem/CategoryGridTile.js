@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 10,
     //width: Title == "Profile" ? "50% !important" : "70%",
-    width: 140,
+    width: 160,
+    right:20,
     height: 110,
     borderRadius: 18,
     elevation: 4,
@@ -47,10 +48,11 @@ const styles = StyleSheet.create({
     overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
   icon: {
-    height: "50%",
-    width: "40%",
+    height: 50,
+    width: 50,
     // borderColor: "black",
     borderWidth: 3,
+    right:40
   },
   pressed: {
     opacity: 0.5,
@@ -69,6 +71,7 @@ const styles = StyleSheet.create({
     marginTop: 3,
     fontWeight: "bold",
     fontSize: 18,
+    right:20,
     //  color: "red",
   },
 });

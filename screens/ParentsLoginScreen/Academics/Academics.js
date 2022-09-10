@@ -1,5 +1,6 @@
 import { FlatList, StyleSheet, View } from "react-native";
 import CategoryGridTile from "../../../components/StudentItem/CategoryGridTile";
+import ParentAcademicsGridTile from "../../../components/StudentItem/ParentsAcademicsGridTile";
 import { ACADEMICS } from "../../../components/utils/Academics";
 import ParentsHome from "../ParentsHome";
 
@@ -34,7 +35,7 @@ function Academics({ navigation }) {
     }
     return (
       <View style={styles.rootContainer}>
-        <CategoryGridTile
+        <ParentAcademicsGridTile
           title={itemData.item.title}
           color={itemData.item.color}
           icon={itemData.item.icon}

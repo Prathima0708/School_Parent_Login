@@ -97,7 +97,7 @@ const TeachersLoginScreen = ({ navigation }) => {
         </View>
       </View>
 
-      <FlatList
+      <FlatList style={styles.rootContainer}
         data={TEACHERS}
         keyExtractor={(item) => item.id}
         renderItem={renderCategoryItem}
@@ -112,8 +112,10 @@ export default TeachersLoginScreen;
 const styles = StyleSheet.create({
   rootContainer: {
     // flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    // justifyContent: "center",
+    // alignItems: "center",
+    paddingLeft:20,
+    paddingRight:20
     // padding: 32,
     //padding: 32,
   },
@@ -121,12 +123,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "500",
     marginBottom: 8,
-  },
-  test: {
-    //   width: "100%",
-    //padding: 30,
-    // margin: 10,
-    // display: "flex",
   },
   heading: {
     textAlign: "center",

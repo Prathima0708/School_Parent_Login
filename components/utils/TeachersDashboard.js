@@ -4,29 +4,29 @@ export const TEACHERS = [
   new Category(
     "c1",
     "Transport",
-    "#eff7ff",
+    "#9bddff",
     "https://cdn-icons-png.flaticon.com/512/1023/1023362.png",
-    "#1520A6"
+    "#4169e1"
   ),
 
   new Category(
     "c2",
     "Calender",
-    "#fffaed",
+    "#FFFDD0",
     "https://cdn-icons-png.flaticon.com/512/2738/2738459.png",
-    "#E4D00A"
+    "#D6E300"
   ),
   new Category(
     "c3",
     "MarksCard",
-    "#feedee",
+    "#FFD0CE",
     "https://cdn-icons-png.flaticon.com/512/972/972301.png",
-    "#C40234"
+    "#FF6353"
   ),
   new Category(
     "c4",
     "Academics",
-    "#eff7ff",
+    "#A0FEFF",
     "https://cdn-icons-png.flaticon.com/512/1125/1125916.png",
     "#008080"
   ),
@@ -34,15 +34,15 @@ export const TEACHERS = [
   new Category(
     "c5",
     "Leave",
-    "#e1fff0",
+    "#9bddff",
     "https://cdn-icons-png.flaticon.com/512/3230/3230366.png",
-    "#0047ab"
+    "#4169e1"
   ),
   new Category(
     "c6",
     "Profile",
-    "#eff7ff",
+    "#FFFDD0",
     "https://cdn-icons-png.flaticon.com/512/1160/1160865.png",
-    "blue"
+    "#FFD700"
   ),
 ];

@@ -5,6 +5,7 @@ import IconButton from "../../components/UI/IconButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { useLayoutEffect } from "react";
+import ParentCateogryGridTile from "../../components/StudentItem/ParentCateogryGridTile";
 
 function StudentCategories({ navigation }) {
   async function logoutHandler() {
@@ -69,7 +70,7 @@ function StudentCategories({ navigation }) {
     }
     return (
       <View style={styles.rootContainer}>
-        <CategoryGridTile
+        <ParentCateogryGridTile
           title={itemData.item.title}
           color={itemData.item.color}
           icon={itemData.item.icon}
@@ -91,18 +92,18 @@ function StudentCategories({ navigation }) {
 export default StudentCategories;
 
 const styles = StyleSheet.create({
-  root: {
-    width: "50%",
-    display: "flex",
-  },
+  // root: {
+  //   width: "50%",
+  //   display: "flex",
+  // },
   rootContainer: {
     flex: 1,
+    top:10,
     justifyContent: "center",
     alignItems: "center",
     //padding: 32,
   },
   test: {
-    // textAlign: "center",
-    top:30,
+    top:25,
   },
 });
