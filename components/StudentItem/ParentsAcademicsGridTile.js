@@ -77,16 +77,16 @@ import {
       pressed: {
         opacity: 0.5,
       },
-      //   innerContainer: {
-      //     flex: 1,
-      //     padding: 19,
-      //     // justifyContent: "center",
-      //     //alignItems: "center",
-      //     //borderRadius: 8,
-      //   },
-      //   buttton: {
-      //     flex: 1,
-      //   },
+        innerContainer: {
+          flex: 1,
+          padding: 19,
+          // justifyContent: "center",
+          //alignItems: "center",
+          //borderRadius: 8,
+        },
+        buttton: {
+          flex: 1,
+        },
       title: {
         // marginTop: 13,
         top:10,
