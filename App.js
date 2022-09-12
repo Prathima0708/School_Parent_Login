@@ -44,7 +44,7 @@ import Login from "./screens/Login";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import { NavigationContainer } from "@react-navigation/native";
-
+import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
 import Chat from "./components/ChatApplication/Chat";
 import ChatScreen from "./components/ChatApplication/ChatScreen";
 import SingleUser from "./components/ChatApplication/SingleUser";
@@ -83,6 +83,7 @@ import TeachersNoticeboard from "./screens/TeachersLoginScreen/TeachersNoticeboa
 import TeachersLeave from "./screens/TeachersLoginScreen/TeachersLeave";
 import TeachersHome from "./screens/TeachersLoginScreen/TeachersHome";
 import TeachersMarksheet from "./screens/TeachersLoginScreen/TeachersMarksheet";
+import LandingScreen from "./screens/LandingScreen";
 // function Bottom() {
 //   return (
 //     <Tab.Navigator>
@@ -91,6 +92,11 @@ import TeachersMarksheet from "./screens/TeachersLoginScreen/TeachersMarksheet";
 //     </Tab.Navigator>
 //   );
 // }
+import {
+  Roboto_400Regular,
+  Roboto_400Regular_Italic
+} from "@expo-google-fonts/roboto";
+import AppLoading from "expo-app-loading";
 export default function App() {
   const [tokenIsPresent, setTokenIsPresent] = useState(false);
   const [showtab, setShowTab] = useState(false);
@@ -107,75 +113,98 @@ export default function App() {
     getToken();
   }, []);
 
-  return (
-    <>
-      {/* <Login /> */}
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ title: "Kinara"}}
-          />
+  // const [fontsLoaded] = useFonts({
+  //   'Inter-SemiBoldItalic': 'https://rsms.me/inter/font-files/Inter-SemiBoldItalic.otf?v=3.12',
+  // });
 
-          <Stack.Screen
-            name="TeachersAcademics"
-            component={TeachersAcademics}
-          />
-          <Stack.Screen
-            name="TeachersTimetable"
-            component={TeachersTimetable}
-          />
-          <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} />
-          <Stack.Screen
-            name="TeachersMarksheet"
-            component={TeachersMarksheet}
-          />
-          <Stack.Screen name="TeachersLeave" component={TeachersLeave} />
-          <Stack.Screen
-            name="TeachersNoticeBoard"
-            component={TeachersNoticeboard}
-          />
+  // if (!fontsLoaded) {
+  //   return null;
+  // }
 
-          <Stack.Screen name="TeachersLogin" component={TeachersLoginScreen} />
-          {/* <Stack.Screen
-            name="TeachersLogin"
-            component={Bottom}
-            options={{ headerShown: false }}
-          /> */}
-
-          <Stack.Screen name="Parent's Dashboard" component={ParentsLoginScreen} />
-
-          <Stack.Screen name="Category" component={StudentCategories} />
+  
+  let [fontsLoaded] = useFonts({
+    Roboto_400Regular,
+    Roboto_400Regular_Italic
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else{
+    return (
+      <>
+        {/* <Login /> */}
+        <NavigationContainer>
+          <Stack.Navigator>
           <Stack.Screen
-            name="StudentsOverview"
-            component={StudentsOverviewScreen}
-          />
-          <Stack.Screen name="Leave" component={LeaveScreen} />
-          <Stack.Screen name="Calender" component={CalenderScreen} />
-          <Stack.Screen name="ReportCard" component={ReportCard} />
-          {/* <Stack.Screen name="MarksCard" component={Exam} /> */}
-          <Stack.Screen name="NoticeBoard" component={Noticeboard} />
-          <Stack.Screen name="TimeTable" component={TimeTable} />
-          <Stack.Screen name="Attendance" component={Attendance} />
-          <Stack.Screen name="Transport" component={TransportScreen} />
-          <Stack.Screen
-            name="TeachersTransport"
-            component={TeachersTransport}
-          />
-
-          <Stack.Screen name="TeachersHomework" component={TeachersHomework} />
-          {/* <Stack.Screen
-            name="TeachersOverview"
-            component={TeachersOverviewScreen}
-          /> */}
-          <Stack.Screen name="Chat" component={Chat} />
-          <Stack.Screen name="ChatScreen" component={ChatScreen} />
-          <Stack.Screen name="SingleUser" component={SingleUser} />
-          <Stack.Screen name="Academics" component={Academics} />
-          <Stack.Screen name="Homework" component={HomeworkScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </>
-  );
+              name="LandingScreen"
+              component={LandingScreen}
+              options={{ title: "WelcomeScreen"}}
+            />
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{ title: "Kinara"}}
+            />
+  
+            <Stack.Screen
+              name="TeachersAcademics"
+              component={TeachersAcademics}
+            />
+            <Stack.Screen
+              name="TeachersTimetable"
+              component={TeachersTimetable}
+            />
+            <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} />
+            <Stack.Screen
+              name="TeachersMarksheet"
+              component={TeachersMarksheet}
+            />
+            <Stack.Screen name="TeachersLeave" component={TeachersLeave} />
+            <Stack.Screen
+              name="TeachersNoticeBoard"
+              component={TeachersNoticeboard}
+            />
+  
+            <Stack.Screen name="TeachersLogin" component={TeachersLoginScreen} />
+            {/* <Stack.Screen
+              name="TeachersLogin"
+              component={Bottom}
+              options={{ headerShown: false }}
+            /> */}
+  
+            <Stack.Screen name="Parent's Dashboard" component={ParentsLoginScreen} />
+  
+            <Stack.Screen name="Category" component={StudentCategories} />
+            <Stack.Screen
+              name="StudentsOverview"
+              component={StudentsOverviewScreen}
+            />
+            <Stack.Screen name="Leave" component={LeaveScreen} />
+            <Stack.Screen name="Calender" component={CalenderScreen} />
+            <Stack.Screen name="ReportCard" component={ReportCard} />
+            {/* <Stack.Screen name="MarksCard" component={Exam} /> */}
+            <Stack.Screen name="NoticeBoard" component={Noticeboard} />
+            <Stack.Screen name="TimeTable" component={TimeTable} />
+            <Stack.Screen name="Attendance" component={Attendance} />
+            <Stack.Screen name="Transport" component={TransportScreen} />
+            <Stack.Screen
+              name="TeachersTransport"
+              component={TeachersTransport}
+            />
+  
+            <Stack.Screen name="TeachersHomework" component={TeachersHomework} />
+            {/* <Stack.Screen
+              name="TeachersOverview"
+              component={TeachersOverviewScreen}
+            /> */}
+            <Stack.Screen name="Chat" component={Chat} />
+            <Stack.Screen name="ChatScreen" component={ChatScreen} />
+            <Stack.Screen name="SingleUser" component={SingleUser} />
+            <Stack.Screen name="Academics" component={Academics} />
+            <Stack.Screen name="Homework" component={HomeworkScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </>
+    );
+  }
+  
 }
