@@ -10,11 +10,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "@expo-google-fonts/montserrat": "^0.2.2",
-=======
     "@expo-google-fonts/inter": "^0.2.2",
->>>>>>> 08618ae3d4bc58957c0da9a61a08a224de8c614f
     "@expo-google-fonts/roboto": "^0.2.2",
     "@expo/vector-icons": "^13.0.0",
     "@react-native-async-storage/async-storage": "^1.17.10",
