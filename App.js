@@ -70,7 +70,7 @@ import Attendance from "./screens/ParentsLoginScreen/Academics/Attendance";
 import TeachersTransport from "./screens/TeachersLoginScreen/TeachersTransport";
 import TimeTable from "./screens/ParentsLoginScreen/Academics/TimeTable";
 import TeachersHomework from "./screens/TeachersLoginScreen/TeachersHomeWork";
-
+import { useFonts } from "expo-font";
 import TeachersAcademics from "./screens/TeachersLoginScreen/TeachersAcademics";
 import TeachersCalendar from "./screens/TeachersLoginScreen/TeachersCalendar";
 import ReportCard from "./screens/ParentsLoginScreen/Academics/ReportCard";
@@ -83,6 +83,7 @@ import TeachersNoticeboard from "./screens/TeachersLoginScreen/TeachersNoticeboa
 import TeachersLeave from "./screens/TeachersLoginScreen/TeachersLeave";
 import TeachersHome from "./screens/TeachersLoginScreen/TeachersHome";
 import TeachersMarksheet from "./screens/TeachersLoginScreen/TeachersMarksheet";
+import AppLoading from "expo-app-loading";
 // function Bottom() {
 //   return (
 //     <Tab.Navigator>
@@ -92,6 +93,9 @@ import TeachersMarksheet from "./screens/TeachersLoginScreen/TeachersMarksheet";
 //   );
 // }
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Roboto: require("./assets/fonts/Roboto-Bold.ttf"),
+  });
   const [tokenIsPresent, setTokenIsPresent] = useState(false);
   const [showtab, setShowTab] = useState(false);
 
@@ -107,6 +111,9 @@ export default function App() {
     getToken();
   }, []);
 
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
   return (
     <>
       {/* <Login /> */}
@@ -115,7 +122,7 @@ export default function App() {
           <Stack.Screen
             name="Login"
             component={Login}
-            options={{ title: "Kinara"}}
+            options={{ title: "Kinara" }}
           />
 
           <Stack.Screen
@@ -144,7 +151,10 @@ export default function App() {
             options={{ headerShown: false }}
           /> */}
 
-          <Stack.Screen name="Parent's Dashboard" component={ParentsLoginScreen} />
+          <Stack.Screen
+            name="Parent's Dashboard"
+            component={ParentsLoginScreen}
+          />
 
           <Stack.Screen name="Category" component={StudentCategories} />
           <Stack.Screen

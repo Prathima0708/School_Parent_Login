@@ -25,8 +25,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import LgButton from "../components/UI/LgButton";
 import { TouchableWithoutFeedback } from "react-native";
 import { Platform } from "react-native";
+import AppLoading from "expo-app-loading";
+import { useFonts } from "expo-font";
+
 export var Token, UserId, LoginResponse;
 function Login() {
+  // const [fontsLoaded] = useFonts({
+  //   Roboto: require("../assets/fonts/Roboto-Black.ttf"),
+  //   RobotoBold: require("../assets/fonts/Roboto-Bold.ttf"),
+  // });
   const navigation = useNavigation();
   const [enteredUser, setEnteredUser] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
@@ -185,7 +192,16 @@ function Login() {
                 />
               )}
               {keyboardStatus === "Keyboard Hidden" && (
-                <Text style={{ left: 30, color: "grey", fontSize: 18, top: 5 }}>
+                <Text
+                  style={{
+                    left: 30,
+                    color: "grey",
+                    fontSize: 24,
+                    fontWeight: "300",
+                    top: 5,
+                    fontFamily: "Roboto",
+                  }}
+                >
                   Welcome to
                 </Text>
               )}
@@ -194,9 +210,9 @@ function Login() {
                   style={{
                     left: 30,
                     color: "red",
-                    fontSize: 23,
-                    fontWeight: "800",
+                    fontSize: 26,
                     top: 5,
+                    //fontFamily: "RobotoBold",
                   }}
                 >
                   KINARA SCHOOL
@@ -205,7 +221,11 @@ function Login() {
               {keyboardStatus === "Keyboard Hidden" && (
                 <View style={styles.loginTypeText}>
                   <Text
-                    style={{ color: "grey", fontWeight: "bold", fontSize: 18 }}
+                    style={{
+                      color: "grey",
+                      fontWeight: "bold",
+                      fontSize: 20,
+                    }}
                   >
                     Choose Account Type
                   </Text>

@@ -19,11 +19,11 @@ export default Button;
 const styles = StyleSheet.create({
   button: {
     borderRadius: 6,
-   //margin: 30,
+    //margin: 30,
     paddingVertical: 8,
     paddingHorizontal: 12,
     backgroundColor: "#59b8dd",
-   elevation: 2,
+    elevation: 2,
     shadowColor: "black",
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.25,
@@ -37,5 +37,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
     fontWeight: "bold",
+    // fontFamily: "Roboto_700Bold",
   },
 });

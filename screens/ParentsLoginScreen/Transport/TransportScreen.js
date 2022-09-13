@@ -1,14 +1,32 @@
 import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
-import VerticalLine from "../../../components/UI/VerticalLine";
+
 import { DataTable } from "react-native-paper";
 import Button from "../../../components/UI/Button";
 import axios from "axios";
 import BgButton from "../../../components/UI/BgButton";
-import { UserId } from "../../Login";
-import { busNumber } from "../../../components/StudentItem/StudentItem";
+import {
+  useFonts,
+  Montserrat_600SemiBold,
+  Montserrat_700Bold,
+  Montserrat_800ExtraBold,
+  Montserrat_900Black,
+  Montserrat_100Thin_Italic,
+  Montserrat_200ExtraLight_Italic,
+  Montserrat_300Light_Italic,
+} from "@expo-google-fonts/montserrat";
 import ParentsHome from "../ParentsHome";
+import AppLoading from "expo-app-loading";
 const TransportScreen = () => {
+  let [fontsLoaded] = useFonts({
+    Montserrat_600SemiBold,
+    Montserrat_700Bold,
+    Montserrat_800ExtraBold,
+    Montserrat_900Black,
+    Montserrat_100Thin_Italic,
+    Montserrat_200ExtraLight_Italic,
+    Montserrat_300Light_Italic,
+  });
   // useEffect(()=>{
   //   async function getToken(){
   //     const value= await AsyncStorage.getItem('token')
@@ -55,77 +73,81 @@ const TransportScreen = () => {
     setShowTable(true);
   }
 
-  return (
-    <>
-      <View style={styles.BtnContainer}>
-        <BgButton onPress={transportList} style={forTransportList}>
-          Transport List
-        </BgButton>
-      </View>
-      {showTable && (
-        <ScrollView horizontal={true}>
-          <DataTable style={styles.container}>
-            <DataTable.Header style={styles.tableHeader}>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> BUS NUMBER</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> TYPES</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> VEHICLENO</Text>
-              </View>
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
+    return (
+      <>
+        <View style={styles.BtnContainer}>
+          <BgButton onPress={transportList} style={forTransportList}>
+            Transport List
+          </BgButton>
+        </View>
+        {showTable && (
+          <ScrollView horizontal={true}>
+            <DataTable style={styles.container}>
+              <DataTable.Header style={styles.tableHeader}>
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}> BUS NUMBER</Text>
+                </View>
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}> TYPES</Text>
+                </View>
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}> VEHICLENO</Text>
+                </View>
 
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> DRIVER NAME</Text>
-              </View>
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}> DRIVER NAME</Text>
+                </View>
 
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> EMP MOBILE</Text>
-              </View>
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}> EMP MOBILE</Text>
+                </View>
 
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> ROUTE NAME</Text>
-              </View>
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}> ROUTE NAME</Text>
+                </View>
 
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> STOP NAME</Text>
-              </View>
-            </DataTable.Header>
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}> STOP NAME</Text>
+                </View>
+              </DataTable.Header>
 
-            {data &&
-              data.map((data, key) => (
-                <DataTable.Row style={styles.tableRow}>
-                  <DataTable.Cell style={styles.tableCell}>
-                    {data.busnumber}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.type}>
-                    {data.types}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
-                    {data.vehicleno}
-                  </DataTable.Cell>
+              {data &&
+                data.map((data, key) => (
+                  <DataTable.Row style={styles.tableRow}>
+                    <DataTable.Cell style={styles.tableCell}>
+                      {data.busnumber}
+                    </DataTable.Cell>
+                    <DataTable.Cell style={styles.type}>
+                      {data.types}
+                    </DataTable.Cell>
+                    <DataTable.Cell style={styles.tableCell}>
+                      {data.vehicleno}
+                    </DataTable.Cell>
 
-                  <DataTable.Cell style={styles.tableCell}>
-                    {data.driver_name}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
-                    {data.emp_mobile}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
-                    {data.route_name}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
-                    {data.stop_name}
-                  </DataTable.Cell>
-                </DataTable.Row>
-              ))}
-          </DataTable>
-        </ScrollView>
-      )}
-      <ParentsHome />
-    </>
-  );
+                    <DataTable.Cell style={styles.tableCell}>
+                      {data.driver_name}
+                    </DataTable.Cell>
+                    <DataTable.Cell style={styles.tableCell}>
+                      {data.emp_mobile}
+                    </DataTable.Cell>
+                    <DataTable.Cell style={styles.tableCell}>
+                      {data.route_name}
+                    </DataTable.Cell>
+                    <DataTable.Cell style={styles.tableCell}>
+                      {data.stop_name}
+                    </DataTable.Cell>
+                  </DataTable.Row>
+                ))}
+            </DataTable>
+          </ScrollView>
+        )}
+        <ParentsHome />
+      </>
+    );
+  }
 };
 
 export default TransportScreen;
@@ -155,11 +177,12 @@ const styles = StyleSheet.create({
   tableTitle: {
     padding: 5,
     margin: 7,
-    fontWeight: "bold",
+    // fontSize: 18,
+    fontFamily: "Montserrat_600SemiBold",
   },
   tableCell: {
     width: 40,
-
+    fontFamily: "Montserrat_600SemiBold",
     marginLeft: 35,
   },
 

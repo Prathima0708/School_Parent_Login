@@ -2,7 +2,7 @@ import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
 import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../components/UI/Button";
-
+import * as MediaLibrary from "expo-media-library";
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import SelectList from "react-native-dropdown-select-list";
@@ -66,6 +66,12 @@ const TeachersHomework = () => {
       aspect: [4, 3],
       quality: 1,
     });
+    const { status } = await MediaLibrary.requestPermissionsAsync();
+    // if (status === "granted") {
+    //   await MediaLibrary.saveToLibraryAsync(result.uri);
+
+    //   console.log("Image successfully saved");
+    // }
     console.log(result);
 
     // location = result.uri;
@@ -361,9 +367,7 @@ const TeachersHomework = () => {
           />
           {/* <View>
             <Text style={styles.labels}>UPLOAD IMAGE</Text>
-
             <View style={styles.imagePreView}>{imagePreView}</View>
-
             <Btn title="take image" onPress={takeImageHanlder} />
           </View> */}
 

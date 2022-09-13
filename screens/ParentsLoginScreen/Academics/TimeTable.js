@@ -15,7 +15,11 @@ import { className } from "../../../components/StudentItem/StudentItem";
 const TimeTable = () => {
   const [showForm, setShowForm] = useState(false);
   const [showTable, setShowTable] = useState(true);
-  const [data, setData] = useState();
+
+  // const [data, setData] = useState();
+
+  const [examData, setExamData] = useState();
+
   const [timeTable, setTimeTable] = useState();
   const [forTimeTableList, setForTimeTableList] = useState({
     color: "black",
@@ -31,20 +35,6 @@ const TimeTable = () => {
         );
         console.log(res.data);
 
-        setData(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await axios.get("http://10.0.2.2:8000/school/Timetable/");
-        console.log(res.data);
-
         setTimeTable(res.data);
       } catch (error) {
         console.log(error);
@@ -58,10 +48,12 @@ const TimeTable = () => {
     setShowTable(false);
     setShowForm(true);
     try {
-      const res = await axios.get("http://10.0.2.2:8000/school/Exam/");
+      const res = await axios.get(
+        `http://10.0.2.2:8000/school/Exam/${className}/`
+      );
       console.log(res.data);
 
-      setData(res.data);
+      setExamData(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -78,7 +70,7 @@ const TimeTable = () => {
       );
       console.log(res.data);
 
-      setData(res.data);
+      setTimeTable(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -134,8 +126,10 @@ const TimeTable = () => {
                   <Text style={styles.tableTitle}> SATURDAY</Text>
                 </View>
               </DataTable.Header>
-              {data &&
-                data.map((data, key) => (
+              {timeTable &&
+                timeTable
+                
+                .map((data, key) => (
                   <DataTable.Row style={styles.tableRow}>
                     <DataTable.Cell style={styles.tableCell}>
                       {data.monday}
@@ -187,8 +181,8 @@ const TimeTable = () => {
                 <Text style={styles.tableTitle}> CLASS NAME</Text>
               </View>
             </DataTable.Header>
-            {data &&
-              data.map((data, key) => (
+            {examData &&
+              examData.map((data, key) => (
                 <DataTable.Row style={styles.tableRow}>
                   <DataTable.Cell style={styles.tableCell}>
                     {data.exam_name}
@@ -213,6 +207,7 @@ const TimeTable = () => {
           </DataTable>
         </ScrollView>
       )}
+
       <ParentsHome />
     </>
   );
