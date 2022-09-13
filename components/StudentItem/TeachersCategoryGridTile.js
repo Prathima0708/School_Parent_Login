@@ -24,7 +24,14 @@ import {
 } from "@expo-google-fonts/roboto";
 import AppLoading from "expo-app-loading";
 var Title;
-function TeachersCategoryGridTile({ title, color, icon, onPress, txtclr }) {
+function TeachersCategoryGridTile({
+  title,
+  color,
+  icon,
+  onPress,
+  txtclr,
+  subTitle,
+}) {
   Title = title;
   let [fontsLoaded] = useFonts({
     Roboto_100Thin,
@@ -53,7 +60,6 @@ function TeachersCategoryGridTile({ title, color, icon, onPress, txtclr }) {
           <Image source={{ uri: icon }} style={styles.icon} />
 
           <Text style={[styles.title, { color: txtclr }]}>{title}</Text>
-          {/* </View> */}
         </Pressable>
       </View>
     );
@@ -69,11 +75,11 @@ const styles = StyleSheet.create({
     width: 160,
 
     height: 110,
-    borderRadius: 10,
-    elevation: 4,
+    borderRadius: 11,
+    elevation: 5,
     shadowColor: "black",
 
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.75,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
     overflow: Platform.OS === "android" ? "hidden" : "visible",
@@ -84,6 +90,9 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     top: 15,
     left: 10,
+  },
+  sub: {
+    fontSize: 18,
   },
   pressed: {
     opacity: 0.5,
@@ -103,6 +112,6 @@ const styles = StyleSheet.create({
     //  fontWeight: "bold",
     fontSize: 20,
     left: 10,
-    fontFamily: "Roboto",
+    // fontFamily: "Roboto",
   },
 });

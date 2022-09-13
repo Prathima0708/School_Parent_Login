@@ -26,9 +26,9 @@ const ReportCard = () => {
 
   return (
     <>
-      <View style={styles.BtnContainer}>
+      {/* <View style={styles.BtnContainer}>
         <BgButton>Marksheet</BgButton>
-      </View>
+      </View> */}
 
       <ScrollView horizontal={true}>
         <DataTable style={styles.container}>
@@ -126,9 +126,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   tableTitle: {
-    padding: 5,
     margin: 7,
-    fontWeight: "bold",
+    fontFamily: "MonsterratBold",
+    fontSize: 16,
   },
   tableCell: {
     width: 20,

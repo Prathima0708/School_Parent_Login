@@ -56,9 +56,9 @@ const TeachersMarksheet = () => {
   }
   return (
     <>
-      <View style={styles.BtnContainer}>
+      {/* <View style={styles.BtnContainer}>
         <BgButton>Add Marksheet</BgButton>
-      </View>
+      </View> */}
 
       <ScrollView>
         <View style={styles.inputForm}>
@@ -97,12 +97,14 @@ export default TeachersMarksheet;
 
 const styles = StyleSheet.create({
   BtnContainer: {
-    flexDirection: "row",
+    fontSize: 24,
   },
   home: {
-    // marginTop: 330,
+    marginTop: 29,
   },
-
+  root: {
+    backgroundColor: "#EBECFO",
+  },
   inputForm: {
     padding: 20,
     paddingTop: 5,
@@ -110,16 +112,20 @@ const styles = StyleSheet.create({
   inputStyle: {
     color: "black",
     borderWidth: 2,
-    borderColor: "grey",
+    borderColor: "lightgrey",
+    backgroundColor: "white",
+    padding: 10,
     // paddingHorizontal: 15,
-    // paddingVertical: 7,
+    paddingVertical: 5,
     borderRadius: 5,
     fontSize: 18,
-    // margin:5
+    //margin: 5,
   },
   labels: {
+    margin: 5,
+    fontFamily: "Ubuntu",
     fontSize: 18,
-    marginTop: 17,
+    // marginTop: 17,
   },
   btnSubmit: {
     marginTop: 27,

@@ -220,7 +220,7 @@ const LeaveScreen = () => {
         </ScrollView>
       )}
       {showForm && (
-        <ScrollView>
+        <ScrollView style={styles.root}>
           <View style={styles.inputForm}>
             <Text style={styles.labels}>STUDENT REG NO</Text>
             <TextInput
@@ -242,16 +242,10 @@ const LeaveScreen = () => {
                 flexDirection: "row",
                 justifyContent: "space-between",
                 alignItems: "center",
+                marginLeft: -10,
               }}
             >
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: "black",
-                }}
-              >
-                LEAVE FROM:
-              </Text>
+              <Text style={styles.labels}>LEAVE FROM:</Text>
 
               <Ionicons
                 style={{
@@ -283,16 +277,10 @@ const LeaveScreen = () => {
                 flexDirection: "row",
                 justifyContent: "space-between",
                 alignItems: "center",
+                marginLeft: -10,
               }}
             >
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: "black",
-                }}
-              >
-                LEAVE TO:
-              </Text>
+              <Text style={styles.labels}>LEAVE TO:</Text>
 
               <Ionicons
                 style={{
@@ -350,20 +338,20 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   th: {
-    padding: 5,
+    padding: 3,
     marginRight: 13,
     fontSize: 24,
   },
   tableHeader: {
     backgroundColor: "skyblue",
 
-    height: 50,
+    height: 45,
     fontWeight: "bold",
   },
   tableTitle: {
-    padding: 5,
     margin: 7,
-    fontWeight: "bold",
+    fontFamily: "MonsterratBold",
+    fontSize: 16,
   },
   tableCell: {
     width: 20,
@@ -376,22 +364,32 @@ const styles = StyleSheet.create({
     borderBottomColor: "black",
     borderBottomWidth: 2,
   },
+  root: {
+    backgroundColor: "#EBECFO",
+  },
   inputForm: {
     padding: 20,
+    paddingTop: 5,
   },
   inputStyle: {
     color: "black",
     borderWidth: 2,
-    borderColor: "grey",
+    borderColor: "lightgrey",
+    backgroundColor: "white",
+    padding: 10,
     // paddingHorizontal: 15,
-    // paddingVertical: 7,
+    paddingVertical: 5,
     borderRadius: 5,
     fontSize: 18,
+    //margin: 5,
   },
   labels: {
+    margin: 5,
+    fontFamily: "Ubuntu",
     fontSize: 18,
-    marginTop: 12,
+    // marginTop: 17,
   },
+
   btnSubmit: {
     marginTop: 45,
   },

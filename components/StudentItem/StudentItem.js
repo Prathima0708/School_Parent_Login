@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import ImageSlider from "../../screens/ParentsLoginScreen/ImageSlider";
 
-export var studentId, className, motherName, busNumber;
+export var studentId, className, motherName, busNumber, Section;
 function StudentItem({
   student_name,
   class_name,
@@ -18,12 +18,14 @@ function StudentItem({
   student_photo,
   mother_name,
   busnumber,
+  section,
 }) {
   const navigation = useNavigation();
   function navigateHandler() {
     studentId = id;
     className = class_name;
     busNumber = busnumber;
+    Section = section;
     console.log(id);
     navigation.navigate("Category");
   }
@@ -69,7 +71,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
 
     justifyContent: "space-between",
-    borderRadius: 6,
+    borderRadius: 8,
   },
   textBase: {
     color: "#0D98BA",

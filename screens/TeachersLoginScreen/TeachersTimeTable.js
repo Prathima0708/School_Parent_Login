@@ -331,7 +331,7 @@ const TeachersTimetable = () => {
       </View>
       {showTable && (
         <>
-          <ScrollView>
+          <ScrollView style={styles.root}>
             <View style={styles.inputForm}>
               <Text style={styles.labels}>CLASS NAME</Text>
 
@@ -656,26 +656,35 @@ export default TeachersTimetable;
 const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
+    fontSize: 24,
   },
   home: {
-    // marginTop: 150,
+    marginTop: 29,
+  },
+  root: {
+    backgroundColor: "#EBECFO",
   },
   inputForm: {
-    padding: 10,
+    padding: 20,
     paddingTop: 5,
   },
   inputStyle: {
     color: "black",
     borderWidth: 2,
-    borderColor: "grey",
+    borderColor: "lightgrey",
+    backgroundColor: "white",
+    padding: 10,
     // paddingHorizontal: 15,
-    // paddingVertical: 7,
+    paddingVertical: 5,
     borderRadius: 5,
     fontSize: 18,
-    // margin:5
+    //margin: 5,
   },
   labels: {
-    marginTop: 17,
+    margin: 5,
+    fontFamily: "Ubuntu",
+    fontSize: 18,
+    // marginTop: 17,
   },
   btnSubmit: {
     marginTop: 27,

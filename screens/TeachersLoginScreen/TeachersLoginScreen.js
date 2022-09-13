@@ -12,6 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Text } from "react-native";
 import { Image } from "react-native";
 import TeachersCategoryGridTile from "../../components/StudentItem/TeachersCategoryGridTile";
+import TeachersHome from "./TeachersHome";
 
 const TeachersLoginScreen = ({ navigation }) => {
   async function logoutHandler() {
@@ -75,13 +76,14 @@ const TeachersLoginScreen = ({ navigation }) => {
         icon={itemData.item.icon}
         onPress={pressHandler}
         txtclr={itemData.item.txtclr}
+        subTitle={itemData.item.subTitle}
       />
     );
   }
 
   return (
     <>
-      <View style={{ backgroundColor: "white" }}>
+      <View style={{ backgroundColor: "white", height: "100%" }}>
         <Text style={styles.heading}>Teachers Dashboard</Text>
         <View style={styles.studentItem}>
           <View style={styles.studentItem}>

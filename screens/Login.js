@@ -27,6 +27,8 @@ import { TouchableWithoutFeedback } from "react-native";
 import { Platform } from "react-native";
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
+import { validateYupSchema } from "formik";
+import { formikFieldApplyYupTransforms } from "formik-yup";
 
 export var Token, UserId, LoginResponse;
 function Login() {
@@ -179,81 +181,24 @@ function Login() {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inner}>
             <View style={styles.mainContainer}>
-<<<<<<< HEAD
-              {keyboardStatus === "Keyboard Hidden" && (
-                <Image
-                  style={styles.bannerImage}
-                  source={require("../assets/bgelement.png")}
-                />
-              )}
-              {keyboardStatus === "Keyboard Hidden" && (
-                <Image
-                  style={styles.logo}
-                  source={require("../assets/Asset2.png")}
-                />
-              )}
-              {keyboardStatus === "Keyboard Hidden" && (
-                <Text
-                  style={{
-                    left: 30,
-                    color: "grey",
-                    fontSize: 24,
-                    fontWeight: "300",
-                    top: 5,
-                    fontFamily: "Roboto",
-                  }}
-                >
-                  Welcome to
-                </Text>
-              )}
-              {keyboardStatus === "Keyboard Hidden" && (
-                <Text
-                  style={{
-                    left: 30,
-                    color: "red",
-                    fontSize: 26,
-                    top: 5,
-                    //fontFamily: "RobotoBold",
-                  }}
-                >
-                  KINARA SCHOOL
-                </Text>
-              )}
-              {keyboardStatus === "Keyboard Hidden" && (
-                <View style={styles.loginTypeText}>
-                  <Text
-                    style={{
-                      color: "grey",
-                      fontWeight: "bold",
-                      fontSize: 20,
-                    }}
+              <View>
+                <View style={styles.buttonContainer}>
+                  <LgButton
+                    onPress={toggleTeachers}
+                    style={forTeacherBackground}
                   >
-                    Choose Account Type
-                  </Text>
+                    Teachers
+                  </LgButton>
+                  <View style={styles.space} />
+                  <LgButton
+                    onPress={toggleParents}
+                    style={forPartentBackground}
+                  >
+                    Parents
+                  </LgButton>
                 </View>
-              )}
-              {keyboardStatus === "Keyboard Hidden" && (
-=======
->>>>>>> 08618ae3d4bc58957c0da9a61a08a224de8c614f
-                <View>
-                  <View style={styles.buttonContainer}>
-                    <LgButton
-                      onPress={toggleTeachers}
-                      style={forTeacherBackground}
-                    >
-                      Teachers
-                    </LgButton>
-                    <View style={styles.space} />
-                    <LgButton
-                      onPress={toggleParents}
-                      style={forPartentBackground}
-                    >
-                      Parents
-                    </LgButton>
-                  </View>
-                </View>
+              </View>
               <View style={styles.inputContainer}>
-
                 <TextInput
                   onChangeText={userInputHandler}
                   style={styles.inputStyle}
@@ -315,7 +260,7 @@ const styles = StyleSheet.create({
     // padding: 24,
     // flex: 1,
     justifyContent: "space-around",
-    top:70
+    top: 70,
   },
   bannerImage: {
     width: "100%",

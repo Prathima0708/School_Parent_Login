@@ -50,14 +50,16 @@ function TeachersAcademics({ navigation }) {
   }
   return (
     <>
-      <FlatList
-        style={styles.test}
-        data={TEACHERSACADEMICS}
-        keyExtractor={(item) => item.id}
-        renderItem={renderCategoryItem}
-        // horizontal={true}
-        numColumns={2}
-      />
+      <View style={{ backgroundColor: "white", height: "100%" }}>
+        <FlatList
+          style={styles.test}
+          data={TEACHERSACADEMICS}
+          keyExtractor={(item) => item.id}
+          renderItem={renderCategoryItem}
+          // horizontal={true}
+          numColumns={2}
+        />
+      </View>
       <TeachersHome />
     </>
   );
@@ -66,13 +68,14 @@ export default TeachersAcademics;
 
 const styles = StyleSheet.create({
   root: {
+    // backgroundColor: "white",
     //marginVertical:40,
     //marginTop:10,
     // flex:1,
     marginHorizontal: 5,
     marginVertical: 5,
     // width: 180,
-    left:25
+    left: 25,
   },
   test: {
     top: 25,
