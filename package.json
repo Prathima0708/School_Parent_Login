@@ -10,7 +10,11 @@
     "eject": "expo eject"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@expo-google-fonts/montserrat": "^0.2.2",
+=======
+    "@expo-google-fonts/inter": "^0.2.2",
+>>>>>>> 08618ae3d4bc58957c0da9a61a08a224de8c614f
     "@expo-google-fonts/roboto": "^0.2.2",
     "@expo/vector-icons": "^13.0.0",
     "@react-native-async-storage/async-storage": "^1.17.10",
@@ -48,6 +52,7 @@
     "react-native-datefield": "^0.3.6",
     "react-native-document-picker": "^8.1.1",
     "react-native-dropdown-select-list": "^1.0.21",
+    "react-native-dynamic-search-bar": "^2.0.2",
     "react-native-element-dropdown": "^2.2.0",
     "react-native-firebase": "^5.6.0",
     "react-native-gifted-chat": "^1.0.4",
@@ -65,7 +70,8 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "0.17.7",
     "react-native-zigzag-view": "^0.2.0",
-    "rn-keyboard-sticky-view": "^1.0.4"
+    "rn-keyboard-sticky-view": "^1.0.4",
+    "searchable-flatlist": "^0.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

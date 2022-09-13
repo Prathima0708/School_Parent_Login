@@ -179,6 +179,7 @@ function Login() {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inner}>
             <View style={styles.mainContainer}>
+<<<<<<< HEAD
               {keyboardStatus === "Keyboard Hidden" && (
                 <Image
                   style={styles.bannerImage}
@@ -232,6 +233,8 @@ function Login() {
                 </View>
               )}
               {keyboardStatus === "Keyboard Hidden" && (
+=======
+>>>>>>> 08618ae3d4bc58957c0da9a61a08a224de8c614f
                 <View>
                   <View style={styles.buttonContainer}>
                     <LgButton
@@ -249,32 +252,8 @@ function Login() {
                     </LgButton>
                   </View>
                 </View>
-              )}
               <View style={styles.inputContainer}>
-                {keyboardStatus === "Keyboard Shown" && (
-                  <Image
-                    style={{
-                      width: "20%",
-                      height: "10%",
-                      padding: 35,
-                      left: 100,
-                    }}
-                    source={require("../assets/Asset2.png")}
-                  />
-                )}
-                {keyboardStatus === "Keyboard Shown" && (
-                  <Text
-                    style={{
-                      left: 60,
-                      color: "red",
-                      fontSize: 20,
-                      fontWeight: "800",
-                      bottom: 5,
-                    }}
-                  >
-                    KINARA SCHOOL
-                  </Text>
-                )}
+
                 <TextInput
                   onChangeText={userInputHandler}
                   style={styles.inputStyle}
@@ -336,10 +315,7 @@ const styles = StyleSheet.create({
     // padding: 24,
     // flex: 1,
     justifyContent: "space-around",
-  },
-
-  mainContainer: {
-    height: 630,
+    top:70
   },
   bannerImage: {
     width: "100%",
@@ -350,13 +326,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     top: 20,
   },
-  logo: {
-    width: "30%",
-    height: "20%",
-    marginLeft: 25,
-    position: "absolute",
-    top: 120,
-  },
+  // logo: {
+  //   width: 100,
+  //   height: 100,
+  //   // marginLeft: 25,
+  //   // position: "absolute",
+  //   top: 5,
+  // },
   buttonContainer: {
     flexDirection: "row",
     paddingLeft: 47,
