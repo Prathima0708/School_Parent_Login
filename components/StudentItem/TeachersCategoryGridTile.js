@@ -122,9 +122,11 @@ const styles = StyleSheet.create({
   },
   title: {
     top:20,
-    fontWeight: "bold",
+   // fontWeight: "bold",
     fontSize: 18,
-    left:10
+    left:10,
+    fontFamily:'welcomeMsg',
+    letterSpacing:1
     // right:12,
     //  color: "red",
   },

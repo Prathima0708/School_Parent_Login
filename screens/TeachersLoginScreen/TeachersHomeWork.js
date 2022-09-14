@@ -2,7 +2,7 @@ import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
 import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../components/UI/Button";
-
+import { Keyboard } from "react-native";
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import SelectList from "react-native-dropdown-select-list";
@@ -48,6 +48,24 @@ const TeachersHomework = () => {
     useCameraPermissions();
 
   const [image, setImage] = useState();
+
+  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardStatus("Keyboard Shown");
+      console.log(keyboardStatus)
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardStatus("Keyboard Hidden");
+      console.log(keyboardStatus)
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   useEffect(async () => {
     if (Platform.OS !== "web") {
@@ -261,7 +279,13 @@ const TeachersHomework = () => {
             style={styles.inputStyle}
             onChangeText={subjectChangeHandler}
             value={subject}
+            onSubmitEditing={Keyboard.dismiss}
           />
+          <View style={[{
+            // Try setting `flexDirection` to `"row"`.
+            flexDirection: "row"
+          }]}>
+          <View style={{ flex: 1}}>
           <View
             style={{
               paddingVertical: 15,
@@ -273,12 +297,11 @@ const TeachersHomework = () => {
           >
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 12,
                 color: "black",
               }}
             >
-              HOMEWORK DATE:
-            </Text>
+              HOMEWORK DATE: </Text>
 
             <Ionicons
               style={{
@@ -304,19 +327,21 @@ const TeachersHomework = () => {
               onChange={fromDateChangeHandler}
             />
           )}
-
+          </View>
+          <View style={styles.space} />
+          <View style={{ flex: 1}}>
           <View
             style={{
               paddingVertical: 15,
               paddingHorizontal: 10,
               flexDirection: "row",
-              justifyContent: "space-between",
+              // justifyContent: "space-between",
               alignItems: "center",
             }}
           >
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 12,
                 color: "black",
               }}
             >
@@ -346,18 +371,22 @@ const TeachersHomework = () => {
               onChange={toDateChangeHandler}
             />
           )}
+          </View>
+          </View>
 
           <Text style={styles.labels}>REMARK</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={remarkChangeHandler}
             value={remark}
+            onSubmitEditing={Keyboard.dismiss}
           />
           <Text style={styles.labels}>HOMEWORK</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={hwChangeHandler}
             value={hw}
+            onSubmitEditing={Keyboard.dismiss}
           />
           {/* <View>
             <Text style={styles.labels}>UPLOAD IMAGE</Text>
@@ -383,9 +412,9 @@ const TeachersHomework = () => {
           </View>
         </View>
       </ScrollView>
-      <View>
+      {keyboardStatus=='Keyboard Hidden' && <View>
         <TeachersHome />
-      </View>
+      </View>}
     </>
   );
 };
@@ -430,5 +459,9 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: "100%",
+  },
+  space: {
+    width: 20, // or whatever size you need
+    height: 20,
   },
 });

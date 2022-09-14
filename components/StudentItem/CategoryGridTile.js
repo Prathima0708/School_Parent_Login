@@ -69,9 +69,11 @@ const styles = StyleSheet.create({
   },
   title: {
     marginTop: 3,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     fontSize: 18,
-    right:20,
+    fontFamily:'welcomeMsg',
+    right:15,
+    letterSpacing:1
     //  color: "red",
   },
 });

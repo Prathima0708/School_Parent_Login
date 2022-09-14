@@ -1,9 +1,9 @@
 import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../components/UI/Button";
 import axios from "axios";
-
+import { Keyboard } from "react-native";
 import { UserId } from "../Login";
 import BgButton from "../../components/UI/BgButton";
 import { Ionicons } from "@expo/vector-icons";
@@ -23,6 +23,24 @@ const TeachersCalendar = () => {
   const [fromText, setFromText] = useState("");
   const [toText, setToText] = useState("");
 
+  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardStatus("Keyboard Shown");
+      console.log(keyboardStatus)
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardStatus("Keyboard Hidden");
+      console.log(keyboardStatus)
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+  
   const showFromMode = (currentFromMode) => {
     setFromShow(true);
 
@@ -123,30 +141,28 @@ const TeachersCalendar = () => {
             style={styles.inputStyle}
             onChangeText={titleChangeHandler}
             value={title}
+            onSubmitEditing={Keyboard.dismiss}
           />
           <Text style={styles.labels}>DESCRIPTION</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={descriptionChangeHandler}
             value={description}
+            onSubmitEditing={Keyboard.dismiss}
           />
-          <View
-            style={{
+          <View style={[, {
+            // Try setting `flexDirection` to `"row"`.
+            flexDirection: "row"
+          }]}>
+            <View style={{ flex: 1, }} >
+            <View style={{
               paddingVertical: 15,
               // paddingHorizontal: 10,
               flexDirection: "row",
+              paddingHorizontal:10,
               justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 18,
-                color: "black",
-              }}
-            >
-              EVENT START DATE:
-            </Text>
+              alignItems: "center", }}>
+            <Text style={{fontSize: 15,color: "black"}}>EVENT START DATE: </Text>
 
             <Ionicons
               style={{
@@ -171,24 +187,26 @@ const TeachersCalendar = () => {
               onChange={fromDateChangeHandler}
             />
           )}
-
-          <View
+            </View>
+            <View style={styles.space} />
+            <View style={{ flex: 1, }} >
+            <View
             style={{
               paddingVertical: 15,
               //  paddingHorizontal: 10,
               flexDirection: "row",
-              justifyContent: "space-between",
+              // justifyContent: "space-between",
               alignItems: "center",
+              paddingHorizontal:10
             }}
           >
             <Text
               style={{
-                fontSize: 18,
+                fontSize: 15,
                 color: "black",
               }}
             >
-              EVENT END DATE:
-            </Text>
+              EVENT END DATE: </Text>
 
             <Ionicons
               style={{
@@ -215,12 +233,19 @@ const TeachersCalendar = () => {
             />
           )}
 
+            </View>
+          </View>
+          {/*  */}
+          
+
+          {/*  */}
+        
           <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Event</Button>
           </View>
         </View>
       </ScrollView>
-      <TeachersHome />
+      {keyboardStatus=='Keyboard Hidden' && <TeachersHome />}
     </>
   );
 };
@@ -245,6 +270,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     fontSize: 18,
     // margin:5
+  },
+  space: {
+    width: 20, // or whatever size you need
+    height: 20,
   },
   labels: {
     fontSize: 18,

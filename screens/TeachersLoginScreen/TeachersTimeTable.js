@@ -1,6 +1,7 @@
 import { View, StyleSheet, Text, ScrollView, TextInput } from "react-native";
 import React, { useState } from "react";
 import axios from "axios";
+import { Keyboard } from "react-native";
 import BgButton from "../../components/UI/BgButton";
 import VerticalLine from "../../components/UI/VerticalLine";
 import Button from "../../components/UI/Button";
@@ -19,6 +20,7 @@ const TeachersTimetable = () => {
   });
   const [forExamTimeTable, setForExamTimeTable] = useState({ color: "black" });
 
+
   const [fromTime, setFromTime] = useState(new Date());
   const [toTime, setToTime] = useState(new Date());
 
@@ -30,6 +32,24 @@ const TeachersTimetable = () => {
 
   const [fromTimeText, setFromTimeText] = useState("");
   const [toTimeText, setToTimeText] = useState("");
+
+  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardStatus("Keyboard Shown");
+      console.log(keyboardStatus)
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardStatus("Keyboard Hidden");
+      console.log(keyboardStatus)
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   const showTimeFromMode = (currentFromTimeMode) => {
     setFromTimeShow(true);
@@ -343,8 +363,12 @@ const TeachersTimetable = () => {
                   style={{ fontSize: 16 }}
                 />
               </View>
-
-              <View
+              <View style={[ {
+                // Try setting `flexDirection` to `"row"`.
+                flexDirection: "row"
+              }]}>
+                <View style={{ flex: 1 }} >
+                <View
                 style={{
                   paddingVertical: 15,
                   paddingHorizontal: 10,
@@ -374,7 +398,7 @@ const TeachersTimetable = () => {
                   onPress={() => showTimeFromMode("time")}
                 />
               </View>
-              <TextInput style={styles.inputStyle} value={fromTimeText} />
+              <TextInput style={styles.inputStyle} value={fromTimeText} onSubmitEditing={Keyboard.dismiss}/>
               {fromTimeShow && (
                 <DateTimePicker
                   testID="dateTimePicker"
@@ -385,8 +409,10 @@ const TeachersTimetable = () => {
                   onChange={fromTimeChangeHandler}
                 />
               )}
-
-              <View
+                </View>
+                <View style={styles.space} />
+                <View style={{ flex: 1 }} >
+                <View
                 style={{
                   paddingVertical: 15,
                   paddingHorizontal: 10,
@@ -400,8 +426,7 @@ const TeachersTimetable = () => {
                     fontSize: 16,
                     color: "black",
                   }}
-                >
-                  TO TIME:
+                >TO TIME:
                 </Text>
 
                 <Ionicons
@@ -415,8 +440,10 @@ const TeachersTimetable = () => {
                   color="black"
                   onPress={() => showTimeToMode("time")}
                 />
+                
               </View>
-              <TextInput style={styles.inputStyle} value={toTimeText} />
+              
+              <TextInput style={styles.inputStyle} value={toTimeText} onSubmitEditing={Keyboard.dismiss} />
               {toTimeShow && (
                 <DateTimePicker
                   testID="dateTimePicker"
@@ -428,41 +455,52 @@ const TeachersTimetable = () => {
                   //  minimumDate={fromDate}
                 />
               )}
+                </View>
+              </View>
+              
+
+             
               <Text style={styles.labels}>MONDAY SUBJECT</Text>
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={setEnteredMonday}
                 value={monday}
+                onSubmitEditing={Keyboard.dismiss}
               />
               <Text style={styles.labels}>TUESDAY SUBJECT</Text>
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={setEnteredTuesday}
                 value={tuesday}
+                onSubmitEditing={Keyboard.dismiss}
               />
               <Text style={styles.labels}>WEDNESDAY SUBJECT</Text>
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={setEnteredWednesday}
                 value={wednesday}
+                onSubmitEditing={Keyboard.dismiss}
               />
               <Text style={styles.labels}>THURSDAY SUBJECT</Text>
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={setEnteredThursday}
                 value={thursday}
+                onSubmitEditing={Keyboard.dismiss}
               />
               <Text style={styles.labels}>FRIDAY SUBJECT</Text>
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={setEnteredFriday}
                 value={friday}
+                onSubmitEditing={Keyboard.dismiss}
               />
               <Text style={styles.labels}>SATURDAY SUBJECT</Text>
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={setEnteredSaturday}
                 value={saturday}
+                onSubmitEditing={Keyboard.dismiss}
               />
               <View
                 style={{
@@ -514,9 +552,9 @@ const TeachersTimetable = () => {
               </View>
             </View>
           </ScrollView>
-          <View style={styles.home}>
+          {keyboardStatus=='Keyboard Hidden' && <View style={styles.home}>
             <TeachersHome />
-          </View>
+          </View>}
         </>
       )}
       {showForm && (
@@ -528,6 +566,7 @@ const TeachersTimetable = () => {
                 style={styles.inputStyle}
                 onChangeText={examNameChangeHandler}
                 value={examName}
+                onSubmitEditing={Keyboard.dismiss}
               />
 
               <View
@@ -618,12 +657,14 @@ const TeachersTimetable = () => {
                 style={styles.inputStyle}
                 onChangeText={totalMarksChangeHandler}
                 value={totalMarks}
+                onSubmitEditing={Keyboard.dismiss}
               />
               <Text style={styles.labels}>HOUR</Text>
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={hourChangeHandler}
                 value={hour}
+                onSubmitEditing={Keyboard.dismiss}
               />
               <Text style={styles.labels}>CLASS NAME</Text>
 
@@ -642,9 +683,9 @@ const TeachersTimetable = () => {
               </View>
             </View>
           </ScrollView>
-          <View style={styles.home}>
+          {keyboardStatus=='Keyboard Hidden' && <View style={styles.home}>
             <TeachersHome />
-          </View>
+          </View>}
         </>
       )}
     </>
@@ -680,5 +721,9 @@ const styles = StyleSheet.create({
   btnSubmit: {
     marginTop: 27,
     marginBottom: 69,
+  },
+  space: {
+    width: 20, // or whatever size you need
+    height: 20,
   },
 });

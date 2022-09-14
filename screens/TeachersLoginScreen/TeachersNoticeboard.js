@@ -1,6 +1,6 @@
 import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { Keyboard } from "react-native";
 import Button from "../../components/UI/Button";
 import axios from "axios";
 import { Ionicons } from "@expo/vector-icons";
@@ -17,6 +17,24 @@ const TeachersNoticeboard = () => {
   const [frommode, setFromMode] = useState("date");
   const [fromDate, setFromDate] = useState(new Date());
   const [fromText, setFromText] = useState("");
+
+  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardStatus("Keyboard Shown");
+      console.log(keyboardStatus)
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardStatus("Keyboard Hidden");
+      console.log(keyboardStatus)
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   const showFromMode = (currentFromMode) => {
     setFromShow(true);
@@ -87,6 +105,7 @@ const TeachersNoticeboard = () => {
             style={styles.inputStyle}
             onChangeText={userNameChangeHandler}
             value={username}
+            onSubmitEditing={Keyboard.dismiss}
           />
           <Text style={styles.labels}>TITLE</Text>
           <TextInput
@@ -94,12 +113,14 @@ const TeachersNoticeboard = () => {
             style={styles.inputStyle}
             onChangeText={titleChangeHandler}
             value={title}
+            onSubmitEditing={Keyboard.dismiss}
           />
           <Text style={styles.labels}>DESCRIPTION</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={descriptionChangeHandler}
             value={description}
+            onSubmitEditing={Keyboard.dismiss}
           />
           {/* <TextInput
             style={styles.inputStyle}
@@ -146,14 +167,14 @@ const TeachersNoticeboard = () => {
               />
             )}
           </View>
-          <TextInput style={styles.inputStyle} value={fromText} />
+          <TextInput style={styles.inputStyle} value={fromText} onSubmitEditing={Keyboard.dismiss} />
 
           <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Notice</Button>
           </View>
         </View>
       </ScrollView>
-      <TeachersHome />
+      {keyboardStatus=='Keyboard Hidden' && <TeachersHome />}
     </>
   );
 };

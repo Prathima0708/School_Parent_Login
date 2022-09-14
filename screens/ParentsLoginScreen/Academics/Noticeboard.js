@@ -1,8 +1,9 @@
 import { View, StyleSheet, TextInput, Text } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BgButton from "../../../components/UI/BgButton";
 import VerticalLine from "../../../components/UI/VerticalLine";
 import ParentsHome from "../ParentsHome";
+import { Keyboard } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { ScrollView } from "react-native";
@@ -18,6 +19,24 @@ function Noticeboard() {
   const [frommode, setFromMode] = useState("date");
   const [fromDate, setFromDate] = useState(new Date());
   const [fromText, setFromText] = useState("");
+
+  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardStatus("Keyboard Shown");
+      console.log(keyboardStatus)
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardStatus("Keyboard Hidden");
+      console.log(keyboardStatus)
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   const showFromMode = (currentFromMode) => {
     setFromShow(true);
@@ -57,11 +76,11 @@ function Noticeboard() {
       <ScrollView>
         <View style={styles.root}>
           <Text style={styles.labels}>Creator of notice</Text>
-          <TextInput style={styles.inputStyle} />
+          <TextInput style={styles.inputStyle} onSubmitEditing={Keyboard.dismiss}/>
           <Text style={styles.labels}>Title</Text>
-          <TextInput style={styles.inputStyle} />
+          <TextInput style={styles.inputStyle} onSubmitEditing={Keyboard.dismiss}/>
           <Text style={styles.labels}>Description</Text>
-          <TextInput style={styles.inputStyle} />
+          <TextInput style={styles.inputStyle} onSubmitEditing={Keyboard.dismiss}/>
           <View
             style={{
               paddingVertical: 15,
@@ -105,9 +124,9 @@ function Noticeboard() {
           <TextInput style={styles.inputStyle} value={fromText} />
         </View>
       </ScrollView>
-      <View style={styles.home}>
+      {keyboardStatus=='Keyboard Hidden' && <View style={styles.home}>
         <ParentsHome />
-      </View>
+      </View>}
     </>
   );
 }

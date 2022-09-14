@@ -4,6 +4,7 @@ import VerticalLine from "../../../components/UI/VerticalLine";
 import { DataTable } from "react-native-paper";
 import Button from "../../../components/UI/Button";
 import axios from "axios";
+import { Keyboard } from "react-native";
 import BgButton from "../../../components/UI/BgButton";
 import { UserId } from "../../Login";
 import { Ionicons } from "@expo/vector-icons";
@@ -31,6 +32,24 @@ const LeaveScreen = () => {
   const [toShow, setToShow] = useState(false);
   const [tomode, setToMode] = useState("date");
   const [toText, setToText] = useState("");
+
+  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardStatus("Keyboard Shown");
+      console.log(keyboardStatus)
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardStatus("Keyboard Hidden");
+      console.log(keyboardStatus)
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   const showFromMode = (currentFromMode) => {
     setFromShow(true);
@@ -228,12 +247,14 @@ const LeaveScreen = () => {
               style={styles.inputStyle}
               onChangeText={regnoChangeHandler}
               value={regno}
+              onSubmitEditing={Keyboard.dismiss}
             />
             <Text style={styles.labels}>LEAVE TYPE</Text>
             <TextInput
               style={styles.inputStyle}
               onChangeText={leaveTypeChangeHandler}
               value={leaveType}
+              onSubmitEditing={Keyboard.dismiss}
             />
             <View
               style={{
@@ -275,7 +296,7 @@ const LeaveScreen = () => {
                 />
               )}
             </View>
-            <TextInput style={styles.inputStyle} value={fromText} />
+            <TextInput style={styles.inputStyle} value={fromText} onSubmitEditing={Keyboard.dismiss} />
             <View
               style={{
                 paddingVertical: 15,
@@ -306,7 +327,7 @@ const LeaveScreen = () => {
                 onPress={() => showToMode("date")}
               />
             </View>
-            <TextInput style={styles.inputStyle} value={toText} />
+            <TextInput style={styles.inputStyle} value={toText} onSubmitEditing={Keyboard.dismiss}/>
             {toShow && (
               <DateTimePicker
                 testID="dateTimePicker"
@@ -323,6 +344,7 @@ const LeaveScreen = () => {
               style={styles.inputStyle}
               onChangeText={leaveReasonChangeHandler}
               value={leaveReason}
+              onSubmitEditing={Keyboard.dismiss}
             />
 
             <View style={styles.btnSubmit}>
@@ -331,7 +353,7 @@ const LeaveScreen = () => {
           </View>
         </ScrollView>
       )}
-      <ParentsHome />
+      {keyboardStatus=='Keyboard Hidden' && <ParentsHome />}
     </>
   );
 };

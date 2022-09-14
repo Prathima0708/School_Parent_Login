@@ -90,9 +90,11 @@ import {
       title: {
         // marginTop: 13,
         top:10,
-        fontWeight: "bold",
+        // fontWeight: "bold",
         fontSize: 18,
-        right:6
+        right:6,
+        letterSpacing:1,
+        fontFamily:'welcomeMsg'
         // right:8
         //  color: "red",
       },

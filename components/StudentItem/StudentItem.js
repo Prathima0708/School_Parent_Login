@@ -74,12 +74,14 @@ const styles = StyleSheet.create({
   textBase: {
     color: "#0D98BA",
     marginRight: 33,
+    fontFamily:'welcomeMsg',
   },
   description: {
     fontSize: 20,
 
     marginBottom: 4,
-    fontWeight: "bold",
+    // fontWeight: "bold",
+    fontFamily:'welcomeMsg',
   },
   imageContainer: {
     paddingHorizontal: 12,

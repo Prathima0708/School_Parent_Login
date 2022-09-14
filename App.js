@@ -84,6 +84,7 @@ import TeachersLeave from "./screens/TeachersLoginScreen/TeachersLeave";
 import TeachersHome from "./screens/TeachersLoginScreen/TeachersHome";
 import TeachersMarksheet from "./screens/TeachersLoginScreen/TeachersMarksheet";
 import LandingScreen from "./screens/LandingScreen";
+
 // function Bottom() {
 //   return (
 //     <Tab.Navigator>
@@ -92,14 +93,15 @@ import LandingScreen from "./screens/LandingScreen";
 //     </Tab.Navigator>
 //   );
 // }
-import {
-  Roboto_400Regular,
-  Roboto_400Regular_Italic
-} from "@expo-google-fonts/roboto";
-import AppLoading from "expo-app-loading";
+
 export default function App() {
   const [tokenIsPresent, setTokenIsPresent] = useState(false);
   const [showtab, setShowTab] = useState(false);
+
+  let [fontsLoaded] = useFonts({
+    MainHeading:require('./assets/fonts/Libre_Franklin/static/LibreFranklin-Bold.ttf'),
+    welcomeMsg:require('./assets/fonts/Libre_Franklin/static/LibreFranklin-Medium.ttf')
+  });
 
   useEffect(() => {
     async function getToken() {
@@ -121,18 +123,11 @@ export default function App() {
   //   return null;
   // }
 
-  
-  let [fontsLoaded] = useFonts({
-    Roboto_400Regular,
-    Roboto_400Regular_Italic
-  });
   if (!fontsLoaded) {
-    return <AppLoading />;
-  } else{
+    return null;
+  }
     return (
-      <>
-        {/* <Login /> */}
-        <NavigationContainer>
+      <NavigationContainer>
           <Stack.Navigator>
           <Stack.Screen
               name="LandingScreen"
@@ -203,8 +198,6 @@ export default function App() {
             <Stack.Screen name="Homework" component={HomeworkScreen} />
           </Stack.Navigator>
         </NavigationContainer>
-      </>
     );
   }
-  
-}
+

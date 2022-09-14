@@ -1,9 +1,9 @@
 import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Button from "../../components/UI/Button";
 import axios from "axios";
-
+import { Keyboard } from "react-native";
 import { UserId } from "../Login";
 import BgButton from "../../components/UI/BgButton";
 import TeachersHome from "./TeachersHome";
@@ -16,6 +16,23 @@ const TeachersTransport = () => {
   const [routename, setEnteredRouteName] = useState("");
   const [stopname, setEnteredStopName] = useState("");
   const [busNumber, setEnteredBusNumber] = useState("");
+  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardStatus("Keyboard Shown");
+      console.log(keyboardStatus)
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardStatus("Keyboard Hidden");
+      console.log(keyboardStatus)
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   function studentIDChangeHandler(enteredValue) {
     setEnteredStudentID(enteredValue);
@@ -98,6 +115,7 @@ const TeachersTransport = () => {
             style={styles.inputStyle}
             onChangeText={busNumberChangeHandler}
             value={busNumber}
+            onSubmitEditing={Keyboard.dismiss}
           />
           <Text style={styles.labels}>VEHICLE NO</Text>
           <TextInput
@@ -105,18 +123,21 @@ const TeachersTransport = () => {
             style={styles.inputStyle}
             onChangeText={vehicleChangeHandler}
             value={vehicleno}
+            onSubmitEditing={Keyboard.dismiss}
           />
           <Text style={styles.labels}>TYPE</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={typeChangeHandler}
             value={type}
+            onSubmitEditing={Keyboard.dismiss}
           />
           <Text style={styles.labels}>DRIVER NAME</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={driverNameChangeHandler}
             value={drivername}
+            onSubmitEditing={Keyboard.dismiss}
           />
           <Text style={styles.labels}>MOBILE NO</Text>
           <TextInput
@@ -124,18 +145,21 @@ const TeachersTransport = () => {
             style={styles.inputStyle}
             onChangeText={mobileChangeHandler}
             value={mobile}
+            onSubmitEditing={Keyboard.dismiss}
           />
           <Text style={styles.labels}>ROUTE NAME</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={routeNameChangeHandler}
             value={routename}
+            onSubmitEditing={Keyboard.dismiss}
           />
           <Text style={styles.labels}>STOP NAME</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={stopNameChangeHandler}
             value={stopname}
+            onSubmitEditing={Keyboard.dismiss}
           />
 
           <View style={styles.btnSubmit}>
@@ -143,9 +167,9 @@ const TeachersTransport = () => {
           </View>
         </View>
       </ScrollView>
-      <View style={styles.home}>
+      {keyboardStatus=='Keyboard Hidden' && <View style={styles.home}>
         <TeachersHome />
-      </View>
+      </View>}
     </>
   );
 };

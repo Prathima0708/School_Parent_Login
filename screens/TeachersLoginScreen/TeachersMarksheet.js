@@ -1,15 +1,32 @@
 import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Button from "../../components/UI/Button";
 import axios from "axios";
-
+import { Keyboard } from "react-native";
 import BgButton from "../../components/UI/BgButton";
 import TeachersHome from "./TeachersHome";
 const TeachersMarksheet = () => {
   const [studentname, setEnteredStudentName] = useState("");
   const [overallperct, setEnteredOverallPerct] = useState("");
   const [remark, setEnteredRemark] = useState("");
+  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardStatus("Keyboard Shown");
+      console.log(keyboardStatus)
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardStatus("Keyboard Hidden");
+      console.log(keyboardStatus)
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   function studentNameChangeHandler(enteredValue) {
     setEnteredStudentName(enteredValue);
@@ -67,18 +84,21 @@ const TeachersMarksheet = () => {
             style={styles.inputStyle}
             onChangeText={studentNameChangeHandler}
             value={studentname}
+            onSubmitEditing={Keyboard.dismiss}
           />
           <Text style={styles.labels}>OVERALL PERCENTAGE</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={percentageChangeHandler}
             value={overallperct}
+            onSubmitEditing={Keyboard.dismiss}
           />
           <Text style={styles.labels}>REMARK</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={remarkChangeHandler}
             value={remark}
+            onSubmitEditing={Keyboard.dismiss}
           />
 
           <View style={styles.btnSubmit}>
@@ -86,9 +106,9 @@ const TeachersMarksheet = () => {
           </View>
         </View>
       </ScrollView>
-      <View style={styles.home}>
+      {keyboardStatus=='Keyboard Hidden' && <View style={styles.home}>
         <TeachersHome />
-      </View>
+      </View>}
     </>
   );
 };

@@ -7,7 +7,8 @@ import {
   Platform,
   Button as Btn,
 } from "react-native";
-import React, { useState } from "react";
+import { Keyboard } from "react-native";
+import React, { useEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../components/UI/Button";
 import axios from "axios";
@@ -15,6 +16,7 @@ import { UserId } from "../Login";
 import BgButton from "../../components/UI/BgButton";
 
 import { Ionicons } from "@expo/vector-icons";
+import TeachersHome from "./TeachersHome";
 const TeachersLeave = () => {
   const [leaveType, setEnteredLeaveType] = useState("");
   const [leaveReason, setEnteredLeaveReason] = useState("");
@@ -30,6 +32,24 @@ const TeachersLeave = () => {
 
   const [fromText, setFromText] = useState("");
   const [toText, setToText] = useState("");
+
+  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardStatus("Keyboard Shown");
+      console.log(keyboardStatus)
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardStatus("Keyboard Hidden");
+      console.log(keyboardStatus)
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   const showFromMode = (currentFromMode) => {
     setFromShow(true);
@@ -130,12 +150,14 @@ const TeachersLeave = () => {
             style={styles.inputStyle}
             onChangeText={leaveTypeChangeHandler}
             value={leaveType}
+            onSubmitEditing={Keyboard.dismiss}
           />
           <Text style={styles.labels}>LEAVE REASON</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={leaveReasonChangeHandler}
             value={leaveReason}
+            onSubmitEditing={Keyboard.dismiss}
           />
           {/* <Text style={styles.labels}>LEAVE FROM</Text>
           <TextInput
@@ -252,6 +274,7 @@ const TeachersLeave = () => {
           </View>
         </View>
       </ScrollView>
+      {keyboardStatus=='Keyboard Hidden' && <TeachersHome />}
     </>
   );
 };
