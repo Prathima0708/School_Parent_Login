@@ -102,22 +102,14 @@ export default function App() {
     PoppinsSemiBold: require("./assets/fonts/Poppins-SemiBold.ttf"),
     Ubuntu: require("./assets/fonts/Ubuntu-Regular.ttf"),
     MonsterratBold: require("./assets/fonts/static/Montserrat-Bold.ttf"),
-<<<<<<< HEAD
-    MainHeading: require("./assets/fonts/Libre_Franklin/static/LibreFranklin-Bold.ttf"),
-    welcomeMsg: require("./assets/fonts/Libre_Franklin/static/LibreFranklin-Medium.ttf"),
-=======
     MainHeading:require('./assets/fonts/Libre_Franklin/static/LibreFranklin-Bold.ttf'),
     welcomeMsg:require('./assets/fonts/Libre_Franklin/static/LibreFranklin-Medium.ttf')
->>>>>>> f2a651198f1af1f6e5c5ba44d8f4a179b58f2352
   });
   const [tokenIsPresent, setTokenIsPresent] = useState(false);
   const [showtab, setShowTab] = useState(false);
 
-<<<<<<< HEAD
-=======
 
 
->>>>>>> f2a651198f1af1f6e5c5ba44d8f4a179b58f2352
   useEffect(() => {
     async function getToken() {
       const value = await AsyncStorage.getItem("token");
@@ -134,13 +126,6 @@ export default function App() {
   //   'Inter-SemiBoldItalic': 'https://rsms.me/inter/font-files/Inter-SemiBoldItalic.otf?v=3.12',
   // });
 
-<<<<<<< HEAD
-  // if (!fontsLoaded) {
-  //   return null;
-  // }
-
-=======
->>>>>>> f2a651198f1af1f6e5c5ba44d8f4a179b58f2352
   if (!fontsLoaded) {
     return null;
   }

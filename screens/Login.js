@@ -177,24 +177,10 @@ function Login() {
 
   return (
     <>
-<<<<<<< HEAD
-      {keyboardStatus == "Keyboard Hidden" && (
-        <Image
-          style={styles.bannerImage}
-          source={require("../assets/bgelement.png")}
-        />
-      )}
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.container}
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-=======
       {keyboardStatus=='Keyboard Hidden' && <Image
         style={styles.bannerImage}
         source={require("../assets/bgelement.png")}
       />}
->>>>>>> f2a651198f1af1f6e5c5ba44d8f4a179b58f2352
           <View style={styles.inner}>
             <View style={styles.accTypeText}>
               <Text style={{color:'grey',fontSize:16,fontFamily:'welcomeMsg'}}>Choose account type</Text>
@@ -263,15 +249,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-<<<<<<< HEAD
-  inner: {
-    // padding: 24,
-    // flex: 1,
-    justifyContent: "space-around",
-    top: 70,
-  },
-=======
->>>>>>> f2a651198f1af1f6e5c5ba44d8f4a179b58f2352
   bannerImage: {
     width: "100%",
     height: 200,
@@ -318,18 +295,8 @@ const styles = StyleSheet.create({
     top: 15,
   },
   submit: {
-<<<<<<< HEAD
-    // marginRight: 10,
-    // marginLeft: 10,
-    // marginTop: 10,
-    // paddingTop: 20,
-    // paddingBottom: 20,
-    padding: 15,
-    backgroundColor: "#59b8dd",
-=======
     padding:15,
     backgroundColor: '#59b8dd',
->>>>>>> f2a651198f1af1f6e5c5ba44d8f4a179b58f2352
     borderRadius: 10,
     borderWidth: 1,
     top: 10,

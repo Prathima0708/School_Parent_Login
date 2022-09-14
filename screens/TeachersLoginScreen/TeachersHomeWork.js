@@ -14,7 +14,7 @@ import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import SelectList from "react-native-dropdown-select-list";
 import { Alert, Button as Btn, Image } from "react-native";
-import { Keyboard } from "react-native";
+
 import {
   launchCameraAsync,
   useCameraPermissions,
@@ -278,7 +278,7 @@ const TeachersHomework = () => {
 
       <ScrollView style={styles.root}>
         <View style={styles.inputForm}>
-          <Text style={styles.labels}>CLASS NAME</Text>
+          <Text style={styles.labels}>Class Name</Text>
 
           <View style={{ width: 350, fontSize: 18, marginTop: 3 }}>
             <SelectList
@@ -288,161 +288,132 @@ const TeachersHomework = () => {
             />
           </View>
 
-          <Text style={styles.labels}>SUBJECT</Text>
+          <Text style={styles.labels}>Subject</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={subjectChangeHandler}
             value={subject}
             onSubmitEditing={Keyboard.dismiss}
           />
-<<<<<<< HEAD
-          <View
-=======
-            <View style={[{
-              // Try setting `flexDirection` to `"row"`.
-              flexDirection: "row"
-             }]}>
-              <View style={{ flex: 1 }} >
+
+          <View style={{ flexDirection: "row" }}>
+            <View style={{ flex: 1 }}>
               <View
->>>>>>> f2a651198f1af1f6e5c5ba44d8f4a179b58f2352
-            style={{
-              paddingVertical: 15,
-              paddingHorizontal: 10,
+                style={{
+                  paddingVertical: 15,
+                  paddingHorizontal: 10,
 
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 12,
-                color: "black",
-              }}
-            >
-              HOMEWORK DATE:{" "}
-            </Text>
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginLeft: -10,
+                }}
+              >
+                <Text style={styles.labels}>Homework Date: </Text>
 
-            <Ionicons
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-                textAlign: "right",
-              }}
-              name="calendar"
-              size={24}
-              color="black"
-              onPress={() => showFromMode("date")}
-            />
-          </View>
-          <TextInput style={styles.inputStyle} value={fromText} onSubmitEditing={Keyboard.dismiss} />
-
-          {fromShow && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={fromDate}
-              mode={frommode}
-              is24Hour={true}
-              display="default"
-              onChange={fromDateChangeHandler}
-            />
-          )}
-<<<<<<< HEAD
-        </View>
-        <View style={styles.space} />
-        <View style={{ flex: 1 }}>
-          <View
-=======
+                <Ionicons
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    textAlign: "right",
+                  }}
+                  name="calendar"
+                  size={24}
+                  color="black"
+                  onPress={() => showFromMode("date")}
+                />
               </View>
-              <View style={styles.space} />
-              <View style={{ flex: 1 }} >
-              <View
->>>>>>> f2a651198f1af1f6e5c5ba44d8f4a179b58f2352
-            style={{
-              paddingVertical: 15,
-              paddingHorizontal: 10,
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 12,
-                color: "black",
-              }}
-            >
-              HOMEWORK DUE DATE:
-            </Text>
+              <TextInput
+                style={styles.inputStyle}
+                value={fromText}
+                onSubmitEditing={Keyboard.dismiss}
+              />
 
-            <Ionicons
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-                textAlign: "right",
-              }}
-              name="calendar"
-              size={24}
-              color="black"
-              onPress={() => showToMode("date")}
-            />
-          </View>
-          <TextInput style={styles.inputStyle} value={toText} />
-          {toShow && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={toDate}
-              mode={tomode}
-              is24Hour={true}
-              display="default"
-              onChange={toDateChangeHandler}
-            />
-          )}
-<<<<<<< HEAD
-        </View>
-=======
-      
-              </View>
+              {fromShow && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={fromDate}
+                  mode={frommode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={fromDateChangeHandler}
+                />
+              )}
             </View>
+            <View style={styles.space} />
+            <View style={{ flex: 1 }}>
+              <View
+                style={{
+                  paddingVertical: 15,
+                  paddingHorizontal: 10,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginLeft: -10,
+                }}
+              >
+                <Text style={styles.labels}>Homework Due Date:</Text>
 
-          {/* </View> */}
+                <Ionicons
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    textAlign: "right",
+                  }}
+                  name="calendar"
+                  size={24}
+                  color="black"
+                  onPress={() => showToMode("date")}
+                />
+              </View>
+              <TextInput style={styles.inputStyle} value={toText} />
+              {toShow && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={toDate}
+                  mode={tomode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={toDateChangeHandler}
+                />
+              )}
+            </View>
+          </View>
 
-
->>>>>>> f2a651198f1af1f6e5c5ba44d8f4a179b58f2352
-
-        <Text style={styles.labels}>REMARK</Text>
-        <TextInput
-          style={styles.inputStyle}
-          onChangeText={remarkChangeHandler}
-          value={remark}
-          onSubmitEditing={Keyboard.dismiss}
-        />
-        <Text style={styles.labels}>HOMEWORK</Text>
-        <TextInput
-          style={styles.inputStyle}
-          onChangeText={hwChangeHandler}
-          value={hw}
-          onSubmitEditing={Keyboard.dismiss}
-        />
-        {/* <View>
+          <Text style={styles.labels}>Remark</Text>
+          <TextInput
+            style={styles.inputStyle}
+            onChangeText={remarkChangeHandler}
+            value={remark}
+            onSubmitEditing={Keyboard.dismiss}
+          />
+          <Text style={styles.labels}>Homework</Text>
+          <TextInput
+            style={styles.inputStyle}
+            onChangeText={hwChangeHandler}
+            value={hw}
+            onSubmitEditing={Keyboard.dismiss}
+          />
+          {/* <View>
             <Text style={styles.labels}>UPLOAD IMAGE</Text>
             <View style={styles.imagePreView}>{imagePreView}</View>
             <Btn title="take image" onPress={takeImageHanlder} />
           </View> */}
 
-        <Text style={styles.labels}>UPLOAD IMAGE</Text>
-        <View style={styles.imagePreView}>{imagePreView}</View>
-        <View style={{ marginTop: 13 }}>
-          <Btn title="Upload Image" onPress={PickImage} />
-          {/* {image && (
+          <Text style={styles.labels}>Upload Image</Text>
+          <View style={styles.imagePreView}>{imagePreView}</View>
+          <View style={{ marginTop: 13 }}>
+            <Btn title="Upload Image" onPress={PickImage} />
+            {/* {image && (
               <Image
                 source={{ uri: image }}
                 style={{ width: 200, height: 200 }}
               />
             )} */}
-        </View>
-        <View style={styles.btnSubmit}>
-          <Button onPress={buttonPressedHandler}>Add Homework</Button>
+          </View>
+          <View style={styles.btnSubmit}>
+            <Button onPress={buttonPressedHandler}>Add Homework</Button>
+          </View>
         </View>
       </ScrollView>
       {keyboardStatus == "Keyboard Hidden" && (
@@ -509,7 +480,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   space: {
-    width: 20, // or whatever size you need
-    height: 20,
+    width: 15, // or whatever size you need
+    // height: 15,
   },
 });

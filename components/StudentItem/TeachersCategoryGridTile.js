@@ -109,7 +109,6 @@ const styles = StyleSheet.create({
   },
   title: {
     top: 20,
-<<<<<<< HEAD
     // fontWeight: "bold",
 
     left: 10,
@@ -118,8 +117,6 @@ const styles = StyleSheet.create({
     // right:12,
     //  color: "red",
 
-=======
->>>>>>> f2a651198f1af1f6e5c5ba44d8f4a179b58f2352
     //  fontWeight: "bold",
     fontSize: 20,
     left: 10,

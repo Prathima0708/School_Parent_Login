@@ -34,7 +34,7 @@ const TimeTable = () => {
     async function fetchData() {
       try {
         const res = await axios.get(
-          "http://10.0.2.2:8000/school/AddmoreTimetable_list/"
+          `http://10.0.2.2:8000/school/AddmoreTimetable_list/${className}`
         );
         console.log(res.data);
 
@@ -69,7 +69,7 @@ const TimeTable = () => {
 
     try {
       const res = await axios.get(
-        "http://10.0.2.2:8000/school/AddmoreTimetable_list/"
+        `http://10.0.2.2:8000/school/AddmoreTimetable_list/${className}`
       );
       console.log(res.data);
 

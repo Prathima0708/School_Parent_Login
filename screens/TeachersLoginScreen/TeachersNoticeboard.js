@@ -1,9 +1,5 @@
 import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
-<<<<<<< HEAD
-import React, { useEffect, useState } from "react";
-=======
 import React, { useState } from "react";
->>>>>>> f2a651198f1af1f6e5c5ba44d8f4a179b58f2352
 import { useFonts } from "expo-font";
 import Button from "../../components/UI/Button";
 import axios from "axios";

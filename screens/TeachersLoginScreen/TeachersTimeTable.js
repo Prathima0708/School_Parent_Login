@@ -20,7 +20,6 @@ const TeachersTimetable = () => {
   });
   const [forExamTimeTable, setForExamTimeTable] = useState({ color: "black" });
 
-
   const [fromTime, setFromTime] = useState(new Date());
   const [toTime, setToTime] = useState(new Date());
 
@@ -33,16 +32,16 @@ const TeachersTimetable = () => {
   const [fromTimeText, setFromTimeText] = useState("");
   const [toTimeText, setToTimeText] = useState("");
 
-  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
+  const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
-      console.log(keyboardStatus)
+      console.log(keyboardStatus);
     });
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
       setKeyboardStatus("Keyboard Hidden");
-      console.log(keyboardStatus)
+      console.log(keyboardStatus);
     });
 
     return () => {
@@ -353,7 +352,7 @@ const TeachersTimetable = () => {
         <>
           <ScrollView style={styles.root}>
             <View style={styles.inputForm}>
-              <Text style={styles.labels}>CLASS NAME</Text>
+              <Text style={styles.labels}>Class Name</Text>
 
               <View style={{ width: 350, fontSize: 18, marginTop: 3 }}>
                 <SelectList
@@ -363,139 +362,149 @@ const TeachersTimetable = () => {
                   style={{ fontSize: 16 }}
                 />
               </View>
-              <View style={[ {
-                // Try setting `flexDirection` to `"row"`.
-                flexDirection: "row"
-              }]}>
-                <View style={{ flex: 1 }} >
-                <View
-                style={{
-                  paddingVertical: 15,
-                  paddingHorizontal: 10,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
+              <View
+                style={[
+                  {
+                    // Try setting `flexDirection` to `"row"`.
+                    flexDirection: "row",
+                  },
+                ]}
               >
-                <Text
-                  style={{
-                    fontSize: 16,
-                    color: "black",
-                  }}
-                >
-                  FROM TIME:
-                </Text>
+                <View style={{ flex: 1 }}>
+                  <View
+                    style={{
+                      paddingVertical: 15,
+                      paddingHorizontal: 10,
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        color: "black",
+                      }}
+                    >
+                      From Time:
+                    </Text>
 
-                <Ionicons
-                  style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    textAlign: "right",
-                  }}
-                  name="timer-sharp"
-                  size={24}
-                  color="black"
-                  onPress={() => showTimeFromMode("time")}
-                />
-              </View>
-              <TextInput style={styles.inputStyle} value={fromTimeText} onSubmitEditing={Keyboard.dismiss}/>
-              {fromTimeShow && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={fromTime}
-                  mode={fromTimemode}
-                  is24Hour={true}
-                  display="default"
-                  onChange={fromTimeChangeHandler}
-                />
-              )}
+                    <Ionicons
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        textAlign: "right",
+                      }}
+                      name="timer-sharp"
+                      size={24}
+                      color="black"
+                      onPress={() => showTimeFromMode("time")}
+                    />
+                  </View>
+                  <TextInput
+                    style={styles.inputStyle}
+                    value={fromTimeText}
+                    onSubmitEditing={Keyboard.dismiss}
+                  />
+                  {fromTimeShow && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={fromTime}
+                      mode={fromTimemode}
+                      is24Hour={true}
+                      display="default"
+                      onChange={fromTimeChangeHandler}
+                    />
+                  )}
                 </View>
                 <View style={styles.space} />
-                <View style={{ flex: 1 }} >
-                <View
-                style={{
-                  paddingVertical: 15,
-                  paddingHorizontal: 10,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: 16,
-                    color: "black",
-                  }}
-                >TO TIME:
-                </Text>
+                <View style={{ flex: 1 }}>
+                  <View
+                    style={{
+                      paddingVertical: 15,
+                      paddingHorizontal: 10,
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        color: "black",
+                      }}
+                    >
+                      To Time:
+                    </Text>
 
-                <Ionicons
-                  style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    textAlign: "right",
-                  }}
-                  name="timer-sharp"
-                  size={24}
-                  color="black"
-                  onPress={() => showTimeToMode("time")}
-                />
-                
-              </View>
-              
-              <TextInput style={styles.inputStyle} value={toTimeText} onSubmitEditing={Keyboard.dismiss} />
-              {toTimeShow && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={toTime}
-                  mode={toTimemode}
-                  is24Hour={true}
-                  display="default"
-                  onChange={toTimeChangeHandler}
-                  //  minimumDate={fromDate}
-                />
-              )}
+                    <Ionicons
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        textAlign: "right",
+                      }}
+                      name="timer-sharp"
+                      size={24}
+                      color="black"
+                      onPress={() => showTimeToMode("time")}
+                    />
+                  </View>
+
+                  <TextInput
+                    style={styles.inputStyle}
+                    value={toTimeText}
+                    onSubmitEditing={Keyboard.dismiss}
+                  />
+                  {toTimeShow && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={toTime}
+                      mode={toTimemode}
+                      is24Hour={true}
+                      display="default"
+                      onChange={toTimeChangeHandler}
+                      //  minimumDate={fromDate}
+                    />
+                  )}
                 </View>
               </View>
-              
 
-             
-              <Text style={styles.labels}>MONDAY SUBJECT</Text>
+              <Text style={styles.labels}>Monday Subject</Text>
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={setEnteredMonday}
                 value={monday}
                 onSubmitEditing={Keyboard.dismiss}
               />
-              <Text style={styles.labels}>TUESDAY SUBJECT</Text>
+              <Text style={styles.labels}>Tuesday Subject</Text>
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={setEnteredTuesday}
                 value={tuesday}
                 onSubmitEditing={Keyboard.dismiss}
               />
-              <Text style={styles.labels}>WEDNESDAY SUBJECT</Text>
+              <Text style={styles.labels}>Wednesday Subject</Text>
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={setEnteredWednesday}
                 value={wednesday}
                 onSubmitEditing={Keyboard.dismiss}
               />
-              <Text style={styles.labels}>THURSDAY SUBJECT</Text>
+              <Text style={styles.labels}>Thursday Subject</Text>
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={setEnteredThursday}
                 value={thursday}
                 onSubmitEditing={Keyboard.dismiss}
               />
-              <Text style={styles.labels}>FRIDAY SUBJECT</Text>
+              <Text style={styles.labels}>Friday Subject</Text>
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={setEnteredFriday}
                 value={friday}
                 onSubmitEditing={Keyboard.dismiss}
               />
-              <Text style={styles.labels}>SATURDAY SUBJECT</Text>
+              <Text style={styles.labels}>Saturday Subject</Text>
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={setEnteredSaturday}
@@ -509,16 +518,10 @@ const TeachersTimetable = () => {
                   flexDirection: "row",
                   justifyContent: "space-between",
                   alignItems: "center",
+                  marginLeft: -10,
                 }}
               >
-                <Text
-                  style={{
-                    fontSize: 16,
-                    color: "black",
-                  }}
-                >
-                  CREATED DATE:
-                </Text>
+                <Text style={styles.labels}>Created Date:</Text>
 
                 <Ionicons
                   style={{
@@ -552,133 +555,138 @@ const TeachersTimetable = () => {
               </View>
             </View>
           </ScrollView>
-          {keyboardStatus=='Keyboard Hidden' && <View style={styles.home}>
-            <TeachersHome />
-          </View>}
+          {keyboardStatus == "Keyboard Hidden" && (
+            <View style={styles.home}>
+              <TeachersHome />
+            </View>
+          )}
         </>
       )}
       {showForm && (
         <>
           <ScrollView>
             <View style={styles.inputForm}>
-              <Text style={styles.labels}>EXAM NAME</Text>
+              <Text style={styles.labels}>Exam Name</Text>
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={examNameChangeHandler}
                 value={examName}
                 onSubmitEditing={Keyboard.dismiss}
               />
-                  <View style={[styles.container, {
-                  // Try setting `flexDirection` to `"row"`.
-                  flexDirection: "row"
-                   }]}>
-                    <View style={{ flex: 1 }}>
-                    <View
-                style={{
-                  paddingVertical: 15,
-                  paddingHorizontal: 10,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
+              <View
+                style={[
+                  styles.container,
+                  {
+                    // Try setting `flexDirection` to `"row"`.
+                    flexDirection: "row",
+                  },
+                ]}
               >
-                <Text
-                  style={{
-                    fontSize: 16,
-                    color: "black",
-                  }}
-                >
-                  EXAM START DATE:
-                </Text>
+                <View style={{ flex: 1 }}>
+                  <View
+                    style={{
+                      paddingVertical: 15,
+                      paddingHorizontal: 10,
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        color: "black",
+                      }}
+                    >
+                      Exam Start Date:
+                    </Text>
 
-                <Ionicons
-                  style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    textAlign: "right",
-                  }}
-                  name="calendar"
-                  size={24}
-                  color="black"
-                  onPress={() => showFromMode("date")}
-                />
-              </View>
-              <TextInput style={styles.inputStyle} value={fromText} />
-              {fromShow && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={fromDate}
-                  mode={frommode}
-                  is24Hour={true}
-                  display="default"
-                  onChange={fromDateChangeHandler}
-                />
-              )}
-
-                    </View>
-                    <View style={styles.space} />
-
-                    <View style={{ flex: 1 }}>
-                    <View
-                style={{
-                  paddingVertical: 15,
-                  paddingHorizontal: 10,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Text
-                  style={{
-                    fontSize: 16,
-                    color: "black",
-                  }}
-                >
-                  EXAM END DATE:
-                </Text>
-                <Ionicons
-                  style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    textAlign: "right",
-                  }}
-                  name="calendar"
-                  size={24}
-                  color="black"
-                  onPress={() => showToMode("date")}
-                />
-              </View>
-              <TextInput style={styles.inputStyle} value={toText} />
-              {toShow && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={toDate}
-                  mode={tomode}
-                  is24Hour={true}
-                  display="default"
-                  onChange={toDateChangeHandler}
-                  //  minimumDate={fromDate}
-                />
-              )}
-                    </View>
+                    <Ionicons
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        textAlign: "right",
+                      }}
+                      name="calendar"
+                      size={24}
+                      color="black"
+                      onPress={() => showFromMode("date")}
+                    />
                   </View>
-             
-              
-              <Text style={styles.labels}>TOTAL MARKS</Text>
+                  <TextInput style={styles.inputStyle} value={fromText} />
+                  {fromShow && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={fromDate}
+                      mode={frommode}
+                      is24Hour={true}
+                      display="default"
+                      onChange={fromDateChangeHandler}
+                    />
+                  )}
+                </View>
+                <View style={styles.space} />
+
+                <View style={{ flex: 1 }}>
+                  <View
+                    style={{
+                      paddingVertical: 15,
+                      paddingHorizontal: 10,
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        color: "black",
+                      }}
+                    >
+                      Exam End Date:
+                    </Text>
+                    <Ionicons
+                      style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        textAlign: "right",
+                      }}
+                      name="calendar"
+                      size={24}
+                      color="black"
+                      onPress={() => showToMode("date")}
+                    />
+                  </View>
+                  <TextInput style={styles.inputStyle} value={toText} />
+                  {toShow && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={toDate}
+                      mode={tomode}
+                      is24Hour={true}
+                      display="default"
+                      onChange={toDateChangeHandler}
+                      //  minimumDate={fromDate}
+                    />
+                  )}
+                </View>
+              </View>
+
+              <Text style={styles.labels}>Total Marks</Text>
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={totalMarksChangeHandler}
                 value={totalMarks}
                 onSubmitEditing={Keyboard.dismiss}
               />
-              <Text style={styles.labels}>HOUR</Text>
+              <Text style={styles.labels}>Hour</Text>
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={hourChangeHandler}
                 value={hour}
                 onSubmitEditing={Keyboard.dismiss}
               />
-              <Text style={styles.labels}>CLASS NAME</Text>
+              <Text style={styles.labels}>Class Name</Text>
 
               <View style={{ width: 350, fontSize: 18, marginTop: 3 }}>
                 <SelectList
@@ -695,9 +703,11 @@ const TeachersTimetable = () => {
               </View>
             </View>
           </ScrollView>
-          {keyboardStatus=='Keyboard Hidden' && <View style={styles.home}>
-            <TeachersHome />
-          </View>}
+          {keyboardStatus == "Keyboard Hidden" && (
+            <View style={styles.home}>
+              <TeachersHome />
+            </View>
+          )}
         </>
       )}
     </>

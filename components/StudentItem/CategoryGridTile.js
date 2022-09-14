@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
   },
   title: {
     marginTop: 3,
-<<<<<<< HEAD
     // fontWeight: "bold",
     fontSize: 18,
     fontFamily: "welcomeMsg",
@@ -80,12 +79,10 @@ const styles = StyleSheet.create({
     // fontWeight: "bold",
     // fontSize: 18,
     //  right: 20,
-=======
-    fontFamily: "Roboto",
+    // fontFamily: "Roboto",
     // fontWeight: "bold",
-    fontSize: 18,
-    right: 20,
->>>>>>> f2a651198f1af1f6e5c5ba44d8f4a179b58f2352
+    // fontSize: 18,
+    // right: 20,
     //  color: "red",
   },
 });

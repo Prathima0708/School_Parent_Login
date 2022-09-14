@@ -23,16 +23,16 @@ const TeachersCalendar = () => {
   const [fromText, setFromText] = useState("");
   const [toText, setToText] = useState("");
 
-  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
+  const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
-      console.log(keyboardStatus)
+      console.log(keyboardStatus);
     });
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
       setKeyboardStatus("Keyboard Hidden");
-      console.log(keyboardStatus)
+      console.log(keyboardStatus);
     });
 
     return () => {
@@ -40,7 +40,7 @@ const TeachersCalendar = () => {
       hideSubscription.remove();
     };
   }, []);
-  
+
   const showFromMode = (currentFromMode) => {
     setFromShow(true);
 
@@ -129,13 +129,13 @@ const TeachersCalendar = () => {
   }
   return (
     <>
-      <View style={styles.BtnContainer}>
+      {/* <View style={styles.BtnContainer}>
         <BgButton>Add Event</BgButton>
-      </View>
+      </View> */}
 
       <ScrollView>
         <View style={styles.inputForm}>
-          <Text style={styles.labels}>TITLE</Text>
+          <Text style={styles.labels}>Title</Text>
           <TextInput
             keyboardType="number-pad"
             style={styles.inputStyle}
@@ -143,109 +143,108 @@ const TeachersCalendar = () => {
             value={title}
             onSubmitEditing={Keyboard.dismiss}
           />
-          <Text style={styles.labels}>DESCRIPTION</Text>
+          <Text style={styles.labels}>Description</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={descriptionChangeHandler}
             value={description}
             onSubmitEditing={Keyboard.dismiss}
           />
-          <View style={[, {
-            // Try setting `flexDirection` to `"row"`.
-            flexDirection: "row"
-          }]}>
-            <View style={{ flex: 1, }} >
-            <View style={{
-              paddingVertical: 15,
-              // paddingHorizontal: 10,
-              flexDirection: "row",
-              paddingHorizontal:10,
-              justifyContent: "space-between",
-              alignItems: "center", }}>
-            <Text style={{fontSize: 15,color: "black"}}>EVENT START DATE: </Text>
+          <View
+            style={[
+              ,
+              {
+                // Try setting `flexDirection` to `"row"`.
+                flexDirection: "row",
+              },
+            ]}
+          >
+            <View style={{ flex: 1 }}>
+              <View
+                style={{
+                  paddingVertical: 15,
+                  // paddingHorizontal: 10,
+                  flexDirection: "row",
+                  paddingHorizontal: 10,
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginLeft: -10,
+                }}
+              >
+                <Text style={styles.labels}>Event Start Date:</Text>
 
-            <Ionicons
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-                textAlign: "right",
-              }}
-              name="calendar"
-              size={24}
-              color="black"
-              onPress={() => showFromMode("date")}
-            />
-          </View>
-          <TextInput style={styles.inputStyle} value={fromText} />
-          {fromShow && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={fromDate}
-              mode={frommode}
-              is24Hour={true}
-              display="default"
-              onChange={fromDateChangeHandler}
-            />
-          )}
+                <Ionicons
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    textAlign: "right",
+                  }}
+                  name="calendar"
+                  size={24}
+                  color="black"
+                  onPress={() => showFromMode("date")}
+                />
+              </View>
+              <TextInput style={styles.inputStyle} value={fromText} />
+              {fromShow && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={fromDate}
+                  mode={frommode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={fromDateChangeHandler}
+                />
+              )}
             </View>
             <View style={styles.space} />
-            <View style={{ flex: 1, }} >
-            <View
-            style={{
-              paddingVertical: 15,
-              //  paddingHorizontal: 10,
-              flexDirection: "row",
-              // justifyContent: "space-between",
-              alignItems: "center",
-              paddingHorizontal:10
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 15,
-                color: "black",
-              }}
-            >
-              EVENT END DATE: </Text>
+            <View style={{ flex: 1 }}>
+              <View
+                style={{
+                  paddingVertical: 15,
+                  //  paddingHorizontal: 10,
+                  flexDirection: "row",
+                  // justifyContent: "space-between",
+                  alignItems: "center",
+                  paddingHorizontal: 10,
+                  // marginLeft: -10,
+                }}
+              >
+                <Text style={styles.labels}>Event End Date: </Text>
 
-            <Ionicons
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-                textAlign: "right",
-              }}
-              name="calendar"
-              size={24}
-              color="black"
-              onPress={() => showToMode("date")}
-            />
-          </View>
-          <TextInput style={styles.inputStyle} value={toText} />
-          {toShow && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={toDate}
-              mode={tomode}
-              is24Hour={true}
-              display="default"
-              onChange={toDateChangeHandler}
-              //  minimumDate={fromDate}
-            />
-          )}
-
+                <Ionicons
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    textAlign: "right",
+                  }}
+                  name="calendar"
+                  size={24}
+                  color="black"
+                  onPress={() => showToMode("date")}
+                />
+              </View>
+              <TextInput style={styles.inputStyle} value={toText} />
+              {toShow && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={toDate}
+                  mode={tomode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={toDateChangeHandler}
+                  //  minimumDate={fromDate}
+                />
+              )}
             </View>
           </View>
-          {/*  */}
-          
 
-          {/*  */}
-        
           <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Event</Button>
           </View>
         </View>
       </ScrollView>
-      {keyboardStatus=='Keyboard Hidden' && <TeachersHome />}
+      {keyboardStatus == "Keyboard Hidden" && <TeachersHome />}
     </>
   );
 };
@@ -254,9 +253,14 @@ export default TeachersCalendar;
 
 const styles = StyleSheet.create({
   BtnContainer: {
-    flexDirection: "row",
+    fontSize: 24,
   },
-
+  home: {
+    marginTop: 29,
+  },
+  root: {
+    backgroundColor: "#EBECFO",
+  },
   inputForm: {
     padding: 20,
     paddingTop: 5,
@@ -264,22 +268,26 @@ const styles = StyleSheet.create({
   inputStyle: {
     color: "black",
     borderWidth: 2,
-    borderColor: "grey",
+    borderColor: "lightgrey",
+    backgroundColor: "white",
+    padding: 10,
     // paddingHorizontal: 15,
-    // paddingVertical: 7,
+    paddingVertical: 5,
     borderRadius: 5,
     fontSize: 18,
-    // margin:5
-  },
-  space: {
-    width: 20, // or whatever size you need
-    height: 20,
+    //margin: 5,
   },
   labels: {
+    margin: 5,
+    fontFamily: "Ubuntu",
     fontSize: 18,
-    marginTop: 17,
+    // marginTop: 17,
   },
   btnSubmit: {
-    marginTop: 17,
+    marginTop: 217,
+  },
+  space: {
+    width: 20,
+    height: 20,
   },
 });

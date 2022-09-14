@@ -10,16 +10,16 @@ const TeachersMarksheet = () => {
   const [studentname, setEnteredStudentName] = useState("");
   const [overallperct, setEnteredOverallPerct] = useState("");
   const [remark, setEnteredRemark] = useState("");
-  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
+  const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
-      console.log(keyboardStatus)
+      console.log(keyboardStatus);
     });
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
       setKeyboardStatus("Keyboard Hidden");
-      console.log(keyboardStatus)
+      console.log(keyboardStatus);
     });
 
     return () => {
@@ -79,21 +79,21 @@ const TeachersMarksheet = () => {
 
       <ScrollView>
         <View style={styles.inputForm}>
-          <Text style={styles.labels}>STUDENT NAME</Text>
+          <Text style={styles.labels}>Student Name</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={studentNameChangeHandler}
             value={studentname}
             onSubmitEditing={Keyboard.dismiss}
           />
-          <Text style={styles.labels}>OVERALL PERCENTAGE</Text>
+          <Text style={styles.labels}>Overall Percentage</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={percentageChangeHandler}
             value={overallperct}
             onSubmitEditing={Keyboard.dismiss}
           />
-          <Text style={styles.labels}>REMARK</Text>
+          <Text style={styles.labels}>Remark</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={remarkChangeHandler}
@@ -106,9 +106,11 @@ const TeachersMarksheet = () => {
           </View>
         </View>
       </ScrollView>
-      {keyboardStatus=='Keyboard Hidden' && <View style={styles.home}>
-        <TeachersHome />
-      </View>}
+      {keyboardStatus == "Keyboard Hidden" && (
+        <View style={styles.home}>
+          <TeachersHome />
+        </View>
+      )}
     </>
   );
 };
