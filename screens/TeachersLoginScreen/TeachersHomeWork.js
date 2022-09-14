@@ -2,15 +2,12 @@ import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
 import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../components/UI/Button";
-<<<<<<< HEAD
-import { Keyboard } from "react-native";
-=======
 import * as MediaLibrary from "expo-media-library";
->>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import SelectList from "react-native-dropdown-select-list";
 import { Alert, Button as Btn, Image } from "react-native";
+import { Keyboard } from "react-native";
 import {
   launchCameraAsync,
   useCameraPermissions,
@@ -291,16 +288,12 @@ const TeachersHomework = () => {
             value={subject}
             onSubmitEditing={Keyboard.dismiss}
           />
-<<<<<<< HEAD
-          <View style={[{
-            // Try setting `flexDirection` to `"row"`.
-            flexDirection: "row"
-          }]}>
-          <View style={{ flex: 1}}>
-=======
-
->>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd
-          <View
+            <View style={[{
+              // Try setting `flexDirection` to `"row"`.
+              flexDirection: "row"
+             }]}>
+              <View style={{ flex: 1 }} >
+              <View
             style={{
               paddingVertical: 15,
               paddingHorizontal: 10,
@@ -330,7 +323,7 @@ const TeachersHomework = () => {
               onPress={() => showFromMode("date")}
             />
           </View>
-          <TextInput style={styles.inputStyle} value={fromText} />
+          <TextInput style={styles.inputStyle} value={fromText} onSubmitEditing={Keyboard.dismiss} />
 
           {fromShow && (
             <DateTimePicker
@@ -342,15 +335,15 @@ const TeachersHomework = () => {
               onChange={fromDateChangeHandler}
             />
           )}
-          </View>
-          <View style={styles.space} />
-          <View style={{ flex: 1}}>
-          <View
+              </View>
+              <View style={styles.space} />
+              <View style={{ flex: 1 }} >
+              <View
             style={{
               paddingVertical: 15,
               paddingHorizontal: 10,
               flexDirection: "row",
-              // justifyContent: "space-between",
+              justifyContent: "space-between",
               alignItems: "center",
             }}
           >
@@ -386,8 +379,13 @@ const TeachersHomework = () => {
               onChange={toDateChangeHandler}
             />
           )}
-          </View>
-          </View>
+      
+              </View>
+            </View>
+
+          {/* </View> */}
+
+
 
           <Text style={styles.labels}>REMARK</Text>
           <TextInput
@@ -465,6 +463,10 @@ const styles = StyleSheet.create({
     fontFamily: "Ubuntu",
     fontSize: 18,
     // marginTop: 17,
+  },
+  space: {
+    width: 20, // or whatever size you need
+    height: 20,
   },
   btnSubmit: {
     marginTop: 27,

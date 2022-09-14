@@ -108,21 +108,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-<<<<<<< HEAD
-    top:20,
-   // fontWeight: "bold",
-    fontSize: 18,
-    left:10,
-    fontFamily:'welcomeMsg',
-    letterSpacing:1
-    // right:12,
-    //  color: "red",
-=======
     top: 20,
     //  fontWeight: "bold",
     fontSize: 20,
     left: 10,
     // fontFamily: "Roboto",
->>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd
   },
 });

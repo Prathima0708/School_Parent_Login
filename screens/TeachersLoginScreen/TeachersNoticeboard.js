@@ -1,11 +1,6 @@
 import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
-<<<<<<< HEAD
-import React, { useEffect, useState } from "react";
-import { Keyboard } from "react-native";
-=======
 import React, { useState } from "react";
 import { useFonts } from "expo-font";
->>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd
 import Button from "../../components/UI/Button";
 import axios from "axios";
 import { Ionicons } from "@expo/vector-icons";
@@ -13,6 +8,8 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { UserId } from "../Login";
 import BgButton from "../../components/UI/BgButton";
 import TeachersHome from "./TeachersHome";
+import { Keyboard } from "react-native";
+import { useEffect } from "react";
 const TeachersNoticeboard = () => {
   const [username, setEnteredUserName] = useState("");
   const [title, setEnteredTitle] = useState("");

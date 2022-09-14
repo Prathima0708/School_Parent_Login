@@ -568,8 +568,12 @@ const TeachersTimetable = () => {
                 value={examName}
                 onSubmitEditing={Keyboard.dismiss}
               />
-
-              <View
+                  <View style={[styles.container, {
+                  // Try setting `flexDirection` to `"row"`.
+                  flexDirection: "row"
+                   }]}>
+                    <View style={{ flex: 1 }}>
+                    <View
                 style={{
                   paddingVertical: 15,
                   paddingHorizontal: 10,
@@ -611,7 +615,11 @@ const TeachersTimetable = () => {
                 />
               )}
 
-              <View
+                    </View>
+                    <View style={styles.space} />
+
+                    <View style={{ flex: 1 }}>
+                    <View
                 style={{
                   paddingVertical: 15,
                   paddingHorizontal: 10,
@@ -652,6 +660,10 @@ const TeachersTimetable = () => {
                   //  minimumDate={fromDate}
                 />
               )}
+                    </View>
+                  </View>
+             
+              
               <Text style={styles.labels}>TOTAL MARKS</Text>
               <TextInput
                 style={styles.inputStyle}
