@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import AppLoading from "expo-app-loading";
 
-function LgButton({ children, onPress, style }) {
+function AccountTypeBtn({ children, onPress, style }) {
   return (
     <Pressable style={[style, styles.button]} onPress={onPress}>
       <View>
@@ -12,20 +12,18 @@ function LgButton({ children, onPress, style }) {
   );
 }
 
-export default LgButton;
+export default AccountTypeBtn;
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 6,
-    //paddingVertical: 6,
-  //  paddingHorizontal: 12,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
     width: "50%",
-    borderWidth: 2,
+    borderWidth: 1,
   },
 
   buttonText: {
     textAlign: "center",
     fontSize: 20,
-    fontFamily: "Poppins",
   },
 });

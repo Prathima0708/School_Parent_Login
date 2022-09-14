@@ -97,18 +97,20 @@ import LandingScreen from "./screens/LandingScreen";
 import AppLoading from "expo-app-loading";
 export default function App() {
   let [fontsLoaded] = useFonts({
-    PoppinsBold: require("./assets/fonts/Poppins-BoldItalic.ttf"),
+    PoppinsBold: require("./assets/fonts/Poppins-ExtraBold.ttf"),
     Monsterrat: require("./assets/fonts/static/Montserrat-Medium.ttf"),
     PoppinsSemiBold: require("./assets/fonts/Poppins-SemiBold.ttf"),
     Ubuntu: require("./assets/fonts/Ubuntu-Regular.ttf"),
     MonsterratBold: require("./assets/fonts/static/Montserrat-Bold.ttf"),
-    MainHeading:require('./assets/fonts/Libre_Franklin/static/LibreFranklin-Bold.ttf'),
-    welcomeMsg:require('./assets/fonts/Libre_Franklin/static/LibreFranklin-Medium.ttf')
+    MainHeading: require("./assets/fonts/Libre_Franklin/static/LibreFranklin-Bold.ttf"),
+    welcomeMsg: require("./assets/fonts/Libre_Franklin/static/LibreFranklin-Medium.ttf"),
+    Poppins: require("./assets/fonts/Poppins-Medium.ttf"),
+    PoppinsRegular: require("./assets/fonts/Poppins-Regular.ttf"),
+    PoppinsLight: require("./assets/fonts/Poppins-Light.ttf"),
+    LunchType: require("./assets/fonts/Lunchtype24-Regular-Expanded.ttf"),
   });
   const [tokenIsPresent, setTokenIsPresent] = useState(false);
   const [showtab, setShowTab] = useState(false);
-
-
 
   useEffect(() => {
     async function getToken() {
