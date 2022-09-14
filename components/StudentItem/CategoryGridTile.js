@@ -70,18 +70,15 @@ const styles = StyleSheet.create({
   },
   title: {
     marginTop: 3,
-<<<<<<< HEAD
     // fontWeight: "bold",
     fontSize: 18,
-    fontFamily:'welcomeMsg',
-    right:15,
-    letterSpacing:1
-=======
-    fontFamily: "Roboto",
+    fontFamily: "welcomeMsg",
+    right: 15,
+    letterSpacing: 1,
+    //fontFamily: "Roboto",
     // fontWeight: "bold",
-    fontSize: 18,
-    right: 20,
->>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd
+    // fontSize: 18,
+    //  right: 20,
     //  color: "red",
   },
 });

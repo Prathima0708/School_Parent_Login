@@ -40,68 +40,6 @@ function ParentCateogryGridTile({ title, color, icon, onPress, txtclr }) {
         {/* </View> */}
       </Pressable>
     </View>
-<<<<<<< HEAD
-    );
-  }
-  
-  export default ParentCateogryGridTile;
-  
-  const styles = StyleSheet.create({
-    gridItem: {
-        flex: 1,
-        // top:2,
-        //width: Title == "Profile" ? "50% !important" : "70%",
-        width: 150,
-        height: 110,
-        // margin: 16,
-        // padding: 26,
-        marginHorizontal: 10,
-        marginVertical: 20,
-        padding: 16,
-        borderRadius: 18,
-        elevation: 4,
-        shadowColor: "black",
-        backgroundColor: "white",
-        shadowOpacity: 0.25,
-        shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 8,
-        overflow: Platform.OS === "android" ? "hidden" : "visible",
-      },
-      icon: {
-        height: 50,
-        width: 50,
-        top:5,
-        right:5
-        // borderColor: "black",
-        //borderWidth: 3,
-      },
-      pressed: {
-        opacity: 0.5,
-      },
-      //   innerContainer: {
-      //     flex: 1,
-      //     padding: 19,
-      //     // justifyContent: "center",
-      //     //alignItems: "center",
-      //     //borderRadius: 8,
-      //   },
-      //   buttton: {
-      //     flex: 1,
-      //   },
-      title: {
-        // marginTop: 13,
-        top:10,
-        // fontWeight: "bold",
-        fontSize: 18,
-        right:6,
-        letterSpacing:1,
-        fontFamily:'welcomeMsg'
-        // right:8
-        //  color: "red",
-      },
-  });
-  
-=======
   );
 }
 
@@ -159,4 +97,3 @@ const styles = StyleSheet.create({
     //  color: "red",
   },
 });
->>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd

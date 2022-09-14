@@ -50,13 +50,13 @@ function Login() {
   const [forPartentBackground, setForPartentBackground] = useState({
     color: "#d9dffc",
     borderColor: "#d9dffc",
-    fontFamily:'welcomeMsg'
+    fontFamily: "welcomeMsg",
   });
 
   const [forTeacherBackground, setForTeacherBackground] = useState({
     color: "#3d4590",
     borderColor: "#3d4590",
-    fontFamily:'welcomeMsg'
+    fontFamily: "welcomeMsg",
   });
 
   // function login() {
@@ -177,10 +177,12 @@ function Login() {
 
   return (
     <>
-    {keyboardStatus=='Keyboard Hidden' && <Image
-      style={styles.bannerImage}
-      source={require("../assets/bgelement.png")}
-    />}
+      {keyboardStatus == "Keyboard Hidden" && (
+        <Image
+          style={styles.bannerImage}
+          source={require("../assets/bgelement.png")}
+        />
+      )}
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}
@@ -236,8 +238,12 @@ function Login() {
                 <TouchableHighlight
                   style={styles.submit}
                   onPress={login}
-                  underlayColor='#002D62'>
-                    <Text style={[styles.submitText]}>Login<Ionicons name="log-in" size={18} color="white" /></Text>
+                  underlayColor="#002D62"
+                >
+                  <Text style={[styles.submitText]}>
+                    Login
+                    <Ionicons name="log-in" size={18} color="white" />
+                  </Text>
                 </TouchableHighlight>
               </View>
               {/* </KeyboardAccessory> */}
@@ -274,10 +280,7 @@ const styles = StyleSheet.create({
     // padding: 24,
     // flex: 1,
     justifyContent: "space-around",
-<<<<<<< HEAD
-=======
     top: 70,
->>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd
   },
   bannerImage: {
     width: "100%",
@@ -321,8 +324,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 7,
     borderRadius: 1,
-    fontSize: 18,
-    fontFamily:'welcomeMsg',
+    fontSize: 20,
+    fontFamily: "welcomeMsg",
     margin: 5,
   },
 
@@ -335,17 +338,17 @@ const styles = StyleSheet.create({
     // marginTop: 10,
     // paddingTop: 20,
     // paddingBottom: 20,
-    padding:15,
-    backgroundColor: '#59b8dd',
+    padding: 15,
+    backgroundColor: "#59b8dd",
     borderRadius: 10,
     borderWidth: 1,
-    top:10,
-    borderColor: '#fff',
+    top: 10,
+    borderColor: "#fff",
   },
   submitText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontSize:16,
-    fontFamily:'welcomeMsg'
-  }
+    color: "#fff",
+    textAlign: "center",
+    fontSize: 16,
+    fontFamily: "welcomeMsg",
+  },
 });

@@ -1,12 +1,15 @@
-import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Text,
+  ScrollView,
+  Keyboard,
+} from "react-native";
 import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../components/UI/Button";
-<<<<<<< HEAD
-import { Keyboard } from "react-native";
-=======
 import * as MediaLibrary from "expo-media-library";
->>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import SelectList from "react-native-dropdown-select-list";
@@ -53,16 +56,16 @@ const TeachersHomework = () => {
 
   const [image, setImage] = useState();
 
-  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
+  const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
-      console.log(keyboardStatus)
+      console.log(keyboardStatus);
     });
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
       setKeyboardStatus("Keyboard Hidden");
-      console.log(keyboardStatus)
+      console.log(keyboardStatus);
     });
 
     return () => {
@@ -291,15 +294,6 @@ const TeachersHomework = () => {
             value={subject}
             onSubmitEditing={Keyboard.dismiss}
           />
-<<<<<<< HEAD
-          <View style={[{
-            // Try setting `flexDirection` to `"row"`.
-            flexDirection: "row"
-          }]}>
-          <View style={{ flex: 1}}>
-=======
-
->>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd
           <View
             style={{
               paddingVertical: 15,
@@ -316,7 +310,8 @@ const TeachersHomework = () => {
                 color: "black",
               }}
             >
-              HOMEWORK DATE: </Text>
+              HOMEWORK DATE:{" "}
+            </Text>
 
             <Ionicons
               style={{
@@ -342,9 +337,9 @@ const TeachersHomework = () => {
               onChange={fromDateChangeHandler}
             />
           )}
-          </View>
-          <View style={styles.space} />
-          <View style={{ flex: 1}}>
+        </View>
+        <View style={styles.space} />
+        <View style={{ flex: 1 }}>
           <View
             style={{
               paddingVertical: 15,
@@ -386,48 +381,48 @@ const TeachersHomework = () => {
               onChange={toDateChangeHandler}
             />
           )}
-          </View>
-          </View>
+        </View>
 
-          <Text style={styles.labels}>REMARK</Text>
-          <TextInput
-            style={styles.inputStyle}
-            onChangeText={remarkChangeHandler}
-            value={remark}
-            onSubmitEditing={Keyboard.dismiss}
-          />
-          <Text style={styles.labels}>HOMEWORK</Text>
-          <TextInput
-            style={styles.inputStyle}
-            onChangeText={hwChangeHandler}
-            value={hw}
-            onSubmitEditing={Keyboard.dismiss}
-          />
-          {/* <View>
+        <Text style={styles.labels}>REMARK</Text>
+        <TextInput
+          style={styles.inputStyle}
+          onChangeText={remarkChangeHandler}
+          value={remark}
+          onSubmitEditing={Keyboard.dismiss}
+        />
+        <Text style={styles.labels}>HOMEWORK</Text>
+        <TextInput
+          style={styles.inputStyle}
+          onChangeText={hwChangeHandler}
+          value={hw}
+          onSubmitEditing={Keyboard.dismiss}
+        />
+        {/* <View>
             <Text style={styles.labels}>UPLOAD IMAGE</Text>
             <View style={styles.imagePreView}>{imagePreView}</View>
             <Btn title="take image" onPress={takeImageHanlder} />
           </View> */}
 
-          <Text style={styles.labels}>UPLOAD IMAGE</Text>
-          <View style={styles.imagePreView}>{imagePreView}</View>
-          <View style={{ marginTop: 13 }}>
-            <Btn title="Upload Image" onPress={PickImage} />
-            {/* {image && (
+        <Text style={styles.labels}>UPLOAD IMAGE</Text>
+        <View style={styles.imagePreView}>{imagePreView}</View>
+        <View style={{ marginTop: 13 }}>
+          <Btn title="Upload Image" onPress={PickImage} />
+          {/* {image && (
               <Image
                 source={{ uri: image }}
                 style={{ width: 200, height: 200 }}
               />
             )} */}
-          </View>
-          <View style={styles.btnSubmit}>
-            <Button onPress={buttonPressedHandler}>Add Homework</Button>
-          </View>
+        </View>
+        <View style={styles.btnSubmit}>
+          <Button onPress={buttonPressedHandler}>Add Homework</Button>
         </View>
       </ScrollView>
-      {keyboardStatus=='Keyboard Hidden' && <View>
-        <TeachersHome />
-      </View>}
+      {keyboardStatus == "Keyboard Hidden" && (
+        <View>
+          <TeachersHome />
+        </View>
+      )}
     </>
   );
 };

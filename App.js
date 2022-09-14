@@ -94,10 +94,7 @@ import LandingScreen from "./screens/LandingScreen";
 //   );
 // }
 
-<<<<<<< HEAD
-=======
 import AppLoading from "expo-app-loading";
->>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd
 export default function App() {
   let [fontsLoaded] = useFonts({
     PoppinsBold: require("./assets/fonts/Poppins-BoldItalic.ttf"),
@@ -105,14 +102,11 @@ export default function App() {
     PoppinsSemiBold: require("./assets/fonts/Poppins-SemiBold.ttf"),
     Ubuntu: require("./assets/fonts/Ubuntu-Regular.ttf"),
     MonsterratBold: require("./assets/fonts/static/Montserrat-Bold.ttf"),
+    MainHeading: require("./assets/fonts/Libre_Franklin/static/LibreFranklin-Bold.ttf"),
+    welcomeMsg: require("./assets/fonts/Libre_Franklin/static/LibreFranklin-Medium.ttf"),
   });
   const [tokenIsPresent, setTokenIsPresent] = useState(false);
   const [showtab, setShowTab] = useState(false);
-
-  let [fontsLoaded] = useFonts({
-    MainHeading:require('./assets/fonts/Libre_Franklin/static/LibreFranklin-Bold.ttf'),
-    welcomeMsg:require('./assets/fonts/Libre_Franklin/static/LibreFranklin-Medium.ttf')
-  });
 
   useEffect(() => {
     async function getToken() {
@@ -130,18 +124,10 @@ export default function App() {
   //   'Inter-SemiBoldItalic': 'https://rsms.me/inter/font-files/Inter-SemiBoldItalic.otf?v=3.12',
   // });
 
-<<<<<<< HEAD
   // if (!fontsLoaded) {
   //   return null;
   // }
 
-  if (!fontsLoaded) {
-    return null;
-  }
-    return (
-      <NavigationContainer>
-          <Stack.Navigator>
-=======
   if (!fontsLoaded) {
     return null;
   }
@@ -151,7 +137,6 @@ export default function App() {
       {/* <Login /> */}
       <NavigationContainer>
         <Stack.Navigator>
->>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd
           <Stack.Screen
             name="LandingScreen"
             component={LandingScreen}
@@ -217,18 +202,6 @@ export default function App() {
               name="TeachersOverview"
               component={TeachersOverviewScreen}
             /> */}
-<<<<<<< HEAD
-            <Stack.Screen name="Chat" component={Chat} />
-            <Stack.Screen name="ChatScreen" component={ChatScreen} />
-            <Stack.Screen name="SingleUser" component={SingleUser} />
-            <Stack.Screen name="Academics" component={Academics} />
-            <Stack.Screen name="Homework" component={HomeworkScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
-    );
-  }
-
-=======
           <Stack.Screen name="Chat" component={Chat} />
           <Stack.Screen name="ChatScreen" component={ChatScreen} />
           <Stack.Screen name="SingleUser" component={SingleUser} />
@@ -239,4 +212,3 @@ export default function App() {
     </>
   );
 }
->>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd

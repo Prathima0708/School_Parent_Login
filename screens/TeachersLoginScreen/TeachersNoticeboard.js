@@ -1,11 +1,6 @@
 import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
-<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
-import { Keyboard } from "react-native";
-=======
-import React, { useState } from "react";
 import { useFonts } from "expo-font";
->>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd
 import Button from "../../components/UI/Button";
 import axios from "axios";
 import { Ionicons } from "@expo/vector-icons";
@@ -23,16 +18,16 @@ const TeachersNoticeboard = () => {
   const [fromDate, setFromDate] = useState(new Date());
   const [fromText, setFromText] = useState("");
 
-  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
+  const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
-      console.log(keyboardStatus)
+      console.log(keyboardStatus);
     });
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
       setKeyboardStatus("Keyboard Hidden");
-      console.log(keyboardStatus)
+      console.log(keyboardStatus);
     });
 
     return () => {
@@ -175,14 +170,18 @@ const TeachersNoticeboard = () => {
               />
             )}
           </View>
-          <TextInput style={styles.inputStyle} value={fromText} onSubmitEditing={Keyboard.dismiss} />
+          <TextInput
+            style={styles.inputStyle}
+            value={fromText}
+            onSubmitEditing={Keyboard.dismiss}
+          />
 
           <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Notice</Button>
           </View>
         </View>
       </ScrollView>
-      {keyboardStatus=='Keyboard Hidden' && <TeachersHome />}
+      {keyboardStatus == "Keyboard Hidden" && <TeachersHome />}
     </>
   );
 };
