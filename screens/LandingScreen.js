@@ -199,12 +199,17 @@ function LandingScreen() {
         <TouchableHighlight
           style={styles.submit}
           onPress={signInBtnHandler}
+<<<<<<< HEAD
           underlayColor="#002D62"
         >
           <Text style={[styles.submitText]}>
             Sign In
             <Ionicons name="log-in" size={18} color="white" />
           </Text>
+=======
+          underlayColor='#002D62'>
+            <Text style={[styles.submitText]}>Sign In<Ionicons name="log-in" size={18} color="white" /></Text>
+>>>>>>> f2a651198f1af1f6e5c5ba44d8f4a179b58f2352
         </TouchableHighlight>
       </View>
     </View>
@@ -255,6 +260,7 @@ const styles = StyleSheet.create({
     // marginTop: 10,
     // paddingTop: 20,
     // paddingBottom: 20,
+<<<<<<< HEAD
     padding: 15,
     backgroundColor: "#002D62",
     borderRadius: 10,
@@ -268,7 +274,22 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
     fontFamily: "welcomeMsg",
+=======
+    padding:15,
+    backgroundColor: '#002D62',
+    borderRadius: 10,
+    borderWidth: 1,
+    top:10,
+
+    borderColor: '#fff',
+>>>>>>> f2a651198f1af1f6e5c5ba44d8f4a179b58f2352
   },
+  submitText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontSize:16,
+    fontFamily:'welcomeMsg'
+  }
 });
 
 // import React, { useState, useEffect } from 'react';

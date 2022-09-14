@@ -177,6 +177,7 @@ function Login() {
 
   return (
     <>
+<<<<<<< HEAD
       {keyboardStatus == "Keyboard Hidden" && (
         <Image
           style={styles.bannerImage}
@@ -188,9 +189,16 @@ function Login() {
         style={styles.container}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+=======
+      {keyboardStatus=='Keyboard Hidden' && <Image
+        style={styles.bannerImage}
+        source={require("../assets/bgelement.png")}
+      />}
+>>>>>>> f2a651198f1af1f6e5c5ba44d8f4a179b58f2352
           <View style={styles.inner}>
-            <View style={styles.mainContainer}>
-              <View>
+            <View style={styles.accTypeText}>
+              <Text style={{color:'grey',fontSize:16,fontFamily:'welcomeMsg'}}>Choose account type</Text>
+            </View>
                 <View style={styles.buttonContainer}>
                   <LgButton
                     onPress={toggleTeachers}
@@ -206,7 +214,6 @@ function Login() {
                     Parents
                   </LgButton>
                 </View>
-              </View>
               <View style={styles.inputContainer}>
                 <TextInput
                   onChangeText={userInputHandler}
@@ -232,9 +239,6 @@ function Login() {
                     />
                   </>
                 )}
-                {/* <View style={styles.buttons}>
-                  <Button onPress={login}>Login</Button>
-                </View> */}
                 <TouchableHighlight
                   style={styles.submit}
                   onPress={login}
@@ -246,11 +250,7 @@ function Login() {
                   </Text>
                 </TouchableHighlight>
               </View>
-              {/* </KeyboardAccessory> */}
-            </View>
-          </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+      </View>
     </>
   );
 }
@@ -258,56 +258,37 @@ function Login() {
 export default Login;
 
 const styles = StyleSheet.create({
-  // header: {
-  //   fontSize: 36,
-  //   marginBottom: 48
-  // },
-  // textInput: {
-  //   height: 40,
-  //   borderColor: "#000000",
-  //   borderBottomWidth: 1,
-  //   marginBottom: 36
-  // },
-  // btnContainer: {
-  //   backgroundColor: "white",
-  //   marginTop: 12
-  // },
+
   container: {
     flex: 1,
   },
 
+<<<<<<< HEAD
   inner: {
     // padding: 24,
     // flex: 1,
     justifyContent: "space-around",
     top: 70,
   },
+=======
+>>>>>>> f2a651198f1af1f6e5c5ba44d8f4a179b58f2352
   bannerImage: {
     width: "100%",
     height: 200,
   },
-  // loginTypeText: {
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  //   // top: 20,
-  // },
-  // logo: {
-  //   width: 100,
-  //   height: 100,
-  //   // marginLeft: 25,
-  //   // position: "absolute",
-  //   top: 5,
-  // },
+  loginTypeText: {
+    justifyContent: "center",
+    alignItems: "center",
+
+  },
   buttonContainer: {
     flexDirection: "row",
     paddingLeft: 47,
     paddingRight: 57,
     top: 45,
-    // display:'flex',
-    // justifyContent:'space-between',
   },
   space: {
-    width: 20, // or whatever size you need
+    width: 20,
     height: 20,
   },
   inputContainer: {
@@ -316,7 +297,11 @@ const styles = StyleSheet.create({
     position: "relative",
     top: 70,
   },
-
+  accTypeText:{
+    justifyContent:'center',
+    alignItems:'center',
+    top:10
+  },
   inputStyle: {
     color: "black",
     borderWidth: 2,
@@ -333,6 +318,7 @@ const styles = StyleSheet.create({
     top: 15,
   },
   submit: {
+<<<<<<< HEAD
     // marginRight: 10,
     // marginLeft: 10,
     // marginTop: 10,
@@ -340,6 +326,10 @@ const styles = StyleSheet.create({
     // paddingBottom: 20,
     padding: 15,
     backgroundColor: "#59b8dd",
+=======
+    padding:15,
+    backgroundColor: '#59b8dd',
+>>>>>>> f2a651198f1af1f6e5c5ba44d8f4a179b58f2352
     borderRadius: 10,
     borderWidth: 1,
     top: 10,

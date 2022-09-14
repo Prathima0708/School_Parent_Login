@@ -256,7 +256,12 @@ const LeaveScreen = () => {
               value={leaveType}
               onSubmitEditing={Keyboard.dismiss}
             />
-            <View
+                <View style={[styles.container, {
+                // Try setting `flexDirection` to `"row"`.
+                flexDirection: "row"
+                }]}>
+                  <View style={{ flex: 1 }} >
+                  <View
               style={{
                 paddingVertical: 15,
                 paddingHorizontal: 10,
@@ -291,7 +296,10 @@ const LeaveScreen = () => {
               )}
             </View>
             <TextInput style={styles.inputStyle} value={fromText} onSubmitEditing={Keyboard.dismiss} />
-            <View
+                  </View>
+                  <View style={styles.space} />
+                  <View style={{ flex: 1 }} >
+                  <View
               style={{
                 paddingVertical: 15,
                 paddingHorizontal: 10,
@@ -327,6 +335,11 @@ const LeaveScreen = () => {
                 //  minimumDate={fromDate}
               />
             )}
+                  </View>
+
+                </View>
+            
+
             <Text style={styles.labels}>LEAVE REASON</Text>
             <TextInput
               style={styles.inputStyle}
@@ -415,4 +428,9 @@ const styles = StyleSheet.create({
   btnSubmit: {
     marginTop: 45,
   },
+  space: {
+    width: 20, // or whatever size you need
+    height: 20,
+  },
 });
+

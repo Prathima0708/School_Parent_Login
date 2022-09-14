@@ -184,7 +184,12 @@ const TeachersLeave = () => {
          
       <Button title="Show Date Picker" onPress={showDatePicker} /> */}
 
-          <View
+        <View style={[styles.container, {
+              // Try setting `flexDirection` to `"row"`.
+              flexDirection: "row"
+            }]}>
+              <View style={{ flex: 1}}>
+              <View
             style={{
               paddingVertical: 15,
               paddingHorizontal: 10,
@@ -220,7 +225,11 @@ const TeachersLeave = () => {
             />
           )}
 
-          <View
+              </View>
+              <View style={styles.space} />
+
+              <View style={{ flex: 1 }}>
+              <View
             style={{
               paddingVertical: 15,
               paddingHorizontal: 10,
@@ -256,6 +265,10 @@ const TeachersLeave = () => {
               //  minimumDate={fromDate}
             />
           )}
+
+              </View>
+        </View>
+          
 
           <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Leave</Button>
@@ -306,5 +319,9 @@ const styles = StyleSheet.create({
   },
   dateContainer: {
     width: "10%",
+  },
+  space: {
+    width: 20, // or whatever size you need
+    height: 20,
   },
 });

@@ -14,6 +14,7 @@ import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import SelectList from "react-native-dropdown-select-list";
 import { Alert, Button as Btn, Image } from "react-native";
+import { Keyboard } from "react-native";
 import {
   launchCameraAsync,
   useCameraPermissions,
@@ -294,7 +295,16 @@ const TeachersHomework = () => {
             value={subject}
             onSubmitEditing={Keyboard.dismiss}
           />
+<<<<<<< HEAD
           <View
+=======
+            <View style={[{
+              // Try setting `flexDirection` to `"row"`.
+              flexDirection: "row"
+             }]}>
+              <View style={{ flex: 1 }} >
+              <View
+>>>>>>> f2a651198f1af1f6e5c5ba44d8f4a179b58f2352
             style={{
               paddingVertical: 15,
               paddingHorizontal: 10,
@@ -325,7 +335,7 @@ const TeachersHomework = () => {
               onPress={() => showFromMode("date")}
             />
           </View>
-          <TextInput style={styles.inputStyle} value={fromText} />
+          <TextInput style={styles.inputStyle} value={fromText} onSubmitEditing={Keyboard.dismiss} />
 
           {fromShow && (
             <DateTimePicker
@@ -337,15 +347,22 @@ const TeachersHomework = () => {
               onChange={fromDateChangeHandler}
             />
           )}
+<<<<<<< HEAD
         </View>
         <View style={styles.space} />
         <View style={{ flex: 1 }}>
           <View
+=======
+              </View>
+              <View style={styles.space} />
+              <View style={{ flex: 1 }} >
+              <View
+>>>>>>> f2a651198f1af1f6e5c5ba44d8f4a179b58f2352
             style={{
               paddingVertical: 15,
               paddingHorizontal: 10,
               flexDirection: "row",
-              // justifyContent: "space-between",
+              justifyContent: "space-between",
               alignItems: "center",
             }}
           >
@@ -381,7 +398,17 @@ const TeachersHomework = () => {
               onChange={toDateChangeHandler}
             />
           )}
+<<<<<<< HEAD
         </View>
+=======
+      
+              </View>
+            </View>
+
+          {/* </View> */}
+
+
+>>>>>>> f2a651198f1af1f6e5c5ba44d8f4a179b58f2352
 
         <Text style={styles.labels}>REMARK</Text>
         <TextInput
@@ -460,6 +487,10 @@ const styles = StyleSheet.create({
     fontFamily: "Ubuntu",
     fontSize: 18,
     // marginTop: 17,
+  },
+  space: {
+    width: 20, // or whatever size you need
+    height: 20,
   },
   btnSubmit: {
     marginTop: 27,
