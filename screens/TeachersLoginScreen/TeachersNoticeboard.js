@@ -1,6 +1,11 @@
 import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import { Keyboard } from "react-native";
+=======
+import React, { useState } from "react";
+import { useFonts } from "expo-font";
+>>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd
 import Button from "../../components/UI/Button";
 import axios from "axios";
 import { Ionicons } from "@expo/vector-icons";
@@ -92,13 +97,14 @@ const TeachersNoticeboard = () => {
     }
     storeData();
   }
+
   return (
     <>
-      <View style={styles.BtnContainer}>
+      {/* <View style={styles.BtnContainer}>
         <BgButton>Add Notice</BgButton>
-      </View>
+      </View> */}
 
-      <ScrollView>
+      <ScrollView style={styles.root}>
         <View style={styles.inputForm}>
           <Text style={styles.labels}>USERNAME</Text>
           <TextInput
@@ -138,8 +144,10 @@ const TeachersNoticeboard = () => {
           >
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 18,
                 color: "black",
+                fontFamily: "Monsterrat",
+                marginLeft: -10,
               }}
             >
               DATE OF CREATION:
@@ -183,9 +191,14 @@ export default TeachersNoticeboard;
 
 const styles = StyleSheet.create({
   BtnContainer: {
-    flexDirection: "row",
+    fontSize: 24,
   },
-
+  home: {
+    marginTop: 29,
+  },
+  root: {
+    backgroundColor: "#EBECFO",
+  },
   inputForm: {
     padding: 20,
     paddingTop: 5,
@@ -193,17 +206,23 @@ const styles = StyleSheet.create({
   inputStyle: {
     color: "black",
     borderWidth: 2,
-    borderColor: "grey",
+    borderColor: "lightgrey",
+    backgroundColor: "white",
+    padding: 10,
     // paddingHorizontal: 15,
-    // paddingVertical: 7,
+    paddingVertical: 5,
     borderRadius: 5,
     fontSize: 18,
-    // margin:5
+    //margin: 5,
   },
   labels: {
-    marginTop: 17,
+    margin: 5,
+    fontFamily: "Ubuntu",
+    fontSize: 18,
+    // marginTop: 17,
   },
   btnSubmit: {
-    marginTop: 17,
+    marginTop: 30,
+    marginBottom: 30,
   },
 });

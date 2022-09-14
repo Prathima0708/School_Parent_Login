@@ -55,14 +55,14 @@ export default ImageSlider;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 25,
+    flex: 20,
     // backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 150,
   },
   image: {
-    //flex: 3,
+   // flex: 1,
     width: 500,
     height: 500,
 

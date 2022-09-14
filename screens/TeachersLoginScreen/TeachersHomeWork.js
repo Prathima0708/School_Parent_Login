@@ -2,7 +2,11 @@ import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
 import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../components/UI/Button";
+<<<<<<< HEAD
 import { Keyboard } from "react-native";
+=======
+import * as MediaLibrary from "expo-media-library";
+>>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import SelectList from "react-native-dropdown-select-list";
@@ -84,6 +88,12 @@ const TeachersHomework = () => {
       aspect: [4, 3],
       quality: 1,
     });
+    const { status } = await MediaLibrary.requestPermissionsAsync();
+    // if (status === "granted") {
+    //   await MediaLibrary.saveToLibraryAsync(result.uri);
+
+    //   console.log("Image successfully saved");
+    // }
     console.log(result);
 
     // location = result.uri;
@@ -258,11 +268,11 @@ const TeachersHomework = () => {
   }
   return (
     <>
-      <View style={styles.BtnContainer}>
+      {/* <View style={styles.BtnContainer}>
         <BgButton>Add HomeWork</BgButton>
-      </View>
+      </View> */}
 
-      <ScrollView>
+      <ScrollView style={styles.root}>
         <View style={styles.inputForm}>
           <Text style={styles.labels}>CLASS NAME</Text>
 
@@ -281,15 +291,20 @@ const TeachersHomework = () => {
             value={subject}
             onSubmitEditing={Keyboard.dismiss}
           />
+<<<<<<< HEAD
           <View style={[{
             // Try setting `flexDirection` to `"row"`.
             flexDirection: "row"
           }]}>
           <View style={{ flex: 1}}>
+=======
+
+>>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd
           <View
             style={{
               paddingVertical: 15,
               paddingHorizontal: 10,
+
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
@@ -390,9 +405,7 @@ const TeachersHomework = () => {
           />
           {/* <View>
             <Text style={styles.labels}>UPLOAD IMAGE</Text>
-
             <View style={styles.imagePreView}>{imagePreView}</View>
-
             <Btn title="take image" onPress={takeImageHanlder} />
           </View> */}
 
@@ -423,9 +436,14 @@ export default TeachersHomework;
 
 const styles = StyleSheet.create({
   BtnContainer: {
-    flexDirection: "row",
+    fontSize: 24,
   },
-
+  home: {
+    marginTop: 29,
+  },
+  root: {
+    backgroundColor: "#EBECFO",
+  },
   inputForm: {
     padding: 20,
     paddingTop: 5,
@@ -433,16 +451,20 @@ const styles = StyleSheet.create({
   inputStyle: {
     color: "black",
     borderWidth: 2,
-    borderColor: "grey",
+    borderColor: "lightgrey",
+    backgroundColor: "white",
+    padding: 10,
     // paddingHorizontal: 15,
-    // paddingVertical: 7,
+    paddingVertical: 5,
     borderRadius: 5,
     fontSize: 18,
-    // margin:5
+    //margin: 5,
   },
   labels: {
+    margin: 5,
+    fontFamily: "Ubuntu",
     fontSize: 18,
-    marginTop: 17,
+    // marginTop: 17,
   },
   btnSubmit: {
     marginTop: 27,

@@ -44,7 +44,7 @@ import Login from "./screens/Login";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import { NavigationContainer } from "@react-navigation/native";
-import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
+import { Inter_900Black } from "@expo-google-fonts/inter";
 import Chat from "./components/ChatApplication/Chat";
 import ChatScreen from "./components/ChatApplication/ChatScreen";
 import SingleUser from "./components/ChatApplication/SingleUser";
@@ -70,7 +70,7 @@ import Attendance from "./screens/ParentsLoginScreen/Academics/Attendance";
 import TeachersTransport from "./screens/TeachersLoginScreen/TeachersTransport";
 import TimeTable from "./screens/ParentsLoginScreen/Academics/TimeTable";
 import TeachersHomework from "./screens/TeachersLoginScreen/TeachersHomeWork";
-
+import { useFonts } from "expo-font";
 import TeachersAcademics from "./screens/TeachersLoginScreen/TeachersAcademics";
 import TeachersCalendar from "./screens/TeachersLoginScreen/TeachersCalendar";
 import ReportCard from "./screens/ParentsLoginScreen/Academics/ReportCard";
@@ -94,7 +94,18 @@ import LandingScreen from "./screens/LandingScreen";
 //   );
 // }
 
+<<<<<<< HEAD
+=======
+import AppLoading from "expo-app-loading";
+>>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd
 export default function App() {
+  let [fontsLoaded] = useFonts({
+    PoppinsBold: require("./assets/fonts/Poppins-BoldItalic.ttf"),
+    Monsterrat: require("./assets/fonts/static/Montserrat-Medium.ttf"),
+    PoppinsSemiBold: require("./assets/fonts/Poppins-SemiBold.ttf"),
+    Ubuntu: require("./assets/fonts/Ubuntu-Regular.ttf"),
+    MonsterratBold: require("./assets/fonts/static/Montserrat-Bold.ttf"),
+  });
   const [tokenIsPresent, setTokenIsPresent] = useState(false);
   const [showtab, setShowTab] = useState(false);
 
@@ -119,6 +130,7 @@ export default function App() {
   //   'Inter-SemiBoldItalic': 'https://rsms.me/inter/font-files/Inter-SemiBoldItalic.otf?v=3.12',
   // });
 
+<<<<<<< HEAD
   // if (!fontsLoaded) {
   //   return null;
   // }
@@ -129,68 +141,83 @@ export default function App() {
     return (
       <NavigationContainer>
           <Stack.Navigator>
+=======
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  return (
+    <>
+      {/* <Login /> */}
+      <NavigationContainer>
+        <Stack.Navigator>
+>>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd
           <Stack.Screen
-              name="LandingScreen"
-              component={LandingScreen}
-              options={{ title: "WelcomeScreen"}}
-            />
-            <Stack.Screen
-              name="Login"
-              component={Login}
-              options={{ title: "Kinara"}}
-            />
-  
-            <Stack.Screen
-              name="TeachersAcademics"
-              component={TeachersAcademics}
-            />
-            <Stack.Screen
-              name="TeachersTimetable"
-              component={TeachersTimetable}
-            />
-            <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} />
-            <Stack.Screen
-              name="TeachersMarksheet"
-              component={TeachersMarksheet}
-            />
-            <Stack.Screen name="TeachersLeave" component={TeachersLeave} />
-            <Stack.Screen
-              name="TeachersNoticeBoard"
-              component={TeachersNoticeboard}
-            />
-  
-            <Stack.Screen name="TeachersLogin" component={TeachersLoginScreen} />
-            {/* <Stack.Screen
+            name="LandingScreen"
+            component={LandingScreen}
+            options={{ title: "WelcomeScreen" }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ title: "Kinara" }}
+          />
+
+          <Stack.Screen
+            name="TeachersAcademics"
+            component={TeachersAcademics}
+          />
+          <Stack.Screen
+            name="TeachersTimetable"
+            component={TeachersTimetable}
+          />
+          <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} />
+          <Stack.Screen
+            name="TeachersMarksheet"
+            component={TeachersMarksheet}
+          />
+          <Stack.Screen name="TeachersLeave" component={TeachersLeave} />
+          <Stack.Screen
+            name="TeachersNoticeBoard"
+            component={TeachersNoticeboard}
+          />
+
+          <Stack.Screen name="TeachersLogin" component={TeachersLoginScreen} />
+          {/* <Stack.Screen
               name="TeachersLogin"
               component={Bottom}
               options={{ headerShown: false }}
             /> */}
-  
-            <Stack.Screen name="Parent's Dashboard" component={ParentsLoginScreen} />
-  
-            <Stack.Screen name="Category" component={StudentCategories} />
-            <Stack.Screen
-              name="StudentsOverview"
-              component={StudentsOverviewScreen}
-            />
-            <Stack.Screen name="Leave" component={LeaveScreen} />
-            <Stack.Screen name="Calender" component={CalenderScreen} />
-            <Stack.Screen name="ReportCard" component={ReportCard} />
-            {/* <Stack.Screen name="MarksCard" component={Exam} /> */}
-            <Stack.Screen name="NoticeBoard" component={Noticeboard} />
-            <Stack.Screen name="TimeTable" component={TimeTable} />
-            <Stack.Screen name="Attendance" component={Attendance} />
-            <Stack.Screen name="Transport" component={TransportScreen} />
-            <Stack.Screen
-              name="TeachersTransport"
-              component={TeachersTransport}
-            />
-  
-            <Stack.Screen name="TeachersHomework" component={TeachersHomework} />
-            {/* <Stack.Screen
+
+          <Stack.Screen
+            name="Parent's Dashboard"
+            component={ParentsLoginScreen}
+          />
+
+          <Stack.Screen name="Category" component={StudentCategories} />
+          <Stack.Screen
+            name="StudentsOverview"
+            component={StudentsOverviewScreen}
+          />
+          <Stack.Screen name="Leave" component={LeaveScreen} />
+          <Stack.Screen name="Calender" component={CalenderScreen} />
+          <Stack.Screen name="ReportCard" component={ReportCard} />
+          {/* <Stack.Screen name="MarksCard" component={Exam} /> */}
+          <Stack.Screen name="NoticeBoard" component={Noticeboard} />
+          <Stack.Screen name="TimeTable" component={TimeTable} />
+          <Stack.Screen name="Attendance" component={Attendance} />
+          <Stack.Screen name="Transport" component={TransportScreen} />
+          <Stack.Screen
+            name="TeachersTransport"
+            component={TeachersTransport}
+          />
+
+          <Stack.Screen name="TeachersHomework" component={TeachersHomework} />
+          {/* <Stack.Screen
               name="TeachersOverview"
               component={TeachersOverviewScreen}
             /> */}
+<<<<<<< HEAD
             <Stack.Screen name="Chat" component={Chat} />
             <Stack.Screen name="ChatScreen" component={ChatScreen} />
             <Stack.Screen name="SingleUser" component={SingleUser} />
@@ -201,3 +228,15 @@ export default function App() {
     );
   }
 
+=======
+          <Stack.Screen name="Chat" component={Chat} />
+          <Stack.Screen name="ChatScreen" component={ChatScreen} />
+          <Stack.Screen name="SingleUser" component={SingleUser} />
+          <Stack.Screen name="Academics" component={Academics} />
+          <Stack.Screen name="Homework" component={HomeworkScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </>
+  );
+}
+>>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd

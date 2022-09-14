@@ -10,12 +10,19 @@ import { Text } from "react-native";
 import ParentsHome from "../ParentsHome";
 import { Image } from "react-native";
 import { FlatList } from "react-native";
-import { className } from "../../../components/StudentItem/StudentItem";
+import {
+  className,
+  Section,
+} from "../../../components/StudentItem/StudentItem";
 
 const TimeTable = () => {
   const [showForm, setShowForm] = useState(false);
   const [showTable, setShowTable] = useState(true);
-  const [data, setData] = useState();
+
+  // const [data, setData] = useState();
+
+  const [examData, setExamData] = useState();
+
   const [timeTable, setTimeTable] = useState();
   const [forTimeTableList, setForTimeTableList] = useState({
     color: "black",
@@ -31,20 +38,6 @@ const TimeTable = () => {
         );
         console.log(res.data);
 
-        setData(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await axios.get("http://10.0.2.2:8000/school/Timetable/");
-        console.log(res.data);
-
         setTimeTable(res.data);
       } catch (error) {
         console.log(error);
@@ -58,10 +51,12 @@ const TimeTable = () => {
     setShowTable(false);
     setShowForm(true);
     try {
-      const res = await axios.get("http://10.0.2.2:8000/school/Exam/");
+      const res = await axios.get(
+        `http://10.0.2.2:8000/school/Exam/${className}/`
+      );
       console.log(res.data);
 
-      setData(res.data);
+      setExamData(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -78,7 +73,7 @@ const TimeTable = () => {
       );
       console.log(res.data);
 
-      setData(res.data);
+      setTimeTable(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -103,7 +98,7 @@ const TimeTable = () => {
                 Class: {className}
               </Text>
               <Text style={[styles.textBase, styles.description]}>
-                Section: A
+                Section: {Section}
               </Text>
             </View>
           </View>
@@ -134,8 +129,8 @@ const TimeTable = () => {
                   <Text style={styles.tableTitle}> SATURDAY</Text>
                 </View>
               </DataTable.Header>
-              {data &&
-                data.map((data, key) => (
+              {timeTable &&
+                timeTable.map((data, key) => (
                   <DataTable.Row style={styles.tableRow}>
                     <DataTable.Cell style={styles.tableCell}>
                       {data.monday}
@@ -187,8 +182,8 @@ const TimeTable = () => {
                 <Text style={styles.tableTitle}> CLASS NAME</Text>
               </View>
             </DataTable.Header>
-            {data &&
-              data.map((data, key) => (
+            {examData &&
+              examData.map((data, key) => (
                 <DataTable.Row style={styles.tableRow}>
                   <DataTable.Cell style={styles.tableCell}>
                     {data.exam_name}
@@ -213,6 +208,7 @@ const TimeTable = () => {
           </DataTable>
         </ScrollView>
       )}
+
       <ParentsHome />
     </>
   );
@@ -230,8 +226,9 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginLeft: 20,
     marginTop: 10,
-
-    padding: 6,
+    alignItems: "center",
+    // paddingTop: 0,
+    paddingBottom: 9,
     flexDirection: "row",
     backgroundColor: "skyblue",
     borderRadius: 10,
@@ -268,20 +265,20 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   th: {
-    padding: 5,
+    padding: 3,
     marginRight: 13,
     fontSize: 24,
   },
   tableHeader: {
     backgroundColor: "skyblue",
 
-    height: 50,
+    height: 45,
     fontWeight: "bold",
   },
   tableTitle: {
-    padding: 5,
     margin: 7,
-    fontWeight: "bold",
+    fontFamily: "MonsterratBold",
+    fontSize: 16,
   },
   tableCell: {
     width: 20,

@@ -26,8 +26,17 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import LgButton from "../components/UI/LgButton";
 import { TouchableWithoutFeedback } from "react-native";
 import { Platform } from "react-native";
+import AppLoading from "expo-app-loading";
+import { useFonts } from "expo-font";
+import { validateYupSchema } from "formik";
+import { formikFieldApplyYupTransforms } from "formik-yup";
+
 export var Token, UserId, LoginResponse;
 function Login() {
+  // const [fontsLoaded] = useFonts({
+  //   Roboto: require("../assets/fonts/Roboto-Black.ttf"),
+  //   RobotoBold: require("../assets/fonts/Roboto-Bold.ttf"),
+  // });
   const navigation = useNavigation();
   const [enteredUser, setEnteredUser] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
@@ -179,25 +188,24 @@ function Login() {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.inner}>
             <View style={styles.mainContainer}>
-                <View>
-                  <View style={styles.buttonContainer}>
-                    <LgButton
-                      onPress={toggleTeachers}
-                      style={forTeacherBackground}
-                    >
-                      Teachers
-                    </LgButton>
-                    <View style={styles.space} />
-                    <LgButton
-                      onPress={toggleParents}
-                      style={forPartentBackground}
-                    >
-                      Parents
-                    </LgButton>
-                  </View>
+              <View>
+                <View style={styles.buttonContainer}>
+                  <LgButton
+                    onPress={toggleTeachers}
+                    style={forTeacherBackground}
+                  >
+                    Teachers
+                  </LgButton>
+                  <View style={styles.space} />
+                  <LgButton
+                    onPress={toggleParents}
+                    style={forPartentBackground}
+                  >
+                    Parents
+                  </LgButton>
                 </View>
+              </View>
               <View style={styles.inputContainer}>
-
                 <TextInput
                   onChangeText={userInputHandler}
                   style={styles.inputStyle}
@@ -266,6 +274,10 @@ const styles = StyleSheet.create({
     // padding: 24,
     // flex: 1,
     justifyContent: "space-around",
+<<<<<<< HEAD
+=======
+    top: 70,
+>>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd
   },
   bannerImage: {
     width: "100%",

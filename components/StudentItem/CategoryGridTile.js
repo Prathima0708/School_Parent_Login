@@ -36,13 +36,14 @@ const styles = StyleSheet.create({
     margin: 10,
     //width: Title == "Profile" ? "50% !important" : "70%",
     width: 160,
-    right:20,
+    right: 20,
     height: 110,
-    borderRadius: 18,
-    elevation: 4,
+    borderRadius: 11,
+
+    elevation: 11,
     shadowColor: "black",
     backgroundColor: "white",
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.75,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
     overflow: Platform.OS === "android" ? "hidden" : "visible",
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
     width: 50,
     // borderColor: "black",
     borderWidth: 3,
-    right:40
+    right: 40,
   },
   pressed: {
     opacity: 0.5,
@@ -69,11 +70,18 @@ const styles = StyleSheet.create({
   },
   title: {
     marginTop: 3,
+<<<<<<< HEAD
     // fontWeight: "bold",
     fontSize: 18,
     fontFamily:'welcomeMsg',
     right:15,
     letterSpacing:1
+=======
+    fontFamily: "Roboto",
+    // fontWeight: "bold",
+    fontSize: 18,
+    right: 20,
+>>>>>>> 9f5f187a0b0291047266019b5cc369e3080cb6dd
     //  color: "red",
   },
 });

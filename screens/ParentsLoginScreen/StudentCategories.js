@@ -81,12 +81,15 @@ function StudentCategories({ navigation }) {
     );
   }
   return (
-    <FlatList style={styles.test}
-      data={CATEGORIES}
-      keyExtractor={(item) => item.id}
-      renderItem={renderCategoryItem}
-      numColumns={2}
-    />
+    <View style={{ backgroundColor: "white", height: "100%" }}>
+      <FlatList
+        style={styles.test}
+        data={CATEGORIES}
+        keyExtractor={(item) => item.id}
+        renderItem={renderCategoryItem}
+        numColumns={2}
+      />
+    </View>
   );
 }
 export default StudentCategories;
@@ -97,13 +100,14 @@ const styles = StyleSheet.create({
   //   display: "flex",
   // },
   rootContainer: {
+    //backgroundColor: "white",
     flex: 1,
-    top:10,
+    top: 10,
     justifyContent: "center",
     alignItems: "center",
     //padding: 32,
   },
   test: {
-    top:25,
+    top: 25,
   },
 });

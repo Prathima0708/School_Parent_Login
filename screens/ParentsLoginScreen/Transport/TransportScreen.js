@@ -1,13 +1,14 @@
 import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
-import VerticalLine from "../../../components/UI/VerticalLine";
+
 import { DataTable } from "react-native-paper";
 import Button from "../../../components/UI/Button";
 import axios from "axios";
 import BgButton from "../../../components/UI/BgButton";
-import { UserId } from "../../Login";
-import { busNumber } from "../../../components/StudentItem/StudentItem";
+
 import ParentsHome from "../ParentsHome";
+import AppLoading from "expo-app-loading";
+import { busNumber } from "../../../components/StudentItem/StudentItem";
 const TransportScreen = () => {
   // useEffect(()=>{
   //   async function getToken(){
@@ -29,7 +30,7 @@ const TransportScreen = () => {
     async function fetchData() {
       try {
         const res = await axios.get(
-          `http://10.0.2.2:8000/school/Transportreport/`
+          `http://10.0.2.2:8000/school/Transportreport/${busNumber}`
         );
         console.log(res.data);
 
@@ -58,9 +59,9 @@ const TransportScreen = () => {
   return (
     <>
       <View style={styles.BtnContainer}>
-        <BgButton onPress={transportList} style={forTransportList}>
+        {/* <BgButton onPress={transportList} style={forTransportList}>
           Transport List
-        </BgButton>
+        </BgButton> */}
       </View>
       {showTable && (
         <ScrollView horizontal={true}>
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
   th: {
     padding: 5,
     marginRight: 13,
-    fontSize: 24,
+    //fontSize: 24,
   },
   tableHeader: {
     backgroundColor: "skyblue",
@@ -153,13 +154,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   tableTitle: {
-    padding: 5,
+    // padding: 5,
     margin: 7,
-    fontWeight: "bold",
+    fontFamily: "MonsterratBold",
+    fontSize: 16,
   },
   tableCell: {
     width: 40,
-
+    //  fontFamily: "Montserrat_600SemiBold",
     marginLeft: 35,
   },
 

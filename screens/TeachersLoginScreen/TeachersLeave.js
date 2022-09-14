@@ -139,9 +139,9 @@ const TeachersLeave = () => {
 
   return (
     <>
-      <View style={styles.BtnContainer}>
+      {/* <View style={styles.BtnContainer}>
         <BgButton>Add Leave</BgButton>
-      </View>
+      </View> */}
 
       <ScrollView>
         <View style={styles.inputForm}>
@@ -191,16 +191,10 @@ const TeachersLeave = () => {
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
+              marginLeft: -10,
             }}
           >
-            <Text
-              style={{
-                fontSize: 16,
-                color: "black",
-              }}
-            >
-              LEAVE FROM:
-            </Text>
+            <Text style={styles.labels}>LEAVE FROM:</Text>
 
             <Ionicons
               style={{
@@ -233,16 +227,10 @@ const TeachersLeave = () => {
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
+              marginLeft: -10,
             }}
           >
-            <Text
-              style={{
-                fontSize: 16,
-                color: "black",
-              }}
-            >
-              LEAVE TO:
-            </Text>
+            <Text style={styles.labels}>LEAVE TO:</Text>
 
             <Ionicons
               style={{
@@ -283,9 +271,14 @@ export default TeachersLeave;
 
 const styles = StyleSheet.create({
   BtnContainer: {
-    flexDirection: "row",
+    fontSize: 24,
   },
-
+  home: {
+    marginTop: 29,
+  },
+  root: {
+    backgroundColor: "#EBECFO",
+  },
   inputForm: {
     padding: 20,
     paddingTop: 5,
@@ -293,18 +286,20 @@ const styles = StyleSheet.create({
   inputStyle: {
     color: "black",
     borderWidth: 2,
-    borderColor: "grey",
+    borderColor: "lightgrey",
+    backgroundColor: "white",
+    padding: 10,
     // paddingHorizontal: 15,
-    // paddingVertical: 7,
+    paddingVertical: 5,
     borderRadius: 5,
     fontSize: 18,
-    // margin:5
+    //margin: 5,
   },
   labels: {
-    marginTop: 17,
-  },
-  row: {
-    margin: 30,
+    margin: 5,
+    fontFamily: "Ubuntu",
+    fontSize: 18,
+    // marginTop: 17,
   },
   btnSubmit: {
     marginTop: 17,

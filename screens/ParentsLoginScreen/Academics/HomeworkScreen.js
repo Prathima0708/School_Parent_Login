@@ -197,8 +197,12 @@ const HomeworkScreen = () => {
                   <View style={styles.imgContainer}></View>
                   <View>
                     <View style={styles.bio}>
-                      <Text style={styles.homewrk}>{item.class_name}</Text>
-                      <Text style={styles.homewrk}>{item.subject}</Text>
+                      <Text style={styles.homewrk}>
+                        Remark : {item.homework}
+                      </Text>
+                      <Text style={styles.homewrk}>
+                        Subject: {item.subject}
+                      </Text>
                     </View>
 
                     <View style={styles.main}>
@@ -209,6 +213,13 @@ const HomeworkScreen = () => {
                           uri: `http://10.0.2.2:8000${item.homework_photo}`,
                         }}
                       />
+                      <View
+                        style={{
+                          marginLeft: -140,
+                        }}
+                      >
+                        <Text style={styles.remark}>{item.remark}</Text>
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -261,15 +272,19 @@ const styles = StyleSheet.create({
   },
   bio: {
     width: "100%",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    //display: "flex",
+    //flexDirection: "row",
+    // alignItems: "center",
+    //  justifyContent: "space-between",
     backgroundColor: "#353535",
-    paddingVertical: 10,
+    //  paddingVertical: 10,
   },
   root: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  remark: {
+    fontSize: 18,
+    color: "black",
   },
 });

@@ -1,5 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
+import AppLoading from "expo-app-loading";
+
 function LgButton({ children, onPress, style }) {
   return (
     <Pressable style={[style, styles.button]} onPress={onPress}>
@@ -23,6 +25,6 @@ const styles = StyleSheet.create({
 
   buttonText: {
     textAlign: "center",
-    fontSize: 18,
+    fontSize: 20,
   },
 });

@@ -7,6 +7,7 @@ import { Keyboard } from "react-native";
 import { UserId } from "../Login";
 import BgButton from "../../components/UI/BgButton";
 import TeachersHome from "./TeachersHome";
+
 const TeachersTransport = () => {
   const [studentID, setEnteredStudentID] = useState("");
   const [vehicleno, setEnteredVehicleNo] = useState("");
@@ -78,7 +79,7 @@ const TeachersTransport = () => {
         };
 
         const resLogin = await axios.post(
-          `http://10.0.2.2:8000/school/Transportreport/${UserId}/`,
+          "http://10.0.2.2:8000/school/Transportreport/",
           FormData,
           {
             headers: headers,
@@ -101,15 +102,16 @@ const TeachersTransport = () => {
     setEnteredRouteName("");
     setEnteredStopName("");
   }
+
   return (
     <>
-      <View style={styles.BtnContainer}>
+      {/* <View style={styles.BtnContainer}>
         <BgButton>Add Transport</BgButton>
-      </View>
+      </View> */}
 
-      <ScrollView>
+      <ScrollView style={styles.root}>
         <View style={styles.inputForm}>
-          <Text style={styles.labels}>BUS NUMBER</Text>
+          <Text style={styles.labels}>Bus Number</Text>
           <TextInput
             keyboardType="number-pad"
             style={styles.inputStyle}
@@ -117,7 +119,7 @@ const TeachersTransport = () => {
             value={busNumber}
             onSubmitEditing={Keyboard.dismiss}
           />
-          <Text style={styles.labels}>VEHICLE NO</Text>
+          <Text style={styles.labels}>Vehicle Number</Text>
           <TextInput
             keyboardType="number-pad"
             style={styles.inputStyle}
@@ -125,21 +127,21 @@ const TeachersTransport = () => {
             value={vehicleno}
             onSubmitEditing={Keyboard.dismiss}
           />
-          <Text style={styles.labels}>TYPE</Text>
+          <Text style={styles.labels}>Type</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={typeChangeHandler}
             value={type}
             onSubmitEditing={Keyboard.dismiss}
           />
-          <Text style={styles.labels}>DRIVER NAME</Text>
+          <Text style={styles.labels}>Driver Name</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={driverNameChangeHandler}
             value={drivername}
             onSubmitEditing={Keyboard.dismiss}
           />
-          <Text style={styles.labels}>MOBILE NO</Text>
+          <Text style={styles.labels}>Mobile Number</Text>
           <TextInput
             keyboardType="number-pad"
             style={styles.inputStyle}
@@ -147,14 +149,14 @@ const TeachersTransport = () => {
             value={mobile}
             onSubmitEditing={Keyboard.dismiss}
           />
-          <Text style={styles.labels}>ROUTE NAME</Text>
+          <Text style={styles.labels}>Route Name</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={routeNameChangeHandler}
             value={routename}
             onSubmitEditing={Keyboard.dismiss}
           />
-          <Text style={styles.labels}>STOP NAME</Text>
+          <Text style={styles.labels}>Stop Name</Text>
           <TextInput
             style={styles.inputStyle}
             onChangeText={stopNameChangeHandler}
@@ -183,7 +185,9 @@ const styles = StyleSheet.create({
   home: {
     marginTop: 29,
   },
-
+  root: {
+    backgroundColor: "#EBECFO",
+  },
   inputForm: {
     padding: 20,
     paddingTop: 5,
@@ -191,16 +195,20 @@ const styles = StyleSheet.create({
   inputStyle: {
     color: "black",
     borderWidth: 2,
-    borderColor: "grey",
+    borderColor: "lightgrey",
+    backgroundColor: "white",
+    padding: 10,
     // paddingHorizontal: 15,
-    // paddingVertical: 7,
+    paddingVertical: 5,
     borderRadius: 5,
     fontSize: 18,
-    // margin:5
+    //margin: 5,
   },
   labels: {
+    margin: 5,
+    fontFamily: "Ubuntu",
     fontSize: 18,
-    marginTop: 17,
+    // marginTop: 17,
   },
   btnSubmit: {
     marginTop: 30,

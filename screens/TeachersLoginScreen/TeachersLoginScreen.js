@@ -12,6 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Text } from "react-native";
 import { Image } from "react-native";
 import TeachersCategoryGridTile from "../../components/StudentItem/TeachersCategoryGridTile";
+import TeachersHome from "./TeachersHome";
 
 const TeachersLoginScreen = ({ navigation }) => {
   async function logoutHandler() {
@@ -75,34 +76,38 @@ const TeachersLoginScreen = ({ navigation }) => {
         icon={itemData.item.icon}
         onPress={pressHandler}
         txtclr={itemData.item.txtclr}
+        subTitle={itemData.item.subTitle}
       />
     );
   }
 
   return (
     <>
-      <Text style={styles.heading}>Teachers Dashboard</Text>
-      <View style={styles.studentItem}>
+      <View style={{ backgroundColor: "white", height: "100%" }}>
+        <Text style={styles.heading}>Teachers Dashboard</Text>
         <View style={styles.studentItem}>
-          <Image
-            source={{
-              uri: "https://cdn-icons-png.flaticon.com/512/848/848006.png",
-            }}
-            style={styles.image}
-          />
+          <View style={styles.studentItem}>
+            <Image
+              source={{
+                uri: "https://cdn-icons-png.flaticon.com/512/848/848006.png",
+              }}
+              style={styles.image}
+            />
 
-          <Text style={[styles.textBase, styles.description]}>
-            Teacher name
-          </Text>
+            <Text style={[styles.textBase, styles.description]}>
+              Teacher name
+            </Text>
+          </View>
         </View>
-      </View>
 
-      <FlatList style={styles.rootContainer}
-        data={TEACHERS}
-        keyExtractor={(item) => item.id}
-        renderItem={renderCategoryItem}
-        numColumns={2}
-      />
+        <FlatList
+          style={styles.rootContainer}
+          data={TEACHERS}
+          keyExtractor={(item) => item.id}
+          renderItem={renderCategoryItem}
+          numColumns={2}
+        />
+      </View>
     </>
   );
 };
@@ -114,14 +119,14 @@ const styles = StyleSheet.create({
     // flex: 1,
     // justifyContent: "center",
     // alignItems: "center",
-    paddingLeft:20,
-    paddingRight:20
+    paddingLeft: 20,
+    paddingRight: 20,
     // padding: 32,
     //padding: 32,
   },
   title: {
     fontSize: 20,
-    fontWeight: "500",
+    // fontWeight: "500",
     marginBottom: 8,
     fontFamily:'welcomeMsg',
   },
