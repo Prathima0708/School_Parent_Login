@@ -70,12 +70,13 @@ export default TeachersCategoryGridTile;
 const styles = StyleSheet.create({
   gridItem: {
     flex: 1,
-    margin: 10,
-
-    width: 160,
+    margin: 15,
+    padding: 7,
+    paddingTop: 0,
+    width: 150,
 
     height: 110,
-    borderRadius: 11,
+    borderRadius: 18,
     elevation: 5,
     shadowColor: "black",
 
@@ -108,17 +109,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    top: 20,
+    top: 17,
     // fontWeight: "bold",
 
     left: 10,
-    fontFamily: "welcomeMsg",
-    letterSpacing: 1,
+    fontFamily: "PoppinsRegular",
+    letterSpacing: 0.7,
     // right:12,
     //  color: "red",
 
     //  fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 18,
     left: 10,
     // fontFamily: "Roboto",
   },

@@ -17,8 +17,8 @@ export default LgButton;
 const styles = StyleSheet.create({
   button: {
     borderRadius: 6,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
+    //paddingVertical: 6,
+  //  paddingHorizontal: 12,
     width: "50%",
     borderWidth: 2,
   },
@@ -26,5 +26,6 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     fontSize: 20,
+    fontFamily: "Poppins",
   },
 });

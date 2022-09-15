@@ -167,41 +167,63 @@ function LandingScreen() {
       <View style={styles.mainContainer}>
         <Image
           style={styles.bannerImage}
-          source={require("../assets/bgelement.png")}
+          source={require("../assets/kinarabg2.png")}
         />
-        <Image style={styles.logo} source={require("../assets/Asset2.png")} />
-
-        <Text style={{ left: 30, color: "grey", fontSize: 18, top: 10 }}>
-          Welcome to
-        </Text>
-        <Text
-          style={{
-            left: 30,
-            color: "red",
-            fontSize: 23,
-            fontWeight: "800",
-            top: 10,
-          }}
-        >
-          KINARA SCHOOL
-        </Text>
-
-        <View style={styles.typeText}>
-          <Text style={{ color: "black", fontSize: 15 }}>
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
-            nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
-            volutpat.
+        {/* <Image style={styles.logo} source={require("../assets/Asset2.png")} /> */}
+        <View style={{ position: "absolute", top: 250 }}>
+          <Text
+            style={{
+              left: 30,
+              color: "#808B96",
+              fontSize: 20,
+              top: 5,
+              fontFamily: "Poppins",
+            }}
+          >
+            Welcome to
           </Text>
-        </View>
-        {/* <View style={styles.buttons}>
+          <Text
+            style={{
+              left: 30,
+
+              fontSize: 30,
+
+              // top: 10,
+              fontFamily: "PoppinsBold",
+            }}
+          >
+            KINARA SCHOOL
+          </Text>
+
+          <View style={styles.typeText}>
+            <Text
+              style={{
+                // color: "#273746",
+                fontSize: 16,
+                // lineHeight: 12,
+                margin: 10,
+                fontFamily: "Poppins",
+              }}
+            >
+              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+              nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
+              erat volutpat.
+            </Text>
+          </View>
+          {/* <View style={styles.buttons}>
           <Button title="Sign In ----->" onPress={signInBtnHandler} />
         </View> */}
-        <TouchableHighlight
-          style={styles.submit}
-          onPress={signInBtnHandler}
-          underlayColor='#002D62'>
-            <Text style={[styles.submitText]}>Sign In<Ionicons name="log-in" size={18} color="white" /></Text>
-        </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.submit}
+            onPress={signInBtnHandler}
+            underlayColor="#002D62"
+          >
+            <Text style={styles.submitText}>
+              Sign in
+              <Ionicons name="log-in-outline" size={32} color="white" />
+            </Text>
+          </TouchableHighlight>
+        </View>
       </View>
     </View>
   );
@@ -216,7 +238,8 @@ const styles = StyleSheet.create({
   inner: {
     // padding: 24,
     // flex: 1,
-    justifyContent: "space-around",
+    minHeight: "100%",
+    backgroundColor: "white",
   },
 
   mainContainer: {
@@ -224,12 +247,12 @@ const styles = StyleSheet.create({
   },
   bannerImage: {
     width: "100%",
-    height: "38%",
+    height: "48%",
   },
   typeText: {
     justifyContent: "center",
     alignItems: "center",
-    top: 5,
+    top: -15,
     padding: 20,
   },
   logo: {
@@ -246,52 +269,32 @@ const styles = StyleSheet.create({
   //   paddingRight: 27,
   // },
   submit: {
-    marginRight: 30,
-    marginLeft: 30,
+    width: "40%",
+    marginRight: 50,
+    marginLeft: 200,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    marginVertical: -19,
+    marginHorizontal: 20,
     // marginTop: 10,
     // paddingTop: 20,
     // paddingBottom: 20,
-    padding:15,
-    backgroundColor: '#002D62',
+    //padding: 10,
+    backgroundColor: "#002D62",
     borderRadius: 10,
     borderWidth: 1,
-    top:10,
+    // top: 10,
 
-    borderColor: '#fff',
+    borderColor: "#fff",
   },
   submitText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontSize:16,
-    fontFamily:'welcomeMsg'
-  }
+    padding: 3,
+    fontFamily: "PoppinsRegular",
+    // margin: 2,
+    color: "#fff",
+    // textAlign: "center",
+    fontSize: 25,
+    // marginRight:10,
+    //  fontFamily: "welcomeMsg",
+  },
 });
-
-// import React, { useState, useEffect } from 'react';
-
-// import { Text, View, StyleSheet } from 'react-native';
-// import AppLoading from 'expo-app-loading';
-// import {
-//   useFonts,
-//   Inter_800ExtraBold,
-// } from '@expo-google-fonts/inter';
-
-// export default () => {
-//   let [fontsLoaded] = useFonts({
-//     Inter_800ExtraBold,
-//   });
-
-//   if (!fontsLoaded) {
-//     return <AppLoading />;
-//   } else {
-//     return (
-//       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-
-//         <Text style={{ fontFamily: 'Inter_800ExtraBold' }}>
-//           Inter Black
-//         </Text>
-
-//       </View>
-//     );
-//   }
-// };
