@@ -12,13 +12,9 @@ import StudentAttendance from "../../../components/StudentItem/StudentAttendance
 
 const Attendance = () => {
   
-  const [data,setData]=useState([])
-  const [searchText,setSearchText]=useState()
-  var todayDate;
-  var date = new Date().getDate();
-  var month = new Date().getMonth() + 1;
-  var year = new Date().getFullYear();
-  todayDate= date + '-' + month + '-' + year;//format: d-m-y;
+  const [data,setData]=useState([]);
+  const [filteredData,setFilteredData]=useState([]);
+  const [searchText,setSearchText]=useState('')
 
   useEffect(() => {
     async function fetchData() {
@@ -27,6 +23,7 @@ const Attendance = () => {
           `http://10.0.2.2:8000/school/Studentclass/`
         );
         setData(res.data);
+        setFilteredData(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -34,6 +31,20 @@ const Attendance = () => {
     fetchData();
   }, []);
 
+  const searchFilter=(text)=>{
+    if(text){
+      const newData=data.filter((item)=>{
+        const itemData=item.teachers ? item.teachers.toUpperCase():''.toUpperCase()
+        const textData=text.toUpperCase()
+        return itemData.indexOf(textData)> -1;
+      })
+      setFilteredData(newData);
+      setSearchText(text)
+    }else{
+      setFilteredData(data)
+      setSearchText(text)
+    }
+  }
   function renderStudentDetails(itemData) {
     return <StudentAttendance {...itemData.item} />;
   }
@@ -41,15 +52,28 @@ const Attendance = () => {
   function handleOnChangeText(text){
     setSearchText(text);
   }
+  function itemSeparatorView(){
+    return(
+      <View
+
+      />
+    )
+  }
   return (
     <>
         <SearchBar
-          placeholder="Search here"
-          onChangeText={handleOnChangeText}
+          style={styles.searchBar}
+          placeholder="Search here by name"
+          onChangeText={(text)=>searchFilter(text)}
           value={searchText}
         />
+      
         <ScrollView>
-          <FlatList data={data} renderItem={renderStudentDetails}/>
+          <FlatList 
+            data={filteredData} 
+            renderItem={renderStudentDetails}
+            keyExtractor={(item,index)=>index.toString()}
+            />
         </ScrollView>
         
     </>
@@ -58,7 +82,9 @@ const Attendance = () => {
 export default Attendance;
 
 const styles = StyleSheet.create({
-
+  searchBar:{
+    top:10
+  }
   
 });
 

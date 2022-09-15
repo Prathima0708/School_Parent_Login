@@ -5,7 +5,6 @@ import KeyboardAccessory from "react-native-sticky-keyboard-accessory";
 import {
   Alert,
   FlatList,
-  StyleSheet,
   Text,
   TextInput,
   View,
@@ -30,6 +29,8 @@ import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 import { validateYupSchema } from "formik";
 import { formikFieldApplyYupTransforms } from "formik-yup";
+import { StyleSheet } from "react-native";
+import AccountTypeBtn from "../components/UI/AccountTypeBtn";
 
 export var Token, UserId, LoginResponse;
 function Login() {
@@ -49,13 +50,19 @@ function Login() {
 
   const [forPartentBackground, setForPartentBackground] = useState({
     color: "#d9dffc",
-    borderColor: "#d9dffc",
+    borderTopColor: "#d9dffc",
+    borderBottomWidth:0,
+    borderLeftWidth:0,
+    borderRightWidth:0,
     fontFamily: "welcomeMsg",
   });
 
   const [forTeacherBackground, setForTeacherBackground] = useState({
     color: "#3d4590",
-    borderColor: "#3d4590",
+    borderTopColor: "#3d4590",
+    borderBottomWidth:0,
+    borderLeftWidth:0,
+    borderRightWidth:0,
     fontFamily: "welcomeMsg",
   });
 
@@ -153,9 +160,13 @@ function Login() {
   }
   function toggleParents() {
     setShow(true);
-    setForTeacherBackground({ color: "#d9dffc", borderColor: "#d9dffc" });
+    setForTeacherBackground({ color: "#d9dffc", borderTopColor: "#d9dffc",borderBottomWidth:0,
+    borderLeftWidth:0,
+    borderRightWidth:0, });
 
-    setForPartentBackground({ color: "#3d4590", borderColor: "#3d4590" });
+    setForPartentBackground({ color: "#3d4590", borderTopColor: "#3d4590",borderBottomWidth:0,
+    borderLeftWidth:0,
+    borderRightWidth:0, });
 
     //navigation.navigate("TeachersLogin");
   }
@@ -171,34 +182,41 @@ function Login() {
 
   function toggleTeachers() {
     setShow(false);
-    setForPartentBackground({ color: "#d9dffc", borderColor: "#d9dffc" });
-    setForTeacherBackground({ color: "#3d4590", borderColor: "#3d4590" });
+    setForPartentBackground({ color: "#d9dffc", borderTopColor: "#d9dffc",borderBottomWidth:0,
+    borderLeftWidth:0,
+    borderRightWidth:0, });
+    setForTeacherBackground({ color: "#3d4590", borderTopColor: "#3d4590",borderBottomWidth:0,
+    borderLeftWidth:0,
+    borderRightWidth:0, });
   }
 
   return (
     <>
+    <View style={{backgroundColor:'white',height:'100%'}}>
+    
       {keyboardStatus=='Keyboard Hidden' && <Image
         style={styles.bannerImage}
         source={require("../assets/bgelement.png")}
       />}
-          <View style={styles.inner}>
+          <View>
             <View style={styles.accTypeText}>
               <Text style={{color:'grey',fontSize:16,fontFamily:'welcomeMsg'}}>Choose account type</Text>
             </View>
-                <View style={styles.buttonContainer}>
-                  <LgButton
+            <View style={styles.lateralContainer}>
+            <View style={styles.buttonContainer}>
+                  <AccountTypeBtn
                     onPress={toggleTeachers}
                     style={forTeacherBackground}
                   >
                     Teachers
-                  </LgButton>
+                  </AccountTypeBtn>
                   <View style={styles.space} />
-                  <LgButton
+                  <AccountTypeBtn
                     onPress={toggleParents}
                     style={forPartentBackground}
                   >
                     Parents
-                  </LgButton>
+                  </AccountTypeBtn>
                 </View>
               <View style={styles.inputContainer}>
                 <TextInput
@@ -236,6 +254,9 @@ function Login() {
                   </Text>
                 </TouchableHighlight>
               </View>
+            </View>
+                
+      </View>
       </View>
     </>
   );
@@ -248,7 +269,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
+  // lateralContainer:{
+  //   elevation:5
+  // },
   bannerImage: {
     width: "100%",
     height: 200,
@@ -260,19 +283,43 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: "row",
-    paddingLeft: 47,
-    paddingRight: 57,
+    // paddingLeft: 47,
+    // paddingRight: 57,
+    marginLeft:20,
+    marginRight:20,
     top: 45,
+    //width:350,
+    elevation: 11,
+    shadowColor: "black",
+    backgroundColor: "white",
+    shadowOpacity: 0.75,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
   },
-  space: {
-    width: 20,
-    height: 20,
-  },
+  // space: {
+  //   width: 20,
+  //   height: 20,
+  // },
   inputContainer: {
-    paddingLeft: 47,
-    paddingRight: 47,
+    // paddingLeft: 47,
+    // paddingRight: 47,
+    padding:10,
     position: "relative",
-    top: 70,
+    top: 45,
+    // borderColor:'grey',
+    // borderWidth:1,
+    borderTopWidth:0,
+    padding:40,
+     width:353,
+    left:20,
+    
+    elevation: 11,
+    shadowColor: "black",
+    backgroundColor: "white",
+    shadowOpacity: 0.75,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    
   },
   accTypeText:{
     justifyContent:'center',
@@ -288,7 +335,9 @@ const styles = StyleSheet.create({
     borderRadius: 1,
     fontSize: 20,
     fontFamily: "welcomeMsg",
-    margin: 5,
+    margin: 7,
+    width:310,
+    right:22
   },
 
   buttons: {
@@ -305,7 +354,7 @@ const styles = StyleSheet.create({
   submitText: {
     color: "#fff",
     textAlign: "center",
-    fontSize: 16,
+    fontSize: 20,
     fontFamily: "welcomeMsg",
   },
 });
