@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-import AppLoading from "expo-app-loading";
+
 
 function LgButton({ children, onPress, style }) {
   return (

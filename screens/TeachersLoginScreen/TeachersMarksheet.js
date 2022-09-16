@@ -1,156 +1,72 @@
-import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
-import React, { useEffect, useState } from "react";
+import { View, Text, TextInput, Pressable, ScrollView } from "react-native";
+import React from "react";
+import { AntDesign } from "@expo/vector-icons";
+import { useState } from "react";
+import { useRef } from "react";
 
-import Button from "../../components/UI/Button";
-import axios from "axios";
-import { Keyboard } from "react-native";
-import BgButton from "../../components/UI/BgButton";
-import TeachersHome from "./TeachersHome";
 const TeachersMarksheet = () => {
-  const [studentname, setEnteredStudentName] = useState("");
-  const [overallperct, setEnteredOverallPerct] = useState("");
-  const [remark, setEnteredRemark] = useState("");
-  const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
+  const [textValue, setTextValue] = useState("");
+  // our number of inputs, we can add the length or decrease the length
+  const [numInputs, setNumInputs] = useState(1);
+  // all our input fields are tracked with this array
+  const refInputs = useRef([textValue]);
+  const inputs = [];
+  for (let i = 0; i < numInputs; i++) {
+    inputs.push(
+      <View key={i} style={{ flexDirection: "row", alignItems: "center" }}>
+        <Text>{i + 1}.</Text>
+        <TextInput
+          onChangeText={(value) => setInputValue(i, value)}
+          value={refInputs.current[i]}
+          placeholder="placeholder"
+        />
+        <TextInput
+          onChangeText={(value) => setInputValue(i, value)}
+          value={refInputs.current[i + 1]}
+          placeholder="placeholder"
+        />
 
-  useEffect(() => {
-    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
-      setKeyboardStatus("Keyboard Shown");
-      console.log(keyboardStatus);
-    });
-    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
-      setKeyboardStatus("Keyboard Hidden");
-      console.log(keyboardStatus);
-    });
-
-    return () => {
-      showSubscription.remove();
-      hideSubscription.remove();
-    };
-  }, []);
-
-  function studentNameChangeHandler(enteredValue) {
-    setEnteredStudentName(enteredValue);
+        <Pressable onPress={() => removeInput(i)} style={{ marginLeft: 5 }}>
+          <AntDesign name="minuscircleo" size={20} color="red" />
+        </Pressable>
+      </View>
+    );
   }
-  function percentageChangeHandler(enteredValue) {
-    setEnteredOverallPerct(enteredValue);
-  }
-  function remarkChangeHandler(enteredValue) {
-    setEnteredRemark(enteredValue);
-  }
-
-  function buttonPressedHandler() {
-    // console.log(UserId);
-    const FormData = {
-      name: studentname,
-      value1: overallperct,
-      value2: remark,
-    };
-    console.log(FormData);
-    async function storeData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
-
-        const resLogin = await axios.post(
-          `http://10.0.2.2:8000/school/AddmoreMarksheet_list/`,
-          FormData,
-          {
-            headers: headers,
-          }
-        );
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
-        console.log(resLogin.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    storeData();
-    setEnteredStudentName("");
-    setEnteredOverallPerct("");
-    setEnteredRemark("");
-  }
+  const setInputValue = (index, value) => {
+    // first, we are storing input value to refInputs array to track them
+    const inputs = refInputs.current;
+    inputs[index] = value;
+    // we are also setting the text value to the input field onChangeText
+    setTextValue(value);
+  };
+  const addInput = () => {
+    // add a new element in our refInputs array
+    refInputs.current.push("");
+    // increase the number of inputs
+    setNumInputs((value) => value + 1);
+  };
+  const removeInput = (i) => {
+    // remove from the array by index value
+    refInputs.current.splice(i, 1)[0];
+    // decrease the number of inputs
+    setNumInputs((value) => value - 1);
+  };
   return (
-    <>
-      {/* <View style={styles.BtnContainer}>
-        <BgButton>Add Marksheet</BgButton>
-      </View> */}
-
-      <ScrollView>
-        <View style={styles.inputForm}>
-          <Text style={styles.labels}>Student Name</Text>
-          <TextInput
-            style={styles.inputStyle}
-            onChangeText={studentNameChangeHandler}
-            value={studentname}
-            onSubmitEditing={Keyboard.dismiss}
-          />
-          <Text style={styles.labels}>Overall Percentage</Text>
-          <TextInput
-            style={styles.inputStyle}
-            onChangeText={percentageChangeHandler}
-            value={overallperct}
-            onSubmitEditing={Keyboard.dismiss}
-          />
-          <Text style={styles.labels}>Remark</Text>
-          <TextInput
-            style={styles.inputStyle}
-            onChangeText={remarkChangeHandler}
-            value={remark}
-            onSubmitEditing={Keyboard.dismiss}
-          />
-
-          <View style={styles.btnSubmit}>
-            <Button onPress={buttonPressedHandler}>Add Marksheet</Button>
-          </View>
-        </View>
-      </ScrollView>
-      {keyboardStatus == "Keyboard Hidden" && (
-        <View style={styles.home}>
-          <TeachersHome />
-        </View>
-      )}
-    </>
+    <ScrollView>
+      {inputs}
+      <Pressable onPress={addInput}>
+        <Text style={{ color: "black", fontWeight: "bold" }}>
+          + Add a new input
+        </Text>
+      </Pressable>
+      <View style={{ marginTop: 25 }}>
+        <Text>You have answered:</Text>
+        {refInputs.current.map((value, i) => {
+          return <Text key={i}>{`${i + 1} - ${value}`}</Text>;
+        })}
+      </View>
+    </ScrollView>
   );
 };
 
 export default TeachersMarksheet;
-
-const styles = StyleSheet.create({
-  BtnContainer: {
-    fontSize: 24,
-  },
-  home: {
-    marginTop: 29,
-  },
-  root: {
-    backgroundColor: "#EBECFO",
-  },
-  inputForm: {
-    padding: 20,
-    paddingTop: 5,
-  },
-  inputStyle: {
-    color: "black",
-    borderWidth: 2,
-    borderColor: "lightgrey",
-    backgroundColor: "white",
-    padding: 10,
-    // paddingHorizontal: 15,
-    paddingVertical: 5,
-    borderRadius: 5,
-    fontSize: 18,
-    //margin: 5,
-  },
-  labels: {
-    margin: 5,
-    fontFamily: "Ubuntu",
-    fontSize: 18,
-    // marginTop: 17,
-  },
-  btnSubmit: {
-    marginTop: 27,
-    marginBottom: 39,
-  },
-});

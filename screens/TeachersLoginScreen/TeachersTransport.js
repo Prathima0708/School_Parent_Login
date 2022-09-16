@@ -17,16 +17,16 @@ const TeachersTransport = () => {
   const [routename, setEnteredRouteName] = useState("");
   const [stopname, setEnteredStopName] = useState("");
   const [busNumber, setEnteredBusNumber] = useState("");
-  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
+  const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
-      console.log(keyboardStatus)
+      console.log(keyboardStatus);
     });
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
       setKeyboardStatus("Keyboard Hidden");
-      console.log(keyboardStatus)
+      console.log(keyboardStatus);
     });
 
     return () => {
@@ -111,53 +111,60 @@ const TeachersTransport = () => {
 
       <ScrollView style={styles.root}>
         <View style={styles.inputForm}>
-          <Text style={styles.labels}>Bus Number</Text>
+          {/* <Text style={styles.labels}>Bus Number</Text> */}
           <TextInput
+            placeholder="Bus number"
             keyboardType="number-pad"
             style={styles.inputStyle}
             onChangeText={busNumberChangeHandler}
             value={busNumber}
             onSubmitEditing={Keyboard.dismiss}
           />
-          <Text style={styles.labels}>Vehicle Number</Text>
+          {/* <Text style={styles.labels}>Vehicle Number</Text> */}
           <TextInput
+            placeholder="Vehicle number"
             keyboardType="number-pad"
             style={styles.inputStyle}
             onChangeText={vehicleChangeHandler}
             value={vehicleno}
             onSubmitEditing={Keyboard.dismiss}
           />
-          <Text style={styles.labels}>Type</Text>
+          {/* <Text style={styles.labels}>Type</Text> */}
           <TextInput
+            placeholder="Type"
             style={styles.inputStyle}
             onChangeText={typeChangeHandler}
             value={type}
             onSubmitEditing={Keyboard.dismiss}
           />
-          <Text style={styles.labels}>Driver Name</Text>
+          {/* <Text style={styles.labels}>Driver Name</Text> */}
           <TextInput
+            placeholder="Driver name"
             style={styles.inputStyle}
             onChangeText={driverNameChangeHandler}
             value={drivername}
             onSubmitEditing={Keyboard.dismiss}
           />
-          <Text style={styles.labels}>Mobile Number</Text>
+          {/* <Text style={styles.labels}>Mobile Number</Text> */}
           <TextInput
+            placeholder="Mobile number"
             keyboardType="number-pad"
             style={styles.inputStyle}
             onChangeText={mobileChangeHandler}
             value={mobile}
             onSubmitEditing={Keyboard.dismiss}
           />
-          <Text style={styles.labels}>Route Name</Text>
+          {/* <Text style={styles.labels}>Route Name</Text> */}
           <TextInput
+            placeholder="Route name"
             style={styles.inputStyle}
             onChangeText={routeNameChangeHandler}
             value={routename}
             onSubmitEditing={Keyboard.dismiss}
           />
-          <Text style={styles.labels}>Stop Name</Text>
+          {/* <Text style={styles.labels}>Stop Name</Text> */}
           <TextInput
+            placeholder="Stop name"
             style={styles.inputStyle}
             onChangeText={stopNameChangeHandler}
             value={stopname}
@@ -169,9 +176,11 @@ const TeachersTransport = () => {
           </View>
         </View>
       </ScrollView>
-      {keyboardStatus=='Keyboard Hidden' && <View style={styles.home}>
-        <TeachersHome />
-      </View>}
+      {keyboardStatus == "Keyboard Hidden" && (
+        <View style={styles.home}>
+          <TeachersHome />
+        </View>
+      )}
     </>
   );
 };
@@ -186,7 +195,7 @@ const styles = StyleSheet.create({
     marginTop: 29,
   },
   root: {
-    backgroundColor: "#EBECFO",
+    backgroundColor: "white",
   },
   inputForm: {
     padding: 20,
@@ -194,21 +203,20 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     color: "black",
-    borderWidth: 2,
-    borderColor: "lightgrey",
+    borderBottomWidth: 1,
+    borderColor: "black",
     backgroundColor: "white",
     padding: 10,
-    // paddingHorizontal: 15,
+    margin: 15,
     paddingVertical: 5,
     borderRadius: 5,
     fontSize: 18,
-    //margin: 5,
   },
   labels: {
     margin: 5,
-    fontFamily: "Ubuntu",
-    fontSize: 18,
-    // marginTop: 17,
+    fontFamily: "HindRegular",
+    fontSize: 20,
+    marginTop: 7,
   },
   btnSubmit: {
     marginTop: 30,

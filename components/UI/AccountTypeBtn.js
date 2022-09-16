@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-import AppLoading from "expo-app-loading";
+
 
 function AccountTypeBtn({ children, onPress, style }) {
   return (
@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
   },
 
   buttonText: {
+    fontFamily: "HindSemiBold",
     textAlign: "center",
-    fontSize: 20,
+    fontSize: 24,
   },
 });

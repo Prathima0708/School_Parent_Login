@@ -6,6 +6,13 @@ import { DataTable } from "react-native-paper";
 import axios from "axios";
 import BgButton from "../../../components/UI/BgButton";
 import ParentsHome from "../ParentsHome";
+import { Image } from "react-native";
+import {
+  className,
+  studentId,
+  StudentName,
+  StudentRegNo,
+} from "../../../components/StudentItem/StudentItem";
 
 const ReportCard = () => {
   const [data, setData] = useState();
@@ -13,7 +20,9 @@ const ReportCard = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get("http://10.0.2.2:8000/school/Marksheet/");
+        const res = await axios.get(
+          `http://10.0.2.2:8000/school/Marksheet/${StudentRegNo}`
+        );
         console.log(res.data);
 
         setData(res.data);
@@ -29,73 +38,70 @@ const ReportCard = () => {
       {/* <View style={styles.BtnContainer}>
         <BgButton>Marksheet</BgButton>
       </View> */}
+      <View style={{ height: "100%", marginTop: 20 }}>
+        <View style={styles.studentItem}>
+          <Text style={[styles.textBase, styles.description]}>
+            Student Name: {StudentName}
+          </Text>
+          <Text style={[styles.textBase, styles.description]}>
+            Student Class: {className}
+          </Text>
+        </View>
 
-      <ScrollView horizontal={true}>
-        <DataTable style={styles.container}>
-          <DataTable.Header style={styles.tableHeader}>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}> STUDENT NAME</Text>
-            </View>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}> CLASS NAME</Text>
-            </View>
-
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}> MATHS MARKS</Text>
-            </View>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}> ENGLISH MARKS</Text>
-            </View>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}> SCIENCE MARKS</Text>
-            </View>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}> HINDI MARKS</Text>
-            </View>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}> SOCIAL MARKS</Text>
-            </View>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}> KANNADA MARKS</Text>
-            </View>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}> COMPUTER MARKS</Text>
-            </View>
-          </DataTable.Header>
-          {data &&
-            data.map((data, key) => (
-              <DataTable.Row style={styles.tableRow}>
-                <DataTable.Cell style={styles.tableCell}>
-                  {data.student_name}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
-                  {data.class_name}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
-                  {data.maths_obt_mark}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
-                  {data.english_obt_mark}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
-                  {data.science_obt_mark}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
-                  {data.hindi_obt_mark}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
-                  {data.social_obt_mark}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
-                  {data.kannada_obt_mark}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
-                  {data.computer_obt_mark}
-                </DataTable.Cell>
-              </DataTable.Row>
-            ))}
-        </DataTable>
-      </ScrollView>
+        <ScrollView horizontal={true}>
+          <DataTable style={styles.container}>
+            <DataTable.Header style={styles.tableHeader}>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> MATHS </Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> ENGLISH </Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> SCIENCE </Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> HINDI </Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> SOCIAL </Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> KANNADA </Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> COMPUTER </Text>
+              </View>
+            </DataTable.Header>
+            {data &&
+              data.map((data, key) => (
+                <DataTable.Row style={styles.tableRow}>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.maths_obt_mark}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.english_obt_mark}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.science_obt_mark}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.hindi_obt_mark}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.social_obt_mark}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.kannada_obt_mark}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.computer_obt_mark}
+                  </DataTable.Cell>
+                </DataTable.Row>
+              ))}
+          </DataTable>
+        </ScrollView>
+      </View>
       <ParentsHome />
     </>
   );
@@ -154,5 +160,26 @@ const styles = StyleSheet.create({
   },
   btnSubmit: {
     marginTop: 5,
+  },
+  studentItem: {
+    width: "80%",
+    marginHorizontal: 35,
+    padding: 19,
+    marginVertical: 8,
+
+    backgroundColor: "#23215b",
+
+    borderRadius: 16,
+  },
+  textBase: {
+    color: "#0D98BA",
+    fontFamily: "HindRegular",
+    // marginRight: 33,
+  },
+  description: {
+    fontSize: 20,
+    fontFamily: "HindRegular",
+    marginBottom: 4,
+    // fontWeight: "bold",
   },
 });

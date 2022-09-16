@@ -7,7 +7,7 @@ import axios from "axios";
 import BgButton from "../../../components/UI/BgButton";
 
 import ParentsHome from "../ParentsHome";
-import AppLoading from "expo-app-loading";
+
 import { busNumber } from "../../../components/StudentItem/StudentItem";
 const TransportScreen = () => {
   // useEffect(()=>{

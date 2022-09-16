@@ -22,7 +22,7 @@ import {
   Roboto_900Black,
   Roboto_900Black_Italic,
 } from "@expo-google-fonts/roboto";
-import AppLoading from "expo-app-loading";
+
 var Title;
 function TeachersCategoryGridTile({
   title,
@@ -48,7 +48,7 @@ function TeachersCategoryGridTile({
     Roboto_900Black_Italic,
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return null;
   } else {
     return (
       <View style={[styles.gridItem, { backgroundColor: color }]}>
@@ -113,13 +113,13 @@ const styles = StyleSheet.create({
     // fontWeight: "bold",
 
     left: 10,
-    fontFamily: "PoppinsRegular",
+    fontFamily: "HindMedium",
     letterSpacing: 0.7,
     // right:12,
     //  color: "red",
 
     //  fontWeight: "bold",
-    fontSize: 18,
+    fontSize: 20,
     left: 10,
     // fontFamily: "Roboto",
   },
