@@ -7,26 +7,54 @@ import { Keyboard } from "react-native";
 import { UserId } from "../Login";
 import BgButton from "../../components/UI/BgButton";
 import TeachersHome from "./TeachersHome";
+import Input from "../../components/UI/Input";
 
 const TeachersTransport = () => {
   const [studentID, setEnteredStudentID] = useState("");
+
   const [vehicleno, setEnteredVehicleNo] = useState("");
+  const [enteredVehicleNoTouched,setEnteredVehicleNoTouched]=useState(false)
+  const enteredVehicleNoIsValid=vehicleno.trim()!=='';
+  const vehicleNoInputIsInValid=!enteredVehicleNoIsValid && enteredVehicleNoTouched;
+
   const [type, setEnteredType] = useState("");
+  const [enteredTypeTouched,setEnteredTypeTouched]=useState(false)
+  const enteredTypeIsValid=type.trim()!=='';
+  const typeInputIsInValid=!enteredTypeIsValid && enteredTypeTouched;
+  
   const [drivername, setEnteredDriverName] = useState("");
-  const [mobile, setEnteredMobile] = useState();
+  const [enteredDrivernameTouched,setEnteredDrivernameTouched]=useState(false)
+  const enteredDrivernameIsValid=drivername.trim()!=='';
+  const drivernameInputIsInValid=!enteredDrivernameIsValid && enteredDrivernameTouched;
+
+  const [mobile, setEnteredMobile] = useState("");
+  const [enteredMobileTouched,setEnteredMobileTouched]=useState(false)
+  const enteredMobileIsValid=mobile.trim()!=='';
+  const mobileInputIsInValid=!enteredMobileIsValid && enteredMobileTouched;
+
   const [routename, setEnteredRouteName] = useState("");
+  const [enteredRoutenameTouched,setEnteredRoutenameTouched]=useState(false)
+  const enteredRoutenameIsValid=routename.trim()!=='';
+  const routenameInputIsInValid=!enteredRoutenameIsValid && enteredRoutenameTouched;
+
   const [stopname, setEnteredStopName] = useState("");
+  const [enteredStopnameTouched,setEnteredStopnameTouched]=useState(false)
+  const enteredStopnameIsValid=stopname.trim()!=='';
+  const stopnameInputIsInValid=!enteredStopnameIsValid && enteredStopnameTouched;
+
   const [busNumber, setEnteredBusNumber] = useState("");
+  const [enteredBusnumberTouched,setEnteredBusnumberTouched]=useState(false)
+  const enteredBusnumberIsValid=busNumber.trim()!=='';
+  const busnumberInputIsInValid=!enteredBusnumberIsValid && enteredBusnumberTouched;
+
   const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
-      console.log(keyboardStatus)
     });
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
       setKeyboardStatus("Keyboard Hidden");
-      console.log(keyboardStatus)
     });
 
     return () => {
@@ -72,37 +100,98 @@ const TeachersTransport = () => {
       stop_name: stopname,
     };
     console.log(FormData);
-    async function storeData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
 
-        const resLogin = await axios.post(
-          "http://10.0.2.2:8000/school/Transportreport/",
-          FormData,
-          {
-            headers: headers,
-          }
-        );
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
-        console.log(resLogin.data);
-      } catch (error) {
-        console.log(error);
-      }
+    setEnteredBusnumberTouched(true);
+    setEnteredVehicleNoTouched(true);
+    setEnteredTypeTouched(true);
+    setEnteredDrivernameTouched(true);
+    setEnteredMobileTouched(true);
+    setEnteredRoutenameTouched(true);
+    setEnteredStopnameTouched(true);
+
+    if(!enteredBusnumberIsValid){
+      return;
     }
-    storeData();
-    setEnteredStudentID("");
-    setEnteredBusNumber("");
-    setEnteredVehicleNo("");
-    setEnteredType("");
-    setEnteredDriverName("");
-    setEnteredMobile("");
-    setEnteredRouteName("");
-    setEnteredStopName("");
+    if(!enteredVehicleNoIsValid){
+      return;
+    }
+    if(!enteredTypeIsValid){
+      return;
+    }
+    if(!enteredDrivernameIsValid){
+      return;
+    }
+    if(!enteredMobileIsValid){
+      return;
+    }
+    if(!enteredRoutenameIsValid){
+      return;
+    }
+    if(!enteredStopnameIsValid){
+      return;
+    }
+    else{
+      async function storeData() {
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+          };
+  
+          const resLogin = await axios.post(
+            "http://10.0.2.2:8000/school/Transportreport/",
+            FormData,
+            {
+              headers: headers,
+            }
+          );
+          // const token = resLogin.data.token;
+          // const userId = resLogin.data.user_id;
+          console.log(resLogin.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      storeData();
+      setEnteredStudentID("");
+      setEnteredBusNumber("");
+      setEnteredVehicleNo("");
+      setEnteredType("");
+      setEnteredDriverName("");
+      setEnteredMobile("");
+      setEnteredRouteName("");
+      setEnteredStopName("");
+      setEnteredBusnumberTouched(false);
+      setEnteredVehicleNoTouched(false);
+      setEnteredTypeTouched(false);
+      setEnteredDrivernameTouched(false);
+      setEnteredMobileTouched(false);
+      setEnteredRoutenameTouched(false);
+      setEnteredStopnameTouched(false);
+    }
+    
   }
 
+  function busnumberInputBlur(){
+    setEnteredBusnumberTouched(true);
+  }
+  function vehicleInputBlur(){
+    setEnteredVehicleNoTouched(true);
+  }
+  function typeInputBlur(){
+    setEnteredTypeTouched(true);
+  }
+  function drivernameInputBlur(){
+    setEnteredDrivernameTouched(true);
+  }
+  function mobilenumberInputBlur(){
+    setEnteredMobileTouched(true);
+  }
+  function routenameInputBlur(){
+    setEnteredRoutenameTouched(true);
+  }
+  function stopnameInputBlur(){
+    setEnteredStopnameTouched(true);
+  }
   return (
     <>
       {/* <View style={styles.BtnContainer}>
@@ -111,58 +200,93 @@ const TeachersTransport = () => {
 
       <ScrollView style={styles.root}>
         <View style={styles.inputForm}>
-          <Text style={styles.labels}>Bus Number</Text>
-          <TextInput
+          <Input 
             keyboardType="number-pad"
-            style={styles.inputStyle}
+            placeholder="Bus Number"
             onChangeText={busNumberChangeHandler}
+            blur={busnumberInputBlur}
             value={busNumber}
             onSubmitEditing={Keyboard.dismiss}
+            style={busnumberInputIsInValid && styles.errorBorderColor}
           />
-          <Text style={styles.labels}>Vehicle Number</Text>
-          <TextInput
+          {busnumberInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter bus number</Text>
+            )}
+
+          <Input 
             keyboardType="number-pad"
-            style={styles.inputStyle}
+            placeholder="Vehicle Number"
             onChangeText={vehicleChangeHandler}
+            blur={vehicleInputBlur}
             value={vehicleno}
             onSubmitEditing={Keyboard.dismiss}
+            style={vehicleNoInputIsInValid && styles.errorBorderColor}
           />
-          <Text style={styles.labels}>Type</Text>
-          <TextInput
-            style={styles.inputStyle}
+          {vehicleNoInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter vehicle number</Text>
+            )}
+
+          <Input 
+            placeholder="Type"
             onChangeText={typeChangeHandler}
+            blur={typeInputBlur}
             value={type}
             onSubmitEditing={Keyboard.dismiss}
+            style={typeInputIsInValid && styles.errorBorderColor}
           />
-          <Text style={styles.labels}>Driver Name</Text>
-          <TextInput
-            style={styles.inputStyle}
+          {typeInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter type</Text>
+            )}
+
+          <Input 
+            placeholder="Driver Name"
             onChangeText={driverNameChangeHandler}
+            blur={drivernameInputBlur}
             value={drivername}
             onSubmitEditing={Keyboard.dismiss}
+            style={drivernameInputIsInValid && styles.errorBorderColor}
           />
-          <Text style={styles.labels}>Mobile Number</Text>
-          <TextInput
+          {drivernameInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter driver name</Text>
+            )}
+
+           <Input 
             keyboardType="number-pad"
-            style={styles.inputStyle}
+            // style={styles.inputStyle}
+            placeholder="Mobile Number"
             onChangeText={mobileChangeHandler}
+            blur={mobilenumberInputBlur}
             value={mobile}
             onSubmitEditing={Keyboard.dismiss}
+            style={mobileInputIsInValid && styles.errorBorderColor}
           />
-          <Text style={styles.labels}>Route Name</Text>
-          <TextInput
-            style={styles.inputStyle}
+          {mobileInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter mobile number</Text>
+            )}
+
+          <Input 
+            placeholder="Route Name"
             onChangeText={routeNameChangeHandler}
+            blur={routenameInputBlur}
             value={routename}
             onSubmitEditing={Keyboard.dismiss}
+            style={routenameInputIsInValid && styles.errorBorderColor}
           />
-          <Text style={styles.labels}>Stop Name</Text>
-          <TextInput
-            style={styles.inputStyle}
+          {routenameInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter route name</Text>
+            )}
+
+          <Input 
+            placeholder="Stop Name"
             onChangeText={stopNameChangeHandler}
+            blur={stopnameInputBlur}
             value={stopname}
             onSubmitEditing={Keyboard.dismiss}
+            style={stopnameInputIsInValid && styles.errorBorderColor}
           />
+          {stopnameInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter stop name</Text>
+            )}
 
           <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Transport</Button>
@@ -187,28 +311,21 @@ const styles = StyleSheet.create({
   },
   root: {
     backgroundColor: "#EBECFO",
+    // backgroundColor:'white'
   },
   inputForm: {
     padding: 20,
     paddingTop: 5,
   },
-  inputStyle: {
+  errorBorderColor:{
     color: "black",
-    borderWidth: 2,
-    borderColor: "lightgrey",
-    backgroundColor: "white",
+    borderBottomWidth: 1,
+    borderColor: "red",
     padding: 10,
-    // paddingHorizontal: 15,
+    margin: 15,
     paddingVertical: 5,
     borderRadius: 5,
     fontSize: 18,
-    //margin: 5,
-  },
-  labels: {
-    margin: 5,
-    fontFamily: "Ubuntu",
-    fontSize: 18,
-    // marginTop: 17,
   },
   btnSubmit: {
     marginTop: 30,

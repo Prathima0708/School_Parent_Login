@@ -10,11 +10,22 @@ import { UserId } from "../../Login";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import ParentsHome from "../ParentsHome";
+import Input from "../../../components/UI/Input";
 const LeaveScreen = () => {
   const [regno, setEnteredRegno] = useState("");
-  const [leaveType, setEnteredLeaveType] = useState("");
+  const [enteredRegNoTouched,setEnteredRegNoTouched]=useState(false)
+  const enteredRegNoIsValid=regno.trim()!=='';
+  const regnoInputIsInValid=!enteredRegNoIsValid && enteredRegNoTouched;
 
-  const [leaveReason, setEnteredLeaveReason] = useState();
+  const [leaveType, setEnteredLeaveType] = useState("");
+  const [enteredLeaveTypeTouched,setEnteredLeaveTypeTouched]=useState(false)
+  const enteredLeaveTypeIsValid=leaveType.trim()!=='';
+  const leavetypeInputIsInValid=!enteredLeaveTypeIsValid && enteredLeaveTypeTouched;
+
+  const [leaveReason, setEnteredLeaveReason] = useState("");
+  const [enteredLeaveReasonTouched,setEnteredLeaveReasonTouched]=useState(false)
+  const enteredLeaveReasonIsValid=leaveReason.trim()!=='';
+  const leavereasonInputIsInValid=!enteredLeaveReasonIsValid && enteredLeaveReasonTouched;
 
   const [forTransportList, setForTransportList] = useState({
     color: "black",
@@ -28,21 +39,28 @@ const LeaveScreen = () => {
   const [frommode, setFromMode] = useState("date");
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
+
   const [fromText, setFromText] = useState("");
+  const [enteredFromDateTouched,setEnteredFromDateTouched]=useState(false)
+  const enteredFromDateIsValid=fromText.trim()!=='';
+  const fromDateInputIsInValid=!enteredFromDateIsValid && enteredFromDateTouched;
+
   const [toShow, setToShow] = useState(false);
   const [tomode, setToMode] = useState("date");
+
   const [toText, setToText] = useState("");
+  const [enteredtoDateTouched,setEnteredtoDateTouched]=useState(false)
+  const enteredtoDateIsValid=toText.trim()!=='';
+  const toDateInputIsInValid=!enteredtoDateIsValid && enteredtoDateTouched;
 
   const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
-      console.log(keyboardStatus)
     });
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
       setKeyboardStatus("Keyboard Hidden");
-      console.log(keyboardStatus)
     });
 
     return () => {
@@ -147,34 +165,78 @@ const LeaveScreen = () => {
       leave_reason: leaveReason,
     };
     console.log(FormData);
-    async function storeData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
-        const dataForm = FormData;
-        const resLogin = await axios.post(
-          `http://10.0.2.2:8000/school/Leave/`,
-          dataForm,
-          {
-            headers: headers,
-          }
-        );
-        const token = resLogin.data.token;
-        const userId = resLogin.data.user_id;
-        console.log(token);
-        // Token = token;
-        // UserId = userId;
-      } catch (error) {
-        console.log(error);
-      }
+
+    setEnteredRegNoTouched(true);
+    setEnteredLeaveTypeTouched(true);
+    setEnteredFromDateTouched(true);
+    setEnteredtoDateTouched(true);
+    setEnteredLeaveReasonTouched(true);
+
+    if(!enteredRegNoIsValid){
+      return;
     }
-    storeData();
-    setEnteredRegno("");
-    setEnteredLeaveType("");
-    setEnteredLeaveReason("");
-    setFromText("");
-    setToText("");
+    if(!enteredLeaveTypeIsValid){
+      return;
+    }
+    if(!enteredFromDateIsValid){
+      return;
+    }
+    if(!enteredtoDateIsValid){
+      return;
+    }
+    if(!enteredLeaveReasonIsValid){
+      return;
+    }
+    else{
+      async function storeData() {
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+          };
+          const dataForm = FormData;
+          const resLogin = await axios.post(
+            `http://10.0.2.2:8000/school/Leave/`,
+            dataForm,
+            {
+              headers: headers,
+            }
+          );
+          const token = resLogin.data.token;
+          const userId = resLogin.data.user_id;
+          console.log(token);
+          // Token = token;
+          // UserId = userId;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      storeData();
+      setEnteredRegno("");
+      setEnteredLeaveType("");
+      setEnteredLeaveReason("");
+      setFromText("");
+      setToText("");
+      setEnteredRegNoTouched(false);
+      setEnteredLeaveTypeTouched(false);
+      setEnteredFromDateTouched(false);
+      setEnteredtoDateTouched(false);
+      setEnteredLeaveReasonTouched(false);
+    }
+  }
+  function stdregnoBlurHandler(){
+    setEnteredLeaveTypeTouched(true);
+  }
+  function leavetypeBlurHandler(){
+    setEnteredLeaveTypeTouched(true);
+  }
+  function leavereasonBlurHandler(){
+    setEnteredLeaveReasonTouched(true);
+  }
+  function fromDateBlurHandler(){
+    setEnteredFromDateTouched(true);
+  }
+  function toDateBlurHandler(){
+    setEnteredtoDateTouched(true);
   }
   return (
     <>
@@ -241,81 +303,71 @@ const LeaveScreen = () => {
       {showForm && (
         <ScrollView style={styles.root}>
           <View style={styles.inputForm}>
-            <Text style={styles.labels}>STUDENT REG NO</Text>
-            <TextInput
+            <Input 
               keyboardType="number-pad"
-              style={styles.inputStyle}
+              placeholder="STUDENT REG NO"
               onChangeText={regnoChangeHandler}
+              blur={stdregnoBlurHandler}
               value={regno}
               onSubmitEditing={Keyboard.dismiss}
+              style={regnoInputIsInValid && styles.errorBorderColor}
             />
-            <Text style={styles.labels}>LEAVE TYPE</Text>
-            <TextInput
-              style={styles.inputStyle}
+            {regnoInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter student registration number</Text>
+            )}
+
+            <Input 
+              placeholder="LEAVE TYPE"
               onChangeText={leaveTypeChangeHandler}
+              blur={leavetypeBlurHandler}
               value={leaveType}
               onSubmitEditing={Keyboard.dismiss}
+              style={leavetypeInputIsInValid && styles.errorBorderColor}
             />
-                <View style={[styles.container, {
-                // Try setting `flexDirection` to `"row"`.
-                flexDirection: "row"
-                }]}>
-                  <View style={{ flex: 1 }} >
-                  <View
-              style={{
-                paddingVertical: 15,
-                paddingHorizontal: 10,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginLeft: -10,
-              }}
-            >
-              <Text style={styles.labels}>LEAVE FROM:</Text>
-
-              <Ionicons
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  textAlign: "right",
-                }}
-                name="calendar"
-                size={24}
-                color="black"
-                onPress={() => showFromMode("date")}
+            {leavetypeInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter the type</Text>
+            )}
+            <View style={[{flexDirection: "row"}]}>
+              <View style={{ flex: 1 }} >
+                <View>
+                  <Ionicons
+                    style={{
+                      top:23,
+                      position:'absolute'
+                    }}
+                    name="calendar"
+                    size={24}
+                    color="black"
+                    onPress={() => showFromMode("date")}
+                  />
+                  {fromShow && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={fromDate}
+                      mode={frommode}
+                      is24Hour={true}
+                      display="default"
+                      onChange={fromDateChangeHandler}
+                    />
+                  )}
+                </View>
+              <Input 
+                value={fromText} 
+                onSubmitEditing={Keyboard.dismiss} 
+                placeholder="LEAVE FROM:"
+                style={fromDateInputIsInValid && styles.errorBorderColor}
               />
-              {fromShow && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={fromDate}
-                  mode={frommode}
-                  is24Hour={true}
-                  display="default"
-                  onChange={fromDateChangeHandler}
-                />
+              {fromDateInputIsInValid && (
+                <Text style={{ color: "red",left:20 }}>Enter leave from</Text>
               )}
             </View>
-            <TextInput style={styles.inputStyle} value={fromText} onSubmitEditing={Keyboard.dismiss} />
-                  </View>
-                  <View style={styles.space} />
-                  <View style={{ flex: 1 }} >
-                  <View
-              style={{
-                paddingVertical: 15,
-                paddingHorizontal: 10,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginLeft: -10,
-              }}
-            >
-              <Text style={styles.labels}>LEAVE TO:</Text>
-
+            <View style={styles.space} />
+              <View style={{ flex: 1 }} >
+              <View>
               <Ionicons
                 style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  textAlign: "right",
+                  top:23,
+                  position:'absolute'
                 }}
                 name="calendar"
                 size={24}
@@ -323,7 +375,15 @@ const LeaveScreen = () => {
                 onPress={() => showToMode("date")}
               />
             </View>
-            <TextInput style={styles.inputStyle} value={toText} onSubmitEditing={Keyboard.dismiss}/>
+            <Input 
+              value={toText} 
+              onSubmitEditing={Keyboard.dismiss} 
+              placeholder="LEAVE TO:"
+              style={toDateInputIsInValid && styles.errorBorderColor}
+            />
+            {toDateInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter leave to</Text>
+            )}
             {toShow && (
               <DateTimePicker
                 testID="dateTimePicker"
@@ -335,19 +395,19 @@ const LeaveScreen = () => {
                 //  minimumDate={fromDate}
               />
             )}
-                  </View>
-
-                </View>
-            
-
-            <Text style={styles.labels}>LEAVE REASON</Text>
-            <TextInput
-              style={styles.inputStyle}
+          </View>
+        </View>
+            <Input 
               onChangeText={leaveReasonChangeHandler}
+              blur={leavereasonBlurHandler}
               value={leaveReason}
+              placeholder="LEAVE REASON"
               onSubmitEditing={Keyboard.dismiss}
+              style={leavereasonInputIsInValid && styles.errorBorderColor}
             />
-
+            {leavereasonInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter leave reason</Text>
+            )}
             <View style={styles.btnSubmit}>
               <Button onPress={buttonPressedHandler}>Apply Leave</Button>
             </View>
@@ -406,25 +466,34 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 5,
   },
-  inputStyle: {
+  // inputStyle: {
+  //   color: "black",
+  //   borderBottomWidth: 1,
+  //   borderWidthColor: "black",
+  //   // backgroundColor: "white",
+  //   padding: 10,
+  //   // paddingHorizontal: 15,
+  //   paddingVertical: 5,
+  //   borderRadius: 5,
+  //   fontSize: 18,
+  //   margin: 10,
+  // },
+  // labels: {
+  //   margin: 5,
+  //   fontFamily: "Ubuntu",
+  //   fontSize: 18,
+  //   // marginTop: 17,
+  // },
+  errorBorderColor:{
     color: "black",
-    borderWidth: 2,
-    borderColor: "lightgrey",
-    backgroundColor: "white",
+    borderBottomWidth: 1,
+    borderColor: "red",
     padding: 10,
-    // paddingHorizontal: 15,
+    margin: 15,
     paddingVertical: 5,
     borderRadius: 5,
     fontSize: 18,
-    //margin: 5,
   },
-  labels: {
-    margin: 5,
-    fontFamily: "Ubuntu",
-    fontSize: 18,
-    // marginTop: 17,
-  },
-
   btnSubmit: {
     marginTop: 45,
   },

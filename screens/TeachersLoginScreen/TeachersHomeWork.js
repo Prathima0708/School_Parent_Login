@@ -25,20 +25,39 @@ import BgButton from "../../components/UI/BgButton";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect } from "react";
 import TeachersHome from "./TeachersHome";
+import Input from "../../components/UI/Input";
 
 const TeachersHomework = () => {
-  const [selected, setSelected] = useState("");
-  const [data, setData] = useState([]);
 
+  const [selected, setSelected] = useState("");
+  const [enteredSelectedTouched,setEnteredSelectedTouched]=useState(false)
+  const enteredSelcetdIsValid=selected.trim()!=='';
+  const selectInputIsInValid=!enteredSelcetdIsValid && enteredSelectedTouched;
+
+  const [data, setData] = useState([]);
   const [selectedsection, setSelectedsection] = useState("");
   const [sectiondata, setSectionData] = useState([]);
 
+  // const [formIsValid,setFormIsValid]=useState(false);
+
+  const [subject, setEnteredSubject] = useState("");
+  const [enteredSubjectTouched,setEnteredSubjectTouched]=useState(false)
+  const enteredSubjectIsValid=subject.trim()!=='';
+  const subjectInputIsInValid=!enteredSubjectIsValid && enteredSubjectTouched;
+
   const [classname, setEnteredClassName] = useState("");
   const [section, setEnteredSection] = useState("");
-  const [subject, setEnteredSubject] = useState("");
+  const [test,setTest]=useState(false)
 
-  const [remark, setEnteredRemark] = useState();
+  const [remark, setEnteredRemark] = useState("");
+  const [enteredRemarkTouched,setEnteredRemarkTouched]=useState(false)
+  const enteredRemarkIsValid=remark.trim()!=='';
+  const remarkInputIsInValid=!enteredRemarkIsValid && enteredRemarkTouched;
+
   const [hw, setHW] = useState("");
+  const [enteredHomeWorkTouched,setEnteredHomeWorkTouched]=useState(false)
+  const enteredHomeWorkIsValid=hw.trim()!=='';
+  const homeworkInputIsInValid=!enteredHomeWorkIsValid && enteredHomeWorkTouched;
 
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
@@ -50,23 +69,51 @@ const TeachersHomework = () => {
   const [toShow, setToShow] = useState(false);
 
   const [fromText, setFromText] = useState("");
+  const [enteredFromDateTouched,setEnteredFromDateTouched]=useState(false)
+  const enteredFromDateIsValid=fromText.trim()!=='';
+  const fromDateInputIsInValid=!enteredFromDateIsValid && enteredFromDateTouched;
+ 
   const [toText, setToText] = useState("");
+  const [enteredtoDateTouched,setEnteredtoDateTouched]=useState(false)
+  const enteredtoDateIsValid=toText.trim()!=='';
+  const toDateInputIsInValid=!enteredtoDateIsValid && enteredtoDateTouched;
+
+  const [image, setImage] = useState("");
+  const [enteredImageTouched,setEnteredImageTouched]=useState(false)
+  const enteredImageIsValid=image.trim()!=='';
+  const imageInputIsInValid=!enteredImageIsValid && enteredImageTouched;
+
   const [pickedImage, setPickedImage] = useState();
-  const [cameraPermissionInformation, requestPermission] =
-    useCameraPermissions();
-
-  const [image, setImage] = useState();
-
+  const [cameraPermissionInformation, requestPermission] =useCameraPermissions();
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
+  const [cont, setCont] = useState('');
+  const [show, setShow] = useState(false);
+
+  // useEffect(()=>{
+  //   if(enteredSubjectIsValid && enteredFromDateIsValid && enteredtoDateIsValid && enteredRemarkIsValid && enteredHomeWorkIsValid){
+  //     setFormIsValid(true);
+  //   }else{
+  //     setFormIsValid(false);
+  //   }
+  // },[enteredSubjectIsValid,
+  //   enteredFromDateIsValid,
+  //   enteredtoDateIsValid,
+  //   enteredRemarkIsValid,
+  //   enteredHomeWorkIsValid])
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShow(!show);
+    }, 5000);
+    return () => clearTimeout(timeout);
+  }, [show]);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
-      console.log(keyboardStatus);
     });
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
       setKeyboardStatus("Keyboard Hidden");
-      console.log(keyboardStatus);
     });
 
     return () => {
@@ -169,7 +216,11 @@ const TeachersHomework = () => {
       (tempFromDate.getMonth() + 1) +
       "/" +
       tempFromDate.getFullYear();
-    setFromText(fDate);
+    if(event.type == "set") {
+      setFromText(fDate);
+    } else {
+        //cancel button clicked
+    }
     //console.log(fDate);
   };
 
@@ -222,100 +273,150 @@ const TeachersHomework = () => {
 
   function buttonPressedHandler() {
     console.log(selected);
-    // console.log(selectedsection);
-    // console.log(pickedImage);
-    let selectedData = selected.split(" - ");
-    let class_name = selectedData[0];
-    let section = selectedData[1];
-    let uploaduri = image;
-    let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
-    const formdata = {
-      class_name: class_name,
-      section: section,
-      subject: subject,
-      homework_date: fromDate,
-      due_date: toDate,
-      homework_photo: `/assets/images/${filename}`,
-      remark: remark,
-      description: hw,
-    };
-    console.log(formdata);
 
-    async function storeData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
+    setEnteredSelectedTouched(true)
+    setEnteredSubjectTouched(true);
+    setEnteredFromDateTouched(true);
+    setEnteredtoDateTouched(true);
+    setEnteredRemarkTouched(true);
+    setEnteredHomeWorkTouched(true);
+    setEnteredImageTouched(true);
 
-        const resLogin = await axios.post(
-          "http://10.0.2.2:8000/school/Homework/",
-          formdata,
-          {
-            headers: headers,
-          }
-        );
-
-        console.log(resLogin.data);
-      } catch (error) {
-        console.log(error);
-      }
+    if(!enteredSelcetdIsValid){
+      return;
+    }
+    if (!enteredSubjectIsValid) {
+      return;
     }
 
-    storeData();
+    if(!enteredFromDateIsValid){
+      return;
+    }
 
-    setEnteredSubject("");
-    setFromText("");
-    setToText("");
-    setPickedImage("");
-    setEnteredRemark("");
-    setHW("");
-  }
+    if(!enteredtoDateIsValid){
+      return;
+    }
+
+    if(!enteredRemarkIsValid){
+      return;
+    }
+
+    if(!enteredHomeWorkIsValid){
+      return;
+    }
+
+    if(!enteredImageIsValid){
+      return;
+    }
+
+    else{
+      let selectedData = selected.split(" - ");
+      let class_name = selectedData[0];
+      let section = selectedData[1];
+      let uploaduri = image;
+      // let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
+      const formdata = {
+        class_name: class_name,
+        section: section,
+        subject: subject,
+        homework_date: fromDate,
+        due_date: toDate,
+        // homework_photo: `/assets/images/${filename}`,
+        remark: remark,
+        description: hw,
+      };
+      console.log(formdata);
+  
+      async function storeData() {
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+          };
+  
+          const resLogin = await axios.post(
+            "http://10.0.2.2:8000/school/Homework/",
+            formdata,
+            {
+              headers: headers,
+            }
+          );
+  
+          console.log(resLogin.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+  
+      storeData();
+  
+      setEnteredSubject("");
+      setFromText("");
+      setToText("");
+      setPickedImage("");
+      setEnteredRemark("");
+      setHW("");
+      setEnteredSelectedTouched(false);
+      setEnteredSelectedTouched(false);
+      setEnteredSubjectTouched(false);
+      setEnteredFromDateTouched(false);
+      setEnteredHomeWorkTouched(false);
+      setEnteredRemarkTouched(false);
+      setEnteredtoDateTouched(false);
+      setEnteredImageTouched(false);
+    }
+    }
+
+    function subjectInputBlur(){
+      setEnteredSubjectTouched(true);
+    }
+    function dateFromHandler(){
+      setEnteredFromDateTouched(true);
+    }
+    function dateToHandler(){
+      setEnteredtoDateTouched(true);
+    }
+    function remarkBlurHandler(){
+      setEnteredRemarkTouched(true);
+    }
+    function homeworkBlurHandler(){
+      setEnteredHomeWorkTouched(true);
+    }
+
   return (
     <>
       {/* <View style={styles.BtnContainer}>
         <BgButton>Add HomeWork</BgButton>
       </View> */}
-
       <ScrollView style={styles.root}>
         <View style={styles.inputForm}>
-          <Text style={styles.labels}>Class Name</Text>
-
           <View style={{ width: 350, fontSize: 18, marginTop: 3 }}>
             <SelectList
               setSelected={setSelected}
               data={data}
-              placeholder="select class"
+              placeholder="Select class"
+              boxStyles={selectInputIsInValid && styles.errorSelectedColor}
             />
           </View>
 
-          <Text style={styles.labels}>Subject</Text>
-          <TextInput
-            style={styles.inputStyle}
+          <Input 
             onChangeText={subjectChangeHandler}
             value={subject}
+            placeholder="Subject"
             onSubmitEditing={Keyboard.dismiss}
+            blur={subjectInputBlur}
+            style={subjectInputIsInValid && styles.errorBorderColor}
           />
+          {subjectInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter subject</Text>
+          )}
 
           <View style={{ flexDirection: "row" }}>
             <View style={{ flex: 1 }}>
-              <View
-                style={{
-                  paddingVertical: 15,
-                  paddingHorizontal: 10,
-
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginLeft: -10,
-                }}
-              >
-                <Text style={styles.labels}>Homework Date: </Text>
-
+              <View>
                 <Ionicons
                   style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    textAlign: "right",
+                    position:'absolute',
+                    top:23,
                   }}
                   name="calendar"
                   size={24}
@@ -323,12 +424,15 @@ const TeachersHomework = () => {
                   onPress={() => showFromMode("date")}
                 />
               </View>
-              <TextInput
-                style={styles.inputStyle}
+              <Input 
                 value={fromText}
+                placeholder="Homework Date:"
                 onSubmitEditing={Keyboard.dismiss}
+                style={fromDateInputIsInValid && styles.errorBorderColor}
               />
-
+              {fromDateInputIsInValid && (
+                <Text style={{ color: "red",left:20 }}>Enter from date</Text>
+              )}
               {fromShow && (
                 <DateTimePicker
                   testID="dateTimePicker"
@@ -337,36 +441,33 @@ const TeachersHomework = () => {
                   is24Hour={true}
                   display="default"
                   onChange={fromDateChangeHandler}
+                  onTouchEnd={dateFromHandler}
                 />
               )}
             </View>
             <View style={styles.space} />
             <View style={{ flex: 1 }}>
-              <View
-                style={{
-                  paddingVertical: 15,
-                  paddingHorizontal: 10,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginLeft: -10,
-                }}
-              >
-                <Text style={styles.labels}>Homework Due Date:</Text>
-
+              <View>
                 <Ionicons
                   style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    textAlign: "right",
+                    position:'absolute',
+                    top:23,
                   }}
                   name="calendar"
                   size={24}
                   color="black"
                   onPress={() => showToMode("date")}
                 />
+                
               </View>
-              <TextInput style={styles.inputStyle} value={toText} />
+              <Input 
+                value={toText} 
+                placeholder="Homework Due Date:"
+                style={toDateInputIsInValid && styles.errorBorderColor}
+              />
+              {toDateInputIsInValid && (
+                <Text style={{ color: "red",left:20 }}>Enter to date</Text>
+              )}
               {toShow && (
                 <DateTimePicker
                   testID="dateTimePicker"
@@ -375,25 +476,33 @@ const TeachersHomework = () => {
                   is24Hour={true}
                   display="default"
                   onChange={toDateChangeHandler}
+                  onTouchEnd={dateToHandler}
                 />
               )}
             </View>
           </View>
-
-          <Text style={styles.labels}>Remark</Text>
-          <TextInput
-            style={styles.inputStyle}
+          <Input 
             onChangeText={remarkChangeHandler}
+            blur={remarkBlurHandler}
             value={remark}
+            placeholder="Remark"
             onSubmitEditing={Keyboard.dismiss}
+            style={remarkInputIsInValid && styles.errorBorderColor}
           />
-          <Text style={styles.labels}>Homework</Text>
-          <TextInput
-            style={styles.inputStyle}
+          {remarkInputIsInValid && (
+            <Text style={{ color: "red",left:20 }}>Enter remark</Text>
+          )}
+          <Input 
             onChangeText={hwChangeHandler}
             value={hw}
+            placeholder="Homework"
             onSubmitEditing={Keyboard.dismiss}
+            blur={homeworkBlurHandler}
+            style={homeworkInputIsInValid && styles.errorBorderColor}
           />
+          {homeworkInputIsInValid && (
+              <Text style={{ color: "red",left:15 }}>Enter homework</Text>
+            )}
           {/* <View>
             <Text style={styles.labels}>UPLOAD IMAGE</Text>
             <View style={styles.imagePreView}>{imagePreView}</View>
@@ -401,7 +510,10 @@ const TeachersHomework = () => {
           </View> */}
 
           <Text style={styles.labels}>Upload Image</Text>
-          <View style={styles.imagePreView}>{imagePreView}</View>
+          <View style={imageInputIsInValid ? styles.imageError : styles.imagePreView}>{imagePreView}</View>
+          {imageInputIsInValid && (
+              <Text style={{ color: "red",left:15 }}>Please upload or take homework image</Text>
+            )}
           <View style={{ marginTop: 13 }}>
             <Btn title="Upload Image" onPress={PickImage} />
             {/* {image && (
@@ -428,6 +540,7 @@ const TeachersHomework = () => {
 export default TeachersHomework;
 
 const styles = StyleSheet.create({
+  
   BtnContainer: {
     fontSize: 24,
   },
@@ -441,24 +554,28 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 5,
   },
-  inputStyle: {
+  errorBorderColor:{
     color: "black",
-    borderWidth: 2,
-    borderColor: "lightgrey",
-    backgroundColor: "white",
+    borderBottomWidth: 1,
+    borderColor: "red",
     padding: 10,
-    // paddingHorizontal: 15,
+    margin: 15,
     paddingVertical: 5,
     borderRadius: 5,
     fontSize: 18,
-    //margin: 5,
+  },
+  errorSelectedColor:{
+    borderColor:'red'
   },
   labels: {
     margin: 5,
     fontFamily: "Ubuntu",
     fontSize: 18,
+    flex:1,
+
     // marginTop: 17,
   },
+
   space: {
     width: 20, // or whatever size you need
     height: 20,
@@ -474,6 +591,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 8,
+    backgroundColor:'lightblue'
+  },
+  imageError:{
+    borderWidth:1,
+    width: "100%",
+    height: 200,
+    marginVertical: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 8,
+    borderColor:'red',
+    backgroundColor:'lightblue'
   },
   image: {
     width: "100%",

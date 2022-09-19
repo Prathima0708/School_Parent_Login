@@ -1,12 +1,7 @@
 import { View, StyleSheet, ScrollView, Button, FlatList } from "react-native";
 import React, { useState } from "react";
-import { DataTable } from "react-native-paper";
-import SelectDropdown from "react-native-select-dropdown";
-import SelectList from 'react-native-dropdown-select-list'
 import axios from "axios";
 import { useEffect } from "react";
-import { Checkbox } from 'react-native-paper';
-import StudentItem from "../../../components/StudentItem/StudentItem";
 import SearchBar from "react-native-dynamic-search-bar";
 import StudentAttendance from "../../../components/StudentItem/StudentAttendance";
 
@@ -49,16 +44,6 @@ const Attendance = () => {
     return <StudentAttendance {...itemData.item} />;
   }
 
-  function handleOnChangeText(text){
-    setSearchText(text);
-  }
-  function itemSeparatorView(){
-    return(
-      <View
-
-      />
-    )
-  }
   return (
     <>
         <SearchBar

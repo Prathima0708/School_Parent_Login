@@ -35,26 +35,26 @@ function StudentAttendance({
   // const [test,settest]=useState('black');
   function presentBtnHandler(){
     setPresent(true);
-    setChangePresentColor("green");
-    setChangeAbsentColor('')
-    setChangeHolidayColor('')
-    setSelectedStatus("P");
+    // setChangePresentColor("green");
+    // setChangeAbsentColor('')
+    // setChangeHolidayColor('')
+    setSelectedStatus("Present");
     setStatusBackground("green");
   }
   function absentBtnHandler(){
     setAbsent(true);
-    setChangePresentColor('')
-    setChangeHolidayColor('')
-    setChangeAbsentColor("red");
-    setSelectedStatus("A");
+    // setChangePresentColor('')
+    // setChangeHolidayColor('')
+    // setChangeAbsentColor("red");
+    setSelectedStatus("Absent");
     setStatusBackground("red");
   }
   function holidatBtnGHandler(){
     setHoliday(true);
-    setChangeHolidayColor("darkblue");
-    setChangePresentColor('')
-    setChangeAbsentColor('')
-    setSelectedStatus("H");
+    // setChangeHolidayColor("darkblue");
+    // setChangePresentColor('')
+    // setChangeAbsentColor('')
+    setSelectedStatus("Holiday");
     setStatusBackground("darkblue");
   }
   return (
@@ -75,8 +75,8 @@ function StudentAttendance({
               {class_name}
             </Text>
           </View>
-          <View style={{backgroundColor:statusBackground,padding:10}}>
-            <Text style={{color:'white',fontWeight:'bold'}}>{selectedStatus}</Text>
+          <View style={{color:statusBackground,padding:10}}>
+            <Text style={{color:'black',fontWeight:'bold'}}>{selectedStatus}</Text>
           </View>
           <View style={styles.checkBoxContainer}>
             <Button title="P" color={changePresentColor} onPress={presentBtnHandler}/>

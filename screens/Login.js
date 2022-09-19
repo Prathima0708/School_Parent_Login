@@ -587,7 +587,7 @@ function Login() {
               <TouchableHighlight
                 style={styles.submit}
                 onPress={login}
-                underlayColor="#002D62"
+                underlayColor="#4FA3C4"
               >
                 <Text style={[styles.submitText]}>
                   Login

@@ -6,20 +6,31 @@ import axios from "axios";
 import { Keyboard } from "react-native";
 import BgButton from "../../components/UI/BgButton";
 import TeachersHome from "./TeachersHome";
+import Input from "../../components/UI/Input";
 const TeachersMarksheet = () => {
   const [studentname, setEnteredStudentName] = useState("");
+  const [enteredStudentnameTouched,setEnteredStudentnameTouched]=useState(false)
+  const enteredStudentnameIsValid=studentname.trim()!=='';
+  const studentnameInputIsInValid=!enteredStudentnameIsValid && enteredStudentnameTouched;
+
   const [overallperct, setEnteredOverallPerct] = useState("");
+  const [enteredOverallPercentageTouched,setEnteredOverallPercentageTouched]=useState(false)
+  const enteredOverallPercentageIsValid=overallperct.trim()!=='';
+  const overallpercentageInputIsInValid=!enteredOverallPercentageIsValid && enteredOverallPercentageTouched;
+
   const [remark, setEnteredRemark] = useState("");
+  const [enteredReamrkTouched,setEnteredReamrkTouched]=useState(false)
+  const enteredReamrkIsValid=remark.trim()!=='';
+  const remarkInputIsInValid=!enteredReamrkIsValid && enteredReamrkTouched;
+
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
-      console.log(keyboardStatus);
     });
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
       setKeyboardStatus("Keyboard Hidden");
-      console.log(keyboardStatus);
     });
 
     return () => {
@@ -46,31 +57,61 @@ const TeachersMarksheet = () => {
       value2: remark,
     };
     console.log(FormData);
-    async function storeData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
 
-        const resLogin = await axios.post(
-          `http://10.0.2.2:8000/school/AddmoreMarksheet_list/`,
-          FormData,
-          {
-            headers: headers,
-          }
-        );
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
-        console.log(resLogin.data);
-      } catch (error) {
-        console.log(error);
-      }
+    setEnteredStudentnameTouched(true);
+    setEnteredOverallPercentageTouched(true);
+    setEnteredReamrkTouched(true);
+
+    if(!enteredStudentnameIsValid){
+      return;
     }
-    storeData();
-    setEnteredStudentName("");
-    setEnteredOverallPerct("");
-    setEnteredRemark("");
+    if(!enteredOverallPercentageIsValid){
+      return;
+    }
+    if(!enteredReamrkIsValid){
+      return;
+    }
+    else{
+      async function storeData() {
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+          };
+  
+          const resLogin = await axios.post(
+            `http://10.0.2.2:8000/school/AddmoreMarksheet_list/`,
+            FormData,
+            {
+              headers: headers,
+            }
+          );
+          // const token = resLogin.data.token;
+          // const userId = resLogin.data.user_id;
+          console.log(resLogin.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      storeData();
+      setEnteredStudentName("");
+      setEnteredOverallPerct("");
+      setEnteredRemark("");
+      setEnteredStudentnameTouched(false);
+      setEnteredOverallPercentageTouched(false);
+      setEnteredReamrkTouched(false);
+    }
   }
+
+  function studentnameBlurHandler(){
+    setEnteredStudentnameTouched(true);
+  }
+  function overallpercentageBlurHandler(){
+    setEnteredOverallPercentageTouched(true);
+  }
+  function remarkBlurHandler(){
+    setEnteredReamrkTouched(true);
+  }
+
   return (
     <>
       {/* <View style={styles.BtnContainer}>
@@ -79,27 +120,41 @@ const TeachersMarksheet = () => {
 
       <ScrollView>
         <View style={styles.inputForm}>
-          <Text style={styles.labels}>Student Name</Text>
-          <TextInput
-            style={styles.inputStyle}
+          <Input 
+            placeholder="Student Name"
             onChangeText={studentNameChangeHandler}
+            blur={studentnameBlurHandler}
             value={studentname}
             onSubmitEditing={Keyboard.dismiss}
+            style={studentnameInputIsInValid && styles.errorBorderColor}
           />
-          <Text style={styles.labels}>Overall Percentage</Text>
-          <TextInput
-            style={styles.inputStyle}
-            onChangeText={percentageChangeHandler}
-            value={overallperct}
-            onSubmitEditing={Keyboard.dismiss}
+          {studentnameInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter student name</Text>
+          )}
+
+          <Input 
+             placeholder="Overall Percentage"
+             onChangeText={percentageChangeHandler}
+             blur={overallpercentageBlurHandler}
+             value={overallperct}
+             onSubmitEditing={Keyboard.dismiss}
+             style={overallpercentageInputIsInValid && styles.errorBorderColor}
           />
-          <Text style={styles.labels}>Remark</Text>
-          <TextInput
-            style={styles.inputStyle}
+          {overallpercentageInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter overall percentage</Text>
+          )}
+
+          <Input 
+            placeholder="Remark"
             onChangeText={remarkChangeHandler}
+            blur={remarkBlurHandler}
             value={remark}
             onSubmitEditing={Keyboard.dismiss}
+            style={remarkInputIsInValid && styles.errorBorderColor}
           />
+          {remarkInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter remark</Text>
+            )}
 
           <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Marksheet</Button>
@@ -131,23 +186,15 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 5,
   },
-  inputStyle: {
+  errorBorderColor:{
     color: "black",
-    borderWidth: 2,
-    borderColor: "lightgrey",
-    backgroundColor: "white",
+    borderBottomWidth: 1,
+    borderColor: "red",
     padding: 10,
-    // paddingHorizontal: 15,
+    margin: 15,
     paddingVertical: 5,
     borderRadius: 5,
     fontSize: 18,
-    //margin: 5,
-  },
-  labels: {
-    margin: 5,
-    fontFamily: "Ubuntu",
-    fontSize: 18,
-    // marginTop: 17,
   },
   btnSubmit: {
     marginTop: 27,

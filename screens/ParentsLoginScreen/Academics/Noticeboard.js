@@ -7,18 +7,39 @@ import { Keyboard } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { ScrollView } from "react-native";
+import Input from "../../../components/UI/Input";
+import Button from "../../../components/UI/Button";
 function Noticeboard() {
   const [forNoticeList, setForNoticeList] = useState({
     color: "black",
     fontWeight: "bold",
   });
+  const [creatorofnotice, setCreatorOfNotice] = useState("");
+  const [enteredCreatorOfNoticeTouched,setEnteredCreatorOfNoticeTouched]=useState(false)
+  const enteredCreatorOfNoticeIsValid=creatorofnotice.trim()!=='';
+  const creatorofnoticeInputIsInValid=!enteredCreatorOfNoticeIsValid && enteredCreatorOfNoticeTouched;
+
+  const [title, setTitle] = useState("");
+  const [enteredTitleTouched,setEnteredTitleTouched]=useState(false)
+  const enteredTitleIsValid=title.trim()!=='';
+  const titleInputIsInValid=!enteredTitleIsValid && enteredTitleTouched;
+
+  const [description, setDescription] = useState("");
+  const [enteredDescriptionTouched,setEnteredDescriptionTouched]=useState(false)
+  const enteredDescriptionIsValid=description.trim()!=='';
+  const descriptionInputIsInValid=!enteredDescriptionIsValid && enteredDescriptionTouched;
+
   const [forAddNotice, setForAddNotice] = useState({ color: "black" });
   const [showForm, setShowForm] = useState(false);
   const [showTable, setShowTable] = useState(true);
   const [fromShow, setFromShow] = useState(false);
   const [frommode, setFromMode] = useState("date");
   const [fromDate, setFromDate] = useState(new Date());
+
   const [fromText, setFromText] = useState("");
+  const [enteredFromDateTouched,setEnteredFromDateTouched]=useState(false)
+  const enteredFromDateIsValid=fromText.trim()!=='';
+  const fromDateInputIsInValid=!enteredFromDateIsValid && enteredFromDateTouched;
 
   const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
 
@@ -37,6 +58,16 @@ function Noticeboard() {
       hideSubscription.remove();
     };
   }, []);
+
+  function crtofnoticeChangeHandler(enteredValue) {
+    setCreatorOfNotice(enteredValue);
+  }
+  function titleChangeHandler(enteredValue) {
+    setTitle(enteredValue);
+  }
+  function descriptionChangeHandler(enteredValue) {
+    setDescription(enteredValue);
+  }
 
   const showFromMode = (currentFromMode) => {
     setFromShow(true);
@@ -71,39 +102,86 @@ function Noticeboard() {
     setFromText(fDate);
     //console.log(fDate);
   };
+
+  function buttonPressedHandler(){
+
+    setEnteredCreatorOfNoticeTouched(true);
+    setEnteredTitleTouched(true);
+    setEnteredDescriptionTouched(true);
+    setEnteredFromDateTouched(true);
+
+    if(!enteredCreatorOfNoticeIsValid){
+      return;
+    }
+    if(!enteredTitleIsValid){
+      return;
+    }
+    if(!enteredDescriptionIsValid){
+      return;
+    }
+    if(!enteredFromDateIsValid){
+      return;
+    }
+    else{
+      setEnteredCreatorOfNoticeTouched(false);
+      setEnteredTitleTouched(false);
+      setEnteredDescriptionTouched(false);
+      setEnteredFromDateTouched(false);
+    }
+
+  }
+  function crtofnoticeInputBlur(){
+    setEnteredCreatorOfNoticeTouched(true);
+  }
+
+  function titleInputBlur(){
+    setEnteredTitleTouched(true);
+  }
+
+  function descriptionInputBlur(){
+    setEnteredDescriptionTouched(true);
+  }
   return (
     <>
       <ScrollView>
         <View style={styles.root}>
-          <Text style={styles.labels}>Creator of notice</Text>
-          <TextInput style={styles.inputStyle} onSubmitEditing={Keyboard.dismiss}/>
-          <Text style={styles.labels}>Title</Text>
-          <TextInput style={styles.inputStyle} onSubmitEditing={Keyboard.dismiss}/>
-          <Text style={styles.labels}>Description</Text>
-          <TextInput style={styles.inputStyle} onSubmitEditing={Keyboard.dismiss}/>
-          <View
-            style={{
-              paddingVertical: 15,
-            //  paddingHorizontal: 10,
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 18,
-                color: "black",
-              }}
-            >
-              Date of creation:
-            </Text>
+          <Input 
+            onSubmitEditing={Keyboard.dismiss} 
+            placeholder="Creator of notice"
+            onChangeText={crtofnoticeChangeHandler}
+            blur={crtofnoticeInputBlur}
+            style={creatorofnoticeInputIsInValid && styles.errorBorderColor}
+          />
+          {creatorofnoticeInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter the creator name</Text>
+            )}
+      
+          <Input 
+            onSubmitEditing={Keyboard.dismiss} 
+            placeholder="Title"
+            onChangeText={titleChangeHandler}
+            blur={titleInputBlur}
+            style={titleInputIsInValid && styles.errorBorderColor}
+          />
+          {titleInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter the title</Text>
+            )}
 
+          <Input 
+            onSubmitEditing={Keyboard.dismiss} 
+            placeholder="Description"
+            onChangeText={descriptionChangeHandler}
+            blur={descriptionInputBlur}
+            style={descriptionInputIsInValid && styles.errorBorderColor}
+          />
+          {descriptionInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter the description</Text>
+            )}
+          <View>
             <Ionicons
               style={{
-                alignItems: "center",
-                justifyContent: "center",
-                textAlign: "right",
+                position:'absolute',
+                top:23,
               }}
               name="calendar"
               size={24}
@@ -121,7 +199,18 @@ function Noticeboard() {
               />
             )}
           </View>
-          <TextInput style={styles.inputStyle} value={fromText} />
+          <Input 
+            value={fromText}
+            onSubmitEditing={Keyboard.dismiss}
+            placeholder="Date of Creation"
+            style={fromDateInputIsInValid && styles.errorBorderColor}
+          />
+          {fromDateInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter creation date</Text>
+            )}
+          <View style={styles.btnSubmit}>
+            <Button onPress={buttonPressedHandler}>Add Notice</Button>
+          </View>
         </View>
       </ScrollView>
       {keyboardStatus=='Keyboard Hidden' && <View style={styles.home}>
@@ -135,31 +224,36 @@ export default Noticeboard;
 
 const styles = StyleSheet.create({
   root: {
-    backgroundColor: "skyblue",
+    // backgroundColor: "skyblue",
     padding: 20,
     margin: 20,
     borderRadius: 15,
   },
 
-  labels: {
-    fontSize: 18,
-    color: "black",
-    //  color: "#7d7d7d",
-    marginTop: 10,
-    marginBottom: 5,
-    lineHeight: 25,
+  // labels: {
+  //   fontSize: 18,
+  //   color: "black",
+  //   //  color: "#7d7d7d",
+  //   marginTop: 10,
+  //   marginBottom: 5,
+  //   lineHeight: 25,
 
-    marginBottom: 4,
-    //fontFamily: "regular",
+  //   marginBottom: 4,
+  //   //fontFamily: "regular",
+  // },
+
+  errorBorderColor:{
+    color: "black",
+    borderBottomWidth: 1,
+    borderColor: "red",
+    padding: 10,
+    margin: 15,
+    paddingVertical: 5,
+    borderRadius: 5,
+    fontSize: 18,
   },
-  inputStyle: {
-    color: "black",
-    // color: "white",
-    borderWidth: 2,
-
-    paddingHorizontal: 15,
-    paddingVertical: 7,
-    borderRadius: 1,
-    fontSize: 18,
+  btnSubmit: {
+    marginTop: 30,
+    marginBottom: 30,
   },
 });

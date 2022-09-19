@@ -8,9 +8,18 @@ import { UserId } from "../Login";
 import BgButton from "../../components/UI/BgButton";
 import { Ionicons } from "@expo/vector-icons";
 import TeachersHome from "./TeachersHome";
+import Input from "../../components/UI/Input";
 const TeachersCalendar = () => {
   const [title, setEnteredTitle] = useState("");
+  const [enteredTitleTouched,setEnteredTitleTouched]=useState(false)
+  const enteredTitleIsValid=title.trim()!=='';
+  const titleInputIsInValid=!enteredTitleIsValid && enteredTitleTouched;
+
   const [description, setEnteredDescription] = useState("");
+  const [enteredDescriptionTouched,setEnteredDescriptionTouched]=useState(false)
+  const enteredDescriptionIsValid=description.trim()!=='';
+  const descriptionInputIsInValid=!enteredDescriptionIsValid && enteredDescriptionTouched;
+
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
 
@@ -21,18 +30,23 @@ const TeachersCalendar = () => {
   const [toShow, setToShow] = useState(false);
 
   const [fromText, setFromText] = useState("");
+  const [enteredFromDateTouched,setEnteredFromDateTouched]=useState(false)
+  const enteredFromDateIsValid=fromText.trim()!=='';
+  const fromDateInputIsInValid=!enteredFromDateIsValid && enteredFromDateTouched;
+
   const [toText, setToText] = useState("");
+  const [enteredtoDateTouched,setEnteredtoDateTouched]=useState(false)
+  const enteredtoDateIsValid=toText.trim()!=='';
+  const toDateInputIsInValid=!enteredtoDateIsValid && enteredtoDateTouched;
 
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
-      console.log(keyboardStatus);
     });
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
       setKeyboardStatus("Keyboard Hidden");
-      console.log(keyboardStatus);
     });
 
     return () => {
@@ -101,31 +115,68 @@ const TeachersCalendar = () => {
     };
 
     console.log(FormData);
-    async function storeData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
-        const dataForm = FormData;
-        const resLogin = await axios.post(
-          `http://10.0.2.2:8000/school/Calendar/`,
-          dataForm,
-          {
-            headers: headers,
-          }
-        );
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
-        console.log(resLogin.data);
-      } catch (error) {
-        console.log(error);
-      }
+
+    setEnteredTitleTouched(true);
+    setEnteredDescriptionTouched(true);
+    setEnteredFromDateTouched(true);
+    setEnteredtoDateTouched(true);
+
+    if(!enteredTitleIsValid){
+      return;
     }
-    storeData();
-    setEnteredDescription("");
-    setEnteredTitle("");
-    setFromText("");
-    setToText("");
+    if(!enteredDescriptionIsValid){
+      return;
+    }
+    if(!enteredFromDateIsValid){
+      return;
+    }
+    if(!enteredtoDateIsValid){
+      return;
+    }
+    else{
+      async function storeData() {
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+          };
+          const dataForm = FormData;
+          const resLogin = await axios.post(
+            `http://10.0.2.2:8000/school/Calendar/`,
+            dataForm,
+            {
+              headers: headers,
+            }
+          );
+          // const token = resLogin.data.token;
+          // const userId = resLogin.data.user_id;
+          console.log(resLogin.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      storeData();
+      setEnteredDescription("");
+      setEnteredTitle("");
+      setFromText("");
+      setToText("");
+      setEnteredTitleTouched(false);
+      setEnteredDescriptionTouched(false);
+      setEnteredFromDateTouched(false);
+      setEnteredtoDateTouched(false);
+    }
+  }
+
+  function titleBlurHandler(){
+    setEnteredTitleTouched(true);
+  }
+  function descriptionBlurHandler(){
+    setEnteredDescriptionTouched(true);
+  }
+  function fromDateBlurHandler(){
+    setEnteredFromDateTouched(true);
+  }
+  function toDateBlurHandler(){
+    setEnteredtoDateTouched(true);
   }
   return (
     <>
@@ -135,49 +186,37 @@ const TeachersCalendar = () => {
 
       <ScrollView>
         <View style={styles.inputForm}>
-          <Text style={styles.labels}>Title</Text>
-          <TextInput
+          <Input 
             keyboardType="number-pad"
-            style={styles.inputStyle}
+            placeholder="Title"
             onChangeText={titleChangeHandler}
+            blur={titleBlurHandler}
             value={title}
             onSubmitEditing={Keyboard.dismiss}
+            style={titleInputIsInValid && styles.errorBorderColor}
           />
-          <Text style={styles.labels}>Description</Text>
-          <TextInput
-            style={styles.inputStyle}
+          {titleInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter the title</Text>
+            )}
+          <Input 
+            placeholder="Description"
             onChangeText={descriptionChangeHandler}
+            blur={descriptionBlurHandler}
             value={description}
             onSubmitEditing={Keyboard.dismiss}
+            style={descriptionInputIsInValid && styles.errorBorderColor}
           />
+          {descriptionInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter description</Text>
+            )}
           <View
-            style={[
-              ,
-              {
-                // Try setting `flexDirection` to `"row"`.
-                flexDirection: "row",
-              },
-            ]}
-          >
+            style={[{ flexDirection: "row"}]}>
             <View style={{ flex: 1 }}>
-              <View
-                style={{
-                  paddingVertical: 15,
-                  // paddingHorizontal: 10,
-                  flexDirection: "row",
-                  paddingHorizontal: 10,
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginLeft: -10,
-                }}
-              >
-                <Text style={styles.labels}>Event Start Date:</Text>
-
+              <View>
                 <Ionicons
                   style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    textAlign: "right",
+                    position:'absolute',
+                    top:22,
                   }}
                   name="calendar"
                   size={24}
@@ -185,7 +224,15 @@ const TeachersCalendar = () => {
                   onPress={() => showFromMode("date")}
                 />
               </View>
-              <TextInput style={styles.inputStyle} value={fromText} />
+              <Input 
+                value={fromText} 
+                placeholder='Event Start Date:'
+                onSubmitEditing={Keyboard.dismiss}
+                style={fromDateInputIsInValid && styles.errorBorderColor}
+              />
+              {fromDateInputIsInValid && (
+                <Text style={{ color: "red",left:20 }}>Enter from date</Text>
+              )}
               {fromShow && (
                 <DateTimePicker
                   testID="dateTimePicker"
@@ -199,24 +246,11 @@ const TeachersCalendar = () => {
             </View>
             <View style={styles.space} />
             <View style={{ flex: 1 }}>
-              <View
-                style={{
-                  paddingVertical: 15,
-                  //  paddingHorizontal: 10,
-                  flexDirection: "row",
-                  // justifyContent: "space-between",
-                  alignItems: "center",
-                  paddingHorizontal: 10,
-                  // marginLeft: -10,
-                }}
-              >
-                <Text style={styles.labels}>Event End Date: </Text>
-
+              <View>
                 <Ionicons
                   style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    textAlign: "right",
+                    position:'absolute',
+                    top:22,
                   }}
                   name="calendar"
                   size={24}
@@ -224,7 +258,15 @@ const TeachersCalendar = () => {
                   onPress={() => showToMode("date")}
                 />
               </View>
-              <TextInput style={styles.inputStyle} value={toText} />
+              <Input 
+                value={toText}
+                placeholder="Event End Date: " 
+                onSubmitEditing={Keyboard.dismiss}
+                style={toDateInputIsInValid && styles.errorBorderColor}
+              />
+              {toDateInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter from date</Text>
+            )}
               {toShow && (
                 <DateTimePicker
                   testID="dateTimePicker"
@@ -238,7 +280,6 @@ const TeachersCalendar = () => {
               )}
             </View>
           </View>
-
           <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Event</Button>
           </View>
@@ -265,24 +306,17 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 5,
   },
-  inputStyle: {
+  errorBorderColor:{
     color: "black",
-    borderWidth: 2,
-    borderColor: "lightgrey",
-    backgroundColor: "white",
+    borderBottomWidth: 1,
+    borderColor: "red",
     padding: 10,
-    // paddingHorizontal: 15,
+    margin: 15,
     paddingVertical: 5,
     borderRadius: 5,
     fontSize: 18,
-    //margin: 5,
   },
-  labels: {
-    margin: 5,
-    fontFamily: "Ubuntu",
-    fontSize: 18,
-    // marginTop: 17,
-  },
+
   btnSubmit: {
     marginTop: 217,
   },
