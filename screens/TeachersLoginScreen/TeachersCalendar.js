@@ -10,6 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import TeachersHome from "./TeachersHome";
 import Input from "../../components/UI/Input";
 import { getMomentsAsync } from "expo-media-library";
+import moment from 'moment';
 const TeachersCalendar = () => {
   const [title, setEnteredTitle] = useState("");
   const [enteredTitleTouched,setEnteredTitleTouched]=useState(false)
@@ -32,8 +33,7 @@ const TeachersCalendar = () => {
 
   const [fromText, setFromText] = useState("");
   const [enteredFromDateTouched,setEnteredFromDateTouched]=useState(false);
-  let pattern=/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/;
-  const enteredFromDateIsValid=fromText.trim()!=='' && pattern;
+  const enteredFromDateIsValid=fromText.trim()!=='';
   const fromDateInputIsInValid=!enteredFromDateIsValid && enteredFromDateTouched;
 
   const [toText, setToText] = useState("");
@@ -42,8 +42,8 @@ const TeachersCalendar = () => {
   const toDateInputIsInValid=!enteredtoDateIsValid && enteredtoDateTouched;
 
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
-
-  useEffect(() => {
+  const [dateIsInCorrect,setDateIsInCorrect]=useState(false);
+    useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
     });
@@ -134,6 +134,39 @@ const TeachersCalendar = () => {
 
     console.log(FormData);
 
+    var dateFromValidate = fromText;
+    var isValid = moment(dateFromValidate, 'D/M/YYYY',true).isValid()
+    if (!isValid) {
+      Alert.alert(
+        "Format Error",
+        "It seems to be you entered wrong date format please follow D/M/YYYY format ",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+    }
+
+    var dateToValidate = toText;
+    var isValid = moment(dateToValidate, 'D/M/YYYY',true).isValid()
+    if (!isValid) {
+      Alert.alert(
+        "Format Error",
+        "It seems to be you entered wrong date format please follow D/M/YYYY format",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+    }
     setEnteredTitleTouched(true);
     setEnteredDescriptionTouched(true);
     setEnteredFromDateTouched(true);
@@ -153,12 +186,15 @@ const TeachersCalendar = () => {
     if(!enteredtoDateIsValid){
       return;
     }
+
+
     // if(!enteredCheckDateFromIsValid){
     //   return;
     // }
     // if(!enteredCheckDateToIsValid){
     //   return;
     // }
+
     else{
       async function storeData() {
         try {
@@ -189,9 +225,8 @@ const TeachersCalendar = () => {
       setEnteredDescriptionTouched(false);
       setEnteredFromDateTouched(false);
       setEnteredtoDateTouched(false);
-    }
   }
-
+  }
   function titleBlurHandler(){
     setEnteredTitleTouched(true);
   }
@@ -252,7 +287,7 @@ const TeachersCalendar = () => {
               </View>
               <Input 
                 value={fromText || fromDate} 
-                placeholder='Event Start Date:'
+                placeholder='D/M/YYYY'
                 onSubmitEditing={Keyboard.dismiss}
                 style={fromDateInputIsInValid && styles.errorBorderColor}
                 blur={fromDateBlurHandler}
@@ -289,7 +324,7 @@ const TeachersCalendar = () => {
               </View>
               <Input 
                 value={toText || toDate}
-                placeholder="Event End Date: " 
+                placeholder="D/M/YYYY" 
                 onSubmitEditing={Keyboard.dismiss}
                 style={toDateInputIsInValid && styles.errorBorderColor}
                 blur={toDateBlurHandler}

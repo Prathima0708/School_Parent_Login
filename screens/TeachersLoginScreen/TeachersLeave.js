@@ -7,6 +7,7 @@ import {
   Platform,
   Button as Btn,
 } from "react-native";
+import moment from 'moment';
 import { Keyboard } from "react-native";
 import React, { useEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -147,6 +148,40 @@ const TeachersLeave = () => {
       leave_to: toDate,
     };
     // console.log(FormData);
+
+    var dateFromValidate = fromText;
+    var isValid = moment(dateFromValidate, 'D/M/YYYY',true).isValid()
+    if (!isValid) {
+      Alert.alert(
+        "Format Error",
+        "It seems to be you entered wrong date format please follow D/M/YYYY format ",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+    }
+
+    var dateToValidate = toText;
+    var isValid = moment(dateToValidate, 'D/M/YYYY',true).isValid()
+    if (!isValid) {
+      Alert.alert(
+        "Format Error",
+        "It seems to be you entered wrong date format please follow D/M/YYYY format",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+    }
     setEnteredLeaveTypeTouched(true);
     setEnteredLeaveReasonTouched(true);
     setEnteredFromDateTouched(true);
