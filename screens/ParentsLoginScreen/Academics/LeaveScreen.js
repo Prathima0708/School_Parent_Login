@@ -81,6 +81,13 @@ const LeaveScreen = () => {
     setToMode(currentToMode);
   };
 
+  function frmDateHandler(enteredValue){
+    setFromDate(enteredValue);
+  }
+  function toDateHandler(enteredValue){
+    setToDate(enteredValue);
+  }
+
   const toDateChangeHandler = (event, selectedToDate) => {
     const currentToDate = selectedToDate || toDate;
     setToShow(Platform.OS === "ios");
@@ -93,7 +100,11 @@ const LeaveScreen = () => {
       (tempToDate.getMonth() + 1) +
       "/" +
       tempToDate.getFullYear();
-    setToText(tDate);
+      if(event.type == "set") {
+        setToText(tDate);
+        } else {
+            //cancel button clicked
+        };
     // console.log(fDate);
   };
 
@@ -123,7 +134,11 @@ const LeaveScreen = () => {
       (tempFromDate.getMonth() + 1) +
       "/" +
       tempFromDate.getFullYear();
-    setFromText(fDate);
+      if(event.type == "set") {
+        setFromText(fDate);
+        } else {
+            //cancel button clicked
+        };
     //console.log(fDate);
   };
 
@@ -134,10 +149,10 @@ const LeaveScreen = () => {
     setEnteredLeaveType(enteredValue);
   }
   function leaveFromChangeHandler(enteredValue) {
-    setEnteredLeaveFrom(enteredValue);
+    setFromText(enteredValue);
   }
   function leaveToChangeHandler(enteredValue) {
-    setEnteredLeaveTo(enteredValue);
+    setToText(enteredValue);
   }
   function leaveReasonChangeHandler(enteredValue) {
     setEnteredLeaveReason(enteredValue);
@@ -352,10 +367,12 @@ const LeaveScreen = () => {
                   )}
                 </View>
               <Input 
-                value={fromText} 
+                value={fromText || fromDate} 
                 onSubmitEditing={Keyboard.dismiss} 
                 placeholder="LEAVE FROM:"
                 style={fromDateInputIsInValid && styles.errorBorderColor}
+                blur={fromDateBlurHandler}
+                onChangeText={leaveFromChangeHandler}
               />
               {fromDateInputIsInValid && (
                 <Text style={{ color: "red",left:20 }}>Enter leave from</Text>
@@ -376,10 +393,12 @@ const LeaveScreen = () => {
               />
             </View>
             <Input 
-              value={toText} 
+              value={toText || toDate} 
               onSubmitEditing={Keyboard.dismiss} 
               placeholder="LEAVE TO:"
               style={toDateInputIsInValid && styles.errorBorderColor}
+              blur={toDateBlurHandler}
+              onChangeText={leaveToChangeHandler}
             />
             {toDateInputIsInValid && (
               <Text style={{ color: "red",left:20 }}>Enter leave to</Text>

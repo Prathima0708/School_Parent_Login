@@ -68,7 +68,9 @@ function Noticeboard() {
   function descriptionChangeHandler(enteredValue) {
     setDescription(enteredValue);
   }
-
+  function frmDateHandler(enteredValue){
+    setFromText(enteredValue);
+  }
   const showFromMode = (currentFromMode) => {
     setFromShow(true);
 
@@ -99,7 +101,12 @@ function Noticeboard() {
       (tempFromDate.getMonth() + 1) +
       "/" +
       tempFromDate.getFullYear();
-    setFromText(fDate);
+    
+    if(event.type == "set") {
+      setFromText(fDate);
+      } else {
+          //cancel button clicked
+      };
     //console.log(fDate);
   };
 
@@ -140,6 +147,10 @@ function Noticeboard() {
 
   function descriptionInputBlur(){
     setEnteredDescriptionTouched(true);
+  }
+
+  function datecreationInputBlur(){
+    setEnteredFromDateTouched(true);
   }
   return (
     <>
@@ -200,10 +211,12 @@ function Noticeboard() {
             )}
           </View>
           <Input 
-            value={fromText}
+            value={fromText || fromDate}
             onSubmitEditing={Keyboard.dismiss}
             placeholder="Date of Creation"
             style={fromDateInputIsInValid && styles.errorBorderColor}
+            blur={datecreationInputBlur}
+            onChangeText={frmDateHandler}
           />
           {fromDateInputIsInValid && (
               <Text style={{ color: "red",left:20 }}>Enter creation date</Text>
