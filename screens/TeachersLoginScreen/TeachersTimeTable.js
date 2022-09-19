@@ -6,8 +6,9 @@ import {
   TextInput,
   Button as Btn,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import axios from "axios";
 import { Keyboard } from "react-native";
 import BgButton from "../../components/UI/BgButton";
@@ -16,7 +17,7 @@ import Button from "../../components/UI/Button";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import SelectList from "react-native-dropdown-select-list";
 import TeachersHome from "./TeachersHome";
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { useEffect } from "react";
 
 const TeachersTimetable = () => {
@@ -84,6 +85,7 @@ const TeachersTimetable = () => {
   const [saturday, setEnteredSaturday] = useState();
 
   const [createdDate, setEnteredCreatedDate] = useState(new Date());
+
   const [dateShow, setDateShow] = useState(false);
   const [dateText, setDateText] = useState("");
   const [datemode, setDateMode] = useState("date");
@@ -126,6 +128,7 @@ const TeachersTimetable = () => {
         console.log(e);
       });
   }, []);
+
   function timeTabChangeHandler(enteredValue) {
     setEnteredTimeTab(enteredValue);
   }
@@ -265,7 +268,7 @@ const TeachersTimetable = () => {
       class_name: class_name,
       section: section,
     };
-    console.log(sendtoTimeTable);
+    //console.log(sendtoTimeTable);
 
     async function storeTimeTable() {
       let headers = {
@@ -281,40 +284,39 @@ const TeachersTimetable = () => {
     }
 
     storeTimeTable();
+
     const FormData = {
       from_time: fromTime,
       to_time: toTime,
-      monday: monday,
-      Tuesday: tuesday,
-      wednesday: wednesday,
-      thursday: thursday,
-      friday: friday,
-      saturday: saturday,
+      monday: inputs[i].monday,
+      Tuesday: inputs[i].tuesday,
+      wednesday: inputs[i].wednesday,
+      thursday: inputs[i].thursday,
+      friday: inputs[i].friday,
+      saturday: inputs[i].saturday,
       createdDate: createdDate,
     };
     console.log(FormData);
     async function storeData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
-        const dataForm = FormData;
-        const resLogin = await axios.post(
-          `http://10.0.2.2:8000/school/AddmoreTimetable_list/`,
-          dataForm,
-          {
-            headers: headers,
-          }
-        );
-
-        console.log(resLoginTimeTable);
-        const token = resLogin.data.token;
-
-        // Token = token;
-        // UserId = userId;
-      } catch (error) {
-        console.log(error);
-      }
+      // try {
+      //   let headers = {
+      //     "Content-Type": "application/json; charset=utf-8",
+      //   };
+      //   const dataForm = FormData;
+      //   const resLogin = await axios.post(
+      //     `http://10.0.2.2:8000/school/AddmoreTimetable_list/`,
+      //     dataForm,
+      //     {
+      //       headers: headers,
+      //     }
+      //   );
+      //   console.log(resLoginTimeTable);
+      //   const token = resLogin.data.token;
+      //   // Token = token;
+      //   // UserId = userId;
+      // } catch (error) {
+      //   console.log(error);
+      // }
     }
     storeData();
 
@@ -329,7 +331,6 @@ const TeachersTimetable = () => {
     setEnteredSaturday("");
     setDateText("");
   }
-
   function addExamTimeTableHandler() {
     let selectedData = selectedExamTimeTable.split(" - ");
     let class_name = selectedData[0];
@@ -375,22 +376,72 @@ const TeachersTimetable = () => {
   }
 
   function addPeriodsHandler() {
-    // setShowPeriods(true);
     const _inputs = [...inputs];
-
-    _inputs.push({ key: "", value: "" });
+    // console.log(_inputs);
+    console.log("after pushing");
+    _inputs.push({ ..._inputs, key: inputs.key, value: inputs.value });
+    console.log(_inputs);
     setInputs(_inputs);
+    // setEnteredMonday(_inputs);
+    // setEnteredTuesday(_inputs);
   }
 
   const deleteHandler = (key) => {
     const _inputs = inputs.filter((input, index) => index != key);
     setInputs(_inputs);
   };
-  const inputHandler = (text, key) => {
+  // const inputHandler = (text, key) => {
+  //   const _inputs = [...inputs];
+  //   _inputs[key].value = text;
+  //   _inputs[key].key = key;
+  //   setInputs(_inputs);
+  // };
+
+  const inputHandlerMonday = (text, key) => {
     const _inputs = [...inputs];
     _inputs[key].value = text;
     _inputs[key].key = key;
-    setInputs(_inputs);
+    setEnteredMonday(_inputs);
+  };
+
+  const inputHandlerTuesday = (text, key) => {
+    const _inputs = [...inputs];
+    _inputs[key].value = text;
+    _inputs[key].key = key;
+    setEnteredTuesday(_inputs);
+  };
+
+  const inputHandlerWed = (text, key) => {
+    const _inputs = [...inputs];
+    _inputs[key].value = text;
+    _inputs[key].key = key;
+    setEnteredWednesday(_inputs);
+  };
+
+  const inputHandlerThur = (text, key) => {
+    const _inputs = [...inputs];
+    _inputs[key].value = text;
+    _inputs[key].key = key;
+    setEnteredThursday(_inputs);
+    // console.log("______________________");
+    // console.log(_inputs);
+    // console.log("______________________");
+    // console.log(inputs);
+    // console.log("______________________");
+  };
+
+  const inputHandlerFri = (text, key) => {
+    const _inputs = [...inputs];
+    _inputs[key].value = text;
+    _inputs[key].key = key;
+    setEnteredFriday(_inputs);
+  };
+
+  const inputHandlerSat = (text, key) => {
+    const _inputs = [...inputs];
+    _inputs[key].value = text;
+    _inputs[key].key = key;
+    setEnteredSaturday(_inputs);
   };
   return (
     <>
@@ -622,8 +673,8 @@ const TeachersTimetable = () => {
                       <TextInput
                         style={styles.inputStyle}
                         // onChangeText={setEnteredMonday}
-                        value={input.value}
-                        onChangeText={(text) => inputHandler(text, key)}
+                        value={monday}
+                        onChangeText={(text) => inputHandlerMonday(text, key)}
                         onSubmitEditing={Keyboard.dismiss}
                       />
                     </View>
@@ -636,8 +687,10 @@ const TeachersTimetable = () => {
                       </View>
                       <TextInput
                         style={styles.inputStyle}
-                        onChangeText={setEnteredTuesday}
+                        // onChangeText={setEnteredTuesday}
                         value={tuesday}
+                        //value={input.value}
+                        onChangeText={(text) => inputHandlerTuesday(text, key)}
                         onSubmitEditing={Keyboard.dismiss}
                       />
                     </View>
@@ -650,8 +703,10 @@ const TeachersTimetable = () => {
                       </View>
                       <TextInput
                         style={styles.inputStyle}
-                        onChangeText={setEnteredWednesday}
+                        //  onChangeText={setEnteredWednesday}
                         value={wednesday}
+                        // value={input.value}
+                        onChangeText={(text) => inputHandlerWed(text, key)}
                         onSubmitEditing={Keyboard.dismiss}
                       />
                     </View>
@@ -664,8 +719,10 @@ const TeachersTimetable = () => {
                       </View>
                       <TextInput
                         style={styles.inputStyle}
-                        onChangeText={setEnteredThursday}
+                        // onChangeText={setEnteredThursday}
                         value={thursday}
+                        //  value={input.value}
+                        onChangeText={(text) => inputHandlerThur(text, key)}
                         onSubmitEditing={Keyboard.dismiss}
                       />
                     </View>
@@ -678,8 +735,10 @@ const TeachersTimetable = () => {
                       </View>
                       <TextInput
                         style={styles.inputStyle}
-                        onChangeText={setEnteredFriday}
+                        // onChangeText={setEnteredFriday}
                         value={friday}
+                        //  value={input.value}
+                        onChangeText={(text) => inputHandlerFri(text, key)}
                         onSubmitEditing={Keyboard.dismiss}
                       />
                     </View>
@@ -692,8 +751,10 @@ const TeachersTimetable = () => {
                       </View>
                       <TextInput
                         style={styles.inputStyle}
-                        onChangeText={setEnteredSaturday}
+                        //    onChangeText={setEnteredSaturday}
                         value={saturday}
+                        //  value={input.value}
+                        onChangeText={(text) => inputHandlerSat(text, key)}
                         onSubmitEditing={Keyboard.dismiss}
                       />
                     </View>
