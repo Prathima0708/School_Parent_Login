@@ -1,6 +1,5 @@
 import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
-
 import Button from "../../components/UI/Button";
 import axios from "axios";
 import { Keyboard } from "react-native";
@@ -287,7 +286,6 @@ const TeachersTransport = () => {
           {stopnameInputIsInValid && (
               <Text style={{ color: "red",left:20 }}>Enter stop name</Text>
             )}
-
           <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Transport</Button>
           </View>

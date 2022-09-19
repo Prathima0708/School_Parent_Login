@@ -64,6 +64,13 @@ const TeachersLeave = () => {
     };
   }, []);
 
+  function frmDateHandler(enteredValue){
+    setFromDate(enteredValue);
+  }
+  function toDateHandler(enteredValue){
+    setToDate(enteredValue);
+  }
+
   const showFromMode = (currentFromMode) => {
     setFromShow(true);
 
@@ -88,7 +95,13 @@ const TeachersLeave = () => {
       (tempFromDate.getMonth() + 1) +
       "/" +
       tempFromDate.getFullYear();
-    setFromText(fDate);
+
+      if(event.type == "set") {
+        setFromText(fDate);
+      } else {
+          //cancel button clicked
+      }
+
     //console.log(fDate);
   };
 
@@ -104,7 +117,12 @@ const TeachersLeave = () => {
       (tempToDate.getMonth() + 1) +
       "/" +
       tempToDate.getFullYear();
-    setToText(tDate);
+
+      if(event.type == "set") {
+        setToText(tDate);
+      } else {
+          //cancel button clicked
+      };
     // console.log(fDate);
   };
   function leaveTypeChangeHandler(enteredValue) {
@@ -112,6 +130,12 @@ const TeachersLeave = () => {
   }
   function leaveReasonChangeHandler(enteredValue) {
     setEnteredLeaveReason(enteredValue);
+  }
+  function frmDateHandler(enteredValue){
+    setFromText(enteredValue);
+  }
+  function toDateHandler(enteredValue){
+    setToText(enteredValue);
   }
 
   function buttonPressedHandler() {
@@ -255,10 +279,12 @@ const TeachersLeave = () => {
             />
           </View>
           <Input 
-            value={fromText} 
+            value={fromText || fromDate} 
             placeholder="LEAVE FROM:" 
             onSubmitEditing={Keyboard.dismiss}
             style={fromDateInputIsInValid && styles.errorBorderColor}
+            blur={fromDateBlurHandler}
+            onChangeText={frmDateHandler}
           />
           {fromDateInputIsInValid && (
               <Text style={{ color: "red",left:20 }}>Enter leave from</Text>
@@ -289,10 +315,12 @@ const TeachersLeave = () => {
             />
           </View>
           <Input 
-            value={toText}  
+            value={toText || toDate}  
             placeholder="LEAVE TO:"
             onSubmitEditing={Keyboard.dismiss}
             style={toDateInputIsInValid && styles.errorBorderColor}
+            blur={toDateBlurHandler}
+            onChangeText={toDateHandler}
           />
           {toDateInputIsInValid && (
               <Text style={{ color: "red",left:20 }}>Enter to</Text>

@@ -132,6 +132,13 @@ const TeachersHomework = () => {
     }
   }, []);
 
+  function frmDateHandler(enteredValue){
+    setFromText(enteredValue);
+  }
+  function toDateHandler(enteredValue){
+    setToText(enteredValue);
+  }
+
   const PickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -216,6 +223,7 @@ const TeachersHomework = () => {
       (tempFromDate.getMonth() + 1) +
       "/" +
       tempFromDate.getFullYear();
+
     if(event.type == "set") {
       setFromText(fDate);
     } else {
@@ -236,7 +244,12 @@ const TeachersHomework = () => {
       (tempToDate.getMonth() + 1) +
       "/" +
       tempToDate.getFullYear();
-    setToText(tDate);
+      if(event.type == "set") {
+        setToText(tDate);
+      } else {
+          //cancel button clicked
+      }
+    
     // console.log(fDate);
   };
 
@@ -425,10 +438,12 @@ const TeachersHomework = () => {
                 />
               </View>
               <Input 
-                value={fromText}
+                value={fromText || fromDate}
                 placeholder="Homework Date:"
                 onSubmitEditing={Keyboard.dismiss}
                 style={fromDateInputIsInValid && styles.errorBorderColor}
+                blur={dateFromHandler}
+                onChangeText={frmDateHandler}
               />
               {fromDateInputIsInValid && (
                 <Text style={{ color: "red",left:20 }}>Enter from date</Text>
@@ -441,7 +456,6 @@ const TeachersHomework = () => {
                   is24Hour={true}
                   display="default"
                   onChange={fromDateChangeHandler}
-                  onTouchEnd={dateFromHandler}
                 />
               )}
             </View>
@@ -461,9 +475,11 @@ const TeachersHomework = () => {
                 
               </View>
               <Input 
-                value={toText} 
+                value={toText || toDate} 
                 placeholder="Homework Due Date:"
                 style={toDateInputIsInValid && styles.errorBorderColor}
+                blur={dateToHandler}
+                onChangeText={toDateHandler}
               />
               {toDateInputIsInValid && (
                 <Text style={{ color: "red",left:20 }}>Enter to date</Text>

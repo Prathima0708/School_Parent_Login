@@ -126,6 +126,9 @@ const TeachersTimetable = () => {
         console.log(e);
       });
   }, []);
+  function createdDateChangeHandler(enteredValue) {
+    setEnteredCreatedDate(enteredValue);
+  }
   function timeTabChangeHandler(enteredValue) {
     setEnteredTimeTab(enteredValue);
   }
@@ -240,9 +243,7 @@ const TeachersTimetable = () => {
     setEnteredClassName(enteredValue);
   }
 
-  function createdDateChangeHandler(enteredValue) {
-    setEnteredCreatedDate(enteredValue);
-  }
+
 
   function viewExam() {
     setForExamTimeTable({ fontWeight: "bold", color: "black" });

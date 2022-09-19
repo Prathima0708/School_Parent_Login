@@ -58,6 +58,9 @@ const TeachersNoticeboard = () => {
 
     setFromMode(currentFromMode);
   };
+  function frmDateHandler(enteredValue){
+    setFromText(enteredValue);
+  }
   const fromDateChangeHandler = (event, selectedFromDate) => {
     const currentFromDate = selectedFromDate || fromDate;
     setFromShow(Platform.OS === "ios");
@@ -70,7 +73,12 @@ const TeachersNoticeboard = () => {
       (tempFromDate.getMonth() + 1) +
       "/" +
       tempFromDate.getFullYear();
-    setFromText(fDate);
+
+      if(event.type == "set") {
+        setFromText(fDate);
+      } else {
+          //cancel button clicked
+      }
     //console.log(fDate);
   };
   function userNameChangeHandler(enteredValue) {
@@ -144,6 +152,10 @@ const TeachersNoticeboard = () => {
   function descriptionInputBlur(){
     setEnteredDescriptionTouched(true);
   }
+
+  function datecreationInputBlur(){
+    setEnteredFromDateTouched(true);
+  }
   return (
     <>
       {/* <View style={styles.BtnContainer}>
@@ -212,10 +224,12 @@ const TeachersNoticeboard = () => {
             )}
           </View>
           <Input 
-            value={fromText}
+            value={fromText || fromDate}
             onSubmitEditing={Keyboard.dismiss}
             placeholder=" Date of creation:"
             style={fromDateInputIsInValid && styles.errorBorderColor}
+            blur={datecreationInputBlur}
+            onChangeText={frmDateHandler}
           />
           {fromDateInputIsInValid && (
               <Text style={{ color: "red",left:20 }}>Enter Date</Text>

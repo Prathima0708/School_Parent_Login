@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
+import { View, StyleSheet, TextInput, Text, ScrollView, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../components/UI/Button";
@@ -9,6 +9,7 @@ import BgButton from "../../components/UI/BgButton";
 import { Ionicons } from "@expo/vector-icons";
 import TeachersHome from "./TeachersHome";
 import Input from "../../components/UI/Input";
+import { getMomentsAsync } from "expo-media-library";
 const TeachersCalendar = () => {
   const [title, setEnteredTitle] = useState("");
   const [enteredTitleTouched,setEnteredTitleTouched]=useState(false)
@@ -30,8 +31,9 @@ const TeachersCalendar = () => {
   const [toShow, setToShow] = useState(false);
 
   const [fromText, setFromText] = useState("");
-  const [enteredFromDateTouched,setEnteredFromDateTouched]=useState(false)
-  const enteredFromDateIsValid=fromText.trim()!=='';
+  const [enteredFromDateTouched,setEnteredFromDateTouched]=useState(false);
+  let pattern=/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/;
+  const enteredFromDateIsValid=fromText.trim()!=='' && pattern;
   const fromDateInputIsInValid=!enteredFromDateIsValid && enteredFromDateTouched;
 
   const [toText, setToText] = useState("");
@@ -79,7 +81,12 @@ const TeachersCalendar = () => {
       (tempFromDate.getMonth() + 1) +
       "/" +
       tempFromDate.getFullYear();
-    setFromText(fDate);
+      if(event.type == "set") {
+        setFromText(fDate);
+      } else {
+          //cancel button clicked
+      }
+
     //console.log(fDate);
   };
 
@@ -95,7 +102,12 @@ const TeachersCalendar = () => {
       (tempToDate.getMonth() + 1) +
       "/" +
       tempToDate.getFullYear();
-    setToText(tDate);
+      
+      if(event.type == "set") {
+        setToText(tDate);
+      } else {
+          //cancel button clicked
+      }
     // console.log(fDate);
   };
 
@@ -104,6 +116,12 @@ const TeachersCalendar = () => {
   }
   function descriptionChangeHandler(enteredValue) {
     setEnteredDescription(enteredValue);
+  }
+  function frmDateHandler(enteredValue){
+    setFromText(enteredValue);
+  }
+  function toDateHandler(enteredValue){
+    setToText(enteredValue);
   }
 
   function buttonPressedHandler() {
@@ -120,7 +138,8 @@ const TeachersCalendar = () => {
     setEnteredDescriptionTouched(true);
     setEnteredFromDateTouched(true);
     setEnteredtoDateTouched(true);
-
+    // setCheckFromDateTouched(true);
+    // setCheckToDateTouched(true);
     if(!enteredTitleIsValid){
       return;
     }
@@ -130,9 +149,16 @@ const TeachersCalendar = () => {
     if(!enteredFromDateIsValid){
       return;
     }
+    
     if(!enteredtoDateIsValid){
       return;
     }
+    // if(!enteredCheckDateFromIsValid){
+    //   return;
+    // }
+    // if(!enteredCheckDateToIsValid){
+    //   return;
+    // }
     else{
       async function storeData() {
         try {
@@ -225,10 +251,13 @@ const TeachersCalendar = () => {
                 />
               </View>
               <Input 
-                value={fromText} 
+                value={fromText || fromDate} 
                 placeholder='Event Start Date:'
                 onSubmitEditing={Keyboard.dismiss}
                 style={fromDateInputIsInValid && styles.errorBorderColor}
+                blur={fromDateBlurHandler}
+                onChangeText={frmDateHandler}
+                keyboardType="number-pad"
               />
               {fromDateInputIsInValid && (
                 <Text style={{ color: "red",left:20 }}>Enter from date</Text>
@@ -259,13 +288,15 @@ const TeachersCalendar = () => {
                 />
               </View>
               <Input 
-                value={toText}
+                value={toText || toDate}
                 placeholder="Event End Date: " 
                 onSubmitEditing={Keyboard.dismiss}
                 style={toDateInputIsInValid && styles.errorBorderColor}
+                blur={toDateBlurHandler}
+                onChangeText={toDateHandler}
               />
               {toDateInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter from date</Text>
+              <Text style={{ color: "red",left:20 }}>Enter to date</Text>
             )}
               {toShow && (
                 <DateTimePicker
