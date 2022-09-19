@@ -47,7 +47,7 @@ const TeachersTransport = () => {
   const enteredBusnumberIsValid=busNumber.trim()!=='';
   const busnumberInputIsInValid=!enteredBusnumberIsValid && enteredBusnumberTouched;
 
-  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
+  const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -293,9 +293,11 @@ const TeachersTransport = () => {
           </View>
         </View>
       </ScrollView>
-      {keyboardStatus=='Keyboard Hidden' && <View style={styles.home}>
-        <TeachersHome />
-      </View>}
+      {keyboardStatus == "Keyboard Hidden" && (
+        <View style={styles.home}>
+          <TeachersHome />
+        </View>
+      )}
     </>
   );
 };

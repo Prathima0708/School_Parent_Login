@@ -94,7 +94,7 @@ import LandingScreen from "./screens/LandingScreen";
 //   );
 // }
 
-import AppLoading from "expo-app-loading";
+
 export default function App() {
   let [fontsLoaded] = useFonts({
     PoppinsBold: require("./assets/fonts/Poppins-ExtraBold.ttf"),
@@ -107,7 +107,11 @@ export default function App() {
     Poppins: require("./assets/fonts/Poppins-Medium.ttf"),
     PoppinsRegular: require("./assets/fonts/Poppins-Regular.ttf"),
     PoppinsLight: require("./assets/fonts/Poppins-Light.ttf"),
-    LunchType: require("./assets/fonts/Lunchtype24-Regular-Expanded.ttf"),
+    HindRegular: require("./assets/fonts/Hind-Regular.ttf"),
+    HindBold: require("./assets/fonts/Hind-Bold.ttf"),
+    HindLight: require("./assets/fonts/Hind-Light.ttf"),
+    HindMedium: require("./assets/fonts/Hind-Medium.ttf"),
+    HindSemiBold: require("./assets/fonts/Hind-SemiBold.ttf"),
   });
   const [tokenIsPresent, setTokenIsPresent] = useState(false);
   const [showtab, setShowTab] = useState(false);

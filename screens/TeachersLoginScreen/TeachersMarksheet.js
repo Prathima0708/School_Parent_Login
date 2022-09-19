@@ -1,5 +1,8 @@
-import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
-import React, { useEffect, useState } from "react";
+import { View, Text, TextInput, Pressable, ScrollView, StyleSheet } from "react-native";
+import React, { useEffect } from "react";
+import { AntDesign } from "@expo/vector-icons";
+import { useState } from "react";
+import { useRef } from "react";
 
 import Button from "../../components/UI/Button";
 import axios from "axios";
@@ -167,8 +170,7 @@ const TeachersMarksheet = () => {
         </View>
       )}
     </>
-  );
-};
+  )}
 
 export default TeachersMarksheet;
 

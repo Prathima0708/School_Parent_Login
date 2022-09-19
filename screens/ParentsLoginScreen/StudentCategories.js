@@ -95,12 +95,7 @@ function StudentCategories({ navigation }) {
 export default StudentCategories;
 
 const styles = StyleSheet.create({
-  // root: {
-  //   width: "50%",
-  //   display: "flex",
-  // },
   rootContainer: {
-    //backgroundColor: "white",
     flex: 1,
     top: 10,
     justifyContent: "center",

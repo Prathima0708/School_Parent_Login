@@ -174,10 +174,10 @@ function LandingScreen() {
           <Text
             style={{
               left: 30,
-              color: "#808B96",
-              fontSize: 20,
+              color: "grey",
+              fontSize: 22,
               top: 5,
-              fontFamily: "Poppins",
+              fontFamily: "HindLight",
             }}
           >
             Welcome to
@@ -186,10 +186,10 @@ function LandingScreen() {
             style={{
               left: 30,
 
-              fontSize: 30,
-
+              fontSize: 32,
+              fontWeight: "900",
               // top: 10,
-              fontFamily: "PoppinsBold",
+              fontFamily: "HindBold",
             }}
           >
             KINARA SCHOOL
@@ -199,10 +199,10 @@ function LandingScreen() {
             <Text
               style={{
                 // color: "#273746",
-                fontSize: 16,
-                // lineHeight: 12,
+                fontSize: 18,
+               // lineHeight: 34,
                 margin: 10,
-                fontFamily: "Poppins",
+                fontFamily: "HindRegular",
               }}
             >
               Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
@@ -210,18 +210,27 @@ function LandingScreen() {
               erat volutpat.
             </Text>
           </View>
-          {/* <View style={styles.buttons}>
-          <Button title="Sign In ----->" onPress={signInBtnHandler} />
-        </View> */}
+
           <TouchableHighlight
             style={styles.submit}
             onPress={signInBtnHandler}
             underlayColor="#002D62"
           >
-            <Text style={styles.submitText}>
-              Sign in
-              <Ionicons name="log-in-outline" size={32} color="white" />
-            </Text>
+            <View>
+              <Text style={styles.submitText}>Login</Text>
+
+              <Ionicons
+                name="log-in"
+                size={32}
+                color="white"
+                style={{
+                  position: "absolute",
+                  top: 15,
+                  left: 75,
+                  bottom: -60,
+                }}
+              />
+            </View>
           </TouchableHighlight>
         </View>
       </View>
@@ -263,38 +272,25 @@ const styles = StyleSheet.create({
     top: 120,
   },
 
-  // buttons: {
-  //   top: 15,
-  //   paddingLeft: 27,
-  //   paddingRight: 27,
-  // },
   submit: {
-    width: "40%",
-    marginRight: 50,
-    marginLeft: 200,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    marginVertical: -19,
-    marginHorizontal: 20,
-    // marginTop: 10,
-    // paddingTop: 20,
-    // paddingBottom: 20,
-    //padding: 10,
+    width: "30%",
+    height: "20%",
+    // marginRight: 50,
+    marginLeft: 230,
+    //paddingVertical: 10,
+    // paddingHorizontal: 10,
     backgroundColor: "#002D62",
     borderRadius: 10,
     borderWidth: 1,
-    // top: 10,
-
+    top: -25,
     borderColor: "#fff",
   },
   submitText: {
-    padding: 3,
-    fontFamily: "PoppinsRegular",
-    // margin: 2,
+    padding: 15,
+    //  marginHorizontal: 16,
     color: "#fff",
-    // textAlign: "center",
-    fontSize: 25,
-    // marginRight:10,
-    //  fontFamily: "welcomeMsg",
+    //textAlign: "center",
+    fontSize: 24,
+    fontFamily: "HindSemiBold",
   },
 });

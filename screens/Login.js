@@ -315,9 +315,6 @@
 //   },
 // });
 
-
-
-
 import { useEffect, useState } from "react";
 import Test from "../components/UI/LgButton";
 import { Ionicons } from "@expo/vector-icons";
@@ -345,12 +342,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import LgButton from "../components/UI/LgButton";
 import { TouchableWithoutFeedback } from "react-native";
 import { Platform } from "react-native";
-import AppLoading from "expo-app-loading";
+
 import { useFonts } from "expo-font";
 import { validateYupSchema } from "formik";
 import { formikFieldApplyYupTransforms } from "formik-yup";
 import { StyleSheet } from "react-native";
 import AccountTypeBtn from "../components/UI/AccountTypeBtn";
+import { Dimensions } from "react-native";
 
 export var Token, UserId, LoginResponse;
 function Login() {
@@ -535,16 +533,30 @@ function Login() {
             source={require("../assets/kinarabg2.png")}
           />
         )}
+        {/* {keyboardStatus == "Keyboard Shown" && (
+          <Image
+            style={{ width: 70, height: 70, left: 160 }}
+            source={require("../assets/Asset2.png")}
+          />
+        )} */}
         <View>
           <View style={styles.accTypeText}>
             <Text
-              style={{ color: "grey", fontSize: 16, fontFamily: "welcomeMsg" }}
+              style={[
+                styles.subheading,
+                keyboardStatus == "Keyboard Shown" && styles.test1,
+              ]}
             >
               Choose account type
             </Text>
           </View>
           <View style={styles.lateralContainer}>
-            <View style={styles.buttonContainer}>
+            <View
+              style={[
+                styles.buttonContainer,
+                keyboardStatus == "Keyboard Shown" && styles.test,
+              ]}
+            >
               <AccountTypeBtn
                 onPress={toggleTeachers}
                 style={forTeacherBackground}
@@ -559,7 +571,12 @@ function Login() {
                 Parents
               </AccountTypeBtn>
             </View>
-            <View style={styles.inputContainer}>
+            <View
+              style={[
+                styles.inputContainer,
+                keyboardStatus == "Keyboard Shown" && styles.test,
+              ]}
+            >
               <TextInput
                 onChangeText={userInputHandler}
                 style={styles.inputStyle}
@@ -589,10 +606,7 @@ function Login() {
                 onPress={login}
                 underlayColor="#4FA3C4"
               >
-                <Text style={[styles.submitText]}>
-                  Login
-                  <Ionicons name="log-in" size={18} color="white" />
-                </Text>
+                <Text style={[styles.submitText]}>Login</Text>
               </TouchableHighlight>
             </View>
           </View>
@@ -603,7 +617,8 @@ function Login() {
 }
 
 export default Login;
-
+const deviceWidth = Dimensions.get("window").height;
+//console.log(deviceWidth);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -613,7 +628,7 @@ const styles = StyleSheet.create({
   // },
   bannerImage: {
     width: "100%",
-    height: 200,
+    height: 300,
   },
   loginTypeText: {
     justifyContent: "center",
@@ -621,12 +636,11 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: "row",
-    // paddingLeft: 47,
-    // paddingRight: 57,
+
     marginLeft: 20,
     marginRight: 20,
-    top: 45,
-    //width:350,
+    top: -25,
+    height: deviceWidth < 718 ? 100 : 50,
     elevation: 11,
     shadowColor: "black",
     backgroundColor: "white",
@@ -634,21 +648,16 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
   },
-  // space: {
-  //   width: 20,
-  //   height: 20,
-  // },
+
   inputContainer: {
-    // paddingLeft: 47,
-    // paddingRight: 47,
-    padding: 10,
     position: "relative",
-    top: 45,
-    // borderColor:'grey',
-    // borderWidth:1,
+    top: -25,
+
     borderTopWidth: 0,
+
     padding: 40,
-    width: 353,
+    paddingTop: 11,
+    width: 352,
     left: 20,
 
     elevation: 11,
@@ -661,7 +670,7 @@ const styles = StyleSheet.create({
   accTypeText: {
     justifyContent: "center",
     alignItems: "center",
-    top: 10,
+    top: -40,
   },
   inputStyle: {
     color: "black",
@@ -669,29 +678,39 @@ const styles = StyleSheet.create({
     borderColor: "#dddddd",
     paddingHorizontal: 15,
     paddingVertical: 7,
-    borderRadius: 1,
-    fontSize: 20,
-    fontFamily: "welcomeMsg",
+    borderRadius: 7,
+
+    fontSize: 22,
+    fontFamily: "HindRegular",
     margin: 7,
+
     width: 310,
     right: 22,
   },
 
-  buttons: {
-    top: 15,
-  },
   submit: {
-    padding: 15,
+    padding: 10,
     backgroundColor: "#59b8dd",
     borderRadius: 10,
     borderWidth: 1,
-    top: 10,
+    top: 9,
     borderColor: "#fff",
   },
   submitText: {
     color: "#fff",
     textAlign: "center",
+    fontSize: 24,
+    fontFamily: "HindSemiBold",
+  },
+  test: {
+    top: 50,
+  },
+  test1: {
+    top: 70,
+  },
+  subheading: {
+    color: "grey",
     fontSize: 20,
-    fontFamily: "welcomeMsg",
+    fontFamily: "HindRegular",
   },
 });

@@ -128,14 +128,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     // fontWeight: "500",
     marginBottom: 8,
-    fontFamily: "welcomeMsg",
+    fontFamily: "HindRegular",
   },
   heading: {
     textAlign: "center",
     marginTop: 13,
     fontWeight: "bold",
     color: "gray",
-    fontFamily: "MainHeading",
+    fontFamily: "HindRegular",
     fontSize: 20,
   },
   studentItem: {
@@ -153,12 +153,12 @@ const styles = StyleSheet.create({
   },
   textBase: {
     color: "#0D98BA",
-    fontFamily: "welcomeMsg",
+    fontFamily: "HindRegular",
     // marginRight: 33,
   },
   description: {
     fontSize: 20,
-    fontFamily: "welcomeMsg",
+    fontFamily: "HindRegular",
     marginBottom: 4,
     fontWeight: "bold",
   },
