@@ -128,13 +128,6 @@ const TeachersTimetable = () => {
         console.log(e);
       });
   }, []);
-<<<<<<< HEAD
-
-=======
-  function createdDateChangeHandler(enteredValue) {
-    setEnteredCreatedDate(enteredValue);
-  }
->>>>>>> cffe5741bfff6e9464d6b464f9ed06f0026ac467
   function timeTabChangeHandler(enteredValue) {
     setEnteredTimeTab(enteredValue);
   }
