@@ -281,80 +281,123 @@
 
 // export default TeachersMarksheet;
 
+// import { View, Text, TextInput, Button } from "react-native";
+// import React, { useState } from "react";
+// import { v4 as uuidv4 } from "uuid";
+
+// const TeachersMarksheet = () => {
+//   const [inputFields, setInputFields] = useState([
+//     { id: uuidv4(), firstName: "", lastName: "" },
+//   ]);
+
+//   const handleSubmit = () => {
+//     //   e.preventDefault();
+//     console.log("InputFields", inputFields);
+//   };
+
+//   const handleChangeInput = (value, i) => {
+//     const newInputFields = [...inputFields];
+//     newInputFields[i] = value;
+
+//     setInputFields(newInputFields);
+//   };
+
+//   // const handleChangeInput = (name, value) => {
+//   //   setInputFields({
+//   //     ...inputFields,
+//   //     [name]: value,
+//   //   });
+//   // };
+
+//   // const inputHandler = (text, key) => {
+//   //   const _inputs = [...inputs];
+//   //   _inputs[key].value = text;
+//   //   _inputs[key].key = key;
+//   //   setInputs(_inputs);
+//   // };
+
+//   const handleAddFields = () => {
+//     setInputFields([
+//       ...inputFields,
+//       { id: uuidv4(), firstName: "", lastName: "" },
+//     ]);
+//   };
+//   const handleRemoveFields = (id) => {
+//     const values = [...inputFields];
+//     values.splice(
+//       values.findIndex((value) => value.id === id),
+//       1
+//     );
+//     setInputFields(values);
+//   };
+//   return (
+//     <View>
+//       {inputFields.map((inputField) => (
+//         <View key={inputField.id}>
+//           <TextInput
+//             value={inputField.firstName}
+//             onChangeText={(event) => handleChangeInput(inputField.id, event)}
+//           />
+//           {/* <TextInput
+//             value={inputField.lastName}
+//             onChangeText={(event) => handleChangeInput(inputField.id, event)}
+//           /> */}
+//           <TextInput
+//             value={inputField.lastName}
+//             onChangeText={(event) => handleChangeInput(inputField.id, event)}
+//           />
+//           <Button
+//             title="Remove"
+//             // disabled={inputFields.length === 1}
+//             onPress={() => handleRemoveFields(inputField.id)}
+//           />
+
+//           <Button title="Add" onPress={handleAddFields} />
+//         </View>
+//       ))}
+//       <Button title="Submit" onPress={handleSubmit} />
+//     </View>
+//   );
+// };
+
+// export default TeachersMarksheet;
+
 import { View, Text, TextInput, Button } from "react-native";
 import React from "react";
+import { useState } from "react";
 
 const TeachersMarksheet = () => {
-  const [inputFields, setInputFields] = useState([
-    { firstName: "", lastName: "" },
-  ]);
-  const handleSubmit = () => {
-    //   e.preventDefault();
-    console.log("InputFields", inputFields);
-  };
-
-  const handleChangeInput = (id, event) => {
-    const newInputFields = inputFields.map((i) => {
-      if (id === i.id) {
-        i[event.target.name] = event.target.value;
-      }
-      return i;
-    });
-
-    setInputFields(newInputFields);
-  };
-
-  const handleAddFields = () => {
-    setInputFields([
-      ...inputFields,
-      { id: uuidv4(), firstName: "", lastName: "" },
-    ]);
-  };
-  const handleRemoveFields = (id) => {
-    const values = [...inputFields];
-    values.splice(
-      values.findIndex((value) => value.id === id),
-      1
-    );
-    setInputFields(values);
+  const [formFields, setFormfileds] = useState([{ monday: "", tuesday: "" }]);
+  const handleFormChange = (text, index) => {
+    // console.log(index, text);
+    let data = [...formFields];
+    data[index].monday = monday;
+    data[index].tuesday = tuesday;
   };
   return (
-    <View>
-      {inputFields.map((inputField) => (
-        <View key={inputField.id}>
-          <TextInput
-            name="firstName"
-            label="First Name"
-            variant="filled"
-            value={inputField.firstName}
-            onChange={(event) => handleChangeInput(inputField.id, event)}
-          />
-          <TextInput
-            name="lastName"
-            label="Last Name"
-            variant="filled"
-            value={inputField.lastName}
-            onChange={(event) => handleChangeInput(inputField.id, event)}
-          />
-          <Button
-            disabled={inputFields.length === 1}
-            onClick={() => handleRemoveFields(inputField.id)}
-          />
+    <>
+      <View>
+        {formFields.map((form, index) => {
+          return (
+            <View key={index}>
+              <TextInput
+                placeholder="Monday"
+                onChangeText={(text) => handleFormChange(text, index)}
+                value={form.monday}
+              />
+              <TextInput
+                value={form.tuesday}
+                placeholder="Tuesday"
+                onChangeText={(text) => handleFormChange(text, index)}
+              />
+            </View>
+          );
+        })}
 
-          <Button onClick={handleAddFields} />
-        </View>
-      ))}
-      <Button
-        className={classes.button}
-        variant="contained"
-        color="primary"
-        type="submit"
-        endIcon={<Icon>send</Icon>}
-        onClick={handleSubmit}
-      >
-        Send
-      </Button>
-    </View>
+        <Button title="add more" />
+        <Button title="submit" />
+      </View>
+    </>
   );
 };
 

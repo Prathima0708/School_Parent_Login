@@ -19,7 +19,18 @@ import SelectList from "react-native-dropdown-select-list";
 import TeachersHome from "./TeachersHome";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { useEffect } from "react";
-
+export var array = [
+  {
+    fromTime: "",
+    toTime: "",
+    monday: "",
+    tuesday: "",
+    wednesday: "",
+    thursday: "",
+    friday: "",
+    saturday: "",
+  },
+];
 const TeachersTimetable = () => {
   const [showForm, setShowForm] = useState(false);
   const [showTable, setShowTable] = useState(true);
@@ -109,7 +120,18 @@ const TeachersTimetable = () => {
 
   const [showPeriods, setShowPeriods] = useState(false);
 
-  const [inputs, setInputs] = useState([{ key: "", value: "" }]);
+  const [inputs, setInputs] = useState([
+    {
+      fromTime: "",
+      toTime: "",
+      monday: "",
+      tuesday: "",
+      wednesday: "",
+      thursday: "",
+      friday: "",
+      saturday: "",
+    },
+  ]);
 
   useEffect(() => {
     axios
@@ -128,13 +150,9 @@ const TeachersTimetable = () => {
         console.log(e);
       });
   }, []);
-<<<<<<< HEAD
-
-=======
   function createdDateChangeHandler(enteredValue) {
     setEnteredCreatedDate(enteredValue);
   }
->>>>>>> cffe5741bfff6e9464d6b464f9ed06f0026ac467
   function timeTabChangeHandler(enteredValue) {
     setEnteredTimeTab(enteredValue);
   }
@@ -249,8 +267,6 @@ const TeachersTimetable = () => {
     setEnteredClassName(enteredValue);
   }
 
-
-
   function viewExam() {
     setForExamTimeTable({ fontWeight: "bold", color: "black" });
     setForTimeTableList({ color: "black" });
@@ -263,7 +279,28 @@ const TeachersTimetable = () => {
     setShowForm(false);
     setShowTable(true);
   }
+
+  function addPeriodsHandler() {
+    const _inputs = [...inputs];
+
+    _inputs.push({
+      fromTime: "",
+      toTime: "",
+      monday: "",
+      tuesday: "",
+      wednesday: "",
+      thursday: "",
+      friday: "",
+      saturday: "",
+    });
+    setInputs(_inputs);
+
+    //console.log(_inputs);
+  }
+
   function addDailyTimeTableHandler() {
+    // console.log(inputs);
+
     let selectedData = selectedTimeTable.split(" - ");
     let class_name = selectedData[0];
     let section = selectedData[1];
@@ -272,7 +309,9 @@ const TeachersTimetable = () => {
       class_name: class_name,
       section: section,
     };
-    //console.log(sendtoTimeTable);
+
+    console.log(sendtoTimeTable);
+    console.log(createdDate);
 
     async function storeTimeTable() {
       let headers = {
@@ -286,55 +325,54 @@ const TeachersTimetable = () => {
         }
       );
     }
-
     storeTimeTable();
 
-    const FormData = {
-      from_time: fromTime,
-      to_time: toTime,
-      monday: inputs[i].monday,
-      Tuesday: inputs[i].tuesday,
-      wednesday: inputs[i].wednesday,
-      thursday: inputs[i].thursday,
-      friday: inputs[i].friday,
-      saturday: inputs[i].saturday,
-      createdDate: createdDate,
-    };
-    console.log(FormData);
-    async function storeData() {
-      // try {
-      //   let headers = {
-      //     "Content-Type": "application/json; charset=utf-8",
-      //   };
-      //   const dataForm = FormData;
-      //   const resLogin = await axios.post(
-      //     `http://10.0.2.2:8000/school/AddmoreTimetable_list/`,
-      //     dataForm,
-      //     {
-      //       headers: headers,
-      //     }
-      //   );
-      //   console.log(resLoginTimeTable);
-      //   const token = resLogin.data.token;
-      //   // Token = token;
-      //   // UserId = userId;
-      // } catch (error) {
-      //   console.log(error);
-      // }
-    }
-    storeData();
-
-    setFromTimeText("");
-    setToTimeText("");
-    setToTime("");
-    setEnteredMonday("");
-    setEnteredTuesday("");
-    setEnteredWednesday("");
-    setEnteredThursday("");
-    setEnteredFriday("");
-    setEnteredSaturday("");
-    setDateText("");
+    // const FormData = {
+    //   from_time: fromTime,
+    //   to_time: toTime,
+    //   monday: inputs.monday,
+    //   Tuesday: inputs.tuesday,
+    //   wednesday: inputs.wednesday,
+    //   thursday: inputs.thursday,
+    //   friday: inputs.friday,
+    //   saturday: inputs.saturday,
+    //   createdDate: createdDate,
+    // };
+    // console.log(FormData);
+    // async function storeData() {
+    //   try {
+    //     let headers = {
+    //       "Content-Type": "application/json; charset=utf-8",
+    //     };
+    //     const dataForm = FormData;
+    //     const resLogin = await axios.post(
+    //       `http://10.0.2.2:8000/school/AddmoreTimetable_list/`,
+    //       dataForm,
+    //       {
+    //         headers: headers,
+    //       }
+    //     );
+    //     console.log(resLoginTimeTable);
+    //     const token = resLogin.data.token;
+    //     // Token = token;
+    //     // UserId = userId;
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
+    // storeData();
+    // setFromTimeText("");
+    // setToTimeText("");
+    // setToTime("");
+    // setEnteredMonday("");
+    // setEnteredTuesday("");
+    // setEnteredWednesday("");
+    // setEnteredThursday("");
+    // setEnteredFriday("");
+    // setEnteredSaturday("");
+    // setDateText("");
   }
+
   function addExamTimeTableHandler() {
     let selectedData = selectedExamTimeTable.split(" - ");
     let class_name = selectedData[0];
@@ -379,54 +417,48 @@ const TeachersTimetable = () => {
     setEnteredHour("");
   }
 
-  function addPeriodsHandler() {
-    const _inputs = [...inputs];
-    // console.log(_inputs);
-    console.log("after pushing");
-    _inputs.push({ ..._inputs, key: inputs.key, value: inputs.value });
-    console.log(_inputs);
-    setInputs(_inputs);
-    // setEnteredMonday(_inputs);
-    // setEnteredTuesday(_inputs);
-  }
-
   const deleteHandler = (key) => {
     const _inputs = inputs.filter((input, index) => index != key);
     setInputs(_inputs);
   };
   // const inputHandler = (text, key) => {
   //   const _inputs = [...inputs];
-  //   _inputs[key].value = text;
-  //   _inputs[key].key = key;
+  //   _inputs[key].monday = text;
+  //   _inputs[key].tuesday = text;
+  //   _inputs[key].wednesday = text;
+  //   _inputs[key].thursday = text;
+  //   _inputs[key].friday = text;
+  //   _inputs[key].saturday = text;
+  //   // _inputs[key].key = key;
   //   setInputs(_inputs);
   // };
 
   const inputHandlerMonday = (text, key) => {
     const _inputs = [...inputs];
-    _inputs[key].value = text;
-    _inputs[key].key = key;
-    setEnteredMonday(_inputs);
+    _inputs[key].monday = text;
+
+    setInputs(_inputs);
   };
 
   const inputHandlerTuesday = (text, key) => {
     const _inputs = [...inputs];
-    _inputs[key].value = text;
-    _inputs[key].key = key;
-    setEnteredTuesday(_inputs);
+    _inputs[key].tuesday = text;
+
+    setInputs(_inputs);
   };
 
   const inputHandlerWed = (text, key) => {
     const _inputs = [...inputs];
-    _inputs[key].value = text;
-    _inputs[key].key = key;
-    setEnteredWednesday(_inputs);
+    _inputs[key].wednesday = text;
+
+    setInputs(_inputs);
   };
 
   const inputHandlerThur = (text, key) => {
     const _inputs = [...inputs];
-    _inputs[key].value = text;
-    _inputs[key].key = key;
-    setEnteredThursday(_inputs);
+    _inputs[key].thursday = text;
+
+    setInputs(_inputs);
     // console.log("______________________");
     // console.log(_inputs);
     // console.log("______________________");
@@ -436,16 +468,16 @@ const TeachersTimetable = () => {
 
   const inputHandlerFri = (text, key) => {
     const _inputs = [...inputs];
-    _inputs[key].value = text;
-    _inputs[key].key = key;
-    setEnteredFriday(_inputs);
+    _inputs[key].friday = text;
+
+    setInputs(_inputs);
   };
 
   const inputHandlerSat = (text, key) => {
     const _inputs = [...inputs];
-    _inputs[key].value = text;
-    _inputs[key].key = key;
-    setEnteredSaturday(_inputs);
+    _inputs[key].saturday = text;
+
+    setInputs(_inputs);
   };
   return (
     <>
@@ -652,7 +684,7 @@ const TeachersTimetable = () => {
 
                       <TextInput
                         style={styles.inputStyle}
-                        value={toTimeText}
+                        value={input.toTime}
                         onSubmitEditing={Keyboard.dismiss}
                       />
                       {toTimeShow && (
@@ -672,13 +704,14 @@ const TeachersTimetable = () => {
                   <View style={{ flexDirection: "row" }}>
                     <View style={{ flex: 1 }}>
                       <View style={styles.title}>
-                        <Text style={styles.labels}>Monday Subject</Text>
+                        <Text style={styles.labels}>Monday </Text>
                       </View>
                       <TextInput
                         style={styles.inputStyle}
                         // onChangeText={setEnteredMonday}
-                        value={monday}
+                        value={input.monday}
                         onChangeText={(text) => inputHandlerMonday(text, key)}
+                        // onChangeText={(text) => inputHandler(text, key)}
                         onSubmitEditing={Keyboard.dismiss}
                       />
                     </View>
@@ -687,14 +720,15 @@ const TeachersTimetable = () => {
 
                     <View style={{ flex: 1 }}>
                       <View style={styles.title}>
-                        <Text style={styles.labels}>Tuesday Subject</Text>
+                        <Text style={styles.labels}>Tuesday </Text>
                       </View>
                       <TextInput
                         style={styles.inputStyle}
                         // onChangeText={setEnteredTuesday}
-                        value={tuesday}
+                        value={input.tuesday}
                         //value={input.value}
                         onChangeText={(text) => inputHandlerTuesday(text, key)}
+                        //  onChangeText={(text) => inputHandler(text, key)}
                         onSubmitEditing={Keyboard.dismiss}
                       />
                     </View>
@@ -703,14 +737,15 @@ const TeachersTimetable = () => {
                   <View style={{ flexDirection: "row" }}>
                     <View style={{ flex: 1 }}>
                       <View style={styles.title}>
-                        <Text style={styles.labels}>Wed Subject</Text>
+                        <Text style={styles.labels}>Wednesday </Text>
                       </View>
                       <TextInput
                         style={styles.inputStyle}
                         //  onChangeText={setEnteredWednesday}
-                        value={wednesday}
+                        value={input.wednesday}
                         // value={input.value}
                         onChangeText={(text) => inputHandlerWed(text, key)}
+                        //onChangeText={(text) => inputHandler(text, key)}
                         onSubmitEditing={Keyboard.dismiss}
                       />
                     </View>
@@ -719,14 +754,15 @@ const TeachersTimetable = () => {
 
                     <View style={{ flex: 1 }}>
                       <View style={styles.title}>
-                        <Text style={styles.labels}>Thursday Subject</Text>
+                        <Text style={styles.labels}>Thursday </Text>
                       </View>
                       <TextInput
                         style={styles.inputStyle}
                         // onChangeText={setEnteredThursday}
-                        value={thursday}
+                        value={input.thursday}
                         //  value={input.value}
                         onChangeText={(text) => inputHandlerThur(text, key)}
+                        // onChangeText={(text) => inputHandler(text, key)}
                         onSubmitEditing={Keyboard.dismiss}
                       />
                     </View>
@@ -735,14 +771,15 @@ const TeachersTimetable = () => {
                   <View style={{ flexDirection: "row" }}>
                     <View style={{ flex: 1 }}>
                       <View style={styles.title}>
-                        <Text style={styles.labels}>Friday Subject</Text>
+                        <Text style={styles.labels}>Friday </Text>
                       </View>
                       <TextInput
                         style={styles.inputStyle}
                         // onChangeText={setEnteredFriday}
-                        value={friday}
+                        value={input.friday}
                         //  value={input.value}
                         onChangeText={(text) => inputHandlerFri(text, key)}
+                        // onChangeText={(text) => inputHandler(text, key)}
                         onSubmitEditing={Keyboard.dismiss}
                       />
                     </View>
@@ -751,14 +788,15 @@ const TeachersTimetable = () => {
 
                     <View style={{ flex: 1 }}>
                       <View style={styles.title}>
-                        <Text style={styles.labels}>Saturday Subject</Text>
+                        <Text style={styles.labels}>Saturday </Text>
                       </View>
                       <TextInput
                         style={styles.inputStyle}
                         //    onChangeText={setEnteredSaturday}
-                        value={saturday}
+                        value={input.saturday}
                         //  value={input.value}
                         onChangeText={(text) => inputHandlerSat(text, key)}
+                        // onChangeText={(text) => inputHandler(text, key)}
                         onSubmitEditing={Keyboard.dismiss}
                       />
                     </View>
@@ -776,7 +814,7 @@ const TeachersTimetable = () => {
               </View> */}
 
               <View style={styles.btnSubmit}>
-                <Button onPress={addPeriodsHandler}>Add Periods</Button>
+                <Button onPress={addPeriodsHandler}>Add more Periods</Button>
 
                 <Button onPress={addDailyTimeTableHandler}>Submit</Button>
               </View>
