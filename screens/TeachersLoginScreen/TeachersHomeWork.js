@@ -14,7 +14,7 @@ import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import SelectList from "react-native-dropdown-select-list";
 import { Alert, Button as Btn, Image } from "react-native";
-
+import moment from 'moment';
 import {
   launchCameraAsync,
   useCameraPermissions,
@@ -26,8 +26,17 @@ import { Ionicons } from "@expo/vector-icons";
 import { useEffect } from "react";
 import TeachersHome from "./TeachersHome";
 import Input from "../../components/UI/Input";
+import VerticalLine from "../../components/UI/VerticalLine";
 
 const TeachersHomework = () => {
+
+  const [showForm, setShowForm] = useState(true);
+  const [showList, setShowList] = useState(false);
+  const [forHomeworkList, setForHomeworkList] = useState({
+    color: "black",
+    fontWeight: "bold",
+  });
+  const [forHomeworkForm, setForHomeworkForm] = useState({ color: "black" });
 
   const [selected, setSelected] = useState("");
   const [enteredSelectedTouched,setEnteredSelectedTouched]=useState(false)
@@ -286,6 +295,41 @@ const TeachersHomework = () => {
 
   function buttonPressedHandler() {
     console.log(selected);
+    console.log(fromText , toText)
+
+    var dateFromValidate = fromText;
+    var isValid = moment(dateFromValidate, 'D/M/YYYY',true).isValid()
+    if (!isValid) {
+      Alert.alert(
+        "Format Error",
+        "It seems to be you entered wrong date format please follow D/M/YYYY format ",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+    }
+
+    var dateToValidate = toText;
+    var isValid = moment(dateToValidate, 'D/M/YYYY',true).isValid()
+    if (!isValid) {
+      Alert.alert(
+        "Format Error",
+        "It seems to be you entered wrong date format please follow D/M/YYYY format",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+    }
 
     setEnteredSelectedTouched(true)
     setEnteredSubjectTouched(true);
@@ -329,6 +373,8 @@ const TeachersHomework = () => {
       let uploaduri = image;
       // let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
       const formdata = {
+        // from_time:fromText,
+        // to_time:toText,
         class_name: class_name,
         section: section,
         subject: subject,
@@ -376,6 +422,12 @@ const TeachersHomework = () => {
       setEnteredRemarkTouched(false);
       setEnteredtoDateTouched(false);
       setEnteredImageTouched(false);
+      setShowForm(false);
+      setShowList(true);
+      setForHomeworkList({ fontWeight: "bold", color: "black" });
+      setForHomeworkForm({ color: "black" });
+      setForHomeworkForm({ fontWeight: "bold", color: "black" });
+      setForHomeworkList({ color: "black" });
     }
     }
 
@@ -395,12 +447,34 @@ const TeachersHomework = () => {
       setEnteredHomeWorkTouched(true);
     }
 
+    function showHomeworkForm() {
+      setForHomeworkList({ fontWeight: "bold", color: "black" });
+      setForHomeworkForm({ color: "black" });
+      setShowForm(true);
+      setShowList(false);
+      
+    }
+    function showHomework() {
+      setForHomeworkForm({ fontWeight: "bold", color: "black" });
+      setForHomeworkList({ color: "black" });
+      setShowForm(false);
+      setShowList(true);
+    }
   return (
     <>
       {/* <View style={styles.BtnContainer}>
         <BgButton>Add HomeWork</BgButton>
       </View> */}
-      <ScrollView style={styles.root}>
+      <View style={styles.BtnContainer}>
+        <BgButton onPress={showHomeworkForm} style={forHomeworkList}>
+          Add Homework
+        </BgButton>
+        <VerticalLine>|</VerticalLine>
+        <BgButton onPress={showHomework} style={forHomeworkForm}>
+          Show Homework
+      </BgButton>
+      </View>
+      {showForm && (<ScrollView style={styles.root}>
         <View style={styles.inputForm}>
           <View style={{ width: 350, fontSize: 18, marginTop: 3 }}>
             <SelectList
@@ -439,7 +513,7 @@ const TeachersHomework = () => {
               </View>
               <Input 
                 value={fromText || fromDate}
-                placeholder="Homework Date:"
+                placeholder="DD/MM/YYYY"
                 onSubmitEditing={Keyboard.dismiss}
                 style={fromDateInputIsInValid && styles.errorBorderColor}
                 blur={dateFromHandler}
@@ -476,7 +550,7 @@ const TeachersHomework = () => {
               </View>
               <Input 
                 value={toText || toDate} 
-                placeholder="Homework Due Date:"
+                placeholder="DD/MM/YYYY"
                 style={toDateInputIsInValid && styles.errorBorderColor}
                 blur={dateToHandler}
                 onChangeText={toDateHandler}
@@ -543,8 +617,12 @@ const TeachersHomework = () => {
             <Button onPress={buttonPressedHandler}>Add Homework</Button>
           </View>
         </View>
-      </ScrollView>
-      {keyboardStatus == "Keyboard Hidden" && (
+      </ScrollView>)}
+      {showList && 
+       <View>
+          
+        </View>}
+      {showForm && keyboardStatus == "Keyboard Hidden" && (
         <View>
           <TeachersHome />
         </View>
@@ -558,6 +636,7 @@ export default TeachersHomework;
 const styles = StyleSheet.create({
   
   BtnContainer: {
+    flexDirection: "row",
     fontSize: 24,
   },
   home: {

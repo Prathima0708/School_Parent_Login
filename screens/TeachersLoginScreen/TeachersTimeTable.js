@@ -211,7 +211,12 @@ const TeachersTimetable = () => {
       tempFromTime.getMinutes() +
       ":" +
       tempFromTime.getSeconds();
-    setFromTimeText(fTime);
+    if(event.type == "set") {
+      setFromTimeText(fTime);
+      } else {
+          //cancel button clicked
+      }
+
     //console.log(fDate);
   };
 
@@ -227,7 +232,12 @@ const TeachersTimetable = () => {
       tempToTime.getMinutes() +
       ":" +
       tempToTime.getSeconds();
-    setToTimeText(tTime);
+    if(event.type == "set") {
+      setToTimeText(tTime);
+      } else {
+          //cancel button clicked
+      }
+
     // console.log(fDate);
   };
 

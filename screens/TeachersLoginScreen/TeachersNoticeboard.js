@@ -12,6 +12,15 @@ import { Keyboard } from "react-native";
 import { useEffect } from "react";
 import Input from "../../components/UI/Input";
 const TeachersNoticeboard = () => {
+  
+  const [showForm, setShowForm] = useState(true);
+  const [showList, setShowList] = useState(false);
+  const [forNoticeList, setForNoticeList] = useState({
+    color: "black",
+    fontWeight: "bold",
+  });
+  const [forNoticeForm, setForNoticeForm] = useState({ color: "black" });
+  
   const [username, setEnteredUserName] = useState("");
   const [enteredUserNameTouched,setEnteredUserNameTouched]=useState(false)
   const enteredUserNameIsValid=username.trim()!=='';
@@ -96,6 +105,23 @@ const TeachersNoticeboard = () => {
 
   function buttonPressedHandler() {
 
+    var dateFromValidate = fromText;
+    var isValid = moment(dateFromValidate, 'D/M/YYYY',true).isValid()
+    if (!isValid) {
+      Alert.alert(
+        "Format Error",
+        "It seems to be you entered wrong date format please follow D/M/YYYY format ",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+    }
+
     setEnteredUserNameTouched(true);
     setEnteredTitleTouched(true);
     setEnteredDescriptionTouched(true);
@@ -156,12 +182,34 @@ const TeachersNoticeboard = () => {
   function datecreationInputBlur(){
     setEnteredFromDateTouched(true);
   }
+  function showNoticeForm() {
+    setForNoticeForm({ fontWeight: "bold", color: "black" });
+    setForNoticeList({ color: "black" });
+    setShowForm(true);
+    setShowList(false);
+    
+  }
+  function showNotice() {
+    setForNoticeList({ fontWeight: "bold", color: "black" });
+    setForNoticeForm({ color: "black" });
+    setShowForm(false);
+    setShowList(true);
+  }
   return (
     <>
       {/* <View style={styles.BtnContainer}>
         <BgButton>Add Notice</BgButton>
       </View> */}
-
+      <View style={styles.BtnContainer}>
+        <BgButton onPress={showNoticeForm} style={forHomeworkList}>
+          Add Homework
+        </BgButton>
+        <VerticalLine>|</VerticalLine>
+        <BgButton onPress={showNotice} style={forHomeworkForm}>
+          Show Homework
+      </BgButton>
+      </View>
+      {showForm &&
       <ScrollView style={styles.root}>
         <View style={styles.inputForm}>
           <Input 
@@ -238,8 +286,10 @@ const TeachersNoticeboard = () => {
             <Button onPress={buttonPressedHandler}>Add Notice</Button>
           </View>
         </View>
-      </ScrollView>
-      {keyboardStatus == "Keyboard Hidden" && <TeachersHome />}
+      </ScrollView>}
+      
+      {showForm && keyboardStatus == "Keyboard Hidden" && <TeachersHome />}
+    
     </>
   );
 };
