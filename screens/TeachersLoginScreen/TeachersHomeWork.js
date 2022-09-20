@@ -448,15 +448,15 @@ const TeachersHomework = () => {
     }
 
     function showHomeworkForm() {
-      setForHomeworkForm({ fontWeight: "bold", color: "black" });
-      setForHomeworkList({ color: "black" });
+      setForHomeworkList({ fontWeight: "bold", color: "black" });
+      setForHomeworkForm({ color: "black" });
       setShowForm(true);
       setShowList(false);
       
     }
     function showHomework() {
-      setForHomeworkList({ fontWeight: "bold", color: "black" });
-      setForHomeworkForm({ color: "black" });
+      setForHomeworkForm({ fontWeight: "bold", color: "black" });
+      setForHomeworkList({ color: "black" });
       setShowForm(false);
       setShowList(true);
     }
