@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
+import { View, StyleSheet, TextInput, Text, ScrollView, Alert } from "react-native";
 import React, { useState } from "react";
 import { useFonts } from "expo-font";
 import Button from "../../components/UI/Button";
@@ -11,6 +11,8 @@ import TeachersHome from "./TeachersHome";
 import { Keyboard } from "react-native";
 import { useEffect } from "react";
 import Input from "../../components/UI/Input";
+import VerticalLine from "../../components/UI/VerticalLine";
+import moment from 'moment';
 const TeachersNoticeboard = () => {
   
   const [showForm, setShowForm] = useState(true);
@@ -165,6 +167,12 @@ const TeachersNoticeboard = () => {
       setEnteredTitleTouched(false);
       setEnteredDescriptionTouched(false);
       setEnteredFromDateTouched(false);
+      setShowForm(false);
+      setShowList(true);
+      setForNoticeList({ fontWeight: "bold", color: "black" });
+      setForNoticeForm({ color: "black" });
+      setForNoticeForm({ fontWeight: "bold", color: "black" });
+      setForNoticeList({ color: "black" });
     }
   }
   function usernameInputBlur(){
@@ -183,15 +191,15 @@ const TeachersNoticeboard = () => {
     setEnteredFromDateTouched(true);
   }
   function showNoticeForm() {
-    setForNoticeForm({ fontWeight: "bold", color: "black" });
-    setForNoticeList({ color: "black" });
+    setForNoticeList({ fontWeight: "bold", color: "black" });
+    setForNoticeForm({ color: "black" });
     setShowForm(true);
     setShowList(false);
     
   }
   function showNotice() {
-    setForNoticeList({ fontWeight: "bold", color: "black" });
-    setForNoticeForm({ color: "black" });
+    setForNoticeForm({ fontWeight: "bold", color: "black" });
+    setForNoticeList({ color: "black" });
     setShowForm(false);
     setShowList(true);
   }
@@ -201,11 +209,12 @@ const TeachersNoticeboard = () => {
         <BgButton>Add Notice</BgButton>
       </View> */}
       <View style={styles.BtnContainer}>
-        <BgButton onPress={showNoticeForm} style={forHomeworkList}>
+      
+        <BgButton onPress={showNoticeForm} style={forNoticeList}>
           Add Homework
         </BgButton>
         <VerticalLine>|</VerticalLine>
-        <BgButton onPress={showNotice} style={forHomeworkForm}>
+        <BgButton onPress={showNotice} style={forNoticeForm}>
           Show Homework
       </BgButton>
       </View>
@@ -287,7 +296,10 @@ const TeachersNoticeboard = () => {
           </View>
         </View>
       </ScrollView>}
-      
+      {showList && 
+        <View>
+          <Text>NoticeBoard</Text>
+        </View>}
       {showForm && keyboardStatus == "Keyboard Hidden" && <TeachersHome />}
     
     </>
@@ -299,6 +311,7 @@ export default TeachersNoticeboard;
 const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
+    flexDirection:'row'
   },
   home: {
     marginTop: 29,

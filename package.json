@@ -75,7 +75,8 @@
     "react-native-web": "0.17.7",
     "react-native-zigzag-view": "^0.2.0",
     "rn-keyboard-sticky-view": "^1.0.4",
-    "searchable-flatlist": "^0.0.4"
+    "searchable-flatlist": "^0.0.4",
+    "tailwindcss-react-native": "^1.7.10"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

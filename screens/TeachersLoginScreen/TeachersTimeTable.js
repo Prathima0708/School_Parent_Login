@@ -309,7 +309,7 @@ const TeachersTimetable = () => {
   }
 
   function addDailyTimeTableHandler() {
-    // console.log(inputs);
+     console.log(inputs);
 
     let selectedData = selectedTimeTable.split(" - ");
     let class_name = selectedData[0];

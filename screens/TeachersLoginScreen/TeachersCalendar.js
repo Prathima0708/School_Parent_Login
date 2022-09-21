@@ -12,6 +12,15 @@ import Input from "../../components/UI/Input";
 import { getMomentsAsync } from "expo-media-library";
 import moment from 'moment';
 const TeachersCalendar = () => {
+
+  const [showForm, setShowForm] = useState(true);
+  const [showList, setShowList] = useState(false);
+  const [forCalendarList, setForCalendarList] = useState({
+    color: "black",
+    fontWeight: "bold",
+  });
+  const [forCalendarForm, setForCalendarForm] = useState({ color: "black" });
+
   const [title, setEnteredTitle] = useState("");
   const [enteredTitleTouched,setEnteredTitleTouched]=useState(false)
   const enteredTitleIsValid=title.trim()!=='';
@@ -187,14 +196,6 @@ const TeachersCalendar = () => {
       return;
     }
 
-
-    // if(!enteredCheckDateFromIsValid){
-    //   return;
-    // }
-    // if(!enteredCheckDateToIsValid){
-    //   return;
-    // }
-
     else{
       async function storeData() {
         try {
@@ -225,6 +226,10 @@ const TeachersCalendar = () => {
       setEnteredDescriptionTouched(false);
       setEnteredFromDateTouched(false);
       setEnteredtoDateTouched(false);
+      setForTransportList({ fontWeight: "bold", color: "black" });
+      setForTransportForm({ color: "black" });
+      setForTransportForm({ fontWeight: "bold", color: "black" });
+      setForTransportList({ color: "black" });
   }
   }
   function titleBlurHandler(){
@@ -239,12 +244,35 @@ const TeachersCalendar = () => {
   function toDateBlurHandler(){
     setEnteredtoDateTouched(true);
   }
+
+  function showCalendarForm() {
+    setForCalendarList({ fontWeight: "bold", color: "black" });
+    setForCalendarForm({ color: "black" });
+    setShowForm(true);
+    setShowList(false);
+    
+  }
+  function showCalendar() {
+    setForCalendarForm({ fontWeight: "bold", color: "black" });
+    setForCalendarList({ color: "black" });
+    setShowForm(false);
+    setShowList(true);
+  }
   return (
     <>
       {/* <View style={styles.BtnContainer}>
         <BgButton>Add Event</BgButton>
       </View> */}
-
+      <View style={styles.BtnContainer}>
+      
+      <BgButton onPress={showCalendarForm} style={forNoticeList}>
+        Add Homework
+      </BgButton>
+      <VerticalLine>|</VerticalLine>
+      <BgButton onPress={showCalendar} style={forNoticeForm}>
+        Show Homework
+    </BgButton>
+        </View>
       <ScrollView>
         <View style={styles.inputForm}>
           <Input 
