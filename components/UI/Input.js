@@ -28,17 +28,18 @@ export default Input;
 const styles = StyleSheet.create({
   inputStyle: {
     color: "black",
-    borderBottomWidth: 2,
+    borderBottomWidth: 1.5,
     borderBottomRightRadius: 5,
     borderBottomLeftRadius: 5,
-    borderBottomColor: "#010691",
+    borderBottomColor: "lightgrey",
     // borderColor: "#C9D4FF",
     // borderColor:'0000FF',
     padding: 10,
     margin: 15,
-    paddingVertical: 5,
+    // paddingVertical: 5,
     //  backgroundColor:'#B1CDFF',
-   // backgroundColor: "#D6EAF8",
-    fontSize: 18,
+    // backgroundColor: "#D6EAF8",
+    fontSize: 20,
+    fontFamily: "HindRegular",
   },
 });

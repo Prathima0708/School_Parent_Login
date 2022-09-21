@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     // opacity: 0.7,
   },
   buttonText: {
-    fontSize: 18,
-    fontFamily: "welcomeMsg",
+    fontSize: 20,
+    fontFamily: "HindMedium",
   },
 });

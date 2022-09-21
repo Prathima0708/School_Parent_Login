@@ -446,7 +446,7 @@ function Login() {
       if (resLogin.data.groups[0] === "parents") {
         // <WelcomeScreen />;
 
-        navigation.navigate("Parent's Dashboard", {
+        navigation.navigate("ParentsLoginScreen", {
           phone: enteredPhone,
         });
       } else {
