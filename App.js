@@ -74,7 +74,7 @@ import { useFonts } from "expo-font";
 import TeachersAcademics from "./screens/TeachersLoginScreen/TeachersAcademics";
 import TeachersCalendar from "./screens/TeachersLoginScreen/TeachersCalendar";
 import ReportCard from "./screens/ParentsLoginScreen/Academics/ReportCard";
-import TeachersTimetable from "./screens/TeachersLoginScreen/TeachersTimeTable";
+import TeachersTimetable from "./screens/TeachersLoginScreen/TimeTable/TeachersTimeTable";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -93,7 +93,6 @@ import LandingScreen from "./screens/LandingScreen";
 //     </Tab.Navigator>
 //   );
 // }
-
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -179,8 +178,9 @@ export default function App() {
             /> */}
 
           <Stack.Screen
-            name="Parent's Dashboard"
+            name="ParentsLoginScreen"
             component={ParentsLoginScreen}
+           
           />
 
           <Stack.Screen name="Category" component={StudentCategories} />

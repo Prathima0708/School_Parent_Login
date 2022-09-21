@@ -1,7 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-
-
 function LgButton({ children, onPress, style }) {
   return (
     <Pressable style={[style, styles.button]} onPress={onPress}>
@@ -18,7 +16,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 6,
     //paddingVertical: 6,
-  //  paddingHorizontal: 12,
+    //  paddingHorizontal: 12,
     width: "50%",
     borderWidth: 2,
   },
@@ -26,6 +24,6 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     fontSize: 20,
-    fontFamily: "Poppins",
+    fontFamily: "HindMedium",
   },
 });

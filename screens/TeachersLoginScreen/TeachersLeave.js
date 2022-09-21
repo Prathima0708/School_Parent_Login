@@ -6,8 +6,9 @@ import {
   ScrollView,
   Platform,
   Button as Btn,
+  Alert,
 } from "react-native";
-import moment from 'moment';
+import moment from "moment";
 import { Keyboard } from "react-native";
 import React, { useEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -21,14 +22,17 @@ import TeachersHome from "./TeachersHome";
 import Input from "../../components/UI/Input";
 const TeachersLeave = () => {
   const [leaveType, setEnteredLeaveType] = useState("");
-  const [enteredLeaveTypeTouched,setEnteredLeaveTypeTouched]=useState(false)
-  const enteredLeaveTypeIsValid=leaveType.trim()!=='';
-  const leavetypeInputIsInValid=!enteredLeaveTypeIsValid && enteredLeaveTypeTouched;
+  const [enteredLeaveTypeTouched, setEnteredLeaveTypeTouched] = useState(false);
+  const enteredLeaveTypeIsValid = leaveType.trim() !== "";
+  const leavetypeInputIsInValid =
+    !enteredLeaveTypeIsValid && enteredLeaveTypeTouched;
 
   const [leaveReason, setEnteredLeaveReason] = useState("");
-  const [enteredLeaveReasonTouched,setEnteredLeaveReasonTouched]=useState(false)
-  const enteredLeaveReasonIsValid=leaveReason.trim()!=='';
-  const leavereasonInputIsInValid=!enteredLeaveReasonIsValid && enteredLeaveReasonTouched;
+  const [enteredLeaveReasonTouched, setEnteredLeaveReasonTouched] =
+    useState(false);
+  const enteredLeaveReasonIsValid = leaveReason.trim() !== "";
+  const leavereasonInputIsInValid =
+    !enteredLeaveReasonIsValid && enteredLeaveReasonTouched;
 
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
@@ -40,16 +44,17 @@ const TeachersLeave = () => {
   const [toShow, setToShow] = useState(false);
 
   const [fromText, setFromText] = useState("");
-  const [enteredFromDateTouched,setEnteredFromDateTouched]=useState(false)
-  const enteredFromDateIsValid=fromText.trim()!=='';
-  const fromDateInputIsInValid=!enteredFromDateIsValid && enteredFromDateTouched;
+  const [enteredFromDateTouched, setEnteredFromDateTouched] = useState(false);
+  const enteredFromDateIsValid = fromText.trim() !== "";
+  const fromDateInputIsInValid =
+    !enteredFromDateIsValid && enteredFromDateTouched;
 
   const [toText, setToText] = useState("");
-  const [enteredtoDateTouched,setEnteredtoDateTouched]=useState(false)
-  const enteredtoDateIsValid=toText.trim()!=='';
-  const toDateInputIsInValid=!enteredtoDateIsValid && enteredtoDateTouched;
+  const [enteredtoDateTouched, setEnteredtoDateTouched] = useState(false);
+  const enteredtoDateIsValid = toText.trim() !== "";
+  const toDateInputIsInValid = !enteredtoDateIsValid && enteredtoDateTouched;
 
-  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
+  const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -65,10 +70,10 @@ const TeachersLeave = () => {
     };
   }, []);
 
-  function frmDateHandler(enteredValue){
+  function frmDateHandler(enteredValue) {
     setFromDate(enteredValue);
   }
-  function toDateHandler(enteredValue){
+  function toDateHandler(enteredValue) {
     setToDate(enteredValue);
   }
 
@@ -97,11 +102,11 @@ const TeachersLeave = () => {
       "/" +
       tempFromDate.getFullYear();
 
-      if(event.type == "set") {
-        setFromText(fDate);
-      } else {
-          //cancel button clicked
-      }
+    if (event.type == "set") {
+      setFromText(fDate);
+    } else {
+      //cancel button clicked
+    }
 
     //console.log(fDate);
   };
@@ -119,11 +124,11 @@ const TeachersLeave = () => {
       "/" +
       tempToDate.getFullYear();
 
-      if(event.type == "set") {
-        setToText(tDate);
-      } else {
-          //cancel button clicked
-      };
+    if (event.type == "set") {
+      setToText(tDate);
+    } else {
+      //cancel button clicked
+    }
     // console.log(fDate);
   };
   function leaveTypeChangeHandler(enteredValue) {
@@ -132,10 +137,10 @@ const TeachersLeave = () => {
   function leaveReasonChangeHandler(enteredValue) {
     setEnteredLeaveReason(enteredValue);
   }
-  function frmDateHandler(enteredValue){
+  function frmDateHandler(enteredValue) {
     setFromText(enteredValue);
   }
-  function toDateHandler(enteredValue){
+  function toDateHandler(enteredValue) {
     setToText(enteredValue);
   }
 
@@ -150,7 +155,7 @@ const TeachersLeave = () => {
     // console.log(FormData);
 
     var dateFromValidate = fromText;
-    var isValid = moment(dateFromValidate, 'D/M/YYYY',true).isValid()
+    var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
     if (!isValid) {
       Alert.alert(
         "Format Error",
@@ -159,15 +164,15 @@ const TeachersLeave = () => {
           {
             text: "Cancel",
             onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
+            style: "cancel",
           },
-          { text: "OK", onPress: () => console.log("OK Pressed") }
+          { text: "OK", onPress: () => console.log("OK Pressed") },
         ]
       );
     }
 
     var dateToValidate = toText;
-    var isValid = moment(dateToValidate, 'D/M/YYYY',true).isValid()
+    var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
     if (!isValid) {
       Alert.alert(
         "Format Error",
@@ -176,9 +181,9 @@ const TeachersLeave = () => {
           {
             text: "Cancel",
             onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
+            style: "cancel",
           },
-          { text: "OK", onPress: () => console.log("OK Pressed") }
+          { text: "OK", onPress: () => console.log("OK Pressed") },
         ]
       );
     }
@@ -187,19 +192,18 @@ const TeachersLeave = () => {
     setEnteredFromDateTouched(true);
     setEnteredtoDateTouched(true);
 
-    if(!enteredLeaveTypeIsValid){
+    if (!enteredLeaveTypeIsValid) {
       return;
     }
-    if(!enteredLeaveReasonIsValid){
+    if (!enteredLeaveReasonIsValid) {
       return;
     }
-    if(!enteredFromDateIsValid){
+    if (!enteredFromDateIsValid) {
       return;
     }
-    if(!enteredtoDateIsValid){
+    if (!enteredtoDateIsValid) {
       return;
-    }
-    else{
+    } else {
       async function storeData() {
         try {
           let headers = {
@@ -230,18 +234,17 @@ const TeachersLeave = () => {
       setEnteredFromDateTouched(false);
       setEnteredtoDateTouched(false);
     }
-
   }
-  function leavetypeBlurHandler(){
+  function leavetypeBlurHandler() {
     setEnteredLeaveTypeTouched(true);
   }
-  function leavereasonBlurHandler(){
+  function leavereasonBlurHandler() {
     setEnteredLeaveReasonTouched(true);
   }
-  function fromDateBlurHandler(){
+  function fromDateBlurHandler() {
     setEnteredFromDateTouched(true);
   }
-  function toDateBlurHandler(){
+  function toDateBlurHandler() {
     setEnteredtoDateTouched(true);
   }
   return (
@@ -252,18 +255,18 @@ const TeachersLeave = () => {
 
       <ScrollView>
         <View style={styles.inputForm}>
-          <Input 
-             placeholder="LEAVE TYPE"
-             onChangeText={leaveTypeChangeHandler}
-             blur={leavetypeBlurHandler}
-             value={leaveType}
-             onSubmitEditing={Keyboard.dismiss}
-             style={leavetypeInputIsInValid && styles.errorBorderColor}
+          <Input
+            placeholder="LEAVE TYPE"
+            onChangeText={leaveTypeChangeHandler}
+            blur={leavetypeBlurHandler}
+            value={leaveType}
+            onSubmitEditing={Keyboard.dismiss}
+            style={leavetypeInputIsInValid && styles.errorBorderColor}
           />
           {leavetypeInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter the type</Text>
-            )}
-          <Input 
+            <Text style={{ color: "red", left: 20 }}>Enter the type</Text>
+          )}
+          <Input
             onChangeText={leaveReasonChangeHandler}
             blur={leavereasonBlurHandler}
             placeholder="LEAVE REASON"
@@ -272,8 +275,8 @@ const TeachersLeave = () => {
             style={leavereasonInputIsInValid && styles.errorBorderColor}
           />
           {leavereasonInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter leave reason</Text>
-            )}
+            <Text style={{ color: "red", left: 20 }}>Enter leave reason</Text>
+          )}
           {/* <Text style={styles.labels}>LEAVE FROM</Text>
           <TextInput
             style={styles.inputStyle}
@@ -299,86 +302,86 @@ const TeachersLeave = () => {
          
       <Button title="Show Date Picker" onPress={showDatePicker} /> */}
 
-        <View style={[{flexDirection: "row"}]}>
-          <View style={{ flex: 1}}>
-            <View>
-            <Ionicons
-              style={{
-                position:'absolute',
-                top:23,
-              }}
-              name="calendar"
-              size={24}
-              color="black"
-              onPress={() => showFromMode("date")}
-            />
+          <View style={[{ flexDirection: "row" }]}>
+            <View style={{ flex: 1 }}>
+              <View>
+                <Ionicons
+                  style={{
+                    position: "absolute",
+                    top: 23,
+                  }}
+                  name="calendar"
+                  size={24}
+                  color="black"
+                  onPress={() => showFromMode("date")}
+                />
+              </View>
+              <Input
+                value={fromText || fromDate}
+                placeholder="LEAVE FROM:"
+                onSubmitEditing={Keyboard.dismiss}
+                style={fromDateInputIsInValid && styles.errorBorderColor}
+                blur={fromDateBlurHandler}
+                onChangeText={frmDateHandler}
+              />
+              {fromDateInputIsInValid && (
+                <Text style={{ color: "red", left: 20 }}>Enter leave from</Text>
+              )}
+              {fromShow && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={fromDate}
+                  mode={frommode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={fromDateChangeHandler}
+                />
+              )}
+            </View>
+            <View style={styles.space} />
+            <View style={{ flex: 1 }}>
+              <View>
+                <Ionicons
+                  style={{
+                    position: "absolute",
+                    top: 23,
+                  }}
+                  name="calendar"
+                  size={24}
+                  color="black"
+                  onPress={() => showToMode("date")}
+                />
+              </View>
+              <Input
+                value={toText || toDate}
+                placeholder="LEAVE TO:"
+                onSubmitEditing={Keyboard.dismiss}
+                style={toDateInputIsInValid && styles.errorBorderColor}
+                blur={toDateBlurHandler}
+                onChangeText={toDateHandler}
+              />
+              {toDateInputIsInValid && (
+                <Text style={{ color: "red", left: 20 }}>Enter to</Text>
+              )}
+              {toShow && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={toDate}
+                  mode={tomode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={toDateChangeHandler}
+                  //  minimumDate={fromDate}
+                />
+              )}
+            </View>
           </View>
-          <Input 
-            value={fromText || fromDate} 
-            placeholder="LEAVE FROM:" 
-            onSubmitEditing={Keyboard.dismiss}
-            style={fromDateInputIsInValid && styles.errorBorderColor}
-            blur={fromDateBlurHandler}
-            onChangeText={frmDateHandler}
-          />
-          {fromDateInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter leave from</Text>
-            )}
-          {fromShow && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={fromDate}
-              mode={frommode}
-              is24Hour={true}
-              display="default"
-              onChange={fromDateChangeHandler}
-            />
-          )}
-          </View>
-          <View style={styles.space} />
-          <View style={{ flex: 1 }}>
-            <View>
-            <Ionicons
-              style={{
-                position:'absolute',
-                top:23,
-              }}
-              name="calendar"
-              size={24}
-              color="black"
-              onPress={() => showToMode("date")}
-            />
-          </View>
-          <Input 
-            value={toText || toDate}  
-            placeholder="LEAVE TO:"
-            onSubmitEditing={Keyboard.dismiss}
-            style={toDateInputIsInValid && styles.errorBorderColor}
-            blur={toDateBlurHandler}
-            onChangeText={toDateHandler}
-          />
-          {toDateInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter to</Text>
-            )}
-          {toShow && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={toDate}
-              mode={tomode}
-              is24Hour={true}
-              display="default"
-              onChange={toDateChangeHandler}
-              //  minimumDate={fromDate}
-            />
-          )}
-          </View>
-        </View>
           <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Leave</Button>
           </View>
         </View>
       </ScrollView>
-      {keyboardStatus=='Keyboard Hidden' && <TeachersHome />}
+      {keyboardStatus == "Keyboard Hidden" && <TeachersHome />}
     </>
   );
 };
@@ -399,7 +402,7 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 5,
   },
-  errorBorderColor:{
+  errorBorderColor: {
     color: "black",
     borderBottomWidth: 1,
     borderColor: "red",

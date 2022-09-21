@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     color: "white",
-    fontSize: 20,
-    fontWeight: "bold",
-    // fontFamily: "Roboto_700Bold",
+    fontSize: 22,
+   
+    fontFamily: "HindMedium",
   },
 });
