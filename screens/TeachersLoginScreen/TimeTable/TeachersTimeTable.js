@@ -92,7 +92,8 @@ const TeachersTimetable = () => {
     {
       fromTime: new Date(),
       toTime: new Date(),
-
+      fromTimeText: "",
+      toTimeText: "",
       monday: "",
       tuesday: "",
       wednesday: "",
@@ -133,14 +134,23 @@ const TeachersTimetable = () => {
   //   setInputs(_inputs);
   // };
 
-  const fromTimeChangeHandler = (event, selectedFromTime) => {
+  function fromTimeChangeHandler(event, selectedFromTime, key) {
     // const _inputs = [...inputs];
     // _inputs[key].fromTime = event;
     // setInputs(_inputs);
-    const currentFromTime = selectedFromTime;
+
+    // console.log("text -142", text);
+    console.log("key -143", key);
+
+    const currentFromTime = selectedFromTime || fromTime;
+
     setFromTimeShow(Platform.OS === "ios");
 
     setFromTime(currentFromTime);
+    //setInputs(currentFromTime);
+
+    // currentFromTime - save this to inputs array
+    // show - call from inputs array -- fromTime
 
     let tempFromTime = new Date(currentFromTime);
     let fTime =
@@ -149,14 +159,34 @@ const TeachersTimetable = () => {
       tempFromTime.getMinutes() +
       ":" +
       tempFromTime.getSeconds();
+
     if (event.type == "set") {
+      console.log("-------------------");
+
+      console.log("currentfromtime :", currentFromTime);
+
+      //console.log(_inputs["fromTime"].fromTime);
+      console.log("formatted time :", fTime);
+      const _inputs = [...inputs];
+
+      _inputs[key].fromTime = currentFromTime;
+
       setFromTimeText(fTime);
+      setInputs(_inputs);
+
+      //const _inputs = [...inputs];
+
+      // _inputs[key].fromTime = text;
+
+      // console.log("176", _inputs[key].fromTime);
+      // setInputs(_inputs);
+      // console.log("178", _inputs);
     } else {
       //cancel button clicked
     }
 
-    //console.log(fDate);
-  };
+    //  console.log(fTime);
+  }
 
   const toTimeChangeHandler = (event, selectedToTime) => {
     const currentToTime = selectedToTime;
@@ -224,6 +254,8 @@ const TeachersTimetable = () => {
     _inputs.push({
       fromTime: "",
       toTime: "",
+      fromTimeText: "",
+      toTimeText: "",
       monday: "",
       tuesday: "",
       wednesday: "",
@@ -326,6 +358,8 @@ const TeachersTimetable = () => {
   };
 
   const inputHandlerFromDate = (text, key) => {
+    //  fromTimeChangeHandler();
+
     const _inputs = [...inputs];
     _inputs[key].fromTime = text;
 
@@ -378,14 +412,14 @@ const TeachersTimetable = () => {
     setShowTable(true);
     setShowTimeTableList(false);
   }
-
+  const skip = (num) => new Array(num);
   useEffect(() => {
     async function viewDailyTimeTableList() {
       try {
         const res = await axios.get(
           `http://10.0.2.2:8000/school/AddmoreTimetable_list/`
         );
-        console.log(res.data);
+        // console.log(res.data);
 
         setShowTimeTableData(res.data);
       } catch (error) {
@@ -488,7 +522,7 @@ const TeachersTimetable = () => {
                         data={TimeTableData}
                         placeholder="select class"
                         style={{
-                          color: "black",
+                          color: "red !important",
                           fontWeight: "bold",
                           fontSize: 54,
                           fontFamily: "HindRegular",
@@ -615,24 +649,29 @@ const TeachersTimetable = () => {
                           style={styles.inputStyle}
                           value={fromTimeText}
                           //onChangeText={fromTimeHandler}
-                          // value={input.fromTime}
-                          // onChangeText={(text) => fromTimeChangeHandler(text, key)}
+                          //  value={input.fromTime || fromTimeText}
+                          // onChangeText={(text) =>
+                          //   inputHandlerFromDate(text, key)
+                          // }
                           onSubmitEditing={Keyboard.dismiss}
                         />
 
                         {fromTimeShow && (
+                          // <View key={key}>
                           <DateTimePicker
                             testID="dateTimePicker"
-                            //value={fromTime }
                             value={fromTime}
+                            // value={input.fromTime}
+
                             mode={fromTimemode}
                             is24Hour={true}
                             display="default"
                             onChange={fromTimeChangeHandler}
-                            // onChange={(text) =>
-                            //   fromTimeChangeHandler(text, key)
-                            // }
+
+                            //  onChange={() => fromTimeChangeHandler(key)}
+                            // onChange={fromTimeChangeHandler(key)}
                           />
+                          // </View>
                         )}
                       </View>
                       <View style={styles.space} />
