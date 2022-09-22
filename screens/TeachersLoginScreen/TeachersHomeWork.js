@@ -27,6 +27,7 @@ import { useEffect } from "react";
 import TeachersHome from "./TeachersHome";
 import Input from "../../components/UI/Input";
 import VerticalLine from "../../components/UI/VerticalLine";
+import { DataTable } from "react-native-paper";
 
 const TeachersHomework = () => {
 
@@ -97,7 +98,9 @@ const TeachersHomework = () => {
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [cont, setCont] = useState('');
   const [show, setShow] = useState(false);
-
+  const [isEdit,setIsEdit]=useState(false);
+  const [isDelete,setIsDelete]=useState(false);
+  const [tranportData, setTranportData] = useState([]);
   // useEffect(()=>{
   //   if(enteredSubjectIsValid && enteredFromDateIsValid && enteredtoDateIsValid && enteredRemarkIsValid && enteredHomeWorkIsValid){
   //     setFormIsValid(true);
@@ -109,6 +112,21 @@ const TeachersHomework = () => {
   //   enteredtoDateIsValid,
   //   enteredRemarkIsValid,
   //   enteredHomeWorkIsValid])
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await axios.get(
+          `http://10.0.2.2:8000/school/Homework/`
+        );
+        setTranportData(res.data);
+        console.log(data)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -293,6 +311,141 @@ const TeachersHomework = () => {
     setPickedImage(image.uri);
   }
 
+  function updateHandler(){
+    var dateFromValidate = fromText;
+    var isValid = moment(dateFromValidate, 'D/M/YYYY',true).isValid()
+    if (!isValid) {
+      Alert.alert(
+        "Format Error",
+        "It seems to be you entered wrong date format please follow D/M/YYYY format ",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+    }
+
+    var dateToValidate = toText;
+    var isValid = moment(dateToValidate, 'D/M/YYYY',true).isValid()
+    if (!isValid) {
+      Alert.alert(
+        "Format Error",
+        "It seems to be you entered wrong date format please follow D/M/YYYY format",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+    }
+
+    setEnteredSelectedTouched(true)
+    setEnteredSubjectTouched(true);
+    setEnteredFromDateTouched(true);
+    setEnteredtoDateTouched(true);
+    setEnteredRemarkTouched(true);
+    setEnteredHomeWorkTouched(true);
+    setEnteredImageTouched(true);
+
+    if(!enteredSelcetdIsValid){
+      return;
+    }
+    if (!enteredSubjectIsValid) {
+      return;
+    }
+
+    if(!enteredFromDateIsValid){
+      return;
+    }
+
+    if(!enteredtoDateIsValid){
+      return;
+    }
+
+    if(!enteredRemarkIsValid){
+      return;
+    }
+
+    if(!enteredHomeWorkIsValid){
+      return;
+    }
+
+    if(!enteredImageIsValid){
+      return;
+    }
+
+    else{
+      let selectedData = selected.split(" - ");
+      let class_name = selectedData[0];
+      let section = selectedData[1];
+      let uploaduri = image;
+      // let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
+      const formdata = {
+        // from_time:fromText,
+        // to_time:toText,
+        class_name: class_name,
+        section: section,
+        subject: subject,
+        homework_date: fromDate,
+        due_date: toDate,
+        // homework_photo: `/assets/images/${filename}`,
+        remark: remark,
+        description: hw,
+      };
+      console.log(formdata);
+  
+      async function storeData() {
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+          };
+  
+          const resLogin = await axios.put(
+            "http://10.0.2.2:8000/school/Homework/",
+            formdata,
+            {
+              headers: headers,
+            }
+          );
+  
+          console.log(resLogin.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+  
+      storeData();
+  
+      setEnteredSubject("");
+      setFromText("");
+      setToText("");
+      setPickedImage("");
+      setEnteredRemark("");
+      setHW("");
+      setEnteredSelectedTouched(false);
+      setEnteredSelectedTouched(false);
+      setEnteredSubjectTouched(false);
+      setEnteredFromDateTouched(false);
+      setEnteredHomeWorkTouched(false);
+      setEnteredRemarkTouched(false);
+      setEnteredtoDateTouched(false);
+      setEnteredImageTouched(false);
+      setShowForm(false);
+      setShowList(true);
+      setForHomeworkList({ fontWeight: "bold", color: "black" });
+      setForHomeworkForm({ color: "black" });
+      setForHomeworkForm({ fontWeight: "bold", color: "black" });
+      setForHomeworkList({ color: "black" });
+    }
+    }
+  
   function buttonPressedHandler() {
     console.log(selected);
     console.log(fromText , toText)
@@ -460,6 +613,49 @@ const TeachersHomework = () => {
       setShowForm(false);
       setShowList(true);
     }
+    function editItem(id){
+      const filteredDummuyData= tranportData.find((data)=> data.id==id);
+      setSelected(filteredDummuyData.class_name);
+      // setEnteredSection(filteredDummuyData.section);
+      setEnteredSubject(filteredDummuyData.subject);
+      setFromText(filteredDummuyData.homework_date);
+      setToText(filteredDummuyData.due_date);
+      setEnteredRemark(filteredDummuyData.remark);
+      setHW(filteredDummuyData.homework);
+      setImage(filteredDummuyData.homework_photo);
+      setForHomeworkList({ fontWeight: "bold", color: "black" });
+      setForHomeworkForm({ color: "black" });
+       setShowForm(true);
+       setShowList(false);
+       setIsEdit(true);
+     }
+
+     function deleteItem(id){
+      // console.log(id);
+      // const newFilteredData=data.filter((data)=>data.id != id);
+  
+      async function storeData() {
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+          };
+          // const dataForm = FormData;
+          const resLogin = await axios.delete(
+            `http://10.0.2.2:8000/school/Homework/${id}/`,
+            // FormData,
+            {
+              headers: headers,
+            }
+          );
+          // const token = resLogin.data.token;
+          // const userId = resLogin.data.user_id;
+          console.log(resLogin.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      storeData();
+    }
   return (
     <>
       {/* <View style={styles.BtnContainer}>
@@ -613,15 +809,103 @@ const TeachersHomework = () => {
               />
             )} */}
           </View>
-          <View style={styles.btnSubmit}>
-            <Button onPress={buttonPressedHandler}>Add Homework</Button>
-          </View>
+          {!isEdit && <View style={styles.btnSubmit}>
+            <Button onPress={buttonPressedHandler}>Add Event</Button>
+          </View>}
+          {isEdit && <View style={styles.btnSubmit}>
+            <Button onPress={ updateHandler}>Update</Button>
+          </View>}
         </View>
       </ScrollView>)}
       {showList && 
-       <View>
-          
-        </View>}
+        <ScrollView horizontal={true}>
+        <DataTable style={styles.container}>
+          <DataTable.Header style={styles.tableHeader}>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> ID</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> Class Name</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> Section</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> Subject</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> Homework date</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> Remark</Text>
+            </View>
+
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> Homeworkphoto</Text>
+            </View>
+
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> Homework</Text>
+            </View>
+
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> Due date</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> Description</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> Update</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}> Delete</Text>
+            </View>
+          </DataTable.Header>
+
+          {tranportData &&
+            tranportData.map((tranportData, key) => (
+              <DataTable.Row style={styles.tableRow}>
+                <DataTable.Cell style={styles.tableCell}>
+                  {tranportData.id}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  {tranportData.class_name}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  {tranportData.section}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  {tranportData.subject}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  {tranportData.homework_date}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  {tranportData.remark}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  {tranportData.homework_photo}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  {tranportData.homework}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  {tranportData.due_date}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  {tranportData.description}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  <Btn title="Edit" onPress={()=> editItem(tranportData.id)} />
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  <Btn title="Delete" onPress={()=> deleteItem(tranportData.id)} />
+              </DataTable.Cell>
+              </DataTable.Row>
+            ))}
+        </DataTable>
+      </ScrollView>
+      }
       {showForm && keyboardStatus == "Keyboard Hidden" && (
         <View>
           <TeachersHome />
@@ -629,7 +913,7 @@ const TeachersHomework = () => {
       )}
     </>
   );
-};
+}
 
 export default TeachersHomework;
 
@@ -706,5 +990,33 @@ const styles = StyleSheet.create({
   space: {
     width: 15, // or whatever size you need
     // height: 15,
+  },
+  th: {
+    padding: 5,
+    marginRight: 13,
+    //fontSize: 24,
+  },
+  tableHeader: {
+    backgroundColor: "skyblue",
+
+    height: 50,
+    fontWeight: "bold",
+  },
+  tableTitle: {
+    // padding: 5,
+    margin: 7,
+    fontFamily: "MonsterratBold",
+    fontSize: 16,
+  },
+  tableCell: {
+    width: 40,
+    //  fontFamily: "Montserrat_600SemiBold",
+    marginLeft: 35,
+  },
+
+  tableRow: {
+    height: "9%",
+    borderBottomColor: "black",
+    borderBottomWidth: 2,
   },
 });

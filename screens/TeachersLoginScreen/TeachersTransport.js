@@ -64,23 +64,23 @@ const TeachersTransport = () => {
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [data, setData] = useState([]);
   const [isEdit,setIsEdit]=useState(false);
-  const dummyData=[
-    {
-      id:"1",
-      name:'ABC',
-      address:'Norway'
-    },
-    {
-      id:"2",
-      name:'PQR',
-      address:'Titan'
-    }
-  ]
+  // const dummyData=[
+  //   {
+  //     id:"1",
+  //     name:'ABC',
+  //     address:'Norway'
+  //   },
+  //   {
+  //     id:"2",
+  //     name:'PQR',
+  //     address:'Titan'
+  //   }
+  // ]
   useEffect(() => {
     async function fetchData() {
       try {
         const res = await axios.get(
-          `http://10.0.2.2:8000/school/Calendar/`
+          `http://10.0.2.2:8000/school/Transportreport/`
         );
         setData(res.data);
         console.log(data)
@@ -132,16 +132,14 @@ const TeachersTransport = () => {
   }
 
   function updateHandler(){
-    console.log(UserId);
-    const id=data.id;
     const FormData = {
-      description: busNumber,
-      enddate: vehicleno,
-      startdate: type,
-      titlee: drivername,
-      // titlee:routename,
-      // route_name: routename,
-      // stop_name: stopname,
+      busnumber: busNumber,
+      vehicleno: vehicleno,
+      types: type,
+      driver_name:drivername,
+      emp_mobile: mobile,
+      route_name: routename,
+      stop_name: stopname,
     };
     console.log(FormData);
 
@@ -149,9 +147,9 @@ const TeachersTransport = () => {
     setEnteredVehicleNoTouched(true);
     setEnteredTypeTouched(true);
     setEnteredDrivernameTouched(true);
-    // setEnteredMobileTouched(true);
-    // setEnteredRoutenameTouched(true);
-    // setEnteredStopnameTouched(true);
+    setEnteredMobileTouched(true);
+    setEnteredRoutenameTouched(true);
+    setEnteredStopnameTouched(true);
 
     if(!enteredBusnumberIsValid){
       return;
@@ -165,15 +163,15 @@ const TeachersTransport = () => {
     if(!enteredDrivernameIsValid){
       return;
     }
-    // if(!enteredMobileIsValid){
-    //   return;
-    // }
-    // if(!enteredRoutenameIsValid){
-    //   return;
-    // }
-    // if(!enteredStopnameIsValid){
-    //   return;
-    // }
+    if(!enteredMobileIsValid){
+      return;
+    }
+    if(!enteredRoutenameIsValid){
+      return;
+    }
+    if(!enteredStopnameIsValid){
+      return;
+    }
     else{
       async function storeData() {
         try {
@@ -181,8 +179,8 @@ const TeachersTransport = () => {
             "Content-Type": "application/json; charset=utf-8",
           };
   
-          const resLogin = await axios.post(
-            `http://10.0.2.2:8000/school/Calendar/`,
+          const resLogin = await axios.put(
+            `http://10.0.2.2:8000/school/Transportreport/7/`,
             FormData,
             {
               headers: headers,
@@ -208,9 +206,9 @@ const TeachersTransport = () => {
       setEnteredVehicleNoTouched(false);
       setEnteredTypeTouched(false);
       setEnteredDrivernameTouched(false);
-      // setEnteredMobileTouched(false);
-      // setEnteredRoutenameTouched(false);
-      // setEnteredStopnameTouched(false);
+      setEnteredMobileTouched(false);
+      setEnteredRoutenameTouched(false);
+      setEnteredStopnameTouched(false);
       setShowForm(false);
       setShowList(true);
       setForTransportList({ fontWeight: "bold", color: "black" });
@@ -224,23 +222,24 @@ const TeachersTransport = () => {
   function buttonPressedHandler() {
     console.log(UserId);
     const FormData = {
-      description: busNumber,
-      enddate: vehicleno,
-      startdate: type,
-      titlee: drivername,
-      // titlee:routename,
-      // route_name: routename,
-      // stop_name: stopname,
+      busnumber: busNumber,
+      vehicleno: vehicleno,
+      types: type,
+      driver_name:drivername,
+      emp_mobile: mobile,
+      route_name: routename,
+      stop_name: stopname,
     };
+
     console.log(FormData);
 
     setEnteredBusnumberTouched(true);
     setEnteredVehicleNoTouched(true);
     setEnteredTypeTouched(true);
     setEnteredDrivernameTouched(true);
-    // setEnteredMobileTouched(true);
-    // setEnteredRoutenameTouched(true);
-    // setEnteredStopnameTouched(true);
+    setEnteredMobileTouched(true);
+    setEnteredRoutenameTouched(true);
+    setEnteredStopnameTouched(true);
 
     if(!enteredBusnumberIsValid){
       return;
@@ -254,15 +253,15 @@ const TeachersTransport = () => {
     if(!enteredDrivernameIsValid){
       return;
     }
-    // if(!enteredMobileIsValid){
-    //   return;
-    // }
-    // if(!enteredRoutenameIsValid){
-    //   return;
-    // }
-    // if(!enteredStopnameIsValid){
-    //   return;
-    // }
+    if(!enteredMobileIsValid){
+      return;
+    }
+    if(!enteredRoutenameIsValid){
+      return;
+    }
+    if(!enteredStopnameIsValid){
+      return;
+    }
     else{
       async function storeData() {
         try {
@@ -271,7 +270,7 @@ const TeachersTransport = () => {
           };
   
           const resLogin = await axios.post(
-            "http://10.0.2.2:8000/school/Calendar/",
+            "http://10.0.2.2:8000/school/Transportreport/",
             FormData,
             {
               headers: headers,
@@ -297,9 +296,9 @@ const TeachersTransport = () => {
       setEnteredVehicleNoTouched(false);
       setEnteredTypeTouched(false);
       setEnteredDrivernameTouched(false);
-      // setEnteredMobileTouched(false);
-      // setEnteredRoutenameTouched(false);
-      // setEnteredStopnameTouched(false);
+      setEnteredMobileTouched(false);
+      setEnteredRoutenameTouched(false);
+      setEnteredStopnameTouched(false);
       setShowForm(false);
       setShowList(true);
       setForTransportList({ fontWeight: "bold", color: "black" });
@@ -347,23 +346,46 @@ const TeachersTransport = () => {
   }
 
   function editItem(id){
-   
-    console.log('after clicking edit')
-    console.log(data)
-    
    const filteredDummuyData= data.find((data)=> data.id==id);
-
-   setEnteredBusNumber(filteredDummuyData.description);
-   setEnteredVehicleNo(filteredDummuyData.enddate);
-   setEnteredType(filteredDummuyData.startdate);
-   setEnteredDriverName(filteredDummuyData.titlee);
-  //  setEnteredMobile(filteredDummuyData.exam_name);
-  //  setEnteredRouteName(filteredDummuyData.hour);
+   console.log(filteredDummuyData);
+   setEnteredBusNumber(filteredDummuyData.busnumber);
+   setEnteredVehicleNo(filteredDummuyData.vehicleno);
+   setEnteredType(filteredDummuyData.types);
+   setEnteredDriverName(filteredDummuyData.driver_name);
+  //  setEnteredMobile(filteredDummuyData.emp_mobile);
+   setEnteredRouteName(filteredDummuyData.route_name);
+   setEnteredStopName(filteredDummuyData.stop_name)
    setForTransportList({ fontWeight: "bold", color: "black" });
    setForTransportForm({ color: "black" });
     setShowForm(true);
     setShowList(false);
     setIsEdit(true);
+  }
+  function deleteItem(id){
+    console.log(id);
+    // const newFilteredData=data.filter((data)=>data.id != id);
+
+    async function storeData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+        };
+        // const dataForm = FormData;
+        const resLogin = await axios.delete(
+          `http://10.0.2.2:8000/school/Transportreport/${id}/`,
+          // FormData,
+          {
+            headers: headers,
+          }
+        );
+        // const token = resLogin.data.token;
+        // const userId = resLogin.data.user_id;
+        console.log(resLogin.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    storeData();
   }
 
   return (
@@ -433,8 +455,8 @@ const TeachersTransport = () => {
               <Text style={{ color: "red",left:20 }}>Enter driver name</Text>
             )}
 
-           {/* <Input 
-            // keyboardType="number-pad"
+           <Input 
+            keyboardType="number-pad"
             // style={styles.inputStyle}
             placeholder="Mobile Number"
             onChangeText={mobileChangeHandler}
@@ -445,9 +467,9 @@ const TeachersTransport = () => {
           />
           {mobileInputIsInValid && (
               <Text style={{ color: "red",left:20 }}>Enter mobile number</Text>
-            )} */}
+            )}
 
-          {/* <Input 
+          <Input 
             placeholder="Route Name"
             onChangeText={routeNameChangeHandler}
             blur={routenameInputBlur}
@@ -457,9 +479,9 @@ const TeachersTransport = () => {
           />
           {routenameInputIsInValid && (
               <Text style={{ color: "red",left:20 }}>Enter route name</Text>
-            )} */}
+            )}
 
-          {/* <Input 
+          <Input 
             placeholder="Stop Name"
             onChangeText={stopNameChangeHandler}
             blur={stopnameInputBlur}
@@ -469,7 +491,7 @@ const TeachersTransport = () => {
           />
           {stopnameInputIsInValid && (
               <Text style={{ color: "red",left:20 }}>Enter stop name</Text>
-            )} */}
+            )}
           {!isEdit && <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Transport</Button>
           </View>}
@@ -517,25 +539,16 @@ const TeachersTransport = () => {
                   <DataTable.Cell style={styles.tableCell}>
                     {data.id}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.type}>
-                   {data.desription}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.type}>
-                   {data.startdate}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.type}>
-                   {data.enddate}
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.busnumber}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.tableCell}>
-                    {data.titlee}
+                    {data.vehicleno}
                   </DataTable.Cell>
-                  {/* <DataTable.Cell style={styles.tableCell}>
-                    {data.class_name}
-                  </DataTable.Cell> */}
                   <DataTable.Cell style={styles.tableCell}>
-                    <Btn title="Edit" onPress={()=> editItem(data.id)} />
+                    {data.types}
                   </DataTable.Cell>
-                  {/* <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell style={styles.tableCell}>
                     {data.driver_name}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.tableCell}>
@@ -546,7 +559,13 @@ const TeachersTransport = () => {
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.tableCell}>
                     {data.stop_name}
-                  </DataTable.Cell> */}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    <Btn title="Edit" onPress={()=> editItem(data.id)} />
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    <Btn title="Delete" onPress={()=> deleteItem(data.id)} />
+                </DataTable.Cell>
                 </DataTable.Row>
               ))}
           </DataTable>

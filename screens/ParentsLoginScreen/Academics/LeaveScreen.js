@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
+import { View, StyleSheet, TextInput, Text, ScrollView,Button as Btn } from "react-native";
 import React, { useEffect, useState } from "react";
 import VerticalLine from "../../../components/UI/VerticalLine";
 import { DataTable } from "react-native-paper";
@@ -28,14 +28,14 @@ const LeaveScreen = () => {
   const enteredLeaveReasonIsValid=leaveReason.trim()!=='';
   const leavereasonInputIsInValid=!enteredLeaveReasonIsValid && enteredLeaveReasonTouched;
 
-  const [forTransportList, setForTransportList] = useState({
+  const [forLeaveList, setForLeaveList] = useState({
     color: "black",
     fontWeight: "bold",
   });
-  const [forAddTransport, setForAddTransport] = useState({ color: "black" });
+  const [forLeaveForm, setForLeaveForm] = useState({ color: "black" });
   const [showForm, setShowForm] = useState(false);
-  const [showTable, setShowTable] = useState(true);
-  const [data, setData] = useState();
+  const [showList, setShowList] = useState(true);
+  // const [data, setData] = useState();
   const [fromShow, setFromShow] = useState(false);
   const [frommode, setFromMode] = useState("date");
   const [fromDate, setFromDate] = useState(new Date());
@@ -55,7 +55,8 @@ const LeaveScreen = () => {
   const toDateInputIsInValid=!enteredtoDateIsValid && enteredtoDateTouched;
 
   const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
-
+  const [data, setData] = useState([]);
+  const [isEdit,setIsEdit]=useState(false);
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -159,19 +160,119 @@ const LeaveScreen = () => {
     setEnteredLeaveReason(enteredValue);
   }
 
-  function transportList() {
-    setForTransportList({ fontWeight: "bold", color: "black" });
-    setForAddTransport({ color: "black" });
+  function LeaveList() {
+    setForLeaveList({ fontWeight: "bold", color: "black" });
+    setForLeaveForm({ color: "black" });
     setShowForm(false);
-    setShowTable(true);
+    setShowList(true);
   }
-  function addTransport() {
-    setForAddTransport({ fontWeight: "bold", color: "black" });
-    setForTransportList({ color: "black" });
+  function addLeave() {
+    setForLeaveForm({ fontWeight: "bold", color: "black" });
+    setForLeaveList({ color: "black" });
     setShowForm(true);
-    setShowTable(false);
+    setShowList(false);
   }
 
+  function updateHandler(){
+    const FormData = {
+      student_reg_number: regno,
+      leave_type: leaveType,
+      leave_form: fromDate,
+      leave_to: toDate,
+      leave_reason: leaveReason,
+    };
+    console.log(FormData);
+
+    var dateFromValidate = fromText;
+    var isValid = moment(dateFromValidate, 'D/M/YYYY',true).isValid()
+    if (!isValid) {
+      Alert.alert(
+        "Format Error",
+        "It seems to be you entered wrong date format please follow D/M/YYYY format ",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+    }
+
+    var dateToValidate = toText;
+    var isValid = moment(dateToValidate, 'D/M/YYYY',true).isValid()
+    if (!isValid) {
+      Alert.alert(
+        "Format Error",
+        "It seems to be you entered wrong date format please follow D/M/YYYY format",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+    }
+    setEnteredRegNoTouched(true);
+    setEnteredLeaveTypeTouched(true);
+    setEnteredFromDateTouched(true);
+    setEnteredtoDateTouched(true);
+    setEnteredLeaveReasonTouched(true);
+
+    if(!enteredRegNoIsValid){
+      return;
+    }
+    if(!enteredLeaveTypeIsValid){
+      return;
+    }
+    if(!enteredFromDateIsValid){
+      return;
+    }
+    if(!enteredtoDateIsValid){
+      return;
+    }
+    if(!enteredLeaveReasonIsValid){
+      return;
+    }
+    else{
+      async function storeData() {
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+          };
+          const dataForm = FormData;
+          const resLogin = await axios.put(
+            `http://10.0.2.2:8000/school/Leave/`,
+            dataForm,
+            {
+              headers: headers,
+            }
+          );
+          const token = resLogin.data.token;
+          const userId = resLogin.data.user_id;
+          console.log(token);
+          // Token = token;
+          // UserId = userId;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      storeData();
+      setEnteredRegno("");
+      setEnteredLeaveType("");
+      setEnteredLeaveReason("");
+      setFromText("");
+      setToText("");
+      setEnteredRegNoTouched(false);
+      setEnteredLeaveTypeTouched(false);
+      setEnteredFromDateTouched(false);
+      setEnteredtoDateTouched(false);
+      setEnteredLeaveReasonTouched(false);
+    }
+  }
   function buttonPressedHandler() {
     const FormData = {
       student_reg_number: regno,
@@ -287,18 +388,58 @@ const LeaveScreen = () => {
   function toDateBlurHandler(){
     setEnteredtoDateTouched(true);
   }
+  function editItem(id){
+    const filteredDummuyData= data.find((data)=> data.id==id);
+    // console.log(filteredDummuyData);
+    setEnteredLeaveType(filteredDummuyData.leave_type);
+    setEnteredLeaveReason(filteredDummuyData.leave_type);
+    setFromText(filteredDummuyData.leave_form);
+    setToText(filteredDummuyData.leave_to);
+    setForLeaveList({ fontWeight: "bold", color: "black" });
+    setForLeaveForm({ color: "black" });
+     setShowForm(true);
+     setShowList(false);
+     setIsEdit(true);
+   }
+
+  function deleteItem(id){
+    // console.log(id);
+    // const newFilteredData=data.filter((data)=>data.id != id);
+
+    async function storeData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+        };
+        // const dataForm = FormData;
+        const resLogin = await axios.delete(
+          `http://10.0.2.2:8000/school/Leave/${id}/`,
+          // FormData,
+          {
+            headers: headers,
+          }
+        );
+        // const token = resLogin.data.token;
+        // const userId = resLogin.data.user_id;
+        console.log(resLogin.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    storeData();
+  }
   return (
     <>
       <View style={styles.BtnContainer}>
-        <BgButton onPress={transportList} style={forTransportList}>
+        <BgButton onPress={LeaveList} style={forLeaveList}>
           Leave List
         </BgButton>
         <VerticalLine>|</VerticalLine>
-        <BgButton onPress={addTransport} style={forAddTransport}>
+        <BgButton onPress={addLeave} style={forLeaveForm}>
           Apply Leave
         </BgButton>
       </View>
-      {showTable && (
+      {showList && (
         <ScrollView horizontal={true}>
           <DataTable style={styles.container}>
             <DataTable.Header style={styles.tableHeader}>
@@ -320,6 +461,12 @@ const LeaveScreen = () => {
               </View>
               <View style={styles.th}>
                 <Text style={styles.tableTitle}> LEAVE STATUS</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> Update</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> Delete</Text>
               </View>
             </DataTable.Header>
             {data &&
@@ -344,6 +491,12 @@ const LeaveScreen = () => {
                   <DataTable.Cell style={styles.tableCell}>
                     {data.leave_status}
                   </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    <Btn title="Edit" onPress={()=> editItem(data.id)} />
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    <Btn title="Delete" onPress={()=> deleteItem(data.id)} />
+                  </DataTable.Cell> 
                 </DataTable.Row>
               ))}
           </DataTable>
@@ -461,9 +614,12 @@ const LeaveScreen = () => {
             {leavereasonInputIsInValid && (
               <Text style={{ color: "red",left:20 }}>Enter leave reason</Text>
             )}
-            <View style={styles.btnSubmit}>
-              <Button onPress={buttonPressedHandler}>Apply Leave</Button>
-            </View>
+            {!isEdit && <View style={styles.btnSubmit}>
+            <Button onPress={buttonPressedHandler}>Add Leave</Button>
+          </View>}
+          {isEdit && <View style={styles.btnSubmit}>
+            <Button onPress={ updateHandler}>Update</Button>
+          </View>}
           </View>
         </ScrollView>
       )}
@@ -553,6 +709,34 @@ const styles = StyleSheet.create({
   space: {
     width: 20, // or whatever size you need
     height: 20,
+  },
+  th: {
+    padding: 5,
+    marginRight: 13,
+    //fontSize: 24,
+  },
+  tableHeader: {
+    backgroundColor: "skyblue",
+
+    height: 50,
+    fontWeight: "bold",
+  },
+  tableTitle: {
+    // padding: 5,
+    margin: 7,
+    fontFamily: "MonsterratBold",
+    fontSize: 16,
+  },
+  tableCell: {
+    width: 40,
+    //  fontFamily: "Montserrat_600SemiBold",
+    marginLeft: 35,
+  },
+
+  tableRow: {
+    height: "9%",
+    borderBottomColor: "black",
+    borderBottomWidth: 2,
   },
 });
 

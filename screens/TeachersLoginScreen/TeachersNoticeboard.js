@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import Input from "../../components/UI/Input";
 import VerticalLine from "../../components/UI/VerticalLine";
 import moment from 'moment';
+import { DataTable } from "react-native-paper";
 const TeachersNoticeboard = () => {
   
   const [showForm, setShowForm] = useState(true);
@@ -49,6 +50,21 @@ const TeachersNoticeboard = () => {
   const fromDateInputIsInValid=!enteredFromDateIsValid && enteredFromDateTouched;
 
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await axios.get(
+          `http://10.0.2.2:8000/school/NoticeBoard/`
+        );
+        setData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -211,11 +227,11 @@ const TeachersNoticeboard = () => {
       <View style={styles.BtnContainer}>
       
         <BgButton onPress={showNoticeForm} style={forNoticeList}>
-          Add Homework
+          Add Notice
         </BgButton>
         <VerticalLine>|</VerticalLine>
         <BgButton onPress={showNotice} style={forNoticeForm}>
-          Show Homework
+          Show Notice
       </BgButton>
       </View>
       {showForm &&
@@ -297,9 +313,62 @@ const TeachersNoticeboard = () => {
         </View>
       </ScrollView>}
       {showList && 
-        <View>
-          <Text>NoticeBoard</Text>
-        </View>}
+        <ScrollView horizontal={true}>
+        <DataTable>
+          <DataTable.Header style={styles.tableHeader}>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}>Title</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}>Description</Text>
+            </View>
+            {/* <View style={styles.th}>
+              <Text style={styles.tableTitle}>created by</Text>
+            </View> */}
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}>Start Date</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}>End Date</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}>Update</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}>Delete</Text>
+            </View>
+          </DataTable.Header>
+          {data &&
+            data.map((data, key) => (
+              <DataTable.Row style={styles.tableRow}>
+                {/* <DataTable.Cell style={styles.tableCell}>
+                  {data.id}
+                </DataTable.Cell> */}
+                <DataTable.Cell style={styles.tableCell}>
+                 {data.titlee}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                 {data.description}
+                </DataTable.Cell>
+                {/* <DataTable.Cell style={styles.tableCell}>
+                 {data.created_by}
+                </DataTable.Cell> */}
+                <DataTable.Cell style={styles.tableCell}>
+                 {data.startdate}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  {data.enddate}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                    <Btn title="Edit" onPress={()=> editItem(data.id)} />
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                    <Btn title="Delete" onPress={()=> deleteItem(data.id)} />
+                </DataTable.Cell>
+              </DataTable.Row>
+            ))}
+        </DataTable>
+      </ScrollView>}
       {showForm && keyboardStatus == "Keyboard Hidden" && <TeachersHome />}
     
     </>
@@ -342,5 +411,33 @@ const styles = StyleSheet.create({
   btnSubmit: {
     marginTop: 30,
     marginBottom: 30,
+  },
+  th: {
+    padding: 5,
+    
+    //fontSize: 24,
+  },
+  tableHeader: {
+    backgroundColor: "skyblue",
+
+    height: 50,
+    fontWeight: "bold",
+  },
+  tableTitle: {
+    // padding: 5,
+    margin: 7,
+    fontFamily: "MonsterratBold",
+    fontSize: 16,
+  },
+  tableCell: {
+    width: 50,
+    //  fontFamily: "Montserrat_600SemiBold",
+    left:5
+  },
+
+  tableRow: {
+    height: "9%",
+    borderBottomColor: "black",
+    borderBottomWidth: 2,
   },
 });
