@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, Text, ScrollView, Alert } from "react-native";
+import { View, StyleSheet, TextInput, Text, ScrollView, Alert,Button as Btn } from "react-native";
 import React, { useEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../components/UI/Button";
@@ -11,6 +11,9 @@ import TeachersHome from "./TeachersHome";
 import Input from "../../components/UI/Input";
 import { getMomentsAsync } from "expo-media-library";
 import moment from 'moment';
+import VerticalLine from "../../components/UI/VerticalLine";
+import { DataTable } from "react-native-paper";
+import FeedBackDialog from "../../components/UI/FeedBackDialog";
 const TeachersCalendar = () => {
 
   const [showForm, setShowForm] = useState(true);
@@ -30,6 +33,11 @@ const TeachersCalendar = () => {
   const [enteredDescriptionTouched,setEnteredDescriptionTouched]=useState(false)
   const enteredDescriptionIsValid=description.trim()!=='';
   const descriptionInputIsInValid=!enteredDescriptionIsValid && enteredDescriptionTouched;
+
+  // const [createdby, setEnteredcreatedby] = useState("");
+  // const [enteredCreatedByTouched,setEnteredCreatedbyTouched]=useState(false)
+  // const enteredCreatedByIsValid=createdby.trim()!=='';
+  // const createdByInputIsInValid=!enteredCreatedByIsValid && enteredCreatedByTouched;
 
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
@@ -52,7 +60,24 @@ const TeachersCalendar = () => {
 
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [dateIsInCorrect,setDateIsInCorrect]=useState(false);
-    useEffect(() => {
+  const [data, setData] = useState([]);
+  const [isEdit,setIsEdit]=useState(false);
+  const [isDelete,setIsDelete]=useState(false);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await axios.get(
+          `http://10.0.2.2:8000/school/Calendar/`
+        );
+        setData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, []);
+
+  useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
     });
@@ -126,6 +151,9 @@ const TeachersCalendar = () => {
   function descriptionChangeHandler(enteredValue) {
     setEnteredDescription(enteredValue);
   }
+  function createdByChangeHandler(enteredValue) {
+    setEnteredcreatedby(enteredValue);
+  }
   function frmDateHandler(enteredValue){
     setFromText(enteredValue);
   }
@@ -133,9 +161,12 @@ const TeachersCalendar = () => {
     setToText(enteredValue);
   }
 
-  function buttonPressedHandler() {
+  function updateHandler() {
+    // let id=data.id;
+    // console.log(id)
     const FormData = {
       description: description,
+      // created_by:createdby,
       startdate: fromDate,
       enddate: toDate,
       titlee: title,
@@ -180,6 +211,7 @@ const TeachersCalendar = () => {
     setEnteredDescriptionTouched(true);
     setEnteredFromDateTouched(true);
     setEnteredtoDateTouched(true);
+    // setEnteredCreatedbyTouched(true);
     // setCheckFromDateTouched(true);
     // setCheckToDateTouched(true);
     if(!enteredTitleIsValid){
@@ -188,6 +220,115 @@ const TeachersCalendar = () => {
     if(!enteredDescriptionIsValid){
       return;
     }
+    // if(!enteredCreatedByIsValid){
+    //   return;
+    // }
+    if(!enteredFromDateIsValid){
+      return;
+    }
+    
+    if(!enteredtoDateIsValid){
+      return;
+    }
+
+    else{
+      async function storeData() {
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+          };
+          const dataForm = FormData;
+          const resLogin = await axios.put(
+            `http://10.0.2.2:8000/school/Calendar/7/`,
+            dataForm,
+            {
+              headers: headers,
+            }
+          );
+          // const token = resLogin.data.token;
+          // const userId = resLogin.data.user_id;
+          console.log(resLogin.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      storeData();
+      setEnteredDescription("");
+      setEnteredTitle("");
+      setFromText("");
+      setToText("");
+      setEnteredTitleTouched(false);
+      setEnteredDescriptionTouched(false);
+      // setEnteredCreatedbyTouched(false);
+      setEnteredFromDateTouched(false);
+      setEnteredtoDateTouched(false);
+      setForCalendarList({ fontWeight: "bold", color: "black" });
+      setForCalendarForm({ color: "black" });
+      setForCalendarForm({ fontWeight: "bold", color: "black" });
+      setForCalendarList({ color: "black" });
+  }
+  }
+
+  function buttonPressedHandler() {
+    const FormData = {
+      description: description,
+      // created_by:createdby,
+      startdate: fromDate,
+      enddate: toDate,
+      titlee: title,
+    };
+
+    console.log(FormData);
+
+    var dateFromValidate = fromText;
+    var isValid = moment(dateFromValidate, 'D/M/YYYY',true).isValid()
+    if (!isValid) {
+      Alert.alert(
+        "Format Error",
+        "It seems to be you entered wrong date format please follow D/M/YYYY format ",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+    }
+
+    var dateToValidate = toText;
+    var isValid = moment(dateToValidate, 'D/M/YYYY',true).isValid()
+    if (!isValid) {
+      Alert.alert(
+        "Format Error",
+        "It seems to be you entered wrong date format please follow D/M/YYYY format",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+    }
+    setEnteredTitleTouched(true);
+    setEnteredDescriptionTouched(true);
+    // setEnteredCreatedbyTouched(true);
+    setEnteredFromDateTouched(true);
+    setEnteredtoDateTouched(true);
+    // setCheckFromDateTouched(true);
+    // setCheckToDateTouched(true);
+    if(!enteredTitleIsValid){
+      return;
+    }
+    if(!enteredDescriptionIsValid){
+      return;
+    }
+    // if(!enteredCreatedByIsValid){
+    //   return;
+    // }
     if(!enteredFromDateIsValid){
       return;
     }
@@ -224,12 +365,13 @@ const TeachersCalendar = () => {
       setToText("");
       setEnteredTitleTouched(false);
       setEnteredDescriptionTouched(false);
+      // setEnteredCreatedbyTouched(false);
       setEnteredFromDateTouched(false);
       setEnteredtoDateTouched(false);
-      setForTransportList({ fontWeight: "bold", color: "black" });
-      setForTransportForm({ color: "black" });
-      setForTransportForm({ fontWeight: "bold", color: "black" });
-      setForTransportList({ color: "black" });
+      setForCalendarList({ fontWeight: "bold", color: "black" });
+      setForCalendarForm({ color: "black" });
+      setForCalendarForm({ fontWeight: "bold", color: "black" });
+      setForCalendarList({ color: "black" });
   }
   }
   function titleBlurHandler(){
@@ -238,6 +380,9 @@ const TeachersCalendar = () => {
   function descriptionBlurHandler(){
     setEnteredDescriptionTouched(true);
   }
+  // function createdbyBlurHandler(){
+  //   setEnteredCreatedbyTouched(true);
+  // }
   function fromDateBlurHandler(){
     setEnteredFromDateTouched(true);
   }
@@ -258,25 +403,67 @@ const TeachersCalendar = () => {
     setShowForm(false);
     setShowList(true);
   }
+
+  function editItem(id){ 
+    console.log(id);
+   const filteredDummuyData= data.find((data)=> data.id==id);
+   
+   setEnteredDescription(filteredDummuyData.description);
+  //  setEnteredcreatedby(filteredDummuyData.created_by);
+   setFromText(filteredDummuyData.startdate);
+   setToText(filteredDummuyData.enddate);
+   setEnteredTitle(filteredDummuyData.titlee);
+  //  setEnteredMobile(filteredDummuyData.exam_name);
+  //  setEnteredRouteName(filteredDummuyData.hour);
+   setForCalendarList({ fontWeight: "bold", color: "black" });
+   setForCalendarForm({ color: "black" });
+    setShowForm(true);
+    setShowList(false);
+    setIsEdit(true);
+  }
+  function deleteItem(id){
+    console.log(id);
+    const newFilteredData=data.filter((data)=>data.id != id);
+    async function storeData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+        };
+        // const dataForm = FormData;
+        const resLogin = await axios.delete(
+          `http://10.0.2.2:8000/school/Calendar/${id}/`,
+          // FormData,
+          {
+            headers: headers,
+          }
+        );
+        // const token = resLogin.data.token;
+        // const userId = resLogin.data.user_id;
+        console.log(resLogin.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    storeData();
+  }
   return (
     <>
       {/* <View style={styles.BtnContainer}>
         <BgButton>Add Event</BgButton>
       </View> */}
       <View style={styles.BtnContainer}>
-      
-      <BgButton onPress={showCalendarForm} style={forNoticeList}>
-        Add Homework
-      </BgButton>
-      <VerticalLine>|</VerticalLine>
-      <BgButton onPress={showCalendar} style={forNoticeForm}>
-        Show Homework
-    </BgButton>
-        </View>
-      <ScrollView>
+        <BgButton onPress={showCalendarForm} style={forCalendarList}>
+          Add Event
+        </BgButton>
+        <VerticalLine>|</VerticalLine>
+        <BgButton onPress={showCalendar} style={forCalendarForm}>
+          Show Event
+        </BgButton>
+      </View>
+      {showForm && <ScrollView>
         <View style={styles.inputForm}>
           <Input 
-            keyboardType="number-pad"
+            // keyboardType="number-pad"
             placeholder="Title"
             onChangeText={titleChangeHandler}
             blur={titleBlurHandler}
@@ -298,6 +485,18 @@ const TeachersCalendar = () => {
           {descriptionInputIsInValid && (
               <Text style={{ color: "red",left:20 }}>Enter description</Text>
             )}
+            {/* <Input 
+            // keyboardType="number-pad"
+            placeholder="created by"
+            onChangeText={createdByChangeHandler}
+            blur={createdbyBlurHandler}
+            value={createdby}
+            onSubmitEditing={Keyboard.dismiss}
+            style={createdByInputIsInValid && styles.errorBorderColor}
+          />
+          {createdByInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Created by</Text>
+            )} */}
           <View
             style={[{ flexDirection: "row"}]}>
             <View style={{ flex: 1 }}>
@@ -320,7 +519,6 @@ const TeachersCalendar = () => {
                 style={fromDateInputIsInValid && styles.errorBorderColor}
                 blur={fromDateBlurHandler}
                 onChangeText={frmDateHandler}
-                keyboardType="number-pad"
               />
               {fromDateInputIsInValid && (
                 <Text style={{ color: "red",left:20 }}>Enter from date</Text>
@@ -374,11 +572,71 @@ const TeachersCalendar = () => {
               )}
             </View>
           </View>
-          <View style={styles.btnSubmit}>
+          {!isEdit && <View style={styles.btnSubmit}>
             <Button onPress={buttonPressedHandler}>Add Event</Button>
-          </View>
+          </View>}
+          {isEdit && <View style={styles.btnSubmit}>
+            <Button onPress={ updateHandler}>Update</Button>
+          </View>}
         </View>
-      </ScrollView>
+      </ScrollView>}
+      {showList && 
+        <ScrollView horizontal={true}>
+        <DataTable>
+          <DataTable.Header style={styles.tableHeader}>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}>Title</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}>Description</Text>
+            </View>
+            {/* <View style={styles.th}>
+              <Text style={styles.tableTitle}>created by</Text>
+            </View> */}
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}>Start Date</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}>End Date</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}>Update</Text>
+            </View>
+            <View style={styles.th}>
+              <Text style={styles.tableTitle}>Delete</Text>
+            </View>
+          </DataTable.Header>
+          {data &&
+            data.map((data, key) => (
+              <DataTable.Row style={styles.tableRow}>
+                {/* <DataTable.Cell style={styles.tableCell}>
+                  {data.id}
+                </DataTable.Cell> */}
+                <DataTable.Cell style={styles.tableCell}>
+                 {data.titlee}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                 {data.description}
+                </DataTable.Cell>
+                {/* <DataTable.Cell style={styles.tableCell}>
+                 {data.created_by}
+                </DataTable.Cell> */}
+                <DataTable.Cell style={styles.tableCell}>
+                 {data.startdate}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                  {data.enddate}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                    <Btn title="Edit" onPress={()=> editItem(data.id)} />
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.tableCell}>
+                    <Btn title="Delete" onPress={()=> deleteItem(data.id)} />
+                </DataTable.Cell>
+              </DataTable.Row>
+            ))}
+        </DataTable>
+      </ScrollView>}
       {keyboardStatus == "Keyboard Hidden" && <TeachersHome />}
     </>
   );
@@ -389,6 +647,7 @@ export default TeachersCalendar;
 const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
+    flexDirection:'row'
   },
   home: {
     marginTop: 29,
@@ -417,5 +676,33 @@ const styles = StyleSheet.create({
   space: {
     width: 20,
     height: 20,
+  },
+  th: {
+    padding: 5,
+    
+    //fontSize: 24,
+  },
+  tableHeader: {
+    backgroundColor: "skyblue",
+
+    height: 50,
+    fontWeight: "bold",
+  },
+  tableTitle: {
+    // padding: 5,
+    margin: 7,
+    fontFamily: "MonsterratBold",
+    fontSize: 16,
+  },
+  tableCell: {
+    width: 50,
+    //  fontFamily: "Montserrat_600SemiBold",
+    left:5
+  },
+
+  tableRow: {
+    height: "9%",
+    borderBottomColor: "black",
+    borderBottomWidth: 2,
   },
 });

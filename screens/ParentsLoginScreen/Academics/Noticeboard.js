@@ -9,11 +9,19 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { ScrollView } from "react-native";
 import Input from "../../../components/UI/Input";
 import Button from "../../../components/UI/Button";
+import Toast from 'react-native-simple-toast';
 function Noticeboard() {
+  // const [forNoticeList, setForNoticeList] = useState({
+  //   color: "black",
+  //   fontWeight: "bold",
+  // });
+  const [showForm, setShowForm] = useState(true);
+  const [showList, setShowList] = useState(false);
   const [forNoticeList, setForNoticeList] = useState({
     color: "black",
     fontWeight: "bold",
   });
+  const [forNoticeForm, setForNoticeForm] = useState({ color: "black" });
   const [creatorofnotice, setCreatorOfNotice] = useState("");
   const [enteredCreatorOfNoticeTouched,setEnteredCreatorOfNoticeTouched]=useState(false)
   const enteredCreatorOfNoticeIsValid=creatorofnotice.trim()!=='';
@@ -29,9 +37,9 @@ function Noticeboard() {
   const enteredDescriptionIsValid=description.trim()!=='';
   const descriptionInputIsInValid=!enteredDescriptionIsValid && enteredDescriptionTouched;
 
-  const [forAddNotice, setForAddNotice] = useState({ color: "black" });
-  const [showForm, setShowForm] = useState(false);
-  const [showTable, setShowTable] = useState(true);
+  // const [forAddNotice, setForAddNotice] = useState({ color: "black" });
+  // const [showForm, setShowForm] = useState(false);
+  // const [showTable, setShowTable] = useState(true);
   const [fromShow, setFromShow] = useState(false);
   const [frommode, setFromMode] = useState("date");
   const [fromDate, setFromDate] = useState(new Date());
@@ -46,11 +54,9 @@ function Noticeboard() {
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
-      console.log(keyboardStatus)
     });
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
       setKeyboardStatus("Keyboard Hidden");
-      console.log(keyboardStatus)
     });
 
     return () => {
@@ -130,10 +136,19 @@ function Noticeboard() {
       return;
     }
     else{
+      Toast.show('Successfully Notice Added',Toast.LONG,[
+        'UIAlertController',
+      ]);
       setEnteredCreatorOfNoticeTouched(false);
       setEnteredTitleTouched(false);
       setEnteredDescriptionTouched(false);
       setEnteredFromDateTouched(false);
+      setShowForm(false);
+      setShowList(true);
+      setForNoticeList({ fontWeight: "bold", color: "black" });
+      setForNoticeForm({ color: "black" });
+      setForNoticeForm({ fontWeight: "bold", color: "black" });
+      setForNoticeList({ color: "black" });
     }
 
   }
@@ -152,9 +167,32 @@ function Noticeboard() {
   function datecreationInputBlur(){
     setEnteredFromDateTouched(true);
   }
+  function showNoticeForm() {
+    setForNoticeList({ fontWeight: "bold", color: "black" });
+    setForNoticeForm({ color: "black" });
+    setShowForm(true);
+    setShowList(false);
+    
+  }
+  function showNotice() {
+    setForNoticeForm({ fontWeight: "bold", color: "black" });
+    setForNoticeList({ color: "black" });
+    setShowForm(false);
+    setShowList(true);
+  }
   return (
     <>
-      <ScrollView>
+    <View style={styles.BtnContainer}>
+      
+      <BgButton onPress={showNoticeForm} style={forNoticeList}>
+        Add Notice
+      </BgButton>
+      <VerticalLine>|</VerticalLine>
+      <BgButton onPress={showNotice} style={forNoticeForm}>
+        Show Notice
+    </BgButton>
+    </View>
+      {showForm && <ScrollView>
         <View style={styles.root}>
           <Input 
             onSubmitEditing={Keyboard.dismiss} 
@@ -225,8 +263,13 @@ function Noticeboard() {
             <Button onPress={buttonPressedHandler}>Add Notice</Button>
           </View>
         </View>
-      </ScrollView>
-      {keyboardStatus=='Keyboard Hidden' && <View style={styles.home}>
+      </ScrollView>}
+      {showList && 
+        <View>
+          <Text>NoticeList</Text>
+        </View>
+      }
+      {showForm &&  keyboardStatus=='Keyboard Hidden' && <View style={styles.home}>
         <ParentsHome />
       </View>}
     </>
@@ -236,6 +279,10 @@ function Noticeboard() {
 export default Noticeboard;
 
 const styles = StyleSheet.create({
+  BtnContainer :{
+    fontSize: 24,
+    flexDirection:'row'
+  },
   root: {
     // backgroundColor: "skyblue",
     padding: 20,
