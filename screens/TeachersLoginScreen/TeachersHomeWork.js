@@ -101,6 +101,8 @@ const TeachersHomework = () => {
   const [isEdit,setIsEdit]=useState(false);
   const [isDelete,setIsDelete]=useState(false);
   const [tranportData, setTranportData] = useState([]);
+  const [isSame,SetIsSame]=useState(false);
+  let i=0;
   // useEffect(()=>{
   //   if(enteredSubjectIsValid && enteredFromDateIsValid && enteredtoDateIsValid && enteredRemarkIsValid && enteredHomeWorkIsValid){
   //     setFormIsValid(true);
@@ -120,7 +122,19 @@ const TeachersHomework = () => {
           `http://10.0.2.2:8000/school/Homework/`
         );
         setTranportData(res.data);
-        console.log(data)
+        let test=0;
+        const value = await AsyncStorage.getItem("key");
+        for(i=0;i<res.data.length;i++){
+          if(value==res.data[i].created_by){
+             test=res.data[i].created_by
+          }else{
+            // console.log('false')
+          }
+        }
+        if(test==value){
+          // console.log("is same")
+          SetIsSame(true);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -854,12 +868,12 @@ const TeachersHomework = () => {
             <View style={styles.th}>
               <Text style={styles.tableTitle}> Description</Text>
             </View>
-            <View style={styles.th}>
+            {isSame && <View style={styles.th}>
               <Text style={styles.tableTitle}> Update</Text>
-            </View>
-            <View style={styles.th}>
+            </View>}
+            {isSame && <View style={styles.th}>
               <Text style={styles.tableTitle}> Delete</Text>
-            </View>
+            </View>}
           </DataTable.Header>
 
           {tranportData &&
@@ -895,12 +909,12 @@ const TeachersHomework = () => {
                 <DataTable.Cell style={styles.tableCell}>
                   {tranportData.description}
                 </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
+                {isSame && <DataTable.Cell style={styles.tableCell}>
                   <Btn title="Edit" onPress={()=> editItem(tranportData.id)} />
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
+                </DataTable.Cell>}
+                {isSame && <DataTable.Cell style={styles.tableCell}>
                   <Btn title="Delete" onPress={()=> deleteItem(tranportData.id)} />
-              </DataTable.Cell>
+              </DataTable.Cell>}
               </DataTable.Row>
             ))}
         </DataTable>

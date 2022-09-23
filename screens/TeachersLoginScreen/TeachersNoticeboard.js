@@ -51,6 +51,8 @@ const TeachersNoticeboard = () => {
 
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [data, setData] = useState([]);
+  const [isSame,SetIsSame]=useState(false);
+  let i=0;
 
   useEffect(() => {
     async function fetchData() {
@@ -59,6 +61,19 @@ const TeachersNoticeboard = () => {
           `http://10.0.2.2:8000/school/NoticeBoard/`
         );
         setData(res.data);
+        let test=0;
+        const value = await AsyncStorage.getItem("key");
+        for(i=0;i<res.data.length;i++){
+          if(value==res.data[i].created_by){
+             test=res.data[i].created_by
+          }else{
+            // console.log('false')
+          }
+        }
+        if(test==value){
+          // console.log("is same")
+          SetIsSame(true);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -331,12 +346,12 @@ const TeachersNoticeboard = () => {
             <View style={styles.th}>
               <Text style={styles.tableTitle}>End Date</Text>
             </View>
-            <View style={styles.th}>
+            {isSame && <View style={styles.th}>
               <Text style={styles.tableTitle}>Update</Text>
-            </View>
-            <View style={styles.th}>
+            </View>}
+            {isSame && <View style={styles.th}>
               <Text style={styles.tableTitle}>Delete</Text>
-            </View>
+            </View>}
           </DataTable.Header>
           {data &&
             data.map((data, key) => (
@@ -359,12 +374,12 @@ const TeachersNoticeboard = () => {
                 <DataTable.Cell style={styles.tableCell}>
                   {data.enddate}
                 </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
+                {isSame && <DataTable.Cell style={styles.tableCell}>
                     <Btn title="Edit" onPress={()=> editItem(data.id)} />
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
+                </DataTable.Cell>}
+                {isSame && <DataTable.Cell style={styles.tableCell}>
                     <Btn title="Delete" onPress={()=> deleteItem(data.id)} />
-                </DataTable.Cell>
+                </DataTable.Cell>}
               </DataTable.Row>
             ))}
         </DataTable>

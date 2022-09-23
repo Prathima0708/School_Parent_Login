@@ -11,6 +11,7 @@ import VerticalLine from "../../components/UI/VerticalLine";
 import { FlatList } from "react-native";
 import { DataTable } from "react-native-paper";
 import data from '../../components/store/mockdata.json'
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // // import { withExpoSnack } from 'nativewind';
 // import { styled } from 'nativewind';
 
@@ -64,6 +65,8 @@ const TeachersTransport = () => {
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [data, setData] = useState([]);
   const [isEdit,setIsEdit]=useState(false);
+  const [isSame,SetIsSame]=useState(false);
+  let i=0;
   // const dummyData=[
   //   {
   //     id:"1",
@@ -83,7 +86,19 @@ const TeachersTransport = () => {
           `http://10.0.2.2:8000/school/Transportreport/`
         );
         setData(res.data);
-        console.log(data)
+        let test=0;
+        const value = await AsyncStorage.getItem("key");
+        for(i=0;i<res.data.length;i++){
+          if(value==res.data[i].created_by){
+             test=res.data[i].created_by
+          }else{
+            // console.log('false')
+          }
+        }
+        if(test==value){
+          // console.log("is same")
+          SetIsSame(true);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -531,6 +546,12 @@ const TeachersTransport = () => {
               <View style={styles.th}>
                 <Text style={styles.tableTitle}> STOP NAME</Text>
               </View>
+              {isSame && <View style={styles.th}>
+                <Text style={styles.tableTitle}> Update</Text>
+              </View>}
+              {isSame && <View style={styles.th}>
+                <Text style={styles.tableTitle}> Delete</Text>
+              </View>}
             </DataTable.Header>
 
             {data &&
@@ -560,12 +581,12 @@ const TeachersTransport = () => {
                   <DataTable.Cell style={styles.tableCell}>
                     {data.stop_name}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
+                  {isSame && <DataTable.Cell style={styles.tableCell}>
                     <Btn title="Edit" onPress={()=> editItem(data.id)} />
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
+                  </DataTable.Cell>}
+                  {isSame && <DataTable.Cell style={styles.tableCell}>
                     <Btn title="Delete" onPress={()=> deleteItem(data.id)} />
-                </DataTable.Cell>
+                </DataTable.Cell>}
                 </DataTable.Row>
               ))}
           </DataTable>
