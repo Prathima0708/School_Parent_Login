@@ -1,4 +1,12 @@
-import { View, StyleSheet, TextInput, Text, ScrollView, Alert,Button as Btn } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Text,
+  ScrollView,
+  Alert,
+  Button as Btn,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../components/UI/Button";
@@ -10,12 +18,11 @@ import { Ionicons } from "@expo/vector-icons";
 import TeachersHome from "./TeachersHome";
 import Input from "../../components/UI/Input";
 import { getMomentsAsync } from "expo-media-library";
-import moment from 'moment';
+import moment from "moment";
 import VerticalLine from "../../components/UI/VerticalLine";
 import { DataTable } from "react-native-paper";
 import FeedBackDialog from "../../components/UI/FeedBackDialog";
 const TeachersCalendar = () => {
-
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
   const [forCalendarList, setForCalendarList] = useState({
@@ -25,14 +32,16 @@ const TeachersCalendar = () => {
   const [forCalendarForm, setForCalendarForm] = useState({ color: "black" });
 
   const [title, setEnteredTitle] = useState("");
-  const [enteredTitleTouched,setEnteredTitleTouched]=useState(false)
-  const enteredTitleIsValid=title.trim()!=='';
-  const titleInputIsInValid=!enteredTitleIsValid && enteredTitleTouched;
+  const [enteredTitleTouched, setEnteredTitleTouched] = useState(false);
+  const enteredTitleIsValid = title.trim() !== "";
+  const titleInputIsInValid = !enteredTitleIsValid && enteredTitleTouched;
 
   const [description, setEnteredDescription] = useState("");
-  const [enteredDescriptionTouched,setEnteredDescriptionTouched]=useState(false)
-  const enteredDescriptionIsValid=description.trim()!=='';
-  const descriptionInputIsInValid=!enteredDescriptionIsValid && enteredDescriptionTouched;
+  const [enteredDescriptionTouched, setEnteredDescriptionTouched] =
+    useState(false);
+  const enteredDescriptionIsValid = description.trim() !== "";
+  const descriptionInputIsInValid =
+    !enteredDescriptionIsValid && enteredDescriptionTouched;
 
   // const [createdby, setEnteredcreatedby] = useState("");
   // const [enteredCreatedByTouched,setEnteredCreatedbyTouched]=useState(false)
@@ -49,26 +58,28 @@ const TeachersCalendar = () => {
   const [toShow, setToShow] = useState(false);
 
   const [fromText, setFromText] = useState("");
-  const [enteredFromDateTouched,setEnteredFromDateTouched]=useState(false);
-  const enteredFromDateIsValid=fromText.trim()!=='';
-  const fromDateInputIsInValid=!enteredFromDateIsValid && enteredFromDateTouched;
+  const [enteredFromDateTouched, setEnteredFromDateTouched] = useState(false);
+  const enteredFromDateIsValid = fromText.trim() !== "";
+  const fromDateInputIsInValid =
+    !enteredFromDateIsValid && enteredFromDateTouched;
 
   const [toText, setToText] = useState("");
-  const [enteredtoDateTouched,setEnteredtoDateTouched]=useState(false)
-  const enteredtoDateIsValid=toText.trim()!=='';
-  const toDateInputIsInValid=!enteredtoDateIsValid && enteredtoDateTouched;
+  const [enteredtoDateTouched, setEnteredtoDateTouched] = useState(false);
+  const enteredtoDateIsValid = toText.trim() !== "";
+  const toDateInputIsInValid = !enteredtoDateIsValid && enteredtoDateTouched;
 
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
-  const [dateIsInCorrect,setDateIsInCorrect]=useState(false);
+  const [dateIsInCorrect, setDateIsInCorrect] = useState(false);
   const [data, setData] = useState([]);
-  const [isEdit,setIsEdit]=useState(false);
-  const [isDelete,setIsDelete]=useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/Calendar/`
-        );
+        const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
+        console.log(res.data);
+        const id = res.data.map((id) => id.created_by);
+        console.log(id);
         setData(res.data);
       } catch (error) {
         console.log(error);
@@ -115,11 +126,11 @@ const TeachersCalendar = () => {
       (tempFromDate.getMonth() + 1) +
       "/" +
       tempFromDate.getFullYear();
-      if(event.type == "set") {
-        setFromText(fDate);
-      } else {
-          //cancel button clicked
-      }
+    if (event.type == "set") {
+      setFromText(fDate);
+    } else {
+      //cancel button clicked
+    }
 
     //console.log(fDate);
   };
@@ -136,12 +147,12 @@ const TeachersCalendar = () => {
       (tempToDate.getMonth() + 1) +
       "/" +
       tempToDate.getFullYear();
-      
-      if(event.type == "set") {
-        setToText(tDate);
-      } else {
-          //cancel button clicked
-      }
+
+    if (event.type == "set") {
+      setToText(tDate);
+    } else {
+      //cancel button clicked
+    }
     // console.log(fDate);
   };
 
@@ -154,10 +165,10 @@ const TeachersCalendar = () => {
   function createdByChangeHandler(enteredValue) {
     setEnteredcreatedby(enteredValue);
   }
-  function frmDateHandler(enteredValue){
+  function frmDateHandler(enteredValue) {
     setFromText(enteredValue);
   }
-  function toDateHandler(enteredValue){
+  function toDateHandler(enteredValue) {
     setToText(enteredValue);
   }
 
@@ -175,7 +186,7 @@ const TeachersCalendar = () => {
     console.log(FormData);
 
     var dateFromValidate = fromText;
-    var isValid = moment(dateFromValidate, 'D/M/YYYY',true).isValid()
+    var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
     if (!isValid) {
       Alert.alert(
         "Format Error",
@@ -184,15 +195,15 @@ const TeachersCalendar = () => {
           {
             text: "Cancel",
             onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
+            style: "cancel",
           },
-          { text: "OK", onPress: () => console.log("OK Pressed") }
+          { text: "OK", onPress: () => console.log("OK Pressed") },
         ]
       );
     }
 
     var dateToValidate = toText;
-    var isValid = moment(dateToValidate, 'D/M/YYYY',true).isValid()
+    var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
     if (!isValid) {
       Alert.alert(
         "Format Error",
@@ -201,9 +212,9 @@ const TeachersCalendar = () => {
           {
             text: "Cancel",
             onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
+            style: "cancel",
           },
-          { text: "OK", onPress: () => console.log("OK Pressed") }
+          { text: "OK", onPress: () => console.log("OK Pressed") },
         ]
       );
     }
@@ -214,24 +225,22 @@ const TeachersCalendar = () => {
     // setEnteredCreatedbyTouched(true);
     // setCheckFromDateTouched(true);
     // setCheckToDateTouched(true);
-    if(!enteredTitleIsValid){
+    if (!enteredTitleIsValid) {
       return;
     }
-    if(!enteredDescriptionIsValid){
+    if (!enteredDescriptionIsValid) {
       return;
     }
     // if(!enteredCreatedByIsValid){
     //   return;
     // }
-    if(!enteredFromDateIsValid){
-      return;
-    }
-    
-    if(!enteredtoDateIsValid){
+    if (!enteredFromDateIsValid) {
       return;
     }
 
-    else{
+    if (!enteredtoDateIsValid) {
+      return;
+    } else {
       async function storeData() {
         try {
           let headers = {
@@ -266,7 +275,7 @@ const TeachersCalendar = () => {
       setForCalendarForm({ color: "black" });
       setForCalendarForm({ fontWeight: "bold", color: "black" });
       setForCalendarList({ color: "black" });
-  }
+    }
   }
 
   function buttonPressedHandler() {
@@ -281,7 +290,7 @@ const TeachersCalendar = () => {
     console.log(FormData);
 
     var dateFromValidate = fromText;
-    var isValid = moment(dateFromValidate, 'D/M/YYYY',true).isValid()
+    var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
     if (!isValid) {
       Alert.alert(
         "Format Error",
@@ -290,15 +299,15 @@ const TeachersCalendar = () => {
           {
             text: "Cancel",
             onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
+            style: "cancel",
           },
-          { text: "OK", onPress: () => console.log("OK Pressed") }
+          { text: "OK", onPress: () => console.log("OK Pressed") },
         ]
       );
     }
 
     var dateToValidate = toText;
-    var isValid = moment(dateToValidate, 'D/M/YYYY',true).isValid()
+    var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
     if (!isValid) {
       Alert.alert(
         "Format Error",
@@ -307,9 +316,9 @@ const TeachersCalendar = () => {
           {
             text: "Cancel",
             onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
+            style: "cancel",
           },
-          { text: "OK", onPress: () => console.log("OK Pressed") }
+          { text: "OK", onPress: () => console.log("OK Pressed") },
         ]
       );
     }
@@ -320,24 +329,22 @@ const TeachersCalendar = () => {
     setEnteredtoDateTouched(true);
     // setCheckFromDateTouched(true);
     // setCheckToDateTouched(true);
-    if(!enteredTitleIsValid){
+    if (!enteredTitleIsValid) {
       return;
     }
-    if(!enteredDescriptionIsValid){
+    if (!enteredDescriptionIsValid) {
       return;
     }
     // if(!enteredCreatedByIsValid){
     //   return;
     // }
-    if(!enteredFromDateIsValid){
-      return;
-    }
-    
-    if(!enteredtoDateIsValid){
+    if (!enteredFromDateIsValid) {
       return;
     }
 
-    else{
+    if (!enteredtoDateIsValid) {
+      return;
+    } else {
       async function storeData() {
         try {
           let headers = {
@@ -372,21 +379,21 @@ const TeachersCalendar = () => {
       setForCalendarForm({ color: "black" });
       setForCalendarForm({ fontWeight: "bold", color: "black" });
       setForCalendarList({ color: "black" });
+    }
   }
-  }
-  function titleBlurHandler(){
+  function titleBlurHandler() {
     setEnteredTitleTouched(true);
   }
-  function descriptionBlurHandler(){
+  function descriptionBlurHandler() {
     setEnteredDescriptionTouched(true);
   }
   // function createdbyBlurHandler(){
   //   setEnteredCreatedbyTouched(true);
   // }
-  function fromDateBlurHandler(){
+  function fromDateBlurHandler() {
     setEnteredFromDateTouched(true);
   }
-  function toDateBlurHandler(){
+  function toDateBlurHandler() {
     setEnteredtoDateTouched(true);
   }
 
@@ -395,7 +402,6 @@ const TeachersCalendar = () => {
     setForCalendarForm({ color: "black" });
     setShowForm(true);
     setShowList(false);
-    
   }
   function showCalendar() {
     setForCalendarForm({ fontWeight: "bold", color: "black" });
@@ -404,26 +410,26 @@ const TeachersCalendar = () => {
     setShowList(true);
   }
 
-  function editItem(id){ 
+  function editItem(id) {
     console.log(id);
-   const filteredDummuyData= data.find((data)=> data.id==id);
-   
-   setEnteredDescription(filteredDummuyData.description);
-  //  setEnteredcreatedby(filteredDummuyData.created_by);
-   setFromText(filteredDummuyData.startdate);
-   setToText(filteredDummuyData.enddate);
-   setEnteredTitle(filteredDummuyData.titlee);
-  //  setEnteredMobile(filteredDummuyData.exam_name);
-  //  setEnteredRouteName(filteredDummuyData.hour);
-   setForCalendarList({ fontWeight: "bold", color: "black" });
-   setForCalendarForm({ color: "black" });
+    const filteredDummuyData = data.find((data) => data.id == id);
+
+    setEnteredDescription(filteredDummuyData.description);
+    //  setEnteredcreatedby(filteredDummuyData.created_by);
+    setFromText(filteredDummuyData.startdate);
+    setToText(filteredDummuyData.enddate);
+    setEnteredTitle(filteredDummuyData.titlee);
+    //  setEnteredMobile(filteredDummuyData.exam_name);
+    //  setEnteredRouteName(filteredDummuyData.hour);
+    setForCalendarList({ fontWeight: "bold", color: "black" });
+    setForCalendarForm({ color: "black" });
     setShowForm(true);
     setShowList(false);
     setIsEdit(true);
   }
-  function deleteItem(id){
+  function deleteItem(id) {
     console.log(id);
-    const newFilteredData=data.filter((data)=>data.id != id);
+    const newFilteredData = data.filter((data) => data.id != id);
     async function storeData() {
       try {
         let headers = {
@@ -460,30 +466,31 @@ const TeachersCalendar = () => {
           Show Event
         </BgButton>
       </View>
-      {showForm && <ScrollView>
-        <View style={styles.inputForm}>
-          <Input 
-            // keyboardType="number-pad"
-            placeholder="Title"
-            onChangeText={titleChangeHandler}
-            blur={titleBlurHandler}
-            value={title}
-            onSubmitEditing={Keyboard.dismiss}
-            style={titleInputIsInValid && styles.errorBorderColor}
-          />
-          {titleInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter the title</Text>
+      {showForm && (
+        <ScrollView>
+          <View style={styles.inputForm}>
+            <Input
+              // keyboardType="number-pad"
+              placeholder="Title"
+              onChangeText={titleChangeHandler}
+              blur={titleBlurHandler}
+              value={title}
+              onSubmitEditing={Keyboard.dismiss}
+              style={titleInputIsInValid && styles.errorBorderColor}
+            />
+            {titleInputIsInValid && (
+              <Text style={{ color: "red", left: 20 }}>Enter the title</Text>
             )}
-          <Input 
-            placeholder="Description"
-            onChangeText={descriptionChangeHandler}
-            blur={descriptionBlurHandler}
-            value={description}
-            onSubmitEditing={Keyboard.dismiss}
-            style={descriptionInputIsInValid && styles.errorBorderColor}
-          />
-          {descriptionInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter description</Text>
+            <Input
+              placeholder="Description"
+              onChangeText={descriptionChangeHandler}
+              blur={descriptionBlurHandler}
+              value={description}
+              onSubmitEditing={Keyboard.dismiss}
+              style={descriptionInputIsInValid && styles.errorBorderColor}
+            />
+            {descriptionInputIsInValid && (
+              <Text style={{ color: "red", left: 20 }}>Enter description</Text>
             )}
             {/* <Input 
             // keyboardType="number-pad"
@@ -497,146 +504,153 @@ const TeachersCalendar = () => {
           {createdByInputIsInValid && (
               <Text style={{ color: "red",left:20 }}>Created by</Text>
             )} */}
-          <View
-            style={[{ flexDirection: "row"}]}>
-            <View style={{ flex: 1 }}>
-              <View>
-                <Ionicons
-                  style={{
-                    position:'absolute',
-                    top:22,
-                  }}
-                  name="calendar"
-                  size={24}
-                  color="black"
-                  onPress={() => showFromMode("date")}
+            <View style={[{ flexDirection: "row" }]}>
+              <View style={{ flex: 1 }}>
+                <View>
+                  <Ionicons
+                    style={{
+                      position: "absolute",
+                      top: 22,
+                    }}
+                    name="calendar"
+                    size={24}
+                    color="black"
+                    onPress={() => showFromMode("date")}
+                  />
+                </View>
+                <Input
+                  value={fromText || fromDate}
+                  placeholder="D/M/YYYY"
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={fromDateInputIsInValid && styles.errorBorderColor}
+                  blur={fromDateBlurHandler}
+                  onChangeText={frmDateHandler}
                 />
+                {fromDateInputIsInValid && (
+                  <Text style={{ color: "red", left: 20 }}>
+                    Enter from date
+                  </Text>
+                )}
+                {fromShow && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={fromDate}
+                    mode={frommode}
+                    is24Hour={true}
+                    display="default"
+                    onChange={fromDateChangeHandler}
+                  />
+                )}
               </View>
-              <Input 
-                value={fromText || fromDate} 
-                placeholder='D/M/YYYY'
-                onSubmitEditing={Keyboard.dismiss}
-                style={fromDateInputIsInValid && styles.errorBorderColor}
-                blur={fromDateBlurHandler}
-                onChangeText={frmDateHandler}
-              />
-              {fromDateInputIsInValid && (
-                <Text style={{ color: "red",left:20 }}>Enter from date</Text>
-              )}
-              {fromShow && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={fromDate}
-                  mode={frommode}
-                  is24Hour={true}
-                  display="default"
-                  onChange={fromDateChangeHandler}
+              <View style={styles.space} />
+              <View style={{ flex: 1 }}>
+                <View>
+                  <Ionicons
+                    style={{
+                      position: "absolute",
+                      top: 22,
+                    }}
+                    name="calendar"
+                    size={24}
+                    color="black"
+                    onPress={() => showToMode("date")}
+                  />
+                </View>
+                <Input
+                  value={toText || toDate}
+                  placeholder="D/M/YYYY"
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={toDateInputIsInValid && styles.errorBorderColor}
+                  blur={toDateBlurHandler}
+                  onChangeText={toDateHandler}
                 />
-              )}
+                {toDateInputIsInValid && (
+                  <Text style={{ color: "red", left: 20 }}>Enter to date</Text>
+                )}
+                {toShow && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={toDate}
+                    mode={tomode}
+                    is24Hour={true}
+                    display="default"
+                    onChange={toDateChangeHandler}
+                    //  minimumDate={fromDate}
+                  />
+                )}
+              </View>
             </View>
-            <View style={styles.space} />
-            <View style={{ flex: 1 }}>
-              <View>
-                <Ionicons
-                  style={{
-                    position:'absolute',
-                    top:22,
-                  }}
-                  name="calendar"
-                  size={24}
-                  color="black"
-                  onPress={() => showToMode("date")}
-                />
+            {!isEdit && (
+              <View style={styles.btnSubmit}>
+                <Button onPress={buttonPressedHandler}>Add Event</Button>
               </View>
-              <Input 
-                value={toText || toDate}
-                placeholder="D/M/YYYY" 
-                onSubmitEditing={Keyboard.dismiss}
-                style={toDateInputIsInValid && styles.errorBorderColor}
-                blur={toDateBlurHandler}
-                onChangeText={toDateHandler}
-              />
-              {toDateInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter to date</Text>
             )}
-              {toShow && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={toDate}
-                  mode={tomode}
-                  is24Hour={true}
-                  display="default"
-                  onChange={toDateChangeHandler}
-                  //  minimumDate={fromDate}
-                />
-              )}
-            </View>
+            {isEdit && (
+              <View style={styles.btnSubmit}>
+                <Button onPress={updateHandler}>Update</Button>
+              </View>
+            )}
           </View>
-          {!isEdit && <View style={styles.btnSubmit}>
-            <Button onPress={buttonPressedHandler}>Add Event</Button>
-          </View>}
-          {isEdit && <View style={styles.btnSubmit}>
-            <Button onPress={ updateHandler}>Update</Button>
-          </View>}
-        </View>
-      </ScrollView>}
-      {showList && 
+        </ScrollView>
+      )}
+      {showList && (
         <ScrollView horizontal={true}>
-        <DataTable>
-          <DataTable.Header style={styles.tableHeader}>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}>Title</Text>
-            </View>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}>Description</Text>
-            </View>
-            {/* <View style={styles.th}>
+          <DataTable>
+            <DataTable.Header style={styles.tableHeader}>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}>Title</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}>Description</Text>
+              </View>
+              {/* <View style={styles.th}>
               <Text style={styles.tableTitle}>created by</Text>
             </View> */}
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}>Start Date</Text>
-            </View>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}>End Date</Text>
-            </View>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}>Update</Text>
-            </View>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}>Delete</Text>
-            </View>
-          </DataTable.Header>
-          {data &&
-            data.map((data, key) => (
-              <DataTable.Row style={styles.tableRow}>
-                {/* <DataTable.Cell style={styles.tableCell}>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}>Start Date</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}>End Date</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}>Update</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}>Delete</Text>
+              </View>
+            </DataTable.Header>
+            {data &&
+              data.map((data, key) => (
+                <DataTable.Row style={styles.tableRow}>
+                  {/* <DataTable.Cell style={styles.tableCell}>
                   {data.id}
                 </DataTable.Cell> */}
-                <DataTable.Cell style={styles.tableCell}>
-                 {data.titlee}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
-                 {data.description}
-                </DataTable.Cell>
-                {/* <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.titlee}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.description}
+                  </DataTable.Cell>
+                  {/* <DataTable.Cell style={styles.tableCell}>
                  {data.created_by}
                 </DataTable.Cell> */}
-                <DataTable.Cell style={styles.tableCell}>
-                 {data.startdate}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
-                  {data.enddate}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
-                    <Btn title="Edit" onPress={()=> editItem(data.id)} />
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
-                    <Btn title="Delete" onPress={()=> deleteItem(data.id)} />
-                </DataTable.Cell>
-              </DataTable.Row>
-            ))}
-        </DataTable>
-      </ScrollView>}
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.startdate}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.enddate}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    <Btn title="Edit" onPress={() => editItem(data.id)} />
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    <Btn title="Delete" onPress={() => deleteItem(data.id)} />
+                  </DataTable.Cell>
+                </DataTable.Row>
+              ))}
+          </DataTable>
+        </ScrollView>
+      )}
       {keyboardStatus == "Keyboard Hidden" && <TeachersHome />}
     </>
   );
@@ -647,7 +661,7 @@ export default TeachersCalendar;
 const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
-    flexDirection:'row'
+    flexDirection: "row",
   },
   home: {
     marginTop: 29,
@@ -659,7 +673,7 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 5,
   },
-  errorBorderColor:{
+  errorBorderColor: {
     color: "black",
     borderBottomWidth: 1,
     borderColor: "red",
@@ -679,7 +693,7 @@ const styles = StyleSheet.create({
   },
   th: {
     padding: 5,
-    
+
     //fontSize: 24,
   },
   tableHeader: {
@@ -697,7 +711,7 @@ const styles = StyleSheet.create({
   tableCell: {
     width: 50,
     //  fontFamily: "Montserrat_600SemiBold",
-    left:5
+    left: 5,
   },
 
   tableRow: {

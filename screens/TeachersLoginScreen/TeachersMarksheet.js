@@ -1,4 +1,11 @@
-// import { View, Text, TextInput, Pressable, ScrollView, StyleSheet } from "react-native";
+// import {
+//   View,
+//   Text,
+//   TextInput,
+//   Pressable,
+//   ScrollView,
+//   StyleSheet,
+// } from "react-native";
 // import React, { useEffect } from "react";
 // import { AntDesign } from "@expo/vector-icons";
 // import { useState } from "react";
@@ -12,19 +19,23 @@
 // import Input from "../../components/UI/Input";
 // const TeachersMarksheet = () => {
 //   const [studentname, setEnteredStudentName] = useState("");
-//   const [enteredStudentnameTouched,setEnteredStudentnameTouched]=useState(false)
-//   const enteredStudentnameIsValid=studentname.trim()!=='';
-//   const studentnameInputIsInValid=!enteredStudentnameIsValid && enteredStudentnameTouched;
+//   const [enteredStudentnameTouched, setEnteredStudentnameTouched] =
+//     useState(false);
+//   const enteredStudentnameIsValid = studentname.trim() !== "";
+//   const studentnameInputIsInValid =
+//     !enteredStudentnameIsValid && enteredStudentnameTouched;
 
 //   const [overallperct, setEnteredOverallPerct] = useState("");
-//   const [enteredOverallPercentageTouched,setEnteredOverallPercentageTouched]=useState(false)
-//   const enteredOverallPercentageIsValid=overallperct.trim()!=='';
-//   const overallpercentageInputIsInValid=!enteredOverallPercentageIsValid && enteredOverallPercentageTouched;
+//   const [enteredOverallPercentageTouched, setEnteredOverallPercentageTouched] =
+//     useState(false);
+//   const enteredOverallPercentageIsValid = overallperct.trim() !== "";
+//   const overallpercentageInputIsInValid =
+//     !enteredOverallPercentageIsValid && enteredOverallPercentageTouched;
 
 //   const [remark, setEnteredRemark] = useState("");
-//   const [enteredReamrkTouched,setEnteredReamrkTouched]=useState(false)
-//   const enteredReamrkIsValid=remark.trim()!=='';
-//   const remarkInputIsInValid=!enteredReamrkIsValid && enteredReamrkTouched;
+//   const [enteredReamrkTouched, setEnteredReamrkTouched] = useState(false);
+//   const enteredReamrkIsValid = remark.trim() !== "";
+//   const remarkInputIsInValid = !enteredReamrkIsValid && enteredReamrkTouched;
 
 //   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
@@ -65,16 +76,15 @@
 //     setEnteredOverallPercentageTouched(true);
 //     setEnteredReamrkTouched(true);
 
-//     if(!enteredStudentnameIsValid){
+//     if (!enteredStudentnameIsValid) {
 //       return;
 //     }
-//     if(!enteredOverallPercentageIsValid){
+//     if (!enteredOverallPercentageIsValid) {
 //       return;
 //     }
-//     if(!enteredReamrkIsValid){
+//     if (!enteredReamrkIsValid) {
 //       return;
-//     }
-//     else{
+//     } else {
 //       async function storeData() {
 //         try {
 //           let headers = {
@@ -105,13 +115,13 @@
 //     }
 //   }
 
-//   function studentnameBlurHandler(){
+//   function studentnameBlurHandler() {
 //     setEnteredStudentnameTouched(true);
 //   }
-//   function overallpercentageBlurHandler(){
+//   function overallpercentageBlurHandler() {
 //     setEnteredOverallPercentageTouched(true);
 //   }
-//   function remarkBlurHandler(){
+//   function remarkBlurHandler() {
 //     setEnteredReamrkTouched(true);
 //   }
 
@@ -121,7 +131,7 @@
 //         <BgButton>Add Marksheet</BgButton>
 //       </View> */}
 
-//       <ScrollView>
+//       <ScrollView style={{ backgroundColor: "white" }}>
 //         <View style={styles.inputForm}>
 //           <Input
 //             placeholder="Student Name"
@@ -132,19 +142,21 @@
 //             style={studentnameInputIsInValid && styles.errorBorderColor}
 //           />
 //           {studentnameInputIsInValid && (
-//               <Text style={{ color: "red",left:20 }}>Enter student name</Text>
+//             <Text style={{ color: "red", left: 20 }}>Enter student name</Text>
 //           )}
 
 //           <Input
-//              placeholder="Overall Percentage"
-//              onChangeText={percentageChangeHandler}
-//              blur={overallpercentageBlurHandler}
-//              value={overallperct}
-//              onSubmitEditing={Keyboard.dismiss}
-//              style={overallpercentageInputIsInValid && styles.errorBorderColor}
+//             placeholder="Overall Percentage"
+//             onChangeText={percentageChangeHandler}
+//             blur={overallpercentageBlurHandler}
+//             value={overallperct}
+//             onSubmitEditing={Keyboard.dismiss}
+//             style={overallpercentageInputIsInValid && styles.errorBorderColor}
 //           />
 //           {overallpercentageInputIsInValid && (
-//               <Text style={{ color: "red",left:20 }}>Enter overall percentage</Text>
+//             <Text style={{ color: "red", left: 20 }}>
+//               Enter overall percentage
+//             </Text>
 //           )}
 
 //           <Input
@@ -156,8 +168,8 @@
 //             style={remarkInputIsInValid && styles.errorBorderColor}
 //           />
 //           {remarkInputIsInValid && (
-//               <Text style={{ color: "red",left:20 }}>Enter remark</Text>
-//             )}
+//             <Text style={{ color: "red", left: 20 }}>Enter remark</Text>
+//           )}
 
 //           <View style={styles.btnSubmit}>
 //             <Button onPress={buttonPressedHandler}>Add Marksheet</Button>
@@ -170,7 +182,8 @@
 //         </View>
 //       )}
 //     </>
-//   )}
+//   );
+// };
 
 // export default TeachersMarksheet;
 
@@ -188,7 +201,7 @@
 //     padding: 20,
 //     paddingTop: 5,
 //   },
-//   errorBorderColor:{
+//   errorBorderColor: {
 //     color: "black",
 //     borderBottomWidth: 1,
 //     borderColor: "red",
@@ -204,201 +217,865 @@
 //   },
 // });
 
-// import { View, Text, Pressable, TextInput, ScrollView } from "react-native";
-// import React, { useRef, useState } from "react";
-// import { AntDesign } from "@expo/vector-icons";
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Text,
+  ScrollView,
+  Button as Btn,
+  Alert,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import Button from "../../components/UI/Button";
+import axios from "axios";
+import { Keyboard } from "react-native";
+import { UserId } from "../Login";
+import BgButton from "../../components/UI/BgButton";
+import TeachersHome from "./TeachersHome";
+import Input from "../../components/UI/Input";
+import VerticalLine from "../../components/UI/VerticalLine";
+import { FlatList } from "react-native";
+import { DataTable } from "react-native-paper";
 
-// const TeachersMarksheet = () => {
-//   const [textValue, setTextValue] = useState("");
-
-//   const [numInputs, setNumInputs] = useState(1);
-
-//   const refInputs = useRef([textValue]);
-
-//   const inputs = [];
-//   for (let i = 0; i < numInputs; i++) {
-//     inputs.push(
-//       <View key={i} style={{ flexDirection: "row", alignItems: "center" }}>
-//         <Text>{i + 1}.</Text>
-//         <TextInput
-//           onChangeText={(value) => setInputValue(i, value)}
-//           value={refInputs.current[i]}
-//           placeholder="placeholder"
-//         />
-//         <TextInput
-//           onChangeText={(value) => setInputValue(i, value)}
-//           value={refInputs.current[i]}
-//           placeholder="tue"
-//         />
-//         {/* To remove the input */}
-//         <Pressable onPress={() => removeInput(i)} style={{ marginLeft: 5 }}>
-//           <AntDesign name="minuscircleo" size={20} color="red" />
-//         </Pressable>
-//       </View>
-//     );
-//   }
-
-//   const setInputValue = (index, value) => {
-//     // first, we are storing input value to refInputs array to track them
-//     const inputs = refInputs.current;
-//     inputs[index] = value;
-//     // we are also setting the text value to the input field onChangeText
-//     setTextValue(value);
-//   };
-
-//   const addInput = () => {
-//     // add a new element in our refInputs array
-//     refInputs.current.push("");
-//     // increase the number of inputs
-//     setNumInputs((value) => value + 1);
-//   };
-
-//   const removeInput = (i) => {
-//     // remove from the array by index value
-//     refInputs.current.splice(i, 1)[0];
-//     // decrease the number of inputs
-//     setNumInputs((value) => value - 1);
-//   };
-//   return (
-//     <View>
-//       <ScrollView>
-//         {inputs}
-//         <Pressable onPress={addInput}>
-//           <Text style={{ color: "white", fontWeight: "bold" }}>
-//             + Add a new input
-//           </Text>
-//         </Pressable>
-//         <View style={{ marginTop: 25 }}>
-//           <Text>You have answered:</Text>
-//           {refInputs.current.map((value, i) => {
-//             return <Text key={i}>{`${i + 1} - ${value}`}</Text>;
-//           })}
-//         </View>
-//       </ScrollView>
-//     </View>
-//   );
-// };
-
-// export default TeachersMarksheet;
-
-// import { View, Text, TextInput, Button } from "react-native";
-// import React, { useState } from "react";
-// import { v4 as uuidv4 } from "uuid";
-
-// const TeachersMarksheet = () => {
-//   const [inputFields, setInputFields] = useState([
-//     { id: uuidv4(), firstName: "", lastName: "" },
-//   ]);
-
-//   const handleSubmit = () => {
-//     //   e.preventDefault();
-//     console.log("InputFields", inputFields);
-//   };
-
-//   const handleChangeInput = (value, i) => {
-//     const newInputFields = [...inputFields];
-//     newInputFields[i] = value;
-
-//     setInputFields(newInputFields);
-//   };
-
-//   // const handleChangeInput = (name, value) => {
-//   //   setInputFields({
-//   //     ...inputFields,
-//   //     [name]: value,
-//   //   });
-//   // };
-
-//   // const inputHandler = (text, key) => {
-//   //   const _inputs = [...inputs];
-//   //   _inputs[key].value = text;
-//   //   _inputs[key].key = key;
-//   //   setInputs(_inputs);
-//   // };
-
-//   const handleAddFields = () => {
-//     setInputFields([
-//       ...inputFields,
-//       { id: uuidv4(), firstName: "", lastName: "" },
-//     ]);
-//   };
-//   const handleRemoveFields = (id) => {
-//     const values = [...inputFields];
-//     values.splice(
-//       values.findIndex((value) => value.id === id),
-//       1
-//     );
-//     setInputFields(values);
-//   };
-//   return (
-//     <View>
-//       {inputFields.map((inputField) => (
-//         <View key={inputField.id}>
-//           <TextInput
-//             value={inputField.firstName}
-//             onChangeText={(event) => handleChangeInput(inputField.id, event)}
-//           />
-//           {/* <TextInput
-//             value={inputField.lastName}
-//             onChangeText={(event) => handleChangeInput(inputField.id, event)}
-//           /> */}
-//           <TextInput
-//             value={inputField.lastName}
-//             onChangeText={(event) => handleChangeInput(inputField.id, event)}
-//           />
-//           <Button
-//             title="Remove"
-//             // disabled={inputFields.length === 1}
-//             onPress={() => handleRemoveFields(inputField.id)}
-//           />
-
-//           <Button title="Add" onPress={handleAddFields} />
-//         </View>
-//       ))}
-//       <Button title="Submit" onPress={handleSubmit} />
-//     </View>
-//   );
-// };
-
-// export default TeachersMarksheet;
-
-import { View, Text, TextInput, Button } from "react-native";
-import React from "react";
-import { useState } from "react";
-
+import SelectList from "react-native-dropdown-select-list";
+import { Ionicons } from "@expo/vector-icons";
 const TeachersMarksheet = () => {
-  const [formFields, setFormfileds] = useState([{ monday: "", tuesday: "" }]);
-  const handleFormChange = (text, index) => {
-    // console.log(index, text);
-    let data = [...formFields];
-    data[index].monday = monday;
-    data[index].tuesday = tuesday;
-  };
+  const [mathsMarks, setMathsMarks] = useState("");
+  const [enteredMathsMarksTouched, setEnteredMathsMarksTouched] =
+    useState(false);
+  const enteredMathsMarksIsValid = mathsMarks.trim() !== "";
+  const mathsMarksInputIsInValid =
+    !enteredMathsMarksIsValid && enteredMathsMarksTouched;
+
+  const [engMarks, setEngMarks] = useState("");
+  const [enteredEngMarksTouched, setEnteredEngMarksTouched] = useState(false);
+  const enteredEngMarksIsValid = engMarks.trim() !== "";
+  const engMarksInputIsInValid =
+    !enteredEngMarksIsValid && enteredEngMarksTouched;
+
+  const [sciMarks, setSciMarks] = useState("");
+  const [enteredSciMarksTouched, setEnteredSciMarksTouched] = useState(false);
+  const enteredSciMarksIsValid = sciMarks.trim() !== "";
+  const sciMarksInputIsInValid =
+    !enteredSciMarksIsValid && enteredSciMarksTouched;
+
+  const [hindiMarks, setHindiMarks] = useState("");
+  const [enteredHindiMarksTouched, setEnteredHindiMarksTouched] =
+    useState(false);
+  const enteredHindiMarksIsValid = hindiMarks.trim() !== "";
+  const hindiMarksInputIsInValid =
+    !enteredHindiMarksIsValid && enteredHindiMarksTouched;
+
+  const [socMarks, setSocMarks] = useState("");
+  const [enteredSocMarksTouched, setEnteredSocMarksTouched] = useState(false);
+  const enteredSocMarksIsValid = socMarks.trim() !== "";
+  const socMarksInputIsInValid =
+    !enteredSocMarksIsValid && enteredSocMarksTouched;
+
+  const [kanMarks, setKanMarks] = useState("");
+  const [enteredKanMarksTouched, setEnteredKanMarksTouched] = useState(false);
+  const enteredKanMarksIsValid = kanMarks.trim() !== "";
+  const kanMarksInputIsInValid =
+    !enteredKanMarksIsValid && enteredKanMarksTouched;
+
+  const [compMarks, setCompMarks] = useState("");
+  const [enteredCompMarksTouched, setEnteredCompMarksTouched] = useState(false);
+  const enteredCompMarksIsValid = compMarks.trim() !== "";
+  const compMarksInputIsInValid =
+    !enteredCompMarksIsValid && enteredCompMarksTouched;
+
+  const [overallperct, setEnteredOverallPerct] = useState("");
+  const [enteredOverallPercentageTouched, setEnteredOverallPercentageTouched] =
+    useState(false);
+  const enteredOverallPercentageIsValid = overallperct.trim() !== "";
+  const overallpercentageInputIsInValid =
+    !enteredOverallPercentageIsValid && enteredOverallPercentageTouched;
+
+  const [remark, setEnteredRemark] = useState("");
+  const [enteredReamrkTouched, setEnteredReamrkTouched] = useState(false);
+  const enteredReamrkIsValid = remark.trim() !== "";
+  const remarkInputIsInValid = !enteredReamrkIsValid && enteredReamrkTouched;
+
+  const [showForm, setShowForm] = useState(false);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [showBtn, setShowBtn] = useState(true);
+  const [showMarksheet, setShowMarksheet] = useState(false);
+
+  const [forTransportList, setForTransportList] = useState({
+    color: "black",
+    fontWeight: "bold",
+  });
+  const [forTransportForm, setForTransportForm] = useState({ color: "black" });
+
+  const [selected, setSelected] = useState("");
+  const [studData, setStudData] = useState([]);
+
+  const [studList, setStudList] = useState([]);
+  const [marksheetData, setMarksheetData] = useState([]);
+
+  function mathsMarksChangeHandler(enteredValue) {
+    setMathsMarks(enteredValue);
+  }
+  function engMarksChangeHandler(enteredValue) {
+    setEngMarks(enteredValue);
+  }
+  function sciMarksChangeHandler(enteredValue) {
+    setSciMarks(enteredValue);
+  }
+  function hindiMarksChangeHandler(enteredValue) {
+    setHindiMarks(enteredValue);
+  }
+  function socMarksChangeHandler(enteredValue) {
+    setSocMarks(enteredValue);
+  }
+  function kanMarksChangeHandler(enteredValue) {
+    setKanMarks(enteredValue);
+  }
+  function compMarksChangeHandler(enteredValue) {
+    setCompMarks(enteredValue);
+  }
+  function percentageChangeHandler(enteredValue) {
+    setEnteredOverallPerct(enteredValue);
+  }
+  function remarkChangeHandler(enteredValue) {
+    setEnteredRemark(enteredValue);
+  }
+
+  function mathsMarksBlurHandler() {
+    setEnteredMathsMarksTouched(true);
+  }
+  function engMarksBlurHandler() {
+    setEnteredEngMarksTouched(true);
+  }
+  function sciMarksBlurHandler() {
+    setEnteredSciMarksTouched(true);
+  }
+  function hindiMarksBlurHandler() {
+    setEnteredHindiMarksTouched(true);
+  }
+  function socMarksBlurHandler() {
+    setEnteredSocMarksTouched(true);
+  }
+  function kanMarksBlurHandler() {
+    setEnteredKanMarksTouched(true);
+  }
+  function compMarksBlurHandler() {
+    setEnteredCompMarksTouched(true);
+  }
+  function overallpercentageBlurHandler() {
+    setEnteredOverallPercentageTouched(true);
+  }
+  function remarkBlurHandler() {
+    setEnteredReamrkTouched(true);
+  }
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
+  //       setMarksheetData(res.data);
+  //       console.log(data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  //   fetchData();
+  // }, []);
+
+  function buttonPressedHandler() {
+    // console.log(UserId);
+    const FormData = {
+      maths_obt_mark: mathsMarks,
+      english_obt_mark: engMarks,
+      science_obt_mark: sciMarks,
+      hindi_obt_mark: hindiMarks,
+      social_obt_mark: socMarks,
+      kannada_obt_mark: kanMarks,
+      computer_obt_mark: compMarks,
+    };
+    console.log(FormData);
+
+    setEnteredMathsMarksTouched(true);
+    setEnteredSciMarksTouched(true);
+    setEnteredEngMarksTouched(true);
+    setEnteredHindiMarksTouched(true);
+    setEnteredSocMarksTouched(true);
+    setEnteredKanMarksTouched(true);
+    setEnteredCompMarksTouched(true);
+    setEnteredOverallPercentageTouched(true);
+    setEnteredReamrkTouched(true);
+
+    if (!enteredMathsMarksIsValid) {
+      return;
+    }
+    if (!enteredEngMarksIsValid) {
+      return;
+    }
+    if (!enteredSciMarksIsValid) {
+      return;
+    }
+    if (!enteredHindiMarksIsValid) {
+      return;
+    }
+    if (!enteredSocMarksIsValid) {
+      return;
+    }
+    if (!enteredKanMarksIsValid) {
+      return;
+    }
+    if (!enteredCompMarksIsValid) {
+      return;
+    }
+    if (!enteredOverallPercentageIsValid) {
+      return;
+    }
+    if (!enteredReamrkIsValid) {
+      return;
+    } else {
+      async function storeData() {
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+          };
+
+          const resLogin = await axios.post(
+            `http://10.0.2.2:8000/school/Marksheet/`,
+            FormData,
+            {
+              headers: headers,
+            }
+          );
+          // const token = resLogin.data.token;
+          // const userId = resLogin.data.user_id;
+          //   console.log(resLogin.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      storeData();
+
+      setMathsMarks("");
+      setEngMarks("");
+      setSciMarks("");
+      setSocMarks("");
+      setKanMarks("");
+      setHindiMarks("");
+      setCompMarks("");
+      setEnteredOverallPerct("");
+      setEnteredRemark("");
+
+      setEnteredMathsMarksTouched(false);
+      setEnteredEngMarksTouched(false);
+      setEnteredSciMarksTouched(false);
+      setEnteredSocMarksTouched(false);
+      setEnteredHindiMarksTouched(false);
+      setEnteredKanMarksTouched(false);
+      setEnteredCompMarksTouched(false);
+
+      setEnteredOverallPercentageTouched(false);
+      setEnteredReamrkTouched(false);
+    }
+  }
+
+  function showTransportForm() {
+    setForTransportList({ fontWeight: "bold", color: "black" });
+    setForTransportForm({ color: "black" });
+    setShowBtn(true);
+    setShowMarksheet(false);
+  }
+  function showMarksheetList() {
+    setForTransportForm({ fontWeight: "bold", color: "black" });
+    setForTransportList({ color: "black" });
+    setShowBtn(false);
+    setShowAddForm(false);
+    setShowForm(false);
+    setShowMarksheet(true);
+
+    async function fetchData() {
+      try {
+        const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
+        // console.log(res.data);
+        setMarksheetData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }
+
+  useEffect(() => {
+    axios
+      .get("http://10.0.2.2:8000/school/Studentclass/")
+      .then((response) => {
+        let newArray = response.data.map((item) => {
+          return {
+            value: item.class_name + " - " + item.section,
+          };
+        });
+
+        setStudData(newArray);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
+  function viewStudentList() {
+    setShowForm(true);
+    async function login() {
+      let selectedData = selected.split(" - ");
+      let class_name = selectedData[0];
+      let section = selectedData[1];
+      try {
+        const res = await axios.get(`http://10.0.2.2:8000/school/Student/`);
+        console.log(class_name, section);
+
+        let filteredclass = res.data.filter(
+          (ele) => ele.class_name == class_name
+        );
+
+        let filteredsection = res.data.filter((ele) => ele.section == section);
+
+        const filteredList = filteredclass && filteredsection;
+
+        let filteredc = filteredList.filter(
+          (ele) => ele.class_name == class_name
+        );
+
+        console.log(filteredc);
+        if (filteredc) {
+          setStudList(filteredc);
+        }
+
+        if (filteredc.length == 0) {
+          Alert.alert("No data found", "No data found for respective search");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    login();
+  }
+  function addForm() {
+    setShowAddForm(true);
+    setShowForm(false);
+    setShowBtn(false);
+  }
+
+  function cancelPressHandler() {
+    setShowBtn(true);
+    setShowForm(true);
+    setShowAddForm(false);
+  }
   return (
     <>
-      <View>
-        {formFields.map((form, index) => {
-          return (
-            <View key={index}>
-              <TextInput
-                placeholder="Monday"
-                onChangeText={(text) => handleFormChange(text, index)}
-                value={form.monday}
-              />
-              <TextInput
-                value={form.tuesday}
-                placeholder="Tuesday"
-                onChangeText={(text) => handleFormChange(text, index)}
-              />
-            </View>
-          );
-        })}
-
-        <Button title="add more" />
-        <Button title="submit" />
+      <View style={styles.BtnContainer}>
+        <BgButton onPress={showTransportForm} style={forTransportList}>
+          Add Marksheet
+        </BgButton>
+        <VerticalLine>|</VerticalLine>
+        <BgButton onPress={showMarksheetList} style={forTransportForm}>
+          Show List
+        </BgButton>
       </View>
+
+      {showBtn && (
+        <>
+          <View style={{ width: 250, fontSize: 20, marginTop: 13, margin: 10 }}>
+            <SelectList
+              setSelected={setSelected}
+              data={studData}
+              placeholder="Select class"
+              boxStyles={{ borderRadius: 0 }}
+              dropdownTextStyles={{ fontSize: 18, fontFamily: "HindRegular" }}
+              inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+            />
+          </View>
+          <View style={{ width: "50%", margin: 30 }}>
+            <Button onPress={viewStudentList}>View List</Button>
+          </View>
+        </>
+      )}
+      {showForm && (
+        <ScrollView horizontal={true}>
+          <DataTable style={styles.container}>
+            <DataTable.Header style={styles.tableHeader}>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> REG NUMBER</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> STUDENT NAME</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> CLASS NAME</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> SECTION</Text>
+              </View>
+
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> ACTION</Text>
+              </View>
+            </DataTable.Header>
+
+            {studList &&
+              studList.map((data, key) => (
+                <DataTable.Row style={styles.tableRow}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 50,
+                    }}
+                  >
+                    {data.reg_number}
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 80,
+                    }}
+                  >
+                    {data.student_name}
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 90,
+                    }}
+                  >
+                    {data.class_name}
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 70,
+                    }}
+                  >
+                    {data.section}
+                  </DataTable.Cell>
+
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 70,
+                    }}
+                  >
+                    <Btn title="Add" onPress={addForm} />
+                  </DataTable.Cell>
+                </DataTable.Row>
+              ))}
+          </DataTable>
+        </ScrollView>
+      )}
+
+      {showAddForm && (
+        <>
+          <View style={styles.inputForm}>
+            <View style={{ flexDirection: "row" }}>
+              <View style={{ flex: 1 }}>
+                <Input
+                  placeholder="Maths"
+                  onChangeText={mathsMarksChangeHandler}
+                  blur={mathsMarksBlurHandler}
+                  value={mathsMarks}
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={mathsMarksInputIsInValid && styles.errorBorderColor}
+                />
+                {mathsMarksInputIsInValid && (
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
+                    Enter maths marks
+                  </Text>
+                )}
+              </View>
+
+              <View style={styles.space} />
+
+              <View style={{ flex: 1 }}>
+                <Input
+                  placeholder="English"
+                  onChangeText={engMarksChangeHandler}
+                  blur={engMarksBlurHandler}
+                  value={engMarks}
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={engMarksInputIsInValid && styles.errorBorderColor}
+                />
+                {engMarksInputIsInValid && (
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
+                    Enter eng marks
+                  </Text>
+                )}
+              </View>
+
+              <View style={{ flex: 1 }}>
+                <Input
+                  placeholder="Science"
+                  onChangeText={sciMarksChangeHandler}
+                  blur={sciMarksBlurHandler}
+                  value={sciMarks}
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={sciMarksInputIsInValid && styles.errorBorderColor}
+                />
+                {sciMarksInputIsInValid && (
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
+                    Enter sci marks
+                  </Text>
+                )}
+              </View>
+            </View>
+
+            <View style={{ flexDirection: "row" }}>
+              <View style={{ flex: 1 }}>
+                <Input
+                  placeholder="Hindi"
+                  onChangeText={hindiMarksChangeHandler}
+                  blur={hindiMarksBlurHandler}
+                  value={hindiMarks}
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={hindiMarksInputIsInValid && styles.errorBorderColor}
+                />
+                {hindiMarksInputIsInValid && (
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
+                    Enter hindi marks
+                  </Text>
+                )}
+              </View>
+
+              <View style={styles.space} />
+
+              <View style={{ flex: 1 }}>
+                <Input
+                  placeholder="Social"
+                  onChangeText={socMarksChangeHandler}
+                  blur={socMarksBlurHandler}
+                  value={socMarks}
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={socMarksInputIsInValid && styles.errorBorderColor}
+                />
+                {socMarksInputIsInValid && (
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
+                    Enter social marks
+                  </Text>
+                )}
+              </View>
+
+              <View style={{ flex: 1 }}>
+                <Input
+                  placeholder="Kannada"
+                  onChangeText={kanMarksChangeHandler}
+                  blur={kanMarksBlurHandler}
+                  value={kanMarks}
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={kanMarksInputIsInValid && styles.errorBorderColor}
+                />
+                {kanMarksInputIsInValid && (
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
+                    Enter kannada marks
+                  </Text>
+                )}
+              </View>
+            </View>
+
+            <Input
+              placeholder="Remark"
+              onChangeText={remarkChangeHandler}
+              blur={remarkBlurHandler}
+              value={remark}
+              onSubmitEditing={Keyboard.dismiss}
+              style={remarkInputIsInValid && styles.errorBorderColor}
+            />
+            {remarkInputIsInValid && (
+              <Text
+                style={{
+                  color: "red",
+                  left: 20,
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+              >
+                Enter remark
+              </Text>
+            )}
+          </View>
+
+          <View style={styles.btnSubmit}>
+            <Button onPress={buttonPressedHandler}>Add Marksheet</Button>
+          </View>
+          <View style={styles.btnCancel}>
+            <Button onPress={cancelPressHandler}> Cancel</Button>
+          </View>
+        </>
+      )}
+
+      {showMarksheet && (
+        <ScrollView horizontal={true}>
+          <DataTable style={styles.container}>
+            <DataTable.Header style={styles.tableHeader}>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}>MATHS</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}>ENGLISH</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}>SCIENCE</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}>HINDI</Text>
+              </View>
+
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}>SOCIAL</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}>KANNADA</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}>COMPUTER</Text>
+              </View>
+              <View style={styles.th}>
+                <Text
+                  style={{
+                    margin: 7,
+                    marginLeft: 50,
+                    fontFamily: "MonsterratBold",
+                    fontSize: 16,
+                  }}
+                >
+                  ACTIONS
+                </Text>
+              </View>
+            </DataTable.Header>
+
+            {marksheetData &&
+              marksheetData.map((data, key) => (
+                <DataTable.Row style={styles.tableRow} key={key}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 40,
+                    }}
+                  >
+                    {data.maths_obt_mark}
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 50,
+                    }}
+                  >
+                    {data.english_obt_mark}
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 60,
+                    }}
+                  >
+                    {data.science_obt_mark}
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 60,
+                    }}
+                  >
+                    {data.hindi_obt_mark}
+                  </DataTable.Cell>
+
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 60,
+                    }}
+                  >
+                    {data.social_obt_mark}
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 70,
+                    }}
+                  >
+                    {data.kannada_obt_mark}
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 90,
+                    }}
+                  >
+                    {data.computer_obt_mark}
+                  </DataTable.Cell>
+
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 100,
+                    }}
+                  >
+                    <Ionicons name="md-pencil-sharp" size={24} color="green" />
+                  </DataTable.Cell>
+
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 10,
+                    }}
+                  >
+                    <Ionicons name="trash" size={24} color="red" />
+                  </DataTable.Cell>
+                </DataTable.Row>
+              ))}
+          </DataTable>
+        </ScrollView>
+      )}
     </>
   );
 };
 
 export default TeachersMarksheet;
+
+const styles = StyleSheet.create({
+  BtnContainer: {
+    fontSize: 24,
+    flexDirection: "row",
+  },
+  tableBtn: {
+    marginLeft: -15,
+  },
+  tableMarksBtn: {
+    marginLeft: 15,
+  },
+  container: {
+    padding: 10,
+  },
+  home: {
+    marginTop: 29,
+  },
+  type: {
+    left: 30,
+  },
+  root: {
+    backgroundColor: "#EBECFO",
+    // backgroundColor:'white'
+  },
+  inputForm: {
+    padding: 20,
+    paddingTop: 5,
+  },
+  errorBorderColor: {
+    color: "black",
+    borderBottomWidth: 1,
+    borderColor: "red",
+    padding: 10,
+    margin: 15,
+    paddingVertical: 5,
+    borderRadius: 5,
+    fontSize: 18,
+  },
+  btnSubmit: {
+    marginTop: 30,
+    marginBottom: 30,
+    width: "50%",
+    marginLeft: 180,
+  },
+  btnCancel: {
+    marginTop: -80,
+    marginLeft: 10,
+    width: "40%",
+  },
+  th: {
+    padding: 5,
+    marginRight: 13,
+    //fontSize: 24,
+  },
+  tableHeader: {
+    backgroundColor: "skyblue",
+
+    height: 50,
+    fontWeight: "bold",
+  },
+  tableTitle: {
+    // padding: 5,
+    margin: 7,
+    fontFamily: "HindMedium",
+    fontSize: 20,
+  },
+  tableCell: {
+    width: 110,
+
+    marginLeft: 35,
+  },
+
+  tableMarks: {
+    width: 10,
+
+    marginLeft: 35,
+  },
+
+  tableRow: {
+    height: "9%",
+    borderBottomColor: "black",
+    borderBottomWidth: 2,
+  },
+  space: {
+    width: 20, // or whatever size you need
+    height: 20,
+  },
+});
