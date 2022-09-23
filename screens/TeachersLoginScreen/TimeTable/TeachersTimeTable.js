@@ -654,10 +654,7 @@ const TeachersTimetable = () => {
                           // onChangeText={(text) =>
                           //   inputHandlerFromDate(text, key)
                           // }
-<<<<<<< HEAD
                           style={fromtimeInputIsInValid && styles.errorBorderColor}
-=======
->>>>>>> 1aeeb408b60c4ecc8938433d9c38ea0652025771
                           onSubmitEditing={Keyboard.dismiss}
                         />
                         {fromtimeInputIsInValid && (
