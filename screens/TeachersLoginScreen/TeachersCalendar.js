@@ -22,6 +22,7 @@ import moment from "moment";
 import VerticalLine from "../../components/UI/VerticalLine";
 import { DataTable } from "react-native-paper";
 import FeedBackDialog from "../../components/UI/FeedBackDialog";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const TeachersCalendar = () => {
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
@@ -71,8 +72,22 @@ const TeachersCalendar = () => {
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [dateIsInCorrect, setDateIsInCorrect] = useState(false);
   const [data, setData] = useState([]);
-  const [isEdit, setIsEdit] = useState(false);
-  const [isDelete, setIsDelete] = useState(false);
+  const [isEdit,setIsEdit]=useState(false);
+  const [isDelete,setIsDelete]=useState(false);
+  const [isSame,SetIsSame]=useState(false);
+  let i=0;
+
+  // async function logoutHandler() {
+  //   try {
+  //     const value = await AsyncStorage.getItem("key");
+  //     if (value == null) {
+
+  //     } 
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -81,12 +96,38 @@ const TeachersCalendar = () => {
         const id = res.data.map((id) => id.created_by);
         console.log(id);
         setData(res.data);
+        // console.log(data)
+        let test=0;
+        const value = await AsyncStorage.getItem("key");
+        for(i=0;i<res.data.length;i++){
+          if(value==res.data[i].created_by){
+             test=res.data[i].created_by
+          }else{
+            // console.log('false')
+          }
+        }
+        if(test==value){
+          // console.log("is same")
+          SetIsSame(true);
+        }
       } catch (error) {
         console.log(error);
       }
     }
     fetchData();
   }, []);
+
+  // const variable=data.createdby === AsyncStorage.getItem('key')
+  // const value=AsyncStorage.getItem('key')
+  // try {
+  //   const value = await AsyncStorage.getItem("key");
+
+  //   if (value !== null) {
+  //     console.log("This is the token :" + value);
+  //   }
+  // } catch (error) {
+  //   // Error retrieving data
+  // }
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -720,3 +761,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
 });
+
+
+

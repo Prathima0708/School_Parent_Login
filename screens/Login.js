@@ -466,6 +466,7 @@ function Login() {
     } catch (error) {
       // Error saving data
     }
+   
     try {
       const value = await AsyncStorage.getItem("token");
 
@@ -475,6 +476,20 @@ function Login() {
     } catch (error) {
       // Error retrieving data
     }
+
+    // Saves to storage as a JSON-string
+    AsyncStorage.setItem('key', JSON.stringify(UserId))
+
+    // Retrieves from storage as boolean
+    AsyncStorage.getItem('key', (err, value) => {
+        if (err) {
+            console.log(err)
+        } else {
+            JSON.parse(value) // boolean false
+            console.log("this is the userid:"+value)
+        }
+    })
+
   }
   function toggleParents() {
     setShow(true);

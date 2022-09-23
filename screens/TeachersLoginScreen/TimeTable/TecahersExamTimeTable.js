@@ -3,6 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
+import Input from "../../../components/UI/Input";
 import { Keyboard } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -11,11 +12,19 @@ import TeachersHome from "../TeachersHome";
 import Button from "../../../components/UI/Button";
 import { DataTable } from "react-native-paper";
 const TecahersExamTimeTable = () => {
+
   const [selectedExamTimeTable, setSelectedExamTimeTable] = useState("");
+  const [enteredSelectedTouched,setEnteredSelectedTouched]=useState(false)
+  const enteredSelcetdIsValid=selectedExamTimeTable.trim()!=='';
+  const selectInputIsInValid=!enteredSelcetdIsValid && enteredSelectedTouched;
+
   const [datemode, setDateMode] = useState("date");
   const [ExamTimeTableData, setExamTimeTableData] = useState([]);
 
   const [examName, setEnteredExamName] = useState("");
+  const [enteredExamNameTouched,setEnteredExamNameTouched]=useState(false)
+  const enteredExamNameIsValid=examName.trim()!=='';
+  const selectExamNameIsInValid=!enteredExamNameIsValid && enteredExamNameTouched;
 
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
@@ -27,10 +36,24 @@ const TecahersExamTimeTable = () => {
   const [toShow, setToShow] = useState(false);
 
   const [fromText, setFromText] = useState("");
+  const [enteredFromDateTouched,setEnteredFromDateTouched]=useState(false)
+  const enteredFromDateIsValid=fromText.trim()!=='';
+  const fromDateInputIsInValid=!enteredFromDateIsValid && enteredFromDateTouched;
+
   const [toText, setToText] = useState("");
+  const [enteredtoDateTouched,setEnteredtoDateTouched]=useState(false)
+  const enteredtoDateIsValid=toText.trim()!=='';
+  const toDateInputIsInValid=!enteredtoDateIsValid && enteredtoDateTouched;
 
   const [totalMarks, setEnteredTotalMarks] = useState("");
+  const [enteredMarksTouched,setEnteredMarksTouched]=useState(false)
+  const enteredMarksIsValid=totalMarks.trim()!=='';
+  const marksInputIsInValid=!enteredMarksIsValid && enteredMarksTouched;
+
   const [hour, setEnteredHour] = useState("");
+  const [enteredHourTouched,setEnteredHourTouched]=useState(false)
+  const enteredHourIsValid=hour.trim()!=='';
+  const hourInputIsInValid=!enteredHourIsValid && enteredHourTouched;
 
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
@@ -86,8 +109,7 @@ const TecahersExamTimeTable = () => {
   }, []);
 
   function addExamTimeTableHandler() {
-    setShowExamList(true);
-    setShowForm(false);
+
     let selectedData = selectedExamTimeTable.split(" - ");
     let class_name = selectedData[0];
     let section = selectedData[1];
@@ -100,35 +122,71 @@ const TecahersExamTimeTable = () => {
       class_name: class_name,
     };
     console.log(FormData);
-    async function storeData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
-        const dataForm = FormData;
-        const resLogin = await axios.post(
-          "http://10.0.2.2:8000/school/Exam/",
-          dataForm,
-          {
-            headers: headers,
-          }
-        );
-        const token = resLogin.data.token;
-        const userId = resLogin.data.user_id;
-        console.log(token);
-        // Token = token;
-        // UserId = userId;
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    storeData();
 
-    setEnteredExamName("");
-    setFromText("");
-    setToText("");
-    setEnteredTotalMarks("");
-    setEnteredHour("");
+    setEnteredExamNameTouched(true);
+    setEnteredFromDateTouched(true);
+    setEnteredtoDateTouched(true);
+    setEnteredMarksTouched(true);
+    setEnteredHourTouched(true);
+    setEnteredSelectedTouched(true);
+    if(!enteredExamNameTouched){
+      return;
+    }
+    if(!enteredFromDateIsValid){
+      return;
+    }
+    if(!enteredtoDateIsValid){
+      return;
+    }
+    if(!enteredHourIsValid){
+      return;
+    }
+    if(!enteredMarksIsValid){
+      return;
+    }
+    if(!enteredSelcetdIsValid){
+      return;
+    }
+    else{
+      async function storeData() {
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+          };
+          const dataForm = FormData;
+          const resLogin = await axios.post(
+            "http://10.0.2.2:8000/school/Exam/",
+            dataForm,
+            {
+              headers: headers,
+            }
+          );
+          const token = resLogin.data.token;
+          const userId = resLogin.data.user_id;
+          console.log(token);
+          // Token = token;
+          // UserId = userId;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      storeData();
+  
+      setEnteredExamName("");
+      setFromText("");
+      setToText("");
+      setEnteredTotalMarks("");
+      setEnteredHour("");
+      setEnteredExamNameTouched(false);
+      setEnteredFromDateTouched(false);
+      setEnteredtoDateTouched(false);
+      setEnteredMarksTouched(false);
+      setEnteredHourTouched(false);
+      setEnteredSelectedTouched(false);
+      setShowExamList(true);
+      setShowForm(false);
+    }
+
   }
   function examNameChangeHandler(enteredValue) {
     setEnteredExamName(enteredValue);
@@ -197,6 +255,23 @@ const TecahersExamTimeTable = () => {
     setShowForm(true);
     setShowExamList(false);
   }
+
+  function examBlurHandler(){
+    setEnteredExamNameTouched(true);
+  }
+  function fromDateBlurHandler(){
+    setEnteredFromDateTouched(true);
+  }
+  function toDateBlurHanlder(){
+    setEnteredtoDateTouched(true);
+  }
+  function markBlurHanlder(){
+    setEnteredMarksTouched(true);
+  }
+  function hourBlurHanlder(){
+    setEnteredHourTouched(true);
+  }
+
   return (
     <>
       {showExamList && (
@@ -258,13 +333,17 @@ const TecahersExamTimeTable = () => {
       {showform && (
         <ScrollView>
           <View style={styles.inputForm}>
-            <Text style={styles.labels}>Exam Name</Text>
-            <TextInput
-              style={styles.inputStyle}
+            <Input
+              style={selectExamNameIsInValid && styles.errorBorderColor}
               onChangeText={examNameChangeHandler}
               value={examName}
+              placeholder="Exam Name"
+              blur={examBlurHandler}
               onSubmitEditing={Keyboard.dismiss}
             />
+            {selectExamNameIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter exam name</Text>
+            )}
             <View
               style={[
                 styles.container,
@@ -277,27 +356,13 @@ const TecahersExamTimeTable = () => {
               <View style={{ flex: 1 }}>
                 <View
                   style={{
-                    paddingVertical: 15,
-                    paddingHorizontal: 10,
                     flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
                   }}
                 >
-                  <Text
+                 <Ionicons
                     style={{
-                      fontSize: 16,
-                      color: "black",
-                    }}
-                  >
-                    Exam Start Date:
-                  </Text>
-
-                  <Ionicons
-                    style={{
-                      alignItems: "center",
-                      justifyContent: "center",
-                      textAlign: "right",
+                      position:'absolute',
+                      top:15
                     }}
                     name="calendar"
                     size={24}
@@ -305,7 +370,13 @@ const TecahersExamTimeTable = () => {
                     onPress={() => showFromMode("date")}
                   />
                 </View>
-                <TextInput style={styles.inputStyle} value={fromText} />
+                <Input  
+                  value={fromText} 
+                  placeholder="Enter From Date"
+                  blur={fromDateBlurHandler} style={fromDateInputIsInValid && styles.errorBorderColor}/>
+                {fromDateInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter from date</Text>
+               )}
                 {fromShow && (
                   <DateTimePicker
                     testID="dateTimePicker"
@@ -322,26 +393,13 @@ const TecahersExamTimeTable = () => {
               <View style={{ flex: 1 }}>
                 <View
                   style={{
-                    paddingVertical: 15,
-                    paddingHorizontal: 10,
                     flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
                   }}
                 >
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      color: "black",
-                    }}
-                  >
-                    Exam End Date:
-                  </Text>
                   <Ionicons
                     style={{
-                      alignItems: "center",
-                      justifyContent: "center",
-                      textAlign: "right",
+                      position:'absolute',
+                      top:20
                     }}
                     name="calendar"
                     size={24}
@@ -349,7 +407,13 @@ const TecahersExamTimeTable = () => {
                     onPress={() => showToMode("date")}
                   />
                 </View>
-                <TextInput style={styles.inputStyle} value={toText} />
+                <Input  value={toText}  
+                placeholder="Enter To Date"
+                blur={toDateBlurHanlder} 
+                style={toDateInputIsInValid && styles.errorBorderColor}/>
+                {toDateInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter to date</Text>
+            )}
                 {toShow && (
                   <DateTimePicker
                     testID="dateTimePicker"
@@ -363,21 +427,28 @@ const TecahersExamTimeTable = () => {
                 )}
               </View>
             </View>
-
-            <Text style={styles.labels}>Total Marks</Text>
-            <TextInput
-              style={styles.inputStyle}
+            <Input
               onChangeText={totalMarksChangeHandler}
               value={totalMarks}
+              placeholder="Total Marks"
+              style={marksInputIsInValid && styles.errorBorderColor}
               onSubmitEditing={Keyboard.dismiss}
+              blur={markBlurHanlder}
             />
-            <Text style={styles.labels}>Hour</Text>
-            <TextInput
-              style={styles.inputStyle}
+            {marksInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter to date</Text>
+            )}
+            <Input
               onChangeText={hourChangeHandler}
+              placeholder="Hour"
               value={hour}
+              style={hourInputIsInValid && styles.errorBorderColor}
               onSubmitEditing={Keyboard.dismiss}
+              blur={hourBlurHanlder}
             />
+            {hourInputIsInValid && (
+              <Text style={{ color: "red",left:20 }}>Enter to date</Text>
+            )}
             <Text style={styles.labels}>Class Name</Text>
 
             <View style={{ width: 350, fontSize: 18, marginTop: 3 }}>
@@ -386,6 +457,7 @@ const TecahersExamTimeTable = () => {
                 data={ExamTimeTableData}
                 placeholder="select class"
                 style={{ fontSize: 16 }}
+                boxStyles={selectInputIsInValid && styles.errorSelectedColor}
               />
             </View>
             <View style={styles.btnSubmit}>
@@ -498,5 +570,18 @@ const styles = StyleSheet.create({
     height: "9%",
     borderBottomColor: "black",
     borderBottomWidth: 2,
+  },
+  errorBorderColor:{
+    color: "black",
+    borderBottomWidth: 1,
+    borderColor: "red",
+    padding: 10,
+    margin: 15,
+    paddingVertical: 5,
+    borderRadius: 5,
+    fontSize: 18,
+  },
+  errorSelectedColor:{
+    borderColor:'red'
   },
 });

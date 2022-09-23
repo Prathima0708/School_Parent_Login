@@ -103,6 +103,8 @@ const TeachersHomework = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [tranportData, setTranportData] = useState([]);
+  const [isSame,SetIsSame]=useState(false);
+  let i=0;
   // useEffect(()=>{
   //   if(enteredSubjectIsValid && enteredFromDateIsValid && enteredtoDateIsValid && enteredRemarkIsValid && enteredHomeWorkIsValid){
   //     setFormIsValid(true);
@@ -120,7 +122,19 @@ const TeachersHomework = () => {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
         setTranportData(res.data);
-        console.log(data);
+        let test=0;
+        const value = await AsyncStorage.getItem("key");
+        for(i=0;i<res.data.length;i++){
+          if(value==res.data[i].created_by){
+             test=res.data[i].created_by
+          }else{
+            // console.log('false')
+          }
+        }
+        if(test==value){
+          // console.log("is same")
+          SetIsSame(true);
+        }
       } catch (error) {
         console.log(error);
       }

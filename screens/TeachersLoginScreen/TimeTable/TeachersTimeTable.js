@@ -37,7 +37,11 @@ const TeachersTimetable = () => {
   });
   const [forExamTimeTable, setForExamTimeTable] = useState({ color: "black" });
   const [TimeTableData, setTimeTableData] = useState([]);
+
   const [selectedTimeTable, setSelectedTimeTable] = useState("");
+  const [enteredSelectedTouched,setEnteredSelectedTouched]=useState(false)
+  const enteredSelcetdIsValid=selectedTimeTable.trim()!=='';
+  const selectInputIsInValid=!enteredSelcetdIsValid && enteredSelectedTouched;
 
   const [fromTime, setFromTime] = useState(new Date());
   const [toTime, setToTime] = useState(new Date());
@@ -49,7 +53,14 @@ const TeachersTimetable = () => {
   const [toTimeShow, setToTimeShow] = useState(false);
 
   const [fromTimeText, setFromTimeText] = useState("");
+  const [enteredFromTimeTouched,setEnteredFromTimeTouched]=useState(false)
+  const enteredFromTimeIsValid=fromTimeText.trim()!=='';
+  const fromtimeInputIsInValid=!enteredFromTimeIsValid && enteredFromTimeTouched;
+
   const [toTimeText, setToTimeText] = useState("");
+  const [enteredToTimeTouched,setEnteredToTimeTouched]=useState(false)
+  const enteredToTimeIsValid=toTimeText.trim()!=='';
+  const TotimeInputIsInValid=!enteredToTimeIsValid && enteredToTimeTouched;
 
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
@@ -82,7 +93,12 @@ const TeachersTimetable = () => {
   const [createdDate, setEnteredCreatedDate] = useState(new Date());
 
   const [dateShow, setDateShow] = useState(false);
+
   const [dateText, setDateText] = useState("");
+  const [enteredDateTextTouched,setEnteredDateTextTouched]=useState(false)
+  const enteredDateTextIsValid=dateText.trim()!=='';
+  const dateTextInputIsInValid=!enteredDateTextIsValid && enteredDateTextTouched;
+
   const [datemode, setDateMode] = useState("date");
 
   const [frommode, setFromMode] = useState("date");
@@ -122,6 +138,7 @@ const TeachersTimetable = () => {
   }, []);
   function createdDateChangeHandler(enteredValue) {
     setEnteredCreatedDate(enteredValue);
+    setDateText(enteredValue)
   }
 
   function fromTimeHandler(enteredValue) {
@@ -269,8 +286,7 @@ const TeachersTimetable = () => {
   }
 
   function addDailyTimeTableHandler() {
-    setShowTimeTableList(true);
-    setShowTable(false);
+
     console.log(inputs);
 
     let selectedData = selectedTimeTable.split(" - ");
@@ -285,19 +301,44 @@ const TeachersTimetable = () => {
     console.log(sendtoTimeTable);
     console.log(createdDate);
 
-    async function storeTimeTable() {
-      let headers = {
-        "Content-Type": "application/json; charset=utf-8",
-      };
-      const resLoginTimeTable = await axios.post(
-        `http://10.0.2.2:8000/school/Timetable/`,
-        sendtoTimeTable,
-        {
-          headers: headers,
-        }
-      );
+    setEnteredSelectedTouched(true);
+    setEnteredDateTextTouched(true);
+    setEnteredFromTimeTouched(true);
+    setEnteredToTimeTouched(true);
+    if(!enteredSelcetdIsValid){
+      return;
     }
-    storeTimeTable();
+    if(!enteredDateTextIsValid){
+      return;
+    }
+    if(!enteredFromTimeIsValid){
+      return;
+    }
+    if(!enteredToTimeIsValid){
+      return;
+    }
+    else{
+      async function storeTimeTable() {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+        };
+        const resLoginTimeTable = await axios.post(
+          `http://10.0.2.2:8000/school/Timetable/`,
+          sendtoTimeTable,
+          {
+            headers: headers,
+          }
+        );
+      }
+      storeTimeTable();
+      setEnteredSelectedTouched(false);
+      setEnteredDateTextTouched(false);
+      setEnteredFromTimeTouched(false);
+      setEnteredToTimeTouched(false);
+      setShowTimeTableList(true);
+      setShowTable(false);
+    }
+
 
     // const FormData = {
     //   from_time: fromTime,
@@ -429,6 +470,15 @@ const TeachersTimetable = () => {
     viewDailyTimeTableList();
   }, []);
 
+  function dateTextBlur(){
+    setEnteredDateTextTouched(true);
+  }
+  function fromTextBlur(){
+    setEnteredFromTimeTouched(true);
+  }
+  function toTextBlur(){
+    setEnteredToTimeTouched(true);
+  }
   return (
     <>
       <View style={{ backgroundColor: "white", height: "100%" }}>
@@ -527,6 +577,7 @@ const TeachersTimetable = () => {
                           fontSize: 54,
                           fontFamily: "HindRegular",
                         }}
+                        boxStyles={selectInputIsInValid && styles.errorSelectedColor}
                       />
                     </View>
                   </View>
@@ -534,32 +585,11 @@ const TeachersTimetable = () => {
                   <View style={styles.space} />
 
                   <View style={{ flex: 1 }}>
-                    <View style={styles.title}>
-                      <View
-                        style={{
-                          paddingVertical: 15,
-                          paddingHorizontal: 10,
-                          flexDirection: "row",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          // marginLeft: -10,
-                        }}
-                      >
-                        <Text
-                          style={{
-                            position: "absolute",
-                            top: 1,
-                            margin: 5,
-                            fontFamily: "HindRegular",
-                            fontSize: 20,
-                          }}
-                        >
-                          Created Date
-                        </Text>
+                      <View>
                         <Ionicons
                           style={{
                             position: "absolute",
-                            left: 140,
+                            top:25
                           }}
                           name="calendar"
                           size={24}
@@ -567,26 +597,16 @@ const TeachersTimetable = () => {
                           onPress={() => showDateMode("date")}
                         />
                       </View>
-                      <TextInput
-                        style={{
-                          position: "absolute",
-                          top: 60,
-                          left: 20,
-                          color: "black",
-                          borderWidth: 2,
-                          borderColor: "lightgrey",
-                          backgroundColor: "white",
-                          width: "100%",
-                          paddingHorizontal: 10,
-                          paddingVertical: 9,
-                          borderRadius: 5,
-                          fontSize: 18,
-                        }}
-                        placeholder="DD/MM/YYYY"
+                      <Input
+                        placeholder="Created Date"
                         onChangeText={createdDateChangeHandler}
                         value={dateText || createdDate}
+                        blur={dateTextBlur}
+                        style={dateTextInputIsInValid && styles.errorBorderColor}
                       />
-
+                      {dateTextInputIsInValid && (
+                        <Text style={{ color: "red",left:20 }}>Enter creation date</Text>
+                      )}
                       {dateShow && (
                         <DateTimePicker
                           testID="dateTimePicker"
@@ -599,7 +619,6 @@ const TeachersTimetable = () => {
                           //  minimumDate={fromDate}
                         />
                       )}
-                    </View>
                   </View>
                 </View>
 
@@ -614,30 +633,11 @@ const TeachersTimetable = () => {
                       ]}
                     >
                       <View style={{ flex: 1 }}>
-                        <View
-                          style={{
-                            paddingVertical: 15,
-                            paddingHorizontal: 10,
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Text
-                            style={{
-                              fontSize: 20,
-                              color: "black",
-                              fontFamily: "HindRegular",
-                            }}
-                          >
-                            From Time:
-                          </Text>
-
+                        <View>
                           <Ionicons
                             style={{
-                              alignItems: "center",
-                              justifyContent: "center",
-                              textAlign: "right",
+                              position:'absolute',
+                              top:26
                             }}
                             name="timer-sharp"
                             size={24}
@@ -645,17 +645,21 @@ const TeachersTimetable = () => {
                             onPress={() => showTimeFromMode("time")}
                           />
                         </View>
-                        <TextInput
-                          style={styles.inputStyle}
+                        <Input
                           value={fromTimeText}
+                          placeholder="From Time:"
+                          blur={fromTextBlur}
                           //onChangeText={fromTimeHandler}
                           //  value={input.fromTime || fromTimeText}
                           // onChangeText={(text) =>
                           //   inputHandlerFromDate(text, key)
                           // }
+                          style={fromtimeInputIsInValid && styles.errorBorderColor}
                           onSubmitEditing={Keyboard.dismiss}
                         />
-
+                        {fromtimeInputIsInValid && (
+                         <Text style={{ color: "red",left:20 }}>Enter from time</Text>
+                        )}
                         {fromTimeShow && (
                           // <View key={key}>
                           <DateTimePicker
@@ -676,30 +680,11 @@ const TeachersTimetable = () => {
                       </View>
                       <View style={styles.space} />
                       <View style={{ flex: 1 }}>
-                        <View
-                          style={{
-                            paddingVertical: 15,
-                            paddingHorizontal: 10,
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Text
-                            style={{
-                              fontSize: 20,
-                              color: "black",
-                              fontFamily: "HindRegular",
-                            }}
-                          >
-                            To Time:
-                          </Text>
-
+                        <View>
                           <Ionicons
                             style={{
-                              alignItems: "center",
-                              justifyContent: "center",
-                              textAlign: "right",
+                              position:'absolute',
+                              top:26
                             }}
                             name="timer-sharp"
                             size={24}
@@ -708,11 +693,17 @@ const TeachersTimetable = () => {
                           />
                         </View>
 
-                        <TextInput
-                          style={styles.inputStyle}
-                          value={toTimeText}
+                        <Input
+                          value={toTimeText || toTime}
                           onSubmitEditing={Keyboard.dismiss}
+                          onChangeText={toTimeChangeHandler}
+                          placeholder="To Time:"
+                          blur={toTextBlur}
+                          style={TotimeInputIsInValid && styles.errorBorderColor}
                         />
+                        {TotimeInputIsInValid && (
+                         <Text style={{ color: "red",left:20 }}>Enter to time</Text>
+                        )}
                         {toTimeShow && (
                           <DateTimePicker
                             testID="dateTimePicker"
@@ -888,6 +879,19 @@ const styles = StyleSheet.create({
   inputForm: {
     padding: 20,
     paddingTop: 5,
+  },
+  errorBorderColor:{
+    color: "black",
+    borderBottomWidth: 1,
+    borderColor: "red",
+    padding: 10,
+    margin: 15,
+    paddingVertical: 5,
+    borderRadius: 5,
+    fontSize: 18,
+  },
+  errorSelectedColor:{
+    borderColor:'red'
   },
   inputStyle: {
     color: "black",
