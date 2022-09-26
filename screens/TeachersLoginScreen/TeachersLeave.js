@@ -66,29 +66,27 @@ const TeachersLeave = () => {
 
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [data, setData] = useState([]);
-  const [isEdit,setIsEdit]=useState(false);
-  const [deletePressed,setDeletePressed]=useState(false);
-  const [isSame,SetIsSame]=useState(false);
-  let i=0;
+  const [isEdit, setIsEdit] = useState(false);
+  const [deletePressed, setDeletePressed] = useState(false);
+  const [isSame, SetIsSame] = useState(false);
+  let i = 0;
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/Leave/`
-        );
+        const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
         setData(res.data);
         // console.log(data)
-        let test=0;
+        let test = 0;
         const value = await AsyncStorage.getItem("key");
-        for(i=0;i<res.data.length;i++){
-          if(value==res.data[i].created_by){
-             test=res.data[i].created_by
-          }else{
+        for (i = 0; i < res.data.length; i++) {
+          if (value == res.data[i].created_by) {
+            test = res.data[i].created_by;
+          } else {
             // console.log('false')
           }
         }
-        if(test==value){
+        if (test == value) {
           // console.log("is same")
           SetIsSame(true);
         }
@@ -186,7 +184,7 @@ const TeachersLeave = () => {
   function toDateHandler(enteredValue) {
     setToText(enteredValue);
   }
-  function updateHandler(){
+  function updateHandler() {
     const FormData = {
       leave_type: leaveType,
       leave_reason: leaveReason,
@@ -384,7 +382,6 @@ const TeachersLeave = () => {
     setForLeaveForm({ color: "black" });
     setShowForm(true);
     setShowList(false);
-    
   }
   function showLeave() {
     setForLeaveForm({ fontWeight: "bold", color: "black" });
@@ -392,8 +389,8 @@ const TeachersLeave = () => {
     setShowForm(false);
     setShowList(true);
   }
-  function editItem(id){
-    const filteredDummuyData= data.find((data)=> data.id==id);
+  function editItem(id) {
+    const filteredDummuyData = data.find((data) => data.id == id);
     // console.log(filteredDummuyData);
     setEnteredLeaveType(filteredDummuyData.leave_type);
     setEnteredLeaveReason(filteredDummuyData.leave_type);
@@ -401,27 +398,23 @@ const TeachersLeave = () => {
     setToText(filteredDummuyData.leave_to);
     setForLeaveList({ fontWeight: "bold", color: "black" });
     setForLeaveForm({ color: "black" });
-     setShowForm(true);
-     setShowList(false);
-     setIsEdit(true);
-   }
+    setShowForm(true);
+    setShowList(false);
+    setIsEdit(true);
+  }
 
-   function deleteItem(id){
+  function deleteItem(id) {
     // console.log(id);
     // const newFilteredData=data.filter((data)=>data.id != id);
-    Alert.alert(
-      "Confirm Deleteion",
-      "Are you sure you want to delete this",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "Yes", onPress: () => setDeletePressed(true)}
-      ]
-    );
-    
+    Alert.alert("Confirm Deleteion", "Are you sure you want to delete this", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      { text: "Yes", onPress: () => setDeletePressed(true) },
+    ]);
+
     async function storeData() {
       try {
         let headers = {
@@ -442,7 +435,9 @@ const TeachersLeave = () => {
         console.log(error);
       }
     }
-    {!deletePressed ? storeData() : ''}
+    {
+      !deletePressed ? storeData() : "";
+    }
   }
   return (
     <>
@@ -451,210 +446,249 @@ const TeachersLeave = () => {
       </View> */}
 
       <View style={styles.BtnContainer}>
-      <BgButton onPress={showLeaveForm} style={forLeaveList}>
-        Add Leave
-      </BgButton>
-      <VerticalLine>|</VerticalLine>
-      <BgButton onPress={showLeave} style={forLeaveForm}>
-        Show Leave
-    </BgButton>
-    </View>
-      {showForm && <ScrollView>
-        <View style={styles.inputForm}>
-          <Input
-            placeholder="LEAVE TYPE"
-            onChangeText={leaveTypeChangeHandler}
-            blur={leavetypeBlurHandler}
-            value={leaveType}
-            onSubmitEditing={Keyboard.dismiss}
-            style={leavetypeInputIsInValid && styles.errorBorderColor}
-          />
-          {leavetypeInputIsInValid && (
-            <Text style={{ color: "red", left: 20 }}>Enter the type</Text>
-          )}
-          <Input
-            onChangeText={leaveReasonChangeHandler}
-            blur={leavereasonBlurHandler}
-            placeholder="LEAVE REASON"
-            value={leaveReason}
-            onSubmitEditing={Keyboard.dismiss}
-            style={leavereasonInputIsInValid && styles.errorBorderColor}
-          />
-          {leavereasonInputIsInValid && (
-            <Text style={{ color: "red", left: 20 }}>Enter leave reason</Text>
-          )}
+        <BgButton onPress={showLeaveForm} style={forLeaveList}>
+          Add Leave
+        </BgButton>
+        <VerticalLine>|</VerticalLine>
+        <BgButton onPress={showLeave} style={forLeaveForm}>
+          Show Leave
+        </BgButton>
+      </View>
+      {showForm && (
+        <ScrollView>
+          <View style={styles.inputForm}>
+            <Input
+              placeholder="LEAVE TYPE"
+              onChangeText={leaveTypeChangeHandler}
+              blur={leavetypeBlurHandler}
+              value={leaveType}
+              onSubmitEditing={Keyboard.dismiss}
+              style={leavetypeInputIsInValid && styles.errorBorderColor}
+            />
+            {leavetypeInputIsInValid && (
+              <Text style={{ color: "red", left: 20 }}>Enter the type</Text>
+            )}
+            <Input
+              onChangeText={leaveReasonChangeHandler}
+              blur={leavereasonBlurHandler}
+              placeholder="LEAVE REASON"
+              value={leaveReason}
+              onSubmitEditing={Keyboard.dismiss}
+              style={leavereasonInputIsInValid && styles.errorBorderColor}
+            />
+            {leavereasonInputIsInValid && (
+              <Text style={{ color: "red", left: 20 }}>Enter leave reason</Text>
+            )}
 
-          <View style={[{ flexDirection: "row" }]}>
-            <View style={{ flex: 1 }}>
-              <View>
-                <Ionicons
-                  style={{
-                    position: "absolute",
-                    top: 23,
-                  }}
-                  name="calendar"
-                  size={24}
-                  color="black"
-                  onPress={() => showFromMode("date")}
+            <View style={[{ flexDirection: "row" }]}>
+              <View style={{ flex: 1 }}>
+                <View>
+                  <Ionicons
+                    style={{
+                      position: "absolute",
+                      top: 23,
+                    }}
+                    name="calendar"
+                    size={24}
+                    color="black"
+                    onPress={() => showFromMode("date")}
+                  />
+                </View>
+                <Input
+                  value={fromText || fromDate}
+                  placeholder="LEAVE FROM:"
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={fromDateInputIsInValid && styles.errorBorderColor}
+                  blur={fromDateBlurHandler}
+                  onChangeText={frmDateHandler}
                 />
+                {fromDateInputIsInValid && (
+                  <Text style={{ color: "red", left: 20 }}>
+                    Enter leave from
+                  </Text>
+                )}
+                {fromShow && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={fromDate}
+                    mode={frommode}
+                    is24Hour={true}
+                    display="default"
+                    onChange={fromDateChangeHandler}
+                  />
+                )}
               </View>
-              <Input
-                value={fromText || fromDate}
-                placeholder="LEAVE FROM:"
-                onSubmitEditing={Keyboard.dismiss}
-                style={fromDateInputIsInValid && styles.errorBorderColor}
-                blur={fromDateBlurHandler}
-                onChangeText={frmDateHandler}
-              />
-              {fromDateInputIsInValid && (
-                <Text style={{ color: "red", left: 20 }}>Enter leave from</Text>
-              )}
-              {fromShow && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={fromDate}
-                  mode={frommode}
-                  is24Hour={true}
-                  display="default"
-                  onChange={fromDateChangeHandler}
+              <View style={styles.space} />
+              <View style={{ flex: 1 }}>
+                <View>
+                  <Ionicons
+                    style={{
+                      position: "absolute",
+                      top: 23,
+                    }}
+                    name="calendar"
+                    size={24}
+                    color="black"
+                    onPress={() => showToMode("date")}
+                  />
+                </View>
+                <Input
+                  value={toText || toDate}
+                  placeholder="LEAVE TO:"
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={toDateInputIsInValid && styles.errorBorderColor}
+                  blur={toDateBlurHandler}
+                  onChangeText={toDateHandler}
                 />
-              )}
-            </View>
-            <View style={styles.space} />
-            <View style={{ flex: 1 }}>
-              <View>
-                <Ionicons
-                  style={{
-                    position: "absolute",
-                    top: 23,
-                  }}
-                  name="calendar"
-                  size={24}
-                  color="black"
-                  onPress={() => showToMode("date")}
-                />
+                {toDateInputIsInValid && (
+                  <Text style={{ color: "red", left: 20 }}>Enter to</Text>
+                )}
+                {toShow && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={toDate}
+                    mode={tomode}
+                    is24Hour={true}
+                    display="default"
+                    onChange={toDateChangeHandler}
+                    //  minimumDate={fromDate}
+                  />
+                )}
               </View>
-              <Input
-                value={toText || toDate}
-                placeholder="LEAVE TO:"
-                onSubmitEditing={Keyboard.dismiss}
-                style={toDateInputIsInValid && styles.errorBorderColor}
-                blur={toDateBlurHandler}
-                onChangeText={toDateHandler}
-              />
-              {toDateInputIsInValid && (
-                <Text style={{ color: "red", left: 20 }}>Enter to</Text>
-              )}
-              {toShow && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={toDate}
-                  mode={tomode}
-                  is24Hour={true}
-                  display="default"
-                  onChange={toDateChangeHandler}
-                  //  minimumDate={fromDate}
-                />
-              )}
             </View>
+            {!isEdit && (
+              <View style={styles.btnSubmit}>
+                <Button onPress={buttonPressedHandler}>Add Leave</Button>
+              </View>
+            )}
+            {isEdit && (
+              <View style={styles.btnSubmit}>
+                <Button onPress={updateHandler}>Update</Button>
+              </View>
+            )}
           </View>
-          {!isEdit && <View style={styles.btnSubmit}>
-            <Button onPress={buttonPressedHandler}>Add Leave</Button>
-          </View>}
-          {isEdit && <View style={styles.btnSubmit}>
-            <Button onPress={ updateHandler}>Update</Button>
-          </View>}
-        </View>
-      </ScrollView>}
-      {showList && 
+        </ScrollView>
+      )}
+      {showList && (
         <ScrollView horizontal={true}>
-        <DataTable style={styles.container}>
-          <DataTable.Header style={styles.tableHeader}>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}> ID</Text>
-            </View>
-            {/* <View style={styles.th}>
-              <Text style={styles.tableTitle}> student reg_num</Text>
-            </View>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}> User role</Text>
-            </View>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}> User name</Text>
-            </View>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}> Email</Text>
-            </View> */}
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}> Leave type</Text>
-            </View>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}> Leave from</Text>
-            </View>
+          <DataTable style={styles.container}>
+            <DataTable.Header style={styles.tableHeader}>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> ID</Text>
+              </View>
 
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}> Leave to</Text>
-            </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> LEAVE TYPE</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> LEAVE FROM </Text>
+              </View>
 
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}> Leave reason</Text>
-            </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> LEAVE TO</Text>
+              </View>
 
-            {/* <View style={styles.th}>
-              <Text style={styles.tableTitle}> Leave status</Text>
-            </View> */}
-            {isSame && <View style={styles.th}>
-              <Text style={styles.tableTitle}> Update</Text>
-            </View>}
-            {isSame && <View style={styles.th}>
-              <Text style={styles.tableTitle}> Delete</Text>
-            </View>}
-          </DataTable.Header>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> LEAVE REASON</Text>
+              </View>
 
-          {data &&
-            data.map((data, key) => (
-              <DataTable.Row style={styles.tableRow}>
-                <DataTable.Cell style={styles.tableCell}>
-                  {data.id}
-                </DataTable.Cell>
-                {/* <DataTable.Cell style={styles.tableCell}>
-                  {data.student_reg_number}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
-                  {data.user_role}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
-                  {data.username}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
-                  {data.email}
-                </DataTable.Cell> */}
-                <DataTable.Cell style={styles.tableCell}>
-                  {data.leave_type}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
-                  {data.leave_form}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
-                  {data.leave_to}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
-                  {data.leave_reason}
-                </DataTable.Cell>
-                {/* <DataTable.Cell style={styles.tableCell}>
-                  {data.leave_status}
-                </DataTable.Cell> */}
-                {isSame && <DataTable.Cell style={styles.tableCell}>
-                  <Btn title="Edit" onPress={()=> editItem(data.id)} />
-                </DataTable.Cell>}
-                {isSame && <DataTable.Cell style={styles.tableCell}>
-                  <Btn title="Delete" onPress={()=> deleteItem(data.id)} />
-                </DataTable.Cell>}
-              </DataTable.Row>
-            ))}
-        </DataTable>
-      </ScrollView>
-      }
+              <View style={styles.th}>
+                <Text
+                  style={{
+                    margin: 7,
+                    marginLeft: 50,
+                    fontFamily: "MonsterratBold",
+                    fontSize: 16,
+                  }}
+                >
+                  ACTIONS
+                </Text>
+              </View>
+            </DataTable.Header>
+
+            {data &&
+              data.map((data, key) => (
+                <DataTable.Row style={styles.tableRow}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 50,
+                    }}
+                  >
+                    {data.id}
+                  </DataTable.Cell>
+
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 50,
+                    }}
+                  >
+                    {data.leave_type}
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 50,
+                    }}
+                  >
+                    {data.leave_form}
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 50,
+                    }}
+                  >
+                    {data.leave_to}
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 50,
+                    }}
+                  >
+                    {data.leave_reason}
+                  </DataTable.Cell>
+
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 110,
+                    }}
+                  >
+                    <Ionicons
+                      name="md-pencil-sharp"
+                      size={24}
+                      color="green"
+                      onPress={() => editItem(data.id)}
+                    />
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      //marginLeft: 15,
+                    }}
+                  >
+                    <Ionicons
+                      name="trash"
+                      size={24}
+                      color="red"
+                      onPress={() => deleteItem(data.id)}
+                    />
+                  </DataTable.Cell>
+                </DataTable.Row>
+              ))}
+          </DataTable>
+        </ScrollView>
+      )}
       {keyboardStatus == "Keyboard Hidden" && <TeachersHome />}
     </>
   );
@@ -665,7 +699,7 @@ export default TeachersLeave;
 const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
-    flexDirection:'row'
+    flexDirection: "row",
   },
   home: {
     marginTop: 29,

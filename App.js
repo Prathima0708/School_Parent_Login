@@ -180,7 +180,6 @@ export default function App() {
           <Stack.Screen
             name="ParentsLoginScreen"
             component={ParentsLoginScreen}
-           
           />
 
           <Stack.Screen name="Category" component={StudentCategories} />

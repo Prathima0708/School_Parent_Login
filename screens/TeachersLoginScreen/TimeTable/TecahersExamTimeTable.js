@@ -12,19 +12,19 @@ import TeachersHome from "../TeachersHome";
 import Button from "../../../components/UI/Button";
 import { DataTable } from "react-native-paper";
 const TecahersExamTimeTable = () => {
-
   const [selectedExamTimeTable, setSelectedExamTimeTable] = useState("");
-  const [enteredSelectedTouched,setEnteredSelectedTouched]=useState(false)
-  const enteredSelcetdIsValid=selectedExamTimeTable.trim()!=='';
-  const selectInputIsInValid=!enteredSelcetdIsValid && enteredSelectedTouched;
+  const [enteredSelectedTouched, setEnteredSelectedTouched] = useState(false);
+  const enteredSelcetdIsValid = selectedExamTimeTable.trim() !== "";
+  const selectInputIsInValid = !enteredSelcetdIsValid && enteredSelectedTouched;
 
   const [datemode, setDateMode] = useState("date");
   const [ExamTimeTableData, setExamTimeTableData] = useState([]);
 
   const [examName, setEnteredExamName] = useState("");
-  const [enteredExamNameTouched,setEnteredExamNameTouched]=useState(false)
-  const enteredExamNameIsValid=examName.trim()!=='';
-  const selectExamNameIsInValid=!enteredExamNameIsValid && enteredExamNameTouched;
+  const [enteredExamNameTouched, setEnteredExamNameTouched] = useState(false);
+  const enteredExamNameIsValid = examName.trim() !== "";
+  const selectExamNameIsInValid =
+    !enteredExamNameIsValid && enteredExamNameTouched;
 
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
@@ -36,24 +36,25 @@ const TecahersExamTimeTable = () => {
   const [toShow, setToShow] = useState(false);
 
   const [fromText, setFromText] = useState("");
-  const [enteredFromDateTouched,setEnteredFromDateTouched]=useState(false)
-  const enteredFromDateIsValid=fromText.trim()!=='';
-  const fromDateInputIsInValid=!enteredFromDateIsValid && enteredFromDateTouched;
+  const [enteredFromDateTouched, setEnteredFromDateTouched] = useState(false);
+  const enteredFromDateIsValid = fromText.trim() !== "";
+  const fromDateInputIsInValid =
+    !enteredFromDateIsValid && enteredFromDateTouched;
 
   const [toText, setToText] = useState("");
-  const [enteredtoDateTouched,setEnteredtoDateTouched]=useState(false)
-  const enteredtoDateIsValid=toText.trim()!=='';
-  const toDateInputIsInValid=!enteredtoDateIsValid && enteredtoDateTouched;
+  const [enteredtoDateTouched, setEnteredtoDateTouched] = useState(false);
+  const enteredtoDateIsValid = toText.trim() !== "";
+  const toDateInputIsInValid = !enteredtoDateIsValid && enteredtoDateTouched;
 
   const [totalMarks, setEnteredTotalMarks] = useState("");
-  const [enteredMarksTouched,setEnteredMarksTouched]=useState(false)
-  const enteredMarksIsValid=totalMarks.trim()!=='';
-  const marksInputIsInValid=!enteredMarksIsValid && enteredMarksTouched;
+  const [enteredMarksTouched, setEnteredMarksTouched] = useState(false);
+  const enteredMarksIsValid = totalMarks.trim() !== "";
+  const marksInputIsInValid = !enteredMarksIsValid && enteredMarksTouched;
 
   const [hour, setEnteredHour] = useState("");
-  const [enteredHourTouched,setEnteredHourTouched]=useState(false)
-  const enteredHourIsValid=hour.trim()!=='';
-  const hourInputIsInValid=!enteredHourIsValid && enteredHourTouched;
+  const [enteredHourTouched, setEnteredHourTouched] = useState(false);
+  const enteredHourIsValid = hour.trim() !== "";
+  const hourInputIsInValid = !enteredHourIsValid && enteredHourTouched;
 
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
@@ -109,7 +110,6 @@ const TecahersExamTimeTable = () => {
   }, []);
 
   function addExamTimeTableHandler() {
-
     let selectedData = selectedExamTimeTable.split(" - ");
     let class_name = selectedData[0];
     let section = selectedData[1];
@@ -129,25 +129,24 @@ const TecahersExamTimeTable = () => {
     setEnteredMarksTouched(true);
     setEnteredHourTouched(true);
     setEnteredSelectedTouched(true);
-    if(!enteredExamNameTouched){
+    if (!enteredExamNameTouched) {
       return;
     }
-    if(!enteredFromDateIsValid){
+    if (!enteredFromDateIsValid) {
       return;
     }
-    if(!enteredtoDateIsValid){
+    if (!enteredtoDateIsValid) {
       return;
     }
-    if(!enteredHourIsValid){
+    if (!enteredHourIsValid) {
       return;
     }
-    if(!enteredMarksIsValid){
+    if (!enteredMarksIsValid) {
       return;
     }
-    if(!enteredSelcetdIsValid){
+    if (!enteredSelcetdIsValid) {
       return;
-    }
-    else{
+    } else {
       async function storeData() {
         try {
           let headers = {
@@ -171,7 +170,7 @@ const TecahersExamTimeTable = () => {
         }
       }
       storeData();
-  
+
       setEnteredExamName("");
       setFromText("");
       setToText("");
@@ -186,7 +185,6 @@ const TecahersExamTimeTable = () => {
       setShowExamList(true);
       setShowForm(false);
     }
-
   }
   function examNameChangeHandler(enteredValue) {
     setEnteredExamName(enteredValue);
@@ -256,19 +254,19 @@ const TecahersExamTimeTable = () => {
     setShowExamList(false);
   }
 
-  function examBlurHandler(){
+  function examBlurHandler() {
     setEnteredExamNameTouched(true);
   }
-  function fromDateBlurHandler(){
+  function fromDateBlurHandler() {
     setEnteredFromDateTouched(true);
   }
-  function toDateBlurHanlder(){
+  function toDateBlurHanlder() {
     setEnteredtoDateTouched(true);
   }
-  function markBlurHanlder(){
+  function markBlurHanlder() {
     setEnteredMarksTouched(true);
   }
-  function hourBlurHanlder(){
+  function hourBlurHanlder() {
     setEnteredHourTouched(true);
   }
 
@@ -303,26 +301,104 @@ const TecahersExamTimeTable = () => {
                 <View style={styles.th}>
                   <Text style={styles.tableTitle}> CLASSNAME</Text>
                 </View>
+
+                <View style={styles.th}>
+                  <Text
+                    style={{
+                      margin: 7,
+                      marginLeft: 50,
+                      fontFamily: "MonsterratBold",
+                      fontSize: 16,
+                    }}
+                  >
+                    ACTIONS
+                  </Text>
+                </View>
               </DataTable.Header>
               {showExamData.map((data, key) => (
-                <DataTable.Row style={styles.tableRow}>
-                  <DataTable.Cell style={styles.tableCell}>
+                <DataTable.Row style={styles.tableRow} key={key}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 20,
+                    }}
+                  >
                     {data.exam_name}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 40,
+                    }}
+                  >
                     {data.start_date}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 40,
+                    }}
+                  >
                     {data.end_date}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 40,
+                    }}
+                  >
                     {data.Total_marks}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 40,
+                    }}
+                  >
                     {data.hour}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 40,
+                    }}
+                  >
                     {data.class_name}
+                  </DataTable.Cell>
+
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 110,
+                    }}
+                  >
+                    <Ionicons
+                      name="md-pencil-sharp"
+                      size={24}
+                      color="green"
+                      onPress={() => editItem(data.id)}
+                    />
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      //marginLeft: 15,
+                    }}
+                  >
+                    <Ionicons
+                      name="trash"
+                      size={24}
+                      color="red"
+                      onPress={() => deleteItem(data.id)}
+                    />
                   </DataTable.Cell>
                 </DataTable.Row>
               ))}
@@ -342,7 +418,7 @@ const TecahersExamTimeTable = () => {
               onSubmitEditing={Keyboard.dismiss}
             />
             {selectExamNameIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter exam name</Text>
+              <Text style={{ color: "red", left: 20 }}>Enter exam name</Text>
             )}
             <View
               style={[
@@ -359,10 +435,10 @@ const TecahersExamTimeTable = () => {
                     flexDirection: "row",
                   }}
                 >
-                 <Ionicons
+                  <Ionicons
                     style={{
-                      position:'absolute',
-                      top:15
+                      position: "absolute",
+                      top: 15,
                     }}
                     name="calendar"
                     size={24}
@@ -370,13 +446,17 @@ const TecahersExamTimeTable = () => {
                     onPress={() => showFromMode("date")}
                   />
                 </View>
-                <Input  
-                  value={fromText} 
+                <Input
+                  value={fromText}
                   placeholder="Enter From Date"
-                  blur={fromDateBlurHandler} style={fromDateInputIsInValid && styles.errorBorderColor}/>
+                  blur={fromDateBlurHandler}
+                  style={fromDateInputIsInValid && styles.errorBorderColor}
+                />
                 {fromDateInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter from date</Text>
-               )}
+                  <Text style={{ color: "red", left: 20 }}>
+                    Enter from date
+                  </Text>
+                )}
                 {fromShow && (
                   <DateTimePicker
                     testID="dateTimePicker"
@@ -398,8 +478,8 @@ const TecahersExamTimeTable = () => {
                 >
                   <Ionicons
                     style={{
-                      position:'absolute',
-                      top:20
+                      position: "absolute",
+                      top: 20,
                     }}
                     name="calendar"
                     size={24}
@@ -407,13 +487,15 @@ const TecahersExamTimeTable = () => {
                     onPress={() => showToMode("date")}
                   />
                 </View>
-                <Input  value={toText}  
-                placeholder="Enter To Date"
-                blur={toDateBlurHanlder} 
-                style={toDateInputIsInValid && styles.errorBorderColor}/>
+                <Input
+                  value={toText}
+                  placeholder="Enter To Date"
+                  blur={toDateBlurHanlder}
+                  style={toDateInputIsInValid && styles.errorBorderColor}
+                />
                 {toDateInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter to date</Text>
-            )}
+                  <Text style={{ color: "red", left: 20 }}>Enter to date</Text>
+                )}
                 {toShow && (
                   <DateTimePicker
                     testID="dateTimePicker"
@@ -436,7 +518,7 @@ const TecahersExamTimeTable = () => {
               blur={markBlurHanlder}
             />
             {marksInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter to date</Text>
+              <Text style={{ color: "red", left: 20 }}>Enter to date</Text>
             )}
             <Input
               onChangeText={hourChangeHandler}
@@ -447,7 +529,7 @@ const TecahersExamTimeTable = () => {
               blur={hourBlurHanlder}
             />
             {hourInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter to date</Text>
+              <Text style={{ color: "red", left: 20 }}>Enter to date</Text>
             )}
             <Text style={styles.labels}>Class Name</Text>
 
@@ -571,7 +653,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "black",
     borderBottomWidth: 2,
   },
-  errorBorderColor:{
+  errorBorderColor: {
     color: "black",
     borderBottomWidth: 1,
     borderColor: "red",
@@ -581,7 +663,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     fontSize: 18,
   },
-  errorSelectedColor:{
-    borderColor:'red'
+  errorSelectedColor: {
+    borderColor: "red",
   },
 });

@@ -39,9 +39,9 @@ const TeachersTimetable = () => {
   const [TimeTableData, setTimeTableData] = useState([]);
 
   const [selectedTimeTable, setSelectedTimeTable] = useState("");
-  const [enteredSelectedTouched,setEnteredSelectedTouched]=useState(false)
-  const enteredSelcetdIsValid=selectedTimeTable.trim()!=='';
-  const selectInputIsInValid=!enteredSelcetdIsValid && enteredSelectedTouched;
+  const [enteredSelectedTouched, setEnteredSelectedTouched] = useState(false);
+  const enteredSelcetdIsValid = selectedTimeTable.trim() !== "";
+  const selectInputIsInValid = !enteredSelcetdIsValid && enteredSelectedTouched;
 
   const [fromTime, setFromTime] = useState(new Date());
   const [toTime, setToTime] = useState(new Date());
@@ -53,14 +53,15 @@ const TeachersTimetable = () => {
   const [toTimeShow, setToTimeShow] = useState(false);
 
   const [fromTimeText, setFromTimeText] = useState("");
-  const [enteredFromTimeTouched,setEnteredFromTimeTouched]=useState(false)
-  const enteredFromTimeIsValid=fromTimeText.trim()!=='';
-  const fromtimeInputIsInValid=!enteredFromTimeIsValid && enteredFromTimeTouched;
+  const [enteredFromTimeTouched, setEnteredFromTimeTouched] = useState(false);
+  const enteredFromTimeIsValid = fromTimeText.trim() !== "";
+  const fromtimeInputIsInValid =
+    !enteredFromTimeIsValid && enteredFromTimeTouched;
 
   const [toTimeText, setToTimeText] = useState("");
-  const [enteredToTimeTouched,setEnteredToTimeTouched]=useState(false)
-  const enteredToTimeIsValid=toTimeText.trim()!=='';
-  const TotimeInputIsInValid=!enteredToTimeIsValid && enteredToTimeTouched;
+  const [enteredToTimeTouched, setEnteredToTimeTouched] = useState(false);
+  const enteredToTimeIsValid = toTimeText.trim() !== "";
+  const TotimeInputIsInValid = !enteredToTimeIsValid && enteredToTimeTouched;
 
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
@@ -95,9 +96,10 @@ const TeachersTimetable = () => {
   const [dateShow, setDateShow] = useState(false);
 
   const [dateText, setDateText] = useState("");
-  const [enteredDateTextTouched,setEnteredDateTextTouched]=useState(false)
-  const enteredDateTextIsValid=dateText.trim()!=='';
-  const dateTextInputIsInValid=!enteredDateTextIsValid && enteredDateTextTouched;
+  const [enteredDateTextTouched, setEnteredDateTextTouched] = useState(false);
+  const enteredDateTextIsValid = dateText.trim() !== "";
+  const dateTextInputIsInValid =
+    !enteredDateTextIsValid && enteredDateTextTouched;
 
   const [datemode, setDateMode] = useState("date");
 
@@ -138,7 +140,7 @@ const TeachersTimetable = () => {
   }, []);
   function createdDateChangeHandler(enteredValue) {
     setEnteredCreatedDate(enteredValue);
-    setDateText(enteredValue)
+    setDateText(enteredValue);
   }
 
   function fromTimeHandler(enteredValue) {
@@ -151,7 +153,7 @@ const TeachersTimetable = () => {
   //   setInputs(_inputs);
   // };
 
-  function fromTimeChangeHandler(event, selectedFromTime, key) {
+  function fromTimeChangeHandler(event, selectedFromTime) {
     // const _inputs = [...inputs];
     // _inputs[key].fromTime = event;
     // setInputs(_inputs);
@@ -184,12 +186,12 @@ const TeachersTimetable = () => {
 
       //console.log(_inputs["fromTime"].fromTime);
       console.log("formatted time :", fTime);
-      const _inputs = [...inputs];
+      //const _inputs = [...inputs];
 
-      _inputs[key].fromTime = currentFromTime;
+      //_inputs[key].fromTime = currentFromTime;
 
       setFromTimeText(fTime);
-      setInputs(_inputs);
+      //  setInputs(_inputs);
 
       //const _inputs = [...inputs];
 
@@ -286,8 +288,7 @@ const TeachersTimetable = () => {
   }
 
   function addDailyTimeTableHandler() {
-
-    console.log(inputs);
+    //  console.log(inputs);
 
     let selectedData = selectedTimeTable.split(" - ");
     let class_name = selectedData[0];
@@ -296,32 +297,44 @@ const TeachersTimetable = () => {
     const sendtoTimeTable = {
       class_name: class_name,
       section: section,
+      timetable_date: createdDate,
     };
 
-    console.log(sendtoTimeTable);
-    console.log(createdDate);
+    // console.log(sendtoTimeTable);
+    // console.log(createdDate);
 
     setEnteredSelectedTouched(true);
     setEnteredDateTextTouched(true);
     setEnteredFromTimeTouched(true);
     setEnteredToTimeTouched(true);
-    if(!enteredSelcetdIsValid){
+    if (!enteredSelcetdIsValid) {
       return;
     }
-    if(!enteredDateTextIsValid){
+    if (!enteredDateTextIsValid) {
       return;
     }
-    if(!enteredFromTimeIsValid){
-      return;
-    }
-    if(!enteredToTimeIsValid){
-      return;
-    }
-    else{
+    // if (!enteredFromTimeIsValid) {
+    //   return;
+    // }
+    // if (!enteredToTimeIsValid) {
+    //   return;
+    // }
+    else {
       async function storeTimeTable() {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
         };
+        //    console.log(sendtoTimeTable);
+
+        const getTimeTableData = await axios.get(
+          `http://10.0.2.2:8000/school/Timetable/`,
+
+          {
+            headers: headers,
+          }
+        );
+        //console.log(getTimeTableData.data);
+
         const resLoginTimeTable = await axios.post(
           `http://10.0.2.2:8000/school/Timetable/`,
           sendtoTimeTable,
@@ -339,51 +352,50 @@ const TeachersTimetable = () => {
       setShowTable(false);
     }
 
-
-    // const FormData = {
-    //   from_time: fromTime,
-    //   to_time: toTime,
-    //   monday: inputs.monday,
-    //   Tuesday: inputs.tuesday,
-    //   wednesday: inputs.wednesday,
-    //   thursday: inputs.thursday,
-    //   friday: inputs.friday,
-    //   saturday: inputs.saturday,
-    //   createdDate: createdDate,
-    // };
-    // console.log(FormData);
-    // async function storeData() {
-    //   try {
-    //     let headers = {
-    //       "Content-Type": "application/json; charset=utf-8",
-    //     };
-    //     const dataForm = FormData;
-    //     const resLogin = await axios.post(
-    //       `http://10.0.2.2:8000/school/AddmoreTimetable_list/`,
-    //       dataForm,
-    //       {
-    //         headers: headers,
-    //       }
-    //     );
-    //     console.log(resLoginTimeTable);
-    //     const token = resLogin.data.token;
-    //     // Token = token;
-    //     // UserId = userId;
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
-    // storeData();
-    // setFromTimeText("");
-    // setToTimeText("");
-    // setToTime("");
-    // setEnteredMonday("");
-    // setEnteredTuesday("");
-    // setEnteredWednesday("");
-    // setEnteredThursday("");
-    // setEnteredFriday("");
-    // setEnteredSaturday("");
-    // setDateText("");
+    const FormData = {
+      // from_time: inputs.fromTime,
+      // to_time: inputs.toTime,
+      monday: inputs.monday,
+      Tuesday: inputs.tuesday,
+      wednesday: inputs.wednesday,
+      thursday: inputs.thursday,
+      friday: inputs.friday,
+      saturday: inputs.saturday,
+      createdDate: createdDate,
+    };
+    console.log(FormData);
+    async function storeData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+        };
+        const dataForm = FormData;
+        const resLogin = await axios.post(
+          `http://10.0.2.2:8000/school/AddmoreTimetable_list/`,
+          dataForm,
+          {
+            headers: headers,
+          }
+        );
+        console.log(resLoginTimeTable);
+        const token = resLogin.data.token;
+        // Token = token;
+        // UserId = userId;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    storeData();
+    setFromTimeText("");
+    setToTimeText("");
+    setToTime("");
+    setEnteredMonday("");
+    setEnteredTuesday("");
+    setEnteredWednesday("");
+    setEnteredThursday("");
+    setEnteredFriday("");
+    setEnteredSaturday("");
+    setDateText("");
   }
 
   const deleteHandler = (key) => {
@@ -470,13 +482,13 @@ const TeachersTimetable = () => {
     viewDailyTimeTableList();
   }, []);
 
-  function dateTextBlur(){
+  function dateTextBlur() {
     setEnteredDateTextTouched(true);
   }
-  function fromTextBlur(){
+  function fromTextBlur() {
     setEnteredFromTimeTouched(true);
   }
-  function toTextBlur(){
+  function toTextBlur() {
     setEnteredToTimeTouched(true);
   }
   return (
@@ -521,26 +533,103 @@ const TeachersTimetable = () => {
                   <View style={styles.th}>
                     <Text style={styles.tableTitle}> SATURDAY</Text>
                   </View>
+                  <View style={styles.th}>
+                    <Text
+                      style={{
+                        margin: 7,
+                        marginLeft: 50,
+                        fontFamily: "MonsterratBold",
+                        fontSize: 16,
+                      }}
+                    >
+                      ACTIONS
+                    </Text>
+                  </View>
                 </DataTable.Header>
                 {showTimeTableData.map((data, key) => (
-                  <DataTable.Row style={styles.tableRow}>
-                    <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Row style={styles.tableRow} key={key}>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 40,
+                      }}
+                    >
                       {data.monday}
                     </DataTable.Cell>
-                    <DataTable.Cell style={styles.tableCell}>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 70,
+                      }}
+                    >
                       {data.Tuesday}
                     </DataTable.Cell>
-                    <DataTable.Cell style={styles.tableCell}>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 100,
+                      }}
+                    >
                       {data.wednesday}
                     </DataTable.Cell>
-                    <DataTable.Cell style={styles.tableCell}>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 80,
+                      }}
+                    >
                       {data.thursday}
                     </DataTable.Cell>
-                    <DataTable.Cell style={styles.tableCell}>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 90,
+                      }}
+                    >
                       {data.friday}
                     </DataTable.Cell>
-                    <DataTable.Cell style={styles.tableCell}>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 100,
+                      }}
+                    >
                       {data.saturday}
+                    </DataTable.Cell>
+
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 110,
+                      }}
+                    >
+                      <Ionicons
+                        name="md-pencil-sharp"
+                        size={24}
+                        color="green"
+                        onPress={() => editItem(data.id)}
+                      />
+                    </DataTable.Cell>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        //marginLeft: 15,
+                      }}
+                    >
+                      <Ionicons
+                        name="trash"
+                        size={24}
+                        color="red"
+                        onPress={() => deleteItem(data.id)}
+                      />
                     </DataTable.Cell>
                   </DataTable.Row>
                 ))}
@@ -558,6 +647,7 @@ const TeachersTimetable = () => {
                     <View style={styles.title}>
                       <Text style={styles.labels}>Class name</Text>
                     </View>
+
                     <View
                       style={{
                         borderWidth: 2,
@@ -571,13 +661,17 @@ const TeachersTimetable = () => {
                         setSelected={setSelectedTimeTable}
                         data={TimeTableData}
                         placeholder="select class"
-                        style={{
-                          color: "red !important",
-                          fontWeight: "bold",
-                          fontSize: 54,
+                        dropdownTextStyles={{
+                          fontSize: 18,
                           fontFamily: "HindRegular",
                         }}
-                        boxStyles={selectInputIsInValid && styles.errorSelectedColor}
+                        inputStyles={{
+                          fontSize: 20,
+                          fontFamily: "HindRegular",
+                        }}
+                        boxStyles={
+                          selectInputIsInValid && styles.errorSelectedColor
+                        }
                       />
                     </View>
                   </View>
@@ -585,40 +679,42 @@ const TeachersTimetable = () => {
                   <View style={styles.space} />
 
                   <View style={{ flex: 1 }}>
-                      <View>
-                        <Ionicons
-                          style={{
-                            position: "absolute",
-                            top:25
-                          }}
-                          name="calendar"
-                          size={24}
-                          color="black"
-                          onPress={() => showDateMode("date")}
-                        />
-                      </View>
-                      <Input
-                        placeholder="Created Date"
-                        onChangeText={createdDateChangeHandler}
-                        value={dateText || createdDate}
-                        blur={dateTextBlur}
-                        style={dateTextInputIsInValid && styles.errorBorderColor}
+                    <View>
+                      <Ionicons
+                        style={{
+                          position: "absolute",
+                          top: 25,
+                        }}
+                        name="calendar"
+                        size={24}
+                        color="black"
+                        onPress={() => showDateMode("date")}
                       />
-                      {dateTextInputIsInValid && (
-                        <Text style={{ color: "red",left:20 }}>Enter creation date</Text>
-                      )}
-                      {dateShow && (
-                        <DateTimePicker
-                          testID="dateTimePicker"
-                          value={createdDate}
-                          mode={datemode}
-                          is24Hour={true}
-                          display="default"
-                          onChange={DateChangeHandler}
+                    </View>
+                    <Input
+                      placeholder="Created Date"
+                      onChangeText={createdDateChangeHandler}
+                      value={dateText || createdDate}
+                      blur={dateTextBlur}
+                      style={dateTextInputIsInValid && styles.errorBorderColor}
+                    />
+                    {dateTextInputIsInValid && (
+                      <Text style={{ color: "red", left: 20 }}>
+                        Enter creation date
+                      </Text>
+                    )}
+                    {dateShow && (
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={createdDate}
+                        mode={datemode}
+                        is24Hour={true}
+                        display="default"
+                        onChange={DateChangeHandler}
 
-                          //  minimumDate={fromDate}
-                        />
-                      )}
+                        //  minimumDate={fromDate}
+                      />
+                    )}
                   </View>
                 </View>
 
@@ -636,8 +732,8 @@ const TeachersTimetable = () => {
                         <View>
                           <Ionicons
                             style={{
-                              position:'absolute',
-                              top:26
+                              position: "absolute",
+                              top: 26,
                             }}
                             name="timer-sharp"
                             size={24}
@@ -654,11 +750,15 @@ const TeachersTimetable = () => {
                           // onChangeText={(text) =>
                           //   inputHandlerFromDate(text, key)
                           // }
-                          style={fromtimeInputIsInValid && styles.errorBorderColor}
+                          style={
+                            fromtimeInputIsInValid && styles.errorBorderColor
+                          }
                           onSubmitEditing={Keyboard.dismiss}
                         />
                         {fromtimeInputIsInValid && (
-                         <Text style={{ color: "red",left:20 }}>Enter from time</Text>
+                          <Text style={{ color: "red", left: 20 }}>
+                            Enter from time
+                          </Text>
                         )}
                         {fromTimeShow && (
                           // <View key={key}>
@@ -683,8 +783,8 @@ const TeachersTimetable = () => {
                         <View>
                           <Ionicons
                             style={{
-                              position:'absolute',
-                              top:26
+                              position: "absolute",
+                              top: 26,
                             }}
                             name="timer-sharp"
                             size={24}
@@ -699,10 +799,14 @@ const TeachersTimetable = () => {
                           onChangeText={toTimeChangeHandler}
                           placeholder="To Time:"
                           blur={toTextBlur}
-                          style={TotimeInputIsInValid && styles.errorBorderColor}
+                          style={
+                            TotimeInputIsInValid && styles.errorBorderColor
+                          }
                         />
                         {TotimeInputIsInValid && (
-                         <Text style={{ color: "red",left:20 }}>Enter to time</Text>
+                          <Text style={{ color: "red", left: 20 }}>
+                            Enter to time
+                          </Text>
                         )}
                         {toTimeShow && (
                           <DateTimePicker
@@ -880,7 +984,7 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 5,
   },
-  errorBorderColor:{
+  errorBorderColor: {
     color: "black",
     borderBottomWidth: 1,
     borderColor: "red",
@@ -890,8 +994,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     fontSize: 18,
   },
-  errorSelectedColor:{
-    borderColor:'red'
+  errorSelectedColor: {
+    borderColor: "red",
   },
   inputStyle: {
     color: "black",

@@ -72,17 +72,17 @@ const TeachersCalendar = () => {
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [dateIsInCorrect, setDateIsInCorrect] = useState(false);
   const [data, setData] = useState([]);
-  const [isEdit,setIsEdit]=useState(false);
-  const [isDelete,setIsDelete]=useState(false);
-  const [isSame,SetIsSame]=useState(false);
-  let i=0;
+  const [isEdit, setIsEdit] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+  const [isSame, SetIsSame] = useState(false);
+  let i = 0;
 
   // async function logoutHandler() {
   //   try {
   //     const value = await AsyncStorage.getItem("key");
   //     if (value == null) {
 
-  //     } 
+  //     }
   //   } catch (error) {
   //     console.log(error);
   //   }
@@ -92,21 +92,22 @@ const TeachersCalendar = () => {
     async function fetchData() {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
-        console.log(res.data);
-        const id = res.data.map((id) => id.created_by);
-        console.log(id);
+
+        //  const id = res.data.map((id) => id.created_by);
+        //  console.log(id);
         setData(res.data);
+        console.log(res.data);
         // console.log(data)
-        let test=0;
+        let test = 0;
         const value = await AsyncStorage.getItem("key");
-        for(i=0;i<res.data.length;i++){
-          if(value==res.data[i].created_by){
-             test=res.data[i].created_by
-          }else{
+        for (i = 0; i < res.data.length; i++) {
+          if (value == res.data[i].created_by) {
+            test = res.data[i].created_by;
+          } else {
             // console.log('false')
           }
         }
-        if(test==value){
+        if (test == value) {
           // console.log("is same")
           SetIsSame(true);
         }
@@ -363,6 +364,22 @@ const TeachersCalendar = () => {
         ]
       );
     }
+    if (isValid) {
+      Alert.alert("Saved Data", "Saved Data successfully", [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            setShowForm(false);
+            showCalendar();
+          },
+        },
+      ]);
+    }
     setEnteredTitleTouched(true);
     setEnteredDescriptionTouched(true);
     // setEnteredCreatedbyTouched(true);
@@ -445,10 +462,22 @@ const TeachersCalendar = () => {
     setShowList(false);
   }
   function showCalendar() {
-    setForCalendarForm({ fontWeight: "bold", color: "black" });
-    setForCalendarList({ color: "black" });
-    setShowForm(false);
-    setShowList(true);
+    async function fetchData() {
+      try {
+        const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
+        console.log(res.data);
+
+        setData(res.data);
+
+        setForCalendarForm({ fontWeight: "bold", color: "black" });
+        setForCalendarList({ color: "black" });
+        setShowForm(false);
+        setShowList(true);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
   }
 
   function editItem(id) {
@@ -520,7 +549,16 @@ const TeachersCalendar = () => {
               style={titleInputIsInValid && styles.errorBorderColor}
             />
             {titleInputIsInValid && (
-              <Text style={{ color: "red", left: 20 }}>Enter the title</Text>
+              <Text
+                style={{
+                  color: "red",
+                  left: 20,
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+              >
+                Enter the title
+              </Text>
             )}
             <Input
               placeholder="Description"
@@ -531,7 +569,16 @@ const TeachersCalendar = () => {
               style={descriptionInputIsInValid && styles.errorBorderColor}
             />
             {descriptionInputIsInValid && (
-              <Text style={{ color: "red", left: 20 }}>Enter description</Text>
+              <Text
+                style={{
+                  color: "red",
+                  left: 20,
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+              >
+                Enter description
+              </Text>
             )}
             {/* <Input 
             // keyboardType="number-pad"
@@ -568,7 +615,14 @@ const TeachersCalendar = () => {
                   onChangeText={frmDateHandler}
                 />
                 {fromDateInputIsInValid && (
-                  <Text style={{ color: "red", left: 20 }}>
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
                     Enter from date
                   </Text>
                 )}
@@ -606,7 +660,16 @@ const TeachersCalendar = () => {
                   onChangeText={toDateHandler}
                 />
                 {toDateInputIsInValid && (
-                  <Text style={{ color: "red", left: 20 }}>Enter to date</Text>
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
+                    Enter to date
+                  </Text>
                 )}
                 {toShow && (
                   <DateTimePicker
@@ -639,53 +702,103 @@ const TeachersCalendar = () => {
           <DataTable>
             <DataTable.Header style={styles.tableHeader}>
               <View style={styles.th}>
-                <Text style={styles.tableTitle}>Title</Text>
+                <Text style={styles.tableTitle}>TITLE</Text>
               </View>
               <View style={styles.th}>
-                <Text style={styles.tableTitle}>Description</Text>
+                <Text style={styles.tableTitle}>DESCRIPTION</Text>
               </View>
               {/* <View style={styles.th}>
               <Text style={styles.tableTitle}>created by</Text>
             </View> */}
               <View style={styles.th}>
-                <Text style={styles.tableTitle}>Start Date</Text>
+                <Text style={styles.tableTitle}>START DATE </Text>
               </View>
               <View style={styles.th}>
-                <Text style={styles.tableTitle}>End Date</Text>
+                <Text style={styles.tableTitle}>END DATE</Text>
               </View>
+
               <View style={styles.th}>
-                <Text style={styles.tableTitle}>Update</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}>Delete</Text>
+                <Text
+                  style={{
+                    margin: 7,
+                    marginLeft: 50,
+                    fontFamily: "MonsterratBold",
+                    fontSize: 16,
+                  }}
+                >
+                  ACTIONS
+                </Text>
               </View>
             </DataTable.Header>
             {data &&
               data.map((data, key) => (
                 <DataTable.Row style={styles.tableRow}>
-                  {/* <DataTable.Cell style={styles.tableCell}>
-                  {data.id}
-                </DataTable.Cell> */}
-                  <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 20,
+                    }}
+                  >
                     {data.titlee}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 50,
+                    }}
+                  >
                     {data.description}
                   </DataTable.Cell>
-                  {/* <DataTable.Cell style={styles.tableCell}>
-                 {data.created_by}
-                </DataTable.Cell> */}
-                  <DataTable.Cell style={styles.tableCell}>
+
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 50,
+                    }}
+                  >
                     {data.startdate}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 50,
+                    }}
+                  >
                     {data.enddate}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
-                    <Btn title="Edit" onPress={() => editItem(data.id)} />
+
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 120,
+                    }}
+                  >
+                    <Ionicons
+                      name="md-pencil-sharp"
+                      size={24}
+                      color="green"
+                      onPress={() => editItem(data.id)}
+                    />
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
-                    <Btn title="Delete" onPress={() => deleteItem(data.id)} />
+
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 10,
+                    }}
+                  >
+                    <Ionicons
+                      name="trash"
+                      size={24}
+                      color="red"
+                      onPress={() => deleteItem(data.id)}
+                    />
                   </DataTable.Cell>
                 </DataTable.Row>
               ))}
@@ -761,6 +874,3 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
 });
-
-
-

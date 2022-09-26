@@ -103,8 +103,8 @@ const TeachersHomework = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [tranportData, setTranportData] = useState([]);
-  const [isSame,SetIsSame]=useState(false);
-  let i=0;
+  const [isSame, SetIsSame] = useState(false);
+  let i = 0;
   // useEffect(()=>{
   //   if(enteredSubjectIsValid && enteredFromDateIsValid && enteredtoDateIsValid && enteredRemarkIsValid && enteredHomeWorkIsValid){
   //     setFormIsValid(true);
@@ -122,16 +122,16 @@ const TeachersHomework = () => {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
         setTranportData(res.data);
-        let test=0;
+        let test = 0;
         const value = await AsyncStorage.getItem("key");
-        for(i=0;i<res.data.length;i++){
-          if(value==res.data[i].created_by){
-             test=res.data[i].created_by
-          }else{
+        for (i = 0; i < res.data.length; i++) {
+          if (value == res.data[i].created_by) {
+            test = res.data[i].created_by;
+          } else {
             // console.log('false')
           }
         }
-        if(test==value){
+        if (test == value) {
           // console.log("is same")
           SetIsSame(true);
         }
@@ -479,6 +479,23 @@ const TeachersHomework = () => {
       );
     }
 
+    if (isValid) {
+      Alert.alert("Data saved", "Data saved successfully", [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            setShowForm(false);
+            showHomework();
+          },
+        },
+      ]);
+    }
+
     var dateToValidate = toText;
     var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
     if (!isValid) {
@@ -617,10 +634,20 @@ const TeachersHomework = () => {
     setShowList(false);
   }
   function showHomework() {
-    setForHomeworkForm({ fontWeight: "bold", color: "black" });
-    setForHomeworkList({ color: "black" });
-    setShowForm(false);
-    setShowList(true);
+    async function fetchData() {
+      try {
+        const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
+        setTranportData(res.data);
+
+        setForHomeworkForm({ fontWeight: "bold", color: "black" });
+        setForHomeworkList({ color: "black" });
+        setShowForm(false);
+        setShowList(true);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
   }
   function editItem(id) {
     const filteredDummuyData = tranportData.find((data) => data.id == id);
@@ -846,11 +873,6 @@ const TeachersHomework = () => {
                 Enter homework
               </Text>
             )}
-            {/* <View>
-            <Text style={styles.labels}>UPLOAD IMAGE</Text>
-            <View style={styles.imagePreView}>{imagePreView}</View>
-            <Btn title="take image" onPress={takeImageHanlder} />
-          </View> */}
 
             <Text style={styles.labels}>Upload Image</Text>
             <View
@@ -872,14 +894,16 @@ const TeachersHomework = () => {
                 Please upload or take homework image
               </Text>
             )}
-            <View style={{ marginTop: 13 }}>
+            <View
+              style={{
+                marginTop: 13,
+                backgroundColor: "red",
+                width: "50%",
+                fontFamily: "HindRegular",
+                fontSize: 18,
+              }}
+            >
               <Btn title="Upload Image" onPress={PickImage} />
-              {/* {image && (
-              <Image
-                source={{ uri: image }}
-                style={{ width: 200, height: 200 }}
-              />
-            )} */}
             </View>
             {!isEdit && (
               <View style={styles.btnSubmit}>
@@ -899,23 +923,23 @@ const TeachersHomework = () => {
           <DataTable style={styles.container}>
             <DataTable.Header style={styles.tableHeader}>
               <View style={styles.th}>
-                <Text style={styles.tableTitle}> Class Name</Text>
+                <Text style={styles.tableTitle}> CLASS NAME</Text>
               </View>
               <View style={styles.th}>
                 <Text style={styles.tableTitle}> Section</Text>
               </View>
               <View style={styles.th}>
-                <Text style={styles.tableTitle}> Subject</Text>
+                <Text style={styles.tableTitle}> SUBJECT</Text>
               </View>
               <View style={styles.th}>
-                <Text style={styles.tableTitle}> Homework date</Text>
+                <Text style={styles.tableTitle}> HOMEWORK DATE</Text>
               </View>
               <View style={styles.th}>
-                <Text style={styles.tableTitle}> Remark</Text>
+                <Text style={styles.tableTitle}> REMARK</Text>
               </View>
 
               <View style={styles.th}>
-                <Text style={styles.tableTitle}> Due date</Text>
+                <Text style={styles.tableTitle}>DUE DATE</Text>
               </View>
 
               <View style={styles.th}>
@@ -927,14 +951,14 @@ const TeachersHomework = () => {
                     fontSize: 16,
                   }}
                 >
-                  Actions
+                  ACTIONS
                 </Text>
               </View>
             </DataTable.Header>
 
             {tranportData &&
               tranportData.map((tranportData, key) => (
-                <DataTable.Row style={styles.tableRow}>
+                <DataTable.Row style={styles.tableRow} key={key}>
                   <DataTable.Cell
                     textStyle={{
                       fontSize: 18,
@@ -991,16 +1015,32 @@ const TeachersHomework = () => {
                     {tranportData.due_date}
                   </DataTable.Cell>
 
-                  <DataTable.Cell style={styles.tableCell}>
-                    <Btn
-                      title="Edit"
-                      onPress={() => editItem(tranportData.id)}
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 110,
+                    }}
+                  >
+                    <Ionicons
+                      name="md-pencil-sharp"
+                      size={24}
+                      color="green"
+                      onPress={() => editItem(data.id)}
                     />
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
-                    <Btn
-                      title="Delete"
-                      onPress={() => deleteItem(tranportData.id)}
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      //marginLeft: 15,
+                    }}
+                  >
+                    <Ionicons
+                      name="trash"
+                      size={24}
+                      color="red"
+                      onPress={() => deleteItem(data.id)}
                     />
                   </DataTable.Cell>
                 </DataTable.Row>
@@ -1024,11 +1064,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     fontSize: 24,
   },
+  container: {
+    marginTop: 20,
+  },
   home: {
     marginTop: 29,
   },
   root: {
     backgroundColor: "#EBECFO",
+    marginTop: 10,
   },
   inputForm: {
     padding: 20,

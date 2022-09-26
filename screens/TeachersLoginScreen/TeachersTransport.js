@@ -19,6 +19,7 @@ import { FlatList } from "react-native";
 import { DataTable } from "react-native-paper";
 import data from "../../components/store/mockdata.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Ionicons } from "@expo/vector-icons";
 // // import { withExpoSnack } from 'nativewind';
 // import { styled } from 'nativewind';
 
@@ -51,9 +52,9 @@ const TeachersTransport = () => {
   const drivernameInputIsInValid =
     !enteredDrivernameIsValid && enteredDrivernameTouched;
 
-  const [mobile, setEnteredMobile] = useState("");
+  const [mobile, setEnteredMobile] = useState();
   const [enteredMobileTouched, setEnteredMobileTouched] = useState(false);
-  const enteredMobileIsValid = mobile.trim() !== "";
+  const enteredMobileIsValid = mobile !== "";
   const mobileInputIsInValid = !enteredMobileIsValid && enteredMobileTouched;
 
   const [routename, setEnteredRouteName] = useState("");
@@ -360,6 +361,24 @@ const TeachersTransport = () => {
     setShowList(false);
   }
   function showTransport() {
+    async function fetchData() {
+      try {
+        const res = await axios.get(
+          `http://10.0.2.2:8000/school/Transportreport/`
+        );
+        console.log(res.data);
+
+        setData(res.data);
+
+        setForCalendarForm({ fontWeight: "bold", color: "black" });
+        setForCalendarList({ color: "black" });
+        setShowForm(false);
+        setShowList(true);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
     setForTransportForm({ fontWeight: "bold", color: "black" });
     setForTransportList({ color: "black" });
     setShowForm(false);
@@ -436,7 +455,16 @@ const TeachersTransport = () => {
               style={busnumberInputIsInValid && styles.errorBorderColor}
             />
             {busnumberInputIsInValid && (
-              <Text style={{ color: "red", left: 20 }}>Enter bus number</Text>
+              <Text
+                style={{
+                  color: "red",
+                  left: 20,
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+              >
+                Enter bus number
+              </Text>
             )}
 
             <Input
@@ -449,7 +477,14 @@ const TeachersTransport = () => {
               style={vehicleNoInputIsInValid && styles.errorBorderColor}
             />
             {vehicleNoInputIsInValid && (
-              <Text style={{ color: "red", left: 20 }}>
+              <Text
+                style={{
+                  color: "red",
+                  left: 20,
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+              >
                 Enter vehicle number
               </Text>
             )}
@@ -463,7 +498,16 @@ const TeachersTransport = () => {
               style={typeInputIsInValid && styles.errorBorderColor}
             />
             {typeInputIsInValid && (
-              <Text style={{ color: "red", left: 20 }}>Enter type</Text>
+              <Text
+                style={{
+                  color: "red",
+                  left: 20,
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+              >
+                Enter type
+              </Text>
             )}
 
             <Input
@@ -475,7 +519,16 @@ const TeachersTransport = () => {
               style={drivernameInputIsInValid && styles.errorBorderColor}
             />
             {drivernameInputIsInValid && (
-              <Text style={{ color: "red", left: 20 }}>Enter driver name</Text>
+              <Text
+                style={{
+                  color: "red",
+                  left: 20,
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+              >
+                Enter driver name
+              </Text>
             )}
 
             <Input
@@ -489,7 +542,14 @@ const TeachersTransport = () => {
               style={mobileInputIsInValid && styles.errorBorderColor}
             />
             {mobileInputIsInValid && (
-              <Text style={{ color: "red", left: 20 }}>
+              <Text
+                style={{
+                  color: "red",
+                  left: 20,
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+              >
                 Enter mobile number
               </Text>
             )}
@@ -503,7 +563,16 @@ const TeachersTransport = () => {
               style={routenameInputIsInValid && styles.errorBorderColor}
             />
             {routenameInputIsInValid && (
-              <Text style={{ color: "red", left: 20 }}>Enter route name</Text>
+              <Text
+                style={{
+                  color: "red",
+                  left: 20,
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+              >
+                Enter route name
+              </Text>
             )}
 
             <Input
@@ -515,7 +584,16 @@ const TeachersTransport = () => {
               style={stopnameInputIsInValid && styles.errorBorderColor}
             />
             {stopnameInputIsInValid && (
-              <Text style={{ color: "red", left: 20 }}>Enter stop name</Text>
+              <Text
+                style={{
+                  color: "red",
+                  left: 20,
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+              >
+                Enter stop name
+              </Text>
             )}
             {!isEdit && (
               <View style={styles.btnSubmit}>
@@ -537,7 +615,6 @@ const TeachersTransport = () => {
               <View style={styles.th}>
                 <Text style={styles.tableTitle}> BUS NUMBER</Text>
               </View>
-
               <View style={styles.th}>
                 <Text style={styles.tableTitle}> VEHICLENO</Text>
               </View>
@@ -547,32 +624,29 @@ const TeachersTransport = () => {
               <View style={styles.th}>
                 <Text style={styles.tableTitle}> DRIVER NAME</Text>
               </View>
-
               <View style={styles.th}>
                 <Text style={styles.tableTitle}> EMP MOBILE</Text>
               </View>
-
               <View style={styles.th}>
                 <Text style={styles.tableTitle}> ROUTE NAME</Text>
               </View>
-
               <View style={styles.th}>
                 <Text style={styles.tableTitle}> STOP NAME</Text>
               </View>
-              {isSame && (
-                <View style={styles.th}>
-                  <Text
-                    style={{
-                      margin: 7,
-                      marginLeft: 50,
-                      fontFamily: "MonsterratBold",
-                      fontSize: 16,
-                    }}
-                  >
-                    ACTIONS
-                  </Text>
-                </View>
-              )}
+
+              <View style={styles.th}>
+                <Text
+                  style={{
+                    margin: 7,
+                    marginLeft: 50,
+                    fontFamily: "MonsterratBold",
+                    fontSize: 16,
+                  }}
+                >
+                  ACTIONS
+                </Text>
+              </View>
+
               {/* {isSame && <View style={styles.th}>
                 <Text style={styles.tableTitle}> Update</Text>
               </View>}
@@ -583,7 +657,7 @@ const TeachersTransport = () => {
 
             {data &&
               data.map((data, key) => (
-                <DataTable.Row style={styles.tableRow}>
+                <DataTable.Row style={styles.tableRow} key={key}>
                   <DataTable.Cell
                     textStyle={{
                       fontSize: 18,
@@ -597,7 +671,7 @@ const TeachersTransport = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 70,
+                      marginLeft: 50,
                     }}
                   >
                     {data.vehicleno}
@@ -606,7 +680,7 @@ const TeachersTransport = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 50,
+                      marginLeft: 20,
                     }}
                   >
                     {data.types}
@@ -615,7 +689,7 @@ const TeachersTransport = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 70,
+                      marginLeft: 50,
                     }}
                   >
                     {data.driver_name}
@@ -624,7 +698,7 @@ const TeachersTransport = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 130,
+                      marginLeft: 50,
                     }}
                   >
                     {data.emp_mobile}
@@ -633,7 +707,7 @@ const TeachersTransport = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 90,
+                      marginLeft: 50,
                     }}
                   >
                     {data.route_name}
@@ -642,51 +716,41 @@ const TeachersTransport = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 90,
+                      marginLeft: 70,
                     }}
                   >
                     {data.stop_name}
                   </DataTable.Cell>
-                  {isSame && (
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 120,
-                      }}
-                    >
-                      {/* <Btn title="Edit" onPress={() => editItem(data.id)} /> */}
-                      <Ionicons
-                        name="md-pencil-sharp"
-                        size={24}
-                        color="black"
-                        onPress={() => editItem(data.id)}
-                      />
-                    </DataTable.Cell>
-                  )}
-                  {isSame && (
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 10,
-                      }}
-                    >
-                      {/* <Btn title="Delete" onPress={() => deleteItem(data.id)} /> */}
-                      <Ionicons
-                        name="trash"
-                        size={24}
-                        color="black"
-                        onPress={() => deleteItem(data.id)}
-                      />
-                    </DataTable.Cell>
-                  )}
-                  {/* {isSame && <DataTable.Cell style={styles.tableCell}>
-                    <Btn title="Edit" onPress={()=> editItem(data.id)} />
-                  </DataTable.Cell>}
-                  {isSame && <DataTable.Cell style={styles.tableCell}>
-                    <Btn title="Delete" onPress={()=> deleteItem(data.id)} />
-                </DataTable.Cell>} */}
+
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 110,
+                    }}
+                  >
+                    <Ionicons
+                      name="md-pencil-sharp"
+                      size={24}
+                      color="green"
+                      onPress={() => editItem(data.id)}
+                    />
+                  </DataTable.Cell>
+
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      //marginLeft: 15,
+                    }}
+                  >
+                    <Ionicons
+                      name="trash"
+                      size={24}
+                      color="red"
+                      onPress={() => deleteItem(data.id)}
+                    />
+                  </DataTable.Cell>
                 </DataTable.Row>
               ))}
           </DataTable>
@@ -709,6 +773,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   container: {
+    marginTop: 10,
     padding: 10,
   },
   home: {
