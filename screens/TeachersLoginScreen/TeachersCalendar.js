@@ -22,7 +22,9 @@ import moment from "moment";
 import VerticalLine from "../../components/UI/VerticalLine";
 import { DataTable } from "react-native-paper";
 import FeedBackDialog from "../../components/UI/FeedBackDialog";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
+export var ID;
 const TeachersCalendar = () => {
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
@@ -93,12 +95,9 @@ const TeachersCalendar = () => {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
 
-        //  const id = res.data.map((id) => id.created_by);
-        //  console.log(id);
         setData(res.data);
-        console.log(res.data);
-        // console.log(data)
         let test = 0;
+
         const value = await AsyncStorage.getItem("key");
         for (i = 0; i < res.data.length; i++) {
           if (value == res.data[i].created_by) {
@@ -168,8 +167,10 @@ const TeachersCalendar = () => {
       (tempFromDate.getMonth() + 1) +
       "/" +
       tempFromDate.getFullYear();
+
     if (event.type == "set") {
       setFromText(fDate);
+      console.log(fDate);
     } else {
       //cancel button clicked
     }
@@ -215,8 +216,6 @@ const TeachersCalendar = () => {
   }
 
   function updateHandler() {
-    // let id=data.id;
-    // console.log(id)
     const FormData = {
       description: description,
       // created_by:createdby,
@@ -224,103 +223,58 @@ const TeachersCalendar = () => {
       enddate: toDate,
       titlee: title,
     };
-
-    console.log(FormData);
-
-    var dateFromValidate = fromText;
-    var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
-    if (!isValid) {
-      Alert.alert(
-        "Format Error",
-        "It seems to be you entered wrong date format please follow D/M/YYYY format ",
-        [
+    async function updateData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+        };
+        const dataForm = FormData;
+        const resLogin = await axios.put(
+          `http://10.0.2.2:8000/school/Calendar/${ID}/`,
+          dataForm,
           {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel",
-          },
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]
-      );
-    }
-
-    var dateToValidate = toText;
-    var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
-    if (!isValid) {
-      Alert.alert(
-        "Format Error",
-        "It seems to be you entered wrong date format please follow D/M/YYYY format",
-        [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel",
-          },
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]
-      );
-    }
-    setEnteredTitleTouched(true);
-    setEnteredDescriptionTouched(true);
-    setEnteredFromDateTouched(true);
-    setEnteredtoDateTouched(true);
-    // setEnteredCreatedbyTouched(true);
-    // setCheckFromDateTouched(true);
-    // setCheckToDateTouched(true);
-    if (!enteredTitleIsValid) {
-      return;
-    }
-    if (!enteredDescriptionIsValid) {
-      return;
-    }
-    // if(!enteredCreatedByIsValid){
-    //   return;
-    // }
-    if (!enteredFromDateIsValid) {
-      return;
-    }
-
-    if (!enteredtoDateIsValid) {
-      return;
-    } else {
-      async function storeData() {
-        try {
-          let headers = {
-            "Content-Type": "application/json; charset=utf-8",
-          };
-          const dataForm = FormData;
-          const resLogin = await axios.put(
-            `http://10.0.2.2:8000/school/Calendar/7/`,
-            dataForm,
-            {
-              headers: headers,
-            }
-          );
-          // const token = resLogin.data.token;
-          // const userId = resLogin.data.user_id;
-          console.log(resLogin.data);
-        } catch (error) {
-          console.log(error);
-        }
+            headers: headers,
+          }
+        );
+        // const token = resLogin.data.token;
+        // const userId = resLogin.data.user_id;
+      } catch (error) {
+        console.log(error);
       }
-      storeData();
-      setEnteredDescription("");
-      setEnteredTitle("");
-      setFromText("");
-      setToText("");
-      setEnteredTitleTouched(false);
-      setEnteredDescriptionTouched(false);
-      // setEnteredCreatedbyTouched(false);
-      setEnteredFromDateTouched(false);
-      setEnteredtoDateTouched(false);
-      setForCalendarList({ fontWeight: "bold", color: "black" });
-      setForCalendarForm({ color: "black" });
-      setForCalendarForm({ fontWeight: "bold", color: "black" });
-      setForCalendarList({ color: "black" });
     }
+    updateData();
+    Alert.alert("Successfully updated", "", [
+      { text: "OK", onPress: () => fetchData },
+    ]);
+
+    async function fetchData() {
+      try {
+        const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
+        setData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+
+    setEnteredDescription("");
+    setEnteredTitle("");
+    setFromText("");
+    setToText("");
+    setShowForm(false);
+    setShowList(true);
+    setForCalendarList({ fontWeight: "bold", color: "black" });
+    setForCalendarForm({ color: "black" });
+    setForCalendarForm({ fontWeight: "bold", color: "black" });
+    setForCalendarList({ color: "black" });
   }
 
   function buttonPressedHandler() {
+    // var dateToday = fromDate;
+    // var date = new Date(dateToday).toLocaleDateString();
+    // console.log(date)
+    // console.log(d);
+
     const FormData = {
       description: description,
       // created_by:createdby,
@@ -329,7 +283,7 @@ const TeachersCalendar = () => {
       titlee: title,
     };
 
-    console.log(FormData);
+    // console.log("to database"+FormData);
 
     var dateFromValidate = fromText;
     var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
@@ -437,6 +391,8 @@ const TeachersCalendar = () => {
       setForCalendarForm({ color: "black" });
       setForCalendarForm({ fontWeight: "bold", color: "black" });
       setForCalendarList({ color: "black" });
+      setShowForm(false);
+      setShowList(true);
     }
   }
   function titleBlurHandler() {
@@ -460,6 +416,11 @@ const TeachersCalendar = () => {
     setForCalendarForm({ color: "black" });
     setShowForm(true);
     setShowList(false);
+    setEnteredDescriptionTouched(false);
+    setEnteredTitleTouched(false);
+    setEnteredtoDateTouched(false);
+    setEnteredFromDateTouched(false);
+    setIsEdit(false);
   }
   function showCalendar() {
     async function fetchData() {
@@ -481,6 +442,7 @@ const TeachersCalendar = () => {
   }
 
   function editItem(id) {
+    ID = id;
     console.log(id);
     const filteredDummuyData = data.find((data) => data.id == id);
 
@@ -498,9 +460,18 @@ const TeachersCalendar = () => {
     setIsEdit(true);
   }
   function deleteItem(id) {
-    console.log(id);
-    const newFilteredData = data.filter((data) => data.id != id);
-    async function storeData() {
+    Alert.alert("Confirm Deletion", "You are about to delete this row!", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "Yes,delete",
+        onPress: () => deleteData(),
+      },
+    ]);
+    async function deleteData() {
       try {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
@@ -519,9 +490,20 @@ const TeachersCalendar = () => {
       } catch (error) {
         console.log(error);
       }
+      async function fetchData() {
+        try {
+          const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
+          // console.log(res.data);
+          setData(res.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      fetchData();
     }
-    storeData();
   }
+
+  // const NewDate = moment(yourDate, 'DD-MM-YYYY')
   return (
     <>
       {/* <View style={styles.BtnContainer}>
@@ -607,7 +589,10 @@ const TeachersCalendar = () => {
                   />
                 </View>
                 <Input
-                  value={fromText || fromDate}
+                  value={
+                    moment(fromText).format("DD/MM/YYYY") ||
+                    moment(fromDate).format("DD/MM/YYYY")
+                  }
                   placeholder="D/M/YYYY"
                   onSubmitEditing={Keyboard.dismiss}
                   style={fromDateInputIsInValid && styles.errorBorderColor}
@@ -652,7 +637,10 @@ const TeachersCalendar = () => {
                   />
                 </View>
                 <Input
-                  value={toText || toDate}
+                  value={
+                    moment(toText).format("DD/MM/YYYY") ||
+                    moment(toDate).format("DD/MM/YYYY")
+                  }
                   placeholder="D/M/YYYY"
                   onSubmitEditing={Keyboard.dismiss}
                   style={toDateInputIsInValid && styles.errorBorderColor}
@@ -759,7 +747,7 @@ const TeachersCalendar = () => {
                       marginLeft: 50,
                     }}
                   >
-                    {data.startdate}
+                    {moment(data.startdate).format("DD/MM/YYYY")}
                   </DataTable.Cell>
                   <DataTable.Cell
                     textStyle={{
@@ -768,7 +756,7 @@ const TeachersCalendar = () => {
                       marginLeft: 50,
                     }}
                   >
-                    {data.enddate}
+                    {moment(data.enddate).format("DD/MM/YYYY")}
                   </DataTable.Cell>
 
                   <DataTable.Cell

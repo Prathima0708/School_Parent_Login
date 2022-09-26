@@ -28,7 +28,7 @@ import TeachersHome from "./TeachersHome";
 import Input from "../../components/UI/Input";
 import VerticalLine from "../../components/UI/VerticalLine";
 import { DataTable } from "react-native-paper";
-
+export var ID;
 const TeachersHomework = () => {
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
@@ -102,7 +102,7 @@ const TeachersHomework = () => {
   const [show, setShow] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
-  const [tranportData, setTranportData] = useState([]);
+  const [homeworkData, setHomeworkData] = useState([]);
   const [isSame, SetIsSame] = useState(false);
   let i = 0;
   // useEffect(()=>{
@@ -121,7 +121,7 @@ const TeachersHomework = () => {
     async function fetchData() {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
-        setTranportData(res.data);
+        setHomeworkData(res.data);
         let test = 0;
         const value = await AsyncStorage.getItem("key");
         for (i = 0; i < res.data.length; i++) {
@@ -358,41 +358,6 @@ const TeachersHomework = () => {
           { text: "OK", onPress: () => console.log("OK Pressed") },
         ]
       );
-    }
-
-    setEnteredSelectedTouched(true);
-    setEnteredSubjectTouched(true);
-    setEnteredFromDateTouched(true);
-    setEnteredtoDateTouched(true);
-    setEnteredRemarkTouched(true);
-    setEnteredHomeWorkTouched(true);
-    setEnteredImageTouched(true);
-
-    if (!enteredSelcetdIsValid) {
-      return;
-    }
-    if (!enteredSubjectIsValid) {
-      return;
-    }
-
-    if (!enteredFromDateIsValid) {
-      return;
-    }
-
-    if (!enteredtoDateIsValid) {
-      return;
-    }
-
-    if (!enteredRemarkIsValid) {
-      return;
-    }
-
-    if (!enteredHomeWorkIsValid) {
-      return;
-    }
-
-    if (!enteredImageIsValid) {
-      return;
     } else {
       let selectedData = selected.split(" - ");
       let class_name = selectedData[0];
@@ -413,14 +378,14 @@ const TeachersHomework = () => {
       };
       console.log(formdata);
 
-      async function storeData() {
+      async function updateData() {
         try {
           let headers = {
             "Content-Type": "application/json; charset=utf-8",
           };
 
           const resLogin = await axios.put(
-            "http://10.0.2.2:8000/school/Homework/",
+            `http://10.0.2.2:8000/school/Homework/${ID}/`,
             formdata,
             {
               headers: headers,
@@ -433,7 +398,20 @@ const TeachersHomework = () => {
         }
       }
 
-      storeData();
+      updateData();
+      Alert.alert("Successfully updated", "", [
+        { text: "OK", onPress: () => fetchData },
+      ]);
+
+      async function fetchData() {
+        try {
+          const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
+          setHomeworkData(res.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      fetchData();
 
       setEnteredSubject("");
       setFromText("");
@@ -441,14 +419,6 @@ const TeachersHomework = () => {
       setPickedImage("");
       setEnteredRemark("");
       setHW("");
-      setEnteredSelectedTouched(false);
-      setEnteredSelectedTouched(false);
-      setEnteredSubjectTouched(false);
-      setEnteredFromDateTouched(false);
-      setEnteredHomeWorkTouched(false);
-      setEnteredRemarkTouched(false);
-      setEnteredtoDateTouched(false);
-      setEnteredImageTouched(false);
       setShowForm(false);
       setShowList(true);
       setForHomeworkList({ fontWeight: "bold", color: "black" });
@@ -632,6 +602,15 @@ const TeachersHomework = () => {
     setForHomeworkForm({ color: "black" });
     setShowForm(true);
     setShowList(false);
+    setEnteredSelectedTouched(false);
+    setEnteredSelectedTouched(false);
+    setEnteredSubjectTouched(false);
+    setEnteredFromDateTouched(false);
+    setEnteredHomeWorkTouched(false);
+    setEnteredRemarkTouched(false);
+    setEnteredtoDateTouched(false);
+    setEnteredImageTouched(false);
+    setIsEdit(false);
   }
   function showHomework() {
     async function fetchData() {
@@ -650,7 +629,8 @@ const TeachersHomework = () => {
     fetchData();
   }
   function editItem(id) {
-    const filteredDummuyData = tranportData.find((data) => data.id == id);
+    ID = id;
+    const filteredDummuyData = homeworkData.find((data) => data.id == id);
     setSelected(filteredDummuyData.class_name);
     // setEnteredSection(filteredDummuyData.section);
     setEnteredSubject(filteredDummuyData.subject);
@@ -670,7 +650,18 @@ const TeachersHomework = () => {
     // console.log(id);
     // const newFilteredData=data.filter((data)=>data.id != id);
 
-    async function storeData() {
+    Alert.alert("Confirm Deletion", "You are about to delete this row!", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "Yes,delete",
+        onPress: () => deleteData(),
+      },
+    ]);
+    async function deleteData() {
       try {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
@@ -689,8 +680,17 @@ const TeachersHomework = () => {
       } catch (error) {
         console.log(error);
       }
+      async function fetchData() {
+        try {
+          const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
+          // console.log(res.data);
+          setData(res.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      fetchData();
     }
-    storeData();
   }
   return (
     <>
@@ -757,7 +757,10 @@ const TeachersHomework = () => {
                   />
                 </View>
                 <Input
-                  value={fromText || fromDate}
+                  value={
+                    moment(fromText).format("DD/MM/YYYY") ||
+                    moment(fromDate).format("DD/MM/YYYY")
+                  }
                   placeholder="DD/MM/YYYY"
                   onSubmitEditing={Keyboard.dismiss}
                   style={fromDateInputIsInValid && styles.errorBorderColor}
@@ -802,7 +805,10 @@ const TeachersHomework = () => {
                   />
                 </View>
                 <Input
-                  value={toText || toDate}
+                  value={
+                    moment(toText).format("DD/MM/YYYY") ||
+                    moment(toDate).format("DD/MM/YYYY")
+                  }
                   placeholder="DD/MM/YYYY"
                   style={toDateInputIsInValid && styles.errorBorderColor}
                   blur={dateToHandler}
@@ -966,7 +972,7 @@ const TeachersHomework = () => {
                       marginLeft: 40,
                     }}
                   >
-                    {tranportData.class_name}
+                    {homeworkData.class_name}
                   </DataTable.Cell>
                   <DataTable.Cell
                     textStyle={{
@@ -975,7 +981,7 @@ const TeachersHomework = () => {
                       marginLeft: 50,
                     }}
                   >
-                    {tranportData.section}
+                    {homeworkData.section}
                   </DataTable.Cell>
                   <DataTable.Cell
                     textStyle={{
@@ -984,7 +990,7 @@ const TeachersHomework = () => {
                       marginLeft: 50,
                     }}
                   >
-                    {tranportData.subject}
+                    {homeworkData.subject}
                   </DataTable.Cell>
                   <DataTable.Cell
                     textStyle={{
@@ -993,7 +999,7 @@ const TeachersHomework = () => {
                       marginLeft: 50,
                     }}
                   >
-                    {tranportData.homework_date}
+                    {moment(homeworkData.homework_date).format("DD/MM/YYYY")}
                   </DataTable.Cell>
                   <DataTable.Cell
                     textStyle={{
@@ -1002,7 +1008,7 @@ const TeachersHomework = () => {
                       marginLeft: 50,
                     }}
                   >
-                    {tranportData.remark}
+                    {homeworkData.remark}
                   </DataTable.Cell>
 
                   <DataTable.Cell
@@ -1012,7 +1018,7 @@ const TeachersHomework = () => {
                       marginLeft: 50,
                     }}
                   >
-                    {tranportData.due_date}
+                    {moment(homeworkData.due_date).format("DD/MM/YYYY")}
                   </DataTable.Cell>
 
                   <DataTable.Cell
@@ -1154,9 +1160,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   tableCell: {
-    width: 40,
+    width: 50,
     //  fontFamily: "Montserrat_600SemiBold",
-    marginLeft: 35,
+    left: 5,
   },
 
   tableRow: {

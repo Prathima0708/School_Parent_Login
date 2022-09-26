@@ -51,6 +51,7 @@
     "react-native-datatable-component": "^2.1.10",
     "react-native-date-input": "^1.0.11",
     "react-native-datefield": "^0.3.6",
+    "react-native-datepicker": "^1.7.2",
     "react-native-document-picker": "^8.1.1",
     "react-native-dropdown-select-list": "^1.0.21",
     "react-native-dynamic-search-bar": "^2.0.2",

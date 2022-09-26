@@ -5,6 +5,7 @@ import {
   Text,
   ScrollView,
   Button as Btn,
+  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Button from "../../components/UI/Button";
@@ -20,8 +21,7 @@ import { DataTable } from "react-native-paper";
 import data from "../../components/store/mockdata.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
-// // import { withExpoSnack } from 'nativewind';
-// import { styled } from 'nativewind';
+export var ID;
 
 const TeachersTransport = () => {
   const [showForm, setShowForm] = useState(true);
@@ -52,9 +52,9 @@ const TeachersTransport = () => {
   const drivernameInputIsInValid =
     !enteredDrivernameIsValid && enteredDrivernameTouched;
 
-  const [mobile, setEnteredMobile] = useState();
+  const [mobile, setEnteredMobile] = useState("");
   const [enteredMobileTouched, setEnteredMobileTouched] = useState(false);
-  const enteredMobileIsValid = mobile !== "";
+  const enteredMobileIsValid = mobile;
   const mobileInputIsInValid = !enteredMobileIsValid && enteredMobileTouched;
 
   const [routename, setEnteredRouteName] = useState("");
@@ -80,18 +80,7 @@ const TeachersTransport = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [isSame, SetIsSame] = useState(false);
   let i = 0;
-  // const dummyData=[
-  //   {
-  //     id:"1",
-  //     name:'ABC',
-  //     address:'Norway'
-  //   },
-  //   {
-  //     id:"2",
-  //     name:'PQR',
-  //     address:'Titan'
-  //   }
-  // ]
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -170,78 +159,55 @@ const TeachersTransport = () => {
     };
     console.log(FormData);
 
-    setEnteredBusnumberTouched(true);
-    setEnteredVehicleNoTouched(true);
-    setEnteredTypeTouched(true);
-    setEnteredDrivernameTouched(true);
-    setEnteredMobileTouched(true);
-    setEnteredRoutenameTouched(true);
-    setEnteredStopnameTouched(true);
+    async function updateData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+        };
 
-    if (!enteredBusnumberIsValid) {
-      return;
-    }
-    if (!enteredVehicleNoIsValid) {
-      return;
-    }
-    if (!enteredTypeIsValid) {
-      return;
-    }
-    if (!enteredDrivernameIsValid) {
-      return;
-    }
-    if (!enteredMobileIsValid) {
-      return;
-    }
-    if (!enteredRoutenameIsValid) {
-      return;
-    }
-    if (!enteredStopnameIsValid) {
-      return;
-    } else {
-      async function storeData() {
-        try {
-          let headers = {
-            "Content-Type": "application/json; charset=utf-8",
-          };
-
-          const resLogin = await axios.put(
-            `http://10.0.2.2:8000/school/Transportreport/7/`,
-            FormData,
-            {
-              headers: headers,
-            }
-          );
-          // const token = resLogin.data.token;
-          // const userId = resLogin.data.user_id;
-          console.log(resLogin.data);
-        } catch (error) {
-          console.log(error);
-        }
+        const resLogin = await axios.put(
+          `http://10.0.2.2:8000/school/Transportreport/${ID}/`,
+          FormData,
+          {
+            headers: headers,
+          }
+        );
+        // const token = resLogin.data.token;
+        // const userId = resLogin.data.user_id;
+        console.log(resLogin.data);
+      } catch (error) {
+        console.log(error);
       }
-      storeData();
-      setEnteredStudentID("");
-      setEnteredBusNumber("");
-      setEnteredVehicleNo("");
-      setEnteredType("");
-      setEnteredDriverName("");
-      setEnteredMobile("");
-      setEnteredRouteName("");
-      setEnteredStopName("");
-      setEnteredBusnumberTouched(false);
-      setEnteredVehicleNoTouched(false);
-      setEnteredTypeTouched(false);
-      setEnteredDrivernameTouched(false);
-      setEnteredMobileTouched(false);
-      setEnteredRoutenameTouched(false);
-      setEnteredStopnameTouched(false);
-      setShowForm(false);
-      setShowList(true);
-      setForTransportList({ fontWeight: "bold", color: "black" });
-      setForTransportForm({ color: "black" });
-      setForTransportForm({ fontWeight: "bold", color: "black" });
-      setForTransportList({ color: "black" });
     }
+    updateData();
+    Alert.alert("Successfully updated", "", [
+      { text: "OK", onPress: () => fetchData },
+    ]);
+    async function fetchData() {
+      try {
+        const res = await axios.get(
+          `http://10.0.2.2:8000/school/Transportreport/`
+        );
+        setData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+    setEnteredStudentID("");
+    setEnteredBusNumber("");
+    setEnteredVehicleNo("");
+    setEnteredType("");
+    setEnteredDriverName("");
+    setEnteredMobile("");
+    setEnteredRouteName("");
+    setEnteredStopName("");
+    setShowForm(false);
+    setShowList(true);
+    setForTransportList({ fontWeight: "bold", color: "black" });
+    setForTransportForm({ color: "black" });
+    setForTransportForm({ fontWeight: "bold", color: "black" });
+    setForTransportList({ color: "black" });
   }
 
   function buttonPressedHandler() {
@@ -323,8 +289,8 @@ const TeachersTransport = () => {
       setEnteredMobileTouched(false);
       setEnteredRoutenameTouched(false);
       setEnteredStopnameTouched(false);
-      setShowForm(false);
-      setShowList(true);
+      // setShowForm(false);
+      // setShowList(true);
       setForTransportList({ fontWeight: "bold", color: "black" });
       setForTransportForm({ color: "black" });
       setForTransportForm({ fontWeight: "bold", color: "black" });
@@ -359,6 +325,14 @@ const TeachersTransport = () => {
     setForTransportForm({ color: "black" });
     setShowForm(true);
     setShowList(false);
+    setEnteredBusnumberTouched(false);
+    setEnteredVehicleNoTouched(false);
+    setEnteredTypeTouched(false);
+    setEnteredDrivernameTouched(false);
+    setEnteredMobileTouched(false);
+    setEnteredRoutenameTouched(false);
+    setEnteredStopnameTouched(false);
+    setIsEdit(false);
   }
   function showTransport() {
     async function fetchData() {
@@ -386,13 +360,14 @@ const TeachersTransport = () => {
   }
 
   function editItem(id) {
+    ID = id;
     const filteredDummuyData = data.find((data) => data.id == id);
     console.log(filteredDummuyData);
     setEnteredBusNumber(filteredDummuyData.busnumber);
     setEnteredVehicleNo(filteredDummuyData.vehicleno);
     setEnteredType(filteredDummuyData.types);
     setEnteredDriverName(filteredDummuyData.driver_name);
-    //  setEnteredMobile(filteredDummuyData.emp_mobile);
+    setEnteredMobile(filteredDummuyData.emp_mobile);
     setEnteredRouteName(filteredDummuyData.route_name);
     setEnteredStopName(filteredDummuyData.stop_name);
     setForTransportList({ fontWeight: "bold", color: "black" });
@@ -404,8 +379,18 @@ const TeachersTransport = () => {
   function deleteItem(id) {
     console.log(id);
     // const newFilteredData=data.filter((data)=>data.id != id);
-
-    async function storeData() {
+    Alert.alert("Confirm Deletion", "You are about to delete this row!", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "Yes,delete",
+        onPress: () => deleteData(),
+      },
+    ]);
+    async function deleteData() {
       try {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
@@ -424,8 +409,19 @@ const TeachersTransport = () => {
       } catch (error) {
         console.log(error);
       }
+      async function fetchData() {
+        try {
+          const res = await axios.get(
+            `http://10.0.2.2:8000/school/Transportreport/`
+          );
+          // console.log(res.data);
+          setData(res.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      fetchData();
     }
-    storeData();
   }
 
   return (
@@ -537,7 +533,7 @@ const TeachersTransport = () => {
               placeholder="Mobile Number"
               onChangeText={mobileChangeHandler}
               blur={mobilenumberInputBlur}
-              value={mobile}
+              value={mobile.toString()}
               onSubmitEditing={Keyboard.dismiss}
               style={mobileInputIsInValid && styles.errorBorderColor}
             />
