@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TextInput, StyleSheet } from "react-native";
+import { View, Text, ScrollView, TextInput, StyleSheet,Button as Btn, Alert } from "react-native";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -11,6 +11,7 @@ import SelectList from "react-native-dropdown-select-list";
 import TeachersHome from "../TeachersHome";
 import Button from "../../../components/UI/Button";
 import { DataTable } from "react-native-paper";
+export var ID
 const TecahersExamTimeTable = () => {
 
   const [selectedExamTimeTable, setSelectedExamTimeTable] = useState("");
@@ -47,7 +48,7 @@ const TecahersExamTimeTable = () => {
 
   const [totalMarks, setEnteredTotalMarks] = useState("");
   const [enteredMarksTouched,setEnteredMarksTouched]=useState(false)
-  const enteredMarksIsValid=totalMarks.trim()!=='';
+  const enteredMarksIsValid=totalMarks;
   const marksInputIsInValid=!enteredMarksIsValid && enteredMarksTouched;
 
   const [hour, setEnteredHour] = useState("");
@@ -60,7 +61,7 @@ const TecahersExamTimeTable = () => {
   const [showform, setShowForm] = useState(false);
   const [showExamList, setShowExamList] = useState(true);
   const [showExamData, setShowExamData] = useState([]);
-
+  const [isEdit, setIsEdit] = useState(false);
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -108,6 +109,54 @@ const TecahersExamTimeTable = () => {
       });
   }, []);
 
+  function updateHandler(){
+    let selectedData = selectedExamTimeTable.split(" - ");
+    let class_name = selectedData[0];
+    let section = selectedData[1];
+    const FormData = {
+      exam_name: examName,
+      start_date: fromDate,
+      end_date: toDate,
+      Total_marks: totalMarks,
+      hour: hour,
+      class_name: class_name,
+    };
+    console.log(FormData);
+
+ 
+      async function storeData() {
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+          };
+          const dataForm = FormData;
+          const resLogin = await axios.put(
+            `http://10.0.2.2:8000/school/Exam/${ID}`,
+            dataForm,
+            {
+              headers: headers,
+            }
+          );
+          const token = resLogin.data.token;
+          const userId = resLogin.data.user_id;
+          console.log(token);
+          // Token = token;
+          // UserId = userId;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      storeData();
+  
+      setEnteredExamName("");
+      setFromText("");
+      setToText("");
+      setEnteredTotalMarks("");
+      setEnteredHour("");
+      setShowExamList(true);
+      setShowForm(false);
+    
+  }
   function addExamTimeTableHandler() {
 
     let selectedData = selectedExamTimeTable.split(" - ");
@@ -272,6 +321,77 @@ const TecahersExamTimeTable = () => {
     setEnteredHourTouched(true);
   }
 
+  function editItem(id) {
+    ID=id
+    console.log(id);
+    const filteredDummuyData = showExamData.find((data) => data.id == id);
+
+    setEnteredExamName(filteredDummuyData.exam_name);
+    //  setEnteredcreatedby(filteredDummuyData.created_by);
+    setFromText(filteredDummuyData.start_date);
+    setToText(filteredDummuyData.end_date);
+    setEnteredTotalMarks(filteredDummuyData.Total_marks);
+    setEnteredHour(filteredDummuyData.hour)
+    //  setEnteredMobile(filteredDummuyData.exam_name);
+    //  setEnteredRouteName(filteredDummuyData.hour);
+    // setForCalendarList({ fontWeight: "bold", color: "black" });
+    // setForCalendarForm({ color: "black" });
+    setShowForm(true);
+    setShowExamList(false);
+    setIsEdit(true);
+
+  }
+  function deleteItem(id) {
+    console.log(id);
+    // const newFilteredData=data.filter((data)=>data.id != id);
+    Alert.alert(
+      "Confirm Deletion",
+      "You are about to delete this row!",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { 
+          text: "Yes,delete", 
+          onPress: () => deleteData()
+        }
+      ]
+    );
+    async function deleteData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+        };
+        // const dataForm = FormData;
+        const resLogin = await axios.delete(
+          `http://10.0.2.2:8000/school/Exam/${id}/`,
+          // FormData,
+          {
+            headers: headers,
+          }
+        );
+        // const token = resLogin.data.token;
+        // const userId = resLogin.data.user_id;
+        console.log(resLogin.data);
+      } catch (error) {
+        console.log(error);
+      }
+      async function fetchData() {
+        try {
+          const res = await axios.get(`http://10.0.2.2:8000/school/Exam/`);
+          // console.log(res.data);
+          setShowExamData(res.data);
+          
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      fetchData();
+    }
+  }
+
   return (
     <>
       {showExamList && (
@@ -303,6 +423,12 @@ const TecahersExamTimeTable = () => {
                 <View style={styles.th}>
                   <Text style={styles.tableTitle}> CLASSNAME</Text>
                 </View>
+                <View style={styles.th}>
+                    <Text style={styles.tableTitle}>Update</Text>
+                  </View>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}>Delete</Text>
+                  </View>
               </DataTable.Header>
               {showExamData.map((data, key) => (
                 <DataTable.Row style={styles.tableRow}>
@@ -323,6 +449,12 @@ const TecahersExamTimeTable = () => {
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.tableCell}>
                     {data.class_name}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    <Btn title="Edit" onPress={() => editItem(data.id)} />
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    <Btn title="Delete" onPress={() => deleteItem(data.id)} />
                   </DataTable.Cell>
                 </DataTable.Row>
               ))}
@@ -429,7 +561,7 @@ const TecahersExamTimeTable = () => {
             </View>
             <Input
               onChangeText={totalMarksChangeHandler}
-              value={totalMarks}
+              value={totalMarks.toString()}
               placeholder="Total Marks"
               style={marksInputIsInValid && styles.errorBorderColor}
               onSubmitEditing={Keyboard.dismiss}
@@ -460,11 +592,16 @@ const TecahersExamTimeTable = () => {
                 boxStyles={selectInputIsInValid && styles.errorSelectedColor}
               />
             </View>
-            <View style={styles.btnSubmit}>
-              <Button onPress={addExamTimeTableHandler}>
-                Add Exam TimeTable
-              </Button>
-            </View>
+            {!isEdit && (
+              <View style={styles.btnSubmit}>
+                <Button onPress={addExamTimeTableHandler}>Add Exam TimeTable</Button>
+              </View>
+            )}
+            {isEdit && (
+              <View style={styles.btnSubmit}>
+                <Button onPress={updateHandler}>Update</Button>
+              </View>
+            )}
           </View>
         </ScrollView>
       )}

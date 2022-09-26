@@ -22,6 +22,8 @@ import TeachersHome from "./TeachersHome";
 import Input from "../../components/UI/Input";
 import VerticalLine from "../../components/UI/VerticalLine";
 import { DataTable } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+export var ID
 const TeachersLeave = () => {
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
@@ -228,31 +230,15 @@ const TeachersLeave = () => {
         ]
       );
     }
-    setEnteredLeaveTypeTouched(true);
-    setEnteredLeaveReasonTouched(true);
-    setEnteredFromDateTouched(true);
-    setEnteredtoDateTouched(true);
 
-    if (!enteredLeaveTypeIsValid) {
-      return;
-    }
-    if (!enteredLeaveReasonIsValid) {
-      return;
-    }
-    if (!enteredFromDateIsValid) {
-      return;
-    }
-    if (!enteredtoDateIsValid) {
-      return;
-    } else {
-      async function storeData() {
+      async function updateData() {
         try {
           let headers = {
             "Content-Type": "application/json; charset=utf-8",
           };
           const dataForm = FormData;
           const resLogin = await axios.put(
-            `http://10.0.2.2:8000/school/Leave/`,
+            `http://10.0.2.2:8000/school/Leave/${ID}/`,
             dataForm,
             {
               headers: headers,
@@ -265,16 +251,36 @@ const TeachersLeave = () => {
           console.log(error);
         }
       }
-      storeData();
+      updateData();
+
+      Alert.alert(
+        "Successfully updated",
+        "",
+        [
+          { text: "OK", onPress: () => fetchData},
+        ]
+      );
+
+      async function fetchData() {
+        try {
+          const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
+          setData(res.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      fetchData();
+
       setEnteredLeaveType("");
       setEnteredLeaveReason("");
       setFromText("");
       setToText("");
-      setEnteredLeaveTypeTouched(false);
-      setEnteredLeaveReasonTouched(false);
-      setEnteredFromDateTouched(false);
-      setEnteredtoDateTouched(false);
-    }
+      setShowForm(false);
+      setShowList(true);
+      setForLeaveList({ fontWeight: "bold", color: "black" });
+      setForLeaveForm({ color: "black" });
+      setForLeaveForm({ fontWeight: "bold", color: "black" });
+      setForLeaveList({ color: "black" });
   }
   function buttonPressedHandler() {
     console.log(UserId);
@@ -365,6 +371,10 @@ const TeachersLeave = () => {
       setEnteredLeaveReasonTouched(false);
       setEnteredFromDateTouched(false);
       setEnteredtoDateTouched(false);
+      setForLeaveList({ fontWeight: "bold", color: "black" });
+      setForLeaveForm({ color: "black" });
+      setForLeaveForm({ fontWeight: "bold", color: "black" });
+      setForLeaveList({ color: "black" });
     }
   }
   function leavetypeBlurHandler() {
@@ -384,7 +394,11 @@ const TeachersLeave = () => {
     setForLeaveForm({ color: "black" });
     setShowForm(true);
     setShowList(false);
-    
+    setEnteredLeaveTypeTouched(false);
+    setEnteredLeaveReasonTouched(false);
+    setEnteredFromDateTouched(false);
+    setEnteredtoDateTouched(false);
+    setIsEdit(false);
   }
   function showLeave() {
     setForLeaveForm({ fontWeight: "bold", color: "black" });
@@ -393,6 +407,7 @@ const TeachersLeave = () => {
     setShowList(true);
   }
   function editItem(id){
+    ID=id
     const filteredDummuyData= data.find((data)=> data.id==id);
     // console.log(filteredDummuyData);
     setEnteredLeaveType(filteredDummuyData.leave_type);
@@ -418,11 +433,11 @@ const TeachersLeave = () => {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        { text: "Yes", onPress: () => setDeletePressed(true)}
+        { text: "Yes", onPress: () => deleteData()}
       ]
     );
     
-    async function storeData() {
+    async function deleteData() {
       try {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
@@ -441,8 +456,19 @@ const TeachersLeave = () => {
       } catch (error) {
         console.log(error);
       }
+      async function fetchData() {
+        try {
+          const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
+          // console.log(res.data);
+          setData(res.data);
+          
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      fetchData();
     }
-    {!deletePressed ? storeData() : ''}
+    // {!deletePressed ? storeData() : ''}
   }
   return (
     <>
@@ -603,12 +629,12 @@ const TeachersLeave = () => {
             {/* <View style={styles.th}>
               <Text style={styles.tableTitle}> Leave status</Text>
             </View> */}
-            {isSame && <View style={styles.th}>
+             <View style={styles.th}>
               <Text style={styles.tableTitle}> Update</Text>
-            </View>}
-            {isSame && <View style={styles.th}>
+            </View>
+             <View style={styles.th}>
               <Text style={styles.tableTitle}> Delete</Text>
-            </View>}
+            </View>
           </DataTable.Header>
 
           {data &&
@@ -644,12 +670,12 @@ const TeachersLeave = () => {
                 {/* <DataTable.Cell style={styles.tableCell}>
                   {data.leave_status}
                 </DataTable.Cell> */}
-                {isSame && <DataTable.Cell style={styles.tableCell}>
+                 <DataTable.Cell style={styles.tableCell}>
                   <Btn title="Edit" onPress={()=> editItem(data.id)} />
-                </DataTable.Cell>}
-                {isSame && <DataTable.Cell style={styles.tableCell}>
+                </DataTable.Cell>
+                 <DataTable.Cell style={styles.tableCell}>
                   <Btn title="Delete" onPress={()=> deleteItem(data.id)} />
-                </DataTable.Cell>}
+                </DataTable.Cell>
               </DataTable.Row>
             ))}
         </DataTable>

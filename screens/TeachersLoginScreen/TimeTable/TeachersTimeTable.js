@@ -7,6 +7,7 @@ import {
   Button as Btn,
   TouchableOpacity,
   Pressable,
+  Alert,
 } from "react-native";
 import React, { useRef, useState } from "react";
 import axios from "axios";
@@ -26,6 +27,36 @@ import Input from "../../../components/UI/Input";
 const TeachersTimetable = () => {
   const [showForm, setShowForm] = useState(false);
   const [showExamList, setShowExamList] = useState(false);
+
+  const [monday,setMonday]=useState("");
+  const [enteredMondayTouched,setEnteredMondayTouched]=useState(false)
+  const enteredMondayIsValid=monday.trim()!=='';
+  const mondayInputIsInValid=!enteredMondayIsValid && enteredMondayTouched;
+
+  const [tuesday,setTuesday]=useState("");
+  const [enteredTuesdayTouched,setEnteredTuesdayTouched]=useState(false)
+  const enteredTuesdayIsValid=tuesday.trim()!=='';
+  const tuesdayInputIsInValid=!enteredTuesdayIsValid && enteredTuesdayTouched;
+
+  const [wednesday,setWednesday]=useState("");
+  const [enteredWednesdayTouched,setEnteredWednesdayTouched]=useState(false)
+  const enteredWednesdayIsValid=wednesday.trim()!=='';
+  const wednesdayInputIsInValid=!enteredWednesdayIsValid && enteredWednesdayTouched;
+
+  const [thursday,setThursday]=useState("");
+  const [enteredThursdayTouched,setEnteredThursdayTouched]=useState(false)
+  const enteredThursdayIsValid=thursday.trim()!=='';
+  const thursdayInputIsInValid=!enteredThursdayIsValid && enteredThursdayTouched;
+
+  const [friday,setFriday]=useState("");
+  const [enteredFridayTouched,setEnteredFridayTouched]=useState(false)
+  const enteredFridayIsValid=friday.trim()!=='';
+  const fridayInputIsInValid=!enteredFridayIsValid && enteredFridayTouched;
+
+  const [saturday,setSaturday]=useState("");
+  const [enteredSaturdayTouched,setEnteredSaturdayTouched]=useState(false)
+  const enteredSaturdayIsValid=saturday.trim()!=='';
+  const saturdayInputIsInValid=!enteredSaturdayIsValid && enteredSaturdayTouched;
 
   const [showTimeTableList, setShowTimeTableList] = useState(true);
   const [showTimeTableData, setShowTimeTableData] = useState([]);
@@ -305,6 +336,12 @@ const TeachersTimetable = () => {
     setEnteredDateTextTouched(true);
     setEnteredFromTimeTouched(true);
     setEnteredToTimeTouched(true);
+    setEnteredMondayTouched(true);
+    setEnteredTuesdayTouched(true);
+    setEnteredWednesdayTouched(true);
+    setEnteredThursdayTouched(true);
+    setEnteredFridayTouched(true);
+    setEnteredSaturdayTouched(true);
     if(!enteredSelcetdIsValid){
       return;
     }
@@ -317,6 +354,25 @@ const TeachersTimetable = () => {
     if(!enteredToTimeIsValid){
       return;
     }
+    if(!enteredMondayIsValid){
+      return;
+    }
+    if(!enteredTuesdayIsValid){
+      return;
+    }
+    if(!enteredWednesdayTouched){
+      return;
+    }
+    if(!enteredThursdayTouched){
+      return;
+    }
+    if(!enteredFridayTouched){
+      return;
+    }
+    if(!enteredSaturdayTouched){
+      return;
+    }
+   
     else{
       async function storeTimeTable() {
         let headers = {
@@ -335,6 +391,12 @@ const TeachersTimetable = () => {
       setEnteredDateTextTouched(false);
       setEnteredFromTimeTouched(false);
       setEnteredToTimeTouched(false);
+      setEnteredMondayTouched(false);
+      setEnteredTuesdayTouched(false);
+      setEnteredWednesdayTouched(false);
+      setEnteredThursdayTouched(false);
+      setEnteredFridayTouched(false);
+      setEnteredSaturdayTouched(false);
       setShowTimeTableList(true);
       setShowTable(false);
     }
@@ -396,6 +458,7 @@ const TeachersTimetable = () => {
     _inputs[key].monday = text;
 
     setInputs(_inputs);
+    setMonday(text);
   };
 
   const inputHandlerFromDate = (text, key) => {
@@ -419,6 +482,7 @@ const TeachersTimetable = () => {
     _inputs[key].tuesday = text;
 
     setInputs(_inputs);
+    setTuesday(text);
   };
 
   const inputHandlerWed = (text, key) => {
@@ -426,6 +490,7 @@ const TeachersTimetable = () => {
     _inputs[key].wednesday = text;
 
     setInputs(_inputs);
+    setWednesday(text);
   };
 
   const inputHandlerThur = (text, key) => {
@@ -433,6 +498,7 @@ const TeachersTimetable = () => {
     _inputs[key].thursday = text;
 
     setInputs(_inputs);
+    setThursday(text);
   };
 
   const inputHandlerFri = (text, key) => {
@@ -440,6 +506,7 @@ const TeachersTimetable = () => {
     _inputs[key].friday = text;
 
     setInputs(_inputs);
+    setFriday(text)
   };
 
   const inputHandlerSat = (text, key) => {
@@ -447,6 +514,7 @@ const TeachersTimetable = () => {
     _inputs[key].saturday = text;
 
     setInputs(_inputs);
+    setSaturday(text);
   };
 
   function viewTimeTableform() {
@@ -478,6 +546,94 @@ const TeachersTimetable = () => {
   }
   function toTextBlur(){
     setEnteredToTimeTouched(true);
+  }
+  function mondayTextBlur(){
+    setEnteredMondayTouched(true);
+  }
+  function tuesdayTextBlur(){
+    setEnteredTuesdayTouched(true);
+  }
+  function wednesdayTextBlur(){
+    setEnteredWednesdayTouched(true);
+  }
+  function thursdayTextBlur(){
+    setEnteredThursdayTouched(true);
+  }
+  function fridayTextBlur(){
+    setEnteredFridayTouched(true);
+  }
+  function saturdayTextBlur(){
+    setEnteredSaturdayTouched(true);
+  }
+  
+  function editItem(id) {
+    // ID=id
+    const filteredDummuyData = showTimeTableData.find((data) => data.id == id);
+
+    setDateText(filteredDummuyData.createdDate);
+    setFromTime(filteredDummuyData.from_time);
+    setToTime(filteredDummuyData.to_time);
+    setMonday(filteredDummuyData.monday);
+    setTuesday(filteredDummuyData.Tuesday);
+    setWednesday(filteredDummuyData.wednesday);
+    setThursday(filteredDummuyData.thursday);
+    setFriday(filteredDummuyData.friday);
+    setSaturday(filteredDummuyData.saturday);
+    setForTimeTableList({ fontWeight: "bold", color: "black" });
+    setForExamTimeTable({ color: "black" });
+    setShowTable(true);
+    setShowTimeTableList(false);
+
+  }
+  function deleteItem(id) {
+    console.log(id);
+    // const newFilteredData=data.filter((data)=>data.id != id);
+    Alert.alert(
+      "Confirm Deletion",
+      "You are about to delete this row!",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { 
+          text: "Yes,delete", 
+          onPress: () => deleteData()
+        }
+      ]
+    );
+    async function deleteData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+        };
+        // const dataForm = FormData;
+        const resLogin = await axios.delete(
+          `http://10.0.2.2:8000/school/Timetable/${id}/`,
+          // FormData,
+          {
+            headers: headers,
+          }
+        );
+        // const token = resLogin.data.token;
+        // const userId = resLogin.data.user_id;
+        console.log(resLogin.data);
+      } catch (error) {
+        console.log(error);
+      }
+      async function fetchData() {
+        try {
+          const res = await axios.get(`http://10.0.2.2:8000/school/Timetable/`);
+          // console.log(res.data);
+          setShowTimeTableData(res.data);
+          
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      fetchData();
+    }
   }
   return (
     <>
@@ -521,6 +677,12 @@ const TeachersTimetable = () => {
                   <View style={styles.th}>
                     <Text style={styles.tableTitle}> SATURDAY</Text>
                   </View>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}>Update</Text>
+                  </View>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}>Delete</Text>
+                  </View>
                 </DataTable.Header>
                 {showTimeTableData.map((data, key) => (
                   <DataTable.Row style={styles.tableRow}>
@@ -541,6 +703,12 @@ const TeachersTimetable = () => {
                     </DataTable.Cell>
                     <DataTable.Cell style={styles.tableCell}>
                       {data.saturday}
+                    </DataTable.Cell>
+                    <DataTable.Cell style={styles.tableCell}>
+                      <Btn title="Edit" onPress={() => editItem(data.id)} />
+                    </DataTable.Cell>
+                    <DataTable.Cell style={styles.tableCell}>
+                      <Btn title="Delete" onPress={() => deleteItem(data.id)} />
                     </DataTable.Cell>
                   </DataTable.Row>
                 ))}
@@ -649,6 +817,7 @@ const TeachersTimetable = () => {
                           value={fromTimeText}
                           placeholder="From Time:"
                           blur={fromTextBlur}
+                          onChangeText={fromTimeChangeHandler}
                           //onChangeText={fromTimeHandler}
                           //  value={input.fromTime || fromTimeText}
                           // onChangeText={(text) =>
@@ -737,7 +906,12 @@ const TeachersTimetable = () => {
                           onChangeText={(text) => inputHandlerMonday(text, key)}
                           // onChangeText={(text) => inputHandler(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
+                          style={mondayInputIsInValid && styles.errorBorderColor}
+                          blur={mondayTextBlur}
                         />
+                        {mondayInputIsInValid && (
+                         <Text style={{ color: "red",left:20 }}>Enter monday subject</Text>
+                        )}
                       </View>
 
                       <View style={styles.space} />
@@ -756,7 +930,12 @@ const TeachersTimetable = () => {
                           }
                           //  onChangeText={(text) => inputHandler(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
+                          blur={tuesdayTextBlur}
+                          style={tuesdayInputIsInValid && styles.errorBorderColor}
                         />
+                        {tuesdayInputIsInValid && (
+                         <Text style={{ color: "red",left:20 }}>Enter tuesday subject</Text>
+                        )}
                       </View>
                     </View>
 
@@ -771,7 +950,12 @@ const TeachersTimetable = () => {
                           value={input.wednesday}
                           onChangeText={(text) => inputHandlerWed(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
+                          style={wednesdayInputIsInValid && styles.errorBorderColor}
+                          blur={wednesdayTextBlur}
                         />
+                        {wednesdayInputIsInValid && (
+                         <Text style={{ color: "red",left:20 }}>Enter wednesday subject</Text>
+                        )}
                       </View>
 
                       <View style={styles.space} />
@@ -783,7 +967,12 @@ const TeachersTimetable = () => {
                           value={input.thursday}
                           onChangeText={(text) => inputHandlerThur(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
+                          style={thursdayInputIsInValid && styles.errorBorderColor}
+                          blur={thursdayTextBlur}
                         />
+                        {thursdayInputIsInValid && (
+                         <Text style={{ color: "red",left:20 }}>Enter thursday subject</Text>
+                        )}
                       </View>
                     </View>
 
@@ -795,7 +984,12 @@ const TeachersTimetable = () => {
                           value={input.friday}
                           onChangeText={(text) => inputHandlerFri(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
+                          style={fridayInputIsInValid && styles.errorBorderColor}
+                          blur={fridayTextBlur}
                         />
+                        {fridayInputIsInValid && (
+                         <Text style={{ color: "red",left:20 }}>Enter friday subject</Text>
+                        )}
                       </View>
 
                       <View style={styles.space} />
@@ -807,7 +1001,12 @@ const TeachersTimetable = () => {
                           value={input.saturday}
                           onChangeText={(text) => inputHandlerSat(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
+                          blur={saturdayTextBlur}
+                          style={saturdayInputIsInValid && styles.errorBorderColor}
                         />
+                        {saturdayInputIsInValid && (
+                         <Text style={{ color: "red",left:20 }}>Enter saturday subject</Text>
+                        )}
                       </View>
                     </View>
 
