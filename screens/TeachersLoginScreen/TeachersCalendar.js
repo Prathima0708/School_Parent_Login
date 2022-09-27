@@ -205,6 +205,7 @@ const TeachersCalendar = () => {
   function descriptionChangeHandler(enteredValue) {
     setEnteredDescription(enteredValue);
   }
+
   function createdByChangeHandler(enteredValue) {
     setEnteredcreatedby(enteredValue);
   }
@@ -270,11 +271,6 @@ const TeachersCalendar = () => {
   }
 
   function buttonPressedHandler() {
-    // var dateToday = fromDate;
-    // var date = new Date(dateToday).toLocaleDateString();
-    // console.log(date)
-    // console.log(d);
-
     const FormData = {
       description: description,
       // created_by:createdby,
@@ -282,8 +278,6 @@ const TeachersCalendar = () => {
       enddate: toDate,
       titlee: title,
     };
-
-    // console.log("to database"+FormData);
 
     var dateFromValidate = fromText;
     var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
@@ -334,6 +328,7 @@ const TeachersCalendar = () => {
         },
       ]);
     }
+
     setEnteredTitleTouched(true);
     setEnteredDescriptionTouched(true);
     // setEnteredCreatedbyTouched(true);
@@ -356,44 +351,66 @@ const TeachersCalendar = () => {
 
     if (!enteredtoDateIsValid) {
       return;
-    } else {
-      async function storeData() {
-        try {
-          let headers = {
-            "Content-Type": "application/json; charset=utf-8",
-          };
-          const dataForm = FormData;
-          const resLogin = await axios.post(
-            `http://10.0.2.2:8000/school/Calendar/`,
-            dataForm,
-            {
-              headers: headers,
-            }
-          );
-          // const token = resLogin.data.token;
-          // const userId = resLogin.data.user_id;
-          console.log(resLogin.data);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-      storeData();
-      setEnteredDescription("");
-      setEnteredTitle("");
-      setFromText("");
-      setToText("");
-      setEnteredTitleTouched(false);
-      setEnteredDescriptionTouched(false);
-      // setEnteredCreatedbyTouched(false);
-      setEnteredFromDateTouched(false);
-      setEnteredtoDateTouched(false);
-      setForCalendarList({ fontWeight: "bold", color: "black" });
-      setForCalendarForm({ color: "black" });
-      setForCalendarForm({ fontWeight: "bold", color: "black" });
-      setForCalendarList({ color: "black" });
-      setShowForm(false);
-      setShowList(true);
     }
+    async function getData() {
+      try {
+        const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
+
+        let filteredlist = res.data.filter(
+          (ele) => ele.description == description
+        );
+        if (filteredlist.length > 0) {
+          Alert.alert("Data already exists", "please enter a new data", [
+            {
+              text: "OK",
+
+              style: "cancel",
+            },
+          ]);
+        } else {
+          async function storeData() {
+            try {
+              let headers = {
+                "Content-Type": "application/json; charset=utf-8",
+              };
+              const dataForm = FormData;
+
+              const resLogin = await axios.post(
+                `http://10.0.2.2:8000/school/Calendar/`,
+                dataForm,
+                {
+                  headers: headers,
+                }
+              );
+              // const token = resLogin.data.token;
+              // const userId = resLogin.data.user_id;
+              console.log(resLogin.data);
+            } catch (error) {
+              console.log(error);
+            }
+          }
+          storeData();
+          setEnteredDescription("");
+          setEnteredTitle("");
+          setFromText("");
+          setToText("");
+          setEnteredTitleTouched(false);
+          setEnteredDescriptionTouched(false);
+          // setEnteredCreatedbyTouched(false);
+          setEnteredFromDateTouched(false);
+          setEnteredtoDateTouched(false);
+          setForCalendarList({ fontWeight: "bold", color: "black" });
+          setForCalendarForm({ color: "black" });
+          setForCalendarForm({ fontWeight: "bold", color: "black" });
+          setForCalendarList({ color: "black" });
+          setShowForm(false);
+          setShowList(true);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
   }
   function titleBlurHandler() {
     setEnteredTitleTouched(true);

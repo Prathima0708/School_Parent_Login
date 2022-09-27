@@ -23,50 +23,69 @@ import { useEffect } from "react";
 import TecahersExamTimeTable from "./TecahersExamTimeTable";
 import { DataTable } from "react-native-paper";
 import Input from "../../../components/UI/Input";
-
+var CLASSNAME, SECTION;
 const TeachersTimetable = () => {
   const [showForm, setShowForm] = useState(false);
   const [showExamList, setShowExamList] = useState(false);
+  const [year, setYear] = useState("");
 
-  const [monday,setMonday]=useState("");
-  const [enteredMondayTouched,setEnteredMondayTouched]=useState(false)
-  const enteredMondayIsValid=monday.trim()!=='';
-  const mondayInputIsInValid=!enteredMondayIsValid && enteredMondayTouched;
+  const [selected, setSelected] = useState("");
+  const [studData, setStudData] = useState([]);
 
-  const [tuesday,setTuesday]=useState("");
-  const [enteredTuesdayTouched,setEnteredTuesdayTouched]=useState(false)
-  const enteredTuesdayIsValid=tuesday.trim()!=='';
-  const tuesdayInputIsInValid=!enteredTuesdayIsValid && enteredTuesdayTouched;
+  const [monday, setMonday] = useState("");
+  const [enteredMondayTouched, setEnteredMondayTouched] = useState(false);
+  const enteredMondayIsValid = monday.trim() !== "";
+  const mondayInputIsInValid = !enteredMondayIsValid && enteredMondayTouched;
 
-  const [wednesday,setWednesday]=useState("");
-  const [enteredWednesdayTouched,setEnteredWednesdayTouched]=useState(false)
-  const enteredWednesdayIsValid=wednesday.trim()!=='';
-  const wednesdayInputIsInValid=!enteredWednesdayIsValid && enteredWednesdayTouched;
+  const [tuesday, setTuesday] = useState("");
+  const [enteredTuesdayTouched, setEnteredTuesdayTouched] = useState(false);
+  const enteredTuesdayIsValid = tuesday.trim() !== "";
+  const tuesdayInputIsInValid = !enteredTuesdayIsValid && enteredTuesdayTouched;
 
-  const [thursday,setThursday]=useState("");
-  const [enteredThursdayTouched,setEnteredThursdayTouched]=useState(false)
-  const enteredThursdayIsValid=thursday.trim()!=='';
-  const thursdayInputIsInValid=!enteredThursdayIsValid && enteredThursdayTouched;
+  const [wednesday, setWednesday] = useState("");
+  const [enteredWednesdayTouched, setEnteredWednesdayTouched] = useState(false);
+  const enteredWednesdayIsValid = wednesday.trim() !== "";
+  const wednesdayInputIsInValid =
+    !enteredWednesdayIsValid && enteredWednesdayTouched;
 
-  const [friday,setFriday]=useState("");
-  const [enteredFridayTouched,setEnteredFridayTouched]=useState(false)
-  const enteredFridayIsValid=friday.trim()!=='';
-  const fridayInputIsInValid=!enteredFridayIsValid && enteredFridayTouched;
+  const [thursday, setThursday] = useState("");
+  const [enteredThursdayTouched, setEnteredThursdayTouched] = useState(false);
+  const enteredThursdayIsValid = thursday.trim() !== "";
+  const thursdayInputIsInValid =
+    !enteredThursdayIsValid && enteredThursdayTouched;
 
-  const [saturday,setSaturday]=useState("");
-  const [enteredSaturdayTouched,setEnteredSaturdayTouched]=useState(false)
-  const enteredSaturdayIsValid=saturday.trim()!=='';
-  const saturdayInputIsInValid=!enteredSaturdayIsValid && enteredSaturdayTouched;
+  const [friday, setFriday] = useState("");
+  const [enteredFridayTouched, setEnteredFridayTouched] = useState(false);
+  const enteredFridayIsValid = friday.trim() !== "";
+  const fridayInputIsInValid = !enteredFridayIsValid && enteredFridayTouched;
+
+  const [saturday, setSaturday] = useState("");
+  const [enteredSaturdayTouched, setEnteredSaturdayTouched] = useState(false);
+  const enteredSaturdayIsValid = saturday.trim() !== "";
+  const saturdayInputIsInValid =
+    !enteredSaturdayIsValid && enteredSaturdayTouched;
 
   const [showTimeTableList, setShowTimeTableList] = useState(true);
   const [showTimeTableData, setShowTimeTableData] = useState([]);
 
   const [showTable, setShowTable] = useState(false);
   const [forTimeTableList, setForTimeTableList] = useState({
-    color: "black",
-    fontWeight: "bold",
+    color: "#3d4590",
+    backgroundColor: "#D6EAF8",
+    // borderTopColor: "#3d4590",
+    borderBottomWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    fontFamily: "HindSemiBold",
   });
-  const [forExamTimeTable, setForExamTimeTable] = useState({ color: "black" });
+  const [forExamTimeTable, setForExamTimeTable] = useState({
+    color: "#d9dffc",
+    // borderTopColor: "#d9dffc",
+    borderBottomWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    fontFamily: "HindSemiBold",
+  });
   const [TimeTableData, setTimeTableData] = useState([]);
 
   const [selectedTimeTable, setSelectedTimeTable] = useState("");
@@ -161,7 +180,14 @@ const TeachersTimetable = () => {
             value: item.class_name + " - " + item.section,
           };
         });
+        let selectedData = selected.split(" - ");
+        console.log(selectedData);
+        let class_name = selectedData[0];
+        let section = selectedData[1];
+        CLASSNAME = class_name;
 
+        SECTION = section;
+        setStudData(newArray);
         setTimeTableData(newArray);
         // setExamTimeTableData(newArray);
       })
@@ -177,12 +203,6 @@ const TeachersTimetable = () => {
   function fromTimeHandler(enteredValue) {
     setFromTime(enteredValue);
   }
-  // const inputHandlerMonday = (text, key) => {
-  //   const _inputs = [...inputs];
-  //   _inputs[key].monday = text;
-
-  //   setInputs(_inputs);
-  // };
 
   function fromTimeChangeHandler(event, selectedFromTime) {
     // const _inputs = [...inputs];
@@ -283,16 +303,47 @@ const TeachersTimetable = () => {
   };
 
   function viewExam() {
-    setForExamTimeTable({ fontWeight: "bold", color: "black" });
-    setForTimeTableList({ color: "black" });
+    // setForExamTimeTable({ fontWeight: "bold", color: "black" });
+    // setForTimeTableList({ color: "black" });
+    setForTimeTableList({
+      color: "#d9dffc",
+      // borderTopColor: "#d9dffc",
+      // backgroundColor: "#D6EAF8",
+      borderBottomWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 0,
+    });
+
+    setForExamTimeTable({
+      color: "#3d4590",
+      backgroundColor: "#D6EAF8",
+      borderBottomWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 0,
+    });
     setShowForm(true);
     setShowTable(false);
     setShowTimeTableList(false);
     setShowExamList(true);
   }
   function timeTableList() {
-    setForTimeTableList({ fontWeight: "bold", color: "black" });
-    setForExamTimeTable({ color: "black" });
+    // setForTimeTableList({ fontWeight: "bold", color: "black" });
+    // setForExamTimeTable({ color: "black" });
+    // setShow(false);
+    setForExamTimeTable({
+      color: "#d9dffc",
+      borderTopColor: "#d9dffc",
+      borderBottomWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 0,
+    });
+    setForTimeTableList({
+      color: "#3d4590",
+      backgroundColor: "#D6EAF8",
+      borderBottomWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 0,
+    });
     setShowTimeTableList(true);
     setShowForm(false);
     setShowTable(false);
@@ -344,38 +395,36 @@ const TeachersTimetable = () => {
     setEnteredThursdayTouched(true);
     setEnteredFridayTouched(true);
     setEnteredSaturdayTouched(true);
-    if(!enteredSelcetdIsValid){
+    if (!enteredSelcetdIsValid) {
       return;
     }
     if (!enteredDateTextIsValid) {
       return;
     }
-    if(!enteredFromTimeIsValid){
+    if (!enteredFromTimeIsValid) {
       return;
     }
-    if(!enteredToTimeIsValid){
+    if (!enteredToTimeIsValid) {
       return;
     }
-    if(!enteredMondayIsValid){
+    if (!enteredMondayIsValid) {
       return;
     }
-    if(!enteredTuesdayIsValid){
+    if (!enteredTuesdayIsValid) {
       return;
     }
-    if(!enteredWednesdayTouched){
+    if (!enteredWednesdayTouched) {
       return;
     }
-    if(!enteredThursdayTouched){
+    if (!enteredThursdayTouched) {
       return;
     }
-    if(!enteredFridayTouched){
+    if (!enteredFridayTouched) {
       return;
     }
-    if(!enteredSaturdayTouched){
+    if (!enteredSaturdayTouched) {
       return;
-    }
-   
-    else{
+    } else {
       async function storeTimeTable() {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
@@ -518,7 +567,7 @@ const TeachersTimetable = () => {
     _inputs[key].friday = text;
 
     setInputs(_inputs);
-    setFriday(text)
+    setFriday(text);
   };
 
   const inputHandlerSat = (text, key) => {
@@ -541,7 +590,7 @@ const TeachersTimetable = () => {
           `http://10.0.2.2:8000/school/AddmoreTimetable_list/`
         );
         // console.log(res.data);
-
+        //  setData(res.data);
         setShowTimeTableData(res.data);
       } catch (error) {
         console.log(error);
@@ -559,25 +608,25 @@ const TeachersTimetable = () => {
   function toTextBlur() {
     setEnteredToTimeTouched(true);
   }
-  function mondayTextBlur(){
+  function mondayTextBlur() {
     setEnteredMondayTouched(true);
   }
-  function tuesdayTextBlur(){
+  function tuesdayTextBlur() {
     setEnteredTuesdayTouched(true);
   }
-  function wednesdayTextBlur(){
+  function wednesdayTextBlur() {
     setEnteredWednesdayTouched(true);
   }
-  function thursdayTextBlur(){
+  function thursdayTextBlur() {
     setEnteredThursdayTouched(true);
   }
-  function fridayTextBlur(){
+  function fridayTextBlur() {
     setEnteredFridayTouched(true);
   }
-  function saturdayTextBlur(){
+  function saturdayTextBlur() {
     setEnteredSaturdayTouched(true);
   }
-  
+
   function editItem(id) {
     // ID=id
     const filteredDummuyData = showTimeTableData.find((data) => data.id == id);
@@ -595,26 +644,21 @@ const TeachersTimetable = () => {
     setForExamTimeTable({ color: "black" });
     setShowTable(true);
     setShowTimeTableList(false);
-
   }
   function deleteItem(id) {
     console.log(id);
     // const newFilteredData=data.filter((data)=>data.id != id);
-    Alert.alert(
-      "Confirm Deletion",
-      "You are about to delete this row!",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { 
-          text: "Yes,delete", 
-          onPress: () => deleteData()
-        }
-      ]
-    );
+    Alert.alert("Confirm Deletion", "You are about to delete this row!", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "Yes,delete",
+        onPress: () => deleteData(),
+      },
+    ]);
     async function deleteData() {
       try {
         let headers = {
@@ -639,7 +683,6 @@ const TeachersTimetable = () => {
           const res = await axios.get(`http://10.0.2.2:8000/school/Timetable/`);
           // console.log(res.data);
           setShowTimeTableData(res.data);
-          
         } catch (error) {
           console.log(error);
         }
@@ -647,14 +690,33 @@ const TeachersTimetable = () => {
       fetchData();
     }
   }
+  function yearChangeHandler(enteredValue) {
+    setYear(enteredValue);
+  }
+  function searchHandler() {
+    // if (text) {
+    const newData = showTimeTableData.filter((item) => {
+      item.timetable_date == year;
+    });
+
+    setShowTimeTableData(newData);
+  }
   return (
     <>
       <View style={{ backgroundColor: "white", height: "100%" }}>
         <View style={styles.BtnContainer}>
+          {/* <AccountTypeBtn onPress={timeTableList} style={forTimeTableList}>
+            Daily TimeTable
+          </AccountTypeBtn>
+
+          <AccountTypeBtn onPress={viewExam} style={forExamTimeTable}>
+            Exam TimeTable
+          </AccountTypeBtn> */}
+
           <BgButton onPress={timeTableList} style={forTimeTableList}>
             Daily TimeTable
           </BgButton>
-          <VerticalLine>|</VerticalLine>
+          <View style={styles.space} />
           <BgButton onPress={viewExam} style={forExamTimeTable}>
             Exam TimeTable
           </BgButton>
@@ -663,31 +725,76 @@ const TeachersTimetable = () => {
         {showTimeTableList && (
           <>
             <View style={styles.timetablebtn}>
-              <Button onPress={viewTimeTableform}>Add new</Button>
+              <Button onPress={viewTimeTableform}>
+                <Ionicons
+                  name="add"
+                  size={38}
+                  color="black"
+                  //onPress={viewTimeTableform}
+                  // style={{ marginLeft: 70, backgroundColor: "grey" }}
+                />
+              </Button>
+            </View>
+            <View>
+              <View
+                style={{
+                  width: 250,
+                  fontSize: 20,
+                  margin: 10,
+                  marginTop: -70,
+                }}
+              >
+                <SelectList
+                  setSelected={setSelected}
+                  data={studData}
+                  placeholder="Select class"
+                  boxStyles={{ borderRadius: 0 }}
+                  dropdownTextStyles={{
+                    fontSize: 18,
+                    fontFamily: "HindRegular",
+                  }}
+                  inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                />
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-around",
+                margin: 20,
+                // backgroundColor: "#3498DB",
+                // padding: 20,
+                // borderRadius: 10,
+              }}
+            >
+              <Text style={{ fontSize: 20, fontFamily: "HindRegular" }}>
+                {CLASSNAME}
+              </Text>
+              <Text style={{ fontSize: 20, fontFamily: "HindRegular" }}>A</Text>
             </View>
             <ScrollView horizontal={true}>
               <DataTable style={styles.container}>
                 <DataTable.Header style={styles.tableHeader}>
                   <View style={styles.th}>
-                    <Text style={styles.tableTitle}> MONDAY</Text>
+                    <Text style={styles.tableTitle}> MON</Text>
                   </View>
                   <View style={styles.th}>
-                    <Text style={styles.tableTitle}> TUESDAY</Text>
+                    <Text style={styles.tableTitle}> TUE</Text>
                   </View>
                   <View style={styles.th}>
-                    <Text style={styles.tableTitle}> WEDNESDAY</Text>
-                  </View>
-
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}>THURSDAY</Text>
+                    <Text style={styles.tableTitle}> WED</Text>
                   </View>
 
                   <View style={styles.th}>
-                    <Text style={styles.tableTitle}>FRIDAY</Text>
+                    <Text style={styles.tableTitle}>THUR</Text>
                   </View>
 
                   <View style={styles.th}>
-                    <Text style={styles.tableTitle}> SATURDAY</Text>
+                    <Text style={styles.tableTitle}>FRI</Text>
+                  </View>
+
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> SAT</Text>
                   </View>
                   <View style={styles.th}>
                     <Text
@@ -708,7 +815,7 @@ const TeachersTimetable = () => {
                       textStyle={{
                         fontSize: 18,
                         fontFamily: "HindRegular",
-                        marginLeft: 40,
+                        marginLeft: 20,
                       }}
                     >
                       {data.monday}
@@ -717,7 +824,7 @@ const TeachersTimetable = () => {
                       textStyle={{
                         fontSize: 18,
                         fontFamily: "HindRegular",
-                        marginLeft: 70,
+                        marginLeft: 40,
                       }}
                     >
                       {data.Tuesday}
@@ -726,7 +833,7 @@ const TeachersTimetable = () => {
                       textStyle={{
                         fontSize: 18,
                         fontFamily: "HindRegular",
-                        marginLeft: 100,
+                        marginLeft: 30,
                       }}
                     >
                       {data.wednesday}
@@ -735,7 +842,7 @@ const TeachersTimetable = () => {
                       textStyle={{
                         fontSize: 18,
                         fontFamily: "HindRegular",
-                        marginLeft: 80,
+                        marginLeft: 20,
                       }}
                     >
                       {data.thursday}
@@ -744,7 +851,7 @@ const TeachersTimetable = () => {
                       textStyle={{
                         fontSize: 18,
                         fontFamily: "HindRegular",
-                        marginLeft: 90,
+                        marginLeft: 40,
                       }}
                     >
                       {data.friday}
@@ -753,7 +860,7 @@ const TeachersTimetable = () => {
                       textStyle={{
                         fontSize: 18,
                         fontFamily: "HindRegular",
-                        marginLeft: 100,
+                        marginLeft: 30,
                       }}
                     >
                       {data.saturday}
@@ -763,7 +870,7 @@ const TeachersTimetable = () => {
                       textStyle={{
                         fontSize: 18,
                         fontFamily: "HindRegular",
-                        marginLeft: 110,
+                        marginLeft: 50,
                       }}
                     >
                       <Ionicons
@@ -998,11 +1105,15 @@ const TeachersTimetable = () => {
                           onChangeText={(text) => inputHandlerMonday(text, key)}
                           // onChangeText={(text) => inputHandler(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
-                          style={mondayInputIsInValid && styles.errorBorderColor}
+                          style={
+                            mondayInputIsInValid && styles.errorBorderColor
+                          }
                           blur={mondayTextBlur}
                         />
                         {mondayInputIsInValid && (
-                         <Text style={{ color: "red",left:20 }}>Enter monday subject</Text>
+                          <Text style={{ color: "red", left: 20 }}>
+                            Enter monday subject
+                          </Text>
                         )}
                       </View>
 
@@ -1023,10 +1134,14 @@ const TeachersTimetable = () => {
                           //  onChangeText={(text) => inputHandler(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
                           blur={tuesdayTextBlur}
-                          style={tuesdayInputIsInValid && styles.errorBorderColor}
+                          style={
+                            tuesdayInputIsInValid && styles.errorBorderColor
+                          }
                         />
                         {tuesdayInputIsInValid && (
-                         <Text style={{ color: "red",left:20 }}>Enter tuesday subject</Text>
+                          <Text style={{ color: "red", left: 20 }}>
+                            Enter tuesday subject
+                          </Text>
                         )}
                       </View>
                     </View>
@@ -1042,11 +1157,15 @@ const TeachersTimetable = () => {
                           value={input.wednesday}
                           onChangeText={(text) => inputHandlerWed(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
-                          style={wednesdayInputIsInValid && styles.errorBorderColor}
+                          style={
+                            wednesdayInputIsInValid && styles.errorBorderColor
+                          }
                           blur={wednesdayTextBlur}
                         />
                         {wednesdayInputIsInValid && (
-                         <Text style={{ color: "red",left:20 }}>Enter wednesday subject</Text>
+                          <Text style={{ color: "red", left: 20 }}>
+                            Enter wednesday subject
+                          </Text>
                         )}
                       </View>
 
@@ -1059,11 +1178,15 @@ const TeachersTimetable = () => {
                           value={input.thursday}
                           onChangeText={(text) => inputHandlerThur(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
-                          style={thursdayInputIsInValid && styles.errorBorderColor}
+                          style={
+                            thursdayInputIsInValid && styles.errorBorderColor
+                          }
                           blur={thursdayTextBlur}
                         />
                         {thursdayInputIsInValid && (
-                         <Text style={{ color: "red",left:20 }}>Enter thursday subject</Text>
+                          <Text style={{ color: "red", left: 20 }}>
+                            Enter thursday subject
+                          </Text>
                         )}
                       </View>
                     </View>
@@ -1076,11 +1199,15 @@ const TeachersTimetable = () => {
                           value={input.friday}
                           onChangeText={(text) => inputHandlerFri(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
-                          style={fridayInputIsInValid && styles.errorBorderColor}
+                          style={
+                            fridayInputIsInValid && styles.errorBorderColor
+                          }
                           blur={fridayTextBlur}
                         />
                         {fridayInputIsInValid && (
-                         <Text style={{ color: "red",left:20 }}>Enter friday subject</Text>
+                          <Text style={{ color: "red", left: 20 }}>
+                            Enter friday subject
+                          </Text>
                         )}
                       </View>
 
@@ -1094,10 +1221,14 @@ const TeachersTimetable = () => {
                           onChangeText={(text) => inputHandlerSat(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
                           blur={saturdayTextBlur}
-                          style={saturdayInputIsInValid && styles.errorBorderColor}
+                          style={
+                            saturdayInputIsInValid && styles.errorBorderColor
+                          }
                         />
                         {saturdayInputIsInValid && (
-                         <Text style={{ color: "red",left:20 }}>Enter saturday subject</Text>
+                          <Text style={{ color: "red", left: 20 }}>
+                            Enter saturday subject
+                          </Text>
                         )}
                       </View>
                     </View>
@@ -1155,6 +1286,11 @@ const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
     fontSize: 24,
+  },
+  year: {
+    width: 70,
+    position: "absolute",
+    top: -80,
   },
   title: {
     paddingVertical: 15,
@@ -1219,12 +1355,12 @@ const styles = StyleSheet.create({
     height: 20,
   },
   timetablebtn: {
-    width: "40%",
+    width: "15%",
 
     paddingVertical: 20,
     paddingHorizontal: 0,
 
-    marginLeft: 230,
+    marginLeft: 290,
   },
   BtnContainer: {
     flexDirection: "row",

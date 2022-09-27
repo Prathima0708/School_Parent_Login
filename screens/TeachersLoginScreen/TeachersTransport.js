@@ -27,10 +27,22 @@ const TeachersTransport = () => {
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
   const [forTransportList, setForTransportList] = useState({
-    color: "black",
-    fontWeight: "bold",
+    color: "#3d4590",
+    backgroundColor: "#D6EAF8",
+    // borderTopColor: "#3d4590",
+    borderBottomWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    fontFamily: "HindSemiBold",
   });
-  const [forTransportForm, setForTransportForm] = useState({ color: "black" });
+  const [forTransportForm, setForTransportForm] = useState({
+    color: "#d9dffc",
+    // borderTopColor: "#d9dffc",
+    borderBottomWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    fontFamily: "HindSemiBold",
+  });
 
   const [studentID, setEnteredStudentID] = useState("");
 
@@ -321,8 +333,24 @@ const TeachersTransport = () => {
   }
 
   function showTransportForm() {
-    setForTransportList({ fontWeight: "bold", color: "black" });
-    setForTransportForm({ color: "black" });
+    setForTransportForm({
+      color: "#d9dffc",
+      // borderTopColor: "#d9dffc",
+      // backgroundColor: "#D6EAF8",
+      borderBottomWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 0,
+    });
+
+    setForTransportList({
+      color: "#3d4590",
+      backgroundColor: "#D6EAF8",
+      borderBottomWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 0,
+    });
+    // setForTransportList({ fontWeight: "bold", color: "black" });
+    // setForTransportForm({ color: "black" });
     setShowForm(true);
     setShowList(false);
     setEnteredBusnumberTouched(false);
@@ -353,8 +381,22 @@ const TeachersTransport = () => {
       }
     }
     fetchData();
-    setForTransportForm({ fontWeight: "bold", color: "black" });
-    setForTransportList({ color: "black" });
+    // setForTransportForm({ fontWeight: "bold", color: "black" });
+    // setForTransportList({ color: "black" });
+    setForTransportList({
+      color: "#d9dffc",
+      borderTopColor: "#d9dffc",
+      borderBottomWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 0,
+    });
+    setForTransportForm({
+      color: "#3d4590",
+      backgroundColor: "#D6EAF8",
+      borderBottomWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 0,
+    });
     setShowForm(false);
     setShowList(true);
   }
@@ -433,7 +475,7 @@ const TeachersTransport = () => {
         <BgButton onPress={showTransportForm} style={forTransportList}>
           Add Transport
         </BgButton>
-        <VerticalLine>|</VerticalLine>
+
         <BgButton onPress={showTransport} style={forTransportForm}>
           Show Transport
         </BgButton>

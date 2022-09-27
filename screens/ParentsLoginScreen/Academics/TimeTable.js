@@ -131,7 +131,7 @@ const TimeTable = () => {
               </DataTable.Header>
               {timeTable &&
                 timeTable.map((data, key) => (
-                  <DataTable.Row style={styles.tableRow}>
+                  <DataTable.Row style={styles.tableRow} key={key}>
                     <DataTable.Cell style={styles.tableCell}>
                       {data.monday}
                     </DataTable.Cell>

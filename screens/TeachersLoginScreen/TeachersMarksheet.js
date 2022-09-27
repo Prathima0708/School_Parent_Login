@@ -240,42 +240,51 @@ import { DataTable } from "react-native-paper";
 
 import SelectList from "react-native-dropdown-select-list";
 import { Ionicons } from "@expo/vector-icons";
-export var ID
+export var ID;
 const TeachersMarksheet = () => {
   const [mathsMarks, setMathsMarks] = useState("");
-  const [enteredMathsMarksTouched, setEnteredMathsMarksTouched] = useState(false);
+  const [enteredMathsMarksTouched, setEnteredMathsMarksTouched] =
+    useState(false);
   const enteredMathsMarksIsValid = mathsMarks;
-  const mathsMarksInputIsInValid =!enteredMathsMarksIsValid && enteredMathsMarksTouched;
+  const mathsMarksInputIsInValid =
+    !enteredMathsMarksIsValid && enteredMathsMarksTouched;
 
   const [engMarks, setEngMarks] = useState("");
   const [enteredEngMarksTouched, setEnteredEngMarksTouched] = useState(false);
   const enteredEngMarksIsValid = engMarks;
-  const engMarksInputIsInValid =!enteredEngMarksIsValid && enteredEngMarksTouched;
+  const engMarksInputIsInValid =
+    !enteredEngMarksIsValid && enteredEngMarksTouched;
 
   const [sciMarks, setSciMarks] = useState("");
   const [enteredSciMarksTouched, setEnteredSciMarksTouched] = useState(false);
   const enteredSciMarksIsValid = sciMarks;
-  const sciMarksInputIsInValid =!enteredSciMarksIsValid && enteredSciMarksTouched;
+  const sciMarksInputIsInValid =
+    !enteredSciMarksIsValid && enteredSciMarksTouched;
 
   const [hindiMarks, setHindiMarks] = useState("");
-  const [enteredHindiMarksTouched, setEnteredHindiMarksTouched] =useState(false);
+  const [enteredHindiMarksTouched, setEnteredHindiMarksTouched] =
+    useState(false);
   const enteredHindiMarksIsValid = hindiMarks;
-  const hindiMarksInputIsInValid =!enteredHindiMarksIsValid && enteredHindiMarksTouched;
+  const hindiMarksInputIsInValid =
+    !enteredHindiMarksIsValid && enteredHindiMarksTouched;
 
   const [socMarks, setSocMarks] = useState("");
   const [enteredSocMarksTouched, setEnteredSocMarksTouched] = useState(false);
   const enteredSocMarksIsValid = socMarks;
-  const socMarksInputIsInValid =!enteredSocMarksIsValid && enteredSocMarksTouched;
+  const socMarksInputIsInValid =
+    !enteredSocMarksIsValid && enteredSocMarksTouched;
 
   const [kanMarks, setKanMarks] = useState("");
   const [enteredKanMarksTouched, setEnteredKanMarksTouched] = useState(false);
   const enteredKanMarksIsValid = kanMarks;
-  const kanMarksInputIsInValid =!enteredKanMarksIsValid && enteredKanMarksTouched;
+  const kanMarksInputIsInValid =
+    !enteredKanMarksIsValid && enteredKanMarksTouched;
 
   const [compMarks, setCompMarks] = useState("");
   const [enteredCompMarksTouched, setEnteredCompMarksTouched] = useState(false);
   const enteredCompMarksIsValid = compMarks;
-  const compMarksInputIsInValid =!enteredCompMarksIsValid && enteredCompMarksTouched;
+  const compMarksInputIsInValid =
+    !enteredCompMarksIsValid && enteredCompMarksTouched;
 
   const [overallperct, setEnteredOverallPerct] = useState("");
   const [enteredOverallPercentageTouched, setEnteredOverallPercentageTouched] =
@@ -290,7 +299,7 @@ const TeachersMarksheet = () => {
   // const remarkInputIsInValid = !enteredReamrkIsValid && enteredReamrkTouched;
 
   const [showForm, setShowForm] = useState(false);
-  const [showAddForm, setShowAddForm] = useState(false);///-----
+  const [showAddForm, setShowAddForm] = useState(false); ///-----
   const [showBtn, setShowBtn] = useState(true);
   const [showMarksheet, setShowMarksheet] = useState(false);
 
@@ -298,7 +307,9 @@ const TeachersMarksheet = () => {
     color: "black",
     fontWeight: "bold",
   });
-  const [forMarkssheetForm, setForMarkssheetForm] = useState({ color: "black" });
+  const [forMarkssheetForm, setForMarkssheetForm] = useState({
+    color: "black",
+  });
 
   const [selected, setSelected] = useState("");
   const [studData, setStudData] = useState([]);
@@ -387,60 +398,55 @@ const TeachersMarksheet = () => {
       computer_obt_mark: compMarks,
     };
     // console.log(FormData);
-      async function updateData() {
-        try {
-          let headers = {
-            "Content-Type": "application/json; charset=utf-8",
-          };
-          const resLogin = await axios.put(
-            `http://10.0.2.2:8000/school/Marksheet/${ID}/`,
-            FormData,
-            {
-              headers: headers,
-            }
-          );
-          // const token = resLogin.data.token;
-          // const userId = resLogin.data.user_id;
-          //   console.log(resLogin.data);
-        } catch (error) {
-          console.log(error);
-        }
+    async function updateData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+        };
+        const resLogin = await axios.put(
+          `http://10.0.2.2:8000/school/Marksheet/${ID}/`,
+          FormData,
+          {
+            headers: headers,
+          }
+        );
+        // const token = resLogin.data.token;
+        // const userId = resLogin.data.user_id;
+        //   console.log(resLogin.data);
+      } catch (error) {
+        console.log(error);
       }
-      updateData();
-      Alert.alert(
-        "Successfully updated",
-        "",
-        [
-          { text: "OK", onPress: () => fetchData},
-        ]
-      );
+    }
+    updateData();
+    Alert.alert("Successfully updated", "", [
+      { text: "OK", onPress: () => fetchData },
+    ]);
 
-      async function fetchData() {
-        try {
-          const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
-          setData(res.data);
-        } catch (error) {
-          console.log(error);
-        }
+    async function fetchData() {
+      try {
+        const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
+        setData(res.data);
+      } catch (error) {
+        console.log(error);
       }
-      fetchData();
+    }
+    fetchData();
 
-      setMathsMarks("");
-      setEngMarks("");
-      setSciMarks("");
-      setSocMarks("");
-      setKanMarks("");
-      setHindiMarks("");
-      setCompMarks("");
-      setEnteredOverallPerct("");
-      setEnteredRemark("");
-      setShowAddForm(false);
-      setShowMarksheet(true);
-      setForMarkssheetList({ fontWeight: "bold", color: "black" });
-      setForMarkssheetForm({ color: "black" });
-      setForMarkssheetForm({ fontWeight: "bold", color: "black" });
-      setForMarkssheetList({ color: "black" });  
-    
+    setMathsMarks("");
+    setEngMarks("");
+    setSciMarks("");
+    setSocMarks("");
+    setKanMarks("");
+    setHindiMarks("");
+    setCompMarks("");
+    setEnteredOverallPerct("");
+    setEnteredRemark("");
+    setShowAddForm(false);
+    setShowMarksheet(true);
+    setForMarkssheetList({ fontWeight: "bold", color: "black" });
+    setForMarkssheetForm({ color: "black" });
+    setForMarkssheetForm({ fontWeight: "bold", color: "black" });
+    setForMarkssheetList({ color: "black" });
   }
 
   function buttonPressedHandler() {
@@ -454,7 +460,7 @@ const TeachersMarksheet = () => {
       kannada_obt_mark: kanMarks,
       computer_obt_mark: compMarks,
     };
-    console.log(FormData);
+    //console.log(FormData);
 
     setEnteredMathsMarksTouched(true);
     setEnteredSciMarksTouched(true);
@@ -466,77 +472,78 @@ const TeachersMarksheet = () => {
     // setEnteredOverallPercentageTouched(true);
     // setEnteredReamrkTouched(true);
 
-    if (!enteredMathsMarksIsValid) {
-      return;
-    }
-    if (!enteredEngMarksIsValid) {
-      return;
-    }
-    if (!enteredSciMarksIsValid) {
-      return;
-    }
-    if (!enteredHindiMarksIsValid) {
-      return;
-    }
-    if (!enteredSocMarksIsValid) {
-      return;
-    }
-    if (!enteredKanMarksIsValid) {
-      return;
-    }
-    if (!enteredCompMarksIsValid) {
-      return;
-    }
+    // if (!enteredMathsMarksIsValid) {
+    //   return;
+    // }
+    // if (!enteredEngMarksIsValid) {
+    //   return;
+    // }
+    // if (!enteredSciMarksIsValid) {
+    //   return;
+    // }
+    // if (!enteredHindiMarksIsValid) {
+    //   return;
+    // }
+    // if (!enteredSocMarksIsValid) {
+    //   return;
+    // }
+    // if (!enteredKanMarksIsValid) {
+    //   return;
+    // }
+    // if (!enteredCompMarksIsValid) {
+    //   return;
+    // }
     // if (!enteredOverallPercentageIsValid) {
     //   return;
     // }
     // if (!enteredReamrkIsValid) {
     //   return;
-    // } 
-    else{
-      async function storeData() {
-        try {
-          let headers = {
-            "Content-Type": "application/json; charset=utf-8",
-          };
+    // }
+    // else {
+    async function storeData() {
+      console.log(FormData);
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+        };
 
-          const resLogin = await axios.post(
-            `http://10.0.2.2:8000/school/Marksheet/`,
-            FormData,
-            {
-              headers: headers,
-            }
-          );
-          // const token = resLogin.data.token;
-          // const userId = resLogin.data.user_id;
-          //   console.log(resLogin.data);
-        } catch (error) {
-          console.log(error);
-        }
+        const resLogin = await axios.post(
+          `http://10.0.2.2:8000/school/Marksheet/`,
+          FormData,
+          {
+            headers: headers,
+          }
+        );
+        // const token = resLogin.data.token;
+        // const userId = resLogin.data.user_id;
+        //   console.log(resLogin.data);
+      } catch (error) {
+        console.log(error);
       }
-      storeData();
-
-      setMathsMarks("");
-      setEngMarks("");
-      setSciMarks("");
-      setSocMarks("");
-      setKanMarks("");
-      setHindiMarks("");
-      setCompMarks("");
-      setEnteredOverallPerct("");
-      setEnteredRemark("");
-      setEnteredMathsMarksTouched(false);
-      setEnteredMathsMarksTouched(false);
-      setEnteredEngMarksTouched(false);
-      setEnteredSciMarksTouched(false);
-      setEnteredSocMarksTouched(false);
-      setEnteredHindiMarksTouched(false);
-      setEnteredKanMarksTouched(false);
-      setForMarkssheetList({ fontWeight: "bold", color: "black" });
-      setForMarkssheetForm({ color: "black" });
-      setForMarkssheetForm({ fontWeight: "bold", color: "black" });
-      setForMarkssheetList({ color: "black" });  
     }
+    storeData();
+
+    setMathsMarks("");
+    setEngMarks("");
+    setSciMarks("");
+    setSocMarks("");
+    setKanMarks("");
+    setHindiMarks("");
+    setCompMarks("");
+    setEnteredOverallPerct("");
+    setEnteredRemark("");
+    setEnteredMathsMarksTouched(false);
+    setEnteredMathsMarksTouched(false);
+    setEnteredEngMarksTouched(false);
+    setEnteredSciMarksTouched(false);
+    setEnteredSocMarksTouched(false);
+    setEnteredHindiMarksTouched(false);
+    setEnteredKanMarksTouched(false);
+    setForMarkssheetList({ fontWeight: "bold", color: "black" });
+    setForMarkssheetForm({ color: "black" });
+    setForMarkssheetForm({ fontWeight: "bold", color: "black" });
+    setForMarkssheetList({ color: "black" });
+    // }
   }
 
   function showMarkssheetForm() {
@@ -566,7 +573,6 @@ const TeachersMarksheet = () => {
         const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
         // console.log(res.data);
         setMarksheetData(res.data);
-        
       } catch (error) {
         console.log(error);
       }
@@ -648,8 +654,8 @@ const TeachersMarksheet = () => {
   }
 
   function editItem(id) {
-    console.log(id)
-    ID=id;
+    console.log(id);
+    ID = id;
     const filteredDummuyData = marksheetData.find((data) => data.id == id);
     setMathsMarks(filteredDummuyData.maths_obt_mark);
     setEngMarks(filteredDummuyData.english_obt_mark);
@@ -667,21 +673,17 @@ const TeachersMarksheet = () => {
   function deleteItem(id) {
     console.log(id);
     // const newFilteredData=data.filter((data)=>data.id != id);
-    Alert.alert(
-      "Confirm Deletion",
-      "You are about to delete this row!",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { 
-          text: "Yes,delete", 
-          onPress: () => deleteData()
-        }
-      ]
-    );
+    Alert.alert("Confirm Deletion", "You are about to delete this row!", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "Yes,delete",
+        onPress: () => deleteData(),
+      },
+    ]);
     async function deleteData() {
       try {
         let headers = {
@@ -706,7 +708,6 @@ const TeachersMarksheet = () => {
           const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
           // console.log(res.data);
           setMarksheetData(res.data);
-          
         } catch (error) {
           console.log(error);
         }
@@ -832,7 +833,7 @@ const TeachersMarksheet = () => {
                   blur={mathsMarksBlurHandler}
                   value={mathsMarks.toString()}
                   onSubmitEditing={Keyboard.dismiss}
-                 style={mathsMarksInputIsInValid && styles.errorBorderColor}
+                  style={mathsMarksInputIsInValid && styles.errorBorderColor}
                 />
                 {mathsMarksInputIsInValid && (
                   <Text
@@ -992,13 +993,15 @@ const TeachersMarksheet = () => {
             )} */}
           </View>
           {isEdit && (
-              <View style={styles.btnSubmit}>
-                <Button onPress={updateHandler}>Update</Button>
-              </View>
-            )}
-          {!isEdit &&<View style={styles.btnSubmit}>
-            <Button onPress={buttonPressedHandler}>Add Marksheet</Button>
-          </View>}
+            <View style={styles.btnSubmit}>
+              <Button onPress={updateHandler}>Update</Button>
+            </View>
+          )}
+          {!isEdit && (
+            <View style={styles.btnSubmit}>
+              <Button onPress={buttonPressedHandler}>Add Marksheet</Button>
+            </View>
+          )}
           <View style={styles.btnCancel}>
             <Button onPress={cancelPressHandler}> Cancel</Button>
           </View>
@@ -1120,10 +1123,10 @@ const TeachersMarksheet = () => {
                       marginLeft: 100,
                     }}
                   >
-                    <Ionicons 
-                      name="md-pencil-sharp" 
-                      size={24} 
-                      color="green" 
+                    <Ionicons
+                      name="md-pencil-sharp"
+                      size={24}
+                      color="green"
                       onPress={() => editItem(data.id)}
                     />
                   </DataTable.Cell>
@@ -1135,11 +1138,12 @@ const TeachersMarksheet = () => {
                       marginLeft: 10,
                     }}
                   >
-                    <Ionicons 
-                      name="trash" 
-                      size={24} 
-                      color="red" 
-                      onPress={() => deleteItem(data.id)}/>
+                    <Ionicons
+                      name="trash"
+                      size={24}
+                      color="red"
+                      onPress={() => deleteItem(data.id)}
+                    />
                   </DataTable.Cell>
                 </DataTable.Row>
               ))}
