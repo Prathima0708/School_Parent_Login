@@ -1,4 +1,5 @@
 import {
+  Dimensions,
   Image,
   Platform,
   Pressable,
@@ -25,7 +26,7 @@ function CategoryGridTile({ title, color, icon, onPress, txtclr }) {
 }
 
 export default CategoryGridTile;
-
+const deviceWidth = Dimensions.get("window").height;
 const styles = StyleSheet.create({
   gridItem: {
     marginHorizontal: 7,
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     //paddingTop: 0,
 
     width: 150,
-
+    right:deviceWidth >730 ? 0 : 19,
     height: 130,
     borderRadius: 18,
     elevation: 5,

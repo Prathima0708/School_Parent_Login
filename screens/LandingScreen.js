@@ -152,6 +152,7 @@ import { View, Text } from "react-native";
 import { Button } from "react-native";
 import { useFonts, Inter_900Black } from "@expo-google-fonts/inter";
 import { Ionicons } from "@expo/vector-icons";
+import { Dimensions } from "react-native";
 function LandingScreen() {
   useFonts({
     Inter_900Black,
@@ -170,7 +171,7 @@ function LandingScreen() {
           source={require("../assets/kinarabg2.png")}
         />
         {/* <Image style={styles.logo} source={require("../assets/Asset2.png")} /> */}
-        <View style={{ position: "absolute", top: 250 }}>
+        <View style={styles.textContainer}>
           <Text
             style={{
               left: 30,
@@ -217,7 +218,7 @@ function LandingScreen() {
             underlayColor="#002D62"
           >
             <View>
-              <Text style={styles.submitText}>Login</Text>
+              <Text style={styles.submitText}>Login </Text>
 
               <Ionicons
                 name="log-in"
@@ -225,8 +226,8 @@ function LandingScreen() {
                 color="white"
                 style={{
                   position: "absolute",
-                  top: 15,
-                  left: 75,
+                  top:  15,
+                  left: deviceHieght < 718 ? 70 : 75,
                   bottom: -60,
                 }}
               />
@@ -239,7 +240,7 @@ function LandingScreen() {
 }
 
 export default LandingScreen;
-
+const deviceHieght = Dimensions.get("window").height;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -247,16 +248,27 @@ const styles = StyleSheet.create({
   inner: {
     // padding: 24,
     // flex: 1,
-    minHeight: "100%",
+    // minHeight: "100%",
     backgroundColor: "white",
+   minHeight:'100%',
+   //marginTop:deviceHieght < 718 ? 0 : 0
+   
+    
   },
 
   mainContainer: {
-    height: 630,
+    height: deviceHieght < 718 ? 550 : 630,
+    
   },
   bannerImage: {
+    //marginTop:10,
     width: "100%",
     height: "48%",
+  },
+  textContainer:{
+    position: "absolute", 
+    top:deviceHieght < 718 ? 220 : 250,
+ 
   },
   typeText: {
     justifyContent: "center",
@@ -276,17 +288,17 @@ const styles = StyleSheet.create({
     width: "30%",
     height: "20%",
     // marginRight: 50,
-    marginLeft: 230,
+    left: deviceHieght < 718 ? 200 : 230,
     //paddingVertical: 10,
     // paddingHorizontal: 10,
     backgroundColor: "#002D62",
     borderRadius: 10,
     borderWidth: 1,
-    top: -25,
+    top:deviceHieght < 718 ? -65 : 10,
     borderColor: "#fff",
   },
   submitText: {
-    padding: 15,
+    padding:  15,
     //  marginHorizontal: 16,
     color: "#fff",
     //textAlign: "center",

@@ -412,8 +412,9 @@ const TeachersLeave = () => {
     // console.log(filteredDummuyData);
     setEnteredLeaveType(filteredDummuyData.leave_type);
     setEnteredLeaveReason(filteredDummuyData.leave_type);
-    setFromText(filteredDummuyData.leave_form);
-    setToText(filteredDummuyData.leave_to);
+    moment(filteredDummuyData.leave_form).format('DD/MM/YYYY')
+    setFromText(moment(filteredDummuyData.leave_form).format('DD/MM/YYYY'));
+    setToText(moment(filteredDummuyData.leave_to).format('DD/MM/YYYY'));
     setForLeaveList({ fontWeight: "bold", color: "black" });
     setForLeaveForm({ color: "black" });
      setShowForm(true);
@@ -659,10 +660,10 @@ const TeachersLeave = () => {
                   {data.leave_type}
                 </DataTable.Cell>
                 <DataTable.Cell style={styles.tableCell}>
-                  {data.leave_form}
+                  {moment(data.leave_form).format('DD/MM/YYYY')}
                 </DataTable.Cell>
                 <DataTable.Cell style={styles.tableCell}>
-                  {data.leave_to}
+                  {moment(data.leave_to).format('DD/MM/YYYY')}
                 </DataTable.Cell>
                 <DataTable.Cell style={styles.tableCell}>
                   {data.leave_reason}

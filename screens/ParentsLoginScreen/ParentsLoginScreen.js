@@ -65,6 +65,7 @@
 
 import {
   Alert,
+  Dimensions,
   FlatList,
   Image,
   Pressable,
@@ -174,13 +175,13 @@ function ParentsLoginScreen() {
 }
 
 export default ParentsLoginScreen;
-
+const deviceWidth = Dimensions.get("window").height;
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 32,
+    padding: deviceWidth < 718 ? 20 :32,
   },
   title: {
     fontSize: 20,

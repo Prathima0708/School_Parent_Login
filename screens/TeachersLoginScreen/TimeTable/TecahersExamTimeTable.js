@@ -11,6 +11,7 @@ import SelectList from "react-native-dropdown-select-list";
 import TeachersHome from "../TeachersHome";
 import Button from "../../../components/UI/Button";
 import { DataTable } from "react-native-paper";
+import moment from "moment";
 export var ID
 const TecahersExamTimeTable = () => {
 
@@ -328,8 +329,8 @@ const TecahersExamTimeTable = () => {
 
     setEnteredExamName(filteredDummuyData.exam_name);
     //  setEnteredcreatedby(filteredDummuyData.created_by);
-    setFromText(filteredDummuyData.start_date);
-    setToText(filteredDummuyData.end_date);
+    setFromText(moment(filteredDummuyData.start_date).format('DD/MM/YYYY'));
+    setToText(moment(filteredDummuyData.end_date).format('DD/MM/YYYY'));
     setEnteredTotalMarks(filteredDummuyData.Total_marks);
     setEnteredHour(filteredDummuyData.hour)
     //  setEnteredMobile(filteredDummuyData.exam_name);
@@ -436,10 +437,10 @@ const TecahersExamTimeTable = () => {
                     {data.exam_name}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.tableCell}>
-                    {data.start_date}
+                    {moment(data.start_date).format('DD/MM/YYYY')}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.tableCell}>
-                    {data.end_date}
+                    {moment(data.end_date).format('DD/MM/YYYY')}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.tableCell}>
                     {data.Total_marks}
