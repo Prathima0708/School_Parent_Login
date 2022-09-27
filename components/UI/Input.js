@@ -8,6 +8,8 @@ function Input({
   value,
   style,
   blur,
+  onPressIn,
+  maxLength,
 }) {
   return (
     <View>
@@ -18,6 +20,8 @@ function Input({
         keyboardType={keyboardType}
         value={value}
         onBlur={blur}
+        onPressIn={onPressIn}
+        maxLength={maxLength}
       />
     </View>
   );

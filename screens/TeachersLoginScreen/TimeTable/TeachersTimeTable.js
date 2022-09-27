@@ -23,14 +23,17 @@ import { useEffect } from "react";
 import TecahersExamTimeTable from "./TecahersExamTimeTable";
 import { DataTable } from "react-native-paper";
 import Input from "../../../components/UI/Input";
-var CLASSNAME, SECTION;
+import moment from "moment";
+export var CLASSNAME, SECTION;
 const TeachersTimetable = () => {
   const [showForm, setShowForm] = useState(false);
   const [showExamList, setShowExamList] = useState(false);
   const [year, setYear] = useState("");
 
-  const [selected, setSelected] = useState("");
-  const [studData, setStudData] = useState([]);
+  const [studClassData, setStudentClassData] = useState([]);
+  const [tdata, settdata] = useState([]);
+
+  const [selectedClass, setSelectedClass] = useState("");
 
   const [monday, setMonday] = useState("");
   const [enteredMondayTouched, setEnteredMondayTouched] = useState(false);
@@ -172,55 +175,115 @@ const TeachersTimetable = () => {
   ]);
 
   useEffect(() => {
-    axios
-      .get("http://10.0.2.2:8000/school/Studentclass/")
-      .then((response) => {
-        let newArray = response.data.map((item) => {
+    async function fetchClass() {
+      try {
+        const res = await axios.get(
+          `http://10.0.2.2:8000/school/Studentclass/`
+        );
+        let newArray = res.data.map((item) => {
           return {
             value: item.class_name + " - " + item.section,
           };
         });
-        let selectedData = selected.split(" - ");
-        console.log(selectedData);
-        let class_name = selectedData[0];
-        let section = selectedData[1];
-        CLASSNAME = class_name;
-
-        SECTION = section;
-        setStudData(newArray);
         setTimeTableData(newArray);
-        // setExamTimeTableData(newArray);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+
+        setStudentClassData(newArray);
+        let selectedData = selectedClass.split(" - ");
+        console.log(selectedData);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchClass();
+  }, [selectedClass]);
+
+  useEffect(() => {
+    async function fetchTimeTable() {
+      try {
+        const res = await axios.get(
+          `http://10.0.2.2:8000/school/AddmoreTimetable_list/`
+        );
+        let newArray = res.data.map((item) => {
+          return {
+            value: item.from_time + " - " + item.to_time,
+          };
+        });
+        //  console.log(newArray);
+        settdata(newArray);
+        // let selectedData = tdata.split(" - ");
+        // console.log(selectedData);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchTimeTable();
   }, []);
+
   function createdDateChangeHandler(enteredValue) {
     setEnteredCreatedDate(enteredValue);
-    setDateText(enteredValue);
+    // setDateText(enteredValue);
   }
 
   function fromTimeHandler(enteredValue) {
     setFromTime(enteredValue);
   }
 
-  function fromTimeChangeHandler(event, selectedFromTime) {
-    // const _inputs = [...inputs];
-    // _inputs[key].fromTime = event;
-    // setInputs(_inputs);
+  // function fromTimeChangeHandler(event, selectedFromTime) {
+  //   // const _inputs = [...inputs];
+  //   // _inputs[key].fromTime = event;
+  //   // setInputs(_inputs);
 
-    // console.log("text -142", text);
-    console.log("key -143", key);
+  //   // console.log("text -142", text);
+  //   // console.log("key -143", key);
 
-    const currentFromTime = selectedFromTime || fromTime;
+  //   const currentFromTime = selectedFromTime;
+  //   setFromTimeShow(Platform.OS === "ios");
+  //   setFromTime(currentToTime);
+  //   //setInputs(currentFromTime);
 
+  //   // currentFromTime - save this to inputs array
+  //   // show - call from inputs array -- fromTime
+
+  //   let tempFromTime = new Date(currentFromTime);
+  //   let fTime =
+  //     tempFromTime.getHours() +
+  //     ":" +
+  //     tempFromTime.getMinutes() +
+  //     ":" +
+  //     tempFromTime.getSeconds();
+
+  //   if (event.type == "set") {
+  //     // console.log("-------------------");
+
+  //     // console.log("currentfromtime :", currentFromTime);
+
+  //     //console.log(_inputs["fromTime"].fromTime);
+  //     // console.log("formatted time :", fTime);
+  //     // const _inputs = [...inputs];
+
+  //     // _inputs[key].fromTime = currentFromTime;
+
+  //     setFromTimeText(fTime);
+  //     // setInputs(_inputs);
+
+  //     //const _inputs = [...inputs];
+
+  //     // _inputs[key].fromTime = text;
+
+  //     // console.log("176", _inputs[key].fromTime);
+  //     // setInputs(_inputs);
+  //     // console.log("178", _inputs);
+  //   } else {
+  //     //cancel button clicked
+  //   }
+
+  //   //  console.log(fTime);
+  // }
+
+  const fromTimeChangeHandler = (event, selectedFromTime) => {
+    const currentFromTime = selectedFromTime;
     setFromTimeShow(Platform.OS === "ios");
-
     setFromTime(currentFromTime);
-    //setInputs(currentFromTime);
-
-    // currentFromTime - save this to inputs array
-    // show - call from inputs array -- fromTime
 
     let tempFromTime = new Date(currentFromTime);
     let fTime =
@@ -229,34 +292,14 @@ const TeachersTimetable = () => {
       tempFromTime.getMinutes() +
       ":" +
       tempFromTime.getSeconds();
-
     if (event.type == "set") {
-      console.log("-------------------");
-
-      console.log("currentfromtime :", currentFromTime);
-
-      //console.log(_inputs["fromTime"].fromTime);
-      console.log("formatted time :", fTime);
-      //const _inputs = [...inputs];
-
-      //_inputs[key].fromTime = currentFromTime;
-
       setFromTimeText(fTime);
-      //  setInputs(_inputs);
-
-      //const _inputs = [...inputs];
-
-      // _inputs[key].fromTime = text;
-
-      // console.log("176", _inputs[key].fromTime);
-      // setInputs(_inputs);
-      // console.log("178", _inputs);
     } else {
       //cancel button clicked
     }
 
-    //  console.log(fTime);
-  }
+    // console.log(fDate);
+  };
 
   const toTimeChangeHandler = (event, selectedToTime) => {
     const currentToTime = selectedToTime;
@@ -745,8 +788,8 @@ const TeachersTimetable = () => {
                 }}
               >
                 <SelectList
-                  setSelected={setSelected}
-                  data={studData}
+                  setSelected={setSelectedClass}
+                  data={studClassData}
                   placeholder="Select class"
                   boxStyles={{ borderRadius: 0 }}
                   dropdownTextStyles={{
@@ -767,14 +810,23 @@ const TeachersTimetable = () => {
                 // borderRadius: 10,
               }}
             >
-              <Text style={{ fontSize: 20, fontFamily: "HindRegular" }}>
-                {CLASSNAME}
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontFamily: "HindRegular",
+                  fontWeight: "bold",
+                }}
+              >
+                {selectedClass}
               </Text>
-              <Text style={{ fontSize: 20, fontFamily: "HindRegular" }}>A</Text>
             </View>
             <ScrollView horizontal={true}>
               <DataTable style={styles.container}>
                 <DataTable.Header style={styles.tableHeader}>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> TIMINGS</Text>
+                  </View>
+
                   <View style={styles.th}>
                     <Text style={styles.tableTitle}> MON</Text>
                   </View>
@@ -811,6 +863,18 @@ const TeachersTimetable = () => {
                 </DataTable.Header>
                 {showTimeTableData.map((data, key) => (
                   <DataTable.Row style={styles.tableRow} key={key}>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 10,
+                      }}
+                    >
+                      {moment(data.from_time, "HH:mm").format("hh:mm ")} {"-"}{" "}
+                      {""}
+                      {moment(data.to_time, "HH:mm").format("hh:mm ")}
+                    </DataTable.Cell>
+
                     <DataTable.Cell
                       textStyle={{
                         fontSize: 18,
@@ -957,9 +1021,10 @@ const TeachersTimetable = () => {
                     <Input
                       placeholder="Created Date"
                       onChangeText={createdDateChangeHandler}
-                      value={dateText || createdDate}
+                      value={dateText}
                       blur={dateTextBlur}
                       style={dateTextInputIsInValid && styles.errorBorderColor}
+                      onPressIn={() => showDateMode("date")}
                     />
                     {dateTextInputIsInValid && (
                       <Text style={{ color: "red", left: 20 }}>
@@ -1005,10 +1070,10 @@ const TeachersTimetable = () => {
                           />
                         </View>
                         <Input
-                          value={fromTimeText}
+                          value={fromTimeText || fromTime}
                           placeholder="From Time:"
                           blur={fromTextBlur}
-                          onChangeText={fromTimeChangeHandler}
+                          //  onChangeText={fromTimeChangeHandler}
                           //onChangeText={fromTimeHandler}
                           //  value={input.fromTime || fromTimeText}
                           // onChangeText={(text) =>
@@ -1081,9 +1146,7 @@ const TeachersTimetable = () => {
                             is24Hour={true}
                             display="default"
                             onChange={toTimeChangeHandler}
-                            onChangeText={(text) =>
-                              inputHandlerToDate(text, key)
-                            }
+
                             // onChange={(text) => toTimeChangeHandler(text, key)}
                             //  minimumDate={fromDate}
                           />
@@ -1384,19 +1447,19 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   tableTitle: {
-    // padding: 5,
-    margin: 7,
+    //padding: 5,
+    margin: 10,
     fontFamily: "MonsterratBold",
     fontSize: 16,
   },
   tableCell: {
-    width: 40,
+    width: 50,
     //  fontFamily: "Montserrat_600SemiBold",
     marginLeft: 35,
   },
 
   tableRow: {
-    height: "9%",
+    height: "10%",
     borderBottomColor: "black",
     borderBottomWidth: 2,
   },

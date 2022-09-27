@@ -23,7 +23,7 @@ import Input from "../../components/UI/Input";
 import VerticalLine from "../../components/UI/VerticalLine";
 import { DataTable } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-export var ID
+export var ID;
 const TeachersLeave = () => {
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
@@ -48,6 +48,9 @@ const TeachersLeave = () => {
 
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
+
+  const [enteredFromDate, setEnteredFromDate] = useState(new Date());
+  const [enteredToDate, setEnteredToDate] = useState(new Date());
 
   const [frommode, setFromMode] = useState("date");
   const [tomode, setToMode] = useState("date");
@@ -181,7 +184,7 @@ const TeachersLeave = () => {
     setEnteredLeaveReason(enteredValue);
   }
   function frmDateHandler(enteredValue) {
-    setFromText(enteredValue);
+    setFromDate(enteredValue);
   }
   function toDateHandler(enteredValue) {
     setToText(enteredValue);
@@ -229,56 +232,52 @@ const TeachersLeave = () => {
       );
     }
 
-      async function updateData() {
-        try {
-          let headers = {
-            "Content-Type": "application/json; charset=utf-8",
-          };
-          const dataForm = FormData;
-          const resLogin = await axios.put(
-            `http://10.0.2.2:8000/school/Leave/${ID}/`,
-            dataForm,
-            {
-              headers: headers,
-            }
-          );
-          // const token = resLogin.data.token;
-          // const userId = resLogin.data.user_id;
-          console.log(resLogin.data);
-        } catch (error) {
-          console.log(error);
-        }
+    async function updateData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+        };
+        const dataForm = FormData;
+        const resLogin = await axios.put(
+          `http://10.0.2.2:8000/school/Leave/${ID}/`,
+          dataForm,
+          {
+            headers: headers,
+          }
+        );
+        // const token = resLogin.data.token;
+        // const userId = resLogin.data.user_id;
+        console.log(resLogin.data);
+      } catch (error) {
+        console.log(error);
       }
-      updateData();
+    }
+    updateData();
 
-      Alert.alert(
-        "Successfully updated",
-        "",
-        [
-          { text: "OK", onPress: () => fetchData},
-        ]
-      );
+    Alert.alert("Successfully updated", "", [
+      { text: "OK", onPress: () => fetchData },
+    ]);
 
-      async function fetchData() {
-        try {
-          const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
-          setData(res.data);
-        } catch (error) {
-          console.log(error);
-        }
+    async function fetchData() {
+      try {
+        const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
+        setData(res.data);
+      } catch (error) {
+        console.log(error);
       }
-      fetchData();
+    }
+    fetchData();
 
-      setEnteredLeaveType("");
-      setEnteredLeaveReason("");
-      setFromText("");
-      setToText("");
-      setShowForm(false);
-      setShowList(true);
-      setForLeaveList({ fontWeight: "bold", color: "black" });
-      setForLeaveForm({ color: "black" });
-      setForLeaveForm({ fontWeight: "bold", color: "black" });
-      setForLeaveList({ color: "black" });
+    setEnteredLeaveType("");
+    setEnteredLeaveReason("");
+    setFromText("");
+    setToText("");
+    setShowForm(false);
+    setShowList(true);
+    setForLeaveList({ fontWeight: "bold", color: "black" });
+    setForLeaveForm({ color: "black" });
+    setForLeaveForm({ fontWeight: "bold", color: "black" });
+    setForLeaveList({ color: "black" });
   }
   function buttonPressedHandler() {
     console.log(UserId);
@@ -404,15 +403,15 @@ const TeachersLeave = () => {
     setShowForm(false);
     setShowList(true);
   }
-  function editItem(id){
-    ID=id
-    const filteredDummuyData= data.find((data)=> data.id==id);
+  function editItem(id) {
+    ID = id;
+    const filteredDummuyData = data.find((data) => data.id == id);
     // console.log(filteredDummuyData);
     setEnteredLeaveType(filteredDummuyData.leave_type);
     setEnteredLeaveReason(filteredDummuyData.leave_type);
-    moment(filteredDummuyData.leave_form).format('DD/MM/YYYY')
-    setFromText(moment(filteredDummuyData.leave_form).format('DD/MM/YYYY'));
-    setToText(moment(filteredDummuyData.leave_to).format('DD/MM/YYYY'));
+    moment(filteredDummuyData.leave_form).format("DD/MM/YYYY");
+    setFromText(moment(filteredDummuyData.leave_form).format("DD/MM/YYYY"));
+    setToText(moment(filteredDummuyData.leave_to).format("DD/MM/YYYY"));
     setForLeaveList({ fontWeight: "bold", color: "black" });
     setForLeaveForm({ color: "black" });
     setShowForm(true);
@@ -423,19 +422,15 @@ const TeachersLeave = () => {
   function deleteItem(id) {
     // console.log(id);
     // const newFilteredData=data.filter((data)=>data.id != id);
-    Alert.alert(
-      "Confirm Deleteion",
-      "Are you sure you want to delete this",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "Yes", onPress: () => deleteData()}
-      ]
-    );
-    
+    Alert.alert("Confirm Deleteion", "Are you sure you want to delete this", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      { text: "Yes", onPress: () => deleteData() },
+    ]);
+
     async function deleteData() {
       try {
         let headers = {
@@ -460,7 +455,6 @@ const TeachersLeave = () => {
           const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
           // console.log(res.data);
           setData(res.data);
-          
         } catch (error) {
           console.log(error);
         }
@@ -526,7 +520,7 @@ const TeachersLeave = () => {
                 </View>
                 <Input
                   value={fromText || fromDate}
-                  placeholder="LEAVE FROM:"
+                  placeholder="DD/MM/YYYY"
                   onSubmitEditing={Keyboard.dismiss}
                   style={fromDateInputIsInValid && styles.errorBorderColor}
                   blur={fromDateBlurHandler}

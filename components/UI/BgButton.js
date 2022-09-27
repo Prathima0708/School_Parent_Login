@@ -35,11 +35,23 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 
 function BgButton({ children, onPress, style }) {
   return (
-    <Pressable style={[style, styles.button]} onPress={onPress}>
-      <View>
-        <Text style={[style, styles.buttonText]}>{children}</Text>
-      </View>
-    </Pressable>
+    <View
+      style={{
+        backgroundColor: "#F8F9F9",
+        height: 80,
+        elevation: 3,
+        borderRadius: 10,
+        marginTop: 10,
+        // margin: 10,
+        // padding: 10,
+      }}
+    >
+      <Pressable style={[style, styles.button]} onPress={onPress}>
+        <View>
+          <Text style={[style, styles.buttonText]}>{children}</Text>
+        </View>
+      </Pressable>
+    </View>
   );
 }
 
@@ -52,8 +64,11 @@ const styles = StyleSheet.create({
     minWidth: "25%",
     marginTop: 20,
     marginLeft: 20,
-    padding: 10,
+    padding: 5,
+    margin: 20,
     borderRadius: 10,
+
+    //  elevation: 5,
     //  borderWidth:1,
     //marginRight:10,
   },
