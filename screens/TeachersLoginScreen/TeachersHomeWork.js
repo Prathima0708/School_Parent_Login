@@ -28,7 +28,7 @@ import TeachersHome from "./TeachersHome";
 import Input from "../../components/UI/Input";
 import VerticalLine from "../../components/UI/VerticalLine";
 import { DataTable } from "react-native-paper";
-export var ID
+export var ID;
 const TeachersHomework = () => {
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
@@ -103,8 +103,8 @@ const TeachersHomework = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [homeworkData, setHomeworkData] = useState([]);
-  const [isSame,SetIsSame]=useState(false);
-  let i=0;
+  const [isSame, SetIsSame] = useState(false);
+  let i = 0;
   // useEffect(()=>{
   //   if(enteredSubjectIsValid && enteredFromDateIsValid && enteredtoDateIsValid && enteredRemarkIsValid && enteredHomeWorkIsValid){
   //     setFormIsValid(true);
@@ -122,16 +122,16 @@ const TeachersHomework = () => {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
         setHomeworkData(res.data);
-        let test=0;
+        let test = 0;
         const value = await AsyncStorage.getItem("key");
-        for(i=0;i<res.data.length;i++){
-          if(value==res.data[i].created_by){
-             test=res.data[i].created_by
-          }else{
+        for (i = 0; i < res.data.length; i++) {
+          if (value == res.data[i].created_by) {
+            test = res.data[i].created_by;
+          } else {
             // console.log('false')
           }
         }
-        if(test==value){
+        if (test == value) {
           // console.log("is same")
           SetIsSame(true);
         }
@@ -358,8 +358,7 @@ const TeachersHomework = () => {
           { text: "OK", onPress: () => console.log("OK Pressed") },
         ]
       );
-    }
-    else {
+    } else {
       let selectedData = selected.split(" - ");
       let class_name = selectedData[0];
       let section = selectedData[1];
@@ -400,13 +399,9 @@ const TeachersHomework = () => {
       }
 
       updateData();
-      Alert.alert(
-        "Successfully updated",
-        "",
-        [
-          { text: "OK", onPress: () => fetchData},
-        ]
-      );
+      Alert.alert("Successfully updated", "", [
+        { text: "OK", onPress: () => fetchData },
+      ]);
 
       async function fetchData() {
         try {
@@ -417,7 +412,7 @@ const TeachersHomework = () => {
         }
       }
       fetchData();
-      
+
       setEnteredSubject("");
       setFromText("");
       setToText("");
@@ -452,6 +447,23 @@ const TeachersHomework = () => {
           { text: "OK", onPress: () => console.log("OK Pressed") },
         ]
       );
+    }
+
+    if (isValid) {
+      Alert.alert("Data saved", "Data saved successfully", [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            setShowForm(false);
+            showHomework();
+          },
+        },
+      ]);
     }
 
     var dateToValidate = toText;
@@ -601,13 +613,23 @@ const TeachersHomework = () => {
     setIsEdit(false);
   }
   function showHomework() {
-    setForHomeworkForm({ fontWeight: "bold", color: "black" });
-    setForHomeworkList({ color: "black" });
-    setShowForm(false);
-    setShowList(true);
+    async function fetchData() {
+      try {
+        const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
+        setTranportData(res.data);
+
+        setForHomeworkForm({ fontWeight: "bold", color: "black" });
+        setForHomeworkList({ color: "black" });
+        setShowForm(false);
+        setShowList(true);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
   }
   function editItem(id) {
-    ID=id
+    ID = id;
     const filteredDummuyData = homeworkData.find((data) => data.id == id);
     setSelected(filteredDummuyData.class_name);
     // setEnteredSection(filteredDummuyData.section);
@@ -628,21 +650,17 @@ const TeachersHomework = () => {
     // console.log(id);
     // const newFilteredData=data.filter((data)=>data.id != id);
 
-    Alert.alert(
-      "Confirm Deletion",
-      "You are about to delete this row!",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { 
-          text: "Yes,delete", 
-          onPress: () => deleteData()
-        }
-      ]
-    );
+    Alert.alert("Confirm Deletion", "You are about to delete this row!", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "Yes,delete",
+        onPress: () => deleteData(),
+      },
+    ]);
     async function deleteData() {
       try {
         let headers = {
@@ -667,7 +685,6 @@ const TeachersHomework = () => {
           const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
           // console.log(res.data);
           setData(res.data);
-          
         } catch (error) {
           console.log(error);
         }
@@ -740,7 +757,11 @@ const TeachersHomework = () => {
                   />
                 </View>
                 <Input
-                  value={fromText || fromDate}
+               //   value={fromText || fromDate}
+                  value={
+                    moment(fromText).format("DD/MM/YYYY") ||
+                    moment(fromDate).format("DD/MM/YYYY")
+                  }
                   placeholder="DD/MM/YYYY"
                   onSubmitEditing={Keyboard.dismiss}
                   style={fromDateInputIsInValid && styles.errorBorderColor}
@@ -785,7 +806,11 @@ const TeachersHomework = () => {
                   />
                 </View>
                 <Input
-                  value={toText || toDate}
+                //  value={toText || toDate}
+                  value={
+                    moment(toText).format("DD/MM/YYYY") ||
+                    moment(toDate).format("DD/MM/YYYY")
+                  }
                   placeholder="DD/MM/YYYY"
                   style={toDateInputIsInValid && styles.errorBorderColor}
                   blur={dateToHandler}
@@ -856,11 +881,6 @@ const TeachersHomework = () => {
                 Enter homework
               </Text>
             )}
-            {/* <View>
-            <Text style={styles.labels}>UPLOAD IMAGE</Text>
-            <View style={styles.imagePreView}>{imagePreView}</View>
-            <Btn title="take image" onPress={takeImageHanlder} />
-          </View> */}
 
             <Text style={styles.labels}>Upload Image</Text>
             <View
@@ -882,14 +902,16 @@ const TeachersHomework = () => {
                 Please upload or take homework image
               </Text>
             )}
-            <View style={{ marginTop: 13 }}>
+            <View
+              style={{
+                marginTop: 13,
+                backgroundColor: "red",
+                width: "50%",
+                fontFamily: "HindRegular",
+                fontSize: 18,
+              }}
+            >
               <Btn title="Upload Image" onPress={PickImage} />
-              {/* {image && (
-              <Image
-                source={{ uri: image }}
-                style={{ width: 200, height: 200 }}
-              />
-            )} */}
             </View>
             {!isEdit && (
               <View style={styles.btnSubmit}>
@@ -909,23 +931,23 @@ const TeachersHomework = () => {
           <DataTable style={styles.container}>
             <DataTable.Header style={styles.tableHeader}>
               <View style={styles.th}>
-                <Text style={styles.tableTitle}> Class Name</Text>
+                <Text style={styles.tableTitle}> CLASS NAME</Text>
               </View>
               <View style={styles.th}>
                 <Text style={styles.tableTitle}> Section</Text>
               </View>
               <View style={styles.th}>
-                <Text style={styles.tableTitle}> Subject</Text>
+                <Text style={styles.tableTitle}> SUBJECT</Text>
               </View>
               <View style={styles.th}>
-                <Text style={styles.tableTitle}> Homework date</Text>
+                <Text style={styles.tableTitle}> HOMEWORK DATE</Text>
               </View>
               <View style={styles.th}>
-                <Text style={styles.tableTitle}> Remark</Text>
+                <Text style={styles.tableTitle}> REMARK</Text>
               </View>
 
               <View style={styles.th}>
-                <Text style={styles.tableTitle}> Due date</Text>
+                <Text style={styles.tableTitle}>DUE DATE</Text>
               </View>
 
               <View style={styles.th}>
@@ -937,14 +959,14 @@ const TeachersHomework = () => {
                     fontSize: 16,
                   }}
                 >
-                  Actions
+                  ACTIONS
                 </Text>
               </View>
             </DataTable.Header>
 
-            {homeworkData &&
-              homeworkData.map((homeworkData, key) => (
-                <DataTable.Row style={styles.tableRow}>
+            {tranportData &&
+              tranportData.map((tranportData, key) => (
+                <DataTable.Row style={styles.tableRow} key={key}>
                   <DataTable.Cell
                     textStyle={{
                       fontSize: 18,
@@ -979,7 +1001,7 @@ const TeachersHomework = () => {
                       marginLeft: 50,
                     }}
                   >
-                    {moment(homeworkData.homework_date).format('DD/MM/YYYY')}
+                    {moment(homeworkData.homework_date).format("DD/MM/YYYY")}
                   </DataTable.Cell>
                   <DataTable.Cell
                     textStyle={{
@@ -998,19 +1020,35 @@ const TeachersHomework = () => {
                       marginLeft: 50,
                     }}
                   >
-                    {moment(homeworkData.due_date).format('DD/MM/YYYY')}
+                    {moment(homeworkData.due_date).format("DD/MM/YYYY")}
                   </DataTable.Cell>
 
-                  <DataTable.Cell style={styles.tableCell}>
-                    <Btn
-                      title="Edit"
-                      onPress={() => editItem(homeworkData.id)}
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 110,
+                    }}
+                  >
+                    <Ionicons
+                      name="md-pencil-sharp"
+                      size={24}
+                      color="green"
+                      onPress={() => editItem(data.id)}
                     />
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
-                    <Btn
-                      title="Delete"
-                      onPress={() => deleteItem(homeworkData.id)}
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      //marginLeft: 15,
+                    }}
+                  >
+                    <Ionicons
+                      name="trash"
+                      size={24}
+                      color="red"
+                      onPress={() => deleteItem(data.id)}
                     />
                   </DataTable.Cell>
                 </DataTable.Row>
@@ -1034,11 +1072,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     fontSize: 24,
   },
+  container: {
+    marginTop: 20,
+  },
   home: {
     marginTop: 29,
   },
   root: {
     backgroundColor: "#EBECFO",
+    marginTop: 10,
   },
   inputForm: {
     padding: 20,
@@ -1122,7 +1164,7 @@ const styles = StyleSheet.create({
   tableCell: {
     width: 50,
     //  fontFamily: "Montserrat_600SemiBold",
-    left:5
+    left: 5,
   },
 
   tableRow: {

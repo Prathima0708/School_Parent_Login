@@ -768,7 +768,7 @@ const TeachersMarksheet = () => {
 
             {studList &&
               studList.map((data, key) => (
-                <DataTable.Row style={styles.tableRow}>
+                <DataTable.Row style={styles.tableRow} key={key}>
                   <DataTable.Cell
                     textStyle={{
                       fontSize: 18,

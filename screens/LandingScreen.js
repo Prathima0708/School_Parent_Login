@@ -201,7 +201,7 @@ function LandingScreen() {
               style={{
                 // color: "#273746",
                 fontSize: 18,
-               // lineHeight: 34,
+                // lineHeight: 34,
                 margin: 10,
                 fontFamily: "HindRegular",
               }}
@@ -222,12 +222,12 @@ function LandingScreen() {
 
               <Ionicons
                 name="log-in"
-                size={32}
+                size={28}
                 color="white"
                 style={{
                   position: "absolute",
-                  top:  15,
-                  left: deviceHieght < 718 ? 70 : 75,
+                  top: 10,
+                  left: 75,
                   bottom: -60,
                 }}
               />
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
 
   submit: {
     width: "30%",
-    height: "20%",
+    height: "18%",
     // marginRight: 50,
     left: deviceHieght < 718 ? 200 : 230,
     //paddingVertical: 10,
@@ -298,7 +298,10 @@ const styles = StyleSheet.create({
     borderColor: "#fff",
   },
   submitText: {
-    padding:  15,
+    padding: 13,
+    paddingTop: 7,
+    paddingBottom: 3,
+    alignItems: "center",
     //  marginHorizontal: 16,
     color: "#fff",
     //textAlign: "center",
