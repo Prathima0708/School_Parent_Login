@@ -634,8 +634,8 @@ const TeachersHomework = () => {
     setSelected(filteredDummuyData.class_name);
     // setEnteredSection(filteredDummuyData.section);
     setEnteredSubject(filteredDummuyData.subject);
-    setFromText(filteredDummuyData.homework_date);
-    setToText(filteredDummuyData.due_date);
+    setFromText(moment(filteredDummuyData.homework_date).format('DD/MM/YYYY'));
+    moment(filteredDummuyData.due_date).format('DD/MM/YYYY')
     setEnteredRemark(filteredDummuyData.remark);
     setHW(filteredDummuyData.homework);
     setImage(filteredDummuyData.homework_photo);
@@ -757,6 +757,7 @@ const TeachersHomework = () => {
                   />
                 </View>
                 <Input
+               //   value={fromText || fromDate}
                   value={
                     moment(fromText).format("DD/MM/YYYY") ||
                     moment(fromDate).format("DD/MM/YYYY")
@@ -805,6 +806,7 @@ const TeachersHomework = () => {
                   />
                 </View>
                 <Input
+                //  value={toText || toDate}
                   value={
                     moment(toText).format("DD/MM/YYYY") ||
                     moment(toDate).format("DD/MM/YYYY")

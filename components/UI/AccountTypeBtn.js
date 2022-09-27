@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 
 
 
@@ -13,6 +13,7 @@ function AccountTypeBtn({ children, onPress, style }) {
 }
 
 export default AccountTypeBtn;
+const deviceWidth = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   button: {
@@ -25,6 +26,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: "HindSemiBold",
     textAlign: "center",
-    fontSize: 24,
+    fontSize: deviceWidth < 718 ? 17 : 24,
   },
 });

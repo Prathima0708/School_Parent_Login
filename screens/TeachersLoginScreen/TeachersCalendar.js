@@ -26,6 +26,7 @@ import FeedBackDialog from "../../components/UI/FeedBackDialog";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export var ID;
 const TeachersCalendar = () => {
+  const br='\n';
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
   const [forCalendarList, setForCalendarList] = useState({
@@ -170,7 +171,7 @@ const TeachersCalendar = () => {
 
     if (event.type == "set") {
       setFromText(fDate);
-      console.log(fDate);
+
     } else {
       //cancel button clicked
     }
@@ -211,6 +212,8 @@ const TeachersCalendar = () => {
   }
   function frmDateHandler(enteredValue) {
     setFromText(enteredValue);
+    console.log(enteredValue)
+    console.log(fromText)
   }
   function toDateHandler(enteredValue) {
     setToText(enteredValue);
@@ -465,8 +468,8 @@ const TeachersCalendar = () => {
 
     setEnteredDescription(filteredDummuyData.description);
     //  setEnteredcreatedby(filteredDummuyData.created_by);
-    setFromText(filteredDummuyData.startdate);
-    setToText(filteredDummuyData.enddate);
+    setFromText(moment(filteredDummuyData.startdate).format('DD/MM/YYYY'));
+    setToText(moment(filteredDummuyData.enddate).format('DD/MM/YYYY'));
     setEnteredTitle(filteredDummuyData.titlee);
     //  setEnteredMobile(filteredDummuyData.exam_name);
     //  setEnteredRouteName(filteredDummuyData.hour);
@@ -606,6 +609,8 @@ const TeachersCalendar = () => {
                   />
                 </View>
                 <Input
+                  // value={moment(fromText).format('DD/MM/YYYY') || moment(fromDate).format('DD/MM/YYYY')}
+                 // value={ fromText || fromDate}
                   value={
                     moment(fromText).format("DD/MM/YYYY") ||
                     moment(fromDate).format("DD/MM/YYYY")
@@ -654,6 +659,8 @@ const TeachersCalendar = () => {
                   />
                 </View>
                 <Input
+                  // value={moment(toText).format('DD/MM/YYYY') || moment(toDate).format('DD/MM/YYYY')}
+                  //value={toText || toDate}
                   value={
                     moment(toText).format("DD/MM/YYYY") ||
                     moment(toDate).format("DD/MM/YYYY")
@@ -870,12 +877,15 @@ const styles = StyleSheet.create({
   tableCell: {
     width: 50,
     //  fontFamily: "Montserrat_600SemiBold",
-    left: 5,
+    left: 10,
+
+    maxWidth:200
   },
 
   tableRow: {
     height: "9%",
     borderBottomColor: "black",
     borderBottomWidth: 2,
+    whiteSpace: "pre-line"
   },
 });

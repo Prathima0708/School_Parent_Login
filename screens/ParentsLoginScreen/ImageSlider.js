@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 import React from "react";
 import Swiper from "react-native-swiper";
 
@@ -52,6 +52,7 @@ const ImageSlider = () => {
 };
 
 export default ImageSlider;
+const deviceWidth = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   container: {
@@ -63,9 +64,10 @@ const styles = StyleSheet.create({
   },
   image: {
    // flex: 1,
-    width: 500,
-    height: 500,
-
+    width: deviceWidth < 718 ? 500 :500,
+    // height: 500,
+    height:deviceWidth < 718 ? 300 :500,
+    right:deviceWidth > 730 ? 1 :30,
     justifyContent: "center",
     alignItems: "center",
   },
