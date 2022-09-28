@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, Text } from "react-native";
+import { View, StyleSheet, TextInput, Text, Dimensions } from "react-native";
 import { useEffect, useState } from "react";
 import BgButton from "../../../components/UI/BgButton";
 import VerticalLine from "../../../components/UI/VerticalLine";
@@ -278,6 +278,8 @@ function Noticeboard() {
 
 export default Noticeboard;
 
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   BtnContainer :{
     fontSize: 24,
@@ -285,8 +287,9 @@ const styles = StyleSheet.create({
   },
   root: {
     // backgroundColor: "skyblue",
-    padding: 20,
-    margin: 20,
+    paddingLeft: 20,
+    paddingRight:20,
+    // margin: 20,
     borderRadius: 15,
   },
 

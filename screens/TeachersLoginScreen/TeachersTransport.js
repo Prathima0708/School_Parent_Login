@@ -344,8 +344,8 @@ const TeachersTransport = () => {
 
         setData(res.data);
 
-        setForCalendarForm({ fontWeight: "bold", color: "black" });
-        setForCalendarList({ color: "black" });
+        setForTransportForm({ fontWeight: "bold", color: "black" });
+        setForTransportList({ color: "black" });
         setShowForm(false);
         setShowList(true);
       } catch (error) {
@@ -376,9 +376,9 @@ const TeachersTransport = () => {
     setShowList(false);
     setIsEdit(true);
   }
-  function deleteItem(id) {
-    console.log(id);
-    // const newFilteredData=data.filter((data)=>data.id != id);
+
+  function deleteItem(busnumber) {
+    console.log(busnumber)
     Alert.alert("Confirm Deletion", "You are about to delete this row!", [
       {
         text: "Cancel",
@@ -395,17 +395,13 @@ const TeachersTransport = () => {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
         };
-        // const dataForm = FormData;
         const resLogin = await axios.delete(
-          `http://10.0.2.2:8000/school/Transportreport/${id}/`,
-          // FormData,
+          `http://10.0.2.2:8000/school/Transportreport/${busnumber}/`,
           {
             headers: headers,
           }
         );
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
-        console.log(resLogin.data);
+                console.log(resLogin.data);
       } catch (error) {
         console.log(error);
       }
@@ -744,7 +740,7 @@ const TeachersTransport = () => {
                       name="trash"
                       size={24}
                       color="red"
-                      onPress={() => deleteItem(data.id)}
+                      onPress={() => deleteItem(data.busnumber)}
                     />
                   </DataTable.Cell>
                 </DataTable.Row>

@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Pressable,
   Alert,
+  Dimensions,
 } from "react-native";
 import React, { useRef, useState } from "react";
 import axios from "axios";
@@ -1150,7 +1151,8 @@ const TeachersTimetable = () => {
 };
 
 export default TeachersTimetable;
-
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
@@ -1220,11 +1222,9 @@ const styles = StyleSheet.create({
   },
   timetablebtn: {
     width: "40%",
-
     paddingVertical: 20,
     paddingHorizontal: 0,
-
-    marginLeft: 230,
+    marginLeft: deviceWidth < 370 ? 210 : 230,
   },
   BtnContainer: {
     flexDirection: "row",

@@ -28,6 +28,7 @@ import TeachersHome from "./TeachersHome";
 import Input from "../../components/UI/Input";
 import VerticalLine from "../../components/UI/VerticalLine";
 import { DataTable } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export var ID;
 const TeachersHomework = () => {
   const [showForm, setShowForm] = useState(true);
@@ -431,7 +432,9 @@ const TeachersHomework = () => {
   function buttonPressedHandler() {
     console.log(selected);
     console.log(fromText, toText);
+    const test=image.substring(image.lastIndexOf('/')+1);
 
+    console.log(test)
     var dateFromValidate = fromText;
     var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
     if (!isValid) {
@@ -520,8 +523,9 @@ const TeachersHomework = () => {
       let selectedData = selected.split(" - ");
       let class_name = selectedData[0];
       let section = selectedData[1];
-      let uploaduri = image;
+      // let uploaduri = image;
       // let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
+      let uploadedImg=test;
       const formdata = {
         // from_time:fromText,
         // to_time:toText,
@@ -530,7 +534,8 @@ const TeachersHomework = () => {
         subject: subject,
         homework_date: fromDate,
         due_date: toDate,
-        // homework_photo: `/assets/images/${filename}`,
+        homework_photo: `/assets/images/${filename}`,
+        // homework_photo:uploadedImg,
         remark: remark,
         description: hw,
       };
@@ -539,7 +544,7 @@ const TeachersHomework = () => {
       async function storeData() {
         try {
           let headers = {
-            "Content-Type": "application/json; charset=utf-8",
+            "Content-Type": "application/json; charset=utf-8;",
           };
 
           const resLogin = await axios.post(
@@ -616,7 +621,7 @@ const TeachersHomework = () => {
     async function fetchData() {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
-        setTranportData(res.data);
+        setHomeworkData(res.data);
 
         setForHomeworkForm({ fontWeight: "bold", color: "black" });
         setForHomeworkList({ color: "black" });
@@ -709,7 +714,7 @@ const TeachersHomework = () => {
       {showForm && (
         <ScrollView style={styles.root}>
           <View style={styles.inputForm}>
-            <View style={{ width: 350, fontSize: 18, marginTop: 3 }}>
+            <View >
               <SelectList
                 setSelected={setSelected}
                 data={data}
@@ -757,11 +762,11 @@ const TeachersHomework = () => {
                   />
                 </View>
                 <Input
-               //   value={fromText || fromDate}
-                  value={
-                    moment(fromText).format("DD/MM/YYYY") ||
-                    moment(fromDate).format("DD/MM/YYYY")
-                  }
+                 value={fromText || fromDate}
+                  // value={
+                  //   moment(fromText).format("DD/MM/YYYY") ||
+                  //   moment(fromDate).format("DD/MM/YYYY")
+                  // }
                   placeholder="DD/MM/YYYY"
                   onSubmitEditing={Keyboard.dismiss}
                   style={fromDateInputIsInValid && styles.errorBorderColor}
@@ -806,11 +811,11 @@ const TeachersHomework = () => {
                   />
                 </View>
                 <Input
-                //  value={toText || toDate}
-                  value={
-                    moment(toText).format("DD/MM/YYYY") ||
-                    moment(toDate).format("DD/MM/YYYY")
-                  }
+                 value={toText || toDate}
+                  // value={
+                  //   moment(toText).format("DD/MM/YYYY") ||
+                  //   moment(toDate).format("DD/MM/YYYY")
+                  // }
                   placeholder="DD/MM/YYYY"
                   style={toDateInputIsInValid && styles.errorBorderColor}
                   blur={dateToHandler}
@@ -964,8 +969,8 @@ const TeachersHomework = () => {
               </View>
             </DataTable.Header>
 
-            {tranportData &&
-              tranportData.map((tranportData, key) => (
+            {homeworkData &&
+              homeworkData.map((homeworkData, key) => (
                 <DataTable.Row style={styles.tableRow} key={key}>
                   <DataTable.Cell
                     textStyle={{

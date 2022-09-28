@@ -26,6 +26,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: "HindSemiBold",
     textAlign: "center",
-    fontSize: deviceWidth < 718 ? 17 : 24,
+    fontSize: 24,
   },
 });

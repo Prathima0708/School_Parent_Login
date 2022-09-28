@@ -225,6 +225,7 @@ import {
   ScrollView,
   Button as Btn,
   Alert,
+  Dimensions,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Button from "../../components/UI/Button";
@@ -1151,7 +1152,8 @@ const TeachersMarksheet = () => {
 };
 
 export default TeachersMarksheet;
-
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
@@ -1194,7 +1196,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginBottom: 30,
     width: "50%",
-    marginLeft: 180,
+    marginLeft: deviceWidth < 370 ? 170 : 180 ,
   },
   btnCancel: {
     marginTop: -80,

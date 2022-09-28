@@ -595,8 +595,9 @@ const TeachersCalendar = () => {
                   // value={moment(fromText).format('DD/MM/YYYY') || moment(fromDate).format('DD/MM/YYYY')}
                  // value={ fromText || fromDate}
                   value={
-                    moment(fromText).format("DD/MM/YYYY") ||
-                    moment(fromDate).format("DD/MM/YYYY")
+                    // moment(fromText).format("DD/MM/YYYY") ||
+                    // moment(fromDate).format("DD/MM/YYYY")
+                    fromText || fromDate
                   }
                   placeholder="D/M/YYYY"
                   onSubmitEditing={Keyboard.dismiss}

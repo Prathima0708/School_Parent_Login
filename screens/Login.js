@@ -598,7 +598,7 @@
 //             <View
 //               style={[
 //                 styles.inputContainer,
-//                 keyboardStatus == "Keyboard Shown" && styles.test,
+//                 keyboardStatus == "Keyboard Shown" 
 //               ]}
 //             >
 //               <TextInput
@@ -1312,7 +1312,8 @@ function Login() {
 
   return (
     <>
-      <View style={{ backgroundColor: "white", height: "100%" }}>
+    <ScrollView>
+    <View style={styles.container}>
         {keyboardStatus == "Keyboard Hidden" && (
           <Image
             style={styles.bannerImage}
@@ -1340,7 +1341,7 @@ function Login() {
             <View
               style={[
                 styles.buttonContainer,
-                keyboardStatus == "Keyboard Shown" && styles.test,
+                keyboardStatus == "Keyboard Shown" && styles.showTypeBtnCont
               ]}
             >
               <AccountTypeBtn
@@ -1360,7 +1361,7 @@ function Login() {
             <View
               style={[
                 styles.inputContainer,
-                keyboardStatus == "Keyboard Shown" && styles.test,
+                keyboardStatus == "Keyboard Shown" && styles.showInputCont
               ]}
             >
               <TextInput
@@ -1398,6 +1399,7 @@ function Login() {
           </View>
         </View>
       </View>
+      </ScrollView>
     </>
   );
 }
@@ -1408,7 +1410,10 @@ const deviceWidth = Dimensions.get("window").width;
 console.log(deviceWidth);
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    backgroundColor:'white',
+    paddingBottom:deviceWidth < 370 ? 300 : 300
+    // height:"400%"
+    // minHeight:'500%'
   },
   // lateralContainer:{
   //   elevation:5
@@ -1425,7 +1430,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
 
     marginLeft: 20,
-    marginRight: 20,
+    marginRight: deviceWidth > 400 ? 40 : 20,
     top: -25,
     height: deviceHieght < 718 ? 100 : 50,
     elevation: 11,
@@ -1437,14 +1442,14 @@ const styles = StyleSheet.create({
   },
 
   inputContainer: {
-    position: "relative",
-    top: -25,
+    position: "absolute",
+    top: 25,
 
     borderTopWidth: 0,
 
     padding: 40,
     paddingTop: 11,
-    width: 352,
+    width: deviceWidth < 370 ? 320 : 352,
     left: 20,
 
     elevation: 11,
@@ -1471,7 +1476,7 @@ const styles = StyleSheet.create({
     fontFamily: "HindRegular",
     margin: 7,
 
-    width: 310,
+    width: deviceWidth < 370 ? 270 : 310,
     right: 22,
   },
 
@@ -1489,11 +1494,17 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: "HindSemiBold",
   },
-  test: {
-    top: 50,
-  },
+  // test: {
+  //   top: 50,
+  // },
   test1: {
-    top: 70,
+    top: 60,
+  },
+  showInputCont:{
+    top:100
+  },
+  showTypeBtnCont:{
+    top:50
   },
   subheading: {
     color: "grey",
