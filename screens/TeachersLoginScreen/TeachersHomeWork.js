@@ -34,10 +34,15 @@ const TeachersHomework = () => {
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
   const [forHomeworkList, setForHomeworkList] = useState({
-    color: "black",
-    fontWeight: "bold",
+    color: "white",
+    backgroundColor: "#0C60F4",
+    borderRadius: 10,
   });
-  const [forHomeworkForm, setForHomeworkForm] = useState({ color: "black" });
+  const [forHomeworkForm, setForHomeworkForm] = useState({
+    color: "black",
+    backgroundColor: "#F4F6F6",
+    borderRadius: 10,
+  });
 
   const [selected, setSelected] = useState("");
   const [enteredSelectedTouched, setEnteredSelectedTouched] = useState(false);
@@ -92,8 +97,8 @@ const TeachersHomework = () => {
 
   const [image, setImage] = useState("");
   const [enteredImageTouched, setEnteredImageTouched] = useState(false);
-  const enteredImageIsValid = image.trim() !== "";
-  const imageInputIsInValid = !enteredImageIsValid && enteredImageTouched;
+  // const enteredImageIsValid = image.trim() !== "";
+  // const imageInputIsInValid = !enteredImageIsValid && enteredImageTouched;
 
   const [pickedImage, setPickedImage] = useState();
   const [cameraPermissionInformation, requestPermission] =
@@ -364,17 +369,16 @@ const TeachersHomework = () => {
       let class_name = selectedData[0];
       let section = selectedData[1];
       let uploaduri = image;
-      // let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
+      let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
       const formdata = {
-        // from_time:fromText,
-        // to_time:toText,
         class_name: class_name,
         section: section,
         subject: subject,
         homework_date: fromDate,
-        due_date: toDate,
-        // homework_photo: `/assets/images/${filename}`,
         remark: remark,
+        homework_photo: "",
+        homework: "",
+        due_date: toDate,
         description: hw,
       };
       console.log(formdata);
@@ -424,17 +428,15 @@ const TeachersHomework = () => {
       setShowList(true);
       setForHomeworkList({ fontWeight: "bold", color: "black" });
       setForHomeworkForm({ color: "black" });
-      setForHomeworkForm({ fontWeight: "bold", color: "black" });
-      setForHomeworkList({ color: "black" });
     }
   }
 
   function buttonPressedHandler() {
     console.log(selected);
     console.log(fromText, toText);
-    const test=image.substring(image.lastIndexOf('/')+1);
+    const test = image.substring(image.lastIndexOf("/") + 1);
 
-    console.log(test)
+    console.log(test);
     var dateFromValidate = fromText;
     var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
     if (!isValid) {
@@ -492,7 +494,7 @@ const TeachersHomework = () => {
     setEnteredtoDateTouched(true);
     setEnteredRemarkTouched(true);
     setEnteredHomeWorkTouched(true);
-    setEnteredImageTouched(true);
+    // setEnteredImageTouched(true);
 
     if (!enteredSelcetdIsValid) {
       return;
@@ -517,15 +519,16 @@ const TeachersHomework = () => {
       return;
     }
 
-    if (!enteredImageIsValid) {
-      return;
-    } else {
+    // if (!enteredImageIsValid) {
+    //   return;
+    // }
+    else {
       let selectedData = selected.split(" - ");
       let class_name = selectedData[0];
       let section = selectedData[1];
       // let uploaduri = image;
       // let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
-      let uploadedImg=test;
+      let uploadedImg = test;
       const formdata = {
         // from_time:fromText,
         // to_time:toText,
@@ -534,7 +537,7 @@ const TeachersHomework = () => {
         subject: subject,
         homework_date: fromDate,
         due_date: toDate,
-        homework_photo: `/assets/images/${filename}`,
+        // homework_photo: `/assets/images/${filename}`,
         // homework_photo:uploadedImg,
         remark: remark,
         description: hw,
@@ -603,8 +606,16 @@ const TeachersHomework = () => {
   }
 
   function showHomeworkForm() {
-    setForHomeworkList({ fontWeight: "bold", color: "black" });
-    setForHomeworkForm({ color: "black" });
+    setForHomeworkList({
+      backgroundColor: "#0C60F4",
+      color: "white",
+      borderRadius: 10,
+    });
+    setForHomeworkForm({
+      color: "black",
+      backgroundColor: "#F4F6F6",
+      borderRadius: 10,
+    });
     setShowForm(true);
     setShowList(false);
     setEnteredSelectedTouched(false);
@@ -623,8 +634,16 @@ const TeachersHomework = () => {
         const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
         setHomeworkData(res.data);
 
-        setForHomeworkForm({ fontWeight: "bold", color: "black" });
-        setForHomeworkList({ color: "black" });
+        setForHomeworkForm({
+          color: "white",
+          backgroundColor: "#1E8449",
+          borderRadius: 10,
+        });
+        setForHomeworkList({
+          backgroundColor: "#F4F6F6",
+          color: "black",
+          borderRadius: 10,
+        });
         setShowForm(false);
         setShowList(true);
       } catch (error) {
@@ -634,18 +653,34 @@ const TeachersHomework = () => {
     fetchData();
   }
   function editItem(id) {
+    let selectedData = selected.split(" - ");
+    let class_name = selectedData[0];
+    let section = selectedData[1];
     ID = id;
+    console.log(id);
+
     const filteredDummuyData = homeworkData.find((data) => data.id == id);
-    setSelected(filteredDummuyData.class_name);
+    // console.log(filteredDummuyData);
+
+    // setData(filteredDummuyData.selectedData[class_name]);
     // setEnteredSection(filteredDummuyData.section);
-    setEnteredSubject(filteredDummuyData.subject);
-    setFromText(moment(filteredDummuyData.homework_date).format('DD/MM/YYYY'));
-    moment(filteredDummuyData.due_date).format('DD/MM/YYYY')
+    //  setEnteredSubject(filteredDummuyData.subject);
+    setFromText(moment(filteredDummuyData.homework_date).format("DD/MM/YYYY"));
+    setFromText(moment(filteredDummuyData.due_date).format("DD/MM/YYYY"));
+    // moment(filteredDummuyData.due_date).format('DD/MM/YYYY')
     setEnteredRemark(filteredDummuyData.remark);
     setHW(filteredDummuyData.homework);
     setImage(filteredDummuyData.homework_photo);
-    setForHomeworkList({ fontWeight: "bold", color: "black" });
-    setForHomeworkForm({ color: "black" });
+    setForHomeworkList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
+    setForHomeworkForm({
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
+    });
     setShowForm(true);
     setShowList(false);
     setIsEdit(true);
@@ -689,7 +724,7 @@ const TeachersHomework = () => {
         try {
           const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
           // console.log(res.data);
-          setData(res.data);
+          setHomeworkData(res.data);
         } catch (error) {
           console.log(error);
         }
@@ -706,7 +741,7 @@ const TeachersHomework = () => {
         <BgButton onPress={showHomeworkForm} style={forHomeworkList}>
           Add Homework
         </BgButton>
-        <VerticalLine>|</VerticalLine>
+
         <BgButton onPress={showHomework} style={forHomeworkForm}>
           Show Homework
         </BgButton>
@@ -714,7 +749,7 @@ const TeachersHomework = () => {
       {showForm && (
         <ScrollView style={styles.root}>
           <View style={styles.inputForm}>
-            <View >
+            <View>
               <SelectList
                 setSelected={setSelected}
                 data={data}
@@ -762,7 +797,7 @@ const TeachersHomework = () => {
                   />
                 </View>
                 <Input
-                 value={fromText || fromDate}
+                  value={fromText || fromDate}
                   // value={
                   //   moment(fromText).format("DD/MM/YYYY") ||
                   //   moment(fromDate).format("DD/MM/YYYY")
@@ -772,6 +807,7 @@ const TeachersHomework = () => {
                   style={fromDateInputIsInValid && styles.errorBorderColor}
                   blur={dateFromHandler}
                   onChangeText={frmDateHandler}
+                  onPressIn={() => showFromMode("date")}
                 />
                 {fromDateInputIsInValid && (
                   <Text
@@ -811,7 +847,7 @@ const TeachersHomework = () => {
                   />
                 </View>
                 <Input
-                 value={toText || toDate}
+                  value={toText || toDate}
                   // value={
                   //   moment(toText).format("DD/MM/YYYY") ||
                   //   moment(toDate).format("DD/MM/YYYY")
@@ -820,6 +856,7 @@ const TeachersHomework = () => {
                   style={toDateInputIsInValid && styles.errorBorderColor}
                   blur={dateToHandler}
                   onChangeText={toDateHandler}
+                  onPressIn={() => showToMode("date")}
                 />
                 {toDateInputIsInValid && (
                   <Text
@@ -889,13 +926,14 @@ const TeachersHomework = () => {
 
             <Text style={styles.labels}>Upload Image</Text>
             <View
-              style={
-                imageInputIsInValid ? styles.imageError : styles.imagePreView
-              }
+              // style={
+              //   imageInputIsInValid ? styles.imageError : styles.imagePreView
+              // }
+              style={styles.imagePreView}
             >
               {imagePreView}
             </View>
-            {imageInputIsInValid && (
+            {/* {imageInputIsInValid && (
               <Text
                 style={{
                   color: "red",
@@ -906,7 +944,7 @@ const TeachersHomework = () => {
               >
                 Please upload or take homework image
               </Text>
-            )}
+            )} */}
             <View
               style={{
                 marginTop: 13,
@@ -939,7 +977,7 @@ const TeachersHomework = () => {
                 <Text style={styles.tableTitle}> CLASS NAME</Text>
               </View>
               <View style={styles.th}>
-                <Text style={styles.tableTitle}> Section</Text>
+                <Text style={styles.tableTitle}> SECTION</Text>
               </View>
               <View style={styles.th}>
                 <Text style={styles.tableTitle}> SUBJECT</Text>
@@ -1039,7 +1077,7 @@ const TeachersHomework = () => {
                       name="md-pencil-sharp"
                       size={24}
                       color="green"
-                      onPress={() => editItem(data.id)}
+                      onPress={() => editItem(homeworkData.id)}
                     />
                   </DataTable.Cell>
                   <DataTable.Cell
@@ -1053,7 +1091,7 @@ const TeachersHomework = () => {
                       name="trash"
                       size={24}
                       color="red"
-                      onPress={() => deleteItem(data.id)}
+                      onPress={() => deleteItem(homeworkData.id)}
                     />
                   </DataTable.Cell>
                 </DataTable.Row>
@@ -1076,6 +1114,7 @@ const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
     fontSize: 24,
+    width: "50%",
   },
   container: {
     marginTop: 20,

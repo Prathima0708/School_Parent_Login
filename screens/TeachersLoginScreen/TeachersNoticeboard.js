@@ -1,4 +1,11 @@
-import { View, StyleSheet, TextInput, Text, ScrollView, Alert } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Text,
+  ScrollView,
+  Alert,
+} from "react-native";
 import React, { useState } from "react";
 import { useFonts } from "expo-font";
 import Button from "../../components/UI/Button";
@@ -12,10 +19,9 @@ import { Keyboard } from "react-native";
 import { useEffect } from "react";
 import Input from "../../components/UI/Input";
 import VerticalLine from "../../components/UI/VerticalLine";
-import moment from 'moment';
+import moment from "moment";
 import { DataTable } from "react-native-paper";
 const TeachersNoticeboard = () => {
-  
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
   const [forNoticeList, setForNoticeList] = useState({
@@ -23,21 +29,24 @@ const TeachersNoticeboard = () => {
     fontWeight: "bold",
   });
   const [forNoticeForm, setForNoticeForm] = useState({ color: "black" });
-  
+
   const [username, setEnteredUserName] = useState("");
-  const [enteredUserNameTouched,setEnteredUserNameTouched]=useState(false)
-  const enteredUserNameIsValid=username.trim()!=='';
-  const usernameInputIsInValid=!enteredUserNameIsValid && enteredUserNameTouched;
+  const [enteredUserNameTouched, setEnteredUserNameTouched] = useState(false);
+  const enteredUserNameIsValid = username.trim() !== "";
+  const usernameInputIsInValid =
+    !enteredUserNameIsValid && enteredUserNameTouched;
 
   const [title, setEnteredTitle] = useState("");
-  const [enteredTitleTouched,setEnteredTitleTouched]=useState(false)
-  const enteredTitleIsValid=title.trim()!=='';
-  const titleInputIsInValid=!enteredTitleIsValid && enteredTitleTouched;
+  const [enteredTitleTouched, setEnteredTitleTouched] = useState(false);
+  const enteredTitleIsValid = title.trim() !== "";
+  const titleInputIsInValid = !enteredTitleIsValid && enteredTitleTouched;
 
   const [description, setEnteredDescription] = useState("");
-  const [enteredDescriptionTouched,setEnteredDescriptionTouched]=useState(false)
-  const enteredDescriptionIsValid=description.trim()!=='';
-  const descriptionInputIsInValid=!enteredDescriptionIsValid && enteredDescriptionTouched;
+  const [enteredDescriptionTouched, setEnteredDescriptionTouched] =
+    useState(false);
+  const enteredDescriptionIsValid = description.trim() !== "";
+  const descriptionInputIsInValid =
+    !enteredDescriptionIsValid && enteredDescriptionTouched;
 
   const [dateOfCreation, setEnteredDateOfCreation] = useState("");
   const [fromShow, setFromShow] = useState(false);
@@ -45,32 +54,31 @@ const TeachersNoticeboard = () => {
   const [fromDate, setFromDate] = useState(new Date());
 
   const [fromText, setFromText] = useState("");
-  const [enteredFromDateTouched,setEnteredFromDateTouched]=useState(false)
-  const enteredFromDateIsValid=fromText.trim()!=='';
-  const fromDateInputIsInValid=!enteredFromDateIsValid && enteredFromDateTouched;
+  const [enteredFromDateTouched, setEnteredFromDateTouched] = useState(false);
+  const enteredFromDateIsValid = fromText.trim() !== "";
+  const fromDateInputIsInValid =
+    !enteredFromDateIsValid && enteredFromDateTouched;
 
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [data, setData] = useState([]);
-  const [isSame,SetIsSame]=useState(false);
-  let i=0;
+  const [isSame, SetIsSame] = useState(false);
+  let i = 0;
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/NoticeBoard/`
-        );
+        const res = await axios.get(`http://10.0.2.2:8000/school/NoticeBoard/`);
         setData(res.data);
-        let test=0;
+        let test = 0;
         const value = await AsyncStorage.getItem("key");
-        for(i=0;i<res.data.length;i++){
-          if(value==res.data[i].created_by){
-             test=res.data[i].created_by
-          }else{
+        for (i = 0; i < res.data.length; i++) {
+          if (value == res.data[i].created_by) {
+            test = res.data[i].created_by;
+          } else {
             // console.log('false')
           }
         }
-        if(test==value){
+        if (test == value) {
           // console.log("is same")
           SetIsSame(true);
         }
@@ -100,7 +108,7 @@ const TeachersNoticeboard = () => {
 
     setFromMode(currentFromMode);
   };
-  function frmDateHandler(enteredValue){
+  function frmDateHandler(enteredValue) {
     setFromText(enteredValue);
   }
   const fromDateChangeHandler = (event, selectedFromDate) => {
@@ -116,11 +124,11 @@ const TeachersNoticeboard = () => {
       "/" +
       tempFromDate.getFullYear();
 
-      if(event.type == "set") {
-        setFromText(fDate);
-      } else {
-          //cancel button clicked
-      }
+    if (event.type == "set") {
+      setFromText(fDate);
+    } else {
+      //cancel button clicked
+    }
     //console.log(fDate);
   };
   function userNameChangeHandler(enteredValue) {
@@ -137,9 +145,8 @@ const TeachersNoticeboard = () => {
   }
 
   function buttonPressedHandler() {
-
     var dateFromValidate = fromText;
-    var isValid = moment(dateFromValidate, 'D/M/YYYY',true).isValid()
+    var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
     if (!isValid) {
       Alert.alert(
         "Format Error",
@@ -148,9 +155,9 @@ const TeachersNoticeboard = () => {
           {
             text: "Cancel",
             onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
+            style: "cancel",
           },
-          { text: "OK", onPress: () => console.log("OK Pressed") }
+          { text: "OK", onPress: () => console.log("OK Pressed") },
         ]
       );
     }
@@ -160,25 +167,24 @@ const TeachersNoticeboard = () => {
     setEnteredDescriptionTouched(true);
     setEnteredFromDateTouched(true);
 
-    if(!enteredUserNameIsValid){
+    if (!enteredUserNameIsValid) {
       return;
     }
-    if(!enteredTitleIsValid){
+    if (!enteredTitleIsValid) {
       return;
     }
-    if(!enteredDescriptionIsValid){
+    if (!enteredDescriptionIsValid) {
       return;
     }
-    if(!enteredFromDateIsValid){
+    if (!enteredFromDateIsValid) {
       return;
-    }
-    else{
+    } else {
       async function storeData() {
         try {
           let headers = {
             "Content-Type": "application/json; charset=utf-8",
           };
-  
+
           const resLogin = await axios.post(
             `http://10.0.2.2:8000/school/NoticeBoard/`,
             dataForm,
@@ -206,19 +212,19 @@ const TeachersNoticeboard = () => {
       setForNoticeList({ color: "black" });
     }
   }
-  function usernameInputBlur(){
+  function usernameInputBlur() {
     setEnteredUserNameTouched(true);
   }
 
-  function titleInputBlur(){
+  function titleInputBlur() {
     setEnteredTitleTouched(true);
   }
 
-  function descriptionInputBlur(){
+  function descriptionInputBlur() {
     setEnteredDescriptionTouched(true);
   }
 
-  function datecreationInputBlur(){
+  function datecreationInputBlur() {
     setEnteredFromDateTouched(true);
   }
   function showNoticeForm() {
@@ -226,7 +232,6 @@ const TeachersNoticeboard = () => {
     setForNoticeForm({ color: "black" });
     setShowForm(true);
     setShowList(false);
-    
   }
   function showNotice() {
     setForNoticeForm({ fontWeight: "bold", color: "black" });
@@ -240,152 +245,160 @@ const TeachersNoticeboard = () => {
         <BgButton>Add Notice</BgButton>
       </View> */}
       <View style={styles.BtnContainer}>
-      
         <BgButton onPress={showNoticeForm} style={forNoticeList}>
           Add Notice
         </BgButton>
-        <VerticalLine>|</VerticalLine>
+
         <BgButton onPress={showNotice} style={forNoticeForm}>
           Show Notice
-      </BgButton>
+        </BgButton>
       </View>
-      {showForm &&
-      <ScrollView style={styles.root}>
-        <View style={styles.inputForm}>
-          <Input 
-            placeholder="Username"
-            onChangeText={userNameChangeHandler}
-            blur={usernameInputBlur}
-            value={username}
-            onSubmitEditing={Keyboard.dismiss}
-            style={usernameInputIsInValid && styles.errorBorderColor}
-          />
-          {usernameInputIsInValid && (
-            <Text style={{ color: "red",left:20 }}>Enter Username</Text>
-          )}
-
-          <Input 
-            keyboardType="number-pad"
-            placeholder="Title"
-            onChangeText={titleChangeHandler}
-            blur={titleInputBlur}
-            value={title}
-            onSubmitEditing={Keyboard.dismiss}
-            style={titleInputIsInValid && styles.errorBorderColor}
-          />
-          {titleInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter title</Text>
-            )}
-
-          <Input 
-            placeholder="Description"
-            onChangeText={descriptionChangeHandler}
-            blur={descriptionInputBlur}
-            value={description}
-            onSubmitEditing={Keyboard.dismiss}
-            style={descriptionInputIsInValid && styles.errorBorderColor}
-          />
-          {descriptionInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter description</Text>
-            )}
-
-          <View>
-            <Ionicons
-              style={{
-                position:'absolute',
-                top:23,
-              }}
-              name="calendar"
-              size={24}
-              color="black"
-              onPress={() => showFromMode("date")}
+      {showForm && (
+        <ScrollView style={styles.root}>
+          <View style={styles.inputForm}>
+            <Input
+              placeholder="Username"
+              onChangeText={userNameChangeHandler}
+              blur={usernameInputBlur}
+              value={username}
+              onSubmitEditing={Keyboard.dismiss}
+              style={usernameInputIsInValid && styles.errorBorderColor}
             />
-            {fromShow && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={fromDate}
-                mode={frommode}
-                is24Hour={true}
-                display="default"
-                onChange={fromDateChangeHandler}
+            {usernameInputIsInValid && (
+              <Text style={{ color: "red", left: 20 }}>Enter Username</Text>
+            )}
+
+            <Input
+              keyboardType="number-pad"
+              placeholder="Title"
+              onChangeText={titleChangeHandler}
+              blur={titleInputBlur}
+              value={title}
+              onSubmitEditing={Keyboard.dismiss}
+              style={titleInputIsInValid && styles.errorBorderColor}
+            />
+            {titleInputIsInValid && (
+              <Text style={{ color: "red", left: 20 }}>Enter title</Text>
+            )}
+
+            <Input
+              placeholder="Description"
+              onChangeText={descriptionChangeHandler}
+              blur={descriptionInputBlur}
+              value={description}
+              onSubmitEditing={Keyboard.dismiss}
+              style={descriptionInputIsInValid && styles.errorBorderColor}
+            />
+            {descriptionInputIsInValid && (
+              <Text style={{ color: "red", left: 20 }}>Enter description</Text>
+            )}
+
+            <View>
+              <Ionicons
+                style={{
+                  position: "absolute",
+                  top: 23,
+                }}
+                name="calendar"
+                size={24}
+                color="black"
+                onPress={() => showFromMode("date")}
               />
+              {fromShow && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={fromDate}
+                  mode={frommode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={fromDateChangeHandler}
+                />
+              )}
+            </View>
+            <Input
+              value={fromText || fromDate}
+              onSubmitEditing={Keyboard.dismiss}
+              placeholder=" Date of creation:"
+              style={fromDateInputIsInValid && styles.errorBorderColor}
+              blur={datecreationInputBlur}
+              onChangeText={frmDateHandler}
+            />
+            {fromDateInputIsInValid && (
+              <Text style={{ color: "red", left: 20 }}>Enter Date</Text>
             )}
+            <View style={styles.btnSubmit}>
+              <Button onPress={buttonPressedHandler}>Add Notice</Button>
+            </View>
           </View>
-          <Input 
-            value={fromText || fromDate}
-            onSubmitEditing={Keyboard.dismiss}
-            placeholder=" Date of creation:"
-            style={fromDateInputIsInValid && styles.errorBorderColor}
-            blur={datecreationInputBlur}
-            onChangeText={frmDateHandler}
-          />
-          {fromDateInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter Date</Text>
-            )}
-          <View style={styles.btnSubmit}>
-            <Button onPress={buttonPressedHandler}>Add Notice</Button>
-          </View>
-        </View>
-      </ScrollView>}
-      {showList && 
+        </ScrollView>
+      )}
+      {showList && (
         <ScrollView horizontal={true}>
-        <DataTable>
-          <DataTable.Header style={styles.tableHeader}>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}>Title</Text>
-            </View>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}>Description</Text>
-            </View>
-            {/* <View style={styles.th}>
+          <DataTable>
+            <DataTable.Header style={styles.tableHeader}>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}>Title</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}>Description</Text>
+              </View>
+              {/* <View style={styles.th}>
               <Text style={styles.tableTitle}>created by</Text>
             </View> */}
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}>Start Date</Text>
-            </View>
-            <View style={styles.th}>
-              <Text style={styles.tableTitle}>End Date</Text>
-            </View>
-            {isSame && <View style={styles.th}>
-              <Text style={styles.tableTitle}>Update</Text>
-            </View>}
-            {isSame && <View style={styles.th}>
-              <Text style={styles.tableTitle}>Delete</Text>
-            </View>}
-          </DataTable.Header>
-          {data &&
-            data.map((data, key) => (
-              <DataTable.Row style={styles.tableRow}>
-                {/* <DataTable.Cell style={styles.tableCell}>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}>Start Date</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}>End Date</Text>
+              </View>
+              {isSame && (
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}>Update</Text>
+                </View>
+              )}
+              {isSame && (
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}>Delete</Text>
+                </View>
+              )}
+            </DataTable.Header>
+            {data &&
+              data.map((data, key) => (
+                <DataTable.Row style={styles.tableRow}>
+                  {/* <DataTable.Cell style={styles.tableCell}>
                   {data.id}
                 </DataTable.Cell> */}
-                <DataTable.Cell style={styles.tableCell}>
-                 {data.titlee}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
-                 {data.description}
-                </DataTable.Cell>
-                {/* <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.titlee}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.description}
+                  </DataTable.Cell>
+                  {/* <DataTable.Cell style={styles.tableCell}>
                  {data.created_by}
                 </DataTable.Cell> */}
-                <DataTable.Cell style={styles.tableCell}>
-                 {data.startdate}
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.tableCell}>
-                  {data.enddate}
-                </DataTable.Cell>
-                {isSame && <DataTable.Cell style={styles.tableCell}>
-                    <Btn title="Edit" onPress={()=> editItem(data.id)} />
-                </DataTable.Cell>}
-                {isSame && <DataTable.Cell style={styles.tableCell}>
-                    <Btn title="Delete" onPress={()=> deleteItem(data.id)} />
-                </DataTable.Cell>}
-              </DataTable.Row>
-            ))}
-        </DataTable>
-      </ScrollView>}
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.startdate}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.tableCell}>
+                    {data.enddate}
+                  </DataTable.Cell>
+                  {isSame && (
+                    <DataTable.Cell style={styles.tableCell}>
+                      <Btn title="Edit" onPress={() => editItem(data.id)} />
+                    </DataTable.Cell>
+                  )}
+                  {isSame && (
+                    <DataTable.Cell style={styles.tableCell}>
+                      <Btn title="Delete" onPress={() => deleteItem(data.id)} />
+                    </DataTable.Cell>
+                  )}
+                </DataTable.Row>
+              ))}
+          </DataTable>
+        </ScrollView>
+      )}
       {showForm && keyboardStatus == "Keyboard Hidden" && <TeachersHome />}
-    
     </>
   );
 };
@@ -395,7 +408,8 @@ export default TeachersNoticeboard;
 const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
-    flexDirection:'row'
+    flexDirection: "row",
+    width: "50%",
   },
   home: {
     marginTop: 29,
@@ -407,7 +421,7 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 5,
   },
-  errorBorderColor:{
+  errorBorderColor: {
     color: "black",
     borderBottomWidth: 1,
     borderColor: "red",
@@ -429,7 +443,7 @@ const styles = StyleSheet.create({
   },
   th: {
     padding: 5,
-    
+
     //fontSize: 24,
   },
   tableHeader: {
@@ -447,7 +461,7 @@ const styles = StyleSheet.create({
   tableCell: {
     width: 50,
     //  fontFamily: "Montserrat_600SemiBold",
-    left:5
+    left: 5,
   },
 
   tableRow: {

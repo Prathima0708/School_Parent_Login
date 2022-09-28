@@ -30,10 +30,15 @@ const TeachersCalendar = () => {
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
   const [forCalendarList, setForCalendarList] = useState({
-    color: "black",
-    fontWeight: "bold",
+    backgroundColor: "#0C60F4",
+    color: "white",
+    borderRadius: 10,
   });
-  const [forCalendarForm, setForCalendarForm] = useState({ color: "black" });
+  const [forCalendarForm, setForCalendarForm] = useState({
+    color: "black",
+    backgroundColor: "#F4F6F6",
+    borderRadius: 10,
+  });
 
   const [title, setEnteredTitle] = useState("");
   const [enteredTitleTouched, setEnteredTitleTouched] = useState(false);
@@ -273,10 +278,16 @@ const TeachersCalendar = () => {
     setToText("");
     setShowForm(false);
     setShowList(true);
-    setForCalendarList({ fontWeight: "bold", color: "black" });
-    setForCalendarForm({ color: "black" });
-    setForCalendarForm({ fontWeight: "bold", color: "black" });
-    setForCalendarList({ color: "black" });
+    setForCalendarList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
+    setForCalendarForm({
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
+    });
   }
 
   function buttonPressedHandler() {
@@ -444,8 +455,16 @@ const TeachersCalendar = () => {
   }
 
   function showCalendarForm() {
-    setForCalendarList({ fontWeight: "bold", color: "black" });
-    setForCalendarForm({ color: "black" });
+    setForCalendarList({
+      backgroundColor: "#0C60F4",
+      color: "white",
+      borderRadius: 10,
+    });
+    setForCalendarForm({
+      color: "black",
+      backgroundColor: "#F4F6F6",
+      borderRadius: 10,
+    });
     setShowForm(true);
     setShowList(false);
     setEnteredDescriptionTouched(false);
@@ -462,8 +481,16 @@ const TeachersCalendar = () => {
 
         setData(res.data);
 
-        setForCalendarForm({ fontWeight: "bold", color: "black" });
-        setForCalendarList({ color: "black" });
+        setForCalendarForm({
+          color: "white",
+          backgroundColor: "#1E8449",
+          borderRadius: 10,
+        });
+        setForCalendarList({
+          backgroundColor: "#F4F6F6",
+          color: "black",
+          borderRadius: 10,
+        });
         setShowForm(false);
         setShowList(true);
       } catch (error) {
@@ -486,7 +513,11 @@ const TeachersCalendar = () => {
     //  setEnteredMobile(filteredDummuyData.exam_name);
     //  setEnteredRouteName(filteredDummuyData.hour);
     setForCalendarList({ fontWeight: "bold", color: "black" });
-    setForCalendarForm({ color: "black" });
+    setForCalendarForm({
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
+    });
     setShowForm(true);
     setShowList(false);
     setIsEdit(true);
@@ -545,7 +576,7 @@ const TeachersCalendar = () => {
         <BgButton onPress={showCalendarForm} style={forCalendarList}>
           Add Event
         </BgButton>
-        <VerticalLine>|</VerticalLine>
+
         <BgButton onPress={showCalendar} style={forCalendarForm}>
           Show Event
         </BgButton>
@@ -841,6 +872,7 @@ const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
     flexDirection: "row",
+    width: "50%",
   },
   home: {
     marginTop: 29,

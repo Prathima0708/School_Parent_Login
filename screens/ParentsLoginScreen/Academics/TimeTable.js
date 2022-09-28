@@ -52,7 +52,7 @@ const TimeTable = () => {
     setShowForm(true);
     try {
       const res = await axios.get(
-        `http://10.0.2.2:8000/school/Exam/${className}/`
+        `http://10.0.2.2:8000/school/ExamByClass/${className}/`
       );
       console.log(res.data);
 

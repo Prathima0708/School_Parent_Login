@@ -27,17 +27,18 @@ const TeachersTransport = () => {
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
   const [forTransportList, setForTransportList] = useState({
-    color: "#3d4590",
-    backgroundColor: "#D6EAF8",
-    // borderTopColor: "#3d4590",
+    color: "white",
+    backgroundColor: "#0C60F4",
+    borderRadius: 10,
     borderBottomWidth: 0,
     borderLeftWidth: 0,
     borderRightWidth: 0,
     fontFamily: "HindSemiBold",
   });
   const [forTransportForm, setForTransportForm] = useState({
-    color: "#d9dffc",
-    // borderTopColor: "#d9dffc",
+    color: "black",
+    backgroundColor: "#F4F6F6",
+    borderRadius: 10,
     borderBottomWidth: 0,
     borderLeftWidth: 0,
     borderRightWidth: 0,
@@ -334,7 +335,9 @@ const TeachersTransport = () => {
 
   function showTransportForm() {
     setForTransportForm({
-      color: "#d9dffc",
+      color: "black",
+      backgroundColor: "#F4F6F6",
+      borderRadius: 10,
       // borderTopColor: "#d9dffc",
       // backgroundColor: "#D6EAF8",
       borderBottomWidth: 0,
@@ -343,8 +346,9 @@ const TeachersTransport = () => {
     });
 
     setForTransportList({
-      color: "#3d4590",
-      backgroundColor: "#D6EAF8",
+      backgroundColor: "#0C60F4",
+      color: "white",
+      borderRadius: 10,
       borderBottomWidth: 0,
       borderLeftWidth: 0,
       borderRightWidth: 0,
@@ -372,8 +376,8 @@ const TeachersTransport = () => {
 
         setData(res.data);
 
-        setForTransportForm({ fontWeight: "bold", color: "black" });
-        setForTransportList({ color: "black" });
+        // setForTransportForm({ fontWeight: "bold", color: "black" });
+        // setForTransportList({ color: "black" });
         setShowForm(false);
         setShowList(true);
       } catch (error) {
@@ -384,15 +388,17 @@ const TeachersTransport = () => {
     // setForTransportForm({ fontWeight: "bold", color: "black" });
     // setForTransportList({ color: "black" });
     setForTransportList({
-      color: "#d9dffc",
-      borderTopColor: "#d9dffc",
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
       borderBottomWidth: 0,
       borderLeftWidth: 0,
       borderRightWidth: 0,
     });
     setForTransportForm({
-      color: "#3d4590",
-      backgroundColor: "#D6EAF8",
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
       borderBottomWidth: 0,
       borderLeftWidth: 0,
       borderRightWidth: 0,
@@ -420,7 +426,7 @@ const TeachersTransport = () => {
   }
 
   function deleteItem(busnumber) {
-    console.log(busnumber)
+    console.log(busnumber);
     Alert.alert("Confirm Deletion", "You are about to delete this row!", [
       {
         text: "Cancel",
@@ -443,7 +449,7 @@ const TeachersTransport = () => {
             headers: headers,
           }
         );
-                console.log(resLogin.data);
+        console.log(resLogin.data);
       } catch (error) {
         console.log(error);
       }
@@ -805,6 +811,7 @@ const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
     flexDirection: "row",
+    width: "50%",
   },
   container: {
     marginTop: 10,

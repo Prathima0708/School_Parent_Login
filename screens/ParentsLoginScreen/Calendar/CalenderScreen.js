@@ -15,7 +15,7 @@
 //     // title,
 //     // and other options
 //   };
-  
+
 //   AddCalendarEvent.presentEventCreatingDialog(eventConfig)
 //   const [items, setItems] = useState({});
 //   useEffect(() => {
@@ -83,27 +83,25 @@
 
 // export default CalenderScreen;
 
+// .then((eventInfo: { calendarItemIdentifier: string, eventIdentifier: string }) => {
+//   // handle success - receives an object with `calendarItemIdentifier` and `eventIdentifier` keys, both of type string.
+//   // These are two different identifiers on iOS.
+//   // On Android, where they are both equal and represent the event id, also strings.
+//   // when { action: 'CANCELED' } is returned, the dialog was dismissed
+//   console.warn(JSON.stringify(eventInfo));
+// })
+// .catch((error: string) => {
+//   // handle error such as when user rejected permissions
+//   console.warn(error);
+// });
 
-
-  // .then((eventInfo: { calendarItemIdentifier: string, eventIdentifier: string }) => {
-  //   // handle success - receives an object with `calendarItemIdentifier` and `eventIdentifier` keys, both of type string.
-  //   // These are two different identifiers on iOS.
-  //   // On Android, where they are both equal and represent the event id, also strings.
-  //   // when { action: 'CANCELED' } is returned, the dialog was dismissed
-  //   console.warn(JSON.stringify(eventInfo));
-  // })
-  // .catch((error: string) => {
-  //   // handle error such as when user rejected permissions
-  //   console.warn(error);
-  // });
-
-  import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Agenda } from "react-native-calendars";
 import { Avatar, Card } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ParentsHome from "../ParentsHome";
-import * as AddCalendarEvent from 'react-native-add-calendar-event';
+import * as AddCalendarEvent from "react-native-add-calendar-event";
 
 const timeToString = (time) => {
   const date = new Date(time);
@@ -111,8 +109,7 @@ const timeToString = (time) => {
 };
 
 const CalenderScreen = () => {
-  
-  AddCalendarEvent.presentEventCreatingDialog(eventConfig)
+  AddCalendarEvent.presentEventCreatingDialog(eventConfig);
 
   const [items, setItems] = useState({});
   useEffect(() => {
