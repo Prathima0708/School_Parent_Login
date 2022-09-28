@@ -20,7 +20,7 @@ import TeachersHome from "../TeachersHome";
 import Button from "../../../components/UI/Button";
 import { DataTable } from "react-native-paper";
 import moment from "moment";
-export var ID
+export var ID;
 const TecahersExamTimeTable = () => {
   const [selectedExamTimeTable, setSelectedExamTimeTable] = useState("");
   const [enteredSelectedTouched, setEnteredSelectedTouched] = useState(false);
@@ -140,7 +140,7 @@ const TecahersExamTimeTable = () => {
         };
         const dataForm = FormData;
         const resLogin = await axios.put(
-          `http://10.0.2.2:8000/school/Exam/${ID}`,
+          `http://10.0.2.2:8000/school/Exam/${ID}/`,
           dataForm,
           {
             headers: headers,
@@ -333,8 +333,8 @@ const TecahersExamTimeTable = () => {
 
     setEnteredExamName(filteredDummuyData.exam_name);
     //  setEnteredcreatedby(filteredDummuyData.created_by);
-    setFromText(moment(filteredDummuyData.start_date).format('DD/MM/YYYY'));
-    setToText(moment(filteredDummuyData.end_date).format('DD/MM/YYYY'));
+    setFromText(moment(filteredDummuyData.start_date).format("DD/MM/YYYY"));
+    setToText(moment(filteredDummuyData.end_date).format("DD/MM/YYYY"));
     setEnteredTotalMarks(filteredDummuyData.Total_marks);
     setEnteredHour(filteredDummuyData.hour);
     //  setEnteredMobile(filteredDummuyData.exam_name);
@@ -463,7 +463,7 @@ const TecahersExamTimeTable = () => {
                       marginLeft: 40,
                     }}
                   >
-                    {data.end_date}
+                    {moment(data.end_date).format("DD/MM/YYYY")}
                   </DataTable.Cell>
                   <DataTable.Cell
                     textStyle={{
@@ -539,7 +539,16 @@ const TecahersExamTimeTable = () => {
               onSubmitEditing={Keyboard.dismiss}
             />
             {selectExamNameIsInValid && (
-              <Text style={{ color: "red", left: 20 }}>Enter exam name</Text>
+              <Text
+                style={{
+                  color: "red",
+                  left: 20,
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+              >
+                Enter exam name
+              </Text>
             )}
             <View
               style={[
@@ -569,12 +578,21 @@ const TecahersExamTimeTable = () => {
                 </View>
                 <Input
                   value={fromText}
-                  placeholder="Enter From Date"
+                  placeholder="From Date"
                   blur={fromDateBlurHandler}
                   style={fromDateInputIsInValid && styles.errorBorderColor}
+                  onChangeText={fromDateChangeHandler}
+                  onPressIn={() => showFromMode("date")}
                 />
                 {fromDateInputIsInValid && (
-                  <Text style={{ color: "red", left: 20 }}>
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
                     Enter from date
                   </Text>
                 )}
@@ -610,12 +628,22 @@ const TecahersExamTimeTable = () => {
                 </View>
                 <Input
                   value={toText}
-                  placeholder="Enter To Date"
+                  placeholder="To Date"
                   blur={toDateBlurHanlder}
                   style={toDateInputIsInValid && styles.errorBorderColor}
+                  onPressIn={() => showToMode("date")}
                 />
                 {toDateInputIsInValid && (
-                  <Text style={{ color: "red", left: 20 }}>Enter to date</Text>
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
+                    Enter to date
+                  </Text>
                 )}
                 {toShow && (
                   <DateTimePicker
@@ -639,7 +667,16 @@ const TecahersExamTimeTable = () => {
               blur={markBlurHanlder}
             />
             {marksInputIsInValid && (
-              <Text style={{ color: "red", left: 20 }}>Enter to date</Text>
+              <Text
+                style={{
+                  color: "red",
+                  left: 20,
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+              >
+                Enter total marks
+              </Text>
             )}
             <Input
               onChangeText={hourChangeHandler}
@@ -650,17 +687,31 @@ const TecahersExamTimeTable = () => {
               blur={hourBlurHanlder}
             />
             {hourInputIsInValid && (
-              <Text style={{ color: "red", left: 20 }}>Enter to date</Text>
+              <Text
+                style={{
+                  color: "red",
+                  left: 20,
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+              >
+                Enter hour
+              </Text>
             )}
             <Text style={styles.labels}>Class Name</Text>
 
-            <View style={{ width: 350, fontSize: 18, marginTop: 3 }}>
+            <View style={{ width: 250, fontSize: 18, marginTop: 3 }}>
               <SelectList
                 setSelected={setSelectedExamTimeTable}
                 data={ExamTimeTableData}
                 placeholder="select class"
                 style={{ fontSize: 16 }}
-                boxStyles={selectInputIsInValid && styles.errorSelectedColor}
+                boxStyles={[
+                  selectInputIsInValid && styles.errorSelectedColor,
+                  { borderRadius: 0 },
+                ]}
+                inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                dropdownTextStyles={{ fontSize: 18, fontFamily: "HindRegular" }}
               />
             </View>
             {!isEdit && (

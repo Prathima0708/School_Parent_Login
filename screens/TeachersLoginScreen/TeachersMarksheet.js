@@ -241,42 +241,52 @@ import { DataTable } from "react-native-paper";
 
 import SelectList from "react-native-dropdown-select-list";
 import { Ionicons } from "@expo/vector-icons";
-export var ID
+export var ID;
+export var StudentList = [];
 const TeachersMarksheet = () => {
   const [mathsMarks, setMathsMarks] = useState("");
-  const [enteredMathsMarksTouched, setEnteredMathsMarksTouched] = useState(false);
+  const [enteredMathsMarksTouched, setEnteredMathsMarksTouched] =
+    useState(false);
   const enteredMathsMarksIsValid = mathsMarks;
-  const mathsMarksInputIsInValid =!enteredMathsMarksIsValid && enteredMathsMarksTouched;
+  const mathsMarksInputIsInValid =
+    !enteredMathsMarksIsValid && enteredMathsMarksTouched;
 
   const [engMarks, setEngMarks] = useState("");
   const [enteredEngMarksTouched, setEnteredEngMarksTouched] = useState(false);
   const enteredEngMarksIsValid = engMarks;
-  const engMarksInputIsInValid =!enteredEngMarksIsValid && enteredEngMarksTouched;
+  const engMarksInputIsInValid =
+    !enteredEngMarksIsValid && enteredEngMarksTouched;
 
   const [sciMarks, setSciMarks] = useState("");
   const [enteredSciMarksTouched, setEnteredSciMarksTouched] = useState(false);
   const enteredSciMarksIsValid = sciMarks;
-  const sciMarksInputIsInValid =!enteredSciMarksIsValid && enteredSciMarksTouched;
+  const sciMarksInputIsInValid =
+    !enteredSciMarksIsValid && enteredSciMarksTouched;
 
   const [hindiMarks, setHindiMarks] = useState("");
-  const [enteredHindiMarksTouched, setEnteredHindiMarksTouched] =useState(false);
+  const [enteredHindiMarksTouched, setEnteredHindiMarksTouched] =
+    useState(false);
   const enteredHindiMarksIsValid = hindiMarks;
-  const hindiMarksInputIsInValid =!enteredHindiMarksIsValid && enteredHindiMarksTouched;
+  const hindiMarksInputIsInValid =
+    !enteredHindiMarksIsValid && enteredHindiMarksTouched;
 
   const [socMarks, setSocMarks] = useState("");
   const [enteredSocMarksTouched, setEnteredSocMarksTouched] = useState(false);
   const enteredSocMarksIsValid = socMarks;
-  const socMarksInputIsInValid =!enteredSocMarksIsValid && enteredSocMarksTouched;
+  const socMarksInputIsInValid =
+    !enteredSocMarksIsValid && enteredSocMarksTouched;
 
   const [kanMarks, setKanMarks] = useState("");
   const [enteredKanMarksTouched, setEnteredKanMarksTouched] = useState(false);
   const enteredKanMarksIsValid = kanMarks;
-  const kanMarksInputIsInValid =!enteredKanMarksIsValid && enteredKanMarksTouched;
+  const kanMarksInputIsInValid =
+    !enteredKanMarksIsValid && enteredKanMarksTouched;
 
   const [compMarks, setCompMarks] = useState("");
   const [enteredCompMarksTouched, setEnteredCompMarksTouched] = useState(false);
   const enteredCompMarksIsValid = compMarks;
-  const compMarksInputIsInValid =!enteredCompMarksIsValid && enteredCompMarksTouched;
+  const compMarksInputIsInValid =
+    !enteredCompMarksIsValid && enteredCompMarksTouched;
 
   const [overallperct, setEnteredOverallPerct] = useState("");
   const [enteredOverallPercentageTouched, setEnteredOverallPercentageTouched] =
@@ -291,7 +301,7 @@ const TeachersMarksheet = () => {
   // const remarkInputIsInValid = !enteredReamrkIsValid && enteredReamrkTouched;
 
   const [showForm, setShowForm] = useState(false);
-  const [showAddForm, setShowAddForm] = useState(false);///-----
+  const [showAddForm, setShowAddForm] = useState(false); ///-----
   const [showBtn, setShowBtn] = useState(true);
   const [showMarksheet, setShowMarksheet] = useState(false);
 
@@ -299,7 +309,9 @@ const TeachersMarksheet = () => {
     color: "black",
     fontWeight: "bold",
   });
-  const [forMarkssheetForm, setForMarkssheetForm] = useState({ color: "black" });
+  const [forMarkssheetForm, setForMarkssheetForm] = useState({
+    color: "black",
+  });
 
   const [selected, setSelected] = useState("");
   const [studData, setStudData] = useState([]);
@@ -388,74 +400,108 @@ const TeachersMarksheet = () => {
       computer_obt_mark: compMarks,
     };
     // console.log(FormData);
-      async function updateData() {
-        try {
-          let headers = {
-            "Content-Type": "application/json; charset=utf-8",
-          };
-          const resLogin = await axios.put(
-            `http://10.0.2.2:8000/school/Marksheet/${ID}/`,
-            FormData,
-            {
-              headers: headers,
-            }
-          );
-          // const token = resLogin.data.token;
-          // const userId = resLogin.data.user_id;
-          //   console.log(resLogin.data);
-        } catch (error) {
-          console.log(error);
-        }
+    async function updateData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+        };
+        const resLogin = await axios.put(
+          `http://10.0.2.2:8000/school/Marksheet/${ID}/`,
+          FormData,
+          {
+            headers: headers,
+          }
+        );
+        // const token = resLogin.data.token;
+        // const userId = resLogin.data.user_id;
+        //   console.log(resLogin.data);
+      } catch (error) {
+        console.log(error);
       }
-      updateData();
-      Alert.alert(
-        "Successfully updated",
-        "",
-        [
-          { text: "OK", onPress: () => fetchData},
-        ]
-      );
+    }
+    updateData();
+    Alert.alert("Successfully updated", "", [
+      { text: "OK", onPress: () => fetchData },
+    ]);
 
-      async function fetchData() {
-        try {
-          const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
-          setData(res.data);
-        } catch (error) {
-          console.log(error);
-        }
+    async function fetchData() {
+      try {
+        const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
+        setData(res.data);
+      } catch (error) {
+        console.log(error);
       }
-      fetchData();
+    }
+    fetchData();
 
-      setMathsMarks("");
-      setEngMarks("");
-      setSciMarks("");
-      setSocMarks("");
-      setKanMarks("");
-      setHindiMarks("");
-      setCompMarks("");
-      setEnteredOverallPerct("");
-      setEnteredRemark("");
-      setShowAddForm(false);
-      setShowMarksheet(true);
-      setForMarkssheetList({ fontWeight: "bold", color: "black" });
-      setForMarkssheetForm({ color: "black" });
-      setForMarkssheetForm({ fontWeight: "bold", color: "black" });
-      setForMarkssheetList({ color: "black" });  
-    
+    setMathsMarks("");
+    setEngMarks("");
+    setSciMarks("");
+    setSocMarks("");
+    setKanMarks("");
+    setHindiMarks("");
+    setCompMarks("");
+    setEnteredOverallPerct("");
+    setEnteredRemark("");
+    setShowAddForm(false);
+    setShowMarksheet(true);
+    setForMarkssheetList({ fontWeight: "bold", color: "black" });
+    setForMarkssheetForm({ color: "black" });
+    setForMarkssheetForm({ fontWeight: "bold", color: "black" });
+    setForMarkssheetList({ color: "black" });
   }
 
-  function buttonPressedHandler() {
+  function buttonPressedHandler(key) {
     // console.log(UserId);
     const FormData = {
+      student_name: StudentList.student_name,
+      class_name: StudentList.class_name,
+      Roll_no: 0,
+      student_reg_no: StudentList.reg_number,
+      maths_max_marks: 0,
       maths_obt_mark: mathsMarks,
+      maths_min_mark: 0,
+      maths_tot_mark: 0,
+      maths_percentg: 0,
+      english_max_marks: 0,
+
       english_obt_mark: engMarks,
+      english_min_mark: 0,
+      english_tot_mark: 0,
+      english_percentg: 0,
+      science_max_mark: 0,
+
       science_obt_mark: sciMarks,
+      science_min_mark: 0,
+      science_tot_mark: 0,
+      science_percentg: 0,
+      hindi_max_mark: 0,
+
       hindi_obt_mark: hindiMarks,
+      hindi_min_mark: 0,
+      hindi_tot_mark: 0,
+      hindi_percentg: 0,
+      social_max_mark: 0,
+
       social_obt_mark: socMarks,
+      social_min_mark: 0,
+      social_tot_mark: 0,
+      social_percentg: 0,
+      kannada_max_mark: 0,
+
       kannada_obt_mark: kanMarks,
-      computer_obt_mark: compMarks,
+
+      kannada_min_mark: 0,
+      kannada_tot_mark: 0,
+      kannada_percentg: 0,
+      computer_max_mark: 0,
+
+      computer_obt_mark: 0,
+      computer_min_mark: 0,
+      computer_tot_mark: 0,
+      computer_percentg: 0,
     };
-    console.log(FormData);
+    //console.log(FormData);
 
     setEnteredMathsMarksTouched(true);
     setEnteredSciMarksTouched(true);
@@ -485,17 +531,18 @@ const TeachersMarksheet = () => {
     if (!enteredKanMarksIsValid) {
       return;
     }
-    if (!enteredCompMarksIsValid) {
-      return;
-    }
+    // if (!enteredCompMarksIsValid) {
+    //   return;
+    // }
     // if (!enteredOverallPercentageIsValid) {
     //   return;
     // }
     // if (!enteredReamrkIsValid) {
     //   return;
-    // } 
-    else{
+    // }
+    else {
       async function storeData() {
+        console.log(FormData);
         try {
           let headers = {
             "Content-Type": "application/json; charset=utf-8",
@@ -536,7 +583,7 @@ const TeachersMarksheet = () => {
       setForMarkssheetList({ fontWeight: "bold", color: "black" });
       setForMarkssheetForm({ color: "black" });
       setForMarkssheetForm({ fontWeight: "bold", color: "black" });
-      setForMarkssheetList({ color: "black" });  
+      setForMarkssheetList({ color: "black" });
     }
   }
 
@@ -567,7 +614,6 @@ const TeachersMarksheet = () => {
         const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
         // console.log(res.data);
         setMarksheetData(res.data);
-        
       } catch (error) {
         console.log(error);
       }
@@ -594,13 +640,14 @@ const TeachersMarksheet = () => {
 
   function viewStudentList() {
     setShowForm(true);
+
     async function login() {
       let selectedData = selected.split(" - ");
       let class_name = selectedData[0];
       let section = selectedData[1];
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Student/`);
-        console.log(class_name, section);
+        //console.log(class_name, section);
 
         let filteredclass = res.data.filter(
           (ele) => ele.class_name == class_name
@@ -614,8 +661,15 @@ const TeachersMarksheet = () => {
           (ele) => ele.class_name == class_name
         );
 
-        console.log(filteredc);
+        // const id = filteredc.map((id) => id.reg_number);
+        // console.log(id);
+
+        // console.log(filteredc);
+        // StudentList = filteredc;
+        // console.log(StudentList);
+
         if (filteredc) {
+          console.log(studList);
           setStudList(filteredc);
         }
 
@@ -628,7 +682,15 @@ const TeachersMarksheet = () => {
     }
     login();
   }
-  function addForm() {
+  function addForm(id) {
+    // console.log("----------------");
+
+    console.log("i am pressed");
+    const filteredDummuyData = studList.find((data) => data.id == id);
+    // console.log(filteredDummuyData.student_name);
+    StudentList = filteredDummuyData;
+    console.log(StudentList.student_name);
+
     setShowAddForm(true);
     setShowForm(false);
     setShowBtn(false);
@@ -649,8 +711,8 @@ const TeachersMarksheet = () => {
   }
 
   function editItem(id) {
-    console.log(id)
-    ID=id;
+    console.log(id);
+    ID = id;
     const filteredDummuyData = marksheetData.find((data) => data.id == id);
     setMathsMarks(filteredDummuyData.maths_obt_mark);
     setEngMarks(filteredDummuyData.english_obt_mark);
@@ -668,21 +730,17 @@ const TeachersMarksheet = () => {
   function deleteItem(id) {
     console.log(id);
     // const newFilteredData=data.filter((data)=>data.id != id);
-    Alert.alert(
-      "Confirm Deletion",
-      "You are about to delete this row!",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { 
-          text: "Yes,delete", 
-          onPress: () => deleteData()
-        }
-      ]
-    );
+    Alert.alert("Confirm Deletion", "You are about to delete this row!", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "Yes,delete",
+        onPress: () => deleteData(),
+      },
+    ]);
     async function deleteData() {
       try {
         let headers = {
@@ -707,7 +765,6 @@ const TeachersMarksheet = () => {
           const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
           // console.log(res.data);
           setMarksheetData(res.data);
-          
         } catch (error) {
           console.log(error);
         }
@@ -814,7 +871,7 @@ const TeachersMarksheet = () => {
                       marginLeft: 70,
                     }}
                   >
-                    <Btn title="Add" onPress={addForm} />
+                    <Btn title="Add" onPress={() => addForm(data.id)} />
                   </DataTable.Cell>
                 </DataTable.Row>
               ))}
@@ -833,7 +890,7 @@ const TeachersMarksheet = () => {
                   blur={mathsMarksBlurHandler}
                   value={mathsMarks.toString()}
                   onSubmitEditing={Keyboard.dismiss}
-                 style={mathsMarksInputIsInValid && styles.errorBorderColor}
+                  style={mathsMarksInputIsInValid && styles.errorBorderColor}
                 />
                 {mathsMarksInputIsInValid && (
                   <Text
@@ -932,6 +989,8 @@ const TeachersMarksheet = () => {
                   value={socMarks.toString()}
                   onSubmitEditing={Keyboard.dismiss}
                   style={socMarksInputIsInValid && styles.errorBorderColor}
+                  keyboardType="number-pad"
+                  maxLength={3}
                 />
                 {socMarksInputIsInValid && (
                   <Text
@@ -993,13 +1052,15 @@ const TeachersMarksheet = () => {
             )} */}
           </View>
           {isEdit && (
-              <View style={styles.btnSubmit}>
-                <Button onPress={updateHandler}>Update</Button>
-              </View>
-            )}
-          {!isEdit &&<View style={styles.btnSubmit}>
-            <Button onPress={buttonPressedHandler}>Add Marksheet</Button>
-          </View>}
+            <View style={styles.btnSubmit}>
+              <Button onPress={updateHandler}>Update</Button>
+            </View>
+          )}
+          {!isEdit && (
+            <View style={styles.btnSubmit}>
+              <Button onPress={buttonPressedHandler}>Add Marksheet</Button>
+            </View>
+          )}
           <View style={styles.btnCancel}>
             <Button onPress={cancelPressHandler}> Cancel</Button>
           </View>
@@ -1121,10 +1182,10 @@ const TeachersMarksheet = () => {
                       marginLeft: 100,
                     }}
                   >
-                    <Ionicons 
-                      name="md-pencil-sharp" 
-                      size={24} 
-                      color="green" 
+                    <Ionicons
+                      name="md-pencil-sharp"
+                      size={24}
+                      color="green"
                       onPress={() => editItem(data.id)}
                     />
                   </DataTable.Cell>
@@ -1136,11 +1197,12 @@ const TeachersMarksheet = () => {
                       marginLeft: 10,
                     }}
                   >
-                    <Ionicons 
-                      name="trash" 
-                      size={24} 
-                      color="red" 
-                      onPress={() => deleteItem(data.id)}/>
+                    <Ionicons
+                      name="trash"
+                      size={24}
+                      color="red"
+                      onPress={() => deleteItem(data.id)}
+                    />
                   </DataTable.Cell>
                 </DataTable.Row>
               ))}

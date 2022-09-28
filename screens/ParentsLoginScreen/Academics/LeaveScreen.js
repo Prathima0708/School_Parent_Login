@@ -1,4 +1,11 @@
-import { View, StyleSheet, TextInput, Text, ScrollView,Button as Btn } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Text,
+  ScrollView,
+  Button as Btn,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import VerticalLine from "../../../components/UI/VerticalLine";
 import { DataTable } from "react-native-paper";
@@ -11,22 +18,26 @@ import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import ParentsHome from "../ParentsHome";
 import Input from "../../../components/UI/Input";
-import moment from 'moment';
+import moment from "moment";
+import { StudentRegNo } from "../../../components/StudentItem/StudentItem";
 const LeaveScreen = () => {
   const [regno, setEnteredRegno] = useState("");
-  const [enteredRegNoTouched,setEnteredRegNoTouched]=useState(false)
-  const enteredRegNoIsValid=regno.trim()!=='';
-  const regnoInputIsInValid=!enteredRegNoIsValid && enteredRegNoTouched;
+  const [enteredRegNoTouched, setEnteredRegNoTouched] = useState(false);
+  const enteredRegNoIsValid = regno.trim() !== "";
+  const regnoInputIsInValid = !enteredRegNoIsValid && enteredRegNoTouched;
 
   const [leaveType, setEnteredLeaveType] = useState("");
-  const [enteredLeaveTypeTouched,setEnteredLeaveTypeTouched]=useState(false)
-  const enteredLeaveTypeIsValid=leaveType.trim()!=='';
-  const leavetypeInputIsInValid=!enteredLeaveTypeIsValid && enteredLeaveTypeTouched;
+  const [enteredLeaveTypeTouched, setEnteredLeaveTypeTouched] = useState(false);
+  const enteredLeaveTypeIsValid = leaveType.trim() !== "";
+  const leavetypeInputIsInValid =
+    !enteredLeaveTypeIsValid && enteredLeaveTypeTouched;
 
   const [leaveReason, setEnteredLeaveReason] = useState("");
-  const [enteredLeaveReasonTouched,setEnteredLeaveReasonTouched]=useState(false)
-  const enteredLeaveReasonIsValid=leaveReason.trim()!=='';
-  const leavereasonInputIsInValid=!enteredLeaveReasonIsValid && enteredLeaveReasonTouched;
+  const [enteredLeaveReasonTouched, setEnteredLeaveReasonTouched] =
+    useState(false);
+  const enteredLeaveReasonIsValid = leaveReason.trim() !== "";
+  const leavereasonInputIsInValid =
+    !enteredLeaveReasonIsValid && enteredLeaveReasonTouched;
 
   const [forLeaveList, setForLeaveList] = useState({
     color: "black",
@@ -42,21 +53,22 @@ const LeaveScreen = () => {
   const [toDate, setToDate] = useState(new Date());
 
   const [fromText, setFromText] = useState("");
-  const [enteredFromDateTouched,setEnteredFromDateTouched]=useState(false)
-  const enteredFromDateIsValid=fromText.trim()!=='';
-  const fromDateInputIsInValid=!enteredFromDateIsValid && enteredFromDateTouched;
+  const [enteredFromDateTouched, setEnteredFromDateTouched] = useState(false);
+  const enteredFromDateIsValid = fromText.trim() !== "";
+  const fromDateInputIsInValid =
+    !enteredFromDateIsValid && enteredFromDateTouched;
 
   const [toShow, setToShow] = useState(false);
   const [tomode, setToMode] = useState("date");
 
   const [toText, setToText] = useState("");
-  const [enteredtoDateTouched,setEnteredtoDateTouched]=useState(false)
-  const enteredtoDateIsValid=toText.trim()!=='';
-  const toDateInputIsInValid=!enteredtoDateIsValid && enteredtoDateTouched;
+  const [enteredtoDateTouched, setEnteredtoDateTouched] = useState(false);
+  const enteredtoDateIsValid = toText.trim() !== "";
+  const toDateInputIsInValid = !enteredtoDateIsValid && enteredtoDateTouched;
 
-  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
+  const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [data, setData] = useState([]);
-  const [isEdit,setIsEdit]=useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -83,10 +95,10 @@ const LeaveScreen = () => {
     setToMode(currentToMode);
   };
 
-  function frmDateHandler(enteredValue){
+  function frmDateHandler(enteredValue) {
     setFromDate(enteredValue);
   }
-  function toDateHandler(enteredValue){
+  function toDateHandler(enteredValue) {
     setToDate(enteredValue);
   }
 
@@ -102,18 +114,20 @@ const LeaveScreen = () => {
       (tempToDate.getMonth() + 1) +
       "/" +
       tempToDate.getFullYear();
-      if(event.type == "set") {
-        setToText(tDate);
-        } else {
-            //cancel button clicked
-        };
+    if (event.type == "set") {
+      setToText(tDate);
+    } else {
+      //cancel button clicked
+    }
     // console.log(fDate);
   };
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get("http://10.0.2.2:8000/school/Leave/");
+        const res = await axios.get(
+          `http://10.0.2.2:8000/school/Leave/${StudentRegNo}`
+        );
         console.log(res.data);
 
         setData(res.data);
@@ -136,11 +150,11 @@ const LeaveScreen = () => {
       (tempFromDate.getMonth() + 1) +
       "/" +
       tempFromDate.getFullYear();
-      if(event.type == "set") {
-        setFromText(fDate);
-        } else {
-            //cancel button clicked
-        };
+    if (event.type == "set") {
+      setFromText(fDate);
+    } else {
+      //cancel button clicked
+    }
     //console.log(fDate);
   };
 
@@ -173,7 +187,7 @@ const LeaveScreen = () => {
     setShowList(false);
   }
 
-  function updateHandler(){
+  function updateHandler() {
     const FormData = {
       student_reg_number: regno,
       leave_type: leaveType,
@@ -184,7 +198,7 @@ const LeaveScreen = () => {
     console.log(FormData);
 
     var dateFromValidate = fromText;
-    var isValid = moment(dateFromValidate, 'D/M/YYYY',true).isValid()
+    var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
     if (!isValid) {
       Alert.alert(
         "Format Error",
@@ -193,15 +207,15 @@ const LeaveScreen = () => {
           {
             text: "Cancel",
             onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
+            style: "cancel",
           },
-          { text: "OK", onPress: () => console.log("OK Pressed") }
+          { text: "OK", onPress: () => console.log("OK Pressed") },
         ]
       );
     }
 
     var dateToValidate = toText;
-    var isValid = moment(dateToValidate, 'D/M/YYYY',true).isValid()
+    var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
     if (!isValid) {
       Alert.alert(
         "Format Error",
@@ -210,9 +224,9 @@ const LeaveScreen = () => {
           {
             text: "Cancel",
             onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
+            style: "cancel",
           },
-          { text: "OK", onPress: () => console.log("OK Pressed") }
+          { text: "OK", onPress: () => console.log("OK Pressed") },
         ]
       );
     }
@@ -222,22 +236,21 @@ const LeaveScreen = () => {
     setEnteredtoDateTouched(true);
     setEnteredLeaveReasonTouched(true);
 
-    if(!enteredRegNoIsValid){
+    if (!enteredRegNoIsValid) {
       return;
     }
-    if(!enteredLeaveTypeIsValid){
+    if (!enteredLeaveTypeIsValid) {
       return;
     }
-    if(!enteredFromDateIsValid){
+    if (!enteredFromDateIsValid) {
       return;
     }
-    if(!enteredtoDateIsValid){
+    if (!enteredtoDateIsValid) {
       return;
     }
-    if(!enteredLeaveReasonIsValid){
+    if (!enteredLeaveReasonIsValid) {
       return;
-    }
-    else{
+    } else {
       async function storeData() {
         try {
           let headers = {
@@ -284,7 +297,7 @@ const LeaveScreen = () => {
     console.log(FormData);
 
     var dateFromValidate = fromText;
-    var isValid = moment(dateFromValidate, 'D/M/YYYY',true).isValid()
+    var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
     if (!isValid) {
       Alert.alert(
         "Format Error",
@@ -293,15 +306,15 @@ const LeaveScreen = () => {
           {
             text: "Cancel",
             onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
+            style: "cancel",
           },
-          { text: "OK", onPress: () => console.log("OK Pressed") }
+          { text: "OK", onPress: () => console.log("OK Pressed") },
         ]
       );
     }
 
     var dateToValidate = toText;
-    var isValid = moment(dateToValidate, 'D/M/YYYY',true).isValid()
+    var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
     if (!isValid) {
       Alert.alert(
         "Format Error",
@@ -310,9 +323,9 @@ const LeaveScreen = () => {
           {
             text: "Cancel",
             onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
+            style: "cancel",
           },
-          { text: "OK", onPress: () => console.log("OK Pressed") }
+          { text: "OK", onPress: () => console.log("OK Pressed") },
         ]
       );
     }
@@ -322,22 +335,21 @@ const LeaveScreen = () => {
     setEnteredtoDateTouched(true);
     setEnteredLeaveReasonTouched(true);
 
-    if(!enteredRegNoIsValid){
+    if (!enteredRegNoIsValid) {
       return;
     }
-    if(!enteredLeaveTypeIsValid){
+    if (!enteredLeaveTypeIsValid) {
       return;
     }
-    if(!enteredFromDateIsValid){
+    if (!enteredFromDateIsValid) {
       return;
     }
-    if(!enteredtoDateIsValid){
+    if (!enteredtoDateIsValid) {
       return;
     }
-    if(!enteredLeaveReasonIsValid){
+    if (!enteredLeaveReasonIsValid) {
       return;
-    }
-    else{
+    } else {
       async function storeData() {
         try {
           let headers = {
@@ -373,23 +385,23 @@ const LeaveScreen = () => {
       setEnteredLeaveReasonTouched(false);
     }
   }
-  function stdregnoBlurHandler(){
+  function stdregnoBlurHandler() {
     setEnteredLeaveTypeTouched(true);
   }
-  function leavetypeBlurHandler(){
+  function leavetypeBlurHandler() {
     setEnteredLeaveTypeTouched(true);
   }
-  function leavereasonBlurHandler(){
+  function leavereasonBlurHandler() {
     setEnteredLeaveReasonTouched(true);
   }
-  function fromDateBlurHandler(){
+  function fromDateBlurHandler() {
     setEnteredFromDateTouched(true);
   }
-  function toDateBlurHandler(){
+  function toDateBlurHandler() {
     setEnteredtoDateTouched(true);
   }
-  function editItem(id){
-    const filteredDummuyData= data.find((data)=> data.id==id);
+  function editItem(id) {
+    const filteredDummuyData = data.find((data) => data.id == id);
     // console.log(filteredDummuyData);
     setEnteredLeaveType(filteredDummuyData.leave_type);
     setEnteredLeaveReason(filteredDummuyData.leave_type);
@@ -397,12 +409,12 @@ const LeaveScreen = () => {
     setToText(filteredDummuyData.leave_to);
     setForLeaveList({ fontWeight: "bold", color: "black" });
     setForLeaveForm({ color: "black" });
-     setShowForm(true);
-     setShowList(false);
-     setIsEdit(true);
-   }
+    setShowForm(true);
+    setShowList(false);
+    setIsEdit(true);
+  }
 
-  function deleteItem(id){
+  function deleteItem(id) {
     // console.log(id);
     // const newFilteredData=data.filter((data)=>data.id != id);
 
@@ -444,7 +456,7 @@ const LeaveScreen = () => {
           <DataTable style={styles.container}>
             <DataTable.Header style={styles.tableHeader}>
               <View style={styles.th}>
-                <Text style={styles.tableTitle}> STUDENT REG NO</Text>
+                <Text style={styles.tableTitle}> REG NO</Text>
               </View>
               <View style={styles.th}>
                 <Text style={styles.tableTitle}> LEAVE TYPE</Text>
@@ -457,46 +469,70 @@ const LeaveScreen = () => {
               </View>
 
               <View style={styles.th}>
-                <Text style={styles.tableTitle}> LEAVE REASON</Text>
+                <Text style={styles.tableTitle}> REASON</Text>
               </View>
               <View style={styles.th}>
-                <Text style={styles.tableTitle}> LEAVE STATUS</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> Update</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> Delete</Text>
+                <Text style={styles.tableTitle}> STATUS</Text>
               </View>
             </DataTable.Header>
             {data &&
               data.map((data, key) => (
-                <DataTable.Row style={styles.tableRow}>
-                  <DataTable.Cell style={styles.tableCell}>
+                <DataTable.Row style={styles.tableRow} key={key}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 30,
+                    }}
+                  >
                     {data.student_reg_number}
                   </DataTable.Cell>
 
-                  <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 50,
+                    }}
+                  >
                     {data.leave_type}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
-                    {data.leave_form}
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 50,
+                    }}
+                  >
+                    {moment(data.leave_from).format("DD/MM/YYYY")}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
-                    {data.leave_to}
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 40,
+                    }}
+                  >
+                    {moment(data.leave_to).format("DD/MM/YYYY")}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 30,
+                    }}
+                  >
                     {data.leave_reason}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 50,
+                    }}
+                  >
                     {data.leave_status}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
-                    <Btn title="Edit" onPress={()=> editItem(data.id)} />
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
-                    <Btn title="Delete" onPress={()=> deleteItem(data.id)} />
-                  </DataTable.Cell> 
                 </DataTable.Row>
               ))}
           </DataTable>
@@ -505,9 +541,9 @@ const LeaveScreen = () => {
       {showForm && (
         <ScrollView style={styles.root}>
           <View style={styles.inputForm}>
-            <Input 
+            <Input
               keyboardType="number-pad"
-              placeholder="STUDENT REG NO"
+              placeholder="Student reg no"
               onChangeText={regnoChangeHandler}
               blur={stdregnoBlurHandler}
               value={regno}
@@ -515,11 +551,13 @@ const LeaveScreen = () => {
               style={regnoInputIsInValid && styles.errorBorderColor}
             />
             {regnoInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter student registration number</Text>
+              <Text style={{ color: "red", left: 20 }}>
+                Enter student registration number
+              </Text>
             )}
 
-            <Input 
-              placeholder="LEAVE TYPE"
+            <Input
+              placeholder="Leave Type"
               onChangeText={leaveTypeChangeHandler}
               blur={leavetypeBlurHandler}
               value={leaveType}
@@ -527,15 +565,15 @@ const LeaveScreen = () => {
               style={leavetypeInputIsInValid && styles.errorBorderColor}
             />
             {leavetypeInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter the type</Text>
+              <Text style={{ color: "red", left: 20 }}>Enter the type</Text>
             )}
-            <View style={[{flexDirection: "row"}]}>
-              <View style={{ flex: 1 }} >
+            <View style={[{ flexDirection: "row" }]}>
+              <View style={{ flex: 1 }}>
                 <View>
                   <Ionicons
                     style={{
-                      top:23,
-                      position:'absolute'
+                      top: 23,
+                      position: "absolute",
                     }}
                     name="calendar"
                     size={24}
@@ -553,77 +591,83 @@ const LeaveScreen = () => {
                     />
                   )}
                 </View>
-              <Input 
-                value={fromText || fromDate} 
-                onSubmitEditing={Keyboard.dismiss} 
-                placeholder="LEAVE FROM:"
-                style={fromDateInputIsInValid && styles.errorBorderColor}
-                blur={fromDateBlurHandler}
-                onChangeText={leaveFromChangeHandler}
-              />
-              {fromDateInputIsInValid && (
-                <Text style={{ color: "red",left:20 }}>Enter leave from</Text>
-              )}
+                <Input
+                  value={fromText || fromDate}
+                  onSubmitEditing={Keyboard.dismiss}
+                  placeholder="Leave from"
+                  style={fromDateInputIsInValid && styles.errorBorderColor}
+                  blur={fromDateBlurHandler}
+                  onChangeText={leaveFromChangeHandler}
+                />
+                {fromDateInputIsInValid && (
+                  <Text style={{ color: "red", left: 20 }}>
+                    Enter leave from
+                  </Text>
+                )}
+              </View>
+              <View style={styles.space} />
+              <View style={{ flex: 1 }}>
+                <View>
+                  <Ionicons
+                    style={{
+                      top: 23,
+                      position: "absolute",
+                    }}
+                    name="calendar"
+                    size={24}
+                    color="black"
+                    onPress={() => showToMode("date")}
+                  />
+                </View>
+                <Input
+                  value={toText || toDate}
+                  onSubmitEditing={Keyboard.dismiss}
+                  placeholder="Leave to"
+                  style={toDateInputIsInValid && styles.errorBorderColor}
+                  blur={toDateBlurHandler}
+                  onChangeText={leaveToChangeHandler}
+                />
+                {toDateInputIsInValid && (
+                  <Text style={{ color: "red", left: 20 }}>Enter leave to</Text>
+                )}
+                {toShow && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={toDate}
+                    mode={tomode}
+                    is24Hour={true}
+                    display="default"
+                    onChange={toDateChangeHandler}
+                    //  minimumDate={fromDate}
+                  />
+                )}
+              </View>
             </View>
-            <View style={styles.space} />
-              <View style={{ flex: 1 }} >
-              <View>
-              <Ionicons
-                style={{
-                  top:23,
-                  position:'absolute'
-                }}
-                name="calendar"
-                size={24}
-                color="black"
-                onPress={() => showToMode("date")}
-              />
-            </View>
-            <Input 
-              value={toText || toDate} 
-              onSubmitEditing={Keyboard.dismiss} 
-              placeholder="LEAVE TO:"
-              style={toDateInputIsInValid && styles.errorBorderColor}
-              blur={toDateBlurHandler}
-              onChangeText={leaveToChangeHandler}
-            />
-            {toDateInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter leave to</Text>
-            )}
-            {toShow && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={toDate}
-                mode={tomode}
-                is24Hour={true}
-                display="default"
-                onChange={toDateChangeHandler}
-                //  minimumDate={fromDate}
-              />
-            )}
-          </View>
-        </View>
-            <Input 
+            <Input
               onChangeText={leaveReasonChangeHandler}
               blur={leavereasonBlurHandler}
               value={leaveReason}
-              placeholder="LEAVE REASON"
+              placeholder="Leave reason"
               onSubmitEditing={Keyboard.dismiss}
               style={leavereasonInputIsInValid && styles.errorBorderColor}
             />
             {leavereasonInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter leave reason</Text>
+              <Text style={{ color: "red", left: 20 }}>Enter leave reason</Text>
             )}
-            {!isEdit && <View style={styles.btnSubmit}>
-            <Button onPress={buttonPressedHandler}>Add Leave</Button>
-          </View>}
-          {isEdit && <View style={styles.btnSubmit}>
-            <Button onPress={ updateHandler}>Update</Button>
-          </View>}
+            {!isEdit && (
+              <View style={styles.btnSubmit}>
+                <Button onPress={buttonPressedHandler}>Add Leave</Button>
+              </View>
+            )}
+            {isEdit && (
+              <View style={styles.btnSubmit}>
+                <Button onPress={updateHandler}>Update</Button>
+              </View>
+            )}
           </View>
         </ScrollView>
       )}
-      {keyboardStatus=='Keyboard Hidden' && <ParentsHome />}
+      {keyboardStatus == "Keyboard Hidden" && <ParentsHome />}
     </>
   );
 };
@@ -693,7 +737,7 @@ const styles = StyleSheet.create({
   //   fontSize: 18,
   //   // marginTop: 17,
   // },
-  errorBorderColor:{
+  errorBorderColor: {
     color: "black",
     borderBottomWidth: 1,
     borderColor: "red",
@@ -739,4 +783,3 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
 });
-
