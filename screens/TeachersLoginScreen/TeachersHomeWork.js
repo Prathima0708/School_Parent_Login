@@ -492,7 +492,7 @@ const TeachersHomework = () => {
     setEnteredtoDateTouched(true);
     setEnteredRemarkTouched(true);
     setEnteredHomeWorkTouched(true);
-    setEnteredImageTouched(true);
+    // setEnteredImageTouched(true);
 
     if (!enteredSelcetdIsValid) {
       return;
@@ -517,9 +517,10 @@ const TeachersHomework = () => {
       return;
     }
 
-    if (!enteredImageIsValid) {
-      return;
-    } else {
+    // if (!enteredImageIsValid) {
+    //   return;
+    // } 
+    else {
       let selectedData = selected.split(" - ");
       let class_name = selectedData[0];
       let section = selectedData[1];
@@ -534,7 +535,7 @@ const TeachersHomework = () => {
         subject: subject,
         homework_date: fromDate,
         due_date: toDate,
-        homework_photo: `/assets/images/${filename}`,
+        // homework_photo: `/assets/images/${filename}`,
         // homework_photo:uploadedImg,
         remark: remark,
         description: hw,
@@ -636,14 +637,16 @@ const TeachersHomework = () => {
   function editItem(id) {
     ID = id;
     const filteredDummuyData = homeworkData.find((data) => data.id == id);
+    console.log(filteredDummuyData)
     setSelected(filteredDummuyData.class_name);
+    console.log(selected)
     // setEnteredSection(filteredDummuyData.section);
     setEnteredSubject(filteredDummuyData.subject);
     setFromText(moment(filteredDummuyData.homework_date).format('DD/MM/YYYY'));
-    moment(filteredDummuyData.due_date).format('DD/MM/YYYY')
+    // moment(filteredDummuyData.due_date).format('DD/MM/YYYY')
     setEnteredRemark(filteredDummuyData.remark);
     setHW(filteredDummuyData.homework);
-    setImage(filteredDummuyData.homework_photo);
+    // setImage(filteredDummuyData.homework_photo);
     setForHomeworkList({ fontWeight: "bold", color: "black" });
     setForHomeworkForm({ color: "black" });
     setShowForm(true);
@@ -714,7 +717,7 @@ const TeachersHomework = () => {
       {showForm && (
         <ScrollView style={styles.root}>
           <View style={styles.inputForm}>
-            <View >
+            {!isEdit && <View >
               <SelectList
                 setSelected={setSelected}
                 data={data}
@@ -725,7 +728,7 @@ const TeachersHomework = () => {
                 inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
               />
             </View>
-
+}
             <Input
               onChangeText={subjectChangeHandler}
               value={subject}
@@ -1039,7 +1042,7 @@ const TeachersHomework = () => {
                       name="md-pencil-sharp"
                       size={24}
                       color="green"
-                      onPress={() => editItem(data.id)}
+                      onPress={() => editItem(homeworkData.id)}
                     />
                   </DataTable.Cell>
                   <DataTable.Cell
