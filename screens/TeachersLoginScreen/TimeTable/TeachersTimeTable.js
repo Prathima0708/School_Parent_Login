@@ -74,8 +74,12 @@ const TeachersTimetable = () => {
 
   const [showTable, setShowTable] = useState(false);
   const [forTimeTableList, setForTimeTableList] = useState({
-    color: "#3d4590",
-    backgroundColor: "#D6EAF8",
+    // color: "#3d4590",
+
+    // backgroundColor: "#D6EAF8",
+    color: "white",
+    backgroundColor: "#0C60F4",
+    borderRadius: 10,
     // borderTopColor: "#3d4590",
     borderBottomWidth: 0,
     borderLeftWidth: 0,
@@ -83,8 +87,10 @@ const TeachersTimetable = () => {
     fontFamily: "HindSemiBold",
   });
   const [forExamTimeTable, setForExamTimeTable] = useState({
-    color: "#d9dffc",
+    // color: "#d9dffc",
+    color: "black",
     // borderTopColor: "#d9dffc",
+    backgroundColor: "#F4F6F6",
     borderBottomWidth: 0,
     borderLeftWidth: 0,
     borderRightWidth: 0,
@@ -350,17 +356,23 @@ const TeachersTimetable = () => {
     // setForExamTimeTable({ fontWeight: "bold", color: "black" });
     // setForTimeTableList({ color: "black" });
     setForTimeTableList({
-      color: "#d9dffc",
+      // color: "#d9dffc",
       // borderTopColor: "#d9dffc",
       // backgroundColor: "#D6EAF8",
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
       borderBottomWidth: 0,
       borderLeftWidth: 0,
       borderRightWidth: 0,
     });
 
     setForExamTimeTable({
-      color: "#3d4590",
-      backgroundColor: "#D6EAF8",
+      //color: "#3d4590",
+      // backgroundColor: "#D6EAF8",
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
       borderBottomWidth: 0,
       borderLeftWidth: 0,
       borderRightWidth: 0,
@@ -375,15 +387,21 @@ const TeachersTimetable = () => {
     // setForExamTimeTable({ color: "black" });
     // setShow(false);
     setForExamTimeTable({
-      color: "#d9dffc",
+      //color: "#d9dffc",
+      color: "black",
+      backgroundColor: "#F4F6F6",
+      borderRadius: 10,
       borderTopColor: "#d9dffc",
       borderBottomWidth: 0,
       borderLeftWidth: 0,
       borderRightWidth: 0,
     });
     setForTimeTableList({
-      color: "#3d4590",
-      backgroundColor: "#D6EAF8",
+      // color: "#3d4590",
+      // backgroundColor: "#D6EAF8",
+      backgroundColor: "#0C60F4",
+      color: "white",
+      borderRadius: 10,
       borderBottomWidth: 0,
       borderLeftWidth: 0,
       borderRightWidth: 0,
@@ -758,11 +776,11 @@ const TeachersTimetable = () => {
           </AccountTypeBtn> */}
 
           <BgButton onPress={timeTableList} style={forTimeTableList}>
-            Daily TimeTable
+            Daily
           </BgButton>
           <View style={styles.space} />
           <BgButton onPress={viewExam} style={forExamTimeTable}>
-            Exam TimeTable
+            Exam
           </BgButton>
         </View>
 
@@ -782,10 +800,10 @@ const TeachersTimetable = () => {
             <View>
               <View
                 style={{
-                  width: 250,
+                  width: 230,
                   fontSize: 20,
-                  margin: 10,
-                  marginTop: -70,
+                  margin: 20,
+                  marginTop: -110,
                 }}
               >
                 <SelectList
@@ -805,7 +823,7 @@ const TeachersTimetable = () => {
               style={{
                 flexDirection: "row",
                 justifyContent: "space-around",
-                margin: 20,
+                //margin: 20,
                 // backgroundColor: "#3498DB",
                 // padding: 20,
                 // borderRadius: 10,
@@ -821,147 +839,149 @@ const TeachersTimetable = () => {
                 {selectedClass}
               </Text>
             </View>
-            <ScrollView horizontal={true}>
-              <DataTable style={styles.container}>
-                <DataTable.Header style={styles.tableHeader}>
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> TIMINGS</Text>
-                  </View>
+            <ScrollView>
+              <ScrollView horizontal={true}>
+                <DataTable style={styles.container}>
+                  <DataTable.Header style={styles.tableHeader}>
+                    <View style={styles.th}>
+                      <Text style={styles.tableTitle}> TIMINGS</Text>
+                    </View>
 
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> MON</Text>
-                  </View>
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> TUE</Text>
-                  </View>
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> WED</Text>
-                  </View>
+                    <View style={styles.th}>
+                      <Text style={styles.tableTitle}> MON</Text>
+                    </View>
+                    <View style={styles.th}>
+                      <Text style={styles.tableTitle}> TUE</Text>
+                    </View>
+                    <View style={styles.th}>
+                      <Text style={styles.tableTitle}> WED</Text>
+                    </View>
 
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}>THUR</Text>
-                  </View>
+                    <View style={styles.th}>
+                      <Text style={styles.tableTitle}>THUR</Text>
+                    </View>
 
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}>FRI</Text>
-                  </View>
+                    <View style={styles.th}>
+                      <Text style={styles.tableTitle}>FRI</Text>
+                    </View>
 
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> SAT</Text>
-                  </View>
-                  <View style={styles.th}>
-                    <Text
-                      style={{
-                        margin: 7,
-                        marginLeft: 50,
-                        fontFamily: "MonsterratBold",
-                        fontSize: 16,
-                      }}
-                    >
-                      ACTIONS
-                    </Text>
-                  </View>
-                </DataTable.Header>
-                {showTimeTableData.map((data, key) => (
-                  <DataTable.Row style={styles.tableRow} key={key}>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 10,
-                      }}
-                    >
-                      {moment(data.from_time, "HH:mm").format("hh:mm ")} {"-"}{" "}
-                      {""}
-                      {moment(data.to_time, "HH:mm").format("hh:mm ")}
-                    </DataTable.Cell>
+                    <View style={styles.th}>
+                      <Text style={styles.tableTitle}> SAT</Text>
+                    </View>
+                    <View style={styles.th}>
+                      <Text
+                        style={{
+                          margin: 7,
+                          marginLeft: 50,
+                          fontFamily: "MonsterratBold",
+                          fontSize: 16,
+                        }}
+                      >
+                        ACTIONS
+                      </Text>
+                    </View>
+                  </DataTable.Header>
+                  {showTimeTableData.map((data, key) => (
+                    <DataTable.Row style={styles.tableRow} key={key}>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 10,
+                        }}
+                      >
+                        {moment(data.from_time, "HH:mm").format("hh:mm ")} {"-"}{" "}
+                        {""}
+                        {moment(data.to_time, "HH:mm").format("hh:mm ")}
+                      </DataTable.Cell>
 
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 20,
-                      }}
-                    >
-                      {data.monday}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 40,
-                      }}
-                    >
-                      {data.Tuesday}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 30,
-                      }}
-                    >
-                      {data.wednesday}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 20,
-                      }}
-                    >
-                      {data.thursday}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 40,
-                      }}
-                    >
-                      {data.friday}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 30,
-                      }}
-                    >
-                      {data.saturday}
-                    </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 20,
+                        }}
+                      >
+                        {data.monday}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 40,
+                        }}
+                      >
+                        {data.Tuesday}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 30,
+                        }}
+                      >
+                        {data.wednesday}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 20,
+                        }}
+                      >
+                        {data.thursday}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 40,
+                        }}
+                      >
+                        {data.friday}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 30,
+                        }}
+                      >
+                        {data.saturday}
+                      </DataTable.Cell>
 
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 50,
-                      }}
-                    >
-                      <Ionicons
-                        name="md-pencil-sharp"
-                        size={24}
-                        color="green"
-                        onPress={() => editItem(data.id)}
-                      />
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        //marginLeft: 15,
-                      }}
-                    >
-                      <Ionicons
-                        name="trash"
-                        size={24}
-                        color="red"
-                        onPress={() => deleteItem(data.id)}
-                      />
-                    </DataTable.Cell>
-                  </DataTable.Row>
-                ))}
-              </DataTable>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 50,
+                        }}
+                      >
+                        <Ionicons
+                          name="md-pencil-sharp"
+                          size={24}
+                          color="green"
+                          onPress={() => editItem(data.id)}
+                        />
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          //marginLeft: 15,
+                        }}
+                      >
+                        <Ionicons
+                          name="trash"
+                          size={24}
+                          color="red"
+                          onPress={() => deleteItem(data.id)}
+                        />
+                      </DataTable.Cell>
+                    </DataTable.Row>
+                  ))}
+                </DataTable>
+              </ScrollView>
             </ScrollView>
           </>
         )}
@@ -1350,7 +1370,8 @@ const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
-    fontSize: 24,
+
+    width: "50%",
   },
   year: {
     width: 70,
@@ -1406,12 +1427,13 @@ const styles = StyleSheet.create({
   btnSubmit: {
     flexDirection: "row",
     marginTop: 27,
-
-    marginBottom: 69,
+marginRight:10,
+    marginBottom: 19,
   },
   btnSubmit1: {
+    width: "50%",
     flexDirection: "row",
-    marginTop: -118,
+    marginTop: -128,
     marginLeft: 230,
     marginBottom: 69,
   },
@@ -1420,15 +1442,16 @@ const styles = StyleSheet.create({
     height: 20,
   },
   timetablebtn: {
-    width: "40%",
+    width: "30%",
     paddingVertical: 20,
     paddingHorizontal: 0,
-    marginLeft: deviceWidth < 370 ? 210 : 230,
+    marginLeft: deviceWidth < 370 ? 210 : 290,
   },
-  BtnContainer: {
-    flexDirection: "row",
-    width: 220,
-  },
+  // BtnContainer: {
+  //   flexDirection: "row",
+  //   width: 220,
+  //   borderRadius: 10,
+  // },
   container: {
     padding: 10,
   },

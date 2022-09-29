@@ -396,7 +396,9 @@ const TecahersExamTimeTable = () => {
       {showExamList && (
         <>
           <View style={styles.timetablebtn}>
-            <Button onPress={viewExam}>Add new</Button>
+            <Button onPress={viewExam}>
+              <Ionicons name="add" size={38} color="black" />
+            </Button>
           </View>
           <ScrollView horizontal={true}>
             <DataTable style={styles.container}>
@@ -787,12 +789,12 @@ const styles = StyleSheet.create({
     height: 20,
   },
   timetablebtn: {
-    width: "40%",
+    width: "30%",
 
-    paddingVertical: 20,
-    paddingHorizontal: 0,
-
-    marginLeft: 230,
+    //paddingVertical: 20,
+    //paddingHorizontal: 0,
+    marginTop: -30,
+    marginLeft: 290,
   },
   BtnContainer: {
     flexDirection: "row",

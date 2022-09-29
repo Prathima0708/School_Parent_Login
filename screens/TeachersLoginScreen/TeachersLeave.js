@@ -28,10 +28,15 @@ const TeachersLeave = () => {
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
   const [forLeaveList, setForLeaveList] = useState({
-    color: "black",
-    fontWeight: "bold",
+    color: "white",
+    backgroundColor: "#0C60F4",
+    borderRadius: 10,
   });
-  const [forLeaveForm, setForLeaveForm] = useState({ color: "black" });
+  const [forLeaveForm, setForLeaveForm] = useState({
+    color: "black",
+    backgroundColor: "#F4F6F6",
+    borderRadius: 10,
+  });
 
   const [leaveType, setEnteredLeaveType] = useState("");
   const [enteredLeaveTypeTouched, setEnteredLeaveTypeTouched] = useState(false);
@@ -387,8 +392,16 @@ const TeachersLeave = () => {
     setEnteredtoDateTouched(true);
   }
   function showLeaveForm() {
-    setForLeaveList({ fontWeight: "bold", color: "black" });
-    setForLeaveForm({ color: "black" });
+    setForLeaveList({
+      backgroundColor: "#0C60F4",
+      color: "white",
+      borderRadius: 10,
+    });
+    setForLeaveForm({
+      color: "black",
+      backgroundColor: "#F4F6F6",
+      borderRadius: 10,
+    });
     setShowForm(true);
     setShowList(false);
     setEnteredLeaveTypeTouched(false);
@@ -398,8 +411,16 @@ const TeachersLeave = () => {
     setIsEdit(false);
   }
   function showLeave() {
-    setForLeaveForm({ fontWeight: "bold", color: "black" });
-    setForLeaveList({ color: "black" });
+    setForLeaveForm({
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
+    });
+    setForLeaveList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
     setShowForm(false);
     setShowList(true);
   }
@@ -473,7 +494,7 @@ const TeachersLeave = () => {
         <BgButton onPress={showLeaveForm} style={forLeaveList}>
           Add Leave
         </BgButton>
-        <VerticalLine>|</VerticalLine>
+
         <BgButton onPress={showLeave} style={forLeaveForm}>
           Show Leave
         </BgButton>
@@ -724,6 +745,7 @@ const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
     flexDirection: "row",
+    width: "50%",
   },
   home: {
     marginTop: 29,

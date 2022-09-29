@@ -19,7 +19,7 @@ export default Button;
 const styles = StyleSheet.create({
   button: {
     borderRadius: 6,
-    //margin: 30,
+    margin: 30,
     paddingVertical: 8,
     paddingHorizontal: 12,
     backgroundColor: "#59b8dd",
@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
+    //width: "30%",
   },
   pressed: {
     opacity: 0.7,
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     fontSize: 22,
-   
+
     fontFamily: "HindMedium",
   },
 });

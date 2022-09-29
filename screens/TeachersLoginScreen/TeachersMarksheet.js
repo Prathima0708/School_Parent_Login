@@ -306,11 +306,14 @@ const TeachersMarksheet = () => {
   const [showMarksheet, setShowMarksheet] = useState(false);
 
   const [forMarkssheetList, setForMarkssheetList] = useState({
-    color: "black",
-    fontWeight: "bold",
+    backgroundColor: "#0C60F4",
+    color: "white",
+    borderRadius: 10,
   });
   const [forMarkssheetForm, setForMarkssheetForm] = useState({
     color: "black",
+    backgroundColor: "#F4F6F6",
+    borderRadius: 10,
   });
 
   const [selected, setSelected] = useState("");
@@ -391,13 +394,52 @@ const TeachersMarksheet = () => {
     // console.log(UserId);
     console.log(ID);
     const FormData = {
+      student_name: StudentList.student_name,
+      class_name: StudentList.class_name,
+      Roll_no: 0,
+      student_reg_no: StudentList.reg_number,
+      maths_max_marks: 0,
       maths_obt_mark: mathsMarks,
+      maths_min_mark: 0,
+      maths_tot_mark: 0,
+      maths_percentg: 0,
+      english_max_marks: 0,
+
       english_obt_mark: engMarks,
+      english_min_mark: 0,
+      english_tot_mark: 0,
+      english_percentg: 0,
+      science_max_mark: 0,
+
       science_obt_mark: sciMarks,
+      science_min_mark: 0,
+      science_tot_mark: 0,
+      science_percentg: 0,
+      hindi_max_mark: 0,
+
       hindi_obt_mark: hindiMarks,
+      hindi_min_mark: 0,
+      hindi_tot_mark: 0,
+      hindi_percentg: 0,
+      social_max_mark: 0,
+
       social_obt_mark: socMarks,
+      social_min_mark: 0,
+      social_tot_mark: 0,
+      social_percentg: 0,
+      kannada_max_mark: 0,
+
       kannada_obt_mark: kanMarks,
-      computer_obt_mark: compMarks,
+
+      kannada_min_mark: 0,
+      kannada_tot_mark: 0,
+      kannada_percentg: 0,
+      computer_max_mark: 0,
+
+      computer_obt_mark: 0,
+      computer_min_mark: 0,
+      computer_tot_mark: 0,
+      computer_percentg: 0,
     };
     // console.log(FormData);
     async function updateData() {
@@ -427,7 +469,7 @@ const TeachersMarksheet = () => {
     async function fetchData() {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
-        setData(res.data);
+        setMarksheetData(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -445,10 +487,16 @@ const TeachersMarksheet = () => {
     setEnteredRemark("");
     setShowAddForm(false);
     setShowMarksheet(true);
-    setForMarkssheetList({ fontWeight: "bold", color: "black" });
-    setForMarkssheetForm({ color: "black" });
-    setForMarkssheetForm({ fontWeight: "bold", color: "black" });
-    setForMarkssheetList({ color: "black" });
+    setForMarkssheetList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
+    setForMarkssheetForm({
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
+    });
   }
 
   function buttonPressedHandler(key) {
@@ -588,8 +636,16 @@ const TeachersMarksheet = () => {
   }
 
   function showMarkssheetForm() {
-    setForMarkssheetList({ fontWeight: "bold", color: "black" });
-    setForMarkssheetForm({ color: "black" });
+    setForMarkssheetList({
+      backgroundColor: "#0C60F4",
+      color: "white",
+      borderRadius: 10,
+    });
+    setForMarkssheetForm({
+      color: "black",
+      backgroundColor: "#F4F6F6",
+      borderRadius: 10,
+    });
     setShowBtn(true);
     setShowMarksheet(false);
     setEnteredMathsMarksTouched(false);
@@ -602,8 +658,16 @@ const TeachersMarksheet = () => {
     setIsEdit(false);
   }
   function showMarksheetList() {
-    setForMarkssheetForm({ fontWeight: "bold", color: "black" });
-    setForMarkssheetList({ color: "black" });
+    setForMarkssheetForm({
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
+    });
+    setForMarkssheetList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
     setShowBtn(false);
     setShowAddForm(false);
     setShowForm(false);
@@ -720,8 +784,16 @@ const TeachersMarksheet = () => {
     setHindiMarks(filteredDummuyData.hindi_obt_mark);
     setSocMarks(filteredDummuyData.social_obt_mark);
     setKanMarks(filteredDummuyData.kannada_obt_mark);
-    setForMarkssheetList({ fontWeight: "bold", color: "black" });
-    setForMarkssheetForm({ color: "black" });
+    setForMarkssheetList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
+    setForMarkssheetForm({
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
+    });
     setShowAddForm(true);
     setShowMarksheet(false);
     setIsEdit(true);
@@ -779,7 +851,7 @@ const TeachersMarksheet = () => {
         <BgButton onPress={showMarkssheetForm} style={forMarkssheetList}>
           Add Marksheet
         </BgButton>
-        <VerticalLine>|</VerticalLine>
+
         <BgButton onPress={showMarksheetList} style={forMarkssheetForm}>
           Show List
         </BgButton>
@@ -1058,7 +1130,7 @@ const TeachersMarksheet = () => {
           )}
           {!isEdit && (
             <View style={styles.btnSubmit}>
-              <Button onPress={buttonPressedHandler}>Add Marksheet</Button>
+              <Button onPress={buttonPressedHandler}>Add </Button>
             </View>
           )}
           <View style={styles.btnCancel}>
@@ -1220,6 +1292,7 @@ const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
     flexDirection: "row",
+    width: "50%",
   },
   tableBtn: {
     marginLeft: -15,
@@ -1256,14 +1329,14 @@ const styles = StyleSheet.create({
   },
   btnSubmit: {
     marginTop: 30,
-    marginBottom: 30,
+    //marginBottom: 30,
     width: "50%",
-    marginLeft: deviceWidth < 370 ? 170 : 180 ,
+    marginLeft: deviceWidth < 370 ? 170 : 180,
   },
   btnCancel: {
-    marginTop: -80,
+    marginTop: -110,
     marginLeft: 10,
-    width: "40%",
+    width: "50%",
   },
   th: {
     padding: 5,
