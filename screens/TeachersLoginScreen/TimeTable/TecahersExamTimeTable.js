@@ -185,6 +185,25 @@ const TecahersExamTimeTable = () => {
     setEnteredMarksTouched(true);
     setEnteredHourTouched(true);
     setEnteredSelectedTouched(true);
+
+    const formIsValid =
+      enteredExamNameIsValid &&
+      enteredFromDateIsValid &&
+      enteredtoDateIsValid &&
+      enteredHourIsValid;
+
+    if (formIsValid) {
+      Alert.alert("Saved Data", "Saved Data successfully", [
+        {
+          text: "OK",
+          onPress: () => {
+            setShowForm(false);
+            viewExamList();
+          },
+        },
+      ]);
+    }
+
     if (!enteredExamNameTouched) {
       return;
     }
@@ -308,6 +327,22 @@ const TecahersExamTimeTable = () => {
   function viewExam() {
     setShowForm(true);
     setShowExamList(false);
+  }
+
+  function viewExamList() {
+    async function viewExamList() {
+      try {
+        const res = await axios.get(`http://10.0.2.2:8000/school/Exam/`);
+        console.log(res.data);
+
+        setShowExamData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    viewExamList();
+    setShowForm(false);
+    setShowExamList(true);
   }
 
   function examBlurHandler() {

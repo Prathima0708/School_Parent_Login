@@ -341,11 +341,6 @@ const TeachersCalendar = () => {
     if (formIsValid) {
       Alert.alert("Saved Data", "Saved Data successfully", [
         {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
-        },
-        {
           text: "OK",
           onPress: () => {
             setShowForm(false);
@@ -512,7 +507,11 @@ const TeachersCalendar = () => {
     setEnteredTitle(filteredDummuyData.titlee);
     //  setEnteredMobile(filteredDummuyData.exam_name);
     //  setEnteredRouteName(filteredDummuyData.hour);
-    setForCalendarList({ fontWeight: "bold", color: "black" });
+    setForCalendarList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
     setForCalendarForm({
       color: "white",
       backgroundColor: "#1E8449",
@@ -657,7 +656,7 @@ const TeachersCalendar = () => {
                   //   moment(fromText).format("DD/MM/YYYY") ||
                   //   moment(frmdate).format("DD/MM/YYYY")
                   // }
-                  placeholder="from date"
+                  placeholder="Start date"
                   onSubmitEditing={Keyboard.dismiss}
                   style={fromDateInputIsInValid && styles.errorBorderColor}
                   blur={fromDateBlurHandler}
@@ -708,7 +707,7 @@ const TeachersCalendar = () => {
                   //   moment(toText).format("DD/MM/YYYY") ||
                   //   moment(todate).format("DD/MM/YYYY")
                   // }
-                  placeholder="to date"
+                  placeholder="End date"
                   onSubmitEditing={Keyboard.dismiss}
                   style={toDateInputIsInValid && styles.errorBorderColor}
                   blur={toDateBlurHandler}
@@ -896,7 +895,7 @@ const styles = StyleSheet.create({
   },
 
   btnSubmit: {
-    marginTop: 217,
+    marginTop: 107,
   },
   space: {
     width: 20,

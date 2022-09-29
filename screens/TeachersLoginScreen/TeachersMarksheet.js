@@ -772,6 +772,9 @@ const TeachersMarksheet = () => {
     setShowBtn(true);
     setShowForm(true);
     setShowAddForm(false);
+    {
+      isEdit && showMarksheetList(true);
+    }
   }
 
   function editItem(id) {
@@ -1124,9 +1127,11 @@ const TeachersMarksheet = () => {
             )} */}
           </View>
           {isEdit && (
-            <View style={styles.btnSubmit}>
-              <Button onPress={updateHandler}>Update</Button>
-            </View>
+            <>
+              <View style={styles.btnSubmit}>
+                <Button onPress={updateHandler}>Update</Button>
+              </View>
+            </>
           )}
           {!isEdit && (
             <View style={styles.btnSubmit}>

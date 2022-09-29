@@ -1,7 +1,7 @@
 import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
-
-import { DataTable } from "react-native-paper";
+import { Col, Row, Grid } from "react-native-easy-grid";
+import { Card, DataTable } from "react-native-paper";
 
 import axios from "axios";
 import BgButton from "../../../components/UI/BgButton";
@@ -21,7 +21,7 @@ const ReportCard = () => {
     async function fetchData() {
       try {
         const res = await axios.get(
-          `http://10.0.2.2:8000/school/Marksheet/${StudentRegNo}`
+          `http://10.0.2.2:8000/school/MarksheetReg/${StudentRegNo}`
         );
         console.log(res.data);
 
@@ -48,7 +48,7 @@ const ReportCard = () => {
           </Text>
         </View>
 
-        <ScrollView horizontal={true}>
+        {/* <ScrollView horizontal={true}>
           <DataTable style={styles.container}>
             <DataTable.Header style={styles.tableHeader}>
               <View style={styles.th}>
@@ -75,31 +75,207 @@ const ReportCard = () => {
             </DataTable.Header>
             {data &&
               data.map((data, key) => (
-                <DataTable.Row style={styles.tableRow}>
-                  <DataTable.Cell style={styles.tableCell}>
+                <DataTable.Row style={styles.tableRow} key={key}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 30,
+                    }}
+                  >
                     {data.maths_obt_mark}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 10,
+                    }}
+                  >
                     {data.english_obt_mark}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 10,
+                    }}
+                  >
                     {data.science_obt_mark}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 10,
+                    }}
+                  >
                     {data.hindi_obt_mark}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 10,
+                    }}
+                  >
                     {data.social_obt_mark}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 10,
+                    }}
+                  >
                     {data.kannada_obt_mark}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 10,
+                    }}
+                  >
                     {data.computer_obt_mark}
                   </DataTable.Cell>
                 </DataTable.Row>
               ))}
           </DataTable>
+        </ScrollView> */}
+
+        <ScrollView>
+          <ScrollView>
+            {data &&
+              data.map((data, key) => (
+                <>
+                  <View style={styles.space} key={key} />
+
+                  <Card style={styles.cardStyle} key={data.id}>
+                    <Card.Title title="Subjects" />
+
+                    <Card.Content>
+                      <View style={styles.cardView}>
+                        <View style={{ flex: 1, left: 10 }}>
+                          <Text style={styles.textStyle}>Maths</Text>
+                          <Text style={styles.textStyle}>English</Text>
+                          <Text style={styles.textStyle}>Science</Text>
+                          <Text style={styles.textStyle}>Hindi</Text>
+                          <Text style={styles.textStyle}>Social</Text>
+                          <Text style={styles.textStyle}>Kannada</Text>
+                          <Text style={styles.textStyle}>Computer</Text>
+                        </View>
+
+                        <View
+                          style={{
+                            flex: 1,
+                            left: -10,
+                            top: -50,
+                          }}
+                        >
+                          <Card.Title title=" Marks" />
+
+                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
+                            {data.maths_obt_mark}
+                          </Text>
+
+                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
+                            {data.english_obt_mark}
+                          </Text>
+                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
+                            {data.science_obt_mark}
+                          </Text>
+                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
+                            {data.hindi_obt_mark}
+                          </Text>
+
+                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
+                            {data.social_obt_mark}
+                          </Text>
+                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
+                            {data.kannada_obt_mark}
+                          </Text>
+                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
+                            {data.computer_obt_mark}
+                          </Text>
+                        </View>
+
+                        <View
+                          style={{
+                            flex: 1,
+                            left: -30,
+                            top: -50,
+                          }}
+                        >
+                          <Card.Title title="Total Marks" />
+
+                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
+                            {data.maths_obt_mark}
+                          </Text>
+
+                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
+                            {data.english_obt_mark}
+                          </Text>
+                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
+                            {data.science_obt_mark}
+                          </Text>
+                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
+                            {data.hindi_obt_mark}
+                          </Text>
+
+                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
+                            {data.social_obt_mark}
+                          </Text>
+                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
+                            {data.kannada_obt_mark}
+                          </Text>
+                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
+                            {data.computer_obt_mark}
+                          </Text>
+                        </View>
+                      </View>
+                      <Card.Title title="Total :" style={{ marginTop: -40 }} />
+                      <Text
+                        style={[
+                          styles.textStyle,
+                          { marginLeft: 100, top: -44, fontSize: 24 },
+                        ]}
+                      >
+                        {data.maths_obt_mark +
+                          data.english_obt_mark +
+                          data.science_obt_mark +
+                          data.hindi_obt_mark +
+                          data.social_obt_mark +
+                          data.kannada_obt_mark +
+                          data.computer_obt_mark}
+                      </Text>
+                      <Card.Title
+                        title="Percentage :"
+                        style={{ marginTop: -40 }}
+                      />
+                      <Text
+                        style={[
+                          styles.textStyle,
+                          { marginLeft: 150, top: -44, fontSize: 24 },
+                        ]}
+                      >
+                        {(
+                          (data.maths_obt_mark +
+                            data.english_obt_mark +
+                            data.science_obt_mark +
+                            data.hindi_obt_mark +
+                            data.social_obt_mark +
+                            data.kannada_obt_mark +
+                            data.computer_obt_mark) /
+                          7
+                        ).toFixed(2)}{" "}
+                        {"%"}
+                      </Text>
+                    </Card.Content>
+                  </Card>
+                </>
+              ))}
+          </ScrollView>
         </ScrollView>
       </View>
       <ParentsHome />
@@ -181,5 +357,42 @@ const styles = StyleSheet.create({
     fontFamily: "HindRegular",
     marginBottom: 4,
     // fontWeight: "bold",
+  },
+
+  cardStyle: {
+    top: 10,
+    marginLeft: 20,
+    marginRight: 20,
+    borderRadius: 10,
+    marginBottom: 75,
+    backgroundColor: "skyblue",
+  },
+  cardView: {
+    flexDirection: "row",
+  },
+  space: {
+    width: 10,
+    height: 10,
+  },
+  textStyle: {
+    padding: 5,
+    // marginTop: 20,
+    fontFamily: "HindRegular",
+    fontSize: 20,
+  },
+  heading: {
+    fontFamily: "HindRegular",
+    fontSize: 20,
+    position: "absolute",
+    top: -10,
+    left: 15,
+  },
+  heading1: {
+    padding: 5,
+    fontFamily: "HindRegular",
+    fontSize: 20,
+    position: "absolute",
+    top: -15,
+    left: 95,
   },
 });

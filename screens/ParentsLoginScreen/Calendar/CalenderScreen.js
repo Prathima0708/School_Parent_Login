@@ -95,47 +95,43 @@
 //   console.warn(error);
 // });
 
-
-  // .then((eventInfo: { calendarItemIdentifier: string, eventIdentifier: string }) => {
-  //   // handle success - receives an object with `calendarItemIdentifier` and `eventIdentifier` keys, both of type string.
-  //   // These are two different identifiers on iOS.
-  //   // On Android, where they are both equal and represent the event id, also strings.
-  //   // when { action: 'CANCELED' } is returned, the dialog was dismissed
-  //   console.warn(JSON.stringify(eventInfo));
-  // })
-  // .catch((error: string) => {
-  //   // handle error such as when user rejected permissions
-  //   console.warn(error);
-  // });
+// .then((eventInfo: { calendarItemIdentifier: string, eventIdentifier: string }) => {
+//   // handle success - receives an object with `calendarItemIdentifier` and `eventIdentifier` keys, both of type string.
+//   // These are two different identifiers on iOS.
+//   // On Android, where they are both equal and represent the event id, also strings.
+//   // when { action: 'CANCELED' } is returned, the dialog was dismissed
+//   console.warn(JSON.stringify(eventInfo));
+// })
+// .catch((error: string) => {
+//   // handle error such as when user rejected permissions
+//   console.warn(error);
+// });
 
 import axios from "axios";
 import moment from "moment";
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Card } from "react-native-paper";
 import { Calendar } from "react-native-calendars";
-import { StyleSheet,View,Text, Alert } from "react-native";
+import { StyleSheet, View, Text, Alert } from "react-native";
 import { FlatList } from "react-native";
 import { ScrollView } from "react-native";
-export var fromDateVar=[];
+export var fromDateVar = [];
 export var filteredDataVar;
 const CalenderScreen = () => {
-  
-  const [calendarData,setCalendarData]=useState([]);
-  const [eventDisplay,setEventDisplay]=useState(false);
-  const [dataIsPresent,setDataIsPresent]=useState(false);
-  const [color,setColor]=useState('');
+  const [calendarData, setCalendarData] = useState([]);
+  const [eventDisplay, setEventDisplay] = useState(false);
+  const [dataIsPresent, setDataIsPresent] = useState(false);
+  const [color, setColor] = useState("");
   let dates = {};
   let i;
 
-  useEffect(()=>{
+  useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/Calendar/`
-        );
+        const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
         setCalendarData(res.data);
-        for(i=0;i<res.data.length;i++){
-          fromDateVar[i]=moment(res.data[i].startdate).format("YYYY-MM-DD");
+        for (i = 0; i < res.data.length; i++) {
+          fromDateVar[i] = moment(res.data[i].startdate).format("YYYY-MM-DD");
         }
         //console.log(fromDateVar)
       } catch (error) {
@@ -143,94 +139,119 @@ const CalenderScreen = () => {
       }
     }
     fetchData();
-  },[calendarData]);
+  }, [calendarData]);
 
   fromDateVar.forEach((val) => {
     dates[val] = {
       startingDay: false,
-      color: '#89CFF0',
+      color: "#89CFF0",
       // marked: false
     };
   });
-  
-  function showEvent(day){
+
+  function showEvent(day) {
     setEventDisplay(true);
     // console.log(day.dateString)
-    const filteredData = calendarData.filter((data) =>moment(data.startdate).format("YYYY-MM-DD") == day.dateString);
-    if(filteredData){
+    const filteredData = calendarData.filter(
+      (data) => moment(data.startdate).format("YYYY-MM-DD") == day.dateString
+    );
+    if (filteredData) {
       setDataIsPresent(true);
-      filteredDataVar=filteredData;
-    }else{
+      filteredDataVar = filteredData;
+    } else {
       setDataIsPresent(false);
-      Alert.alert(
-        "Data not found!",
-        "No events are found for this date",
-        [
-          { text: "OK", onPress: () => {return;}}
-        ]
-      );
-  
+      Alert.alert("Data not found!", "No events are found for this date", [
+        {
+          text: "OK",
+          onPress: () => {
+            return;
+          },
+        },
+      ]);
     }
   }
 
-return (
-  <>
-    <Calendar
-      markedDates={dates}
-      markingType={'period'}
-      onDayPress={day => {showEvent(day)}}
-      theme={{
-        textDayFontSize: 16,
-        textMonthFontSize: 16,
-        textDayHeaderFontSize: 16
-      }}
-      
-    />
-    <ScrollView>
-    {filteredDataVar &&
-      filteredDataVar.map((data, key) => (
-        <>
-          <View style={styles.space} />
-          <Card style={styles.cardStyle} key={data.id}>
-            <Card.Content>
-              <View style={styles.cardView}>
-                <View style={{flex:1}}>
-                  <Text style={[styles.textStyle,{fontWeight:'bold',textDecorationLine:'underline'}]}>Description</Text>
-                  <Text style={styles.textStyle}>{data.description}</Text>
-                </View>
-                <View style={{flex:1,left:30}}>
-                  <Text style={[styles.textStyle,{fontWeight:'bold',textDecorationLine:'underline'}]}>Event end date</Text>
-                  <Text style={[styles.textStyle]}>{ moment(data.enddate).format("DD-MM-YYYY")}</Text>
-                </View>
-              </View>
-            </Card.Content>
-          </Card>
-        </>
-    ))}
-    </ScrollView>
-  </>
+  return (
+    <>
+      <Calendar
+        markedDates={dates}
+        markingType={"period"}
+        onDayPress={(day) => {
+          showEvent(day);
+        }}
+        theme={{
+          textDayFontSize: 16,
+          textMonthFontSize: 16,
+          textDayHeaderFontSize: 16,
+        }}
+      />
+      <ScrollView>
+        {filteredDataVar &&
+          filteredDataVar.map((data, key) => (
+            <>
+              <View style={styles.space} key={key} />
+              <Card style={styles.cardStyle} key={data.id}>
+                <Card.Content>
+                  <View style={styles.cardView}>
+                    <View style={{ flex: 1 }}>
+                      <Text
+                        style={[
+                          styles.textStyle,
+                          {
+                            fontWeight: "bold",
+                            textDecorationLine: "underline",
+                          },
+                        ]}
+                      >
+                        Description
+                      </Text>
+                      <Text style={styles.textStyle}>{data.description}</Text>
+                    </View>
+                    <View style={{ flex: 1, left: 30 }}>
+                      <Text
+                        style={[
+                          styles.textStyle,
+                          {
+                            fontWeight: "bold",
+                            textDecorationLine: "underline",
+                          },
+                        ]}
+                      >
+                        Event end date
+                      </Text>
+                      <Text style={[styles.textStyle]}>
+                        {moment(data.enddate).format("DD-MM-YYYY")}
+                      </Text>
+                    </View>
+                  </View>
+                </Card.Content>
+              </Card>
+            </>
+          ))}
+      </ScrollView>
+    </>
   );
 };
 
 export default CalenderScreen;
 
-const styles=StyleSheet.create({
-  cardStyle:{
-    top:10,
-    marginLeft:10,
-    marginRight:10,
-    borderRadius:20,
-    marginBottom:15
+const styles = StyleSheet.create({
+  cardStyle: {
+    top: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    borderRadius: 20,
+    marginBottom: 15,
   },
-  cardView:{
-    flexDirection:'row',
+  cardView: {
+    flexDirection: "row",
   },
   space: {
     width: 20,
     height: 20,
   },
-  textStyle:{
+  textStyle: {
     fontFamily: "HindRegular",
-    fontSize:20
-  }
-})
+    fontSize: 20,
+  },
+});

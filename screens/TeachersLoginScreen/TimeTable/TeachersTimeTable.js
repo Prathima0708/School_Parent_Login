@@ -702,8 +702,16 @@ const TeachersTimetable = () => {
     setThursday(filteredDummuyData.thursday);
     setFriday(filteredDummuyData.friday);
     setSaturday(filteredDummuyData.saturday);
-    setForTimeTableList({ fontWeight: "bold", color: "black" });
-    setForExamTimeTable({ color: "black" });
+    setForTimeTableList({
+      backgroundColor: "#0C60F4",
+      color: "white",
+      borderRadius: 10,
+    });
+    setForExamTimeTable({
+      color: "black",
+      backgroundColor: "#F4F6F6",
+      borderRadius: 10,
+    });
     setShowTable(true);
     setShowTimeTableList(false);
   }
@@ -1195,7 +1203,14 @@ const TeachersTimetable = () => {
                           blur={mondayTextBlur}
                         />
                         {mondayInputIsInValid && (
-                          <Text style={{ color: "red", left: 20 }}>
+                          <Text
+                            style={{
+                              color: "red",
+                              left: 20,
+                              fontFamily: "HindRegular",
+                              fontSize: 18,
+                            }}
+                          >
                             Enter monday subject
                           </Text>
                         )}
@@ -1223,7 +1238,14 @@ const TeachersTimetable = () => {
                           }
                         />
                         {tuesdayInputIsInValid && (
-                          <Text style={{ color: "red", left: 20 }}>
+                          <Text
+                            style={{
+                              color: "red",
+                              left: 20,
+                              fontFamily: "HindRegular",
+                              fontSize: 18,
+                            }}
+                          >
                             Enter tuesday subject
                           </Text>
                         )}
@@ -1247,7 +1269,10 @@ const TeachersTimetable = () => {
                           blur={wednesdayTextBlur}
                         />
                         {wednesdayInputIsInValid && (
-                          <Text style={{ color: "red", left: 20 }}>
+                          <Text style={{  color: "red",
+                          left: 20,
+                          fontFamily: "HindRegular",
+                          fontSize: 18, }}>
                             Enter wednesday subject
                           </Text>
                         )}
@@ -1268,7 +1293,10 @@ const TeachersTimetable = () => {
                           blur={thursdayTextBlur}
                         />
                         {thursdayInputIsInValid && (
-                          <Text style={{ color: "red", left: 20 }}>
+                          <Text style={{  color: "red",
+                          left: 20,
+                          fontFamily: "HindRegular",
+                          fontSize: 18, }}>
                             Enter thursday subject
                           </Text>
                         )}
@@ -1289,7 +1317,10 @@ const TeachersTimetable = () => {
                           blur={fridayTextBlur}
                         />
                         {fridayInputIsInValid && (
-                          <Text style={{ color: "red", left: 20 }}>
+                          <Text style={{  color: "red",
+                          left: 20,
+                          fontFamily: "HindRegular",
+                          fontSize: 18, }}>
                             Enter friday subject
                           </Text>
                         )}
@@ -1310,7 +1341,10 @@ const TeachersTimetable = () => {
                           }
                         />
                         {saturdayInputIsInValid && (
-                          <Text style={{ color: "red", left: 20 }}>
+                          <Text style={{  color: "red",
+                          left: 20,
+                          fontFamily: "HindRegular",
+                          fontSize: 18, }}>
                             Enter saturday subject
                           </Text>
                         )}
@@ -1427,7 +1461,7 @@ const styles = StyleSheet.create({
   btnSubmit: {
     flexDirection: "row",
     marginTop: 27,
-marginRight:10,
+    marginRight: 10,
     marginBottom: 19,
   },
   btnSubmit1: {

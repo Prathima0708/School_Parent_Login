@@ -68,6 +68,9 @@ const TeachersLoginScreen = ({ navigation }) => {
       if (itemData.item.id === "c5") {
         navigation.navigate("TeachersLeave");
       }
+      if (itemData.item.id === "c6") {
+        navigation.navigate("TeachersProfile");
+      }
     }
     return (
       <TeachersCategoryGridTile

@@ -369,7 +369,7 @@ const TeachersHomework = () => {
       let class_name = selectedData[0];
       let section = selectedData[1];
       let uploaduri = image;
-      let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
+      // let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
       const formdata = {
         class_name: class_name,
         section: section,
@@ -749,18 +749,22 @@ const TeachersHomework = () => {
       {showForm && (
         <ScrollView style={styles.root}>
           <View style={styles.inputForm}>
-            {!isEdit && <View >
-              <SelectList
-                setSelected={setSelected}
-                data={data}
-                placeholder="Select class"
-                boxStyles={selectInputIsInValid && styles.errorSelectedColor}
-                // boxStyles={{ borderRadius: 0 }}
-                dropdownTextStyles={{ fontSize: 18, fontFamily: "HindRegular" }}
-                inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-              />
-            </View>
-}
+            {!isEdit && (
+              <View>
+                <SelectList
+                  setSelected={setSelected}
+                  data={data}
+                  placeholder="Select class"
+                  boxStyles={selectInputIsInValid && styles.errorSelectedColor}
+                  // boxStyles={{ borderRadius: 0 }}
+                  dropdownTextStyles={{
+                    fontSize: 18,
+                    fontFamily: "HindRegular",
+                  }}
+                  inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                />
+              </View>
+            )}
             <Input
               onChangeText={subjectChangeHandler}
               value={subject}

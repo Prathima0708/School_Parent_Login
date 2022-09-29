@@ -84,6 +84,7 @@ import TeachersLeave from "./screens/TeachersLoginScreen/TeachersLeave";
 import TeachersHome from "./screens/TeachersLoginScreen/TeachersHome";
 import TeachersMarksheet from "./screens/TeachersLoginScreen/TeachersMarksheet";
 import LandingScreen from "./screens/LandingScreen";
+import TeachersProfile from "./screens/TeachersLoginScreen/TeachersProfile";
 
 // function Bottom() {
 //   return (
@@ -201,6 +202,7 @@ export default function App() {
           />
 
           <Stack.Screen name="TeachersHomework" component={TeachersHomework} />
+          <Stack.Screen name="TeachersProfile" component={TeachersProfile} />
           {/* <Stack.Screen
               name="TeachersOverview"
               component={TeachersOverviewScreen}

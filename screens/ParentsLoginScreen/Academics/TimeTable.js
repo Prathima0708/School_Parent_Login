@@ -14,6 +14,7 @@ import {
   className,
   Section,
 } from "../../../components/StudentItem/StudentItem";
+import moment from "moment";
 
 const TimeTable = () => {
   const [showForm, setShowForm] = useState(false);
@@ -25,10 +26,15 @@ const TimeTable = () => {
 
   const [timeTable, setTimeTable] = useState();
   const [forTimeTableList, setForTimeTableList] = useState({
-    color: "black",
-    fontWeight: "bold",
+    color: "white",
+    backgroundColor: "#0C60F4",
+    borderRadius: 10,
   });
-  const [forExamTimeTable, setForExamTimeTable] = useState({ color: "black" });
+  const [forExamTimeTable, setForExamTimeTable] = useState({
+    color: "black",
+    backgroundColor: "#F4F6F6",
+    borderRadius: 10,
+  });
 
   useEffect(() => {
     async function fetchData() {
@@ -46,8 +52,16 @@ const TimeTable = () => {
     fetchData();
   }, []);
   async function viewExam() {
-    setForExamTimeTable({ fontWeight: "bold", color: "black" });
-    setForTimeTableList({ color: "black" });
+    setForExamTimeTable({
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
+    });
+    setForTimeTableList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
     setShowTable(false);
     setShowForm(true);
     try {
@@ -62,8 +76,16 @@ const TimeTable = () => {
     }
   }
   async function timeTableList() {
-    setForTimeTableList({ fontWeight: "bold", color: "black" });
-    setForExamTimeTable({ color: "black" });
+    setForTimeTableList({
+      backgroundColor: "#0C60F4",
+      color: "white",
+      borderRadius: 10,
+    });
+    setForExamTimeTable({
+      color: "black",
+      backgroundColor: "#F4F6F6",
+      borderRadius: 10,
+    });
     setShowForm(false);
     setShowTable(true);
 
@@ -83,11 +105,11 @@ const TimeTable = () => {
     <>
       <View style={styles.BtnContainer}>
         <BgButton onPress={timeTableList} style={forTimeTableList}>
-          TimeTable List
+          Daily
         </BgButton>
-        <VerticalLine>|</VerticalLine>
+
         <BgButton onPress={viewExam} style={forExamTimeTable}>
-          View Exam TimeTable
+          Exam
         </BgButton>
       </View>
       {showTable && (
@@ -106,48 +128,99 @@ const TimeTable = () => {
             <DataTable style={styles.container}>
               <DataTable.Header style={styles.tableHeader}>
                 <View style={styles.th}>
-                  <Text style={styles.tableTitle}> MONDAY</Text>
+                  <Text style={styles.tableTitle}> TIMINGS</Text>
                 </View>
 
                 <View style={styles.th}>
-                  <Text style={styles.tableTitle}> TUESDAY</Text>
+                  <Text style={styles.tableTitle}> MON</Text>
                 </View>
 
                 <View style={styles.th}>
-                  <Text style={styles.tableTitle}> WEDNESDAY</Text>
+                  <Text style={styles.tableTitle}> TUE</Text>
                 </View>
 
                 <View style={styles.th}>
-                  <Text style={styles.tableTitle}>THURSDAY</Text>
+                  <Text style={styles.tableTitle}> WED</Text>
                 </View>
 
                 <View style={styles.th}>
-                  <Text style={styles.tableTitle}> FRIDAY</Text>
+                  <Text style={styles.tableTitle}>THUR</Text>
                 </View>
 
                 <View style={styles.th}>
-                  <Text style={styles.tableTitle}> SATURDAY</Text>
+                  <Text style={styles.tableTitle}> FRI</Text>
+                </View>
+
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}> SAT</Text>
                 </View>
               </DataTable.Header>
               {timeTable &&
                 timeTable.map((data, key) => (
                   <DataTable.Row style={styles.tableRow} key={key}>
-                    <DataTable.Cell style={styles.tableCell}>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 10,
+                      }}
+                    >
+                      {moment(data.from_time, "HH:mm").format("hh:mm ")} {"-"}{" "}
+                      {""}
+                      {moment(data.to_time, "HH:mm").format("hh:mm ")}
+                    </DataTable.Cell>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 5,
+                      }}
+                    >
                       {data.monday}
                     </DataTable.Cell>
-                    <DataTable.Cell style={styles.tableCell}>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 10,
+                      }}
+                    >
                       {data.Tuesday}
                     </DataTable.Cell>
-                    <DataTable.Cell style={styles.tableCell}>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 10,
+                      }}
+                    >
                       {data.wednesday}
                     </DataTable.Cell>
-                    <DataTable.Cell style={styles.tableCell}>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 10,
+                      }}
+                    >
                       {data.thursday}
                     </DataTable.Cell>
-                    <DataTable.Cell style={styles.tableCell}>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 10,
+                      }}
+                    >
                       {data.friday}
                     </DataTable.Cell>
-                    <DataTable.Cell style={styles.tableCell}>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 25,
+                      }}
+                    >
                       {data.saturday}
                     </DataTable.Cell>
                   </DataTable.Row>
@@ -184,23 +257,59 @@ const TimeTable = () => {
             </DataTable.Header>
             {examData &&
               examData.map((data, key) => (
-                <DataTable.Row style={styles.tableRow}>
-                  <DataTable.Cell style={styles.tableCell}>
+                <DataTable.Row style={styles.tableRow} key={key}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 10,
+                    }}
+                  >
                     {data.exam_name}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
-                    {data.start_date}
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 10,
+                    }}
+                  >
+                    {moment(data.startdate).format("DD/MM/YYYY")}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
-                    {data.end_date}
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 5,
+                    }}
+                  >
+                    {moment(data.end_date).format("DD/MM/YYYY")}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 10,
+                    }}
+                  >
                     {data.Total_marks}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 60,
+                    }}
+                  >
                     {data.hour}
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 30,
+                    }}
+                  >
                     {data.class_name}
                   </DataTable.Cell>
                 </DataTable.Row>
@@ -219,7 +328,7 @@ export default TimeTable;
 const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
-    width: 220,
+    width: "50%",
   },
   studentItem: {
     width: "90%",
@@ -230,7 +339,7 @@ const styles = StyleSheet.create({
     // paddingTop: 0,
     paddingBottom: 9,
     flexDirection: "row",
-    backgroundColor: "skyblue",
+    // backgroundColor: "skyblue",
     borderRadius: 10,
     justifyContent: "space-between",
   },
@@ -239,10 +348,10 @@ const styles = StyleSheet.create({
     //textAlign: "center",
   },
   description: {
-    fontSize: 16,
+    fontSize: 20,
 
     marginBottom: 4,
-    fontWeight: "bold",
+    fontFamily: "HindRegular",
   },
   imageContainer: {
     paddingHorizontal: 12,
@@ -277,8 +386,8 @@ const styles = StyleSheet.create({
   },
   tableTitle: {
     margin: 7,
-    fontFamily: "MonsterratBold",
-    fontSize: 16,
+    fontFamily: "HindSemiBold",
+    fontSize: 20,
   },
   tableCell: {
     width: 20,

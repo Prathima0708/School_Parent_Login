@@ -13,7 +13,7 @@ const TeachersHome = () => {
         color="black"
         onPress={() => navigation.navigate("TeachersLogin")}
       />
-      <Ionicons name="globe-outline" size={34} color="black" />
+      <Ionicons name="person" size={34} color="black" />
     </View>
   );
 };

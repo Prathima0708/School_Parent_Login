@@ -40,10 +40,15 @@ const LeaveScreen = () => {
     !enteredLeaveReasonIsValid && enteredLeaveReasonTouched;
 
   const [forLeaveList, setForLeaveList] = useState({
-    color: "black",
-    fontWeight: "bold",
+    color: "white",
+    backgroundColor: "#0C60F4",
+    borderRadius: 10,
   });
-  const [forLeaveForm, setForLeaveForm] = useState({ color: "black" });
+  const [forLeaveForm, setForLeaveForm] = useState({
+    color: "black",
+    backgroundColor: "#F4F6F6",
+    borderRadius: 10,
+  });
   const [showForm, setShowForm] = useState(false);
   const [showList, setShowList] = useState(true);
   // const [data, setData] = useState();
@@ -175,14 +180,30 @@ const LeaveScreen = () => {
   }
 
   function LeaveList() {
-    setForLeaveList({ fontWeight: "bold", color: "black" });
-    setForLeaveForm({ color: "black" });
+    setForLeaveList({
+      backgroundColor: "#0C60F4",
+      color: "white",
+      borderRadius: 10,
+    });
+    setForLeaveForm({
+      color: "black",
+      backgroundColor: "#F4F6F6",
+      borderRadius: 10,
+    });
     setShowForm(false);
     setShowList(true);
   }
   function addLeave() {
-    setForLeaveForm({ fontWeight: "bold", color: "black" });
-    setForLeaveList({ color: "black" });
+    setForLeaveForm({
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
+    });
+    setForLeaveList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
     setShowForm(true);
     setShowList(false);
   }
@@ -289,10 +310,15 @@ const LeaveScreen = () => {
   function buttonPressedHandler() {
     const FormData = {
       student_reg_number: regno,
+      user_num: 0,
+      user_role: "",
+      username: "",
+      email: "",
       leave_type: leaveType,
       leave_form: fromDate,
       leave_to: toDate,
       leave_reason: leaveReason,
+      leave_status: "",
     };
     console.log(FormData);
 
@@ -386,7 +412,7 @@ const LeaveScreen = () => {
     }
   }
   function stdregnoBlurHandler() {
-    setEnteredLeaveTypeTouched(true);
+    setEnteredRegNoTouched(true);
   }
   function leavetypeBlurHandler() {
     setEnteredLeaveTypeTouched(true);
@@ -446,7 +472,7 @@ const LeaveScreen = () => {
         <BgButton onPress={LeaveList} style={forLeaveList}>
           Leave List
         </BgButton>
-        <VerticalLine>|</VerticalLine>
+
         <BgButton onPress={addLeave} style={forLeaveForm}>
           Apply Leave
         </BgButton>
@@ -551,7 +577,14 @@ const LeaveScreen = () => {
               style={regnoInputIsInValid && styles.errorBorderColor}
             />
             {regnoInputIsInValid && (
-              <Text style={{ color: "red", left: 20 }}>
+              <Text
+                style={{
+                  color: "red",
+                  left: 20,
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+              >
                 Enter student registration number
               </Text>
             )}
@@ -565,7 +598,16 @@ const LeaveScreen = () => {
               style={leavetypeInputIsInValid && styles.errorBorderColor}
             />
             {leavetypeInputIsInValid && (
-              <Text style={{ color: "red", left: 20 }}>Enter the type</Text>
+              <Text
+                style={{
+                  color: "red",
+                  left: 20,
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+              >
+                Enter leave type
+              </Text>
             )}
             <View style={[{ flexDirection: "row" }]}>
               <View style={{ flex: 1 }}>
@@ -598,9 +640,17 @@ const LeaveScreen = () => {
                   style={fromDateInputIsInValid && styles.errorBorderColor}
                   blur={fromDateBlurHandler}
                   onChangeText={leaveFromChangeHandler}
+                  onPressIn={() => showFromMode("date")}
                 />
                 {fromDateInputIsInValid && (
-                  <Text style={{ color: "red", left: 20 }}>
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
                     Enter leave from
                   </Text>
                 )}
@@ -626,9 +676,19 @@ const LeaveScreen = () => {
                   style={toDateInputIsInValid && styles.errorBorderColor}
                   blur={toDateBlurHandler}
                   onChangeText={leaveToChangeHandler}
+                  onPressIn={() => showToMode("date")}
                 />
                 {toDateInputIsInValid && (
-                  <Text style={{ color: "red", left: 20 }}>Enter leave to</Text>
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
+                    Enter leave to
+                  </Text>
                 )}
                 {toShow && (
                   <DateTimePicker
@@ -652,7 +712,16 @@ const LeaveScreen = () => {
               style={leavereasonInputIsInValid && styles.errorBorderColor}
             />
             {leavereasonInputIsInValid && (
-              <Text style={{ color: "red", left: 20 }}>Enter leave reason</Text>
+              <Text
+                style={{
+                  color: "red",
+                  left: 20,
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+              >
+                Enter leave reason
+              </Text>
             )}
             {!isEdit && (
               <View style={styles.btnSubmit}>
@@ -677,7 +746,7 @@ export default LeaveScreen;
 const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
-    width: 220,
+    width: "50%",
   },
   container: {
     padding: 10,
@@ -698,7 +767,7 @@ const styles = StyleSheet.create({
   },
   tableTitle: {
     margin: 7,
-    fontFamily: "MonsterratBold",
+    fontFamily: "HindRegular",
     fontSize: 16,
   },
   tableCell: {
@@ -768,8 +837,8 @@ const styles = StyleSheet.create({
   tableTitle: {
     // padding: 5,
     margin: 7,
-    fontFamily: "MonsterratBold",
-    fontSize: 16,
+    fontFamily: "HindSemiBold",
+    fontSize: 18,
   },
   tableCell: {
     width: 40,
