@@ -1117,7 +1117,7 @@ import { StyleSheet } from "react-native";
 import AccountTypeBtn from "../components/UI/AccountTypeBtn";
 import { Dimensions } from "react-native";
 
-export var Token, UserId, LoginResponse;
+export var Token, UserId, LoginResponse, Teacher, TeacherEmail;
 function Login() {
   // const [fontsLoaded] = useFonts({
   //   Roboto: require("../assets/fonts/Roboto-Black.ttf"),
@@ -1179,6 +1179,7 @@ function Login() {
         "Content-Type": "application/json; charset=utf-8",
       };
       const user = { username: enteredUser, password: enteredPassword };
+      Teacher = user.username;
       const resLogin = await axios.post(
         "http://10.0.2.2:8000/school/api-token-auth/",
         user,
@@ -1190,13 +1191,14 @@ function Login() {
       // LoginResponse = resLogin;
       const token = resLogin.data.token;
       const userId = resLogin.data.user_id;
-
+      TeacherEmail = resLogin.data.email;
       Token = token;
       UserId = userId;
       // setAuthToken(token);
       // AsyncStorage.setItem("token", token);
       // const tokenValue=AsyncStorage.getItem("token", token);
       // console.log(tokenValue)
+      // console.log(resLogin);
       console.log(resLogin.data);
       console.log(resLogin.data.groups);
 

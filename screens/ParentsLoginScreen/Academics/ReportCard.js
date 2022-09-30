@@ -1,7 +1,7 @@
 import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Col, Row, Grid } from "react-native-easy-grid";
-import { Card, DataTable } from "react-native-paper";
+import { Card, DataTable, Paragraph, Title } from "react-native-paper";
 
 import axios from "axios";
 import BgButton from "../../../components/UI/BgButton";
@@ -41,10 +41,13 @@ const ReportCard = () => {
       <View style={{ height: "100%", marginTop: 20 }}>
         <View style={styles.studentItem}>
           <Text style={[styles.textBase, styles.description]}>
-            Student Name: {StudentName}
+            Name : {StudentName}
           </Text>
           <Text style={[styles.textBase, styles.description]}>
-            Student Class: {className}
+            Class: {className}
+          </Text>
+          <Text style={[styles.textBase, styles.description]}>
+            RegNo: {StudentRegNo}
           </Text>
         </View>
 
@@ -145,13 +148,13 @@ const ReportCard = () => {
         </ScrollView> */}
 
         <ScrollView>
-          <ScrollView>
+          <ScrollView horizontal={true}>
             {data &&
               data.map((data, key) => (
                 <>
                   <View style={styles.space} key={key} />
 
-                  <Card style={styles.cardStyle} key={data.id}>
+                  <Card style={styles.cardStyle}>
                     <Card.Title title="Subjects" />
 
                     <Card.Content>
@@ -173,41 +176,44 @@ const ReportCard = () => {
                             top: -50,
                           }}
                         >
-                          <Card.Title title=" Marks" />
+                          <Card.Title
+                            title="Max Marks"
+                            style={{ fontSize: 10 }}
+                          />
 
-                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
-                            {data.maths_obt_mark}
-                          </Text>
-
-                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
-                            {data.english_obt_mark}
-                          </Text>
-                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
-                            {data.science_obt_mark}
-                          </Text>
-                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
-                            {data.hindi_obt_mark}
+                          <Text style={[styles.textStyle, { marginLeft: 30 }]}>
+                            {data.maths_tot_mark}
                           </Text>
 
-                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
-                            {data.social_obt_mark}
+                          <Text style={[styles.textStyle, { marginLeft: 30 }]}>
+                            {data.english_tot_mark}
                           </Text>
-                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
-                            {data.kannada_obt_mark}
+                          <Text style={[styles.textStyle, { marginLeft: 30 }]}>
+                            {data.science_tot_mark}
                           </Text>
-                          <Text style={[styles.textStyle, { marginLeft: 20 }]}>
-                            {data.computer_obt_mark}
+                          <Text style={[styles.textStyle, { marginLeft: 30 }]}>
+                            {data.hindi_tot_mark}
+                          </Text>
+
+                          <Text style={[styles.textStyle, { marginLeft: 30 }]}>
+                            {data.social_tot_mark}
+                          </Text>
+                          <Text style={[styles.textStyle, { marginLeft: 30 }]}>
+                            {data.kannada_tot_mark}
+                          </Text>
+                          <Text style={[styles.textStyle, { marginLeft: 30 }]}>
+                            {data.computer_tot_mark}
                           </Text>
                         </View>
 
                         <View
                           style={{
                             flex: 1,
-                            left: -30,
+                            left: -10,
                             top: -50,
                           }}
                         >
-                          <Card.Title title="Total Marks" />
+                          <Card.Title title=" Marks" />
 
                           <Text style={[styles.textStyle, { marginLeft: 20 }]}>
                             {data.maths_obt_mark}
@@ -342,7 +348,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 35,
     padding: 19,
     marginVertical: 8,
-
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "#23215b",
 
     borderRadius: 16,
@@ -350,18 +357,25 @@ const styles = StyleSheet.create({
   textBase: {
     color: "#0D98BA",
     fontFamily: "HindRegular",
-    // marginRight: 33,
+
+    marginRight: 33,
   },
   description: {
     fontSize: 20,
+
     fontFamily: "HindRegular",
     marginBottom: 4,
+    marginRight: 33,
+    alignItems: "center",
+    justifyContent: "center",
     // fontWeight: "bold",
   },
 
   cardStyle: {
+    width: "100%",
+    height: "80%",
     top: 10,
-    marginLeft: 20,
+    //marginLeft: 20,
     marginRight: 20,
     borderRadius: 10,
     marginBottom: 75,

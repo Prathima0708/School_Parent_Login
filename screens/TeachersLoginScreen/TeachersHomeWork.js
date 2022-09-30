@@ -169,14 +169,17 @@ const TeachersHomework = () => {
     };
   }, []);
 
-  useEffect(async () => {
-    if (Platform.OS !== "web") {
-      const { status } =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== "granted") {
-        alert("Permission denied!");
+  useEffect(() => {
+    async function imageHandler() {
+      if (Platform.OS !== "web") {
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== "granted") {
+          alert("Permission denied!");
+        }
       }
     }
+    imageHandler();
   }, []);
 
   function frmDateHandler(enteredValue) {
@@ -213,20 +216,23 @@ const TeachersHomework = () => {
   }
 
   useEffect(() => {
-    axios
-      .get("http://10.0.2.2:8000/school/Studentclass/")
-      .then((response) => {
-        let newArray = response.data.map((item) => {
-          return {
-            value: item.class_name + " - " + item.section,
-          };
-        });
+    async function fetchStudentClass() {
+      axios
+        .get("http://10.0.2.2:8000/school/Studentclass/")
+        .then((response) => {
+          let newArray = response.data.map((item) => {
+            return {
+              value: item.class_name + " - " + item.section,
+            };
+          });
 
-        setData(newArray);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+          setData(newArray);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    fetchStudentClass();
   }, []);
 
   const showFromMode = (currentFromMode) => {

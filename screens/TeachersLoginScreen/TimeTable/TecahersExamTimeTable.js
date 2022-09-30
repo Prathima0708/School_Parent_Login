@@ -488,7 +488,7 @@ const TecahersExamTimeTable = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 40,
+                      marginLeft: 30,
                     }}
                   >
                     {moment(data.start_date).format("DD/MM/YYYY")}
@@ -506,7 +506,7 @@ const TecahersExamTimeTable = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 40,
+                      marginLeft: 90,
                     }}
                   >
                     {data.Total_marks}
@@ -515,7 +515,7 @@ const TecahersExamTimeTable = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 40,
+                      marginLeft: 50,
                     }}
                   >
                     {data.hour}
@@ -524,7 +524,7 @@ const TecahersExamTimeTable = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 40,
+                      marginLeft: 60,
                     }}
                   >
                     {data.class_name}
@@ -534,7 +534,7 @@ const TecahersExamTimeTable = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 110,
+                      marginLeft: 140,
                     }}
                   >
                     <Ionicons
@@ -548,7 +548,7 @@ const TecahersExamTimeTable = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      //marginLeft: 15,
+                      marginLeft: 6,
                     }}
                   >
                     <Ionicons

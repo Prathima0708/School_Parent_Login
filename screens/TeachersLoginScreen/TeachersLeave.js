@@ -503,7 +503,7 @@ const TeachersLeave = () => {
         <ScrollView>
           <View style={styles.inputForm}>
             <Input
-              placeholder="LEAVE TYPE"
+              placeholder="Leave Type"
               onChangeText={leaveTypeChangeHandler}
               blur={leavetypeBlurHandler}
               value={leaveType}
@@ -516,7 +516,7 @@ const TeachersLeave = () => {
             <Input
               onChangeText={leaveReasonChangeHandler}
               blur={leavereasonBlurHandler}
-              placeholder="LEAVE REASON"
+              placeholder="Leave Reason"
               value={leaveReason}
               onSubmitEditing={Keyboard.dismiss}
               style={leavereasonInputIsInValid && styles.errorBorderColor}
@@ -541,11 +541,12 @@ const TeachersLeave = () => {
                 </View>
                 <Input
                   value={fromText || fromDate}
-                  placeholder="DD/MM/YYYY"
+                  placeholder="Leave from"
                   onSubmitEditing={Keyboard.dismiss}
                   style={fromDateInputIsInValid && styles.errorBorderColor}
                   blur={fromDateBlurHandler}
                   onChangeText={frmDateHandler}
+                  onPressIn={() => showFromMode("date")}
                 />
                 {fromDateInputIsInValid && (
                   <Text style={{ color: "red", left: 20 }}>
@@ -579,11 +580,12 @@ const TeachersLeave = () => {
                 </View>
                 <Input
                   value={toText || toDate}
-                  placeholder="LEAVE TO:"
+                  placeholder="Leave to:"
                   onSubmitEditing={Keyboard.dismiss}
                   style={toDateInputIsInValid && styles.errorBorderColor}
                   blur={toDateBlurHandler}
                   onChangeText={toDateHandler}
+                  onPressIn={() => showToMode("date")}
                 />
                 {toDateInputIsInValid && (
                   <Text style={{ color: "red", left: 20 }}>Enter to</Text>

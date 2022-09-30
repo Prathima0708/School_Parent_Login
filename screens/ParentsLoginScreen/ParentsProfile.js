@@ -12,7 +12,7 @@ import {
 } from "react-native-paper";
 import { Teacher, TeacherEmail } from "../Login";
 
-const TeachersProfile = () => {
+const ParentsProfile = () => {
   const navigation = useNavigation();
   async function logoutHandler() {
     try {
@@ -174,7 +174,7 @@ const TeachersProfile = () => {
   );
 };
 
-export default TeachersProfile;
+export default ParentsProfile;
 
 const styles = StyleSheet.create({
   container: {
