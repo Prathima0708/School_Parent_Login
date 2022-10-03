@@ -84,7 +84,8 @@ import TeachersLeave from "./screens/TeachersLoginScreen/TeachersLeave";
 import TeachersHome from "./screens/TeachersLoginScreen/TeachersHome";
 import TeachersMarksheet from "./screens/TeachersLoginScreen/TeachersMarksheet";
 import LandingScreen from "./screens/LandingScreen";
-
+import { StatusBar } from "react-native";
+export var teacherGroup,parentGroup;
 // function Bottom() {
 //   return (
 //     <Tab.Navigator>
@@ -118,6 +119,8 @@ export default function App() {
   useEffect(() => {
     async function getToken() {
       const value = await AsyncStorage.getItem("token");
+      teacherGroup = await AsyncStorage.getItem("datagroupTeacher");
+      parentGroup = await AsyncStorage.getItem("datagroupParent");
       if (value !== null) {
         setTokenIsPresent(true);
       } else {
@@ -126,7 +129,7 @@ export default function App() {
     }
     getToken();
   }, []);
-
+  
   // const [fontsLoaded] = useFonts({
   //   'Inter-SemiBoldItalic': 'https://rsms.me/inter/font-files/Inter-SemiBoldItalic.otf?v=3.12',
   // });
@@ -135,9 +138,40 @@ export default function App() {
     return null;
   }
 
-  return (
+  // function Navigation(){
+  //   return(
+  //     <NavigationContainer>
+  //       {!tokenIsPresent && <AuthStack />}
+  //       {tokenIsPresent && <AuthenticatedStack />}
+  //     </NavigationContainer>
+  //   )
+  // }
+  // function AuthStack(){
+  //   return(
+  //     <Stack.Navigator>
+  //       <Stack.Screen
+  //         name="LandingScreen"
+  //         component={LandingScreen}
+  //         options={{ title: "WelcomeScreen" }}
+  //       />
+  //       <Stack.Screen
+  //         name="Login"
+  //         component={Login}
+  //         options={{ title: "Kinara" }}
+  //       /> 
+  //     </Stack.Navigator>
+  //   )
+  // }
+  // function AuthenticatedStack(){
+  //   return(
+  //     <Stack.Navigator>
+  //       <Stack.Screen name="TeachersLogin" component={TeachersLoginScreen} /> 
+  //     </Stack.Navigator>
+  //   )
+  // }
+    return (
     <>
-      {/* <Login /> */}
+      {/* <Navigation /> */}
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen

@@ -15,7 +15,7 @@
 //     // title,
 //     // and other options
 //   };
-
+  
 //   AddCalendarEvent.presentEventCreatingDialog(eventConfig)
 //   const [items, setItems] = useState({});
 //   useEffect(() => {
@@ -83,17 +83,6 @@
 
 // export default CalenderScreen;
 
-// .then((eventInfo: { calendarItemIdentifier: string, eventIdentifier: string }) => {
-//   // handle success - receives an object with `calendarItemIdentifier` and `eventIdentifier` keys, both of type string.
-//   // These are two different identifiers on iOS.
-//   // On Android, where they are both equal and represent the event id, also strings.
-//   // when { action: 'CANCELED' } is returned, the dialog was dismissed
-//   console.warn(JSON.stringify(eventInfo));
-// })
-// .catch((error: string) => {
-//   // handle error such as when user rejected permissions
-//   console.warn(error);
-// });
 
 
   // .then((eventInfo: { calendarItemIdentifier: string, eventIdentifier: string }) => {
@@ -116,7 +105,7 @@ import { Calendar } from "react-native-calendars";
 import { StyleSheet,View,Text, Alert } from "react-native";
 import { FlatList } from "react-native";
 import { ScrollView } from "react-native";
-export var fromDateVar=[];
+export var fromDateVar=[],toDateVar=[],fromatedDate=[];
 export var filteredDataVar;
 const CalenderScreen = () => {
   
@@ -137,7 +126,6 @@ const CalenderScreen = () => {
         for(i=0;i<res.data.length;i++){
           fromDateVar[i]=moment(res.data[i].startdate).format("YYYY-MM-DD");
         }
-        //console.log(fromDateVar)
       } catch (error) {
         console.log(error);
       }
@@ -145,17 +133,25 @@ const CalenderScreen = () => {
     fetchData();
   },[calendarData]);
 
+  for(i=0;i<calendarData.length;i++){
+    toDateVar[i]=moment(calendarData[i].enddate).format("YYYY-MM-DD");
+  }
+
+  // for(i=0;i<calendarData.length;i++){
+  //   console.log(fromDateVar[i]+','+toDateVar[i]);
+  // }
+
   fromDateVar.forEach((val) => {
     dates[val] = {
-      startingDay: false,
-      color: '#89CFF0',
-      // marked: false
+      // startingDay: false,
+      // color: '#89CFF0',
+      // marked:true,
+      selected:true,
     };
   });
   
   function showEvent(day){
     setEventDisplay(true);
-    // console.log(day.dateString)
     const filteredData = calendarData.filter((data) =>moment(data.startdate).format("YYYY-MM-DD") == day.dateString);
     if(filteredData){
       setDataIsPresent(true);
@@ -173,18 +169,20 @@ const CalenderScreen = () => {
     }
   }
 
+  function testHandler(){
+    console.log('yes')
+  }
 return (
   <>
     <Calendar
       markedDates={dates}
-      markingType={'period'}
+      // markingType={'period'}
       onDayPress={day => {showEvent(day)}}
       theme={{
         textDayFontSize: 16,
         textMonthFontSize: 16,
         textDayHeaderFontSize: 16
-      }}
-      
+      }}      
     />
     <ScrollView>
     {filteredDataVar &&

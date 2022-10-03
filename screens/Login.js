@@ -1204,6 +1204,14 @@ function Login() {
       console.log(resLogin.data);
       console.log(resLogin.data.groups);
 
+      try {
+        await AsyncStorage.setItem("datagroupTeacher", resLogin.data.groups[0]);
+        await AsyncStorage.setItem("datagroupParent", resLogin.data.groups[1]);
+      } catch (error) {
+        // Error saving data
+      }
+
+
       // setStudents(resLogin.data);
 
       // let filteredlist = res.data.filter((ele) => ele.username == enteredPhone);
@@ -1280,6 +1288,12 @@ function Login() {
       borderRightWidth: 0,
     });
 
+    if(enteredUser!= null){
+      setEnteredUser("");
+    }
+    if(enteredPassword!= null){
+      setEnteredPassword("");
+    }
     //navigation.navigate("TeachersLogin");
   }
   function userInputHandler(enteredValue) {
@@ -1308,6 +1322,16 @@ function Login() {
       borderLeftWidth: 0,
       borderRightWidth: 0,
     });
+
+    if(enteredUser!= null){
+      setEnteredUser("");
+    }
+    if(enteredPassword!= null){
+      setEnteredPassword("");
+    }
+    if(enteredPhone!=null){
+      setEnteredPhone("");
+    }
   }
 
   return (
@@ -1411,7 +1435,7 @@ console.log(deviceWidth);
 const styles = StyleSheet.create({
   container: {
     backgroundColor:'white',
-    paddingBottom:deviceWidth < 370 ? 300 : 300
+    paddingBottom:deviceWidth < 370 ? 300 : 350
     // height:"400%"
     // minHeight:'500%'
   },
