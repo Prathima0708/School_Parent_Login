@@ -2,7 +2,14 @@ import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, SafeAreaView, StyleSheet, Alert } from "react-native";
+import { useState } from "react";
+import {
+  View,
+  SafeAreaView,
+  StyleSheet,
+  Alert,
+  Dimensions,
+} from "react-native";
 import {
   Avatar,
   Title,
@@ -10,9 +17,13 @@ import {
   Text,
   TouchableRipple,
 } from "react-native-paper";
+import Button from "../../components/UI/Button";
+import Input from "../../components/UI/Input";
 import { Teacher, TeacherEmail } from "../Login";
 
 const TeachersProfile = () => {
+  const [showForm, setShowForm] = useState(false);
+  const [showList, setShowList] = useState(true);
   const navigation = useNavigation();
   async function logoutHandler() {
     try {
@@ -46,6 +57,11 @@ const TeachersProfile = () => {
       console.log(error);
     }
   }
+
+  function editItem() {
+    setShowForm(true);
+    setShowList(false);
+  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.userInfoSection}>
@@ -73,47 +89,49 @@ const TeachersProfile = () => {
         </View>
       </View>
 
-      <View style={styles.userInfoSection}>
-        <View style={styles.row}>
-          <Ionicons name="location-sharp" size={20} color="black" />
-          <Text
-            style={{
-              color: "#777777",
-              marginLeft: 20,
-              fontFamily: "HindRegular",
-              fontSize: 18,
-            }}
-          >
-            Kolkata, India
-          </Text>
+      {showList && (
+        <View style={styles.userInfoSection}>
+          <View style={styles.row}>
+            <Ionicons name="location-sharp" size={20} color="black" />
+            <Text
+              style={{
+                color: "#777777",
+                marginLeft: 20,
+                fontFamily: "HindRegular",
+                fontSize: 18,
+              }}
+            >
+              Kolkata, India
+            </Text>
+          </View>
+          <View style={styles.row}>
+            <Ionicons name="call-sharp" size={20} color="black" />
+            <Text
+              style={{
+                color: "#777777",
+                marginLeft: 20,
+                fontFamily: "HindRegular",
+                fontSize: 18,
+              }}
+            >
+              +91-900000009
+            </Text>
+          </View>
+          <View style={styles.row}>
+            <Ionicons name="mail-sharp" size={20} color="black" />
+            <Text
+              style={{
+                color: "#777777",
+                marginLeft: 20,
+                fontFamily: "HindRegular",
+                fontSize: 18,
+              }}
+            >
+              {TeacherEmail}
+            </Text>
+          </View>
         </View>
-        <View style={styles.row}>
-          <Ionicons name="call-sharp" size={20} color="black" />
-          <Text
-            style={{
-              color: "#777777",
-              marginLeft: 20,
-              fontFamily: "HindRegular",
-              fontSize: 18,
-            }}
-          >
-            +91-900000009
-          </Text>
-        </View>
-        <View style={styles.row}>
-          <Ionicons name="mail-sharp" size={20} color="black" />
-          <Text
-            style={{
-              color: "#777777",
-              marginLeft: 20,
-              fontFamily: "HindRegular",
-              fontSize: 18,
-            }}
-          >
-            {TeacherEmail}
-          </Text>
-        </View>
-      </View>
+      )}
 
       {/* <View style={styles.infoBoxWrapper}>
         <View
@@ -134,53 +152,71 @@ const TeachersProfile = () => {
         </View>
       </View> */}
 
-      <View style={styles.menuWrapper}>
-        <TouchableRipple onPress={() => {}}>
-          <View style={styles.menuItem}>
-            <Ionicons name="heart-circle-sharp" size={25} color="#FF6347" />
-            <Text style={styles.menuItemText}>Your Favorites</Text>
+      {showList && (
+        <View style={styles.menuWrapper}>
+          <TouchableRipple onPress={editItem}>
+            <View style={styles.menuItem}>
+              <Ionicons name="pencil-sharp" size={25} color="#FF6347" />
+              <Text style={styles.menuItemText}>Edit profile</Text>
+            </View>
+          </TouchableRipple>
+          <TouchableRipple onPress={() => {}}>
+            <View style={styles.menuItem}>
+              <Ionicons name="settings-sharp" size={25} color="#FF6347" />
+              <Text style={styles.menuItemText}>Settings</Text>
+            </View>
+          </TouchableRipple>
+          <TouchableRipple onPress={() => {}}>
+            <View style={styles.menuItem}>
+              <Ionicons name="arrow-redo-sharp" size={25} color="#FF6347" />
+              <Text style={styles.menuItemText}>Tell Your Friends</Text>
+            </View>
+          </TouchableRipple>
+          <TouchableRipple onPress={() => {}}>
+            <View style={styles.menuItem}>
+              <Ionicons
+                name="ios-person-circle-sharp"
+                size={25}
+                color="#FF6347"
+              />
+              <Text style={styles.menuItemText}>Support</Text>
+            </View>
+          </TouchableRipple>
+          <TouchableRipple onPress={logoutHandler}>
+            <View style={styles.menuItem}>
+              <Ionicons name="log-out-sharp" size={25} color="#FF6347" />
+              <Text style={styles.menuItemText}>Logout</Text>
+            </View>
+          </TouchableRipple>
+        </View>
+      )}
+      {showForm && (
+        <View style={styles.inputForm}>
+          <Input placeholder="First name" />
+          <Input placeholder="Last name" />
+          <Input placeholder="E-mail" />
+          <View style={styles.btnSubmit}>
+            <Button>Update</Button>
           </View>
-        </TouchableRipple>
-        <TouchableRipple onPress={() => {}}>
-          <View style={styles.menuItem}>
-            <Ionicons name="settings-sharp" size={25} color="#FF6347" />
-            <Text style={styles.menuItemText}>Settings</Text>
-          </View>
-        </TouchableRipple>
-        <TouchableRipple onPress={() => {}}>
-          <View style={styles.menuItem}>
-            <Ionicons name="arrow-redo-sharp" size={25} color="#FF6347" />
-            <Text style={styles.menuItemText}>Tell Your Friends</Text>
-          </View>
-        </TouchableRipple>
-        <TouchableRipple onPress={() => {}}>
-          <View style={styles.menuItem}>
-            <Ionicons
-              name="ios-person-circle-sharp"
-              size={25}
-              color="#FF6347"
-            />
-            <Text style={styles.menuItemText}>Support</Text>
-          </View>
-        </TouchableRipple>
-        <TouchableRipple onPress={logoutHandler}>
-          <View style={styles.menuItem}>
-            <Ionicons name="log-out-sharp" size={25} color="#FF6347" />
-            <Text style={styles.menuItemText}>Logout</Text>
-          </View>
-        </TouchableRipple>
-      </View>
+        </View>
+      )}
     </SafeAreaView>
   );
 };
 
 export default TeachersProfile;
-
+const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     fontFamily: "HindRegular",
     backgroundColor: "white",
+  },
+  btnSubmit: {
+    marginTop: 30,
+    //marginBottom: 30,
+    width: "50%",
+    marginLeft: deviceWidth < 370 ? 170 : 180,
   },
   userInfoSection: {
     paddingHorizontal: 30,
@@ -232,5 +268,9 @@ const styles = StyleSheet.create({
     fontFamily: "HindRegular",
     fontSize: 20,
     lineHeight: 26,
+  },
+  inputForm: {
+    padding: 20,
+    paddingTop: 5,
   },
 });

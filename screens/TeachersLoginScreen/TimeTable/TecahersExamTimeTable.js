@@ -156,7 +156,19 @@ const TecahersExamTimeTable = () => {
       }
     }
     storeData();
+    Alert.alert("Successfully updated", "", [
+      { text: "OK", onPress: () => fetchData() },
+    ]);
 
+    async function fetchData() {
+      try {
+        const res = await axios.get(`http://10.0.2.2:8000/school/Exam/`);
+        setShowExamData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
     setEnteredExamName("");
     setFromText("");
     setToText("");
@@ -735,22 +747,26 @@ const TecahersExamTimeTable = () => {
                 Enter hour
               </Text>
             )}
-            <Text style={styles.labels}>Class Name</Text>
-
-            <View style={{ width: 250, fontSize: 18, marginTop: 3 }}>
-              <SelectList
-                setSelected={setSelectedExamTimeTable}
-                data={ExamTimeTableData}
-                placeholder="select class"
-                style={{ fontSize: 16 }}
-                boxStyles={[
-                  selectInputIsInValid && styles.errorSelectedColor,
-                  { borderRadius: 0 },
-                ]}
-                inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-                dropdownTextStyles={{ fontSize: 18, fontFamily: "HindRegular" }}
-              />
-            </View>
+          { !isEdit && <Text style={styles.labels}>Class Name</Text>}
+            {!isEdit && (
+              <View style={{ width: 250, fontSize: 18, marginTop: 3 }}>
+                <SelectList
+                  setSelected={setSelectedExamTimeTable}
+                  data={ExamTimeTableData}
+                  placeholder="select class"
+                  style={{ fontSize: 16 }}
+                  boxStyles={[
+                    selectInputIsInValid && styles.errorSelectedColor,
+                    { borderRadius: 0 },
+                  ]}
+                  inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                  dropdownTextStyles={{
+                    fontSize: 18,
+                    fontFamily: "HindRegular",
+                  }}
+                />
+              </View>
+            )}
             {!isEdit && (
               <View style={styles.btnSubmit}>
                 <Button onPress={addExamTimeTableHandler}>

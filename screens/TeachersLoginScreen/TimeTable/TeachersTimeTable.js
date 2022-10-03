@@ -489,7 +489,7 @@ const TeachersTimetable = () => {
       return;
     } else {
       async function storeTimeTable() {
-        console.log(inputs);
+        // console.log(inputs);
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
         };
@@ -528,44 +528,49 @@ const TeachersTimetable = () => {
       setShowTable(false);
     }
 
-    const FormData = {
-      // from_time: inputs.fromTime,
-      // to_time: inputs.toTime,
-      timetab: getTimeTableData.data.id,
-      from_time: inputs.fromTime,
-      to_time: inputs.toTime,
-      monday: inputs.monday,
-      Tuesday: inputs.tuesday,
-      wednesday: inputs.wednesday,
-      thursday: inputs.thursday,
-      friday: inputs.friday,
-      saturday: inputs.saturday,
-      createdDate: createdDate,
-      modifiedDate: "",
-    };
-    //  console.log(FormData);
-    async function storeData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
-        const dataForm = FormData;
-        const resLogin = await axios.post(
-          `http://10.0.2.2:8000/school/AddmoreTimetable_list/`,
-          dataForm,
-          {
-            headers: headers,
-          }
-        );
-        console.log(resLoginTimeTable);
-        const token = resLogin.data.token;
-        // Token = token;
-        // UserId = userId;
-      } catch (error) {
-        console.log(error);
+    for (let i = 0; i < inputs.length; i++) {
+      console.log("inside loop");
+      console.log(inputs);
+      const FormData = {
+        //from_time: inputs[i].fromTime,
+        // to_time: inputs.toTime,
+        // timetab: getTimeTableData.data.id,
+        from_time: inputs[i].fromTime,
+        to_time: inputs[i].toTime,
+        monday: inputs[i].monday,
+        Tuesday: inputs[i].tuesday,
+        wednesday: inputs[i].wednesday,
+        thursday: inputs[i].thursday,
+        friday: inputs[i].friday,
+        saturday: inputs[i].saturday,
+        createdDate: createdDate,
+        modifiedDate: "",
+      };
+      //  console.log(FormData);
+      async function storeData() {
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+          };
+          const dataForm = FormData;
+          const resLogin = await axios.post(
+            `http://10.0.2.2:8000/school/AddmoreTimetable_list/`,
+            dataForm,
+            {
+              headers: headers,
+            }
+          );
+          console.log(resLoginTimeTable);
+          const token = resLogin.data.token;
+          // Token = token;
+          // UserId = userId;
+        } catch (error) {
+          console.log(error);
+        }
       }
+
+      storeData();
     }
-    storeData();
     setFromTimeText("");
     setToTimeText("");
     setToTime("");
@@ -761,7 +766,9 @@ const TeachersTimetable = () => {
       }
       async function fetchData() {
         try {
-          const res = await axios.get(`http://10.0.2.2:8000/school/Timetable/`);
+          const res = await axios.get(
+            `http://10.0.2.2:8000/school/AddmoreTimetable_list/`
+          );
           // console.log(res.data);
           setShowTimeTableData(res.data);
         } catch (error) {
@@ -1457,12 +1464,12 @@ const TeachersTimetable = () => {
                 )}
                 {isEdit && (
                   <View style={styles.edit}>
-                    <Button onPress={updateHandler}>Update</Button>
+                    <Button>Cancel</Button>
                   </View>
                 )}
                 {isEdit && (
                   <View style={styles.edit1}>
-                    <Button>Cancel</Button>
+                    <Button onPress={updateHandler}>Update</Button>
                   </View>
                 )}
                 {!isEdit && (

@@ -279,54 +279,80 @@ const TeachersLeave = () => {
     setToText("");
     setShowForm(false);
     setShowList(true);
-    setForLeaveList({ fontWeight: "bold", color: "black" });
-    setForLeaveForm({ color: "black" });
-    setForLeaveForm({ fontWeight: "bold", color: "black" });
-    setForLeaveList({ color: "black" });
+    setForLeaveList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
+    setForLeaveForm({
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
+    });
   }
   function buttonPressedHandler() {
     console.log(UserId);
     const FormData = {
+      student_reg_number: 11,
+      user_num: 0,
+      user_role: "student",
+      username: "prathima",
+      email: "priya123@gmail.com",
       leave_type: leaveType,
-      leave_reason: leaveReason,
       leave_form: fromDate,
       leave_to: toDate,
+      leave_reason: leaveReason,
+      leave_status: "pending",
     };
+
+    const formIsValid = enteredLeaveTypeIsValid && enteredLeaveReasonIsValid;
+
+    if (formIsValid) {
+      Alert.alert("Saved Data", "Saved Data successfully", [
+        {
+          text: "OK",
+          onPress: () => {
+            setShowForm(false);
+            showLeave();
+          },
+        },
+      ]);
+    }
     // console.log(FormData);
 
-    var dateFromValidate = fromText;
-    var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
-    if (!isValid) {
-      Alert.alert(
-        "Format Error",
-        "It seems to be you entered wrong date format please follow D/M/YYYY format ",
-        [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel",
-          },
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]
-      );
-    }
+    // var dateFromValidate = fromText;
+    // var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
+    // if (!isValid) {
+    //   Alert.alert(
+    //     "Format Error",
+    //     "It seems to be you entered wrong date format please follow D/M/YYYY format ",
+    //     [
+    //       {
+    //         text: "Cancel",
+    //         onPress: () => console.log("Cancel Pressed"),
+    //         style: "cancel",
+    //       },
+    //       { text: "OK", onPress: () => console.log("OK Pressed") },
+    //     ]
+    //   );
+    // }
 
-    var dateToValidate = toText;
-    var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
-    if (!isValid) {
-      Alert.alert(
-        "Format Error",
-        "It seems to be you entered wrong date format please follow D/M/YYYY format",
-        [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel",
-          },
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]
-      );
-    }
+    // var dateToValidate = toText;
+    // var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
+    // if (!isValid) {
+    //   Alert.alert(
+    //     "Format Error",
+    //     "It seems to be you entered wrong date format please follow D/M/YYYY format",
+    //     [
+    //       {
+    //         text: "Cancel",
+    //         onPress: () => console.log("Cancel Pressed"),
+    //         style: "cancel",
+    //       },
+    //       { text: "OK", onPress: () => console.log("OK Pressed") },
+    //     ]
+    //   );
+    // }
     setEnteredLeaveTypeTouched(true);
     setEnteredLeaveReasonTouched(true);
     setEnteredFromDateTouched(true);
@@ -343,41 +369,49 @@ const TeachersLeave = () => {
     }
     if (!enteredtoDateIsValid) {
       return;
-    } else {
-      async function storeData() {
-        try {
-          let headers = {
-            "Content-Type": "application/json; charset=utf-8",
-          };
-          const dataForm = FormData;
-          const resLogin = await axios.post(
-            `http://10.0.2.2:8000/school/Leave/`,
-            dataForm,
-            {
-              headers: headers,
-            }
-          );
-          // const token = resLogin.data.token;
-          // const userId = resLogin.data.user_id;
-          console.log(resLogin.data);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-      storeData();
-      setEnteredLeaveType("");
-      setEnteredLeaveReason("");
-      setFromText("");
-      setToText("");
-      setEnteredLeaveTypeTouched(false);
-      setEnteredLeaveReasonTouched(false);
-      setEnteredFromDateTouched(false);
-      setEnteredtoDateTouched(false);
-      setForLeaveList({ fontWeight: "bold", color: "black" });
-      setForLeaveForm({ color: "black" });
-      setForLeaveForm({ fontWeight: "bold", color: "black" });
-      setForLeaveList({ color: "black" });
     }
+
+    async function storeData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+        };
+        const dataForm = FormData;
+        const resLogin = await axios.post(
+          `http://10.0.2.2:8000/school/Leave/`,
+          dataForm,
+          {
+            headers: headers,
+          }
+        );
+        // const token = resLogin.data.token;
+        // const userId = resLogin.data.user_id;
+        console.log(resLogin.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    storeData();
+
+    setEnteredLeaveType("");
+    setEnteredLeaveReason("");
+    setFromText("");
+    setToText("");
+    setEnteredLeaveTypeTouched(false);
+    setEnteredLeaveReasonTouched(false);
+    setEnteredFromDateTouched(false);
+    setEnteredtoDateTouched(false);
+    setForLeaveList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
+    setForLeaveForm({
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
+    });
+    //}
   }
   function leavetypeBlurHandler() {
     setEnteredLeaveTypeTouched(true);
@@ -411,18 +445,30 @@ const TeachersLeave = () => {
     setIsEdit(false);
   }
   function showLeave() {
-    setForLeaveForm({
-      color: "white",
-      backgroundColor: "#1E8449",
-      borderRadius: 10,
-    });
-    setForLeaveList({
-      backgroundColor: "#F4F6F6",
-      color: "black",
-      borderRadius: 10,
-    });
-    setShowForm(false);
-    setShowList(true);
+    async function fetchData() {
+      try {
+        const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
+        //console.log(res.data);
+
+        setData(res.data);
+
+        setForLeaveForm({
+          color: "white",
+          backgroundColor: "#1E8449",
+          borderRadius: 10,
+        });
+        setForLeaveList({
+          backgroundColor: "#F4F6F6",
+          color: "black",
+          borderRadius: 10,
+        });
+        setShowForm(false);
+        setShowList(true);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
   }
   function editItem(id) {
     ID = id;
@@ -433,8 +479,16 @@ const TeachersLeave = () => {
     moment(filteredDummuyData.leave_form).format("DD/MM/YYYY");
     setFromText(moment(filteredDummuyData.leave_form).format("DD/MM/YYYY"));
     setToText(moment(filteredDummuyData.leave_to).format("DD/MM/YYYY"));
-    setForLeaveList({ fontWeight: "bold", color: "black" });
-    setForLeaveForm({ color: "black" });
+    setForLeaveList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
+    setForLeaveForm({
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
+    });
     setShowForm(true);
     setShowList(false);
     setIsEdit(true);
@@ -522,7 +576,16 @@ const TeachersLeave = () => {
               style={leavereasonInputIsInValid && styles.errorBorderColor}
             />
             {leavereasonInputIsInValid && (
-              <Text style={{ color: "red", left: 20 }}>Enter leave reason</Text>
+              <Text
+                style={{
+                  color: "red",
+                  left: 20,
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+              >
+                Enter leave reason
+              </Text>
             )}
 
             <View style={[{ flexDirection: "row" }]}>
@@ -540,7 +603,7 @@ const TeachersLeave = () => {
                   />
                 </View>
                 <Input
-                  value={fromText || fromDate}
+                  value={fromText}
                   placeholder="Leave from"
                   onSubmitEditing={Keyboard.dismiss}
                   style={fromDateInputIsInValid && styles.errorBorderColor}
@@ -549,8 +612,15 @@ const TeachersLeave = () => {
                   onPressIn={() => showFromMode("date")}
                 />
                 {fromDateInputIsInValid && (
-                  <Text style={{ color: "red", left: 20 }}>
-                    Enter leave from
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
+                    select from date
                   </Text>
                 )}
                 {fromShow && (
@@ -579,7 +649,7 @@ const TeachersLeave = () => {
                   />
                 </View>
                 <Input
-                  value={toText || toDate}
+                  value={toText}
                   placeholder="Leave to:"
                   onSubmitEditing={Keyboard.dismiss}
                   style={toDateInputIsInValid && styles.errorBorderColor}
@@ -588,7 +658,16 @@ const TeachersLeave = () => {
                   onPressIn={() => showToMode("date")}
                 />
                 {toDateInputIsInValid && (
-                  <Text style={{ color: "red", left: 20 }}>Enter to</Text>
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
+                    select to date
+                  </Text>
                 )}
                 {toShow && (
                   <DateTimePicker
@@ -621,10 +700,6 @@ const TeachersLeave = () => {
           <DataTable style={styles.container}>
             <DataTable.Header style={styles.tableHeader}>
               <View style={styles.th}>
-                <Text style={styles.tableTitle}> ID</Text>
-              </View>
-
-              <View style={styles.th}>
                 <Text style={styles.tableTitle}> LEAVE TYPE</Text>
               </View>
               <View style={styles.th}>
@@ -655,17 +730,7 @@ const TeachersLeave = () => {
 
             {data &&
               data.map((data, key) => (
-                <DataTable.Row style={styles.tableRow}>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 50,
-                    }}
-                  >
-                    {data.id}
-                  </DataTable.Cell>
-
+                <DataTable.Row style={styles.tableRow} key={key}>
                   <DataTable.Cell
                     textStyle={{
                       fontSize: 18,
@@ -682,7 +747,7 @@ const TeachersLeave = () => {
                       marginLeft: 50,
                     }}
                   >
-                    {data.leave_form}
+                    {moment(data.leave_form).format("DD/MM/YYYY")}
                   </DataTable.Cell>
                   <DataTable.Cell
                     textStyle={{
@@ -691,7 +756,7 @@ const TeachersLeave = () => {
                       marginLeft: 50,
                     }}
                   >
-                    {data.leave_to}
+                    {moment(data.leave_to).format("DD/MM/YYYY")}
                   </DataTable.Cell>
                   <DataTable.Cell
                     textStyle={{

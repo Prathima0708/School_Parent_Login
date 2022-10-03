@@ -217,10 +217,16 @@ const TeachersTransport = () => {
     setEnteredStopName("");
     setShowForm(false);
     setShowList(true);
-    setForTransportList({ fontWeight: "bold", color: "black" });
-    setForTransportForm({ color: "black" });
-    setForTransportForm({ fontWeight: "bold", color: "black" });
-    setForTransportList({ color: "black" });
+    setForTransportList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
+    setForTransportForm({
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
+    });
   }
 
   function buttonPressedHandler() {
@@ -348,10 +354,18 @@ const TeachersTransport = () => {
           setEnteredStopnameTouched(false);
           // setShowForm(false);
           // setShowList(true);
-          setForTransportList({ fontWeight: "bold", color: "black" });
-          setForTransportForm({ color: "black" });
-          setForTransportForm({ fontWeight: "bold", color: "black" });
-          setForTransportList({ color: "black" });
+          setForTransportList({
+            backgroundColor: "#F4F6F6",
+            color: "black",
+            borderRadius: 10,
+          });
+          setForTransportForm({
+            color: "white",
+            backgroundColor: "#1E8449",
+            borderRadius: 10,
+          });
+          // setForTransportForm({ fontWeight: "bold", color: "black" });
+          // setForTransportList({ color: "black" });
         }
       } catch (error) {
         console.log(error);
@@ -692,16 +706,22 @@ const TeachersTransport = () => {
                 Enter stop name
               </Text>
             )}
+
             {!isEdit && (
               <View style={styles.btnSubmit}>
                 <Button onPress={buttonPressedHandler}>Add Transport</Button>
               </View>
             )}
             {isEdit && (
-              <View style={styles.btnSubmit}>
+              <View style={styles.btnSubmit1}>
                 <Button onPress={updateHandler}>Update</Button>
               </View>
             )}
+            {/* {isEdit && (
+              <View style={styles.cancel}>
+                <Button>Cancel</Button>
+              </View>
+            )} */}
           </View>
         </ScrollView>
       )}
@@ -877,6 +897,18 @@ const styles = StyleSheet.create({
   home: {
     marginTop: 29,
   },
+  btnSubmit1: {
+    marginTop: 50,
+    marginBottom: 30,
+    marginLeft: 190,
+    width: "50%",
+  },
+  cancel: {
+  //  marginTop: -10,
+  marginBottom:10,
+    marginLeft: -15,
+    width: "50%",
+  },
   type: {
     left: 30,
   },
@@ -899,8 +931,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   btnSubmit: {
-    marginTop: 30,
+    marginTop: 5,
     marginBottom: 30,
+    marginLeft: 120,
+    width: "70%",
+  },
+  cancel: {
+    marginTop: 10,
+    marginLeft: -15,
+    width: "50%",
   },
   th: {
     padding: 5,

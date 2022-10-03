@@ -968,7 +968,7 @@ const TeachersHomework = () => {
             </View>
             {!isEdit && (
               <View style={styles.btnSubmit}>
-                <Button onPress={buttonPressedHandler}>Add Event</Button>
+                <Button onPress={buttonPressedHandler}>Add Homework</Button>
               </View>
             )}
             {isEdit && (

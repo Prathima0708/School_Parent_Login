@@ -309,107 +309,108 @@ const LeaveScreen = () => {
   }
   function buttonPressedHandler() {
     const FormData = {
-      student_reg_number: regno,
+      student_reg_number: regno || StudentRegNo,
       user_num: 0,
-      user_role: "",
-      username: "",
-      email: "",
+      user_role: "student",
+      username: "prathima",
+      email: "priya123@gmail.com",
       leave_type: leaveType,
       leave_form: fromDate,
       leave_to: toDate,
       leave_reason: leaveReason,
-      leave_status: "",
+      leave_status: "pending",
     };
-    console.log(FormData);
+    // console.log(FormData);
 
-    var dateFromValidate = fromText;
-    var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
-    if (!isValid) {
-      Alert.alert(
-        "Format Error",
-        "It seems to be you entered wrong date format please follow D/M/YYYY format ",
-        [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel",
-          },
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]
-      );
-    }
+    // var dateFromValidate = fromText;
+    // var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
+    // if (!isValid) {
+    //   Alert.alert(
+    //     "Format Error",
+    //     "It seems to be you entered wrong date format please follow D/M/YYYY format ",
+    //     [
+    //       {
+    //         text: "Cancel",
+    //         onPress: () => console.log("Cancel Pressed"),
+    //         style: "cancel",
+    //       },
+    //       { text: "OK", onPress: () => console.log("OK Pressed") },
+    //     ]
+    //   );
+    // }
 
-    var dateToValidate = toText;
-    var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
-    if (!isValid) {
-      Alert.alert(
-        "Format Error",
-        "It seems to be you entered wrong date format please follow D/M/YYYY format",
-        [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel",
-          },
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]
-      );
-    }
+    // var dateToValidate = toText;
+    // var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
+    // if (!isValid) {
+    //   Alert.alert(
+    //     "Format Error",
+    //     "It seems to be you entered wrong date format please follow D/M/YYYY format",
+    //     [
+    //       {
+    //         text: "Cancel",
+    //         onPress: () => console.log("Cancel Pressed"),
+    //         style: "cancel",
+    //       },
+    //       { text: "OK", onPress: () => console.log("OK Pressed") },
+    //     ]
+    //   );
+    // }
     setEnteredRegNoTouched(true);
     setEnteredLeaveTypeTouched(true);
     setEnteredFromDateTouched(true);
     setEnteredtoDateTouched(true);
     setEnteredLeaveReasonTouched(true);
 
-    if (!enteredRegNoIsValid) {
-      return;
-    }
-    if (!enteredLeaveTypeIsValid) {
-      return;
-    }
-    if (!enteredFromDateIsValid) {
-      return;
-    }
-    if (!enteredtoDateIsValid) {
-      return;
-    }
-    if (!enteredLeaveReasonIsValid) {
-      return;
-    } else {
-      async function storeData() {
-        try {
-          let headers = {
-            "Content-Type": "application/json; charset=utf-8",
-          };
-          const dataForm = FormData;
-          const resLogin = await axios.post(
-            `http://10.0.2.2:8000/school/Leave/`,
-            dataForm,
-            {
-              headers: headers,
-            }
-          );
-          const token = resLogin.data.token;
-          const userId = resLogin.data.user_id;
-          console.log(token);
-          // Token = token;
-          // UserId = userId;
-        } catch (error) {
-          console.log(error);
-        }
+    // if (!enteredRegNoIsValid) {
+    //   return;
+    // }
+    // if (!enteredLeaveTypeIsValid) {
+    //   return;
+    // }
+    // if (!enteredFromDateIsValid) {
+    //   return;
+    // }
+    // if (!enteredtoDateIsValid) {
+    //   return;
+    // }
+    // if (!enteredLeaveReasonIsValid) {
+    //   return;
+    // } else {
+    async function storeData() {
+      console.log(FormData);
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+        };
+        const dataForm = FormData;
+        const resLogin = await axios.post(
+          `http://10.0.2.2:8000/school/Leave/`,
+          dataForm,
+          {
+            headers: headers,
+          }
+        );
+        const token = resLogin.data.token;
+        const userId = resLogin.data.user_id;
+        console.log(token);
+        // Token = token;
+        // UserId = userId;
+      } catch (error) {
+        console.log(error);
       }
-      storeData();
-      setEnteredRegno("");
-      setEnteredLeaveType("");
-      setEnteredLeaveReason("");
-      setFromText("");
-      setToText("");
-      setEnteredRegNoTouched(false);
-      setEnteredLeaveTypeTouched(false);
-      setEnteredFromDateTouched(false);
-      setEnteredtoDateTouched(false);
-      setEnteredLeaveReasonTouched(false);
     }
+    storeData();
+    setEnteredRegno("");
+    setEnteredLeaveType("");
+    setEnteredLeaveReason("");
+    setFromText("");
+    setToText("");
+    setEnteredRegNoTouched(false);
+    setEnteredLeaveTypeTouched(false);
+    setEnteredFromDateTouched(false);
+    setEnteredtoDateTouched(false);
+    setEnteredLeaveReasonTouched(false);
+    //  }
   }
   function stdregnoBlurHandler() {
     setEnteredRegNoTouched(true);
@@ -572,11 +573,11 @@ const LeaveScreen = () => {
               placeholder="Student reg no"
               onChangeText={regnoChangeHandler}
               blur={stdregnoBlurHandler}
-              value={regno}
+              value={StudentRegNo.toString() || regno}
               onSubmitEditing={Keyboard.dismiss}
               style={regnoInputIsInValid && styles.errorBorderColor}
             />
-            {regnoInputIsInValid && (
+            {/* {regnoInputIsInValid && (
               <Text
                 style={{
                   color: "red",
@@ -587,7 +588,7 @@ const LeaveScreen = () => {
               >
                 Enter student registration number
               </Text>
-            )}
+            )} */}
 
             <Input
               placeholder="Leave Type"
