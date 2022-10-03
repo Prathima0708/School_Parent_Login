@@ -14,6 +14,7 @@ import axios from "axios";
 import { Keyboard } from "react-native";
 import { UserId } from "../Login";
 import BgButton from "../../components/UI/BgButton";
+import SearchBar from "react-native-dynamic-search-bar";
 import { Ionicons } from "@expo/vector-icons";
 import TeachersHome from "./TeachersHome";
 import Input from "../../components/UI/Input";
@@ -86,6 +87,10 @@ const TeachersCalendar = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [isSame, SetIsSame] = useState(false);
+
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchText, setSearchText] = useState("");
+
   let i = 0;
 
   // async function logoutHandler() {
@@ -105,6 +110,7 @@ const TeachersCalendar = () => {
         const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
 
         setData(res.data);
+        setFilteredData(res.data);
         let test = 0;
 
         const value = await AsyncStorage.getItem("key");
@@ -341,11 +347,6 @@ const TeachersCalendar = () => {
     if (formIsValid) {
       Alert.alert("Saved Data", "Saved Data successfully", [
         {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
-        },
-        {
           text: "OK",
           onPress: () => {
             setShowForm(false);
@@ -472,6 +473,11 @@ const TeachersCalendar = () => {
     setEnteredtoDateTouched(false);
     setEnteredFromDateTouched(false);
     setIsEdit(false);
+
+    setEnteredDescription("");
+    setEnteredTitle("");
+    setFromText("");
+    setToText("");
   }
   function showCalendar() {
     async function fetchData() {
@@ -480,6 +486,7 @@ const TeachersCalendar = () => {
         console.log(res.data);
 
         setData(res.data);
+        setFilteredData(res.data);
 
         setForCalendarForm({
           color: "white",
@@ -512,7 +519,11 @@ const TeachersCalendar = () => {
     setEnteredTitle(filteredDummuyData.titlee);
     //  setEnteredMobile(filteredDummuyData.exam_name);
     //  setEnteredRouteName(filteredDummuyData.hour);
-    setForCalendarList({ fontWeight: "bold", color: "black" });
+    setForCalendarList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
     setForCalendarForm({
       color: "white",
       backgroundColor: "#1E8449",
@@ -566,7 +577,28 @@ const TeachersCalendar = () => {
     }
   }
 
-  // const NewDate = moment(yourDate, 'DD-MM-YYYY')
+  const searchFilter = (text) => {
+    console.log("search function");
+    if (text) {
+      const newData = data.filter((item) => {
+        const itemData = item.titlee
+          ? item.titlee.toUpperCase()
+          : "".toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredData(newData);
+      setSearchText(text);
+    } else {
+      setFilteredData(data);
+      setSearchText(text);
+    }
+  };
+
+  function cancelHandler() {
+    setShowList(true);
+    setShowForm(false);
+  }
   return (
     <>
       {/* <View style={styles.BtnContainer}>
@@ -657,7 +689,7 @@ const TeachersCalendar = () => {
                   //   moment(fromText).format("DD/MM/YYYY") ||
                   //   moment(frmdate).format("DD/MM/YYYY")
                   // }
-                  placeholder="from date"
+                  placeholder="Start date"
                   onSubmitEditing={Keyboard.dismiss}
                   style={fromDateInputIsInValid && styles.errorBorderColor}
                   blur={fromDateBlurHandler}
@@ -708,7 +740,7 @@ const TeachersCalendar = () => {
                   //   moment(toText).format("DD/MM/YYYY") ||
                   //   moment(todate).format("DD/MM/YYYY")
                   // }
-                  placeholder="to date"
+                  placeholder="End date"
                   onSubmitEditing={Keyboard.dismiss}
                   style={toDateInputIsInValid && styles.errorBorderColor}
                   blur={toDateBlurHandler}
@@ -746,120 +778,134 @@ const TeachersCalendar = () => {
               </View>
             )}
             {isEdit && (
-              <View style={styles.btnSubmit}>
+              <View style={styles.btnSubmit1}>
                 <Button onPress={updateHandler}>Update</Button>
+              </View>
+            )}
+            {isEdit && (
+              <View style={styles.cancel}>
+                <Button onPress={cancelHandler}>Cancel</Button>
               </View>
             )}
           </View>
         </ScrollView>
       )}
       {showList && (
-        <ScrollView horizontal={true}>
-          <DataTable>
-            <DataTable.Header style={styles.tableHeader}>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}>TITLE</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}>DESCRIPTION</Text>
-              </View>
-              {/* <View style={styles.th}>
+        <>
+          <SearchBar
+            style={styles.searchBar}
+            textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
+            placeholder="Search here"
+            onChangeText={(text) => searchFilter(text)}
+            value={searchText}
+          />
+          <ScrollView horizontal={true}>
+            <DataTable>
+              <DataTable.Header style={styles.tableHeader}>
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}>TITLE</Text>
+                </View>
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}>DESCRIPTION</Text>
+                </View>
+                {/* <View style={styles.th}>
               <Text style={styles.tableTitle}>created by</Text>
             </View> */}
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}>START DATE </Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}>END DATE</Text>
-              </View>
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}>START DATE </Text>
+                </View>
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}>END DATE</Text>
+                </View>
 
-              <View style={styles.th}>
-                <Text
-                  style={{
-                    margin: 7,
-                    marginLeft: 50,
-                    fontFamily: "MonsterratBold",
-                    fontSize: 16,
-                  }}
-                >
-                  ACTIONS
-                </Text>
-              </View>
-            </DataTable.Header>
-            {data &&
-              data.map((data, key) => (
-                <DataTable.Row style={styles.tableRow} key={key}>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 20,
-                    }}
-                  >
-                    {data.titlee}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
+                <View style={styles.th}>
+                  <Text
+                    style={{
+                      margin: 7,
                       marginLeft: 50,
+                      fontFamily: "MonsterratBold",
+                      fontSize: 16,
                     }}
                   >
-                    {data.description}
-                  </DataTable.Cell>
+                    ACTIONS
+                  </Text>
+                </View>
+              </DataTable.Header>
+              {filteredData &&
+                filteredData.map((data, key) => (
+                  <DataTable.Row style={styles.tableRow} key={key}>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 20,
+                      }}
+                    >
+                      {data.titlee}
+                    </DataTable.Cell>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 50,
+                      }}
+                    >
+                      {data.description}
+                    </DataTable.Cell>
 
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 50,
-                    }}
-                  >
-                    {moment(data.startdate).format("DD/MM/YYYY")}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 50,
-                    }}
-                  >
-                    {moment(data.enddate).format("DD/MM/YYYY")}
-                  </DataTable.Cell>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 50,
+                      }}
+                    >
+                      {moment(data.startdate).format("DD/MM/YYYY")}
+                    </DataTable.Cell>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 50,
+                      }}
+                    >
+                      {moment(data.enddate).format("DD/MM/YYYY")}
+                    </DataTable.Cell>
 
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 120,
-                    }}
-                  >
-                    <Ionicons
-                      name="md-pencil-sharp"
-                      size={24}
-                      color="green"
-                      onPress={() => editItem(data.id)}
-                    />
-                  </DataTable.Cell>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 120,
+                      }}
+                    >
+                      <Ionicons
+                        name="md-pencil-sharp"
+                        size={24}
+                        color="green"
+                        onPress={() => editItem(data.id)}
+                      />
+                    </DataTable.Cell>
 
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 10,
-                    }}
-                  >
-                    <Ionicons
-                      name="trash"
-                      size={24}
-                      color="red"
-                      onPress={() => deleteItem(data.id)}
-                    />
-                  </DataTable.Cell>
-                </DataTable.Row>
-              ))}
-          </DataTable>
-        </ScrollView>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 10,
+                      }}
+                    >
+                      <Ionicons
+                        name="trash"
+                        size={24}
+                        color="red"
+                        onPress={() => deleteItem(data.id)}
+                      />
+                    </DataTable.Cell>
+                  </DataTable.Row>
+                ))}
+            </DataTable>
+          </ScrollView>
+        </>
       )}
       {keyboardStatus == "Keyboard Hidden" && <TeachersHome />}
     </>
@@ -896,7 +942,7 @@ const styles = StyleSheet.create({
   },
 
   btnSubmit: {
-    marginTop: 217,
+    marginTop: 107,
   },
   space: {
     width: 20,
@@ -932,5 +978,22 @@ const styles = StyleSheet.create({
     borderBottomColor: "black",
     borderBottomWidth: 2,
     whiteSpace: "pre-line",
+  },
+  searchBar: {
+    //top: 10,
+
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  btnSubmit1: {
+    marginTop: 90,
+    marginBottom: 30,
+    marginLeft: 190,
+    width: "50%",
+  },
+  cancel: {
+    marginTop: -140,
+    marginLeft: -15,
+    width: "50%",
   },
 });

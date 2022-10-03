@@ -156,7 +156,19 @@ const TecahersExamTimeTable = () => {
       }
     }
     storeData();
+    Alert.alert("Successfully updated", "", [
+      { text: "OK", onPress: () => fetchData() },
+    ]);
 
+    async function fetchData() {
+      try {
+        const res = await axios.get(`http://10.0.2.2:8000/school/Exam/`);
+        setShowExamData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
     setEnteredExamName("");
     setFromText("");
     setToText("");
@@ -185,6 +197,25 @@ const TecahersExamTimeTable = () => {
     setEnteredMarksTouched(true);
     setEnteredHourTouched(true);
     setEnteredSelectedTouched(true);
+
+    const formIsValid =
+      enteredExamNameIsValid &&
+      enteredFromDateIsValid &&
+      enteredtoDateIsValid &&
+      enteredHourIsValid;
+
+    if (formIsValid) {
+      Alert.alert("Saved Data", "Saved Data successfully", [
+        {
+          text: "OK",
+          onPress: () => {
+            setShowForm(false);
+            viewExamList();
+          },
+        },
+      ]);
+    }
+
     if (!enteredExamNameTouched) {
       return;
     }
@@ -308,6 +339,22 @@ const TecahersExamTimeTable = () => {
   function viewExam() {
     setShowForm(true);
     setShowExamList(false);
+  }
+
+  function viewExamList() {
+    async function viewExamList() {
+      try {
+        const res = await axios.get(`http://10.0.2.2:8000/school/Exam/`);
+        console.log(res.data);
+
+        setShowExamData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    viewExamList();
+    setShowForm(false);
+    setShowExamList(true);
   }
 
   function examBlurHandler() {
@@ -453,7 +500,7 @@ const TecahersExamTimeTable = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 40,
+                      marginLeft: 30,
                     }}
                   >
                     {moment(data.start_date).format("DD/MM/YYYY")}
@@ -471,7 +518,7 @@ const TecahersExamTimeTable = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 40,
+                      marginLeft: 90,
                     }}
                   >
                     {data.Total_marks}
@@ -480,7 +527,7 @@ const TecahersExamTimeTable = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 40,
+                      marginLeft: 50,
                     }}
                   >
                     {data.hour}
@@ -489,7 +536,7 @@ const TecahersExamTimeTable = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 40,
+                      marginLeft: 60,
                     }}
                   >
                     {data.class_name}
@@ -499,7 +546,7 @@ const TecahersExamTimeTable = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 110,
+                      marginLeft: 140,
                     }}
                   >
                     <Ionicons
@@ -513,7 +560,7 @@ const TecahersExamTimeTable = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      //marginLeft: 15,
+                      marginLeft: 6,
                     }}
                   >
                     <Ionicons
@@ -700,22 +747,26 @@ const TecahersExamTimeTable = () => {
                 Enter hour
               </Text>
             )}
-            <Text style={styles.labels}>Class Name</Text>
-
-            <View style={{ width: 250, fontSize: 18, marginTop: 3 }}>
-              <SelectList
-                setSelected={setSelectedExamTimeTable}
-                data={ExamTimeTableData}
-                placeholder="select class"
-                style={{ fontSize: 16 }}
-                boxStyles={[
-                  selectInputIsInValid && styles.errorSelectedColor,
-                  { borderRadius: 0 },
-                ]}
-                inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-                dropdownTextStyles={{ fontSize: 18, fontFamily: "HindRegular" }}
-              />
-            </View>
+          { !isEdit && <Text style={styles.labels}>Class Name</Text>}
+            {!isEdit && (
+              <View style={{ width: 250, fontSize: 18, marginTop: 3 }}>
+                <SelectList
+                  setSelected={setSelectedExamTimeTable}
+                  data={ExamTimeTableData}
+                  placeholder="select class"
+                  style={{ fontSize: 16 }}
+                  boxStyles={[
+                    selectInputIsInValid && styles.errorSelectedColor,
+                    { borderRadius: 0 },
+                  ]}
+                  inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                  dropdownTextStyles={{
+                    fontSize: 18,
+                    fontFamily: "HindRegular",
+                  }}
+                />
+              </View>
+            )}
             {!isEdit && (
               <View style={styles.btnSubmit}>
                 <Button onPress={addExamTimeTableHandler}>

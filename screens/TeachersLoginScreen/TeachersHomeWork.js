@@ -169,14 +169,17 @@ const TeachersHomework = () => {
     };
   }, []);
 
-  useEffect(async () => {
-    if (Platform.OS !== "web") {
-      const { status } =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== "granted") {
-        alert("Permission denied!");
+  useEffect(() => {
+    async function imageHandler() {
+      if (Platform.OS !== "web") {
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== "granted") {
+          alert("Permission denied!");
+        }
       }
     }
+    imageHandler();
   }, []);
 
   function frmDateHandler(enteredValue) {
@@ -213,20 +216,23 @@ const TeachersHomework = () => {
   }
 
   useEffect(() => {
-    axios
-      .get("http://10.0.2.2:8000/school/Studentclass/")
-      .then((response) => {
-        let newArray = response.data.map((item) => {
-          return {
-            value: item.class_name + " - " + item.section,
-          };
-        });
+    async function fetchStudentClass() {
+      axios
+        .get("http://10.0.2.2:8000/school/Studentclass/")
+        .then((response) => {
+          let newArray = response.data.map((item) => {
+            return {
+              value: item.class_name + " - " + item.section,
+            };
+          });
 
-        setData(newArray);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+          setData(newArray);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    fetchStudentClass();
   }, []);
 
   const showFromMode = (currentFromMode) => {
@@ -369,7 +375,7 @@ const TeachersHomework = () => {
       let class_name = selectedData[0];
       let section = selectedData[1];
       let uploaduri = image;
-      let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
+      // let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
       const formdata = {
         class_name: class_name,
         section: section,
@@ -749,18 +755,22 @@ const TeachersHomework = () => {
       {showForm && (
         <ScrollView style={styles.root}>
           <View style={styles.inputForm}>
-            {!isEdit && <View >
-              <SelectList
-                setSelected={setSelected}
-                data={data}
-                placeholder="Select class"
-                boxStyles={selectInputIsInValid && styles.errorSelectedColor}
-                // boxStyles={{ borderRadius: 0 }}
-                dropdownTextStyles={{ fontSize: 18, fontFamily: "HindRegular" }}
-                inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-              />
-            </View>
-}
+            {!isEdit && (
+              <View>
+                <SelectList
+                  setSelected={setSelected}
+                  data={data}
+                  placeholder="Select class"
+                  boxStyles={selectInputIsInValid && styles.errorSelectedColor}
+                  // boxStyles={{ borderRadius: 0 }}
+                  dropdownTextStyles={{
+                    fontSize: 18,
+                    fontFamily: "HindRegular",
+                  }}
+                  inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                />
+              </View>
+            )}
             <Input
               onChangeText={subjectChangeHandler}
               value={subject}
@@ -958,7 +968,7 @@ const TeachersHomework = () => {
             </View>
             {!isEdit && (
               <View style={styles.btnSubmit}>
-                <Button onPress={buttonPressedHandler}>Add Event</Button>
+                <Button onPress={buttonPressedHandler}>Add Homework</Button>
               </View>
             )}
             {isEdit && (

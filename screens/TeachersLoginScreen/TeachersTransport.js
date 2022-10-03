@@ -217,14 +217,20 @@ const TeachersTransport = () => {
     setEnteredStopName("");
     setShowForm(false);
     setShowList(true);
-    setForTransportList({ fontWeight: "bold", color: "black" });
-    setForTransportForm({ color: "black" });
-    setForTransportForm({ fontWeight: "bold", color: "black" });
-    setForTransportList({ color: "black" });
+    setForTransportList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
+    setForTransportForm({
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
+    });
   }
 
   function buttonPressedHandler() {
-    console.log(UserId);
+    // console.log(UserId);
     const FormData = {
       busnumber: busNumber,
       vehicleno: vehicleno,
@@ -244,6 +250,30 @@ const TeachersTransport = () => {
     setEnteredMobileTouched(true);
     setEnteredRoutenameTouched(true);
     setEnteredStopnameTouched(true);
+    const formIsValid =
+      enteredBusnumberIsValid &&
+      enteredVehicleNoIsValid &&
+      enteredTypeIsValid &&
+      enteredDrivernameIsValid &&
+      enteredMobileIsValid &&
+      enteredRoutenameIsValid &&
+      enteredStopnameIsValid;
+    if (formIsValid) {
+      Alert.alert("Saved Data", "Saved Data successfully", [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            setShowForm(false);
+            showTransport();
+          },
+        },
+      ]);
+    }
 
     if (!enteredBusnumberIsValid) {
       return;
@@ -265,50 +295,83 @@ const TeachersTransport = () => {
     }
     if (!enteredStopnameIsValid) {
       return;
-    } else {
-      async function storeData() {
-        try {
-          let headers = {
-            "Content-Type": "application/json; charset=utf-8",
-          };
-
-          const resLogin = await axios.post(
-            "http://10.0.2.2:8000/school/Transportreport/",
-            FormData,
-            {
-              headers: headers,
-            }
-          );
-          // const token = resLogin.data.token;
-          // const userId = resLogin.data.user_id;
-          console.log(resLogin.data);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-      storeData();
-      setEnteredStudentID("");
-      setEnteredBusNumber("");
-      setEnteredVehicleNo("");
-      setEnteredType("");
-      setEnteredDriverName("");
-      setEnteredMobile("");
-      setEnteredRouteName("");
-      setEnteredStopName("");
-      setEnteredBusnumberTouched(false);
-      setEnteredVehicleNoTouched(false);
-      setEnteredTypeTouched(false);
-      setEnteredDrivernameTouched(false);
-      setEnteredMobileTouched(false);
-      setEnteredRoutenameTouched(false);
-      setEnteredStopnameTouched(false);
-      // setShowForm(false);
-      // setShowList(true);
-      setForTransportList({ fontWeight: "bold", color: "black" });
-      setForTransportForm({ color: "black" });
-      setForTransportForm({ fontWeight: "bold", color: "black" });
-      setForTransportList({ color: "black" });
     }
+    async function getData() {
+      try {
+        const res = await axios.get(
+          `http://10.0.2.2:8000/school/Transportreport/`
+        );
+
+        let filteredlist = res.data.filter((ele) => ele.vehicleno == vehicleno);
+        if (filteredlist.length > 0) {
+          Alert.alert(
+            "Vehicle number already exists",
+            "please enter a new one",
+            [
+              {
+                text: "OK",
+
+                style: "cancel",
+              },
+            ]
+          );
+        } else {
+          async function storeData() {
+            try {
+              let headers = {
+                "Content-Type": "application/json; charset=utf-8",
+              };
+
+              const resLogin = await axios.post(
+                "http://10.0.2.2:8000/school/Transportreport/",
+                FormData,
+                {
+                  headers: headers,
+                }
+              );
+              // const token = resLogin.data.token;
+              // const userId = resLogin.data.user_id;
+              console.log(resLogin.data);
+            } catch (error) {
+              console.log(error);
+            }
+          }
+          storeData();
+          setEnteredStudentID("");
+          setEnteredBusNumber("");
+          setEnteredVehicleNo("");
+          setEnteredType("");
+          setEnteredDriverName("");
+          setEnteredMobile("");
+          setEnteredRouteName("");
+          setEnteredStopName("");
+          setEnteredBusnumberTouched(false);
+          setEnteredVehicleNoTouched(false);
+          setEnteredTypeTouched(false);
+          setEnteredDrivernameTouched(false);
+          setEnteredMobileTouched(false);
+          setEnteredRoutenameTouched(false);
+          setEnteredStopnameTouched(false);
+          // setShowForm(false);
+          // setShowList(true);
+          setForTransportList({
+            backgroundColor: "#F4F6F6",
+            color: "black",
+            borderRadius: 10,
+          });
+          setForTransportForm({
+            color: "white",
+            backgroundColor: "#1E8449",
+            borderRadius: 10,
+          });
+          // setForTransportForm({ fontWeight: "bold", color: "black" });
+          // setForTransportList({ color: "black" });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
   }
 
   function busnumberInputBlur() {
@@ -418,8 +481,16 @@ const TeachersTransport = () => {
     setEnteredMobile(filteredDummuyData.emp_mobile);
     setEnteredRouteName(filteredDummuyData.route_name);
     setEnteredStopName(filteredDummuyData.stop_name);
-    setForTransportList({ fontWeight: "bold", color: "black" });
-    setForTransportForm({ color: "black" });
+    setForTransportList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
+    setForTransportForm({
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
+    });
     setShowForm(true);
     setShowList(false);
     setIsEdit(true);
@@ -635,16 +706,22 @@ const TeachersTransport = () => {
                 Enter stop name
               </Text>
             )}
+
             {!isEdit && (
               <View style={styles.btnSubmit}>
                 <Button onPress={buttonPressedHandler}>Add Transport</Button>
               </View>
             )}
             {isEdit && (
-              <View style={styles.btnSubmit}>
+              <View style={styles.btnSubmit1}>
                 <Button onPress={updateHandler}>Update</Button>
               </View>
             )}
+            {/* {isEdit && (
+              <View style={styles.cancel}>
+                <Button>Cancel</Button>
+              </View>
+            )} */}
           </View>
         </ScrollView>
       )}
@@ -820,6 +897,18 @@ const styles = StyleSheet.create({
   home: {
     marginTop: 29,
   },
+  btnSubmit1: {
+    marginTop: 50,
+    marginBottom: 30,
+    marginLeft: 190,
+    width: "50%",
+  },
+  cancel: {
+  //  marginTop: -10,
+  marginBottom:10,
+    marginLeft: -15,
+    width: "50%",
+  },
   type: {
     left: 30,
   },
@@ -842,8 +931,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   btnSubmit: {
-    marginTop: 30,
+    marginTop: 5,
     marginBottom: 30,
+    marginLeft: 120,
+    width: "70%",
+  },
+  cancel: {
+    marginTop: 10,
+    marginLeft: -15,
+    width: "50%",
   },
   th: {
     padding: 5,

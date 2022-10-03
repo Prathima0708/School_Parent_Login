@@ -158,7 +158,7 @@
 //   },
 // });
 
-import { View, Text, FlatList, StyleSheet, Image } from "react-native";
+import { View, Text, FlatList, StyleSheet, Image, LogBox } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { className } from "../../../components/StudentItem/StudentItem";
@@ -174,7 +174,7 @@ const HomeworkScreen = () => {
         const res = await axios.get(
           `http://10.0.2.2:8000/school/HomeworkByClass/${className}/`
         );
-        console.log(res.data);
+        //  console.log(res.data);
         setIsLoading(false);
         var Homeworkdata = [];
         Homeworkdata.push(res.data);
@@ -185,6 +185,13 @@ const HomeworkScreen = () => {
     }
     fetchData();
   }, []);
+  useEffect(() => {
+    LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
+    LogBox.ignoreLogs([
+      "Warning: Async Storage has been extracted from react-native core",
+    ]);
+  }, []);
+
   return (
     <>
       <ScrollView>
@@ -228,6 +235,7 @@ const HomeworkScreen = () => {
           />
         </View>
       </ScrollView>
+
       <View>
         <ParentsHome />
       </View>

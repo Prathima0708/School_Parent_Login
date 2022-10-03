@@ -66,6 +66,10 @@ function StudentCategories({ navigation }) {
         navigation.navigate("Academics", {
           stdId: itemData.item.id,
         });
+      } else if (itemData.item.id === "c5") {
+        navigation.navigate("ParentsProfile", {
+          stdId: itemData.item.id,
+        });
       }
     }
     return (

@@ -13,7 +13,7 @@ const ParentsHome = () => {
         color="black"
         onPress={() => navigation.navigate("Category")}
       />
-      <Ionicons name="globe-outline" size={34} color="black" />
+      <Ionicons name="person" size={34} color="black" />
     </View>
   );
 };

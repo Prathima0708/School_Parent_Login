@@ -84,54 +84,50 @@
 // export default CalenderScreen;
 
 
-
-  // .then((eventInfo: { calendarItemIdentifier: string, eventIdentifier: string }) => {
-  //   // handle success - receives an object with `calendarItemIdentifier` and `eventIdentifier` keys, both of type string.
-  //   // These are two different identifiers on iOS.
-  //   // On Android, where they are both equal and represent the event id, also strings.
-  //   // when { action: 'CANCELED' } is returned, the dialog was dismissed
-  //   console.warn(JSON.stringify(eventInfo));
-  // })
-  // .catch((error: string) => {
-  //   // handle error such as when user rejected permissions
-  //   console.warn(error);
-  // });
+// .then((eventInfo: { calendarItemIdentifier: string, eventIdentifier: string }) => {
+//   // handle success - receives an object with `calendarItemIdentifier` and `eventIdentifier` keys, both of type string.
+//   // These are two different identifiers on iOS.
+//   // On Android, where they are both equal and represent the event id, also strings.
+//   // when { action: 'CANCELED' } is returned, the dialog was dismissed
+//   console.warn(JSON.stringify(eventInfo));
+// })
+// .catch((error: string) => {
+//   // handle error such as when user rejected permissions
+//   console.warn(error);
+// });
 
 import axios from "axios";
 import moment from "moment";
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Card } from "react-native-paper";
 import { Calendar } from "react-native-calendars";
-import { StyleSheet,View,Text, Alert } from "react-native";
+import { StyleSheet, View, Text, Alert } from "react-native";
 import { FlatList } from "react-native";
 import { ScrollView } from "react-native";
 export var fromDateVar=[],toDateVar=[],fromatedDate=[];
 export var filteredDataVar;
 const CalenderScreen = () => {
-  
-  const [calendarData,setCalendarData]=useState([]);
-  const [eventDisplay,setEventDisplay]=useState(false);
-  const [dataIsPresent,setDataIsPresent]=useState(false);
-  const [color,setColor]=useState('');
+  const [calendarData, setCalendarData] = useState([]);
+  const [eventDisplay, setEventDisplay] = useState(false);
+  const [dataIsPresent, setDataIsPresent] = useState(false);
+  const [color, setColor] = useState("");
   let dates = {};
   let i;
 
-  useEffect(()=>{
+  useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/Calendar/`
-        );
+        const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
         setCalendarData(res.data);
-        for(i=0;i<res.data.length;i++){
-          fromDateVar[i]=moment(res.data[i].startdate).format("YYYY-MM-DD");
+        for (i = 0; i < res.data.length; i++) {
+          fromDateVar[i] = moment(res.data[i].startdate).format("YYYY-MM-DD");
         }
       } catch (error) {
         console.log(error);
       }
     }
     fetchData();
-  },[calendarData]);
+  }, [calendarData]);
 
   for(i=0;i<calendarData.length;i++){
     toDateVar[i]=moment(calendarData[i].enddate).format("YYYY-MM-DD");
@@ -149,23 +145,23 @@ const CalenderScreen = () => {
       selected:true,
     };
   });
-  
-  function showEvent(day){
+
+  function showEvent(day) {
     setEventDisplay(true);
     const filteredData = calendarData.filter((data) =>moment(data.startdate).format("YYYY-MM-DD") == day.dateString);
     if(filteredData){
       setDataIsPresent(true);
-      filteredDataVar=filteredData;
-    }else{
+      filteredDataVar = filteredData;
+    } else {
       setDataIsPresent(false);
-      Alert.alert(
-        "Data not found!",
-        "No events are found for this date",
-        [
-          { text: "OK", onPress: () => {return;}}
-        ]
-      );
-  
+      Alert.alert("Data not found!", "No events are found for this date", [
+        {
+          text: "OK",
+          onPress: () => {
+            return;
+          },
+        },
+      ]);
     }
   }
 
@@ -212,22 +208,22 @@ return (
 
 export default CalenderScreen;
 
-const styles=StyleSheet.create({
-  cardStyle:{
-    top:10,
-    marginLeft:10,
-    marginRight:10,
-    borderRadius:20,
-    marginBottom:15
+const styles = StyleSheet.create({
+  cardStyle: {
+    top: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    borderRadius: 20,
+    marginBottom: 15,
   },
-  cardView:{
-    flexDirection:'row',
+  cardView: {
+    flexDirection: "row",
   },
   space: {
     width: 20,
     height: 20,
   },
-  textStyle:{
+  textStyle: {
     fontFamily: "HindRegular",
     fontSize:20
   }

@@ -467,7 +467,7 @@
 //     } catch (error) {
 //       // Error saving data
 //     }
-   
+
 //     try {
 //       const value = await AsyncStorage.getItem("token");
 
@@ -567,11 +567,9 @@
 //               Choose account type
 //             </Text>
 //           </View>
-   
 
-         
 //           <View style={styles.lateralContainer}>
-        
+
 //             <View
 //               style={[
 //                 styles.buttonContainer,
@@ -579,8 +577,6 @@
 //               ]}
 //             >
 
-
-             
 //               <AccountTypeBtn
 //                 onPress={toggleTeachers}
 //                 style={forTeacherBackground}
@@ -598,7 +594,7 @@
 //             <View
 //               style={[
 //                 styles.inputContainer,
-//                 keyboardStatus == "Keyboard Shown" 
+//                 keyboardStatus == "Keyboard Shown"
 //               ]}
 //             >
 //               <TextInput
@@ -632,11 +628,11 @@
 //               >
 //                 <Text style={[styles.submitText]}>Login</Text>
 //               </TouchableHighlight>
-              
+
 //             </View>
-            
+
 //           </View>
- 
+
 //       </View>
 
 //       </ScrollView>
@@ -682,7 +678,7 @@
 //     borderTopWidth: 0,
 //     padding: deviceWidth < 718 ? 70 :40,
 //     paddingTop: 11,
-    
+
 //     width: deviceWidth > 730 ? 370 : 300,
 //     maxHeight:deviceWidth > 730 ? 350 : 240,
 //     left: deviceWidth < 718 ? 30 : 21,
@@ -1121,7 +1117,7 @@ import { StyleSheet } from "react-native";
 import AccountTypeBtn from "../components/UI/AccountTypeBtn";
 import { Dimensions } from "react-native";
 
-export var Token, UserId, LoginResponse;
+export var Token, UserId, LoginResponse, Teacher, TeacherEmail;
 function Login() {
   // const [fontsLoaded] = useFonts({
   //   Roboto: require("../assets/fonts/Roboto-Black.ttf"),
@@ -1183,6 +1179,7 @@ function Login() {
         "Content-Type": "application/json; charset=utf-8",
       };
       const user = { username: enteredUser, password: enteredPassword };
+      Teacher = user.username;
       const resLogin = await axios.post(
         "http://10.0.2.2:8000/school/api-token-auth/",
         user,
@@ -1194,13 +1191,14 @@ function Login() {
       // LoginResponse = resLogin;
       const token = resLogin.data.token;
       const userId = resLogin.data.user_id;
-
+      TeacherEmail = resLogin.data.email;
       Token = token;
       UserId = userId;
       // setAuthToken(token);
       // AsyncStorage.setItem("token", token);
       // const tokenValue=AsyncStorage.getItem("token", token);
       // console.log(tokenValue)
+      // console.log(resLogin);
       console.log(resLogin.data);
       console.log(resLogin.data.groups);
 
@@ -1245,7 +1243,7 @@ function Login() {
     } catch (error) {
       // Error saving data
     }
-   
+
     try {
       const value = await AsyncStorage.getItem("token");
 
@@ -1257,18 +1255,17 @@ function Login() {
     }
 
     // Saves to storage as a JSON-string
-    AsyncStorage.setItem('key', JSON.stringify(UserId))
+    AsyncStorage.setItem("key", JSON.stringify(UserId));
 
     // Retrieves from storage as boolean
-    AsyncStorage.getItem('key', (err, value) => {
-        if (err) {
-            console.log(err)
-        } else {
-            JSON.parse(value) // boolean false
-            console.log("this is the userid:"+value)
-        }
-    })
-
+    AsyncStorage.getItem("key", (err, value) => {
+      if (err) {
+        console.log(err);
+      } else {
+        JSON.parse(value); // boolean false
+        console.log("this is the userid:" + value);
+      }
+    });
   }
   function toggleParents() {
     setShow(true);
@@ -1336,93 +1333,93 @@ function Login() {
 
   return (
     <>
-    <ScrollView>
-    <View style={styles.container}>
-        {keyboardStatus == "Keyboard Hidden" && (
-          <Image
-            style={styles.bannerImage}
-            source={require("../assets/kinarabg2.png")}
-          />
-        )}
-        {/* {keyboardStatus == "Keyboard Shown" && (
+      <ScrollView>
+        <View style={styles.container}>
+          {keyboardStatus == "Keyboard Hidden" && (
+            <Image
+              style={styles.bannerImage}
+              source={require("../assets/kinarabg2.png")}
+            />
+          )}
+          {/* {keyboardStatus == "Keyboard Shown" && (
           <Image
             style={{ width: 70, height: 70, left: 160 }}
             source={require("../assets/Asset2.png")}
           />
         )} */}
-        <View>
-          <View style={styles.accTypeText}>
-            <Text
-              style={[
-                styles.subheading,
-                keyboardStatus == "Keyboard Shown" && styles.test1,
-              ]}
-            >
-              Choose account type
-            </Text>
-          </View>
-          <View style={styles.lateralContainer}>
-            <View
-              style={[
-                styles.buttonContainer,
-                keyboardStatus == "Keyboard Shown" && styles.showTypeBtnCont
-              ]}
-            >
-              <AccountTypeBtn
-                onPress={toggleTeachers}
-                style={forTeacherBackground}
+          <View>
+            <View style={styles.accTypeText}>
+              <Text
+                style={[
+                  styles.subheading,
+                  keyboardStatus == "Keyboard Shown" && styles.test1,
+                ]}
               >
-                Teachers
-              </AccountTypeBtn>
-              <View style={styles.space} />
-              <AccountTypeBtn
-                onPress={toggleParents}
-                style={forPartentBackground}
-              >
-                Parents
-              </AccountTypeBtn>
+                Choose account type
+              </Text>
             </View>
-            <View
-              style={[
-                styles.inputContainer,
-                keyboardStatus == "Keyboard Shown" && styles.showInputCont
-              ]}
-            >
-              <TextInput
-                onChangeText={userInputHandler}
-                style={styles.inputStyle}
-                value={enteredUser}
-                placeholder="Username"
-              />
-              <TextInput
-                secureTextEntry
-                onChangeText={passwordInputHandler}
-                style={styles.inputStyle}
-                value={enteredPassword}
-                placeholder="Password"
-              />
-              {show && (
-                <>
-                  <TextInput
-                    onChangeText={phoneInputHandler}
-                    style={styles.inputStyle}
-                    value={enteredPhone}
-                    keyboardType="number-pad"
-                    placeholder="Registered Phone Number"
-                  />
-                </>
-              )}
-              <TouchableHighlight
-                style={styles.submit}
-                onPress={login}
-                underlayColor="#4FA3C4"
+            <View style={styles.lateralContainer}>
+              <View
+                style={[
+                  styles.buttonContainer,
+                  keyboardStatus == "Keyboard Shown" && styles.showTypeBtnCont,
+                ]}
               >
-                <Text style={[styles.submitText]}>Login</Text>
-              </TouchableHighlight>
+                <AccountTypeBtn
+                  onPress={toggleTeachers}
+                  style={forTeacherBackground}
+                >
+                  Teachers
+                </AccountTypeBtn>
+                <View style={styles.space} />
+                <AccountTypeBtn
+                  onPress={toggleParents}
+                  style={forPartentBackground}
+                >
+                  Parents
+                </AccountTypeBtn>
+              </View>
+              <View
+                style={[
+                  styles.inputContainer,
+                  keyboardStatus == "Keyboard Shown" && styles.showInputCont,
+                ]}
+              >
+                <TextInput
+                  onChangeText={userInputHandler}
+                  style={styles.inputStyle}
+                  value={enteredUser}
+                  placeholder="Username"
+                />
+                <TextInput
+                  secureTextEntry
+                  onChangeText={passwordInputHandler}
+                  style={styles.inputStyle}
+                  value={enteredPassword}
+                  placeholder="Password"
+                />
+                {show && (
+                  <>
+                    <TextInput
+                      onChangeText={phoneInputHandler}
+                      style={styles.inputStyle}
+                      value={enteredPhone}
+                      keyboardType="number-pad"
+                      placeholder="Registered Phone Number"
+                    />
+                  </>
+                )}
+                <TouchableHighlight
+                  style={styles.submit}
+                  onPress={login}
+                  underlayColor="#4FA3C4"
+                >
+                  <Text style={[styles.submitText]}>Login</Text>
+                </TouchableHighlight>
+              </View>
             </View>
           </View>
         </View>
-      </View>
       </ScrollView>
     </>
   );
@@ -1434,8 +1431,8 @@ const deviceWidth = Dimensions.get("window").width;
 console.log(deviceWidth);
 const styles = StyleSheet.create({
   container: {
-    backgroundColor:'white',
-    paddingBottom:deviceWidth < 370 ? 300 : 350
+    backgroundColor: "white",
+    paddingBottom: deviceWidth < 370 ? 300 : 350,
     // height:"400%"
     // minHeight:'500%'
   },
@@ -1524,11 +1521,11 @@ const styles = StyleSheet.create({
   test1: {
     top: 60,
   },
-  showInputCont:{
-    top:100
+  showInputCont: {
+    top: 100,
   },
-  showTypeBtnCont:{
-    top:50
+  showTypeBtnCont: {
+    top: 50,
   },
   subheading: {
     color: "grey",

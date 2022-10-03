@@ -13,6 +13,8 @@ import { Text } from "react-native";
 import { Image } from "react-native";
 import TeachersCategoryGridTile from "../../components/StudentItem/TeachersCategoryGridTile";
 import TeachersHome from "./TeachersHome";
+import TeachersProfile from "./TeachersProfile";
+import { Teacher } from "../Login";
 
 const TeachersLoginScreen = ({ navigation }) => {
   async function logoutHandler() {
@@ -68,6 +70,9 @@ const TeachersLoginScreen = ({ navigation }) => {
       if (itemData.item.id === "c5") {
         navigation.navigate("TeachersLeave");
       }
+      if (itemData.item.id === "c6") {
+        navigation.navigate("TeachersProfile");
+      }
     }
     return (
       <TeachersCategoryGridTile
@@ -94,9 +99,7 @@ const TeachersLoginScreen = ({ navigation }) => {
               style={styles.image}
             />
 
-            <Text style={[styles.textBase, styles.description]}>
-              Teacher name
-            </Text>
+            <Text style={[styles.textBase, styles.description]}>{Teacher}</Text>
           </View>
         </View>
 
