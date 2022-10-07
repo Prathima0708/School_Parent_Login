@@ -86,6 +86,7 @@ import TeachersMarksheet from "./screens/TeachersLoginScreen/TeachersMarksheet";
 import LandingScreen from "./screens/LandingScreen";
 import TeachersProfile from "./screens/TeachersLoginScreen/TeachersProfile";
 import ParentsProfile from "./screens/ParentsLoginScreen/ParentsProfile";
+import TeacherHomeworkScreenBuild from "./screens/TeachersLoginScreen/TeacherHomeworkScreenBuild";
 
 // function Bottom() {
 //   return (
@@ -236,7 +237,8 @@ export default function App() {
             component={TeachersTransport}
           />
 
-          <Stack.Screen name="TeachersHomework" component={TeachersHomework} />
+          {/* <Stack.Screen name="TeachersHomework" component={TeachersHomework} /> */}
+          <Stack.Screen name="TeachersHomework" component={TeacherHomeworkScreenBuild} />
           <Stack.Screen name="TeachersProfile" component={TeachersProfile} />
           {/* <Stack.Screen
               name="TeachersOverview"
