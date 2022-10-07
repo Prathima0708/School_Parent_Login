@@ -15,7 +15,7 @@
 //     // title,
 //     // and other options
 //   };
-  
+
 //   AddCalendarEvent.presentEventCreatingDialog(eventConfig)
 //   const [items, setItems] = useState({});
 //   useEffect(() => {
@@ -83,7 +83,6 @@
 
 // export default CalenderScreen;
 
-
 // .then((eventInfo: { calendarItemIdentifier: string, eventIdentifier: string }) => {
 //   // handle success - receives an object with `calendarItemIdentifier` and `eventIdentifier` keys, both of type string.
 //   // These are two different identifiers on iOS.
@@ -104,7 +103,9 @@ import { Calendar } from "react-native-calendars";
 import { StyleSheet, View, Text, Alert } from "react-native";
 import { FlatList } from "react-native";
 import { ScrollView } from "react-native";
-export var fromDateVar=[],toDateVar=[],fromatedDate=[];
+export var fromDateVar = [],
+  toDateVar = [],
+  fromatedDate = [];
 export var filteredDataVar;
 const CalenderScreen = () => {
   const [calendarData, setCalendarData] = useState([]);
@@ -129,8 +130,8 @@ const CalenderScreen = () => {
     fetchData();
   }, [calendarData]);
 
-  for(i=0;i<calendarData.length;i++){
-    toDateVar[i]=moment(calendarData[i].enddate).format("YYYY-MM-DD");
+  for (i = 0; i < calendarData.length; i++) {
+    toDateVar[i] = moment(calendarData[i].enddate).format("YYYY-MM-DD");
   }
 
   // for(i=0;i<calendarData.length;i++){
@@ -142,14 +143,16 @@ const CalenderScreen = () => {
       // startingDay: false,
       // color: '#89CFF0',
       // marked:true,
-      selected:true,
+      selected: true,
     };
   });
 
   function showEvent(day) {
     setEventDisplay(true);
-    const filteredData = calendarData.filter((data) =>moment(data.startdate).format("YYYY-MM-DD") == day.dateString);
-    if(filteredData){
+    const filteredData = calendarData.filter(
+      (data) => moment(data.startdate).format("YYYY-MM-DD") == day.dateString
+    );
+    if (filteredData) {
       setDataIsPresent(true);
       filteredDataVar = filteredData;
     } else {
@@ -165,44 +168,68 @@ const CalenderScreen = () => {
     }
   }
 
-  function testHandler(){
-    console.log('yes')
+  function testHandler() {
+    console.log("yes");
   }
-return (
-  <>
-    <Calendar
-      markedDates={dates}
-      // markingType={'period'}
-      onDayPress={day => {showEvent(day)}}
-      theme={{
-        textDayFontSize: 16,
-        textMonthFontSize: 16,
-        textDayHeaderFontSize: 16
-      }}      
-    />
-    <ScrollView>
-    {filteredDataVar &&
-      filteredDataVar.map((data, key) => (
-        <>
-          <View style={styles.space} />
-          <Card style={styles.cardStyle} key={data.id}>
-            <Card.Content>
-              <View style={styles.cardView}>
-                <View style={{flex:1}}>
-                  <Text style={[styles.textStyle,{fontWeight:'bold',textDecorationLine:'underline'}]}>Description</Text>
-                  <Text style={styles.textStyle}>{data.description}</Text>
-                </View>
-                <View style={{flex:1,left:30}}>
-                  <Text style={[styles.textStyle,{fontWeight:'bold',textDecorationLine:'underline'}]}>Event end date</Text>
-                  <Text style={[styles.textStyle]}>{ moment(data.enddate).format("DD-MM-YYYY")}</Text>
-                </View>
-              </View>
-            </Card.Content>
-          </Card>
-        </>
-    ))}
-    </ScrollView>
-  </>
+  return (
+    <>
+      <Calendar
+        markedDates={dates}
+        // markingType={'period'}
+        onDayPress={(day) => {
+          showEvent(day);
+        }}
+        theme={{
+          textDayFontSize: 16,
+          textMonthFontSize: 16,
+          textDayHeaderFontSize: 16,
+        }}
+      />
+      <ScrollView>
+        {filteredDataVar &&
+          filteredDataVar.map((data, key) => (
+            <>
+              <View style={styles.space} key={key} />
+              <Card style={styles.cardStyle} key={data.id}>
+                <Card.Content>
+                  <View style={styles.cardView}>
+                    <View style={{ flex: 1 }}>
+                      <Text
+                        style={[
+                          styles.textStyle,
+                          {
+                            fontWeight: "bold",
+                            textDecorationLine: "underline",
+                          },
+                        ]}
+                      >
+                        Description
+                      </Text>
+                      <Text style={styles.textStyle}>{data.description}</Text>
+                    </View>
+                    <View style={{ flex: 1, left: 30 }}>
+                      <Text
+                        style={[
+                          styles.textStyle,
+                          {
+                            fontWeight: "bold",
+                            textDecorationLine: "underline",
+                          },
+                        ]}
+                      >
+                        Event end date
+                      </Text>
+                      <Text style={[styles.textStyle]}>
+                        {moment(data.enddate).format("DD-MM-YYYY")}
+                      </Text>
+                    </View>
+                  </View>
+                </Card.Content>
+              </Card>
+            </>
+          ))}
+      </ScrollView>
+    </>
   );
 };
 
@@ -225,6 +252,6 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontFamily: "HindRegular",
-    fontSize:20
-  }
-})
+    fontSize: 20,
+  },
+});
