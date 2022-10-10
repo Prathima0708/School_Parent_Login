@@ -101,9 +101,10 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Avatar, Card } from "react-native-paper";
 import { Calendar } from "react-native-calendars";
-import { StyleSheet, View, Text, Alert } from "react-native";
+import { StyleSheet, View, Text, Alert, Platform } from "react-native";
 import { FlatList } from "react-native";
 import { ScrollView } from "react-native";
+import VerticalLine from "../../../components/UI/VerticalLine";
 export var fromDateVar=[],toDateVar=[],fromatedDate=[];
 export var filteredDataVar;
 const CalenderScreen = () => {
@@ -176,20 +177,23 @@ const CalenderScreen = () => {
 return (
   <>
     <Calendar
-      // markedDates={dates}
-      markingType={'period'}
-      markedDates={{
-        [test]: {startingDay: true, color: '#50cebb', textColor: 'white'},
-        '2022-09-22': {color: '#70d7c7', textColor: 'white'},
-        '2022-09-23': {color: '#70d7c7', textColor: 'white'},
-        '2022-09-24': {color: '#70d7c7', textColor: 'white'},
-        '2022-09-25': {endingDay: true, color: '#50cebb', textColor: 'white'}
+      markedDates={dates}
+      style={{
+        elevation: 5,
+      shadowColor: "black",
+      borderBottomLeftRadius:20,
+      borderBottomRightRadius:20,
+      shadowOpacity: 0.75,
+      shadowOffset: { width: 0, height: 2 },
+      shadowRadius: 8,
+      overflow: Platform.OS === "android" ? "hidden" : "visible",
       }}
+      // markingType={'period'}
       onDayPress={day => {showEvent(day)}}
       theme={{
         textDayFontSize: 16,
         textMonthFontSize: 16,
-        textDayHeaderFontSize: 16
+        textDayHeaderFontSize: 16,
       }}      
     />
     <ScrollView>
@@ -200,13 +204,23 @@ return (
           <Card style={styles.cardStyle} key={data.id}>
             <Card.Content>
               <View style={styles.cardView}>
-                <View style={{flex:1}}>
-                  <Text style={[styles.textStyle,{fontWeight:'bold',textDecorationLine:'underline'}]}>Description</Text>
+                {/* <View style={{flex:1}}>
+                  <Text style={[styles.textStyle,{fontWeight:'bold'}]}>Description</Text>
                   <Text style={styles.textStyle}>{data.description}</Text>
                 </View>
                 <View style={{flex:1,left:30}}>
-                  <Text style={[styles.textStyle,{fontWeight:'bold',textDecorationLine:'underline'}]}>Event end date</Text>
+                  <Text style={[styles.textStyle,{fontWeight:'bold'}]}>Event end date</Text>
                   <Text style={[styles.textStyle]}>{ moment(data.enddate).format("DD-MM-YYYY")}</Text>
+                </View> */}
+                  <View style={[{ flexDirection: "row",flex:1 }]}>
+                  <View style={{ flex: 2}} >
+                    <Text style={[styles.textStyle,{fontWeight:'bold'}]}>Description</Text>
+                    <Text style={styles.textStyle}>{data.description}</Text>
+                  </View>
+                  <View style={{ flex: 2 }} >
+                    <Text style={[styles.textStyle,{fontWeight:'bold',left:10}]}>Event end date</Text>
+                    <Text style={[styles.textStyle,{left:10}]}>{ moment(data.enddate).format("DD-MM-YYYY")}</Text>
+                  </View>
                 </View>
               </View>
             </Card.Content>
@@ -227,6 +241,14 @@ const styles = StyleSheet.create({
     marginRight: 10,
     borderRadius: 20,
     marginBottom: 15,
+    backgroundColor:'#0080FF',
+    elevation: 5,
+    shadowColor: "black",
+
+    shadowOpacity: 0.75,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
   cardView: {
     flexDirection: "row",
@@ -237,6 +259,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontFamily: "HindRegular",
-    fontSize:20
+    fontSize:20,
+    color:'white'
   }
 })
