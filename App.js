@@ -86,6 +86,9 @@ import TeachersMarksheet from "./screens/TeachersLoginScreen/TeachersMarksheet";
 import LandingScreen from "./screens/LandingScreen";
 import TeachersProfile from "./screens/TeachersLoginScreen/TeachersProfile";
 import ParentsProfile from "./screens/ParentsLoginScreen/ParentsProfile";
+import TeacherHomeworkScreenBuild from "./screens/TeachersLoginScreen/TeachersHomeworkBuild";
+import TeachersLeaveScreenBuild from "./screens/TeachersLoginScreen/TeachersLeaveScreenBuild";
+import TeachersCalendarScreenBuild from "./screens/TeachersLoginScreen/TeachersCalendarScreenBuild";
 
 // function Bottom() {
 //   return (
@@ -194,12 +197,14 @@ export default function App() {
             name="TeachersTimetable"
             component={TeachersTimetable}
           />
-          <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} />
+          {/* <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} /> */}
+          <Stack.Screen name="TeachersCalendar" component={TeachersCalendarScreenBuild} />
           <Stack.Screen
             name="TeachersMarksheet"
             component={TeachersMarksheet}
           />
-          <Stack.Screen name="TeachersLeave" component={TeachersLeave} />
+          {/* <Stack.Screen name="TeachersLeave" component={TeachersLeave} /> */}
+          <Stack.Screen name="TeachersLeave" component={TeachersLeaveScreenBuild} />
           <Stack.Screen
             name="TeachersNoticeBoard"
             component={TeachersNoticeboard}
@@ -236,7 +241,8 @@ export default function App() {
             component={TeachersTransport}
           />
 
-          <Stack.Screen name="TeachersHomework" component={TeachersHomework} />
+          {/* <Stack.Screen name="TeachersHomework" component={TeachersHomework} /> */}
+          <Stack.Screen name="TeachersHomework" component={TeacherHomeworkScreenBuild} />
           <Stack.Screen name="TeachersProfile" component={TeachersProfile} />
           {/* <Stack.Screen
               name="TeachersOverview"

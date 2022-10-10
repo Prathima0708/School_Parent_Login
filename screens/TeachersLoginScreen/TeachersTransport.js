@@ -891,34 +891,34 @@ const styles = StyleSheet.create({
     width: "50%",
   },
   container: {
-    marginTop: 10,
-    padding: 10,
+    marginTop: '1%',
+    padding: '1%',
   },
   home: {
-    marginTop: 29,
+    marginTop: '20%',
   },
   btnSubmit1: {
-    marginTop: 50,
-    marginBottom: 30,
-    marginLeft: 190,
+    // marginTop: 50,
+    // marginBottom: 30,
+    marginLeft: '50%',
     width: "50%",
   },
-  cancel: {
-  //  marginTop: -10,
-  marginBottom:10,
-    marginLeft: -15,
-    width: "50%",
-  },
-  type: {
-    left: 30,
-  },
+  // cancel: {
+  // //  marginTop: -10,
+  // marginBottom:10,
+  //   marginLeft: -15,
+  //   width: "50%",
+  // },
+  // type: {
+  //   left: 30,
+  // },
   root: {
     backgroundColor: "#EBECFO",
     // backgroundColor:'white'
   },
   inputForm: {
-    padding: 20,
-    paddingTop: 5,
+    padding: '5%',
+    paddingTop: '1%',
   },
   errorBorderColor: {
     color: "black",
@@ -931,16 +931,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   btnSubmit: {
-    marginTop: 5,
-    marginBottom: 30,
-    marginLeft: 120,
+    marginTop: '2%',
+    // marginBottom: '30%',
+    marginLeft: '35%',
     width: "70%",
   },
-  cancel: {
-    marginTop: 10,
-    marginLeft: -15,
-    width: "50%",
-  },
+  // cancel: {
+  //   marginTop: 10,
+  //   marginLeft: -15,
+  //   width: "50%",
+  // },
   th: {
     padding: 5,
     marginRight: 13,

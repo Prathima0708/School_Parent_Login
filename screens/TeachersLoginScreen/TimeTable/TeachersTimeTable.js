@@ -25,7 +25,7 @@ import TecahersExamTimeTable from "./TecahersExamTimeTable";
 import { DataTable } from "react-native-paper";
 import Input from "../../../components/UI/Input";
 import moment from "moment";
-export var CLASSNAME, SECTION;
+export var CLASSNAME, SECTION,idTimeTab=[];
 const TeachersTimetable = () => {
   const [showForm, setShowForm] = useState(false);
   const [showExamList, setShowExamList] = useState(false);
@@ -126,6 +126,7 @@ const TeachersTimetable = () => {
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [isEdit, setIsEdit] = useState(false);
 
+  let i;
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -166,9 +167,10 @@ const TeachersTimetable = () => {
 
   const [frommode, setFromMode] = useState("date");
   const [tomode, setToMode] = useState("date");
-
+  const [timeData,setTimeData]=useState([])
   const [inputs, setInputs] = useState([
     {
+      test:0,
       fromTime: new Date(),
       toTime: new Date(),
       fromTimeText: "",
@@ -416,6 +418,7 @@ const TeachersTimetable = () => {
     const _inputs = [...inputs];
 
     _inputs.push({
+      test:0,
       fromTime: "",
       toTime: "",
       fromTimeText: "",
@@ -511,8 +514,16 @@ const TeachersTimetable = () => {
             headers: headers,
           }
         );
+        setTimeData(getTimeTableData.data);
         // console.log(getTimeTableData.data);
+        for(i=0;i<getTimeTableData.data.length;i++){
+          idTimeTab[i]=getTimeTableData.data[i].id;
+        }
+        let test;
+        test=idTimeTab[0];
+        console.log(inputs[0].test);
       }
+      
       storeTimeTable();
       setEnteredSelectedTouched(false);
       setEnteredDateTextTouched(false);
@@ -530,11 +541,11 @@ const TeachersTimetable = () => {
 
     for (let i = 0; i < inputs.length; i++) {
       console.log("inside loop");
-      console.log(inputs);
+      // console.log(inputs);
       const FormData = {
         //from_time: inputs[i].fromTime,
         // to_time: inputs.toTime,
-        // timetab: getTimeTableData.data.id,
+        timetab: inputs[i].test,
         from_time: inputs[i].fromTime,
         to_time: inputs[i].toTime,
         monday: inputs[i].monday,
@@ -545,8 +556,9 @@ const TeachersTimetable = () => {
         saturday: inputs[i].saturday,
         createdDate: createdDate,
         modifiedDate: "",
+        // timetab
       };
-      //  console.log(FormData);
+       console.log(FormData);
       async function storeData() {
         try {
           let headers = {
@@ -560,7 +572,7 @@ const TeachersTimetable = () => {
               headers: headers,
             }
           );
-          console.log(resLoginTimeTable);
+          // console.log(resLoginTimeTable);
           const token = resLogin.data.token;
           // Token = token;
           // UserId = userId;
@@ -1580,7 +1592,8 @@ const styles = StyleSheet.create({
     width: "30%",
     paddingVertical: 20,
     paddingHorizontal: 0,
-    marginLeft: deviceWidth < 370 ? 210 : 290,
+    marginLeft: deviceWidth < 370 ? '70%' : '70%',
+    // deviceWidth < 370 ? 210 : 290
   },
   // BtnContainer: {
   //   flexDirection: "row",

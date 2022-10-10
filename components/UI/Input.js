@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { TextInput, View } from "react-native";
 
 function Input({
@@ -28,6 +28,8 @@ function Input({
 }
 
 export default Input;
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   inputStyle: {
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
     // paddingVertical: 5,
     //  backgroundColor:'#B1CDFF',
     // backgroundColor: "#D6EAF8",
-    fontSize: 20,
+    fontSize: deviceWidth < 370 ? 16 : 20,
     fontFamily: "HindRegular",
   },
 });

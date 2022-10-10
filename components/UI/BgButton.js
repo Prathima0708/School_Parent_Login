@@ -31,7 +31,7 @@
 //   },
 // });
 
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 
 function BgButton({ children, onPress, style }) {
   return (
@@ -42,7 +42,8 @@ function BgButton({ children, onPress, style }) {
 }
 
 export default BgButton;
-
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   button: {
     //  paddingVertical: 6,
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: "HindSemiBold",
     textAlign: "center",
-    fontSize: 20,
+    fontSize: deviceWidth < 370 ? 16 : 20,
     padding: 5,
   },
 });

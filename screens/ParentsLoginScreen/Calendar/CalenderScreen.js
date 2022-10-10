@@ -110,7 +110,7 @@ const CalenderScreen = () => {
   const [calendarData, setCalendarData] = useState([]);
   const [eventDisplay, setEventDisplay] = useState(false);
   const [dataIsPresent, setDataIsPresent] = useState(false);
-  const [color, setColor] = useState("");
+  const [test, setColor] = useState('2022-10-10');
   let dates = {};
   let i;
 
@@ -119,16 +119,21 @@ const CalenderScreen = () => {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
         setCalendarData(res.data);
-        for (i = 0; i < res.data.length; i++) {
-          fromDateVar[i] = moment(res.data[i].startdate).format("YYYY-MM-DD");
-        }
+        // for (i = 0; i < res.data.length; i++) {
+          // fromDateVar = moment(res.data[0].startdate).format("YYYY-MM-DD");
+        // }
       } catch (error) {
         console.log(error);
       }
     }
     fetchData();
-  }, [calendarData]);
+  }, []);
 
+  for (i = 0; i < calendarData.length; i++) {
+    fromDateVar[i] = moment(calendarData[i].startdate).format("YYYY-MM-DD");
+  }
+
+  console.log(fromDateVar)
   for(i=0;i<calendarData.length;i++){
     toDateVar[i]=moment(calendarData[i].enddate).format("YYYY-MM-DD");
   }
@@ -137,15 +142,15 @@ const CalenderScreen = () => {
   //   console.log(fromDateVar[i]+','+toDateVar[i]);
   // }
 
-  fromDateVar.forEach((val) => {
-    dates[val] = {
-      // startingDay: false,
-      // color: '#89CFF0',
-      // marked:true,
-      selected:true,
-    };
-  });
-
+  // fromDateVar.forEach((val) => {
+  //   dates[val] = {
+  //     // startingDay: false,
+  //     // color: '#89CFF0',
+  //     // marked:true,
+  //     selected:true,
+  //   };
+  // });
+ 
   function showEvent(day) {
     setEventDisplay(true);
     const filteredData = calendarData.filter((data) =>moment(data.startdate).format("YYYY-MM-DD") == day.dateString);
@@ -171,8 +176,15 @@ const CalenderScreen = () => {
 return (
   <>
     <Calendar
-      markedDates={dates}
-      // markingType={'period'}
+      // markedDates={dates}
+      markingType={'period'}
+      markedDates={{
+        [test]: {startingDay: true, color: '#50cebb', textColor: 'white'},
+        '2022-09-22': {color: '#70d7c7', textColor: 'white'},
+        '2022-09-23': {color: '#70d7c7', textColor: 'white'},
+        '2022-09-24': {color: '#70d7c7', textColor: 'white'},
+        '2022-09-25': {endingDay: true, color: '#50cebb', textColor: 'white'}
+      }}
       onDayPress={day => {showEvent(day)}}
       theme={{
         textDayFontSize: 16,

@@ -176,7 +176,7 @@ function LandingScreen() {
             style={{
               left: 30,
               color: "grey",
-              fontSize: 22,
+              fontSize: deviceWidth < 370 ? 18 : 22,
               top: 5,
               fontFamily: "HindLight",
             }}
@@ -187,7 +187,7 @@ function LandingScreen() {
             style={{
               left: 30,
 
-              fontSize: 32,
+              fontSize: deviceWidth < 370 ? 24 : 32,
               fontWeight: "900",
               // top: 10,
               fontFamily: "HindBold",
@@ -199,9 +199,7 @@ function LandingScreen() {
           <View style={styles.typeText}>
             <Text
               style={{
-                // color: "#273746",
-                fontSize: 18,
-                // lineHeight: 34,
+                fontSize: deviceWidth < 370 ? 16 : 18,
                 margin: 10,
                 fontFamily: "HindRegular",
               }}
@@ -226,7 +224,7 @@ function LandingScreen() {
                 color="white"
                 style={{
                   position: "absolute",
-                  top: 10,
+                  top: deviceHieght < 600 ? '17%' : '20%',
                   left: 75,
                   bottom: -60,
                 }}
@@ -241,34 +239,26 @@ function LandingScreen() {
 
 export default LandingScreen;
 const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
   },
   inner: {
-    // padding: 24,
-    // flex: 1,
-    // minHeight: "100%",
     backgroundColor: "white",
-   minHeight:'100%',
-   //marginTop:deviceHieght < 718 ? 0 : 0
-   
-    
   },
 
   mainContainer: {
-    height: deviceHieght < 718 ? 550 : 630,
-    
+    height: deviceHieght < 600 ? '105%' : '100%',
   },
   bannerImage: {
-    //marginTop:10,
     width: "100%",
     height: "48%",
   },
   textContainer:{
     position: "absolute", 
-    top:deviceHieght < 718 ? 220 : 250,
- 
+    top:deviceHieght < 600 ? '40%' : '40%',
   },
   typeText: {
     justifyContent: "center",
@@ -285,26 +275,21 @@ const styles = StyleSheet.create({
   },
 
   submit: {
-    width: "30%",
-    height: "18%",
-    // marginRight: 50,
-    left: deviceHieght < 718 ? 200 : 230,
-    //paddingVertical: 10,
-    // paddingHorizontal: 10,
+    width: deviceWidth < 370 ? '32%' : '30%',
+    height: deviceWidth < 370 ? '22%' : '22%',
+    left: deviceHieght < 600 ? '60%' : '60%',
     backgroundColor: "#002D62",
     borderRadius: 10,
     borderWidth: 1,
-    top:deviceHieght < 718 ? -65 : 10,
+    top:deviceHieght < 600 ? '90%' : '100%',
+    position:'absolute',
     borderColor: "#fff",
+    
   },
   submitText: {
-    padding: 13,
-    paddingTop: 7,
-    paddingBottom: 3,
-    alignItems: "center",
-    //  marginHorizontal: 16,
+    padding:"10%",
+    paddingTop: deviceHieght < 600 ? '6%' : '9%',
     color: "#fff",
-    //textAlign: "center",
     fontSize: 24,
     fontFamily: "HindSemiBold",
   },
