@@ -92,6 +92,7 @@ const TeachersTransport = () => {
   const [data, setData] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [isSame, SetIsSame] = useState(false);
+  const [showInitialBtn, setShowInitialBtn] = useState(true);
   let i = 0;
 
   useEffect(() => {
@@ -428,6 +429,14 @@ const TeachersTransport = () => {
     setEnteredRoutenameTouched(false);
     setEnteredStopnameTouched(false);
     setIsEdit(false);
+    setEnteredStudentID("");
+    setEnteredBusNumber("");
+    setEnteredVehicleNo("");
+    setEnteredType("");
+    setEnteredDriverName("");
+    setEnteredMobile("");
+    setEnteredRouteName("");
+    setEnteredStopName("");
   }
   function showTransport() {
     async function fetchData() {
@@ -471,6 +480,7 @@ const TeachersTransport = () => {
   }
 
   function editItem(id) {
+    setShowInitialBtn(false);
     ID = id;
     const filteredDummuyData = data.find((data) => data.id == id);
     console.log(filteredDummuyData);
@@ -539,20 +549,25 @@ const TeachersTransport = () => {
     }
   }
 
+  function cancelHandler() {
+    setShowInitialBtn(true);
+    setShowForm(false);
+    setShowList(true);
+  }
+
   return (
     <>
-      {/* <View style={styles.BtnContainer}>
-        <BgButton>Add Transport</BgButton>
-      </View> */}
-      <View style={styles.BtnContainer}>
-        <BgButton onPress={showTransportForm} style={forTransportList}>
-          Add Transport
-        </BgButton>
+      {showInitialBtn && (
+        <View style={styles.BtnContainer}>
+          <BgButton onPress={showTransportForm} style={forTransportList}>
+            Add Transport
+          </BgButton>
 
-        <BgButton onPress={showTransport} style={forTransportForm}>
-          Show Transport
-        </BgButton>
-      </View>
+          <BgButton onPress={showTransport} style={forTransportForm}>
+            Show Transport
+          </BgButton>
+        </View>
+      )}
       {showForm && (
         <ScrollView style={styles.root}>
           <View style={styles.inputForm}>
@@ -717,11 +732,11 @@ const TeachersTransport = () => {
                 <Button onPress={updateHandler}>Update</Button>
               </View>
             )}
-            {/* {isEdit && (
+            {isEdit && (
               <View style={styles.cancel}>
-                <Button>Cancel</Button>
+                <Button onPress={cancelHandler}>Cancel</Button>
               </View>
-            )} */}
+            )}
           </View>
         </ScrollView>
       )}
@@ -904,8 +919,8 @@ const styles = StyleSheet.create({
     width: "50%",
   },
   cancel: {
-  //  marginTop: -10,
-  marginBottom:10,
+    //  marginTop: -10,
+    marginBottom: 10,
     marginLeft: -15,
     width: "50%",
   },
@@ -968,5 +983,10 @@ const styles = StyleSheet.create({
     height: "9%",
     borderBottomColor: "black",
     borderBottomWidth: 2,
+  },
+  cancel: {
+    marginTop: -140,
+    marginLeft: -15,
+    width: "50%",
   },
 });

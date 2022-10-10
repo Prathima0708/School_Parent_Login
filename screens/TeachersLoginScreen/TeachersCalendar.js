@@ -87,6 +87,7 @@ const TeachersCalendar = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [isSame, SetIsSame] = useState(false);
+  const [showInitialBtn, setShowInitialBtn] = useState(true);
 
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -271,7 +272,7 @@ const TeachersCalendar = () => {
     async function fetchData() {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
-        setData(res.data);
+        setFilteredData(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -426,10 +427,17 @@ const TeachersCalendar = () => {
           // setEnteredCreatedbyTouched(false);
           setEnteredFromDateTouched(false);
           setEnteredtoDateTouched(false);
-          setForCalendarList({ fontWeight: "bold", color: "black" });
-          setForCalendarForm({ color: "black" });
-          setForCalendarForm({ fontWeight: "bold", color: "black" });
-          setForCalendarList({ color: "black" });
+          setForCalendarList({
+            backgroundColor: "#F4F6F6",
+            color: "black",
+            borderRadius: 10,
+          });
+          setForCalendarForm({
+            color: "white",
+            backgroundColor: "#1E8449",
+            borderRadius: 10,
+          });
+
           setShowForm(false);
           setShowList(true);
         }
@@ -508,6 +516,7 @@ const TeachersCalendar = () => {
   }
 
   function editItem(id) {
+    setShowInitialBtn(false);
     ID = id;
     console.log(id);
     const filteredDummuyData = data.find((data) => data.id == id);
@@ -533,6 +542,7 @@ const TeachersCalendar = () => {
     setShowList(false);
     setIsEdit(true);
   }
+
   function deleteItem(id) {
     Alert.alert("Confirm Deletion", "You are about to delete this row!", [
       {
@@ -560,7 +570,6 @@ const TeachersCalendar = () => {
         );
         // const token = resLogin.data.token;
         // const userId = resLogin.data.user_id;
-        console.log(resLogin.data);
       } catch (error) {
         console.log(error);
       }
@@ -568,7 +577,7 @@ const TeachersCalendar = () => {
         try {
           const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
           // console.log(res.data);
-          setData(res.data);
+          setFilteredData(res.data);
         } catch (error) {
           console.log(error);
         }
@@ -596,23 +605,24 @@ const TeachersCalendar = () => {
   };
 
   function cancelHandler() {
+    setShowInitialBtn(true);
     setShowList(true);
     setShowForm(false);
   }
+
   return (
     <>
-      {/* <View style={styles.BtnContainer}>
-        <BgButton>Add Event</BgButton>
-      </View> */}
-      <View style={styles.BtnContainer}>
-        <BgButton onPress={showCalendarForm} style={forCalendarList}>
-          Add Event
-        </BgButton>
+      {showInitialBtn && (
+        <View style={styles.BtnContainer}>
+          <BgButton onPress={showCalendarForm} style={forCalendarList}>
+            Add Event
+          </BgButton>
 
-        <BgButton onPress={showCalendar} style={forCalendarForm}>
-          Show Event
-        </BgButton>
-      </View>
+          <BgButton onPress={showCalendar} style={forCalendarForm}>
+            Show Event
+          </BgButton>
+        </View>
+      )}
       {showForm && (
         <ScrollView>
           <View style={styles.inputForm}>
@@ -773,10 +783,15 @@ const TeachersCalendar = () => {
               </View>
             </View>
             {!isEdit && (
-              <View style={styles.btnSubmit}>
+              <View style={styles.add}>
                 <Button onPress={buttonPressedHandler}>Add Event</Button>
               </View>
             )}
+            {/* {!isEdit && (
+              <View style={styles.cancel}>
+                <Button>Cancel</Button>
+              </View>
+            )} */}
             {isEdit && (
               <View style={styles.btnSubmit1}>
                 <Button onPress={updateHandler}>Update</Button>
@@ -990,6 +1005,12 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     marginLeft: 190,
     width: "50%",
+  },
+  add: {
+    marginTop: 150,
+    marginBottom: 30,
+    marginLeft: 160,
+    width: "60%",
   },
   cancel: {
     marginTop: -140,
