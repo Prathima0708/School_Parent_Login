@@ -67,7 +67,7 @@ const TeachersTransport = () => {
 
   const [mobile, setEnteredMobile] = useState("");
   const [enteredMobileTouched, setEnteredMobileTouched] = useState(false);
-  const enteredMobileIsValid = mobile;
+  const enteredMobileIsValid = mobile.length == 10;
   const mobileInputIsInValid = !enteredMobileIsValid && enteredMobileTouched;
 
   const [routename, setEnteredRouteName] = useState("");
@@ -661,6 +661,7 @@ const TeachersTransport = () => {
               keyboardType="number-pad"
               // style={styles.inputStyle}
               placeholder="Mobile Number"
+              maxLength={10}
               onChangeText={mobileChangeHandler}
               blur={mobilenumberInputBlur}
               value={mobile.toString()}
@@ -676,7 +677,7 @@ const TeachersTransport = () => {
                   fontSize: 18,
                 }}
               >
-                Enter mobile number
+                Enter a valid mobile number(10 digits)
               </Text>
             )}
 
@@ -919,7 +920,7 @@ const styles = StyleSheet.create({
     width: "50%",
   },
   cancel: {
-    //  marginTop: -10,
+    marginTop: -110,
     marginBottom: 10,
     marginLeft: -15,
     width: "50%",
@@ -983,10 +984,5 @@ const styles = StyleSheet.create({
     height: "9%",
     borderBottomColor: "black",
     borderBottomWidth: 2,
-  },
-  cancel: {
-    marginTop: -140,
-    marginLeft: -15,
-    width: "50%",
   },
 });

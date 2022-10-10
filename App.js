@@ -252,6 +252,7 @@ export default function App() {
           <Stack.Screen
             name="TeachersTransport"
             component={TeachersTransport}
+            options={{ title: "" }}
           />
 
           {/* <Stack.Screen name="TeachersHomework" component={TeachersHomework} /> */}

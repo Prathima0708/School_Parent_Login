@@ -963,7 +963,7 @@ const TeachersHomework = () => {
               <Btn title="Upload Image" onPress={PickImage} />
             </View>
             {!isEdit && (
-              <View style={styles.btnSubmit}>
+              <View style={styles.btnSubmit1}>
                 <Button onPress={buttonPressedHandler}>Add Homework</Button>
               </View>
             )}
@@ -1166,6 +1166,7 @@ const styles = StyleSheet.create({
     marginTop: 27,
     marginBottom: 59,
   },
+
   imagePreView: {
     width: "100%",
     height: 200,
