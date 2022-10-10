@@ -1150,7 +1150,7 @@ function Login() {
     borderRightWidth: 0,
     fontFamily: "welcomeMsg",
   });
-
+  const [expandHight,setExpandHieght]=useState(false);
   // function login() {
   //   //fun call get stdent  --  [{ctnum},{}]
   //   // filter ctnum -- enteredPhone  ----- fitertedstdData = [{},{}] || []
@@ -1269,6 +1269,7 @@ function Login() {
   }
   function toggleParents() {
     setShow(true);
+    setExpandHieght(true);
     setForTeacherBackground({
       color: "#d9dffc",
       borderTopColor: "#d9dffc",
@@ -1305,6 +1306,7 @@ function Login() {
 
   function toggleTeachers() {
     setShow(false);
+    setExpandHieght(false);
     setForPartentBackground({
       color: "#d9dffc",
       borderTopColor: "#d9dffc",
@@ -1333,94 +1335,66 @@ function Login() {
 
   return (
     <>
-      <ScrollView>
-        <View style={styles.container}>
-          {keyboardStatus == "Keyboard Hidden" && (
+    <View style={{ flex: 1 }}>
+      <View style={styles.upperPartView} >
+        {keyboardStatus == "Keyboard Hidden" && (
             <Image
               style={styles.bannerImage}
               source={require("../assets/kinarabg2.png")}
             />
-          )}
-          {/* {keyboardStatus == "Keyboard Shown" && (
-          <Image
-            style={{ width: 70, height: 70, left: 160 }}
-            source={require("../assets/Asset2.png")}
-          />
-        )} */}
-          <View>
-            <View style={styles.accTypeText}>
-              <Text
-                style={[
-                  styles.subheading,
-                  keyboardStatus == "Keyboard Shown" && styles.test1,
-                ]}
-              >
-                Choose account type
-              </Text>
-            </View>
-            <View style={styles.lateralContainer}>
-              <View
-                style={[
-                  styles.buttonContainer,
-                  keyboardStatus == "Keyboard Shown" && styles.showTypeBtnCont,
-                ]}
-              >
-                <AccountTypeBtn
-                  onPress={toggleTeachers}
-                  style={forTeacherBackground}
-                >
-                  Teachers
-                </AccountTypeBtn>
-                <View style={styles.space} />
-                <AccountTypeBtn
-                  onPress={toggleParents}
-                  style={forPartentBackground}
-                >
-                  Parents
-                </AccountTypeBtn>
-              </View>
-              <View
-                style={[
-                  styles.inputContainer,
-                  keyboardStatus == "Keyboard Shown" && styles.showInputCont,
-                ]}
-              >
-                <TextInput
-                  onChangeText={userInputHandler}
-                  style={styles.inputStyle}
-                  value={enteredUser}
-                  placeholder="Username"
-                />
-                <TextInput
-                  secureTextEntry
-                  onChangeText={passwordInputHandler}
-                  style={styles.inputStyle}
-                  value={enteredPassword}
-                  placeholder="Password"
-                />
-                {show && (
-                  <>
-                    <TextInput
-                      onChangeText={phoneInputHandler}
-                      style={styles.inputStyle}
-                      value={enteredPhone}
-                      keyboardType="number-pad"
-                      placeholder="Registered Phone Number"
-                    />
-                  </>
-                )}
-                <TouchableHighlight
-                  style={styles.submit}
-                  onPress={login}
-                  underlayColor="#4FA3C4"
-                >
-                  <Text style={[styles.submitText]}>Login</Text>
-                </TouchableHighlight>
-              </View>
-            </View>
-          </View>
+        )}
+      </View>
+      <View style={keyboardStatus=='Keyboard Hidden' ? (
+        expandHight ? styles.test : styles.lowerPartView
+      ) : styles.AccountTypeBtn} >
+        <Text
+          style={[
+            styles.subheading,
+            keyboardStatus == "Keyboard Shown" && styles.setAccTypeStyle,
+          ]}>Choose account type
+        </Text>
+        <View style={styles.buttonContainer}>
+          <AccountTypeBtn onPress={toggleTeachers} style={[forTeacherBackground]}>
+            Teachers
+          </AccountTypeBtn>
+          <View style={styles.space} />
+          <AccountTypeBtn onPress={toggleParents} style={forPartentBackground}>
+            Parents
+          </AccountTypeBtn>
         </View>
-      </ScrollView>
+        <TextInput
+          onChangeText={userInputHandler}
+          style={styles.inputStyle}
+          value={enteredUser}
+          placeholder="Username"
+        />
+        <TextInput
+          secureTextEntry
+          onChangeText={passwordInputHandler}
+          style={styles.inputStyle}
+          value={enteredPassword}
+          placeholder="Password"
+          
+        />
+        {show && (
+        <>
+          <TextInput
+            onChangeText={phoneInputHandler}
+            style={styles.inputStyle}
+            value={enteredPhone}
+            keyboardType="number-pad"
+            placeholder="Registered Phone Number"
+          />
+        </>)}
+        <TouchableHighlight
+          style={styles.submit}
+          onPress={login}
+          underlayColor="#4FA3C4">
+          <Text style={[styles.submitText]}>Login</Text>
+        </TouchableHighlight>
+      </View>
+    </View>
+        
     </>
   );
 }
@@ -1428,17 +1402,43 @@ function Login() {
 export default Login;
 const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
-console.log(deviceWidth);
+
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    paddingBottom: deviceWidth < 370 ? 300 : 350,
-    // height:"400%"
-    // minHeight:'500%'
+
+  upperPartView:{
+    flex:2,
+    backgroundColor:'white'
   },
-  // lateralContainer:{
-  //   elevation:5
-  // },
+  lowerPartView:{
+    flex:2,
+    position:'absolute',
+    top:deviceHieght < 600 ? '45%' : '45%',
+    backgroundColor:'white',
+    width:deviceWidth < 370 ? '80%' : '90%',
+    left:deviceWidth < 370 ? '10%' : '5%',
+    borderRadius:10,
+    elevation:10,
+    height:'50%',
+    
+  },
+  test:{
+    flex:2,
+    position:'absolute',
+    top:deviceHieght < 600 ? '38%' : '40%',
+    backgroundColor:'white',
+    width:deviceWidth < 370 ? '80%' : '90%',
+    left:deviceWidth < 370 ? '10%' : '5%',
+    borderRadius:10,
+    elevation:10,
+    height:deviceHieght < 600 ? '60%' : '55%',
+  },
+  container: {
+    flex:1,
+    backgroundColor: "red",
+  },
+  lateralContainer:{
+    height:'100%'
+  },
   bannerImage: {
     width: "100%",
     height: 300,
@@ -1448,30 +1448,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonContainer: {
-    flexDirection: "row",
-
-    marginLeft: 20,
-    marginRight: deviceWidth > 400 ? 40 : 20,
-    top: -25,
-    height: deviceHieght < 718 ? 100 : 50,
-    elevation: 11,
-    shadowColor: "black",
-    backgroundColor: "white",
-    shadowOpacity: 0.75,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
+    flexDirection:'row',
+    left:deviceWidth < 370 ? '15%' : '10%',
+    width:deviceWidth < 370 ? '80%' : '80%',
+    top:'5%'
   },
 
   inputContainer: {
     position: "absolute",
-    top: 25,
+    top: "60%",
 
     borderTopWidth: 0,
 
-    padding: 40,
-    paddingTop: 11,
-    width: deviceWidth < 370 ? 320 : 352,
-    left: 20,
+    padding: "10%",
+    paddingTop: "5%",
+    width: deviceWidth < 370 ? '70%' : '100%',
+    left: "5%",
 
     elevation: 11,
     shadowColor: "black",
@@ -1489,37 +1481,47 @@ const styles = StyleSheet.create({
     color: "black",
     borderWidth: 2,
     borderColor: "#dddddd",
-    paddingHorizontal: 15,
-    paddingVertical: 7,
+    paddingHorizontal: '10%',
+    paddingVertical: deviceWidth < 370 ? '1%' : '2%',
     borderRadius: 7,
-
-    fontSize: 22,
+    fontSize: deviceWidth < 370 ? 16 : 20,
     fontFamily: "HindRegular",
-    margin: 7,
-
-    width: deviceWidth < 370 ? 270 : 310,
-    right: 22,
+    margin: '2%',
+    top:'7%',
+    left:deviceWidth < 370 ? '8%' : '8%',
+    width:deviceWidth < 370 ? '80%' : '80%'
   },
 
   submit: {
-    padding: 10,
+    padding: '3%',
     backgroundColor: "#59b8dd",
     borderRadius: 10,
     borderWidth: 1,
-    top: 9,
+    top: '10%',
     borderColor: "#fff",
+    left:deviceWidth < 370 ? '10%' : '10%',
+    width:deviceWidth < 370 ? '80%' : '80%'
   },
   submitText: {
     color: "#fff",
     textAlign: "center",
-    fontSize: 24,
+    fontSize: deviceWidth < 370 ? 16 : 20,
     fontFamily: "HindSemiBold",
   },
-  // test: {
-  //   top: 50,
-  // },
-  test1: {
-    top: 60,
+  AccountTypeBtn: {
+    flex:2,
+    position:'absolute',
+    top:deviceHieght < 600 ? '5%' : '7%',
+    backgroundColor:'white',
+    width:deviceWidth < 370 ? '80%' : '90%',
+    left:deviceWidth < 370 ? '10%' : '5%',
+    borderRadius:10,
+    elevation:10,
+    height:deviceHieght < 600 ? '100%' : '90%',
+  },
+  setAccTypeStyle: {
+    top: 10,
+    
   },
   showInputCont: {
     top: 100,
@@ -1529,7 +1531,10 @@ const styles = StyleSheet.create({
   },
   subheading: {
     color: "grey",
-    fontSize: 20,
+    fontSize: deviceWidth < 370 ? 16 : 20,
     fontFamily: "HindRegular",
+    justifyContent:'center',
+    left:'25%',
+    top:5
   },
 });

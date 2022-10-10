@@ -13,7 +13,7 @@ function AccountTypeBtn({ children, onPress, style }) {
 }
 
 export default AccountTypeBtn;
-const deviceWidth = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   button: {
@@ -26,6 +26,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: "HindSemiBold",
     textAlign: "center",
-    fontSize: 24,
+    fontSize: deviceWidth < 370 ? 16 : 20,
   },
 });

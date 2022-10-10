@@ -1,7 +1,7 @@
 // @refresh reset
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as firebase from "firebase";
-import "firebase/firestore";
+// import * as firebase from "firebase";
+// import "firebase/firestore";
 import { useCallback } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -23,12 +23,12 @@ const firebaseConfig = {
   messagingSenderId: "1003535528675",
   appId: "1:1003535528675:web:29649d4860d831e7e30bd6",
 };
-if (firebase.apps.length === 0) {
-  firebase.initializeApp(firebaseConfig);
-}
-LogBox.ignoreLogs(["Setting a timer for a long period of time"]);
-const db = firebase.firestore();
-const chatsRef = db.collection("chats");
+// if (firebase.apps.length === 0) {
+//   firebase.initializeApp(firebaseConfig);
+// }
+// LogBox.ignoreLogs(["Setting a timer for a long period of time"]);
+// const db = firebase.firestore();
+// const chatsRef = db.collection("chats");
 
 export default function ChatScreen() {
   const [user, setUser] = useState();

@@ -86,7 +86,9 @@ import TeachersMarksheet from "./screens/TeachersLoginScreen/TeachersMarksheet";
 import LandingScreen from "./screens/LandingScreen";
 import TeachersProfile from "./screens/TeachersLoginScreen/TeachersProfile";
 import ParentsProfile from "./screens/ParentsLoginScreen/ParentsProfile";
-import TeacherHomeworkScreenBuild from "./screens/TeachersLoginScreen/TeacherHomeworkScreenBuild";
+import TeacherHomeworkScreenBuild from "./screens/TeachersLoginScreen/TeachersHomeworkBuild";
+import TeachersLeaveScreenBuild from "./screens/TeachersLoginScreen/TeachersLeaveScreenBuild";
+import TeachersCalendarScreenBuild from "./screens/TeachersLoginScreen/TeachersCalendarScreenBuild";
 import { LogBox } from "react-native";
 
 // function Bottom() {
@@ -202,12 +204,20 @@ export default function App() {
             name="TeachersTimetable"
             component={TeachersTimetable}
           />
-          <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} />
+          {/* <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} /> */}
+          <Stack.Screen
+            name="TeachersCalendar"
+            component={TeachersCalendarScreenBuild}
+          />
           <Stack.Screen
             name="TeachersMarksheet"
             component={TeachersMarksheet}
           />
-          <Stack.Screen name="TeachersLeave" component={TeachersLeave} />
+          {/* <Stack.Screen name="TeachersLeave" component={TeachersLeave} /> */}
+          <Stack.Screen
+            name="TeachersLeave"
+            component={TeachersLeaveScreenBuild}
+          />
           <Stack.Screen
             name="TeachersNoticeBoard"
             component={TeachersNoticeboard}

@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 import { Colors } from "../constants/styles";
 
 function Button({ children, onPress }) {
@@ -15,7 +15,8 @@ function Button({ children, onPress }) {
 }
 
 export default Button;
-
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   button: {
     borderRadius: 6,
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     color: "white",
-    fontSize: 22,
+    fontSize: deviceWidth < 370 ? 16 : 20,
 
     fontFamily: "HindMedium",
   },
