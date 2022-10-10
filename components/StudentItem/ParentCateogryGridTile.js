@@ -1,4 +1,5 @@
 import {
+  Dimensions,
   Image,
   Platform,
   Pressable,
@@ -25,7 +26,8 @@ function ParentCateogryGridTile({ title, color, icon, onPress, txtclr }) {
 }
 
 export default ParentCateogryGridTile;
-
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   gridItem: {
     flex: 1,
@@ -79,7 +81,7 @@ const styles = StyleSheet.create({
     //  color: "red",
 
     //  fontWeight: "bold",
-    fontSize: 21,
+    fontSize: deviceWidth < 370 ? 16 : 20,
     left: 10,
     // fontFamily: "Roboto",
   },

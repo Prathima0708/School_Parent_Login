@@ -1451,13 +1451,13 @@ const TeachersTimetable = () => {
                     <TouchableOpacity onPress={() => deleteHandler(key)}>
                       <Text
                         style={{
-                          width: "25%",
+                          width: deviceWidth < 370 ? '20%' : '25%',
                           padding: 9,
                           fontFamily: "HindMedium",
                           borderRadius: 10,
                           marginLeft: 240,
                           color: "red",
-                          fontSize: 22,
+                          fontSize: deviceWidth < 370 ? 16 : 20,
                           backgroundColor: "pink",
                         }}
                       >

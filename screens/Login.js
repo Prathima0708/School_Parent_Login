@@ -1340,13 +1340,13 @@ function Login() {
         {keyboardStatus == "Keyboard Hidden" && (
             <Image
               style={styles.bannerImage}
-              source={require("../assets/kinarabg2.png")}
+              source={deviceWidth < 370 ? require("../assets/kinaraui3.png") : require("../assets/kinarabg2.png")}
             />
         )}
       </View>
       <View style={keyboardStatus=='Keyboard Hidden' ? (
         expandHight ? styles.test : styles.lowerPartView
-      ) : styles.AccountTypeBtn} >
+      ) : expandHight ? styles.AccountTypeBtn : styles.AccountTypeBtnDown} >
         <Text
           style={[
             styles.subheading,
@@ -1402,7 +1402,8 @@ function Login() {
 export default Login;
 const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
-
+console.log("hieght"+ deviceHieght)
+console.log("width"+ deviceWidth)
 const styles = StyleSheet.create({
 
   upperPartView:{
@@ -1442,6 +1443,7 @@ const styles = StyleSheet.create({
   bannerImage: {
     width: "100%",
     height: 300,
+  
   },
   loginTypeText: {
     justifyContent: "center",
@@ -1481,7 +1483,7 @@ const styles = StyleSheet.create({
     color: "black",
     borderWidth: 2,
     borderColor: "#dddddd",
-    paddingHorizontal: '10%',
+    paddingHorizontal: '5%',
     paddingVertical: deviceWidth < 370 ? '1%' : '2%',
     borderRadius: 7,
     fontSize: deviceWidth < 370 ? 16 : 20,
@@ -1518,6 +1520,17 @@ const styles = StyleSheet.create({
     borderRadius:10,
     elevation:10,
     height:deviceHieght < 600 ? '100%' : '90%',
+  },
+  AccountTypeBtnDown: {
+    flex:2,
+    position:'absolute',
+    top:deviceHieght < 600 ? '5%' : '7%',
+    backgroundColor:'white',
+    width:deviceWidth < 370 ? '80%' : '90%',
+    left:deviceWidth < 370 ? '10%' : '5%',
+    borderRadius:10,
+    elevation:10,
+    height:deviceHieght < 600 ? '100%' : '80%',
   },
   setAccTypeStyle: {
     top: 10,

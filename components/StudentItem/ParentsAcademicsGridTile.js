@@ -1,4 +1,5 @@
 import {
+  Dimensions,
   Image,
   Platform,
   Pressable,
@@ -25,7 +26,8 @@ function ParentAcademicsGridTile({ title, color, icon, onPress, txtclr }) {
 }
 
 export default ParentAcademicsGridTile;
-
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   gridItem: {
     flex: 1,
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
     fontFamily: "HindMedium",
     letterSpacing: 0.7,
 
-    fontSize: 21,
+    fontSize: deviceWidth < 370 ? 16 : 20,
     left: 10,
   },
 });

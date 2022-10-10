@@ -703,7 +703,8 @@ import {
             data.map((data, key) => (
                 <Card style={{marginTop:15,margin:10}}>
                     <Card.Content>
-                        <Card.Title title={data.leave_type} />
+                        <Card.Title title={data.leave_type} 
+                          titleStyle={{color:'purple',fontFamily: "HindRegular",fontWeight:'bold'}}/>
                         <View style={[{ flexDirection: "row" }]}>
                         <View style={{ flex: 2,left:20 }} >
                             <Text style={styles.cardTextStyle}><Ionicons

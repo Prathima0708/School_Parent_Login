@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import {
   Button,
+  Dimensions,
   Image,
   Pressable,
   ScrollView,
@@ -60,6 +61,8 @@ function StudentItem({
   );
 }
 export default StudentItem;
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   studentItem: {
@@ -78,11 +81,9 @@ const styles = StyleSheet.create({
   textBase: {
     color: "#0D98BA",
     marginRight: 10,
-
-    fontSize: 24,
   },
   description: {
-    fontSize: 24,
+    fontSize: deviceWidth < 370 ? 20 : 24,
 
     marginBottom: 4,
     // fontWeight: "bold",

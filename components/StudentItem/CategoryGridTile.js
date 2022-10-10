@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 
     width: 150,
     right:deviceWidth > 360 ? 1 : 20,
-    height: 130,
+    height: deviceHieght < 600 ? 110 : 130,
     borderRadius: 18,
     elevation: 5,
     shadowColor: "black",
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     fontFamily: "HindMedium",
     letterSpacing: 0.7,
 
-    fontSize: 21,
+    fontSize: deviceWidth < 370 ? 16 : 20,
     left: 10,
   },
 });
