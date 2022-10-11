@@ -1,8 +1,8 @@
-import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
+import { View, StyleSheet, TextInput, Text, ScrollView, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { Card, DataTable, Paragraph, Title } from "react-native-paper";
-
+import { Divider } from "react-native-paper";
 import axios from "axios";
 import BgButton from "../../../components/UI/BgButton";
 import ParentsHome from "../ParentsHome";
@@ -12,11 +12,15 @@ import {
   studentId,
   StudentName,
   StudentRegNo,
+  Section
 } from "../../../components/StudentItem/StudentItem";
 
 const ReportCard = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
 
+  const [maxMarks,setMaxMarks]=useState([]);
+  const [obtMarks,setObtMarks]=useState([]);
+  let i;
   useEffect(() => {
     async function fetchData() {
       try {
@@ -35,10 +39,154 @@ const ReportCard = () => {
 
   return (
     <>
+
+      <View>
+      <View style={{width: '100%', height: '30%'}} >
+      <Text style={styles.mainHeading}>Report Card</Text>
+        <View style={[{flex:1},{flexDirection:'column',left:'10%',top:'3%'}]}>
+          <View style={[{flex:1}, {flexDirection: "row",top:10}]}>
+            <View style={{ flex: 1,height:'100%' }} >
+              <Text style={[styles.textBase, styles.description]}>
+                Name :<Text style={styles.textInfo}>{StudentName}</Text> 
+              </Text>
+            </View>
+            <View style={{ flex: 1,height:'100%'}}>
+              <Text style={[styles.textBase, styles.description]}>
+                Class: <Text style={styles.textInfo}>{className}</Text>
+              </Text>
+            </View>
+          </View>
+          <View style={[{flex:1}, {flexDirection: "row",position:'absolute',top:65}]}>
+            <View style={{ flex: 1,height:'100%' }} >
+            <Text style={[styles.textBase, styles.description]}>
+              RegNo: <Text style={styles.textInfo}>{StudentRegNo}</Text>
+            </Text>
+            </View>
+            <View style={{ flex: 1,height:'100%'}}>
+            <Text style={[styles.textBase, styles.description]}>
+              Section: <Text style={styles.textInfo}>{Section}</Text>
+            </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View style={{width: '100%', height: '50%'}} >
+        <ScrollView>
+          {data && 
+            data.map((data,key)=>(
+              <>
+                <View style={[ { flexDirection: "row",left:10}]}>
+                    <View>
+                      <Text style={styles.textStyle}>Subject</Text>
+                    </View>
+                    <View style={styles.space} />
+                    <View>
+                      <Text style={styles.textStyle}>Max. Mark</Text>
+                    </View>
+                    <View style={styles.space} />
+                    <View>
+                      <Text style={styles.textStyle}>Obtained {"\n"}   Mark</Text>
+                    </View>
+                    <View style={styles.space} />
+                    <View>
+                      <Text style={styles.textStyle}>Min Mark</Text>
+                    </View>
+                </View>
+                <View style={[ { flexDirection: "row",left:10 }]}>
+                  <View>
+                  <View style={{padding:5}}><Text style={styles.subStyle}>Maths</Text></View>
+                    <View style={{padding:5}}><Text style={styles.subStyle}>English</Text></View>
+                    <View style={{padding:5}}><Text style={styles.subStyle}>Science</Text></View>
+                    <View style={{padding:5}}><Text style={styles.subStyle}>Hindi</Text></View>
+                    <View style={{padding:5}}><Text style={styles.subStyle}>Social</Text></View>
+                    <View style={{padding:5}}><Text style={styles.subStyle}>Kannada</Text></View>
+                    <View style={{padding:5}}><Text style={styles.subStyle}>Computer</Text></View>
+                    <View style={{padding:5}}><Text style={styles.subStyle}>Total</Text></View>
+                    <View style={{padding:5}}><Text style={styles.subStyle}>Percentage</Text></View>
+                  </View>
+                  <View>
+                  <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.maths_max_marks}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.english_max_marks}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.science_max_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.hindi_max_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.social_max_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.kannada_max_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.computer_max_mark}</Text></View>
+                    <View style={styles.markStyleView}>
+                      <Text style={styles.markStyle}>
+                      {data.maths_max_marks +
+                          data.english_max_marks +
+                          data.science_max_mark +
+                          data.hindi_max_mark +
+                          data.social_max_mark +
+                          data.kannada_max_mark +
+                          data.computer_max_mark}
+                      </Text>
+                    </View>
+                    <View style={styles.markStyleView}>
+                      <Text style={styles.markStyle}>
+                      {(((data.maths_obt_mark +
+                          data.english_obt_mark +
+                          data.science_obt_mark +
+                          data.hindi_obt_mark +
+                          data.social_obt_mark +
+                          data.kannada_obt_mark +
+                          data.computer_obt_mark)/(data.maths_max_marks +
+                            data.english_max_marks +
+                            data.science_max_mark +
+                            data.hindi_max_mark +
+                            data.social_max_mark +
+                            data.kannada_max_mark +
+                            data.computer_max_mark))*100).toFixed(2)}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={styles.space} />
+                  <View>
+                  <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.maths_obt_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.english_obt_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.science_obt_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.hindi_obt_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.social_obt_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.kannada_obt_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.computer_obt_mark}</Text></View>
+                    <View style={styles.markStyleView}>
+                      <Text style={styles.markStyle}>
+                      {data.maths_obt_mark +
+                          data.english_obt_mark +
+                          data.science_obt_mark +
+                          data.hindi_obt_mark +
+                          data.social_obt_mark +
+                          data.kannada_obt_mark +
+                          data.computer_obt_mark}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={styles.space} />
+                  <View style={styles.space} />
+                  <View>
+                  <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.maths_min_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.english_min_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.science_min_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.hindi_min_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.social_min_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.kannada_min_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.computer_min_mark}</Text></View>
+                  </View>
+                  
+                </View>
+              </>
+            ))}
+        </ScrollView>
+      </View>
+      <View style={{width: '100%', height: '20%'}} >
+        <ParentsHome />
+      </View>
+      </View>
       {/* <View style={styles.BtnContainer}>
         <BgButton>Marksheet</BgButton>
       </View> */}
-      <View style={{ height: "100%", marginTop: 20 }}>
+      {/* <View style={{ height: "100%", marginTop: 20 }}>
         <View style={styles.studentItem}>
           <Text style={[styles.textBase, styles.description]}>
             Name : {StudentName}
@@ -50,7 +198,137 @@ const ReportCard = () => {
             RegNo: {StudentRegNo}
           </Text>
         </View>
+         <View style={styles.BtnContainer}>
+        <BgButton>Marksheet</BgButton>
+      </View> */}
 
+      {/* <View style={{ backgroundColor:'white' }}>
+        <Text style={styles.mainHeading}>Report Card</Text>
+        <View style={[{flex:1},{flexDirection:'column',left:'10%',top:'3%'}]}>
+          <View style={[{flex:1}, {flexDirection: "row"}]}>
+            <View style={{ flex: 1,height:'10%' }} >
+              <Text style={[styles.textBase, styles.description]}>
+                Name :<Text style={styles.textInfo}>{StudentName}</Text> 
+              </Text>
+            </View>
+            <View style={{ flex: 1,height:'10%'}}>
+              <Text style={[styles.textBase, styles.description]}>
+                Class: <Text style={styles.textInfo}>{className}</Text>
+              </Text>
+            </View>
+          </View>
+          <View style={[{flex:1}, {flexDirection: "row",position:'absolute',top:65}]}>
+            <View style={{ flex: 1,height:'100%' }} >
+            <Text style={[styles.textBase, styles.description]}>
+              RegNo: <Text style={styles.textInfo}>{StudentRegNo}</Text>
+            </Text>
+            </View>
+            <View style={{ flex: 1,height:'100%'}}>
+            <Text style={[styles.textBase, styles.description]}>
+              Section: <Text style={styles.textInfo}>{Section}</Text>
+            </Text>
+            </View>
+          </View>
+        </View>
+        </View>
+      <ParentsHome />
+        {data &&
+            data.map((data, key) => ( */}
+
+              <>
+              {/* <View style={{flex:3}}>
+              <ScrollView >
+                <View style={[ { flexDirection: "row",left:10}]}>
+                    <View>
+                      <Text style={styles.textStyle}>Subject</Text>
+                    </View>
+                    <View style={styles.space} />
+                    <View>
+                      <Text style={styles.textStyle}>Max. Mark</Text>
+                    </View>
+                    <View style={styles.space} />
+                    <View>
+                      <Text style={styles.textStyle}>Obtained {"\n"}   Mark</Text>
+                    </View>
+                    <View style={styles.space} />
+                    <View>
+                      <Text style={styles.textStyle}>Min Mark</Text>
+                    </View>
+                </View>
+                <View style={[ { flexDirection: "row",left:10 }]}>
+                  <View>
+                    <View style={{padding:5}}><Text style={styles.subStyle}>Maths</Text></View>
+                    <View style={{padding:5}}><Text style={styles.subStyle}>English</Text></View>
+                    <View style={{padding:5}}><Text style={styles.subStyle}>Science</Text></View>
+                    <View style={{padding:5}}><Text style={styles.subStyle}>Hindi</Text></View>
+                    <View style={{padding:5}}><Text style={styles.subStyle}>Social</Text></View>
+                    <View style={{padding:5}}><Text style={styles.subStyle}>Kannada</Text></View>
+                    <View style={{padding:5}}><Text style={styles.subStyle}>Computer</Text></View>
+                    <View style={{padding:5}}><Text style={styles.subStyle}>Total</Text></View>
+                    <View style={{padding:5}}><Text style={styles.subStyle}>Percentage</Text></View>
+
+                  </View>
+                  
+                  <View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.maths_max_marks}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.english_max_marks}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.science_max_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.hindi_max_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.social_max_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.kannada_max_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.computer_max_mark}</Text></View>
+                    <View style={styles.markStyleView}>
+                      <Text style={styles.markStyle}>
+                      {data.maths_max_marks +
+                          data.english_max_marks +
+                          data.science_max_mark +
+                          data.hindi_max_mark +
+                          data.social_max_mark +
+                          data.kannada_max_mark +
+                          data.computer_max_mark}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={styles.space} />
+                  <View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.maths_obt_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.english_obt_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.science_obt_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.hindi_obt_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.social_obt_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.kannada_obt_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.computer_obt_mark}</Text></View>
+                    <View style={styles.markStyleView}>
+                      <Text style={styles.markStyle}>
+                      {data.maths_obt_mark +
+                          data.english_obt_mark +
+                          data.science_obt_mark +
+                          data.hindi_obt_mark +
+                          data.social_obt_mark +
+                          data.kannada_obt_mark +
+                          data.computer_obt_mark}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={styles.space} />
+                  <View style={styles.space} />
+                  <View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.maths_min_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.english_min_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.science_min_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.hindi_min_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.social_min_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.kannada_min_mark}</Text></View>
+                    <View style={styles.markStyleView}><Text style={styles.markStyle}>{data.computer_min_mark}</Text></View>
+                  </View> 
+                  <View>
+
+                  </View>
+                </View>
+              </ScrollView>
+              </View>
+               */}
+              </>  
         {/* <ScrollView horizontal={true}>
           <DataTable style={styles.container}>
             <DataTable.Header style={styles.tableHeader}>
@@ -147,7 +425,7 @@ const ReportCard = () => {
           </DataTable>
         </ScrollView> */}
 
-        <ScrollView>
+        {/* <ScrollView>
           <ScrollView horizontal={true}>
             {data &&
               data.map((data, key) => (
@@ -282,20 +560,40 @@ const ReportCard = () => {
                 </>
               ))}
           </ScrollView>
-        </ScrollView>
-      </View>
-      <ParentsHome />
+        </ScrollView> */}
+
     </>
   );
 };
 
 export default ReportCard;
+const deviceWidth = Dimensions.get("window").width;
+const deviceHieght = Dimensions.get("window").height;
+
 
 const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
     width: 220,
   },
+  mainHeading:{
+    fontSize:24,
+    fontWeight:'bold',
+    left:'33%',
+    top:'1%',
+    textDecorationLine:'underline'
+  },
+  textInfo:{
+    fontSize:deviceWidth < 370 ? 16 : 20,
+    color:'black',
+    textDecorationLine:'underline',
+    fontWeight:'normal',
+    left:10
+  },
+  space: {
+        width: 20,
+        height: 20,
+      },
   container: {
     padding: 10,
   },
@@ -344,28 +642,21 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   studentItem: {
-    width: "80%",
     marginHorizontal: 35,
     padding: 19,
     marginVertical: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#23215b",
-
-    borderRadius: 16,
+    // alignItems: "center",
+    // justifyContent: "center",
   },
   textBase: {
-    color: "#0D98BA",
+    color: "black",
     fontFamily: "HindRegular",
-
-    marginRight: 33,
   },
   description: {
     fontSize: 20,
-
     fontFamily: "HindRegular",
     marginBottom: 4,
-    marginRight: 33,
+    fontWeight:'bold',
     alignItems: "center",
     justifyContent: "center",
     // fontWeight: "bold",
@@ -409,4 +700,33 @@ const styles = StyleSheet.create({
     top: -15,
     left: 95,
   },
+  space: {
+    width: 20,
+    height: 20,
+  },
+  textStyle:{
+    fontSize:18,
+    fontWeight:'bold',
+    fontFamily: "HindRegular",
+  },
+  subStyle:{
+    fontSize:16,
+    fontFamily: "HindRegular",
+    padding:5
+  },
+  markStyle:{
+    fontSize:16,
+    backgroundColor:'grey',
+    fontFamily: "HindRegular",
+    padding:5,
+    paddingRight:20,
+    paddingLeft:20,
+    color:'white',
+    fontWeight:'500'
+  },
+  markStyleView:{
+    padding:5,
+    justifyContent:'center',
+    alignItems:"center",
+  }
 });

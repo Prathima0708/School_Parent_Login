@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 
 import { DataTable } from "react-native-paper";
@@ -160,7 +160,7 @@ const TimeTable = () => {
                   <DataTable.Row style={styles.tableRow} key={key}>
                     <DataTable.Cell
                       textStyle={{
-                        fontSize: 18,
+                        fontSize:  deviceWidth < 370 ? 16 : 18,
                         fontFamily: "HindRegular",
                         marginLeft: 10,
                       }}
@@ -260,7 +260,7 @@ const TimeTable = () => {
                 <DataTable.Row style={styles.tableRow} key={key}>
                   <DataTable.Cell
                     textStyle={{
-                      fontSize: 18,
+                      fontSize:  deviceWidth < 370 ? 16 : 18,
                       fontFamily: "HindRegular",
                       marginLeft: 10,
                     }}
@@ -269,7 +269,7 @@ const TimeTable = () => {
                   </DataTable.Cell>
                   <DataTable.Cell
                     textStyle={{
-                      fontSize: 18,
+                      fontSize: deviceWidth < 370 ? 16 : 18,
                       fontFamily: "HindRegular",
                       marginLeft: 10,
                     }}
@@ -278,7 +278,7 @@ const TimeTable = () => {
                   </DataTable.Cell>
                   <DataTable.Cell
                     textStyle={{
-                      fontSize: 18,
+                      fontSize: deviceWidth < 370 ? 16 : 18,
                       fontFamily: "HindRegular",
                       marginLeft: 5,
                     }}
@@ -287,7 +287,7 @@ const TimeTable = () => {
                   </DataTable.Cell>
                   <DataTable.Cell
                     textStyle={{
-                      fontSize: 18,
+                      fontSize: deviceWidth < 370 ? 16 : 18,
                       fontFamily: "HindRegular",
                       marginLeft: 10,
                     }}
@@ -296,7 +296,7 @@ const TimeTable = () => {
                   </DataTable.Cell>
                   <DataTable.Cell
                     textStyle={{
-                      fontSize: 18,
+                      fontSize: deviceWidth < 370 ? 16 : 18,
                       fontFamily: "HindRegular",
                       marginLeft: 60,
                     }}
@@ -305,7 +305,7 @@ const TimeTable = () => {
                   </DataTable.Cell>
                   <DataTable.Cell
                     textStyle={{
-                      fontSize: 18,
+                      fontSize: deviceWidth < 370 ? 16 : 18,
                       fontFamily: "HindRegular",
                       marginLeft: 30,
                     }}
@@ -324,7 +324,8 @@ const TimeTable = () => {
 };
 
 export default TimeTable;
-
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
@@ -348,7 +349,7 @@ const styles = StyleSheet.create({
     //textAlign: "center",
   },
   description: {
-    fontSize: 20,
+    fontSize:  deviceWidth < 370 ? 16 : 20,
 
     marginBottom: 4,
     fontFamily: "HindRegular",
@@ -387,7 +388,7 @@ const styles = StyleSheet.create({
   tableTitle: {
     margin: 7,
     fontFamily: "HindSemiBold",
-    fontSize: 20,
+    fontSize:  deviceWidth < 370 ? 16 : 20,
   },
   tableCell: {
     width: 20,
