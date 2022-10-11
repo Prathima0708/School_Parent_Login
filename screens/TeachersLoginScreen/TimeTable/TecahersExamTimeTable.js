@@ -72,6 +72,9 @@ const TecahersExamTimeTable = () => {
   const [showExamList, setShowExamList] = useState(true);
   const [showExamData, setShowExamData] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
+
+  const [showInitialBtn, setShowInitialBtn] = useState(true);
+
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -438,6 +441,10 @@ const TecahersExamTimeTable = () => {
     }
   }
 
+  function cancelHandler() {
+    setShowExamList(true);
+    setShowForm(false);
+  }
   return (
     <>
       {showExamList && (
@@ -579,6 +586,37 @@ const TecahersExamTimeTable = () => {
       {showform && (
         <ScrollView>
           <View style={styles.inputForm}>
+            {!isEdit && (
+              <Text style={[styles.labels, { marginLeft: 20 }]}>
+                Class Name
+              </Text>
+            )}
+            {!isEdit && (
+              <View
+                style={{
+                  width: 250,
+                  fontSize: 18,
+                  marginTop: 3,
+                  marginLeft: 20,
+                }}
+              >
+                <SelectList
+                  setSelected={setSelectedExamTimeTable}
+                  data={ExamTimeTableData}
+                  placeholder="select class"
+                  style={{ fontSize: 16 }}
+                  boxStyles={[
+                    selectInputIsInValid && styles.errorSelectedColor,
+                    { borderRadius: 0 },
+                  ]}
+                  inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                  dropdownTextStyles={{
+                    fontSize: 18,
+                    fontFamily: "HindRegular",
+                  }}
+                />
+              </View>
+            )}
             <Input
               style={selectExamNameIsInValid && styles.errorBorderColor}
               onChangeText={examNameChangeHandler}
@@ -747,26 +785,7 @@ const TecahersExamTimeTable = () => {
                 Enter hour
               </Text>
             )}
-          { !isEdit && <Text style={styles.labels}>Class Name</Text>}
-            {!isEdit && (
-              <View style={{ width: 250, fontSize: 18, marginTop: 3 }}>
-                <SelectList
-                  setSelected={setSelectedExamTimeTable}
-                  data={ExamTimeTableData}
-                  placeholder="select class"
-                  style={{ fontSize: 16 }}
-                  boxStyles={[
-                    selectInputIsInValid && styles.errorSelectedColor,
-                    { borderRadius: 0 },
-                  ]}
-                  inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-                  dropdownTextStyles={{
-                    fontSize: 18,
-                    fontFamily: "HindRegular",
-                  }}
-                />
-              </View>
-            )}
+
             {!isEdit && (
               <View style={styles.btnSubmit}>
                 <Button onPress={addExamTimeTableHandler}>
@@ -775,8 +794,14 @@ const TecahersExamTimeTable = () => {
               </View>
             )}
             {isEdit && (
-              <View style={styles.btnSubmit}>
+              <View style={styles.btnSubmit1}>
                 <Button onPress={updateHandler}>Update</Button>
+              </View>
+            )}
+
+            {isEdit && (
+              <View style={styles.cancel}>
+                <Button onPress={cancelHandler}>Cancel</Button>
               </View>
             )}
           </View>
@@ -831,9 +856,22 @@ const styles = StyleSheet.create({
     // marginTop: 17,
   },
   btnSubmit: {
-    flexDirection: "row",
     marginTop: 27,
-    marginBottom: 69,
+    marginBottom: 59,
+    width: "80%",
+    marginLeft: 90,
+  },
+  btnSubmit1: {
+    marginTop: 29,
+    marginBottom: 59,
+    width: "50%",
+    marginLeft: 200,
+  },
+  cancel: {
+    marginTop: -165,
+    marginBottom: 40,
+    marginLeft: -15,
+    width: "50%",
   },
   space: {
     width: 20, // or whatever size you need

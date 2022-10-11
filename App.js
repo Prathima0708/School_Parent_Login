@@ -89,6 +89,7 @@ import ParentsProfile from "./screens/ParentsLoginScreen/ParentsProfile";
 import TeacherHomeworkScreenBuild from "./screens/TeachersLoginScreen/TeachersHomeworkBuild";
 import TeachersLeaveScreenBuild from "./screens/TeachersLoginScreen/TeachersLeaveScreenBuild";
 import TeachersCalendarScreenBuild from "./screens/TeachersLoginScreen/TeachersCalendarScreenBuild";
+import { LogBox } from "react-native";
 
 // function Bottom() {
 //   return (
@@ -121,6 +122,12 @@ export default function App() {
   const [showtab, setShowTab] = useState(false);
 
   useEffect(() => {
+    LogBox.ignoreLogs([
+      "AsyncStorage has been extracted from react-native core and will be removed in a future release.",
+    ]);
+  }, []);
+
+  useEffect(() => {
     async function getToken() {
       const value = await AsyncStorage.getItem("token");
       teacherGroup = await AsyncStorage.getItem("datagroupTeacher");
@@ -133,7 +140,7 @@ export default function App() {
     }
     getToken();
   }, []);
-  
+
   // const [fontsLoaded] = useFonts({
   //   'Inter-SemiBoldItalic': 'https://rsms.me/inter/font-files/Inter-SemiBoldItalic.otf?v=3.12',
   // });
@@ -162,18 +169,18 @@ export default function App() {
   //         name="Login"
   //         component={Login}
   //         options={{ title: "Kinara" }}
-  //       /> 
+  //       />
   //     </Stack.Navigator>
   //   )
   // }
   // function AuthenticatedStack(){
   //   return(
   //     <Stack.Navigator>
-  //       <Stack.Screen name="TeachersLogin" component={TeachersLoginScreen} /> 
+  //       <Stack.Screen name="TeachersLogin" component={TeachersLoginScreen} />
   //     </Stack.Navigator>
   //   )
   // }
-    return (
+  return (
     <>
       {/* <Navigation /> */}
       <NavigationContainer>
@@ -198,13 +205,19 @@ export default function App() {
             component={TeachersTimetable}
           />
           {/* <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} /> */}
-          <Stack.Screen name="TeachersCalendar" component={TeachersCalendarScreenBuild} />
+          <Stack.Screen
+            name="TeachersCalendar"
+            component={TeachersCalendarScreenBuild}
+          />
           <Stack.Screen
             name="TeachersMarksheet"
             component={TeachersMarksheet}
           />
           {/* <Stack.Screen name="TeachersLeave" component={TeachersLeave} /> */}
-          <Stack.Screen name="TeachersLeave" component={TeachersLeaveScreenBuild} />
+          <Stack.Screen
+            name="TeachersLeave"
+            component={TeachersLeaveScreenBuild}
+          />
           <Stack.Screen
             name="TeachersNoticeBoard"
             component={TeachersNoticeboard}
@@ -239,10 +252,14 @@ export default function App() {
           <Stack.Screen
             name="TeachersTransport"
             component={TeachersTransport}
+            options={{ title: "" }}
           />
 
           {/* <Stack.Screen name="TeachersHomework" component={TeachersHomework} /> */}
-          <Stack.Screen name="TeachersHomework" component={TeacherHomeworkScreenBuild} />
+          <Stack.Screen
+            name="TeachersHomework"
+            component={TeacherHomeworkScreenBuild}
+          />
           <Stack.Screen name="TeachersProfile" component={TeachersProfile} />
           {/* <Stack.Screen
               name="TeachersOverview"

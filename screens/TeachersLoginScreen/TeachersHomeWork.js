@@ -5,6 +5,7 @@ import {
   Text,
   ScrollView,
   Keyboard,
+  LogBox,
 } from "react-native";
 import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -111,17 +112,12 @@ const TeachersHomework = () => {
   const [homeworkData, setHomeworkData] = useState([]);
   const [isSame, SetIsSame] = useState(false);
   let i = 0;
-  // useEffect(()=>{
-  //   if(enteredSubjectIsValid && enteredFromDateIsValid && enteredtoDateIsValid && enteredRemarkIsValid && enteredHomeWorkIsValid){
-  //     setFormIsValid(true);
-  //   }else{
-  //     setFormIsValid(false);
-  //   }
-  // },[enteredSubjectIsValid,
-  //   enteredFromDateIsValid,
-  //   enteredtoDateIsValid,
-  //   enteredRemarkIsValid,
-  //   enteredHomeWorkIsValid])
+
+  useEffect(() => {
+    LogBox.ignoreLogs([
+      "Failed %s type: %s%s, prop, Invalid prop `value` of type `date` supplied to `ForwardRef(TextInput)`, expected `string`.,",
+    ]);
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -967,7 +963,7 @@ const TeachersHomework = () => {
               <Btn title="Upload Image" onPress={PickImage} />
             </View>
             {!isEdit && (
-              <View style={styles.btnSubmit}>
+              <View style={styles.btnSubmit1}>
                 <Button onPress={buttonPressedHandler}>Add Homework</Button>
               </View>
             )}
@@ -1170,6 +1166,7 @@ const styles = StyleSheet.create({
     marginTop: 27,
     marginBottom: 59,
   },
+
   imagePreView: {
     width: "100%",
     height: 200,

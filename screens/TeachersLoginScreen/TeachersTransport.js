@@ -67,7 +67,7 @@ const TeachersTransport = () => {
 
   const [mobile, setEnteredMobile] = useState("");
   const [enteredMobileTouched, setEnteredMobileTouched] = useState(false);
-  const enteredMobileIsValid = mobile;
+  const enteredMobileIsValid = mobile.length == 10;
   const mobileInputIsInValid = !enteredMobileIsValid && enteredMobileTouched;
 
   const [routename, setEnteredRouteName] = useState("");
@@ -92,6 +92,7 @@ const TeachersTransport = () => {
   const [data, setData] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [isSame, SetIsSame] = useState(false);
+  const [showInitialBtn, setShowInitialBtn] = useState(true);
   let i = 0;
 
   useEffect(() => {
@@ -428,6 +429,14 @@ const TeachersTransport = () => {
     setEnteredRoutenameTouched(false);
     setEnteredStopnameTouched(false);
     setIsEdit(false);
+    setEnteredStudentID("");
+    setEnteredBusNumber("");
+    setEnteredVehicleNo("");
+    setEnteredType("");
+    setEnteredDriverName("");
+    setEnteredMobile("");
+    setEnteredRouteName("");
+    setEnteredStopName("");
   }
   function showTransport() {
     async function fetchData() {
@@ -471,6 +480,7 @@ const TeachersTransport = () => {
   }
 
   function editItem(id) {
+    setShowInitialBtn(false);
     ID = id;
     const filteredDummuyData = data.find((data) => data.id == id);
     console.log(filteredDummuyData);
@@ -539,20 +549,25 @@ const TeachersTransport = () => {
     }
   }
 
+  function cancelHandler() {
+    setShowInitialBtn(true);
+    setShowForm(false);
+    setShowList(true);
+  }
+
   return (
     <>
-      {/* <View style={styles.BtnContainer}>
-        <BgButton>Add Transport</BgButton>
-      </View> */}
-      <View style={styles.BtnContainer}>
-        <BgButton onPress={showTransportForm} style={forTransportList}>
-          Add Transport
-        </BgButton>
+      {showInitialBtn && (
+        <View style={styles.BtnContainer}>
+          <BgButton onPress={showTransportForm} style={forTransportList}>
+            Add Transport
+          </BgButton>
 
-        <BgButton onPress={showTransport} style={forTransportForm}>
-          Show Transport
-        </BgButton>
-      </View>
+          <BgButton onPress={showTransport} style={forTransportForm}>
+            Show Transport
+          </BgButton>
+        </View>
+      )}
       {showForm && (
         <ScrollView style={styles.root}>
           <View style={styles.inputForm}>
@@ -646,6 +661,7 @@ const TeachersTransport = () => {
               keyboardType="number-pad"
               // style={styles.inputStyle}
               placeholder="Mobile Number"
+              maxLength={10}
               onChangeText={mobileChangeHandler}
               blur={mobilenumberInputBlur}
               value={mobile.toString()}
@@ -661,7 +677,7 @@ const TeachersTransport = () => {
                   fontSize: 18,
                 }}
               >
-                Enter mobile number
+                Enter a valid mobile number(10 digits)
               </Text>
             )}
 
@@ -717,11 +733,11 @@ const TeachersTransport = () => {
                 <Button onPress={updateHandler}>Update</Button>
               </View>
             )}
-            {/* {isEdit && (
+            {isEdit && (
               <View style={styles.cancel}>
-                <Button>Cancel</Button>
+                <Button onPress={cancelHandler}>Cancel</Button>
               </View>
-            )} */}
+            )}
           </View>
         </ScrollView>
       )}
@@ -891,34 +907,34 @@ const styles = StyleSheet.create({
     width: "50%",
   },
   container: {
-    marginTop: '1%',
-    padding: '1%',
+    marginTop: "1%",
+    padding: "1%",
   },
   home: {
-    marginTop: '20%',
+    marginTop: "20%",
   },
   btnSubmit1: {
     // marginTop: 50,
     // marginBottom: 30,
-    marginLeft: '50%',
+    marginLeft: "50%",
     width: "50%",
   },
-  // cancel: {
-  // //  marginTop: -10,
-  // marginBottom:10,
-  //   marginLeft: -15,
-  //   width: "50%",
-  // },
-  // type: {
-  //   left: 30,
-  // },
+  cancel: {
+    marginTop: -110,
+    marginBottom: 10,
+    marginLeft: -15,
+    width: "50%",
+  },
+  type: {
+    left: 30,
+  },
   root: {
     backgroundColor: "#EBECFO",
     // backgroundColor:'white'
   },
   inputForm: {
-    padding: '5%',
-    paddingTop: '1%',
+    padding: "5%",
+    paddingTop: "1%",
   },
   errorBorderColor: {
     color: "black",
@@ -931,9 +947,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   btnSubmit: {
-    marginTop: '2%',
+    marginTop: "2%",
     // marginBottom: '30%',
-    marginLeft: '35%',
+    marginLeft: "35%",
     width: "70%",
   },
   // cancel: {
