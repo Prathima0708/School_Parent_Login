@@ -184,13 +184,13 @@ function Noticeboard() {
     <>
     <View style={styles.BtnContainer}>
       
-      <BgButton onPress={showNoticeForm} style={forNoticeList}>
+      {/* <BgButton onPress={showNoticeForm} style={forNoticeList}>
         Add Notice
       </BgButton>
       <VerticalLine>|</VerticalLine>
       <BgButton onPress={showNotice} style={forNoticeForm}>
         Show Notice
-    </BgButton>
+    </BgButton> */}
     </View>
       {showForm && <ScrollView>
         <View style={styles.root}>
@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   btnSubmit: {
-    marginTop: 30,
+    top: deviceHieght < 600 ? '1%' : '2%',
     marginBottom: 30,
   },
 });

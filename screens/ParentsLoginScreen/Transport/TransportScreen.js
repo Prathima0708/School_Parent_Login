@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, Text, ScrollView } from "react-native";
+import { View, StyleSheet, TextInput, Text, ScrollView, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 
 import { DataTable } from "react-native-paper";
@@ -130,7 +130,8 @@ const TransportScreen = () => {
 };
 
 export default TransportScreen;
-
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
     // padding: 5,
     margin: 7,
     fontFamily: "MonsterratBold",
-    fontSize: 16,
+    fontSize: deviceWidth < 370 ? 13 : 16,
   },
   tableCell: {
     width: 40,

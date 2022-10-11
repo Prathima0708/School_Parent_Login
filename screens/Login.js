@@ -1340,7 +1340,7 @@ function Login() {
         {keyboardStatus == "Keyboard Hidden" && (
             <Image
               style={styles.bannerImage}
-              source={deviceWidth < 370 ? require("../assets/kinaraui3.png") : require("../assets/kinarabg2.png")}
+              source={deviceWidth < 370 ? require("../assets/kinaraui4.png") : require("../assets/kinarabg2.png")}
             />
         )}
       </View>
@@ -1413,7 +1413,7 @@ const styles = StyleSheet.create({
   lowerPartView:{
     flex:2,
     position:'absolute',
-    top:deviceHieght < 600 ? '45%' : '45%',
+    top:deviceHieght < 600 ? '40%' : '40%',
     backgroundColor:'white',
     width:deviceWidth < 370 ? '80%' : '90%',
     left:deviceWidth < 370 ? '10%' : '5%',
@@ -1443,7 +1443,8 @@ const styles = StyleSheet.create({
   bannerImage: {
     width: "100%",
     height: 300,
-  
+    position:'absolute',
+    top:-50
   },
   loginTypeText: {
     justifyContent: "center",

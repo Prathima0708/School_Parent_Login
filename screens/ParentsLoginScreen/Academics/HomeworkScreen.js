@@ -158,7 +158,7 @@
 //   },
 // });
 
-import { View, Text, FlatList, StyleSheet, Image, LogBox } from "react-native";
+import { View, Text, FlatList, StyleSheet, Image, LogBox, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { className } from "../../../components/StudentItem/StudentItem";
@@ -194,7 +194,9 @@ const HomeworkScreen = () => {
 
   return (
     <>
-      <ScrollView>
+      <View style={[{flex:1}, {flexDirection: "column"}]}>
+        <View style={{ flex: 8,bottom:10 }} >
+        <ScrollView>
         <View style={styles.root}>
           <FlatList
             data={data}
@@ -235,20 +237,67 @@ const HomeworkScreen = () => {
           />
         </View>
       </ScrollView>
-
-      <View>
-        <ParentsHome />
+        </View>
+        <View style={{ flex: 1}} >
+          <ParentsHome />
+        </View>
       </View>
+      {/* <ScrollView>
+        <View style={styles.root}>
+          <FlatList
+            data={data}
+            renderItem={({ item }) => {
+              return (
+                <View style={styles.card}>
+                  <View style={styles.imgContainer}></View>
+                  <View>
+                    <View style={styles.bio}>
+                      <Text style={styles.homewrk}>
+                        Remark : {item.homework}
+                      </Text>
+                      <Text style={styles.homewrk}>
+                        Subject: {item.subject}
+                      </Text>
+                    </View>
+
+                    <View style={styles.main}>
+                      <Image
+                        style={styles.img}
+                        resizeMode="cover"
+                        source={{
+                          uri: `http://10.0.2.2:8000${item.homework_photo}`,
+                        }}
+                      />
+                      <View
+                        style={{
+                          marginLeft: -140,
+                        }}
+                      >
+                        <Text style={styles.remark}>{item.remark}</Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              );
+            }}
+          />
+        </View>
+      </ScrollView> */}
+
+      {/* <View>
+        <ParentsHome />
+      </View> */}
     </>
   );
 };
 
 export default HomeworkScreen;
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   card: {
-    width: 350,
-
+    width: deviceWidth < 370 ? '100%' : '100%',
     borderRadius: 25,
     //marginVertical: 20,
     display: "flex",
@@ -265,7 +314,7 @@ const styles = StyleSheet.create({
   homewrk: {
     padding: 5,
     color: "white",
-    fontSize: 20,
+    fontSize: deviceWidth < 370 ? 16 : 20,
   },
   main: {
     width: "100%",
@@ -292,7 +341,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   remark: {
-    fontSize: 18,
+    fontSize: deviceWidth < 370 ? 16 : 20,
     color: "black",
   },
 });
