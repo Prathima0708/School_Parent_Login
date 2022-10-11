@@ -257,7 +257,7 @@ const ReportCard = () => {
                       </Text>
                       <Card.Title
                         title="Percentage :"
-                        style={{ marginTop: -40 }}
+                       style={{ marginTop: -40 }}
                       />
                       <Text
                         style={[

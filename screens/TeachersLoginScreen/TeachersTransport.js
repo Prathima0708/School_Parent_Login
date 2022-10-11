@@ -557,343 +557,361 @@ const TeachersTransport = () => {
 
   return (
     <>
-      {showInitialBtn && (
-        <View style={styles.BtnContainer}>
-          <BgButton onPress={showTransportForm} style={forTransportList}>
-            Add Transport
-          </BgButton>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "column",
+          backgroundColor: "white",
+        }}
+      >
+        <View style={{ flex: 8, backgroundColor: "white" }}>
+          {showInitialBtn && (
+            <View style={styles.BtnContainer}>
+              <BgButton onPress={showTransportForm} style={forTransportList}>
+                Add Transport
+              </BgButton>
 
-          <BgButton onPress={showTransport} style={forTransportForm}>
-            Show Transport
-          </BgButton>
-        </View>
-      )}
-      {showForm && (
-        <ScrollView style={styles.root}>
-          <View style={styles.inputForm}>
-            <Input
-              // keyboardType="number-pad"
-              placeholder="Bus Number"
-              onChangeText={busNumberChangeHandler}
-              blur={busnumberInputBlur}
-              value={busNumber}
-              onSubmitEditing={Keyboard.dismiss}
-              style={busnumberInputIsInValid && styles.errorBorderColor}
-            />
-            {busnumberInputIsInValid && (
-              <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: 18,
-                }}
-              >
-                Enter bus number
-              </Text>
-            )}
+              <BgButton onPress={showTransport} style={forTransportForm}>
+                Show Transport
+              </BgButton>
+            </View>
+          )}
+          {showForm && (
+            <ScrollView style={styles.root}>
+              <View style={styles.inputForm}>
+                <Input
+                  // keyboardType="number-pad"
+                  placeholder="Bus Number"
+                  onChangeText={busNumberChangeHandler}
+                  blur={busnumberInputBlur}
+                  value={busNumber}
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={busnumberInputIsInValid && styles.errorBorderColor}
+                />
+                {busnumberInputIsInValid && (
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
+                    Enter bus number
+                  </Text>
+                )}
 
-            <Input
-              // keyboardType="number-pad"
-              placeholder="Vehicle Number"
-              onChangeText={vehicleChangeHandler}
-              blur={vehicleInputBlur}
-              value={vehicleno}
-              onSubmitEditing={Keyboard.dismiss}
-              style={vehicleNoInputIsInValid && styles.errorBorderColor}
-            />
-            {vehicleNoInputIsInValid && (
-              <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: 18,
-                }}
-              >
-                Enter vehicle number
-              </Text>
-            )}
+                <Input
+                  // keyboardType="number-pad"
+                  placeholder="Vehicle Number"
+                  onChangeText={vehicleChangeHandler}
+                  blur={vehicleInputBlur}
+                  value={vehicleno}
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={vehicleNoInputIsInValid && styles.errorBorderColor}
+                />
+                {vehicleNoInputIsInValid && (
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
+                    Enter vehicle number
+                  </Text>
+                )}
 
-            <Input
-              placeholder="Type"
-              onChangeText={typeChangeHandler}
-              blur={typeInputBlur}
-              value={type}
-              onSubmitEditing={Keyboard.dismiss}
-              style={typeInputIsInValid && styles.errorBorderColor}
-            />
-            {typeInputIsInValid && (
-              <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: 18,
-                }}
-              >
-                Enter type
-              </Text>
-            )}
+                <Input
+                  placeholder="Type"
+                  onChangeText={typeChangeHandler}
+                  blur={typeInputBlur}
+                  value={type}
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={typeInputIsInValid && styles.errorBorderColor}
+                />
+                {typeInputIsInValid && (
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
+                    Enter type
+                  </Text>
+                )}
 
-            <Input
-              placeholder="Driver Name"
-              onChangeText={driverNameChangeHandler}
-              blur={drivernameInputBlur}
-              value={drivername}
-              onSubmitEditing={Keyboard.dismiss}
-              style={drivernameInputIsInValid && styles.errorBorderColor}
-            />
-            {drivernameInputIsInValid && (
-              <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: 18,
-                }}
-              >
-                Enter driver name
-              </Text>
-            )}
+                <Input
+                  placeholder="Driver Name"
+                  onChangeText={driverNameChangeHandler}
+                  blur={drivernameInputBlur}
+                  value={drivername}
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={drivernameInputIsInValid && styles.errorBorderColor}
+                />
+                {drivernameInputIsInValid && (
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
+                    Enter driver name
+                  </Text>
+                )}
 
-            <Input
-              keyboardType="number-pad"
-              // style={styles.inputStyle}
-              placeholder="Mobile Number"
-              maxLength={10}
-              onChangeText={mobileChangeHandler}
-              blur={mobilenumberInputBlur}
-              value={mobile.toString()}
-              onSubmitEditing={Keyboard.dismiss}
-              style={mobileInputIsInValid && styles.errorBorderColor}
-            />
-            {mobileInputIsInValid && (
-              <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: 18,
-                }}
-              >
-                Enter a valid mobile number(10 digits)
-              </Text>
-            )}
+                <Input
+                  keyboardType="number-pad"
+                  // style={styles.inputStyle}
+                  placeholder="Mobile Number"
+                  maxLength={10}
+                  onChangeText={mobileChangeHandler}
+                  blur={mobilenumberInputBlur}
+                  value={mobile.toString()}
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={mobileInputIsInValid && styles.errorBorderColor}
+                />
+                {mobileInputIsInValid && (
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
+                    Enter a valid mobile number(10 digits)
+                  </Text>
+                )}
 
-            <Input
-              placeholder="Route Name"
-              onChangeText={routeNameChangeHandler}
-              blur={routenameInputBlur}
-              value={routename}
-              onSubmitEditing={Keyboard.dismiss}
-              style={routenameInputIsInValid && styles.errorBorderColor}
-            />
-            {routenameInputIsInValid && (
-              <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: 18,
-                }}
-              >
-                Enter route name
-              </Text>
-            )}
+                <Input
+                  placeholder="Route Name"
+                  onChangeText={routeNameChangeHandler}
+                  blur={routenameInputBlur}
+                  value={routename}
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={routenameInputIsInValid && styles.errorBorderColor}
+                />
+                {routenameInputIsInValid && (
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
+                    Enter route name
+                  </Text>
+                )}
 
-            <Input
-              placeholder="Stop Name"
-              onChangeText={stopNameChangeHandler}
-              blur={stopnameInputBlur}
-              value={stopname}
-              onSubmitEditing={Keyboard.dismiss}
-              style={stopnameInputIsInValid && styles.errorBorderColor}
-            />
-            {stopnameInputIsInValid && (
-              <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: 18,
-                }}
-              >
-                Enter stop name
-              </Text>
-            )}
+                <Input
+                  placeholder="Stop Name"
+                  onChangeText={stopNameChangeHandler}
+                  blur={stopnameInputBlur}
+                  value={stopname}
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={stopnameInputIsInValid && styles.errorBorderColor}
+                />
+                {stopnameInputIsInValid && (
+                  <Text
+                    style={{
+                      color: "red",
+                      left: 20,
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                  >
+                    Enter stop name
+                  </Text>
+                )}
 
-            {!isEdit && (
-              <View style={styles.btnSubmit}>
-                <Button onPress={buttonPressedHandler}>Add Transport</Button>
+                {!isEdit && (
+                  <View style={styles.btnSubmit}>
+                    <Button onPress={buttonPressedHandler}>
+                      Add Transport
+                    </Button>
+                  </View>
+                )}
+                {isEdit && (
+                  <View style={styles.btnSubmit1}>
+                    <Button onPress={updateHandler}>Update</Button>
+                  </View>
+                )}
+                {isEdit && (
+                  <View style={styles.cancel}>
+                    <Button onPress={cancelHandler}>Cancel</Button>
+                  </View>
+                )}
               </View>
-            )}
-            {isEdit && (
-              <View style={styles.btnSubmit1}>
-                <Button onPress={updateHandler}>Update</Button>
-              </View>
-            )}
-            {isEdit && (
-              <View style={styles.cancel}>
-                <Button onPress={cancelHandler}>Cancel</Button>
-              </View>
-            )}
-          </View>
-        </ScrollView>
-      )}
-      {showList && (
-        <ScrollView horizontal={true}>
-          <DataTable style={styles.container}>
-            <DataTable.Header style={styles.tableHeader}>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> BUS NUMBER</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> VEHICLENO</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> TYPES</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> DRIVER NAME</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> EMP MOBILE</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> ROUTE NAME</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> STOP NAME</Text>
-              </View>
+            </ScrollView>
+          )}
+          {showList && (
+            <ScrollView
+              horizontal={true}
+              // showsHorizontalScrollIndicator={false}
+              // style={{ backgroundColor: "white", height: "100%" }}
+            >
+              <DataTable style={styles.container}>
+                <DataTable.Header style={styles.tableHeader}>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> BUS NUMBER</Text>
+                  </View>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> VEHICLENO</Text>
+                  </View>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> TYPES</Text>
+                  </View>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> DRIVER NAME</Text>
+                  </View>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> EMP MOBILE</Text>
+                  </View>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> ROUTE NAME</Text>
+                  </View>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> STOP NAME</Text>
+                  </View>
 
-              <View style={styles.th}>
-                <Text
-                  style={{
-                    margin: 7,
-                    marginLeft: 50,
-                    fontFamily: "MonsterratBold",
-                    fontSize: 16,
-                  }}
-                >
-                  ACTIONS
-                </Text>
-              </View>
+                  <View style={styles.th}>
+                    <Text
+                      style={{
+                        margin: 7,
+                        marginLeft: 50,
+                        fontFamily: "MonsterratBold",
+                        fontSize: 16,
+                      }}
+                    >
+                      ACTIONS
+                    </Text>
+                  </View>
 
-              {/* {isSame && <View style={styles.th}>
+                  {/* {isSame && <View style={styles.th}>
                 <Text style={styles.tableTitle}> Update</Text>
               </View>}
               {isSame && <View style={styles.th}>
                 <Text style={styles.tableTitle}> Delete</Text>
               </View>} */}
-            </DataTable.Header>
+                </DataTable.Header>
 
-            {data &&
-              data.map((data, key) => (
-                <DataTable.Row style={styles.tableRow} key={key}>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 50,
-                    }}
-                  >
-                    {data.busnumber}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 50,
-                    }}
-                  >
-                    {data.vehicleno}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 20,
-                    }}
-                  >
-                    {data.types}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 50,
-                    }}
-                  >
-                    {data.driver_name}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 50,
-                    }}
-                  >
-                    {data.emp_mobile}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 50,
-                    }}
-                  >
-                    {data.route_name}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 70,
-                    }}
-                  >
-                    {data.stop_name}
-                  </DataTable.Cell>
+                {data &&
+                  data.map((data, key) => (
+                    <DataTable.Row style={styles.tableRow} key={key}>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 50,
+                        }}
+                      >
+                        {data.busnumber}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 50,
+                        }}
+                      >
+                        {data.vehicleno}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 20,
+                        }}
+                      >
+                        {data.types}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 50,
+                        }}
+                      >
+                        {data.driver_name}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 50,
+                        }}
+                      >
+                        {data.emp_mobile}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 50,
+                        }}
+                      >
+                        {data.route_name}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 70,
+                        }}
+                      >
+                        {data.stop_name}
+                      </DataTable.Cell>
 
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 110,
-                    }}
-                  >
-                    <Ionicons
-                      name="md-pencil-sharp"
-                      size={24}
-                      color="green"
-                      onPress={() => editItem(data.id)}
-                    />
-                  </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 110,
+                        }}
+                      >
+                        <Ionicons
+                          name="md-pencil-sharp"
+                          size={24}
+                          color="green"
+                          onPress={() => editItem(data.id)}
+                        />
+                      </DataTable.Cell>
 
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      //marginLeft: 15,
-                    }}
-                  >
-                    <Ionicons
-                      name="trash"
-                      size={24}
-                      color="red"
-                      onPress={() => deleteItem(data.busnumber)}
-                    />
-                  </DataTable.Cell>
-                </DataTable.Row>
-              ))}
-          </DataTable>
-        </ScrollView>
-      )}
-      {showForm && keyboardStatus == "Keyboard Hidden" && (
-        <View style={styles.home}>
-          <TeachersHome />
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          //marginLeft: 15,
+                        }}
+                      >
+                        <Ionicons
+                          name="trash"
+                          size={24}
+                          color="red"
+                          onPress={() => deleteItem(data.busnumber)}
+                        />
+                      </DataTable.Cell>
+                    </DataTable.Row>
+                  ))}
+              </DataTable>
+            </ScrollView>
+          )}
         </View>
-      )}
+        <View style={{ flex: 1 }}>
+          {keyboardStatus == "Keyboard Hidden" && (
+            <View style={styles.home}>
+              <TeachersHome />
+            </View>
+          )}
+        </View>
+      </View>
     </>
   );
 };
@@ -905,6 +923,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     flexDirection: "row",
     width: "50%",
+    backgroundColor: "#FDFEFE",
   },
   container: {
     marginTop: "1%",
@@ -930,7 +949,8 @@ const styles = StyleSheet.create({
   },
   root: {
     backgroundColor: "#EBECFO",
-    // backgroundColor:'white'
+    height: "100%",
+    //  backgroundColor: "white",
   },
   inputForm: {
     padding: "5%",

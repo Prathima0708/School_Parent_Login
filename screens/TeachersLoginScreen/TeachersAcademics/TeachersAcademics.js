@@ -1,8 +1,8 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import CategoryGridTile from "../../components/StudentItem/CategoryGridTile";
+import CategoryGridTile from "../../../components/StudentItem/CategoryGridTile";
 
-import { TEACHERSACADEMICS } from "../../components/utils/TeachAcademics";
-import TeachersHome from "./TeachersHome";
+import { TEACHERSACADEMICS } from "../../../components/utils/TeachAcademics";
+import TeachersHome from "../TeachersHome";
 
 function TeachersAcademics({ navigation }) {
   function renderCategoryItem(itemData) {
@@ -18,7 +18,7 @@ function TeachersAcademics({ navigation }) {
         });
       }
       if (itemData.item.id === "c3") {
-        navigation.navigate("Attendance", {
+        navigation.navigate("TeachersAttendance", {
           stdId: itemData.item.id,
         });
       }

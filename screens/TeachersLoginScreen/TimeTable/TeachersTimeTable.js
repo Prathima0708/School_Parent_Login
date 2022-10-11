@@ -9,6 +9,7 @@ import {
   Pressable,
   Alert,
   Dimensions,
+  LogBox,
 } from "react-native";
 import React, { useRef, useState } from "react";
 import axios from "axios";
@@ -25,7 +26,10 @@ import TecahersExamTimeTable from "./TecahersExamTimeTable";
 import { DataTable } from "react-native-paper";
 import Input from "../../../components/UI/Input";
 import moment from "moment";
-export var CLASSNAME, SECTION,idTimeTab=[];
+export var CLASSNAME,
+  SECTION,
+  idTimeTab = [];
+export var TimeTabID;
 const TeachersTimetable = () => {
   const [showForm, setShowForm] = useState(false);
   const [showExamList, setShowExamList] = useState(false);
@@ -125,7 +129,9 @@ const TeachersTimetable = () => {
 
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [isEdit, setIsEdit] = useState(false);
-
+  useEffect(() => {
+    LogBox.ignoreLogs(["Each child in a list should have a unique "]);
+  }, []);
   let i;
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -167,10 +173,9 @@ const TeachersTimetable = () => {
 
   const [frommode, setFromMode] = useState("date");
   const [tomode, setToMode] = useState("date");
-  const [timeData,setTimeData]=useState([])
+  const [timeData, setTimeData] = useState([]);
   const [inputs, setInputs] = useState([
     {
-      test:0,
       fromTime: new Date(),
       toTime: new Date(),
       fromTimeText: "",
@@ -199,7 +204,7 @@ const TeachersTimetable = () => {
 
         setStudentClassData(newArray);
         let selectedData = selectedClass.split(" - ");
-        console.log(selectedData);
+        // console.log(selectedData);
       } catch (error) {
         console.log(error);
       }
@@ -347,6 +352,9 @@ const TeachersTimetable = () => {
       tempToDate.getFullYear();
     setDateText(tDate);
     // console.log(fDate);
+    if (event.type == "set") {
+      setDateText(tDate);
+    }
   };
 
   const showDateMode = (currentToMode) => {
@@ -418,7 +426,6 @@ const TeachersTimetable = () => {
     const _inputs = [...inputs];
 
     _inputs.push({
-      test:0,
       fromTime: "",
       toTime: "",
       fromTimeText: "",
@@ -437,7 +444,7 @@ const TeachersTimetable = () => {
 
   function addDailyTimeTableHandler() {
     //console.log(inputs);
-
+    console.log("-----------------------------------------------");
     let selectedData = selectedTimeTable.split(" - ");
     let class_name = selectedData[0];
     let section = selectedData[1];
@@ -490,99 +497,149 @@ const TeachersTimetable = () => {
     }
     if (!enteredSaturdayTouched) {
       return;
-    } else {
-      async function storeTimeTable() {
-        // console.log(inputs);
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
-        //    console.log(sendtoTimeTable);
-
-        //console.log(getTimeTableData.data);
-
-        const resLoginTimeTable = await axios.post(
-          `http://10.0.2.2:8000/school/Timetable/`,
-          sendtoTimeTable,
-          {
-            headers: headers,
-          }
-        );
-        const getTimeTableData = await axios.get(
-          `http://10.0.2.2:8000/school/Timetable/`,
-
-          {
-            headers: headers,
-          }
-        );
-        setTimeData(getTimeTableData.data);
-        // console.log(getTimeTableData.data);
-        for(i=0;i<getTimeTableData.data.length;i++){
-          idTimeTab[i]=getTimeTableData.data[i].id;
-        }
-        let test;
-        test=idTimeTab[0];
-        console.log(inputs[0].test);
-      }
-      
-      storeTimeTable();
-      setEnteredSelectedTouched(false);
-      setEnteredDateTextTouched(false);
-      setEnteredFromTimeTouched(false);
-      setEnteredToTimeTouched(false);
-      setEnteredMondayTouched(false);
-      setEnteredTuesdayTouched(false);
-      setEnteredWednesdayTouched(false);
-      setEnteredThursdayTouched(false);
-      setEnteredFridayTouched(false);
-      setEnteredSaturdayTouched(false);
-      setShowTimeTableList(true);
-      setShowTable(false);
     }
-
-    for (let i = 0; i < inputs.length; i++) {
-      console.log("inside loop");
+    // else {
+    async function storeTimeTable() {
       // console.log(inputs);
-      const FormData = {
-        //from_time: inputs[i].fromTime,
-        // to_time: inputs.toTime,
-        timetab: inputs[i].test,
-        from_time: inputs[i].fromTime,
-        to_time: inputs[i].toTime,
-        monday: inputs[i].monday,
-        Tuesday: inputs[i].tuesday,
-        wednesday: inputs[i].wednesday,
-        thursday: inputs[i].thursday,
-        friday: inputs[i].friday,
-        saturday: inputs[i].saturday,
-        createdDate: createdDate,
-        modifiedDate: "",
-        // timetab
+      let headers = {
+        "Content-Type": "application/json; charset=utf-8",
       };
-       console.log(FormData);
-      async function storeData() {
-        try {
-          let headers = {
-            "Content-Type": "application/json; charset=utf-8",
-          };
-          const dataForm = FormData;
-          const resLogin = await axios.post(
-            `http://10.0.2.2:8000/school/AddmoreTimetable_list/`,
-            dataForm,
-            {
-              headers: headers,
-            }
-          );
-          // console.log(resLoginTimeTable);
-          const token = resLogin.data.token;
-          // Token = token;
-          // UserId = userId;
-        } catch (error) {
-          console.log(error);
-        }
-      }
+      //    console.log(sendtoTimeTable);
 
-      storeData();
+      //console.log(getTimeTableData.data);
+
+      const resLoginTimeTable = await axios.post(
+        `http://10.0.2.2:8000/school/Timetable/`,
+        sendtoTimeTable,
+        {
+          headers: headers,
+        }
+      );
+      const getTimeTableData = await axios.get(
+        `http://10.0.2.2:8000/school/Timetable/`,
+
+        {
+          headers: headers,
+        }
+      );
+      setTimeData(getTimeTableData.data);
+      // console.log(getTimeTableData.data);
+      for (i = 0; i < getTimeTableData.data.length; i++) {
+        idTimeTab[i] = getTimeTableData.data[i].id;
+      }
+      for (let i = 0; i < inputs.length; i++) {
+        console.log("inside loop");
+        // console.log(inputs);
+        const FormData = {
+          //from_time: inputs[i].fromTime,
+          // to_time: inputs.toTime,
+
+          timetab: idTimeTab[0],
+          // timetab: getTimeTableData.data[0].id,
+          from_time: inputs[i].fromTime,
+          to_time: inputs[i].toTime,
+          monday: inputs[i].monday,
+          Tuesday: inputs[i].tuesday,
+          wednesday: inputs[i].wednesday,
+          thursday: inputs[i].thursday,
+          friday: inputs[i].friday,
+          saturday: inputs[i].saturday,
+          createdDate: "",
+          modifiedDate: "",
+        };
+        console.log(FormData);
+        async function storeData() {
+          console.log("inside add more");
+          try {
+            let headers = {
+              "Content-Type": "application/json; charset=utf-8",
+            };
+            const dataForm = FormData;
+            const resLogin = await axios.post(
+              `http://10.0.2.2:8000/school/AddmoreTimetable_list/`,
+              dataForm,
+              {
+                headers: headers,
+              }
+            );
+            // console.log(resLoginTimeTable);
+            const token = resLogin.data.token;
+            // Token = token;
+            // UserId = userId;
+          } catch (error) {
+            console.log(error);
+          }
+        }
+
+        storeData();
+      }
+      //   }
+      // TimeTabID = idTimeTab[0];
+      // console.log(TimeTabID);
+      // let test;
+      // test = idTimeTab[0];
+      // console.log(inputs[0].test);
     }
+
+    storeTimeTable();
+    setEnteredSelectedTouched(false);
+    setEnteredDateTextTouched(false);
+    setEnteredFromTimeTouched(false);
+    setEnteredToTimeTouched(false);
+    setEnteredMondayTouched(false);
+    setEnteredTuesdayTouched(false);
+    setEnteredWednesdayTouched(false);
+    setEnteredThursdayTouched(false);
+    setEnteredFridayTouched(false);
+    setEnteredSaturdayTouched(false);
+    setShowTimeTableList(true);
+    setShowTable(false);
+    //   }
+
+    // for (let i = 0; i < inputs.length; i++) {
+    //   console.log("inside loop");
+    //   // console.log(inputs);
+    //   const FormData = {
+    //     //from_time: inputs[i].fromTime,
+    //     // to_time: inputs.toTime,
+    //     timetab: TimeTabID,
+    //     from_time: inputs[i].fromTime,
+    //     to_time: inputs[i].toTime,
+    //     monday: inputs[i].monday,
+    //     Tuesday: inputs[i].tuesday,
+    //     wednesday: inputs[i].wednesday,
+    //     thursday: inputs[i].thursday,
+    //     friday: inputs[i].friday,
+    //     saturday: inputs[i].saturday,
+    //     createdDate: createdDate,
+    //     modifiedDate: "",
+    //     // timetab
+    //   };
+    //   console.log(FormData);
+    //   async function storeData() {
+    //     try {
+    //       let headers = {
+    //         "Content-Type": "application/json; charset=utf-8",
+    //       };
+    //       const dataForm = FormData;
+    //       const resLogin = await axios.post(
+    //         `http://10.0.2.2:8000/school/AddmoreTimetable_list/`,
+    //         dataForm,
+    //         {
+    //           headers: headers,
+    //         }
+    //       );
+    //       // console.log(resLoginTimeTable);
+    //       const token = resLogin.data.token;
+    //       // Token = token;
+    //       // UserId = userId;
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   }
+
+    //   storeData();
+    // }
     setFromTimeText("");
     setToTimeText("");
     setToTime("");
@@ -920,8 +977,9 @@ const TeachersTimetable = () => {
                 {selectedClass}
               </Text>
             </View>
-            <ScrollView>
-              <ScrollView horizontal={true}>
+            <View style={{ flex: 1, height: " 100%" }}>
+              {/* <ScrollView style={{ flex: 1 }}> */}
+              <ScrollView horizontal={true} style={{}}>
                 <DataTable style={styles.container}>
                   <DataTable.Header style={styles.tableHeader}>
                     <View style={styles.th}>
@@ -1063,7 +1121,8 @@ const TeachersTimetable = () => {
                   ))}
                 </DataTable>
               </ScrollView>
-            </ScrollView>
+              {/* </ScrollView> */}
+            </View>
           </>
         )}
 
@@ -1451,7 +1510,7 @@ const TeachersTimetable = () => {
                     <TouchableOpacity onPress={() => deleteHandler(key)}>
                       <Text
                         style={{
-                          width: deviceWidth < 370 ? '20%' : '25%',
+                          width: deviceWidth < 370 ? "20%" : "25%",
                           padding: 9,
                           fontFamily: "HindMedium",
                           borderRadius: 10,
@@ -1592,7 +1651,7 @@ const styles = StyleSheet.create({
     width: "30%",
     paddingVertical: 20,
     paddingHorizontal: 0,
-    marginLeft: deviceWidth < 370 ? '70%' : '70%',
+    marginLeft: deviceWidth < 370 ? "70%" : "70%",
     // deviceWidth < 370 ? 210 : 290
   },
   // BtnContainer: {
