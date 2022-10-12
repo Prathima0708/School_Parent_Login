@@ -5,11 +5,10 @@ import {
   Text,
   ScrollView,
   Keyboard,
-  LogBox,
 } from "react-native";
 import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import Button from "../../../components/UI/Button";
+import Button from "../../../../components/UI/Button";
 import * as MediaLibrary from "expo-media-library";
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
@@ -21,17 +20,17 @@ import {
   useCameraPermissions,
   PermissionStatus,
 } from "expo-image-picker";
-import { UserId } from "../../Login";
-import BgButton from "../../../components/UI/BgButton";
+
+import BgButton from "../../../../components/UI/BgButton";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect } from "react";
-import TeachersHome from "../TeachersHome";
-import Input from "../../../components/UI/Input";
-import VerticalLine from "../../../components/UI/VerticalLine";
-import { DataTable } from "react-native-paper";
+import TeachersHome from "../../BottomTab/TeachersHome";
+import Input from "../../../../components/UI/Input";
+
+import { Card, DataTable } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export var ID;
-const TeachersHomework = () => {
+const TeacherHomeworkScreenBuild = () => {
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
   const [forHomeworkList, setForHomeworkList] = useState({
@@ -111,13 +110,9 @@ const TeachersHomework = () => {
   const [isDelete, setIsDelete] = useState(false);
   const [homeworkData, setHomeworkData] = useState([]);
   const [isSame, SetIsSame] = useState(false);
-  let i = 0;
+  const [showInitialBtn, setShowInitialBtn] = useState(true);
 
-  useEffect(() => {
-    LogBox.ignoreLogs([
-      "Failed %s type: %s%s, prop, Invalid prop `value` of type `date` supplied to `ForwardRef(TextInput)`, expected `string`.,",
-    ]);
-  }, []);
+  let i = 0;
 
   useEffect(() => {
     async function fetchData() {
@@ -336,101 +331,111 @@ const TeachersHomework = () => {
   function updateHandler() {
     var dateFromValidate = fromText;
     var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
-    if (!isValid) {
-      Alert.alert(
-        "Format Error",
-        "It seems to be you entered wrong date format please follow D/M/YYYY format ",
-        [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel",
-          },
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]
-      );
-    }
+    // if (!isValid) {
+    //   Alert.alert(
+    //     "Format Error",
+    //     "It seems to be you entered wrong date format please follow D/M/YYYY format ",
+    //     [
+    //       {
+    //         text: "Cancel",
+    //         onPress: () => console.log("Cancel Pressed"),
+    //         style: "cancel",
+    //       },
+    //       { text: "OK", onPress: () => console.log("OK Pressed") },
+    //     ]
+    //   );
+    // }
 
     var dateToValidate = toText;
     var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
-    if (!isValid) {
-      Alert.alert(
-        "Format Error",
-        "It seems to be you entered wrong date format please follow D/M/YYYY format",
-        [
+    // if (!isValid) {
+
+    //   Alert.alert(
+    //     "Format Error",
+    //     "It seems to be you entered wrong date format please follow D/M/YYYY format",
+    //     [
+    //       {
+    //         text: "Cancel",
+    //         onPress: () => console.log("Cancel Pressed"),
+    //         style: "cancel",
+    //       },
+    //       { text: "OK", onPress: () => console.log("OK Pressed") },
+    //     ]
+    //   );
+    // }
+    //  else {
+    let selectedData = selected.split(" - ");
+    let class_name = selectedData[0];
+    let section = selectedData[1];
+    let uploaduri = image;
+    // let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
+    const formdata = {
+      class_name: class_name,
+      section: section,
+      subject: subject,
+      homework_date: fromDate,
+      remark: remark,
+      homework_photo: "",
+      homework: "",
+      due_date: toDate,
+      description: hw,
+    };
+    console.log(formdata);
+
+    async function updateData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+        };
+
+        const resLogin = await axios.put(
+          `http://10.0.2.2:8000/school/Homework/${ID}/`,
+          formdata,
           {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel",
-          },
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]
-      );
-    } else {
-      let selectedData = selected.split(" - ");
-      let class_name = selectedData[0];
-      let section = selectedData[1];
-      let uploaduri = image;
-      // let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
-      const formdata = {
-        class_name: class_name,
-        section: section,
-        subject: subject,
-        homework_date: fromDate,
-        remark: remark,
-        homework_photo: "",
-        homework: "",
-        due_date: toDate,
-        description: hw,
-      };
-      console.log(formdata);
+            headers: headers,
+          }
+        );
 
-      async function updateData() {
-        try {
-          let headers = {
-            "Content-Type": "application/json; charset=utf-8",
-          };
-
-          const resLogin = await axios.put(
-            `http://10.0.2.2:8000/school/Homework/${ID}/`,
-            formdata,
-            {
-              headers: headers,
-            }
-          );
-
-          console.log(resLogin.data);
-        } catch (error) {
-          console.log(error);
-        }
+        console.log(resLogin.data);
+      } catch (error) {
+        console.log(error);
       }
-
-      updateData();
-      Alert.alert("Successfully updated", "", [
-        { text: "OK", onPress: () => fetchData },
-      ]);
-
-      async function fetchData() {
-        try {
-          const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
-          setHomeworkData(res.data);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-      fetchData();
-
-      setEnteredSubject("");
-      setFromText("");
-      setToText("");
-      setPickedImage("");
-      setEnteredRemark("");
-      setHW("");
-      setShowForm(false);
-      setShowList(true);
-      setForHomeworkList({ fontWeight: "bold", color: "black" });
-      setForHomeworkForm({ color: "black" });
     }
+
+    updateData();
+    Alert.alert("Successfully updated", "", [
+      { text: "OK", onPress: () => fetchData },
+    ]);
+
+    async function fetchData() {
+      try {
+        const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
+        setHomeworkData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+
+    setEnteredSubject("");
+    setFromText("");
+    setToText("");
+    setPickedImage("");
+    setEnteredRemark("");
+    setHW("");
+    setShowForm(false);
+    setShowList(true);
+    setForHomeworkList({
+      backgroundColor: "#0C60F4",
+      color: "white",
+      borderRadius: 10,
+    });
+    setForHomeworkForm({
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
+    });
+    // }
   }
 
   function buttonPressedHandler() {
@@ -441,20 +446,20 @@ const TeachersHomework = () => {
     console.log(test);
     var dateFromValidate = fromText;
     var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
-    if (!isValid) {
-      Alert.alert(
-        "Format Error",
-        "It seems to be you entered wrong date format please follow D/M/YYYY format ",
-        [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel",
-          },
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]
-      );
-    }
+    // if (!isValid) {
+    //   Alert.alert(
+    //     "Format Error",
+    //     "It seems to be you entered wrong date format please follow D/M/YYYY format ",
+    //     [
+    //       {
+    //         text: "Cancel",
+    //         onPress: () => console.log("Cancel Pressed"),
+    //         style: "cancel",
+    //       },
+    //       { text: "OK", onPress: () => console.log("OK Pressed") },
+    //     ]
+    //   );
+    // }
 
     if (isValid) {
       Alert.alert("Data saved", "Data saved successfully", [
@@ -475,20 +480,20 @@ const TeachersHomework = () => {
 
     var dateToValidate = toText;
     var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
-    if (!isValid) {
-      Alert.alert(
-        "Format Error",
-        "It seems to be you entered wrong date format please follow D/M/YYYY format",
-        [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel",
-          },
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]
-      );
-    }
+    // if (!isValid) {
+    //   Alert.alert(
+    //     "Format Error",
+    //     "It seems to be you entered wrong date format please follow D/M/YYYY format",
+    //     [
+    //       {
+    //         text: "Cancel",
+    //         onPress: () => console.log("Cancel Pressed"),
+    //         style: "cancel",
+    //       },
+    //       { text: "OK", onPress: () => console.log("OK Pressed") },
+    //     ]
+    //   );
+    // }
 
     setEnteredSelectedTouched(true);
     setEnteredSubjectTouched(true);
@@ -584,10 +589,16 @@ const TeachersHomework = () => {
       setEnteredImageTouched(false);
       setShowForm(false);
       setShowList(true);
-      setForHomeworkList({ fontWeight: "bold", color: "black" });
-      setForHomeworkForm({ color: "black" });
-      setForHomeworkForm({ fontWeight: "bold", color: "black" });
-      setForHomeworkList({ color: "black" });
+      setForHomeworkList({
+        backgroundColor: "#0C60F4",
+        color: "white",
+        borderRadius: 10,
+      });
+      setForHomeworkForm({
+        color: "white",
+        backgroundColor: "#1E8449",
+        borderRadius: 10,
+      });
     }
   }
 
@@ -608,6 +619,12 @@ const TeachersHomework = () => {
   }
 
   function showHomeworkForm() {
+    setEnteredSubject("");
+    setFromText("");
+    setToText("");
+    setPickedImage("");
+    setEnteredRemark("");
+    setHW("");
     setForHomeworkList({
       backgroundColor: "#0C60F4",
       color: "white",
@@ -655,6 +672,7 @@ const TeachersHomework = () => {
     fetchData();
   }
   function editItem(id) {
+    setShowInitialBtn(false);
     let selectedData = selected.split(" - ");
     let class_name = selectedData[0];
     let section = selectedData[1];
@@ -734,20 +752,25 @@ const TeachersHomework = () => {
       fetchData();
     }
   }
+
+  function cancelHandler() {
+    setShowInitialBtn(true);
+    setShowList(true);
+    setShowForm(false);
+  }
   return (
     <>
-      {/* <View style={styles.BtnContainer}>
-        <BgButton>Add HomeWork</BgButton>
-      </View> */}
-      <View style={styles.BtnContainer}>
-        <BgButton onPress={showHomeworkForm} style={forHomeworkList}>
-          Add Homework
-        </BgButton>
+      {showInitialBtn && (
+        <View style={styles.BtnContainer}>
+          <BgButton onPress={showHomeworkForm} style={forHomeworkList}>
+            Add Homework
+          </BgButton>
 
-        <BgButton onPress={showHomework} style={forHomeworkForm}>
-          Show Homework
-        </BgButton>
-      </View>
+          <BgButton onPress={showHomework} style={forHomeworkForm}>
+            Show Homework
+          </BgButton>
+        </View>
+      )}
       {showForm && (
         <ScrollView style={styles.root}>
           <View style={styles.inputForm}>
@@ -803,7 +826,7 @@ const TeachersHomework = () => {
                   />
                 </View>
                 <Input
-                  value={fromText || fromDate}
+                  value={fromText}
                   // value={
                   //   moment(fromText).format("DD/MM/YYYY") ||
                   //   moment(fromDate).format("DD/MM/YYYY")
@@ -853,7 +876,7 @@ const TeachersHomework = () => {
                   />
                 </View>
                 <Input
-                  value={toText || toDate}
+                  value={toText}
                   // value={
                   //   moment(toText).format("DD/MM/YYYY") ||
                   //   moment(toDate).format("DD/MM/YYYY")
@@ -963,148 +986,103 @@ const TeachersHomework = () => {
               <Btn title="Upload Image" onPress={PickImage} />
             </View>
             {!isEdit && (
-              <View style={styles.btnSubmit1}>
+              <View style={styles.btnSubmit}>
                 <Button onPress={buttonPressedHandler}>Add Homework</Button>
               </View>
             )}
             {isEdit && (
-              <View style={styles.btnSubmit}>
+              <View style={styles.btnSubmit1}>
                 <Button onPress={updateHandler}>Update</Button>
+              </View>
+            )}
+            {isEdit && (
+              <View style={styles.cancel}>
+                <Button onPress={cancelHandler}>Cancel</Button>
               </View>
             )}
           </View>
         </ScrollView>
       )}
-      {showList && (
-        <ScrollView horizontal={true}>
-          <DataTable style={styles.container}>
-            <DataTable.Header style={styles.tableHeader}>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> CLASS NAME</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> SECTION</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> SUBJECT</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> HOMEWORK DATE</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> REMARK</Text>
-              </View>
-
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}>DUE DATE</Text>
-              </View>
-
-              <View style={styles.th}>
-                <Text
-                  style={{
-                    margin: 7,
-                    marginLeft: 50,
-                    fontFamily: "MonsterratBold",
-                    fontSize: 16,
+      <ScrollView>
+        {showList &&
+          homeworkData &&
+          homeworkData.map((homeworkData, key) => (
+            <Card style={{ marginTop: 15, margin: 10 }} key={key}>
+              <Card.Content>
+                <Card.Title
+                  title={homeworkData.class_name}
+                  titleStyle={{
+                    color: "purple",
+                    fontFamily: "HindRegular",
+                    fontWeight: "bold",
                   }}
-                >
-                  ACTIONS
-                </Text>
-              </View>
-            </DataTable.Header>
-
-            {homeworkData &&
-              homeworkData.map((homeworkData, key) => (
-                <DataTable.Row style={styles.tableRow} key={key}>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 40,
-                    }}
-                  >
-                    {homeworkData.class_name}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 50,
-                    }}
-                  >
-                    {homeworkData.section}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 50,
-                    }}
-                  >
-                    {homeworkData.subject}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 50,
-                    }}
-                  >
-                    {moment(homeworkData.homework_date).format("DD/MM/YYYY")}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 50,
-                    }}
-                  >
-                    {homeworkData.remark}
-                  </DataTable.Cell>
-
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 50,
-                    }}
-                  >
-                    {moment(homeworkData.due_date).format("DD/MM/YYYY")}
-                  </DataTable.Cell>
-
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 110,
-                    }}
-                  >
+                />
+                <View style={[{ flexDirection: "row" }]}>
+                  <View style={{ flex: 2, left: 20 }}>
+                    <Text style={styles.cardTextStyle}>
+                      <Ionicons name="calendar" size={24} color="green" />
+                      Assigned
+                    </Text>
+                  </View>
+                  <View style={{ flex: 2 }}>
+                    <Text style={styles.cardTextStyle}>
+                      <Ionicons name="calendar" size={24} color="green" />
+                      Due
+                    </Text>
+                  </View>
+                </View>
+                <View style={[{ flexDirection: "row" }]}>
+                  <View style={{ flex: 2, left: 40 }}>
+                    <Text style={[styles.cardTextStyle, { fontSize: 17 }]}>
+                      {moment(homeworkData.homework_date).format("DD/MM/YYYY")}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 2, left: 105 }}>
+                    <Text style={[styles.cardTextStyle, { fontSize: 17 }]}>
+                      {moment(homeworkData.due_date).format("DD/MM/YYYY")}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 2, left: 120, bottom: 5 }}>
                     <Ionicons
                       name="md-pencil-sharp"
                       size={24}
                       color="green"
                       onPress={() => editItem(homeworkData.id)}
                     />
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      //marginLeft: 15,
-                    }}
-                  >
+                  </View>
+                  <View style={{ flex: 2, left: 70, bottom: 5 }}>
                     <Ionicons
                       name="trash"
                       size={24}
                       color="red"
                       onPress={() => deleteItem(homeworkData.id)}
                     />
-                  </DataTable.Cell>
-                </DataTable.Row>
-              ))}
-          </DataTable>
-        </ScrollView>
-      )}
+                  </View>
+                </View>
+                <View style={[{ flexDirection: "column", flex: 1 }]}>
+                  <View style={{ flex: 2, left: 40, top: 5 }}>
+                    <Text
+                      style={[styles.cardTextStyle, { fontWeight: "bold" }]}
+                    >
+                      Description:
+                    </Text>
+                  </View>
+                  <View style={{ flex: 2, left: 40, top: 5 }}>
+                    <Text
+                      style={[
+                        styles.cardTextStyle,
+                        { color: "grey", fontSize: 18 },
+                      ]}
+                    >
+                      {homeworkData.description}
+                    </Text>
+                  </View>
+                </View>
+              </Card.Content>
+            </Card>
+          ))}
+      </ScrollView>
+
       {showForm && keyboardStatus == "Keyboard Hidden" && (
         <View>
           <TeachersHome />
@@ -1114,12 +1092,24 @@ const TeachersHomework = () => {
   );
 };
 
-export default TeachersHomework;
+export default TeacherHomeworkScreenBuild;
 
 const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
     fontSize: 24,
+    width: "50%",
+  },
+  btnSubmit1: {
+    // marginTop: 50,
+    // marginBottom: 30,
+    marginLeft: "50%",
+    width: "50%",
+  },
+  cancel: {
+    marginTop: -110,
+    marginBottom: 50,
+    marginLeft: -15,
     width: "50%",
   },
   container: {
@@ -1163,10 +1153,11 @@ const styles = StyleSheet.create({
     height: 20,
   },
   btnSubmit: {
+    width: "70%",
     marginTop: 27,
     marginBottom: 59,
+    marginLeft: 130,
   },
-
   imagePreView: {
     width: "100%",
     height: 200,
@@ -1222,5 +1213,9 @@ const styles = StyleSheet.create({
     height: "9%",
     borderBottomColor: "black",
     borderBottomWidth: 2,
+  },
+  cardTextStyle: {
+    fontFamily: "HindRegular",
+    fontSize: 16,
   },
 });

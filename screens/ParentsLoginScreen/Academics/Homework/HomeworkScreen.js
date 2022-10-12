@@ -158,11 +158,19 @@
 //   },
 // });
 
-import { View, Text, FlatList, StyleSheet, Image, LogBox, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  Image,
+  LogBox,
+  Dimensions,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { className } from "../../../components/StudentItem/StudentItem";
-import ParentsHome from "../ParentsHome";
+import { className } from "../../../../components/StudentItem/StudentItem";
+import ParentsHome from "../../BottomTab/ParentsHome";
 import { ScrollView } from "react-native";
 
 const HomeworkScreen = () => {
@@ -194,51 +202,51 @@ const HomeworkScreen = () => {
 
   return (
     <>
-      <View style={[{flex:1}, {flexDirection: "column"}]}>
-        <View style={{ flex: 8,bottom:10 }} >
-        <ScrollView>
-        <View style={styles.root}>
-          <FlatList
-            data={data}
-            renderItem={({ item }) => {
-              return (
-                <View style={styles.card}>
-                  <View style={styles.imgContainer}></View>
-                  <View>
-                    <View style={styles.bio}>
-                      <Text style={styles.homewrk}>
-                        Remark : {item.homework}
-                      </Text>
-                      <Text style={styles.homewrk}>
-                        Subject: {item.subject}
-                      </Text>
-                    </View>
+      <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
+        <View style={{ flex: 8, bottom: 10 }}>
+          <ScrollView>
+            <View style={styles.root}>
+              <FlatList
+                data={data}
+                renderItem={({ item }) => {
+                  return (
+                    <View style={styles.card}>
+                      <View style={styles.imgContainer}></View>
+                      <View>
+                        <View style={styles.bio}>
+                          <Text style={styles.homewrk}>
+                            Remark : {item.homework}
+                          </Text>
+                          <Text style={styles.homewrk}>
+                            Subject: {item.subject}
+                          </Text>
+                        </View>
 
-                    <View style={styles.main}>
-                      <Image
-                        style={styles.img}
-                        resizeMode="cover"
-                        source={{
-                          uri: `http://10.0.2.2:8000${item.homework_photo}`,
-                        }}
-                      />
-                      <View
-                        style={{
-                          marginLeft: -140,
-                        }}
-                      >
-                        <Text style={styles.remark}>{item.remark}</Text>
+                        <View style={styles.main}>
+                          <Image
+                            style={styles.img}
+                            resizeMode="cover"
+                            source={{
+                              uri: `http://10.0.2.2:8000${item.homework_photo}`,
+                            }}
+                          />
+                          <View
+                            style={{
+                              marginLeft: -140,
+                            }}
+                          >
+                            <Text style={styles.remark}>{item.remark}</Text>
+                          </View>
+                        </View>
                       </View>
                     </View>
-                  </View>
-                </View>
-              );
-            }}
-          />
+                  );
+                }}
+              />
+            </View>
+          </ScrollView>
         </View>
-      </ScrollView>
-        </View>
-        <View style={{ flex: 1}} >
+        <View style={{ flex: 1 }}>
           <ParentsHome />
         </View>
       </View>
@@ -297,7 +305,7 @@ const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   card: {
-    width: deviceWidth < 370 ? '100%' : '100%',
+    width: deviceWidth < 370 ? "100%" : "100%",
     borderRadius: 25,
     //marginVertical: 20,
     display: "flex",

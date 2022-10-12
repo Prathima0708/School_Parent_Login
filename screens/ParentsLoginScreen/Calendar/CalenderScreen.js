@@ -144,14 +144,14 @@ const CalenderScreen = () => {
   //   console.log(fromDateVar[i]+','+toDateVar[i]);
   // }
 
-  // fromDateVar.forEach((val) => {
-  //   dates[val] = {
-  //     // startingDay: false,
-  //     // color: '#89CFF0',
-  //     // marked:true,
-  //     selected:true,
-  //   };
-  // });
+  fromDateVar.forEach((val) => {
+    dates[val] = {
+      // startingDay: false,
+      // color: '#89CFF0',
+      // marked:true,
+      selected: true,
+    };
+  });
 
   function showEvent(day) {
     setEventDisplay(true);

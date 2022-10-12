@@ -141,7 +141,7 @@ function ParentsLoginScreen() {
         console.log(filteredlist);
         studentList = filteredlist;
         if (filteredlist.length == 0) {
-          Alert.alert("Invalid Input", "Please enter valid phone number");
+          Alert.alert("Invalid Input", "Please enter a valid phone number");
           navigation.navigate("Login");
         }
         // else {
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: deviceWidth < 718 ? 20 :32,
+    padding: deviceWidth < 718 ? 20 : 32,
   },
   title: {
     fontSize: 20,

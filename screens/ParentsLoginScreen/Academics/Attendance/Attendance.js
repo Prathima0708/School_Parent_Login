@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import SearchBar from "react-native-dynamic-search-bar";
-import StudentAttendance from "../../../components/StudentItem/StudentAttendance";
+import StudentAttendance from "../../../../components/StudentItem/StudentAttendance";
 
 const Attendance = () => {
   const [data, setData] = useState([]);

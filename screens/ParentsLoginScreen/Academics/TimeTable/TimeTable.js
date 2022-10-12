@@ -4,16 +4,16 @@ import React, { useEffect, useState } from "react";
 import { DataTable } from "react-native-paper";
 
 import axios from "axios";
-import BgButton from "../../../components/UI/BgButton";
-import VerticalLine from "../../../components/UI/VerticalLine";
+import BgButton from "../../../../components/UI/BgButton";
+import VerticalLine from "../../../../components/UI/VerticalLine";
 import { Text } from "react-native";
-import ParentsHome from "../ParentsHome";
+import ParentsHome from "../../BottomTab/ParentsHome";
 import { Image } from "react-native";
 import { FlatList } from "react-native";
 import {
   className,
   Section,
-} from "../../../components/StudentItem/StudentItem";
+} from "../../../../components/StudentItem/StudentItem";
 import moment from "moment";
 
 const TimeTable = () => {
@@ -160,7 +160,7 @@ const TimeTable = () => {
                   <DataTable.Row style={styles.tableRow} key={key}>
                     <DataTable.Cell
                       textStyle={{
-                        fontSize:  deviceWidth < 370 ? 16 : 18,
+                        fontSize: deviceWidth < 370 ? 16 : 18,
                         fontFamily: "HindRegular",
                         marginLeft: 10,
                       }}
@@ -260,7 +260,7 @@ const TimeTable = () => {
                 <DataTable.Row style={styles.tableRow} key={key}>
                   <DataTable.Cell
                     textStyle={{
-                      fontSize:  deviceWidth < 370 ? 16 : 18,
+                      fontSize: deviceWidth < 370 ? 16 : 18,
                       fontFamily: "HindRegular",
                       marginLeft: 10,
                     }}
@@ -349,7 +349,7 @@ const styles = StyleSheet.create({
     //textAlign: "center",
   },
   description: {
-    fontSize:  deviceWidth < 370 ? 16 : 20,
+    fontSize: deviceWidth < 370 ? 16 : 20,
 
     marginBottom: 4,
     fontFamily: "HindRegular",
@@ -388,7 +388,7 @@ const styles = StyleSheet.create({
   tableTitle: {
     margin: 7,
     fontFamily: "HindSemiBold",
-    fontSize:  deviceWidth < 370 ? 16 : 20,
+    fontSize: deviceWidth < 370 ? 16 : 20,
   },
   tableCell: {
     width: 20,

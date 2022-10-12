@@ -12,8 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Text } from "react-native";
 import { Image } from "react-native";
 import TeachersCategoryGridTile from "../../components/StudentItem/TeachersCategoryGridTile";
-import TeachersHome from "./TeachersHome";
-import TeachersProfile from "./TeachersProfile";
+
 import { Teacher } from "../Login";
 
 const TeachersLoginScreen = ({ navigation }) => {
@@ -122,8 +121,8 @@ const styles = StyleSheet.create({
     // flex: 1,
     // justifyContent: "center",
     // alignItems: "center",
-    paddingLeft: '5%',
-    paddingRight: '5%',
+    paddingLeft: "5%",
+    paddingRight: "5%",
     // padding: 32,
     //padding: 32,
   },
@@ -135,7 +134,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     textAlign: "center",
-    marginTop: '4%',
+    marginTop: "4%",
     fontWeight: "bold",
     color: "gray",
     fontFamily: "HindRegular",
@@ -143,9 +142,9 @@ const styles = StyleSheet.create({
   },
   studentItem: {
     width: "80%",
-    marginHorizontal: '10%',
-    padding: '3%',
-    marginVertical: '3%',
+    marginHorizontal: "10%",
+    padding: "3%",
+    marginVertical: "3%",
     //  backgroundColor: "#3e04c3",
     backgroundColor: "#23215b",
     //   flexDirection: "row",
@@ -162,7 +161,7 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 20,
     fontFamily: "HindRegular",
-    marginBottom: '2%',
+    marginBottom: "2%",
     fontWeight: "bold",
   },
 

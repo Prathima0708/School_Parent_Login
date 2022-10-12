@@ -16,7 +16,7 @@ import { Keyboard } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import SelectList from "react-native-dropdown-select-list";
-import TeachersHome from "../TeachersHome";
+import TeachersHome from "../BottomTab/TeachersHome";
 import Button from "../../../components/UI/Button";
 import { DataTable } from "react-native-paper";
 import moment from "moment";
@@ -72,6 +72,7 @@ const TecahersExamTimeTable = () => {
   const [showExamList, setShowExamList] = useState(true);
   const [showExamData, setShowExamData] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
+  const [showbtns, setshowBtns] = useState(true);
 
   const [showInitialBtn, setShowInitialBtn] = useState(true);
 
@@ -342,6 +343,18 @@ const TecahersExamTimeTable = () => {
   function viewExam() {
     setShowForm(true);
     setShowExamList(false);
+    setEnteredExamName("");
+    setFromText("");
+    setToText("");
+    setEnteredTotalMarks("");
+    setEnteredHour("");
+    setEnteredExamNameTouched(false);
+    setEnteredFromDateTouched(false);
+    setEnteredtoDateTouched(false);
+    setEnteredMarksTouched(false);
+    setEnteredHourTouched(false);
+    setEnteredSelectedTouched(false);
+    setIsEdit(false);
   }
 
   function viewExamList() {
@@ -507,7 +520,7 @@ const TecahersExamTimeTable = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 30,
+                      marginLeft: 40,
                     }}
                   >
                     {moment(data.start_date).format("DD/MM/YYYY")}
@@ -788,9 +801,12 @@ const TecahersExamTimeTable = () => {
 
             {!isEdit && (
               <View style={styles.btnSubmit}>
-                <Button onPress={addExamTimeTableHandler}>
-                  Add Exam TimeTable
-                </Button>
+                <Button onPress={addExamTimeTableHandler}>Add</Button>
+              </View>
+            )}
+            {!isEdit && (
+              <View style={styles.cancel}>
+                <Button onPress={cancelHandler}>Cancel</Button>
               </View>
             )}
             {isEdit && (
@@ -858,8 +874,8 @@ const styles = StyleSheet.create({
   btnSubmit: {
     marginTop: 27,
     marginBottom: 59,
-    width: "80%",
-    marginLeft: 90,
+    width: "50%",
+    marginLeft: 190,
   },
   btnSubmit1: {
     marginTop: 29,

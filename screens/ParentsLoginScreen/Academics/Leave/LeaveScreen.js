@@ -7,19 +7,20 @@ import {
   Button as Btn,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import VerticalLine from "../../../components/UI/VerticalLine";
-import { DataTable } from "react-native-paper";
-import Button from "../../../components/UI/Button";
+
+import { Card, DataTable } from "react-native-paper";
+import Button from "../../../../components/UI/Button";
 import axios from "axios";
 import { Keyboard } from "react-native";
-import BgButton from "../../../components/UI/BgButton";
-import { UserId } from "../../Login";
+import BgButton from "../../../../components/UI/BgButton";
+
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import ParentsHome from "../ParentsHome";
-import Input from "../../../components/UI/Input";
+import ParentsHome from "../../BottomTab/ParentsHome";
+import Input from "../../../../components/UI/Input";
 import moment from "moment";
-import { StudentRegNo } from "../../../components/StudentItem/StudentItem";
+import { StudentRegNo } from "../../../../components/StudentItem/StudentItem";
+
 const LeaveScreen = () => {
   const [regno, setEnteredRegno] = useState("");
   const [enteredRegNoTouched, setEnteredRegNoTouched] = useState(false);

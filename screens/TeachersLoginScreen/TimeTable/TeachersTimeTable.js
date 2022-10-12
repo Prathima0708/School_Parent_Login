@@ -19,7 +19,7 @@ import VerticalLine from "../../../components/UI/VerticalLine";
 import Button from "../../../components/UI/Button";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import SelectList from "react-native-dropdown-select-list";
-import TeachersHome from "../TeachersHome";
+import TeachersHome from "../BottomTab/TeachersHome";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { useEffect } from "react";
 import TecahersExamTimeTable from "./TecahersExamTimeTable";
@@ -30,6 +30,7 @@ export var CLASSNAME,
   SECTION,
   idTimeTab = [];
 export var TimeTabID;
+export var ID;
 const TeachersTimetable = () => {
   const [showForm, setShowForm] = useState(false);
   const [showExamList, setShowExamList] = useState(false);
@@ -78,22 +79,18 @@ const TeachersTimetable = () => {
 
   const [showTable, setShowTable] = useState(false);
   const [forTimeTableList, setForTimeTableList] = useState({
-    // color: "#3d4590",
-
-    // backgroundColor: "#D6EAF8",
     color: "white",
     backgroundColor: "#0C60F4",
     borderRadius: 10,
-    // borderTopColor: "#3d4590",
+
     borderBottomWidth: 0,
     borderLeftWidth: 0,
     borderRightWidth: 0,
     fontFamily: "HindSemiBold",
   });
   const [forExamTimeTable, setForExamTimeTable] = useState({
-    // color: "#d9dffc",
     color: "black",
-    // borderTopColor: "#d9dffc",
+
     backgroundColor: "#F4F6F6",
     borderBottomWidth: 0,
     borderLeftWidth: 0,
@@ -171,13 +168,13 @@ const TeachersTimetable = () => {
 
   const [datemode, setDateMode] = useState("date");
 
-  const [frommode, setFromMode] = useState("date");
   const [tomode, setToMode] = useState("date");
   const [timeData, setTimeData] = useState([]);
+
   const [inputs, setInputs] = useState([
     {
-      fromTime: new Date(),
-      toTime: new Date(),
+      fromTime: new Date().toLocaleTimeString(),
+      toTime: new Date().toLocaleTimeString(),
       fromTimeText: "",
       toTimeText: "",
       monday: "",
@@ -223,10 +220,8 @@ const TeachersTimetable = () => {
             value: item.from_time + " - " + item.to_time,
           };
         });
-        //  console.log(newArray);
+
         settdata(newArray);
-        // let selectedData = tdata.split(" - ");
-        // console.log(selectedData);
       } catch (error) {
         console.log(error);
       }
@@ -236,11 +231,6 @@ const TeachersTimetable = () => {
 
   function createdDateChangeHandler(enteredValue) {
     setEnteredCreatedDate(enteredValue);
-    // setDateText(enteredValue);
-  }
-
-  function fromTimeHandler(enteredValue) {
-    setFromTime(enteredValue);
   }
 
   // function fromTimeChangeHandler(event, selectedFromTime) {
@@ -312,15 +302,12 @@ const TeachersTimetable = () => {
     } else {
       //cancel button clicked
     }
-
-    // console.log(fDate);
   };
 
   const toTimeChangeHandler = (event, selectedToTime) => {
     const currentToTime = selectedToTime;
     setToTimeShow(Platform.OS === "ios");
     setToTime(currentToTime);
-    // setInputs(currentToTime);
 
     let tempToTime = new Date(currentToTime);
     let tTime =
@@ -334,8 +321,6 @@ const TeachersTimetable = () => {
     } else {
       //cancel button clicked
     }
-
-    // console.log(fDate);
   };
 
   const DateChangeHandler = (event, selectedToDate) => {
@@ -351,7 +336,7 @@ const TeachersTimetable = () => {
       "/" +
       tempToDate.getFullYear();
     setDateText(tDate);
-    // console.log(fDate);
+
     if (event.type == "set") {
       setDateText(tDate);
     }
@@ -364,12 +349,7 @@ const TeachersTimetable = () => {
   };
 
   function viewExam() {
-    // setForExamTimeTable({ fontWeight: "bold", color: "black" });
-    // setForTimeTableList({ color: "black" });
     setForTimeTableList({
-      // color: "#d9dffc",
-      // borderTopColor: "#d9dffc",
-      // backgroundColor: "#D6EAF8",
       backgroundColor: "#F4F6F6",
       color: "black",
       borderRadius: 10,
@@ -379,8 +359,6 @@ const TeachersTimetable = () => {
     });
 
     setForExamTimeTable({
-      //color: "#3d4590",
-      // backgroundColor: "#D6EAF8",
       color: "white",
       backgroundColor: "#1E8449",
       borderRadius: 10,
@@ -394,32 +372,37 @@ const TeachersTimetable = () => {
     setShowExamList(true);
   }
   function timeTableList() {
-    // setForTimeTableList({ fontWeight: "bold", color: "black" });
-    // setForExamTimeTable({ color: "black" });
-    // setShow(false);
-    setForExamTimeTable({
-      //color: "#d9dffc",
-      color: "black",
-      backgroundColor: "#F4F6F6",
-      borderRadius: 10,
-      borderTopColor: "#d9dffc",
-      borderBottomWidth: 0,
-      borderLeftWidth: 0,
-      borderRightWidth: 0,
-    });
-    setForTimeTableList({
-      // color: "#3d4590",
-      // backgroundColor: "#D6EAF8",
-      backgroundColor: "#0C60F4",
-      color: "white",
-      borderRadius: 10,
-      borderBottomWidth: 0,
-      borderLeftWidth: 0,
-      borderRightWidth: 0,
-    });
-    setShowTimeTableList(true);
-    setShowForm(false);
-    setShowTable(false);
+    async function fetchDailyTimeTable() {
+      try {
+        const res = await axios.get(
+          `http://10.0.2.2:8000/school/AddmoreTimetable_list/`
+        );
+        setShowTimeTableData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+      setForExamTimeTable({
+        color: "black",
+        backgroundColor: "#F4F6F6",
+        borderRadius: 10,
+        borderTopColor: "#d9dffc",
+        borderBottomWidth: 0,
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+      });
+      setForTimeTableList({
+        backgroundColor: "#0C60F4",
+        color: "white",
+        borderRadius: 10,
+        borderBottomWidth: 0,
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+      });
+      setShowTimeTableList(true);
+      setShowForm(false);
+      setShowTable(false);
+    }
+    fetchDailyTimeTable();
   }
 
   function addPeriodsHandler() {
@@ -428,8 +411,7 @@ const TeachersTimetable = () => {
     _inputs.push({
       fromTime: "",
       toTime: "",
-      fromTimeText: "",
-      toTimeText: "",
+
       monday: "",
       tuesday: "",
       wednesday: "",
@@ -455,9 +437,6 @@ const TeachersTimetable = () => {
       timetable_date: createdDate,
     };
 
-    // console.log(sendtoTimeTable);
-    // console.log(createdDate);
-
     setEnteredSelectedTouched(true);
     setEnteredDateTextTouched(true);
     setEnteredFromTimeTouched(true);
@@ -468,6 +447,7 @@ const TeachersTimetable = () => {
     setEnteredThursdayTouched(true);
     setEnteredFridayTouched(true);
     setEnteredSaturdayTouched(true);
+
     if (!enteredSelcetdIsValid) {
       return;
     }
@@ -498,15 +478,11 @@ const TeachersTimetable = () => {
     if (!enteredSaturdayTouched) {
       return;
     }
-    // else {
+
     async function storeTimeTable() {
-      // console.log(inputs);
       let headers = {
         "Content-Type": "application/json; charset=utf-8",
       };
-      //    console.log(sendtoTimeTable);
-
-      //console.log(getTimeTableData.data);
 
       const resLoginTimeTable = await axios.post(
         `http://10.0.2.2:8000/school/Timetable/`,
@@ -523,21 +499,16 @@ const TeachersTimetable = () => {
         }
       );
       setTimeData(getTimeTableData.data);
-      // console.log(getTimeTableData.data);
+
       for (i = 0; i < getTimeTableData.data.length; i++) {
         idTimeTab[i] = getTimeTableData.data[i].id;
       }
       for (let i = 0; i < inputs.length; i++) {
-        console.log("inside loop");
-        // console.log(inputs);
         const FormData = {
-          //from_time: inputs[i].fromTime,
-          // to_time: inputs.toTime,
-
           timetab: idTimeTab[0],
-          // timetab: getTimeTableData.data[0].id,
-          from_time: inputs[i].fromTime,
-          to_time: inputs[i].toTime,
+
+          from_time: fromTimeText,
+          to_time: toTimeText,
           monday: inputs[i].monday,
           Tuesday: inputs[i].tuesday,
           wednesday: inputs[i].wednesday,
@@ -549,7 +520,6 @@ const TeachersTimetable = () => {
         };
         console.log(FormData);
         async function storeData() {
-          console.log("inside add more");
           try {
             let headers = {
               "Content-Type": "application/json; charset=utf-8",
@@ -562,10 +532,8 @@ const TeachersTimetable = () => {
                 headers: headers,
               }
             );
-            // console.log(resLoginTimeTable);
+
             const token = resLogin.data.token;
-            // Token = token;
-            // UserId = userId;
           } catch (error) {
             console.log(error);
           }
@@ -573,15 +541,31 @@ const TeachersTimetable = () => {
 
         storeData();
       }
-      //   }
-      // TimeTabID = idTimeTab[0];
-      // console.log(TimeTabID);
-      // let test;
-      // test = idTimeTab[0];
-      // console.log(inputs[0].test);
     }
 
     storeTimeTable();
+
+    const formIsValid =
+      enteredDateTextIsValid &&
+      enteredSelcetdIsValid &&
+      enteredMondayIsValid &&
+      enteredTuesdayIsValid &&
+      enteredWednesdayIsValid &&
+      enteredThursdayIsValid &&
+      enteredFridayIsValid &&
+      enteredSaturdayIsValid;
+    if (formIsValid) {
+      Alert.alert("Saved Data", "Saved Data successfully", [
+        {
+          text: "OK",
+          onPress: () => {
+            setShowForm(false);
+            timeTableList();
+          },
+        },
+      ]);
+    }
+
     setEnteredSelectedTouched(false);
     setEnteredDateTextTouched(false);
     setEnteredFromTimeTouched(false);
@@ -594,7 +578,6 @@ const TeachersTimetable = () => {
     setEnteredSaturdayTouched(false);
     setShowTimeTableList(true);
     setShowTable(false);
-    //   }
 
     // for (let i = 0; i < inputs.length; i++) {
     //   console.log("inside loop");
@@ -666,22 +649,6 @@ const TeachersTimetable = () => {
     setMonday(text);
   };
 
-  const inputHandlerFromDate = (text, key) => {
-    //  fromTimeChangeHandler();
-
-    const _inputs = [...inputs];
-    _inputs[key].fromTime = text;
-
-    setInputs(_inputs);
-  };
-
-  const inputHandlerToDate = (text, key) => {
-    const _inputs = [...inputs];
-    _inputs[key].toTime = text;
-
-    setInputs(_inputs);
-  };
-
   const inputHandlerTuesday = (text, key) => {
     const _inputs = [...inputs];
     _inputs[key].tuesday = text;
@@ -726,6 +693,15 @@ const TeachersTimetable = () => {
     setShowTable(true);
     setShowTimeTableList(false);
     setIsEdit(false);
+    setFromTimeText("");
+    setToTimeText("");
+    setDateText("");
+    setMonday("");
+    setTuesday("");
+    setWednesday("");
+    setThursday("");
+    setFriday("");
+    setSaturday("");
   }
   const skip = (num) => new Array(num);
   useEffect(() => {
@@ -773,13 +749,16 @@ const TeachersTimetable = () => {
   }
 
   function editItem(id) {
-    console.log(monday);
+    ID = id;
+    console.log(id);
+    console.log(ID);
     // ID=id
     const filteredDummuyData = showTimeTableData.find((data) => data.id == id);
-
+    console.log(filteredDummuyData.monday);
     setDateText(moment(filteredDummuyData.createdDate).format("DD/MM/YYYY"));
     setFromTime(filteredDummuyData.from_time);
     setToTime(filteredDummuyData.to_time);
+
     setMonday(filteredDummuyData.monday);
     setTuesday(filteredDummuyData.Tuesday);
     setWednesday(filteredDummuyData.wednesday);
@@ -800,6 +779,7 @@ const TeachersTimetable = () => {
     setShowTimeTableList(false);
     setIsEdit(true);
   }
+
   function deleteItem(id) {
     console.log(id);
     // const newFilteredData=data.filter((data)=>data.id != id);
@@ -821,7 +801,7 @@ const TeachersTimetable = () => {
         };
         // const dataForm = FormData;
         const resLogin = await axios.delete(
-          `http://10.0.2.2:8000/school/Timetable/${id}/`,
+          `http://10.0.2.2:8000/school/AddmoreTimetable_list/${id}/`,
           // FormData,
           {
             headers: headers,
@@ -862,8 +842,21 @@ const TeachersTimetable = () => {
   function updateHandler() {
     // console.log(UserId);
     console.log(ID);
-    const FormData = {};
-    // console.log(FormData);
+    const FormData = {
+      // timetab: idTimeTab[0],
+
+      from_time: fromTimeText,
+      to_time: toTimeText,
+      monday: monday,
+      Tuesday: tuesday,
+      wednesday: wednesday,
+      thursday: thursday,
+      friday: friday,
+      saturday: saturday,
+      createdDate: "",
+      modifiedDate: "",
+    };
+
     async function updateData() {
       try {
         let headers = {
@@ -876,19 +869,18 @@ const TeachersTimetable = () => {
             headers: headers,
           }
         );
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
-        //   console.log(resLogin.data);
       } catch (error) {
         console.log(error);
       }
     }
     updateData();
     Alert.alert("Successfully updated", "", [
-      { text: "OK", onPress: () => fetchData },
+      { text: "OK", onPress: () => fetchData() },
     ]);
 
     async function fetchData() {
+      setShowTimeTableList(true);
+      setShowTable(false);
       try {
         const res = await axios.get(
           `http://10.0.2.2:8000/school/AddmoreTimetable_list/`
@@ -899,6 +891,11 @@ const TeachersTimetable = () => {
       }
     }
     fetchData();
+  }
+
+  function cancelHandler() {
+    setShowTimeTableList(true);
+    setShowTable(false);
   }
 
   return (
@@ -978,150 +975,150 @@ const TeachersTimetable = () => {
               </Text>
             </View>
             <View style={{ flex: 1, height: " 100%" }}>
-              {/* <ScrollView style={{ flex: 1 }}> */}
-              <ScrollView horizontal={true} style={{}}>
-                <DataTable style={styles.container}>
-                  <DataTable.Header style={styles.tableHeader}>
-                    <View style={styles.th}>
-                      <Text style={styles.tableTitle}> TIMINGS</Text>
-                    </View>
+              <ScrollView style={{ flex: 1 }}>
+                <ScrollView horizontal={true} style={{}}>
+                  <DataTable style={styles.container}>
+                    <DataTable.Header style={styles.tableHeader}>
+                      <View style={styles.th}>
+                        <Text style={styles.tableTitle}> TIMINGS</Text>
+                      </View>
 
-                    <View style={styles.th}>
-                      <Text style={styles.tableTitle}> MON</Text>
-                    </View>
-                    <View style={styles.th}>
-                      <Text style={styles.tableTitle}> TUE</Text>
-                    </View>
-                    <View style={styles.th}>
-                      <Text style={styles.tableTitle}> WED</Text>
-                    </View>
+                      <View style={styles.th}>
+                        <Text style={styles.tableTitle}> MON</Text>
+                      </View>
+                      <View style={styles.th}>
+                        <Text style={styles.tableTitle}> TUE</Text>
+                      </View>
+                      <View style={styles.th}>
+                        <Text style={styles.tableTitle}> WED</Text>
+                      </View>
 
-                    <View style={styles.th}>
-                      <Text style={styles.tableTitle}>THUR</Text>
-                    </View>
+                      <View style={styles.th}>
+                        <Text style={styles.tableTitle}>THUR</Text>
+                      </View>
 
-                    <View style={styles.th}>
-                      <Text style={styles.tableTitle}>FRI</Text>
-                    </View>
+                      <View style={styles.th}>
+                        <Text style={styles.tableTitle}>FRI</Text>
+                      </View>
 
-                    <View style={styles.th}>
-                      <Text style={styles.tableTitle}> SAT</Text>
-                    </View>
-                    <View style={styles.th}>
-                      <Text
-                        style={{
-                          margin: 7,
-                          marginLeft: 50,
-                          fontFamily: "MonsterratBold",
-                          fontSize: 16,
-                        }}
-                      >
-                        ACTIONS
-                      </Text>
-                    </View>
-                  </DataTable.Header>
-                  {showTimeTableData.map((data, key) => (
-                    <DataTable.Row style={styles.tableRow} key={key}>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 10,
-                        }}
-                      >
-                        {moment(data.from_time, "HH:mm").format("hh:mm ")} {"-"}{" "}
-                        {""}
-                        {moment(data.to_time, "HH:mm").format("hh:mm ")}
-                      </DataTable.Cell>
+                      <View style={styles.th}>
+                        <Text style={styles.tableTitle}> SAT</Text>
+                      </View>
+                      <View style={styles.th}>
+                        <Text
+                          style={{
+                            margin: 7,
+                            marginLeft: 50,
+                            fontFamily: "MonsterratBold",
+                            fontSize: 16,
+                          }}
+                        >
+                          ACTIONS
+                        </Text>
+                      </View>
+                    </DataTable.Header>
+                    {showTimeTableData.map((data, key) => (
+                      <DataTable.Row style={styles.tableRow} key={key}>
+                        <DataTable.Cell
+                          textStyle={{
+                            fontSize: 18,
+                            fontFamily: "HindRegular",
+                            marginLeft: 10,
+                          }}
+                        >
+                          {moment(data.from_time, "HH:mm").format("hh:mm ")}{" "}
+                          {"-"} {""}
+                          {moment(data.to_time, "HH:mm").format("hh:mm ")}
+                        </DataTable.Cell>
 
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 20,
-                        }}
-                      >
-                        {data.monday}
-                      </DataTable.Cell>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 40,
-                        }}
-                      >
-                        {data.Tuesday}
-                      </DataTable.Cell>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 30,
-                        }}
-                      >
-                        {data.wednesday}
-                      </DataTable.Cell>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 20,
-                        }}
-                      >
-                        {data.thursday}
-                      </DataTable.Cell>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 40,
-                        }}
-                      >
-                        {data.friday}
-                      </DataTable.Cell>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 30,
-                        }}
-                      >
-                        {data.saturday}
-                      </DataTable.Cell>
+                        <DataTable.Cell
+                          textStyle={{
+                            fontSize: 18,
+                            fontFamily: "HindRegular",
+                            marginLeft: 20,
+                          }}
+                        >
+                          {data.monday}
+                        </DataTable.Cell>
+                        <DataTable.Cell
+                          textStyle={{
+                            fontSize: 18,
+                            fontFamily: "HindRegular",
+                            marginLeft: 40,
+                          }}
+                        >
+                          {data.Tuesday}
+                        </DataTable.Cell>
+                        <DataTable.Cell
+                          textStyle={{
+                            fontSize: 18,
+                            fontFamily: "HindRegular",
+                            marginLeft: 30,
+                          }}
+                        >
+                          {data.wednesday}
+                        </DataTable.Cell>
+                        <DataTable.Cell
+                          textStyle={{
+                            fontSize: 18,
+                            fontFamily: "HindRegular",
+                            marginLeft: 20,
+                          }}
+                        >
+                          {data.thursday}
+                        </DataTable.Cell>
+                        <DataTable.Cell
+                          textStyle={{
+                            fontSize: 18,
+                            fontFamily: "HindRegular",
+                            marginLeft: 40,
+                          }}
+                        >
+                          {data.friday}
+                        </DataTable.Cell>
+                        <DataTable.Cell
+                          textStyle={{
+                            fontSize: 18,
+                            fontFamily: "HindRegular",
+                            marginLeft: 30,
+                          }}
+                        >
+                          {data.saturday}
+                        </DataTable.Cell>
 
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 50,
-                        }}
-                      >
-                        <Ionicons
-                          name="md-pencil-sharp"
-                          size={24}
-                          color="green"
-                          onPress={() => editItem(data.id)}
-                        />
-                      </DataTable.Cell>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          //marginLeft: 15,
-                        }}
-                      >
-                        <Ionicons
-                          name="trash"
-                          size={24}
-                          color="red"
-                          onPress={() => deleteItem(data.id)}
-                        />
-                      </DataTable.Cell>
-                    </DataTable.Row>
-                  ))}
-                </DataTable>
+                        <DataTable.Cell
+                          textStyle={{
+                            fontSize: 18,
+                            fontFamily: "HindRegular",
+                            marginLeft: 50,
+                          }}
+                        >
+                          <Ionicons
+                            name="md-pencil-sharp"
+                            size={24}
+                            color="green"
+                            onPress={() => editItem(data.id)}
+                          />
+                        </DataTable.Cell>
+                        <DataTable.Cell
+                          textStyle={{
+                            fontSize: 18,
+                            fontFamily: "HindRegular",
+                            //marginLeft: 15,
+                          }}
+                        >
+                          <Ionicons
+                            name="trash"
+                            size={24}
+                            color="red"
+                            onPress={() => deleteItem(data.id)}
+                          />
+                        </DataTable.Cell>
+                      </DataTable.Row>
+                    ))}
+                  </DataTable>
+                </ScrollView>
               </ScrollView>
-              {/* </ScrollView> */}
             </View>
           </>
         )}
@@ -1333,7 +1330,7 @@ const TeachersTimetable = () => {
                           placeholder="Monday"
                           // style={styles.inputStyle}
                           // onChangeText={setEnteredMonday}
-                          value={input.monday}
+                          value={input.monday || monday}
                           onChangeText={(text) => inputHandlerMonday(text, key)}
                           // onChangeText={(text) => inputHandler(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
@@ -1363,10 +1360,7 @@ const TeachersTimetable = () => {
 
                         <Input
                           placeholder="Tuesday"
-                          //style={styles.inputStyle}
-                          // onChangeText={setEnteredTuesday}
-                          value={input.tuesday}
-                          //value={input.value}
+                          value={input.tuesday || tuesday}
                           onChangeText={(text) =>
                             inputHandlerTuesday(text, key)
                           }
@@ -1400,7 +1394,7 @@ const TeachersTimetable = () => {
 
                         <Input
                           placeholder="Wednesday"
-                          value={input.wednesday}
+                          value={input.wednesday || wednesday}
                           onChangeText={(text) => inputHandlerWed(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
                           style={
@@ -1428,7 +1422,7 @@ const TeachersTimetable = () => {
                         <View style={styles.title}></View>
                         <Input
                           placeholder="Thursday"
-                          value={input.thursday}
+                          value={input.thursday || thursday}
                           onChangeText={(text) => inputHandlerThur(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
                           style={
@@ -1456,7 +1450,7 @@ const TeachersTimetable = () => {
                         <View style={styles.title}></View>
                         <Input
                           placeholder="Friday"
-                          value={input.friday}
+                          value={input.friday || friday}
                           onChangeText={(text) => inputHandlerFri(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
                           style={
@@ -1484,7 +1478,7 @@ const TeachersTimetable = () => {
                         <View style={styles.title}></View>
                         <Input
                           placeholder="Saturday"
-                          value={input.saturday}
+                          value={input.saturday || saturday}
                           onChangeText={(text) => inputHandlerSat(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
                           blur={saturdayTextBlur}
@@ -1535,7 +1529,7 @@ const TeachersTimetable = () => {
                 )}
                 {isEdit && (
                   <View style={styles.edit}>
-                    <Button>Cancel</Button>
+                    <Button onPress={cancelHandler}>Cancel</Button>
                   </View>
                 )}
                 {isEdit && (

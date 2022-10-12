@@ -1,4 +1,11 @@
-import { View, StyleSheet, TextInput, Text, ScrollView, Dimensions } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Text,
+  ScrollView,
+  Dimensions,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 
 import { DataTable } from "react-native-paper";
@@ -6,7 +13,7 @@ import Button from "../../../components/UI/Button";
 import axios from "axios";
 import BgButton from "../../../components/UI/BgButton";
 
-import ParentsHome from "../ParentsHome";
+import ParentsHome from "../BottomTab/ParentsHome";
 
 import { busNumber } from "../../../components/StudentItem/StudentItem";
 const TransportScreen = () => {

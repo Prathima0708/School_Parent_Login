@@ -224,8 +224,8 @@ function LandingScreen() {
                 color="white"
                 style={{
                   position: "absolute",
-                  top: deviceHieght < 600 ? '17%' : '20%',
-                  left: 75,
+                  top: deviceHieght < 600 ? "17%" : "20%",
+                  left: 79,
                   bottom: -60,
                 }}
               />
@@ -241,7 +241,6 @@ export default LandingScreen;
 const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
   },
@@ -250,15 +249,15 @@ const styles = StyleSheet.create({
   },
 
   mainContainer: {
-    height: deviceHieght < 600 ? '105%' : '100%',
+    height: deviceHieght < 600 ? "105%" : "100%",
   },
   bannerImage: {
     width: "100%",
     height: "48%",
   },
-  textContainer:{
-    position: "absolute", 
-    top:deviceHieght < 600 ? '40%' : '40%',
+  textContainer: {
+    position: "absolute",
+    top: deviceHieght < 600 ? "40%" : "40%",
   },
   typeText: {
     justifyContent: "center",
@@ -275,20 +274,20 @@ const styles = StyleSheet.create({
   },
 
   submit: {
-    width: deviceWidth < 370 ? '32%' : '30%',
-    height: deviceWidth < 370 ? '22%' : '22%',
-    left: deviceHieght < 600 ? '60%' : '60%',
+    width: deviceWidth < 370 ? "32%" : "30%",
+    height: deviceWidth < 370 ? "22%" : "22%",
+    left: deviceHieght < 600 ? "60%" : "60%",
     backgroundColor: "#002D62",
     borderRadius: 10,
     borderWidth: 1,
-    top:deviceHieght < 600 ? '90%' : '100%',
-    position:'absolute',
+    top: deviceHieght < 600 ? "90%" : "100%",
+    position: "absolute",
     borderColor: "#fff",
-    
   },
   submitText: {
-    padding:"10%",
-    paddingTop: deviceHieght < 600 ? '6%' : '9%',
+    padding: "13%",
+    paddingTop: deviceHieght < 600 ? "6%" : "7%",
+
     color: "#fff",
     fontSize: 24,
     fontFamily: "HindSemiBold",

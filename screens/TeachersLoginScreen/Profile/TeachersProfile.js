@@ -17,9 +17,9 @@ import {
   Text,
   TouchableRipple,
 } from "react-native-paper";
-import Button from "../../components/UI/Button";
-import Input from "../../components/UI/Input";
-import { Teacher, TeacherEmail } from "../Login";
+import Button from "../../../components/UI/Button";
+import Input from "../../../components/UI/Input";
+import { Teacher, TeacherEmail } from "../../Login";
 
 const TeachersProfile = () => {
   const [showForm, setShowForm] = useState(false);

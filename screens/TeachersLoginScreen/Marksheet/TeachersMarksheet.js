@@ -9,14 +9,14 @@ import {
   Dimensions,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import Button from "../../components/UI/Button";
+import Button from "../../../components/UI/Button";
 import axios from "axios";
 import { Keyboard } from "react-native";
-import { UserId } from "../Login";
-import BgButton from "../../components/UI/BgButton";
-import TeachersHome from "./TeachersHome";
-import Input from "../../components/UI/Input";
-import VerticalLine from "../../components/UI/VerticalLine";
+import { UserId } from "../../Login";
+import BgButton from "../../../components/UI/BgButton";
+import TeachersHome from "../BottomTab/TeachersHome";
+import Input from "../../../components/UI/Input";
+import VerticalLine from "../../../components/UI/VerticalLine";
 import { FlatList } from "react-native";
 import { DataTable } from "react-native-paper";
 import SearchBar from "react-native-dynamic-search-bar";

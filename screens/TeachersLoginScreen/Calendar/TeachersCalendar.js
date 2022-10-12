@@ -9,20 +9,20 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import Button from "../../components/UI/Button";
+import Button from "../../../components/UI/Button";
 import axios from "axios";
 import { Keyboard } from "react-native";
-import { UserId } from "../Login";
-import BgButton from "../../components/UI/BgButton";
+import { UserId } from "../../Login";
+import BgButton from "../../../components/UI/BgButton";
 import SearchBar from "react-native-dynamic-search-bar";
 import { Ionicons } from "@expo/vector-icons";
-import TeachersHome from "./TeachersHome";
-import Input from "../../components/UI/Input";
+import TeachersHome from "../BottomTab/TeachersHome";
+import Input from "../../../components/UI/Input";
 import { getMomentsAsync } from "expo-media-library";
 import moment from "moment";
-import VerticalLine from "../../components/UI/VerticalLine";
+import VerticalLine from "../../../components/UI/VerticalLine";
 import { DataTable } from "react-native-paper";
-import FeedBackDialog from "../../components/UI/FeedBackDialog";
+import FeedBackDialog from "../../../components/UI/FeedBackDialog";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export var ID;

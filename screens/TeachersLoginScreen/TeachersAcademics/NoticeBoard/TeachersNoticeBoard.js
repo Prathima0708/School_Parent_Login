@@ -8,17 +8,17 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useFonts } from "expo-font";
-import Button from "../../components/UI/Button";
+import Button from "../../../../components/UI/Button";
 import axios from "axios";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { UserId } from "../Login";
-import BgButton from "../../components/UI/BgButton";
-import TeachersHome from "./TeachersHome";
+
+import BgButton from "../../../../components/UI/BgButton";
+import TeachersHome from "../../BottomTab/TeachersHome";
 import { Keyboard } from "react-native";
 import { useEffect } from "react";
-import Input from "../../components/UI/Input";
-import VerticalLine from "../../components/UI/VerticalLine";
+import Input from "../../../../components/UI/Input";
+
 import moment from "moment";
 import { DataTable } from "react-native-paper";
 const TeachersNoticeboard = () => {
@@ -242,8 +242,8 @@ const TeachersNoticeboard = () => {
   return (
     <>
       {/* <View style={styles.BtnContainer}>
-        <BgButton>Add Notice</BgButton>
-      </View> */}
+          <BgButton>Add Notice</BgButton>
+        </View> */}
       <View style={styles.BtnContainer}>
         <BgButton onPress={showNoticeForm} style={forNoticeList}>
           Add Notice
@@ -343,8 +343,8 @@ const TeachersNoticeboard = () => {
                 <Text style={styles.tableTitle}>Description</Text>
               </View>
               {/* <View style={styles.th}>
-              <Text style={styles.tableTitle}>created by</Text>
-            </View> */}
+                <Text style={styles.tableTitle}>created by</Text>
+              </View> */}
               <View style={styles.th}>
                 <Text style={styles.tableTitle}>Start Date</Text>
               </View>
@@ -366,8 +366,8 @@ const TeachersNoticeboard = () => {
               data.map((data, key) => (
                 <DataTable.Row style={styles.tableRow}>
                   {/* <DataTable.Cell style={styles.tableCell}>
-                  {data.id}
-                </DataTable.Cell> */}
+                    {data.id}
+                  </DataTable.Cell> */}
                   <DataTable.Cell style={styles.tableCell}>
                     {data.titlee}
                   </DataTable.Cell>
@@ -375,8 +375,8 @@ const TeachersNoticeboard = () => {
                     {data.description}
                   </DataTable.Cell>
                   {/* <DataTable.Cell style={styles.tableCell}>
-                 {data.created_by}
-                </DataTable.Cell> */}
+                   {data.created_by}
+                  </DataTable.Cell> */}
                   <DataTable.Cell style={styles.tableCell}>
                     {data.startdate}
                   </DataTable.Cell>

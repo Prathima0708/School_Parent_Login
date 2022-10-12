@@ -5,10 +5,11 @@ import {
   Text,
   ScrollView,
   Keyboard,
+  LogBox,
 } from "react-native";
 import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import Button from "../../../components/UI/Button";
+import Button from "../../../../components/UI/Button";
 import * as MediaLibrary from "expo-media-library";
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
@@ -20,17 +21,17 @@ import {
   useCameraPermissions,
   PermissionStatus,
 } from "expo-image-picker";
-import { UserId } from "../../Login";
-import BgButton from "../../../components/UI/BgButton";
+import { UserId } from "../../../Login";
+import BgButton from "../../../../components/UI/BgButton";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect } from "react";
-import TeachersHome from "../TeachersHome";
-import Input from "../../../components/UI/Input";
-import VerticalLine from "../../../components/UI/VerticalLine";
-import { Card, DataTable } from "react-native-paper";
+import TeachersHome from "../../TeachersHome";
+import Input from "../../../../components/UI/Input";
+import VerticalLine from "../../../../components/UI/VerticalLine";
+import { DataTable } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export var ID;
-const TeacherHomeworkScreenBuild = () => {
+const TeachersHomework = () => {
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
   const [forHomeworkList, setForHomeworkList] = useState({
@@ -111,17 +112,12 @@ const TeacherHomeworkScreenBuild = () => {
   const [homeworkData, setHomeworkData] = useState([]);
   const [isSame, SetIsSame] = useState(false);
   let i = 0;
-  // useEffect(()=>{
-  //   if(enteredSubjectIsValid && enteredFromDateIsValid && enteredtoDateIsValid && enteredRemarkIsValid && enteredHomeWorkIsValid){
-  //     setFormIsValid(true);
-  //   }else{
-  //     setFormIsValid(false);
-  //   }
-  // },[enteredSubjectIsValid,
-  //   enteredFromDateIsValid,
-  //   enteredtoDateIsValid,
-  //   enteredRemarkIsValid,
-  //   enteredHomeWorkIsValid])
+
+  useEffect(() => {
+    LogBox.ignoreLogs([
+      "Failed %s type: %s%s, prop, Invalid prop `value` of type `date` supplied to `ForwardRef(TextInput)`, expected `string`.,",
+    ]);
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -741,8 +737,8 @@ const TeacherHomeworkScreenBuild = () => {
   return (
     <>
       {/* <View style={styles.BtnContainer}>
-          <BgButton>Add HomeWork</BgButton>
-        </View> */}
+        <BgButton>Add HomeWork</BgButton>
+      </View> */}
       <View style={styles.BtnContainer}>
         <BgButton onPress={showHomeworkForm} style={forHomeworkList}>
           Add Homework
@@ -807,7 +803,7 @@ const TeacherHomeworkScreenBuild = () => {
                   />
                 </View>
                 <Input
-                  value={fromText}
+                  value={fromText || fromDate}
                   // value={
                   //   moment(fromText).format("DD/MM/YYYY") ||
                   //   moment(fromDate).format("DD/MM/YYYY")
@@ -857,7 +853,7 @@ const TeacherHomeworkScreenBuild = () => {
                   />
                 </View>
                 <Input
-                  value={toText}
+                  value={toText || toDate}
                   // value={
                   //   moment(toText).format("DD/MM/YYYY") ||
                   //   moment(toDate).format("DD/MM/YYYY")
@@ -967,7 +963,7 @@ const TeacherHomeworkScreenBuild = () => {
               <Btn title="Upload Image" onPress={PickImage} />
             </View>
             {!isEdit && (
-              <View style={styles.btnSubmit}>
+              <View style={styles.btnSubmit1}>
                 <Button onPress={buttonPressedHandler}>Add Homework</Button>
               </View>
             )}
@@ -979,86 +975,136 @@ const TeacherHomeworkScreenBuild = () => {
           </View>
         </ScrollView>
       )}
-      <ScrollView>
-        {showList &&
-          homeworkData &&
-          homeworkData.map((homeworkData, key) => (
-            <Card style={{ marginTop: 15, margin: 10 }} key={key}>
-              <Card.Content>
-                <Card.Title
-                  title={homeworkData.class_name}
-                  titleStyle={{
-                    color: "purple",
-                    fontFamily: "HindRegular",
-                    fontWeight: "bold",
+      {showList && (
+        <ScrollView horizontal={true}>
+          <DataTable style={styles.container}>
+            <DataTable.Header style={styles.tableHeader}>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> CLASS NAME</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> SECTION</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> SUBJECT</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> HOMEWORK DATE</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}> REMARK</Text>
+              </View>
+
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}>DUE DATE</Text>
+              </View>
+
+              <View style={styles.th}>
+                <Text
+                  style={{
+                    margin: 7,
+                    marginLeft: 50,
+                    fontFamily: "MonsterratBold",
+                    fontSize: 16,
                   }}
-                />
-                <View style={[{ flexDirection: "row" }]}>
-                  <View style={{ flex: 2, left: 20 }}>
-                    <Text style={styles.cardTextStyle}>
-                      <Ionicons name="calendar" size={24} color="green" />
-                      Assigned
-                    </Text>
-                  </View>
-                  <View style={{ flex: 2 }}>
-                    <Text style={styles.cardTextStyle}>
-                      <Ionicons name="calendar" size={24} color="green" />
-                      Due
-                    </Text>
-                  </View>
-                </View>
-                <View style={[{ flexDirection: "row" }]}>
-                  <View style={{ flex: 2, left: 40 }}>
-                    <Text style={[styles.cardTextStyle, { fontSize: 17 }]}>
-                      {moment(homeworkData.homework_date).format("DD/MM/YYYY")}
-                    </Text>
-                  </View>
-                  <View style={{ flex: 2, left: 105 }}>
-                    <Text style={[styles.cardTextStyle, { fontSize: 17 }]}>
-                      {moment(homeworkData.due_date).format("DD/MM/YYYY")}
-                    </Text>
-                  </View>
-                  <View style={{ flex: 2, left: 120, bottom: 5 }}>
+                >
+                  ACTIONS
+                </Text>
+              </View>
+            </DataTable.Header>
+
+            {homeworkData &&
+              homeworkData.map((homeworkData, key) => (
+                <DataTable.Row style={styles.tableRow} key={key}>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 40,
+                    }}
+                  >
+                    {homeworkData.class_name}
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 50,
+                    }}
+                  >
+                    {homeworkData.section}
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 50,
+                    }}
+                  >
+                    {homeworkData.subject}
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 50,
+                    }}
+                  >
+                    {moment(homeworkData.homework_date).format("DD/MM/YYYY")}
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 50,
+                    }}
+                  >
+                    {homeworkData.remark}
+                  </DataTable.Cell>
+
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 50,
+                    }}
+                  >
+                    {moment(homeworkData.due_date).format("DD/MM/YYYY")}
+                  </DataTable.Cell>
+
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 110,
+                    }}
+                  >
                     <Ionicons
                       name="md-pencil-sharp"
                       size={24}
                       color="green"
                       onPress={() => editItem(homeworkData.id)}
                     />
-                  </View>
-                  <View style={{ flex: 2, left: 70, bottom: 5 }}>
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      //marginLeft: 15,
+                    }}
+                  >
                     <Ionicons
                       name="trash"
                       size={24}
                       color="red"
                       onPress={() => deleteItem(homeworkData.id)}
                     />
-                  </View>
-                </View>
-                <View style={[{ flexDirection: "column", flex: 1 }]}>
-                  <View style={{ flex: 2, left: 40, top: 5 }}>
-                    <Text
-                      style={[styles.cardTextStyle, { fontWeight: "bold" }]}
-                    >
-                      Description:
-                    </Text>
-                  </View>
-                  <View style={{ flex: 2, left: 40, top: 5 }}>
-                    <Text
-                      style={[
-                        styles.cardTextStyle,
-                        { color: "grey", fontSize: 18 },
-                      ]}
-                    >
-                      {homeworkData.description}
-                    </Text>
-                  </View>
-                </View>
-              </Card.Content>
-            </Card>
-          ))}
-      </ScrollView>
-
+                  </DataTable.Cell>
+                </DataTable.Row>
+              ))}
+          </DataTable>
+        </ScrollView>
+      )}
       {showForm && keyboardStatus == "Keyboard Hidden" && (
         <View>
           <TeachersHome />
@@ -1068,7 +1114,7 @@ const TeacherHomeworkScreenBuild = () => {
   );
 };
 
-export default TeacherHomeworkScreenBuild;
+export default TeachersHomework;
 
 const styles = StyleSheet.create({
   BtnContainer: {
@@ -1120,6 +1166,7 @@ const styles = StyleSheet.create({
     marginTop: 27,
     marginBottom: 59,
   },
+
   imagePreView: {
     width: "100%",
     height: 200,
@@ -1175,9 +1222,5 @@ const styles = StyleSheet.create({
     height: "9%",
     borderBottomColor: "black",
     borderBottomWidth: 2,
-  },
-  cardTextStyle: {
-    fontFamily: "HindRegular",
-    fontSize: 16,
   },
 });

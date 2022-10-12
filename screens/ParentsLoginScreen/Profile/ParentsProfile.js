@@ -10,7 +10,7 @@ import {
   Text,
   TouchableRipple,
 } from "react-native-paper";
-import { Teacher, TeacherEmail } from "../Login";
+import { Teacher, TeacherEmail } from "../../Login";
 
 const ParentsProfile = () => {
   const navigation = useNavigation();
@@ -135,12 +135,6 @@ const ParentsProfile = () => {
       </View> */}
 
       <View style={styles.menuWrapper}>
-        <TouchableRipple onPress={() => {}}>
-          <View style={styles.menuItem}>
-            <Ionicons name="heart-circle-sharp" size={25} color="#FF6347" />
-            <Text style={styles.menuItemText}>Your Favorites</Text>
-          </View>
-        </TouchableRipple>
         <TouchableRipple onPress={() => {}}>
           <View style={styles.menuItem}>
             <Ionicons name="settings-sharp" size={25} color="#FF6347" />

@@ -50,13 +50,13 @@ import ChatScreen from "./components/ChatApplication/ChatScreen";
 import SingleUser from "./components/ChatApplication/SingleUser";
 import TeachersLoginScreen from "./screens/TeachersLoginScreen/TeachersLoginScreen";
 import ParentsLoginScreen from "./screens/ParentsLoginScreen/ParentsLoginScreen";
-import TeachersOverviewScreen from "./screens/TeachersLoginScreen/TeachersTransport";
-import LeaveScreen from "./screens/ParentsLoginScreen/Academics/LeaveScreen";
+import TeachersOverviewScreen from "./screens/TeachersLoginScreen/Transport/TeachersTransport";
+import LeaveScreen from "./screens/ParentsLoginScreen/Academics/Leave/LeaveScreen";
 import TransportScreen from "./screens/ParentsLoginScreen/Transport/TransportScreen";
 import CalenderScreen from "./screens/ParentsLoginScreen/Calendar/CalenderScreen";
-import Exam from "./screens/ParentsLoginScreen/Academics/Exam";
+
 import Academics from "./screens/ParentsLoginScreen/Academics/Academics";
-import HomeworkScreen from "./screens/ParentsLoginScreen/Academics/HomeworkScreen";
+import HomeworkScreen from "./screens/ParentsLoginScreen/Academics/Homework/HomeworkScreen";
 import StudentCategories from "./screens/ParentsLoginScreen/StudentCategories";
 import StudentsOverviewScreen from "./screens/ParentsLoginScreen/StudentsOverviewScreen";
 
@@ -65,30 +65,29 @@ import { useNavigation } from "@react-navigation/native";
 import IconButton from "./components/UI/IconButton";
 import { useEffect, useState } from "react";
 
-import Noticeboard from "./screens/ParentsLoginScreen/Academics/Noticeboard";
-import Attendance from "./screens/ParentsLoginScreen/Academics/Attendance";
-import TeachersTransport from "./screens/TeachersLoginScreen/TeachersTransport";
-import TimeTable from "./screens/ParentsLoginScreen/Academics/TimeTable";
+import Noticeboard from "./screens/ParentsLoginScreen/NoticeBoard/Noticeboard";
+import Attendance from "./screens/ParentsLoginScreen/Academics/Attendance/Attendance";
+import TeachersTransport from "./screens/TeachersLoginScreen/Transport/TeachersTransport";
+import TimeTable from "./screens/ParentsLoginScreen/Academics/TimeTable/TimeTable";
 
 import { useFonts } from "expo-font";
 import TeachersAcademics from "./screens/TeachersLoginScreen/TeachersAcademics/TeachersAcademics";
-import TeachersCalendar from "./screens/TeachersLoginScreen/TeachersCalendar";
-import ReportCard from "./screens/ParentsLoginScreen/Academics/ReportCard";
+import TeachersCalendar from "./screens/TeachersLoginScreen/Calendar/TeachersCalendar";
+import ReportCard from "./screens/ParentsLoginScreen/Academics/ReportCard/ReportCard";
 import TeachersTimetable from "./screens/TeachersLoginScreen/TimeTable/TeachersTimeTable";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 import { Token } from "./screens/Login";
-import TeachersNoticeboard from "./screens/TeachersLoginScreen/TeachersNoticeboard";
-import TeachersLeave from "./screens/TeachersLoginScreen/TeachersLeave";
+import TeachersNoticeboard from "./screens/TeachersLoginScreen/TeachersAcademics/NoticeBoard/TeachersNoticeBoard";
 
-import TeachersMarksheet from "./screens/TeachersLoginScreen/TeachersMarksheet";
+import TeachersMarksheet from "./screens/TeachersLoginScreen/Marksheet/TeachersMarksheet";
 import LandingScreen from "./screens/LandingScreen";
-import TeachersProfile from "./screens/TeachersLoginScreen/TeachersProfile";
-import ParentsProfile from "./screens/ParentsLoginScreen/ParentsProfile";
-import TeacherHomeworkScreenBuild from "./screens/TeachersLoginScreen/TeachersAcademics/TeacherHomeworkScreenBuild";
-import TeachersLeaveScreenBuild from "./screens/TeachersLoginScreen/TeachersLeaveScreenBuild";
-import TeachersCalendarScreenBuild from "./screens/TeachersLoginScreen/TeachersCalendarScreenBuild";
+import TeachersProfile from "./screens/TeachersLoginScreen/Profile/TeachersProfile";
+import ParentsProfile from "./screens/ParentsLoginScreen/Profile/ParentsProfile";
+import TeacherHomeworkScreenBuild from "./screens/TeachersLoginScreen/TeachersAcademics/Homework/TeacherHomeworkScreenBuild";
+import TeachersLeaveScreenBuild from "./screens/TeachersLoginScreen/Leave/TeachersLeaveScreenBuild";
+import TeachersCalendarScreenBuild from "./screens/TeachersLoginScreen/Calendar/TeachersCalendarScreenBuild";
 import { LogBox } from "react-native";
 import TeachersAttendance from "./screens/TeachersLoginScreen/TeachersAcademics/Attendance/TeachersAttendance";
 

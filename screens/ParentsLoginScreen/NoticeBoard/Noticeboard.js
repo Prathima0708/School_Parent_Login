@@ -2,14 +2,14 @@ import { View, StyleSheet, TextInput, Text, Dimensions } from "react-native";
 import { useEffect, useState } from "react";
 import BgButton from "../../../components/UI/BgButton";
 import VerticalLine from "../../../components/UI/VerticalLine";
-import ParentsHome from "../ParentsHome";
+import ParentsHome from "../BottomTab/ParentsHome";
 import { Keyboard } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { ScrollView } from "react-native";
 import Input from "../../../components/UI/Input";
 import Button from "../../../components/UI/Button";
-import Toast from 'react-native-simple-toast';
+import Toast from "react-native-simple-toast";
 function Noticeboard() {
   // const [forNoticeList, setForNoticeList] = useState({
   //   color: "black",
@@ -23,19 +23,23 @@ function Noticeboard() {
   });
   const [forNoticeForm, setForNoticeForm] = useState({ color: "black" });
   const [creatorofnotice, setCreatorOfNotice] = useState("");
-  const [enteredCreatorOfNoticeTouched,setEnteredCreatorOfNoticeTouched]=useState(false)
-  const enteredCreatorOfNoticeIsValid=creatorofnotice.trim()!=='';
-  const creatorofnoticeInputIsInValid=!enteredCreatorOfNoticeIsValid && enteredCreatorOfNoticeTouched;
+  const [enteredCreatorOfNoticeTouched, setEnteredCreatorOfNoticeTouched] =
+    useState(false);
+  const enteredCreatorOfNoticeIsValid = creatorofnotice.trim() !== "";
+  const creatorofnoticeInputIsInValid =
+    !enteredCreatorOfNoticeIsValid && enteredCreatorOfNoticeTouched;
 
   const [title, setTitle] = useState("");
-  const [enteredTitleTouched,setEnteredTitleTouched]=useState(false)
-  const enteredTitleIsValid=title.trim()!=='';
-  const titleInputIsInValid=!enteredTitleIsValid && enteredTitleTouched;
+  const [enteredTitleTouched, setEnteredTitleTouched] = useState(false);
+  const enteredTitleIsValid = title.trim() !== "";
+  const titleInputIsInValid = !enteredTitleIsValid && enteredTitleTouched;
 
   const [description, setDescription] = useState("");
-  const [enteredDescriptionTouched,setEnteredDescriptionTouched]=useState(false)
-  const enteredDescriptionIsValid=description.trim()!=='';
-  const descriptionInputIsInValid=!enteredDescriptionIsValid && enteredDescriptionTouched;
+  const [enteredDescriptionTouched, setEnteredDescriptionTouched] =
+    useState(false);
+  const enteredDescriptionIsValid = description.trim() !== "";
+  const descriptionInputIsInValid =
+    !enteredDescriptionIsValid && enteredDescriptionTouched;
 
   // const [forAddNotice, setForAddNotice] = useState({ color: "black" });
   // const [showForm, setShowForm] = useState(false);
@@ -45,11 +49,12 @@ function Noticeboard() {
   const [fromDate, setFromDate] = useState(new Date());
 
   const [fromText, setFromText] = useState("");
-  const [enteredFromDateTouched,setEnteredFromDateTouched]=useState(false)
-  const enteredFromDateIsValid=fromText.trim()!=='';
-  const fromDateInputIsInValid=!enteredFromDateIsValid && enteredFromDateTouched;
+  const [enteredFromDateTouched, setEnteredFromDateTouched] = useState(false);
+  const enteredFromDateIsValid = fromText.trim() !== "";
+  const fromDateInputIsInValid =
+    !enteredFromDateIsValid && enteredFromDateTouched;
 
-  const [keyboardStatus, setKeyboardStatus] = useState('Keyboard Hidden');
+  const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -74,7 +79,7 @@ function Noticeboard() {
   function descriptionChangeHandler(enteredValue) {
     setDescription(enteredValue);
   }
-  function frmDateHandler(enteredValue){
+  function frmDateHandler(enteredValue) {
     setFromText(enteredValue);
   }
   const showFromMode = (currentFromMode) => {
@@ -107,37 +112,35 @@ function Noticeboard() {
       (tempFromDate.getMonth() + 1) +
       "/" +
       tempFromDate.getFullYear();
-    
-    if(event.type == "set") {
+
+    if (event.type == "set") {
       setFromText(fDate);
-      } else {
-          //cancel button clicked
-      };
+    } else {
+      //cancel button clicked
+    }
     //console.log(fDate);
   };
 
-  function buttonPressedHandler(){
-
+  function buttonPressedHandler() {
     setEnteredCreatorOfNoticeTouched(true);
     setEnteredTitleTouched(true);
     setEnteredDescriptionTouched(true);
     setEnteredFromDateTouched(true);
 
-    if(!enteredCreatorOfNoticeIsValid){
+    if (!enteredCreatorOfNoticeIsValid) {
       return;
     }
-    if(!enteredTitleIsValid){
+    if (!enteredTitleIsValid) {
       return;
     }
-    if(!enteredDescriptionIsValid){
+    if (!enteredDescriptionIsValid) {
       return;
     }
-    if(!enteredFromDateIsValid){
+    if (!enteredFromDateIsValid) {
       return;
-    }
-    else{
-      Toast.show('Successfully Notice Added',Toast.LONG,[
-        'UIAlertController',
+    } else {
+      Toast.show("Successfully Notice Added", Toast.LONG, [
+        "UIAlertController",
       ]);
       setEnteredCreatorOfNoticeTouched(false);
       setEnteredTitleTouched(false);
@@ -150,21 +153,20 @@ function Noticeboard() {
       setForNoticeForm({ fontWeight: "bold", color: "black" });
       setForNoticeList({ color: "black" });
     }
-
   }
-  function crtofnoticeInputBlur(){
+  function crtofnoticeInputBlur() {
     setEnteredCreatorOfNoticeTouched(true);
   }
 
-  function titleInputBlur(){
+  function titleInputBlur() {
     setEnteredTitleTouched(true);
   }
 
-  function descriptionInputBlur(){
+  function descriptionInputBlur() {
     setEnteredDescriptionTouched(true);
   }
 
-  function datecreationInputBlur(){
+  function datecreationInputBlur() {
     setEnteredFromDateTouched(true);
   }
   function showNoticeForm() {
@@ -172,7 +174,6 @@ function Noticeboard() {
     setForNoticeForm({ color: "black" });
     setShowForm(true);
     setShowList(false);
-    
   }
   function showNotice() {
     setForNoticeForm({ fontWeight: "bold", color: "black" });
@@ -182,96 +183,105 @@ function Noticeboard() {
   }
   return (
     <>
-    <View style={styles.BtnContainer}>
-      
-      {/* <BgButton onPress={showNoticeForm} style={forNoticeList}>
+      <View style={styles.BtnContainer}>
+        {/* <BgButton onPress={showNoticeForm} style={forNoticeList}>
         Add Notice
       </BgButton>
       <VerticalLine>|</VerticalLine>
       <BgButton onPress={showNotice} style={forNoticeForm}>
         Show Notice
     </BgButton> */}
-    </View>
-      {showForm && <ScrollView>
-        <View style={styles.root}>
-          <Input 
-            onSubmitEditing={Keyboard.dismiss} 
-            placeholder="Creator of notice"
-            onChangeText={crtofnoticeChangeHandler}
-            blur={crtofnoticeInputBlur}
-            style={creatorofnoticeInputIsInValid && styles.errorBorderColor}
-          />
-          {creatorofnoticeInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter the creator name</Text>
-            )}
-      
-          <Input 
-            onSubmitEditing={Keyboard.dismiss} 
-            placeholder="Title"
-            onChangeText={titleChangeHandler}
-            blur={titleInputBlur}
-            style={titleInputIsInValid && styles.errorBorderColor}
-          />
-          {titleInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter the title</Text>
+      </View>
+      {showForm && (
+        <ScrollView>
+          <View style={styles.root}>
+            <Input
+              onSubmitEditing={Keyboard.dismiss}
+              placeholder="Creator of notice"
+              onChangeText={crtofnoticeChangeHandler}
+              blur={crtofnoticeInputBlur}
+              style={creatorofnoticeInputIsInValid && styles.errorBorderColor}
+            />
+            {creatorofnoticeInputIsInValid && (
+              <Text style={{ color: "red", left: 20 }}>
+                Enter the creator name
+              </Text>
             )}
 
-          <Input 
-            onSubmitEditing={Keyboard.dismiss} 
-            placeholder="Description"
-            onChangeText={descriptionChangeHandler}
-            blur={descriptionInputBlur}
-            style={descriptionInputIsInValid && styles.errorBorderColor}
-          />
-          {descriptionInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter the description</Text>
-            )}
-          <View>
-            <Ionicons
-              style={{
-                position:'absolute',
-                top:23,
-              }}
-              name="calendar"
-              size={24}
-              color="black"
-              onPress={() => showFromMode("date")}
+            <Input
+              onSubmitEditing={Keyboard.dismiss}
+              placeholder="Title"
+              onChangeText={titleChangeHandler}
+              blur={titleInputBlur}
+              style={titleInputIsInValid && styles.errorBorderColor}
             />
-            {fromShow && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={fromDate}
-                mode={frommode}
-                is24Hour={true}
-                display="default"
-                onChange={fromDateChangeHandler}
+            {titleInputIsInValid && (
+              <Text style={{ color: "red", left: 20 }}>Enter the title</Text>
+            )}
+
+            <Input
+              onSubmitEditing={Keyboard.dismiss}
+              placeholder="Description"
+              onChangeText={descriptionChangeHandler}
+              blur={descriptionInputBlur}
+              style={descriptionInputIsInValid && styles.errorBorderColor}
+            />
+            {descriptionInputIsInValid && (
+              <Text style={{ color: "red", left: 20 }}>
+                Enter the description
+              </Text>
+            )}
+            <View>
+              <Ionicons
+                style={{
+                  position: "absolute",
+                  top: 23,
+                }}
+                name="calendar"
+                size={24}
+                color="black"
+                onPress={() => showFromMode("date")}
               />
+              {fromShow && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={fromDate}
+                  mode={frommode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={fromDateChangeHandler}
+                />
+              )}
+            </View>
+            <Input
+              value={fromText || fromDate}
+              onSubmitEditing={Keyboard.dismiss}
+              placeholder="Date of Creation"
+              style={fromDateInputIsInValid && styles.errorBorderColor}
+              blur={datecreationInputBlur}
+              onChangeText={frmDateHandler}
+            />
+            {fromDateInputIsInValid && (
+              <Text style={{ color: "red", left: 20 }}>
+                Enter creation date
+              </Text>
             )}
+            <View style={styles.btnSubmit}>
+              <Button onPress={buttonPressedHandler}>Add Notice</Button>
+            </View>
           </View>
-          <Input 
-            value={fromText || fromDate}
-            onSubmitEditing={Keyboard.dismiss}
-            placeholder="Date of Creation"
-            style={fromDateInputIsInValid && styles.errorBorderColor}
-            blur={datecreationInputBlur}
-            onChangeText={frmDateHandler}
-          />
-          {fromDateInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Enter creation date</Text>
-            )}
-          <View style={styles.btnSubmit}>
-            <Button onPress={buttonPressedHandler}>Add Notice</Button>
-          </View>
-        </View>
-      </ScrollView>}
-      {showList && 
+        </ScrollView>
+      )}
+      {showList && (
         <View>
           <Text>NoticeList</Text>
         </View>
-      }
-      {showForm &&  keyboardStatus=='Keyboard Hidden' && <View style={styles.home}>
-        <ParentsHome />
-      </View>}
+      )}
+      {showForm && keyboardStatus == "Keyboard Hidden" && (
+        <View style={styles.home}>
+          <ParentsHome />
+        </View>
+      )}
     </>
   );
 }
@@ -281,14 +291,14 @@ export default Noticeboard;
 const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
-  BtnContainer :{
+  BtnContainer: {
     fontSize: 24,
-    flexDirection:'row'
+    flexDirection: "row",
   },
   root: {
     // backgroundColor: "skyblue",
     paddingLeft: 20,
-    paddingRight:20,
+    paddingRight: 20,
     // margin: 20,
     borderRadius: 15,
   },
@@ -305,7 +315,7 @@ const styles = StyleSheet.create({
   //   //fontFamily: "regular",
   // },
 
-  errorBorderColor:{
+  errorBorderColor: {
     color: "black",
     borderBottomWidth: 1,
     borderColor: "red",
@@ -316,7 +326,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   btnSubmit: {
-    top: deviceHieght < 600 ? '1%' : '2%',
+    top: deviceHieght < 600 ? "1%" : "2%",
     marginBottom: 30,
   },
 });

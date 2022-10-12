@@ -6,6 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { useLayoutEffect } from "react";
 import ParentCateogryGridTile from "../../components/StudentItem/ParentCateogryGridTile";
+import MainTab from "./BottomTab/MainTab";
 
 function StudentCategories({ navigation }) {
   async function logoutHandler() {
@@ -47,9 +48,9 @@ function StudentCategories({ navigation }) {
   function renderCategoryItem(itemData) {
     function pressHandler() {
       if (itemData.item.id === "c5") {
-        // navigation.navigate("Leave", {
-        //   stdId: itemData.item.id,
-        // });
+        navigation.navigate("ParentsProfile", {
+          stdId: itemData.item.id,
+        });
       } else if (itemData.item.id === "c1") {
         navigation.navigate("Transport", {
           stdId: itemData.item.id,
@@ -64,10 +65,6 @@ function StudentCategories({ navigation }) {
         });
       } else if (itemData.item.id === "c4") {
         navigation.navigate("Academics", {
-          stdId: itemData.item.id,
-        });
-      } else if (itemData.item.id === "c5") {
-        navigation.navigate("ParentsProfile", {
           stdId: itemData.item.id,
         });
       }
@@ -93,6 +90,7 @@ function StudentCategories({ navigation }) {
         renderItem={renderCategoryItem}
         numColumns={2}
       />
+      <MainTab />
     </View>
   );
 }

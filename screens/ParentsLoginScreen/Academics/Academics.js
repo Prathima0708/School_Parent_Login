@@ -2,7 +2,7 @@ import { FlatList, StyleSheet, View } from "react-native";
 import CategoryGridTile from "../../../components/StudentItem/CategoryGridTile";
 import ParentAcademicsGridTile from "../../../components/StudentItem/ParentsAcademicsGridTile";
 import { ACADEMICS } from "../../../components/utils/Academics";
-import ParentsHome from "../ParentsHome";
+import ParentsHome from "../BottomTab/ParentsHome";
 
 function Academics({ navigation }) {
   function renderCategoryItem(itemData) {
