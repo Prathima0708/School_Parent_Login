@@ -798,8 +798,11 @@ const TeachersCalendarScreenBuild = () => {
             onChangeText={(text) => searchFilter(text)}
             value={searchText}
           />
-          <ScrollView>
-            {filteredData &&
+          <View style={[{flex:1}, {flexDirection: "column"}]}>
+        <View style={{ flex: 8,bottom:10 }} >
+        <ScrollView>
+       <View style={styles.root}>
+          {filteredData &&
               filteredData.map((filteredData, key) => (
                 <>
                   <View key={key}>
@@ -891,7 +894,13 @@ const TeachersCalendarScreenBuild = () => {
                   </View>
                 </>
               ))}
-          </ScrollView>
+        </View>
+      </ScrollView>
+        </View>
+        <View style={{ flex: 1}} >
+          <TeachersHome />
+        </View>
+      </View>
         </>
       )}
       {keyboardStatus == "Keyboard Hidden" && <TeachersHome />}

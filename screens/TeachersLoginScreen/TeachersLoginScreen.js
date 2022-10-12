@@ -1,4 +1,4 @@
-import { StyleSheet, FlatList, View } from "react-native";
+import { StyleSheet, FlatList, View, Dimensions } from "react-native";
 import React from "react";
 
 import CategoryGridTile from "../../components/StudentItem/CategoryGridTile";
@@ -116,7 +116,11 @@ const TeachersLoginScreen = ({ navigation }) => {
 
 export default TeachersLoginScreen;
 
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
+
   rootContainer: {
     // flex: 1,
     // justifyContent: "center",
@@ -138,7 +142,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "gray",
     fontFamily: "HindRegular",
-    fontSize: 20,
+    fontSize: deviceWidth < 370 ? 16 : 20,
   },
   studentItem: {
     width: "80%",
@@ -159,7 +163,7 @@ const styles = StyleSheet.create({
     // marginRight: 33,
   },
   description: {
-    fontSize: 20,
+    fontSize: deviceWidth < 370 ? 18 : 20,
     fontFamily: "HindRegular",
     marginBottom: "2%",
     fontWeight: "bold",

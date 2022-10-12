@@ -1444,7 +1444,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 300,
     position:'absolute',
-    top:-50
+    top:deviceHieght < 600 ? -50 : -35
   },
   loginTypeText: {
     justifyContent: "center",

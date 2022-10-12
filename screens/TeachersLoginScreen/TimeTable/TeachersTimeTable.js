@@ -1571,7 +1571,7 @@ const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
 
-    width: "50%",
+    width: deviceWidth < 370 ? "48%" : "50%",
   },
   year: {
     width: 70,

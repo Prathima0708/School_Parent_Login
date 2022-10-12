@@ -6,6 +6,8 @@ import {
   ScrollView,
   Button as Btn,
   Alert,
+  Dimensions,
+  TouchableHighlight,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Button from "../../../components/UI/Button";
@@ -919,6 +921,9 @@ const TeachersTransport = () => {
 
 export default TeachersTransport;
 
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
@@ -932,6 +937,14 @@ const styles = StyleSheet.create({
   },
   home: {
     marginTop: "20%",
+  },
+  headingStyle:{
+    left:'40%'
+  },
+  stopStyle:{
+    fontWeight:'bold',
+    fontSize:deviceWidth < 370 ? 18 : 20,
+    left:'20%'
   },
   btnSubmit1: {
     // marginTop: 50,
@@ -993,7 +1006,7 @@ const styles = StyleSheet.create({
     // padding: 5,
     margin: 7,
     fontFamily: "MonsterratBold",
-    fontSize: 16,
+    fontSize: deviceWidth < 370 ? 14 : 16,
   },
   tableCell: {
     width: 40,
@@ -1006,4 +1019,27 @@ const styles = StyleSheet.create({
     borderBottomColor: "black",
     borderBottomWidth: 2,
   },
+  cardTextStyle: {
+    fontFamily: "HindRegular",
+    fontSize: deviceWidth < 370 ? 14 : 16,
+  },
+  submit:{
+    padding: '3%',
+    backgroundColor: "#00B8AC",
+    borderRadius: 10,
+    borderWidth: 1,
+    top: '10%',
+    borderColor: "#fff",
+    left:'10%',
+    width:deviceWidth < 370 ? '50%' : '50%'
+  },
+  delete:{
+    padding: '3%',
+    backgroundColor: "#00B8AC",
+    borderRadius: 10,
+    borderWidth: 1,
+    top: '10%',
+    borderColor: "#fff",
+    width:deviceWidth < 370 ? '50%' : '50%',
+  }
 });
