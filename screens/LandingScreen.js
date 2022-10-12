@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
   },
   submitText: {
     padding:"10%",
-    paddingTop: deviceHieght < 600 ? '6%' : '9%',
+    paddingTop: deviceHieght < 600 ? '5%' : '9%',
     color: "#fff",
     fontSize: 24,
     fontFamily: "HindSemiBold",

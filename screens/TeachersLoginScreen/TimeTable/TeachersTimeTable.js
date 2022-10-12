@@ -25,6 +25,7 @@ import TecahersExamTimeTable from "./TecahersExamTimeTable";
 import { DataTable } from "react-native-paper";
 import Input from "../../../components/UI/Input";
 import moment from "moment";
+import TecahersExamTimeTableCopy from "./TeachersExamTimeTableCopy";
 export var CLASSNAME, SECTION,idTimeTab=[];
 const TeachersTimetable = () => {
   const [showForm, setShowForm] = useState(false);
@@ -1503,6 +1504,7 @@ const TeachersTimetable = () => {
         )}
         {showForm && (
           <>
+            {/* <TecahersExamTimeTable /> */}
             <TecahersExamTimeTable />
           </>
         )}
@@ -1518,7 +1520,7 @@ const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
 
-    width: "50%",
+    width: deviceWidth < 370 ? '48%' : '50%',
   },
   year: {
     width: 70,

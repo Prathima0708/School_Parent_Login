@@ -6,6 +6,8 @@ import {
   StyleSheet,
   Button as Btn,
   Alert,
+  Dimensions,
+  TouchableHighlight,
 } from "react-native";
 import React from "react";
 import { useState } from "react";
@@ -18,7 +20,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import SelectList from "react-native-dropdown-select-list";
 import TeachersHome from "../TeachersHome";
 import Button from "../../../components/UI/Button";
-import { DataTable } from "react-native-paper";
+import { Card, DataTable } from "react-native-paper";
 import moment from "moment";
 export var ID;
 const TecahersExamTimeTable = () => {
@@ -448,8 +450,211 @@ const TecahersExamTimeTable = () => {
   return (
     <>
       {showExamList && (
+        
         <>
-          <View style={styles.timetablebtn}>
+        <View style={[{flex:1}, {flexDirection: "column"}]}>
+        <View style={{ flex: 8,bottom:10 }} >
+        <ScrollView>
+        <View>
+        {showExamData &&
+              showExamData.map((data, key) => (
+                <>
+                  <View key={key}>
+                    <Card style={{ margin: 10 }}>
+                      <Card.Content>
+                      <View style={[{flex:1}, {flexDirection: "row"}]}>
+                        <View style={{ flex: 2 }} >
+                          <View style={[{flex:1}, {flexDirection: "column",top:'10%'}]}>
+                            <View style={{ flex: 2 }} >
+                            <Text
+                              style={[
+                                styles.cardTextStyle,
+                                { color: "grey", fontSize: deviceWidth < 370 ? 14 : 18, },
+                              ]}
+                            >
+                              {moment(data.start_date).format("DD/MM/YYYY")}
+                            </Text>
+                            </View>
+                            <View style={{left:'30%',position:'absolute',top:'25%'}}>
+                              <Text>to</Text>
+                            </View>
+                            <View style={{ flex: 2}}>
+                            <Text
+                              style={[
+                                styles.cardTextStyle,
+                                { color: "grey", fontSize: deviceWidth < 370 ? 14 : 18, },
+                              ]}
+                            >
+                              {moment(data.end_date).format("DD/MM/YYYY")}
+                            </Text>
+                            </View>
+                          </View>
+                        </View>
+                        <View style={{ flex: 2}} >
+                          <Text style={[styles.cardTextStyle,{ fontWeight: "bold", }]}>Class name:</Text>
+                          <Text style={[styles.cardTextStyle,{ fontWeight: "bold",top:'4%' }]}>Exam name:</Text>
+                          <Text style={[styles.cardTextStyle,{ fontWeight: "bold",top:'8%' }]}>Total marks:</Text>
+                          <Text style={[styles.cardTextStyle,{ fontWeight: "bold",top:'12%' }]}>Hour:</Text>
+                        </View>
+                        <View style={{ flex: 2 }} >
+                          <Text style={[styles.cardTextStyle,
+                            { color: "grey", fontSize: deviceWidth < 370 ? 14 : 18, },]}>
+                              {data.class_name}
+                          </Text>
+                          <Text style={[styles.cardTextStyle,
+                            {width:'120%', color: "grey", fontSize: deviceWidth < 370 ? 14 : 18, }]}>
+                              {data.exam_name}
+                          </Text>
+                          <Text style={[styles.cardTextStyle,
+                            { color: "grey", fontSize: deviceWidth < 370 ? 14 : 18, }]}>
+                              {data.Total_marks}
+                          </Text>
+                          <Text style={[styles.cardTextStyle,
+                            { color: "grey", fontSize: deviceWidth < 370 ? 14 : 18, }]}>
+                              {data.hour}
+                          </Text>
+                        </View>
+                      </View>
+                      <View style={[{flex:1}, {flexDirection: "row",left:"100%",top:'2%'}]}>
+                        <View style={{ flex: 2,left:'400%' }} >
+                        <Ionicons
+                      name="md-pencil-sharp"
+                      size={24}
+                      color="green"
+                      onPress={() => editItem(data.id)}
+                    />
+                        </View>
+                        <View style={{ flex: 2}} >
+                        <Ionicons
+                      name="trash"
+                      size={24}
+                      color="red"
+                      onPress={() => deleteItem(data.id)}
+                    />
+                        </View>
+                      </View>
+                      {/* <View style={[{ flexDirection: "row", flex: 1 }]}>
+                          <View style={{ flex: 3, left: '400%' }}>
+                            <Text
+                              style={[
+                                styles.cardTextStyle,
+                                { fontWeight: "bold" },
+                              ]}
+                            >
+                              Class name:
+                            </Text>
+                          </View>
+                          <View style={{ flex: 2, top: '6%' }}>
+                            <Text
+                              style={[
+                                styles.cardTextStyle,
+                                { color: "grey", fontSize: deviceWidth < 370 ? 14 : 18, },
+                              ]}
+                            >
+                              {data.class_name}
+                            </Text>
+                          </View>
+                          <View style={{ flex: 2, left: '200%', bottom: 5 }}>
+                            <Ionicons
+                              name="md-pencil-sharp"
+                              size={24}
+                              color="green"
+                              onPress={() => editItem(homeworkData.id)}
+                            />
+                          </View>
+                          <View style={{ flex: 2, left: '130%', bottom: 5 }}>
+                            <Ionicons
+                              name="trash"
+                              size={24}
+                              color="red"
+                              onPress={() => deleteItem(homeworkData.id)}
+                            />
+                          </View>
+                        </View> */}
+                        {/* <View style={[{ flexDirection: "row", flex: 1 }]}>
+                          <View style={{ flex: 3, left: '400%', top: '5%' }}>
+                            <Text
+                              style={[
+                                styles.cardTextStyle,
+                                { fontWeight: "bold" },
+                              ]}
+                            >
+                              Exam name:
+                            </Text>
+                          </View>
+                          <View style={{ flex: 6, top: '11%' }}>
+                            <Text
+                              style={[
+                                styles.cardTextStyle,
+                                { color: "grey", fontSize: deviceWidth < 370 ? 14 : 18, },
+                              ]}
+                            >
+                              {data.exam_name}
+                            </Text>
+                          </View>
+                        
+                        </View> */}
+                       
+{/* 
+                        <View style={[{ flexDirection: "row", flex: 1 }]}>
+                          <View style={{ flex: 2, left: '400%', top: '10%' }}>
+                            <Text
+                              style={[
+                                styles.cardTextStyle,
+                                { fontWeight: "bold" },
+                              ]}
+                            >
+                              Total marks:
+                            </Text>
+                          </View>
+                          <View style={{ flex: 4, top: '16%' }}>
+                            <Text
+                              style={[
+                                styles.cardTextStyle,
+                                { color: "grey",fontSize: deviceWidth < 370 ? 14 : 18,},
+                              ]}
+                            >
+                              {data.Total_marks}
+                            </Text>
+                          </View>
+                        </View> */}
+
+                        {/* <View style={[{ flexDirection: "row", flex: 1 }]}>
+                          <View style={{ flex: 2, left: '400%', top: '15%' }}>
+                            <Text
+                              style={[
+                                styles.cardTextStyle,
+                                { fontWeight: "bold" },
+                              ]}
+                            >
+                              Hour:
+                            </Text>
+                          </View>
+                          <View style={{ flex: 4, top: '20%' }}>
+                            <Text
+                              style={[
+                                styles.cardTextStyle,
+                                { color: "grey",fontSize: deviceWidth < 370 ? 14 : 18,},
+                              ]}
+                            >
+                              {data.hour}
+                            </Text>
+                          </View>
+                        </View>
+                         */}
+                      </Card.Content>
+                    </Card>
+                  </View>
+                </>
+              ))}
+        </View>
+      </ScrollView>
+        </View>
+        <View style={{ flex: 1}} >
+          <TeachersHome />
+        </View>
+      </View>
+          {/* <View style={styles.timetablebtn}>
             <Button onPress={viewExam}>
               <Ionicons name="add" size={38} color="black" />
             </Button>
@@ -580,7 +785,7 @@ const TecahersExamTimeTable = () => {
                 </DataTable.Row>
               ))}
             </DataTable>
-          </ScrollView>
+          </ScrollView> */}
         </>
       )}
       {showform && (
@@ -817,6 +1022,9 @@ const TecahersExamTimeTable = () => {
 };
 
 export default TecahersExamTimeTable;
+
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
@@ -936,4 +1144,36 @@ const styles = StyleSheet.create({
   errorSelectedColor: {
     borderColor: "red",
   },
+  headingStyle:{
+    left:'20%',
+    color:'purple'
+  },
+  stopStyle:{
+    fontWeight:'bold',
+    fontSize:deviceWidth < 370 ? 18 : 20,
+    left:'20%'
+  },
+  cardTextStyle: {
+    fontFamily: "HindRegular",
+    fontSize: deviceWidth < 370 ? 14 : 16,
+  },
+  submit:{
+    padding: '3%',
+    backgroundColor: "#00B8AC",
+    borderRadius: 10,
+    borderWidth: 1,
+    top: '10%',
+    borderColor: "#fff",
+    // left:'10%',
+    width:deviceWidth < 370 ? '50%' : '50%'
+  },
+  delete:{
+    padding: '3%',
+    backgroundColor: "red",
+    borderRadius: 10,
+    borderWidth: 1,
+    top: '10%',
+    borderColor: "#fff",
+    width:deviceWidth < 370 ? '50%' : '50%',
+  }
 });

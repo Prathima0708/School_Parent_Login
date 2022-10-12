@@ -1,9 +1,11 @@
 import { View,Text,StyleSheet } from "react-native"
 
-function VerticalLine({children}){
+function VerticalLine({children,style}){
     return(
     <View style={styles.lineContainer}>
-        <Text style={styles.text}>{children}</Text>
+        <Text 
+        style={[styles.text, { ...style }]}
+        >{children}</Text>
     </View>
     )
 }

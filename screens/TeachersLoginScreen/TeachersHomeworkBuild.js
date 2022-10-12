@@ -994,7 +994,95 @@ const TeacherHomeworkScreenBuild = () => {
           </View>
         </ScrollView>
       )}
-      <ScrollView>
+      <View style={[{flex:1}, {flexDirection: "column"}]}>
+        <View style={{ flex: 8,bottom:10 }} >
+        <ScrollView>
+       <View style={styles.root}>
+          {showList &&
+          homeworkData &&
+          homeworkData.map((homeworkData, key) => (
+            <Card style={{ marginTop: 15, margin: 10 }}>
+              <Card.Content>
+                <Card.Title
+                  title={homeworkData.class_name}
+                  titleStyle={{
+                    color: "purple",
+                    fontFamily: "HindRegular",
+                    fontWeight: "bold",
+                  }}
+                />
+                <View style={[{ flexDirection: "row" }]}>
+                  <View style={{ flex: 2, left: 20 }}>
+                    <Text style={styles.cardTextStyle}>
+                      <Ionicons name="calendar" size={24} color="green" />
+                      Assigned
+                    </Text>
+                  </View>
+                  <View style={{ flex: 2 }}>
+                    <Text style={styles.cardTextStyle}>
+                      <Ionicons name="calendar" size={24} color="green" />
+                      Due
+                    </Text>
+                  </View>
+                </View>
+                <View style={[{ flexDirection: "row" }]}>
+                  <View style={{ flex: 2, left: 40 }}>
+                    <Text style={[styles.cardTextStyle, { fontSize: 17 }]}>
+                      {moment(homeworkData.homework_date).format("DD/MM/YYYY")}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 2, left: 105 }}>
+                    <Text style={[styles.cardTextStyle, { fontSize: 17 }]}>
+                      {moment(homeworkData.due_date).format("DD/MM/YYYY")}
+                    </Text>
+                  </View>
+                  <View style={{ flex: 2, left: 120, bottom: 5 }}>
+                    <Ionicons
+                      name="md-pencil-sharp"
+                      size={24}
+                      color="green"
+                      onPress={() => editItem(homeworkData.id)}
+                    />
+                  </View>
+                  <View style={{ flex: 2, left: 70, bottom: 5 }}>
+                    <Ionicons
+                      name="trash"
+                      size={24}
+                      color="red"
+                      onPress={() => deleteItem(homeworkData.id)}
+                    />
+                  </View>
+                </View>
+                <View style={[{ flexDirection: "column", flex: 1 }]}>
+                  <View style={{ flex: 2, left: 40, top: 5 }}>
+                    <Text
+                      style={[styles.cardTextStyle, { fontWeight: "bold" }]}
+                    >
+                      Description:
+                    </Text>
+                  </View>
+                  <View style={{ flex: 2, left: 40, top: 5 }}>
+                    <Text
+                      style={[
+                        styles.cardTextStyle,
+                        { color: "grey", fontSize: 18 },
+                      ]}
+                    >
+                      {homeworkData.description}
+                    </Text>
+                  </View>
+                </View>
+              </Card.Content>
+            </Card>
+          ))}
+        </View>
+      </ScrollView>
+        </View>
+        <View style={{ flex: 1}} >
+          <TeachersHome />
+        </View>
+      </View>
+      {/* <ScrollView>
         {showList &&
           homeworkData &&
           homeworkData.map((homeworkData, key) => (
@@ -1072,7 +1160,7 @@ const TeacherHomeworkScreenBuild = () => {
               </Card.Content>
             </Card>
           ))}
-      </ScrollView>
+      </ScrollView> */}
 
       {keyboardStatus == "Keyboard Hidden" && (
         <View>
