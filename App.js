@@ -69,9 +69,9 @@ import Noticeboard from "./screens/ParentsLoginScreen/Academics/Noticeboard";
 import Attendance from "./screens/ParentsLoginScreen/Academics/Attendance";
 import TeachersTransport from "./screens/TeachersLoginScreen/TeachersTransport";
 import TimeTable from "./screens/ParentsLoginScreen/Academics/TimeTable";
-import TeachersHomework from "./screens/TeachersLoginScreen/TeachersHomeWork";
+
 import { useFonts } from "expo-font";
-import TeachersAcademics from "./screens/TeachersLoginScreen/TeachersAcademics";
+import TeachersAcademics from './screens/TeachersLoginScreen/TeachersAcademics/TeachersAcademics'
 import TeachersCalendar from "./screens/TeachersLoginScreen/TeachersCalendar";
 import ReportCard from "./screens/ParentsLoginScreen/Academics/ReportCard";
 import TeachersTimetable from "./screens/TeachersLoginScreen/TimeTable/TeachersTimeTable";
@@ -81,15 +81,16 @@ const Stack = createNativeStackNavigator();
 import { Token } from "./screens/Login";
 import TeachersNoticeboard from "./screens/TeachersLoginScreen/TeachersNoticeboard";
 import TeachersLeave from "./screens/TeachersLoginScreen/TeachersLeave";
-import TeachersHome from "./screens/TeachersLoginScreen/TeachersHome";
+
 import TeachersMarksheet from "./screens/TeachersLoginScreen/TeachersMarksheet";
 import LandingScreen from "./screens/LandingScreen";
 import TeachersProfile from "./screens/TeachersLoginScreen/TeachersProfile";
 import ParentsProfile from "./screens/ParentsLoginScreen/ParentsProfile";
-import TeacherHomeworkScreenBuild from "./screens/TeachersLoginScreen/TeachersHomeworkBuild";
+import TeacherHomeworkScreenBuild from "./screens/TeachersLoginScreen/TeachersAcademics/TeacherHomeworkScreenBuild";
 import TeachersLeaveScreenBuild from "./screens/TeachersLoginScreen/TeachersLeaveScreenBuild";
 import TeachersCalendarScreenBuild from "./screens/TeachersLoginScreen/TeachersCalendarScreenBuild";
 import { LogBox } from "react-native";
+import TeachersAttendance from "./screens/TeachersLoginScreen/TeachersAcademics/Attendance/TeachersAttendance";
 
 // function Bottom() {
 //   return (
@@ -248,6 +249,10 @@ export default function App() {
           <Stack.Screen name="NoticeBoard" component={Noticeboard} />
           <Stack.Screen name="TimeTable" component={TimeTable} />
           <Stack.Screen name="Attendance" component={Attendance} />
+          <Stack.Screen
+            name="TeachersAttendance"
+            component={TeachersAttendance}
+          />
           <Stack.Screen name="Transport" component={TransportScreen} />
           <Stack.Screen
             name="TeachersTransport"
