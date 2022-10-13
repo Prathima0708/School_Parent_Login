@@ -23,6 +23,7 @@ import Input from "../../../components/UI/Input";
 
 import { Card, DataTable } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import SearchBar from "react-native-dynamic-search-bar";
 export var ID;
 const TeachersLeaveScreenBuild = () => {
   const [showForm, setShowForm] = useState(true);
@@ -79,6 +80,11 @@ const TeachersLeaveScreenBuild = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [deletePressed, setDeletePressed] = useState(false);
   const [isSame, SetIsSame] = useState(false);
+
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchText, setSearchText] = useState("");
+
+  const [showInitialBtn, setShowInitialBtn] = useState(true);
   let i = 0;
 
   useEffect(() => {
@@ -86,6 +92,7 @@ const TeachersLeaveScreenBuild = () => {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
         setData(res.data);
+        setFilteredData(res.data);
         // console.log(data)
         let test = 0;
         const value = await AsyncStorage.getItem("key");
@@ -195,6 +202,7 @@ const TeachersLeaveScreenBuild = () => {
     setToText(enteredValue);
   }
   function updateHandler() {
+    setShowInitialBtn(true);
     const FormData = {
       leave_type: leaveType,
       leave_reason: leaveReason,
@@ -267,6 +275,7 @@ const TeachersLeaveScreenBuild = () => {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
         setData(res.data);
+        setFilteredData(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -426,6 +435,10 @@ const TeachersLeaveScreenBuild = () => {
     setEnteredtoDateTouched(true);
   }
   function showLeaveForm() {
+    setEnteredLeaveType("");
+    setEnteredLeaveReason("");
+    setFromText("");
+    setToText("");
     setForLeaveList({
       backgroundColor: "#0C60F4",
       color: "white",
@@ -451,7 +464,7 @@ const TeachersLeaveScreenBuild = () => {
         //console.log(res.data);
 
         setData(res.data);
-
+        setFilteredData(res.data);
         setForLeaveForm({
           color: "white",
           backgroundColor: "#1E8449",
@@ -471,6 +484,7 @@ const TeachersLeaveScreenBuild = () => {
     fetchData();
   }
   function editItem(id) {
+    setShowInitialBtn(false);
     ID = id;
     const filteredDummuyData = data.find((data) => data.id == id);
     // console.log(filteredDummuyData);
@@ -530,29 +544,49 @@ const TeachersLeaveScreenBuild = () => {
           const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
           // console.log(res.data);
           setData(res.data);
+          setFilteredData(res.data);
         } catch (error) {
           console.log(error);
         }
       }
       fetchData();
     }
-    // {!deletePressed ? storeData() : ''}
+  }
+  const searchFilter = (text) => {
+    console.log("search function");
+    if (text) {
+      const newData = data.filter((item) => {
+        const itemData = item.leave_type
+          ? item.leave_type.toUpperCase()
+          : "".toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredData(newData);
+      setSearchText(text);
+    } else {
+      setFilteredData(data);
+      setSearchText(text);
+    }
+  };
+  function cancelHandler() {
+    setShowInitialBtn(true);
+    setShowList(true);
+    setShowForm(false);
   }
   return (
     <>
-      {/* <View style={styles.BtnContainer}>
-          <BgButton>Add Leave</BgButton>
-        </View> */}
+      {showInitialBtn && (
+        <View style={styles.BtnContainer}>
+          <BgButton onPress={showLeaveForm} style={forLeaveList}>
+            Add Leave
+          </BgButton>
 
-      <View style={styles.BtnContainer}>
-        <BgButton onPress={showLeaveForm} style={forLeaveList}>
-          Add Leave
-        </BgButton>
-
-        <BgButton onPress={showLeave} style={forLeaveForm}>
-          Show Leave
-        </BgButton>
-      </View>
+          <BgButton onPress={showLeave} style={forLeaveForm}>
+            Show Leave
+          </BgButton>
+        </View>
+      )}
       {showForm && (
         <ScrollView>
           <View style={styles.inputForm}>
@@ -688,96 +722,173 @@ const TeachersLeaveScreenBuild = () => {
               </View>
             )}
             {isEdit && (
-              <View style={styles.btnSubmit}>
+              <View style={styles.btnSubmit1}>
                 <Button onPress={updateHandler}>Update</Button>
+              </View>
+            )}
+            {isEdit && (
+              <View style={styles.cancel}>
+                <Button onPress={cancelHandler}>Cancel</Button>
               </View>
             )}
           </View>
         </ScrollView>
       )}
-      {/* {showList &&  (
-          
-        )} */}
-      <ScrollView>
-        {showList &&
-          data &&
-          data.map((data, key) => (
-            <Card style={{ marginTop: 15, margin: 10 }} key={key}>
-              <Card.Content>
-                <Card.Title
-                  title={data.leave_type}
-                  titleStyle={{
-                    color: "purple",
-                    fontFamily: "HindRegular",
-                    fontWeight: "bold",
-                  }}
-                />
-                <View style={[{ flexDirection: "row" }]}>
-                  <View style={{ flex: 2, left: 20 }}>
-                    <Text style={styles.cardTextStyle}>
-                      <Ionicons name="calendar" size={24} color="green" />
-                      Leave from
-                    </Text>
-                  </View>
-                  <View style={{ flex: 2 }}>
-                    <Text style={styles.cardTextStyle}>
-                      <Ionicons name="calendar" size={24} color="green" />
-                      Leave to
-                    </Text>
-                  </View>
+
+      {showList && (
+        <>
+          <SearchBar
+            onSubmitEditing={Keyboard.dismiss}
+            style={styles.searchBar}
+            textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
+            placeholder="Search here by leave type"
+            onChangeText={(text) => searchFilter(text)}
+            value={searchText}
+          />
+          <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
+            <View style={{ flex: 8, bottom: 10 }}>
+              <ScrollView>
+                <View style={styles.root}>
+                  {filteredData &&
+                    filteredData.map((data, key) => (
+                      <>
+                        <View>
+                          <Card
+                            key={key}
+                            style={{
+                              marginVertical: 15,
+                              marginHorizontal: 20,
+                              elevation: 5,
+                              borderRadius: 10,
+                              paddingBottom: 20,
+                            }}
+                          >
+                            <Card.Content>
+                              <View style={[{ flexDirection: "row" }]}>
+                                <View style={{ flex: 2, marginLeft: 5 }}>
+                                  <Ionicons
+                                    name="calendar"
+                                    size={25}
+                                    color="#D4AC0D"
+                                    style={{ position: "absolute", left: 5 }}
+                                  />
+                                  <Text style={styles.cardTextStyle}>
+                                    Leave from
+                                  </Text>
+                                </View>
+                                <View style={{ flex: 2 }}>
+                                  <View style={{ flex: 2 }}>
+                                    <Ionicons
+                                      name="calendar"
+                                      size={25}
+                                      color="#D4AC0D"
+                                      style={{ position: "absolute", left: 5 }}
+                                    />
+                                    <Text style={styles.cardTextStyle}>
+                                      Leave to
+                                    </Text>
+                                  </View>
+                                </View>
+                              </View>
+                              <View style={[{ flexDirection: "row" }]}>
+                                <View style={{ flex: 2, left: 45 }}>
+                                  <Text
+                                    style={{
+                                      fontSize: 16,
+                                      fontFamily: "HindSemiBold",
+                                      color: "grey",
+                                    }}
+                                  >
+                                    {moment(data.leave_form).format(
+                                      "DD/MM/YYYY"
+                                    )}
+                                  </Text>
+                                </View>
+                                <View style={{ flex: 2, left: 120 }}>
+                                  <Text
+                                    style={{
+                                      fontSize: 16,
+                                      fontFamily: "HindSemiBold",
+                                      color: "grey",
+                                    }}
+                                  >
+                                    {moment(data.leave_to).format("DD/MM/YYYY")}
+                                  </Text>
+                                </View>
+                                <View
+                                  style={{ flex: 2, left: 100, bottom: -65 }}
+                                >
+                                  <Ionicons
+                                    name="md-pencil-sharp"
+                                    size={24}
+                                    color="green"
+                                    onPress={() => editItem(data.id)}
+                                  />
+                                </View>
+                                <View
+                                  style={{ flex: 2, left: 50, bottom: -65 }}
+                                >
+                                  <Ionicons
+                                    name="trash"
+                                    size={24}
+                                    color="red"
+                                    onPress={() => deleteItem(data.id)}
+                                  />
+                                </View>
+                              </View>
+                              <View style={[{ flexDirection: "row", flex: 1 }]}>
+                                <View style={{ flex: 2, left: -15, top: 5 }}>
+                                  <Text style={styles.cardTextStyle}>
+                                    Leave Reason:
+                                  </Text>
+                                </View>
+                                <View style={{ flex: 2, left: -35, top: 5 }}>
+                                  <Text
+                                    style={{
+                                      fontSize: 16,
+                                      fontFamily: "HindSemiBold",
+                                      color: "grey",
+                                    }}
+                                  >
+                                    {data.leave_reason}
+                                  </Text>
+                                </View>
+                              </View>
+
+                              <View style={[{ flexDirection: "row", flex: 1 }]}>
+                                <View style={{ flex: 2, left: -15, top: 5 }}>
+                                  <Text style={styles.cardTextStyle}>
+                                    Leave Type:
+                                  </Text>
+                                </View>
+                                <View style={{ flex: 2, left: -50, top: 5 }}>
+                                  <Text
+                                    style={{
+                                      fontSize: 16,
+                                      fontFamily: "HindSemiBold",
+                                      color: "grey",
+                                    }}
+                                  >
+                                    {data.leave_type}
+                                  </Text>
+                                </View>
+                              </View>
+                            </Card.Content>
+                          </Card>
+                        </View>
+                      </>
+                    ))}
                 </View>
-                <View style={[{ flexDirection: "row" }]}>
-                  <View style={{ flex: 2, left: 40 }}>
-                    <Text style={[styles.cardTextStyle, { fontSize: 17 }]}>
-                      {moment(data.leave_form).format("DD/MM/YYYY")}
-                    </Text>
-                  </View>
-                  <View style={{ flex: 2, left: 105 }}>
-                    <Text style={[styles.cardTextStyle, { fontSize: 17 }]}>
-                      {moment(data.leave_to).format("DD/MM/YYYY")}
-                    </Text>
-                  </View>
-                  <View style={{ flex: 2, left: 120, bottom: 5 }}>
-                    <Ionicons
-                      name="md-pencil-sharp"
-                      size={24}
-                      color="green"
-                      onPress={() => editItem(data.id)}
-                    />
-                  </View>
-                  <View style={{ flex: 2, left: 70, bottom: 5 }}>
-                    <Ionicons
-                      name="trash"
-                      size={24}
-                      color="red"
-                      onPress={() => deleteItem(data.id)}
-                    />
-                  </View>
-                </View>
-                <View style={[{ flexDirection: "column", flex: 1 }]}>
-                  <View style={{ flex: 2, left: 40, top: 5 }}>
-                    <Text
-                      style={[styles.cardTextStyle, { fontWeight: "bold" }]}
-                    >
-                      Leave reason:
-                    </Text>
-                  </View>
-                  <View style={{ flex: 2, left: 40, top: 5 }}>
-                    <Text
-                      style={[
-                        styles.cardTextStyle,
-                        { color: "grey", fontSize: 18 },
-                      ]}
-                    >
-                      {data.leave_reason}
-                    </Text>
-                  </View>
-                </View>
-              </Card.Content>
-            </Card>
-          ))}
-      </ScrollView>
-      {keyboardStatus == "Keyboard Hidden" && <TeachersHome />}
+              </ScrollView>
+            </View>
+            {keyboardStatus == "Keyboard Hidden" && (
+              <View style={{ flex: 1 }}>
+                <TeachersHome />
+              </View>
+            )}
+          </View>
+        </>
+      )}
     </>
   );
 };
@@ -788,6 +899,24 @@ const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
     flexDirection: "row",
+    width: "49%",
+    marginHorizontal: 10,
+  },
+  searchBar: {
+    //top: 10,
+
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  btnSubmit1: {
+    marginTop: 90,
+    marginBottom: 30,
+    marginLeft: 190,
+    width: "50%",
+  },
+  cancel: {
+    marginTop: -140,
+    marginLeft: -15,
     width: "50%",
   },
   home: {
@@ -817,7 +946,9 @@ const styles = StyleSheet.create({
   //   // marginTop: 17,
   // },
   btnSubmit: {
-    marginTop: 17,
+    marginTop: 147,
+    width: "50%",
+    marginLeft: 180,
   },
   dateContainer: {
     width: "10%",
@@ -855,7 +986,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   cardTextStyle: {
-    fontFamily: "HindRegular",
+    fontFamily: "HindSemiBold",
     fontSize: 16,
+    left: 35,
   },
 });

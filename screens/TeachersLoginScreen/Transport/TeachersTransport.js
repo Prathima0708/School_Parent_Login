@@ -13,16 +13,17 @@ import React, { useEffect, useState } from "react";
 import Button from "../../../components/UI/Button";
 import axios from "axios";
 import { Keyboard } from "react-native";
-import { UserId } from "../../Login";
+
 import BgButton from "../../../components/UI/BgButton";
 import TeachersHome from "../BottomTab/TeachersHome";
 import Input from "../../../components/UI/Input";
-import VerticalLine from "../../../components/UI/VerticalLine";
+
 import { FlatList } from "react-native";
-import { DataTable } from "react-native-paper";
-import data from "../../../components/store/mockdata.json";
+import { Card, DataTable } from "react-native-paper";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
+import SearchBar from "react-native-dynamic-search-bar";
 export var ID;
 
 const TeachersTransport = () => {
@@ -40,7 +41,6 @@ const TeachersTransport = () => {
   const [forTransportForm, setForTransportForm] = useState({
     color: "black",
     backgroundColor: "#F4F6F6",
-
     borderRadius: 10,
     borderBottomWidth: 0,
     borderLeftWidth: 0,
@@ -96,6 +96,9 @@ const TeachersTransport = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [isSame, SetIsSame] = useState(false);
   const [showInitialBtn, setShowInitialBtn] = useState(true);
+
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchText, setSearchText] = useState("");
   let i = 0;
 
   useEffect(() => {
@@ -165,6 +168,7 @@ const TeachersTransport = () => {
   }
 
   function updateHandler() {
+    setShowInitialBtn(true);
     const FormData = {
       busnumber: busNumber,
       vehicleno: vehicleno,
@@ -205,7 +209,7 @@ const TeachersTransport = () => {
         const res = await axios.get(
           `http://10.0.2.2:8000/school/Transportreport/`
         );
-        setData(res.data);
+        setFilteredData(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -449,7 +453,7 @@ const TeachersTransport = () => {
         );
         console.log(res.data);
 
-        setData(res.data);
+        setFilteredData(res.data);
 
         // setForTransportForm({ fontWeight: "bold", color: "black" });
         // setForTransportList({ color: "black" });
@@ -543,7 +547,7 @@ const TeachersTransport = () => {
             `http://10.0.2.2:8000/school/Transportreport/`
           );
           // console.log(res.data);
-          setData(res.data);
+          setFilteredData(res.data);
         } catch (error) {
           console.log(error);
         }
@@ -558,16 +562,33 @@ const TeachersTransport = () => {
     setShowList(true);
   }
 
+  const searchFilter = (text) => {
+    console.log("search function");
+    if (text) {
+      const newData = data.filter((item) => {
+        const itemData = item.driver_name
+          ? item.driver_name.toUpperCase()
+          : "".toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredData(newData);
+      setSearchText(text);
+    } else {
+      setFilteredData(data);
+      setSearchText(text);
+    }
+  };
   return (
     <>
       <View
         style={{
           flex: 1,
           flexDirection: "column",
-          backgroundColor: "white",
+          // backgroundColor: "white",
         }}
       >
-        <View style={{ flex: 8, backgroundColor: "white" }}>
+        <View style={{ flex: 8 }}>
           {showInitialBtn && (
             <View style={styles.BtnContainer}>
               <BgButton onPress={showTransportForm} style={forTransportList}>
@@ -597,7 +618,7 @@ const TeachersTransport = () => {
                       color: "red",
                       left: 20,
                       fontFamily: "HindRegular",
-                      fontSize: 18,
+                      fontSize: deviceWidth < 370 ? 16 : 18,
                     }}
                   >
                     Enter bus number
@@ -619,7 +640,7 @@ const TeachersTransport = () => {
                       color: "red",
                       left: 20,
                       fontFamily: "HindRegular",
-                      fontSize: 18,
+                      fontSize: deviceWidth < 370 ? 16 : 18,
                     }}
                   >
                     Enter vehicle number
@@ -640,7 +661,7 @@ const TeachersTransport = () => {
                       color: "red",
                       left: 20,
                       fontFamily: "HindRegular",
-                      fontSize: 18,
+                      fontSize: deviceWidth < 370 ? 16 : 18,
                     }}
                   >
                     Enter type
@@ -661,7 +682,7 @@ const TeachersTransport = () => {
                       color: "red",
                       left: 20,
                       fontFamily: "HindRegular",
-                      fontSize: 18,
+                      fontSize: deviceWidth < 370 ? 16 : 18,
                     }}
                   >
                     Enter driver name
@@ -685,7 +706,7 @@ const TeachersTransport = () => {
                       color: "red",
                       left: 20,
                       fontFamily: "HindRegular",
-                      fontSize: 18,
+                      fontSize: deviceWidth < 370 ? 16 : 18,
                     }}
                   >
                     Enter a valid mobile number(10 digits)
@@ -706,7 +727,7 @@ const TeachersTransport = () => {
                       color: "red",
                       left: 20,
                       fontFamily: "HindRegular",
-                      fontSize: 18,
+                      fontSize: deviceWidth < 370 ? 16 : 18,
                     }}
                   >
                     Enter route name
@@ -727,7 +748,7 @@ const TeachersTransport = () => {
                       color: "red",
                       left: 20,
                       fontFamily: "HindRegular",
-                      fontSize: 18,
+                      fontSize: deviceWidth < 370 ? 16 : 18,
                     }}
                   >
                     Enter stop name
@@ -754,166 +775,143 @@ const TeachersTransport = () => {
               </View>
             </ScrollView>
           )}
-          {showList && (
-            <ScrollView
-              horizontal={true}
-              // showsHorizontalScrollIndicator={false}
-              // style={{ backgroundColor: "white", height: "100%" }}
-            >
-              <DataTable style={styles.container}>
-                <DataTable.Header style={styles.tableHeader}>
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> BUS NUMBER</Text>
-                  </View>
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> VEHICLENO</Text>
-                  </View>
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> TYPES</Text>
-                  </View>
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> DRIVER NAME</Text>
-                  </View>
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> EMP MOBILE</Text>
-                  </View>
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> ROUTE NAME</Text>
-                  </View>
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> STOP NAME</Text>
-                  </View>
-
-                  <View style={styles.th}>
-                    <Text
-                      style={{
-                        margin: 7,
-                        marginLeft: 50,
-                        fontFamily: "MonsterratBold",
-                        fontSize: 16,
-                      }}
-                    >
-                      ACTIONS
-                    </Text>
-                  </View>
-
-                  {/* {isSame && <View style={styles.th}>
+          {/* {isSame && <View style={styles.th}>
                 <Text style={styles.tableTitle}> Update</Text>
               </View>}
               {isSame && <View style={styles.th}>
                 <Text style={styles.tableTitle}> Delete</Text>
               </View>} */}
-                </DataTable.Header>
+          {showList && (
+            <>
+              <SearchBar
+                // onSubmitEditing={Keyboard.dismiss}
+                style={styles.searchBar}
+                textInputStyle={{
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+                placeholder="Search here"
+                onChangeText={(text) => searchFilter(text)}
+                value={searchText}
+              />
+              <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
+                <View style={{ flex: 8, bottom: 10 }}>
+                  <ScrollView>
+                    <View style={styles.root}>
+                      {filteredData &&
+                        filteredData.map((data, key) => (
+                          <>
+                            <View key={key}>
+                              <Card
+                                style={{
+                                  margin: 5,
+                                  marginVertical: 15,
+                                  marginHorizontal: 25,
+                                  elevation: 5,
+                                  borderRadius: 10,
+                                }}
+                              >
+                                <Card.Content style={{ marginTop: 0 }}>
+                                  <View
+                                    style={[{ flexDirection: "row", flex: 1 }]}
+                                  >
+                                    <View style={{ flex: 2, left: 20, top: 5 }}>
+                                      <Text style={[styles.cardTextStyle]}>
+                                        Driver Name
+                                      </Text>
+                                    </View>
+                                    <View style={{ flex: 2, left: 40, top: 5 }}>
+                                      <Text style={styles.cardData}>
+                                        {data.driver_name}
+                                      </Text>
+                                    </View>
+                                  </View>
 
-                {data &&
-                  data.map((data, key) => (
-                    <DataTable.Row style={styles.tableRow} key={key}>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 50,
-                        }}
-                      >
-                        {data.busnumber}
-                      </DataTable.Cell>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 50,
-                        }}
-                      >
-                        {data.vehicleno}
-                      </DataTable.Cell>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 20,
-                        }}
-                      >
-                        {data.types}
-                      </DataTable.Cell>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 50,
-                        }}
-                      >
-                        {data.driver_name}
-                      </DataTable.Cell>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 50,
-                        }}
-                      >
-                        {data.emp_mobile}
-                      </DataTable.Cell>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 50,
-                        }}
-                      >
-                        {data.route_name}
-                      </DataTable.Cell>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 70,
-                        }}
-                      >
-                        {data.stop_name}
-                      </DataTable.Cell>
+                                  <View
+                                    style={[{ flexDirection: "row", flex: 1 }]}
+                                  >
+                                    <View style={{ flex: 2, left: 20, top: 5 }}>
+                                      <Text style={[styles.cardTextStyle]}>
+                                        Bus Number
+                                      </Text>
+                                    </View>
+                                    <View style={{ flex: 2, left: 40, top: 5 }}>
+                                      <Text style={styles.cardData}>
+                                        {data.busnumber}
+                                      </Text>
+                                    </View>
+                                  </View>
 
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 110,
-                        }}
-                      >
-                        <Ionicons
-                          name="md-pencil-sharp"
-                          size={24}
-                          color="green"
-                          onPress={() => editItem(data.id)}
-                        />
-                      </DataTable.Cell>
+                                  <View
+                                    style={[{ flexDirection: "row", flex: 1 }]}
+                                  >
+                                    <View style={{ flex: 2, left: 20, top: 5 }}>
+                                      <Text style={[styles.cardTextStyle]}>
+                                        Vehicle Number
+                                      </Text>
+                                    </View>
+                                    <View style={{ flex: 2, left: 40, top: 5 }}>
+                                      <Text style={styles.cardData}>
+                                        {data.vehicleno}
+                                      </Text>
+                                    </View>
+                                  </View>
 
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          //marginLeft: 15,
-                        }}
-                      >
-                        <Ionicons
-                          name="trash"
-                          size={24}
-                          color="red"
-                          onPress={() => deleteItem(data.busnumber)}
-                        />
-                      </DataTable.Cell>
-                    </DataTable.Row>
-                  ))}
-              </DataTable>
-            </ScrollView>
+                                  <View
+                                    style={[{ flexDirection: "row", flex: 1 }]}
+                                  >
+                                    <View style={{ flex: 2, left: 20, top: 5 }}>
+                                      <Text style={[styles.cardTextStyle]}>
+                                        Contact Number
+                                      </Text>
+                                    </View>
+                                    <View style={{ flex: 2, left: 40, top: 5 }}>
+                                      <Text style={styles.cardData}>
+                                        {data.emp_mobile}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                  <View
+                                    style={[{ flexDirection: "row", flex: 1 }]}
+                                  >
+                                    <View
+                                      style={{ flex: 1, top: 5, left: 200 }}
+                                    >
+                                      <Ionicons
+                                        name="md-pencil-sharp"
+                                        size={24}
+                                        color="green"
+                                        style={{ left: "30%" }}
+                                        onPress={() => editItem(data.id)}
+                                      />
+                                    </View>
+                                    <View style={{ flex: 1, left: 40, top: 5 }}>
+                                      <Ionicons
+                                        name="trash"
+                                        size={24}
+                                        color="red"
+                                        style={{ left: "60%" }}
+                                        onPress={() => deleteItem(data.id)}
+                                      />
+                                    </View>
+                                  </View>
+                                </Card.Content>
+                              </Card>
+                            </View>
+                          </>
+                        ))}
+                    </View>
+                  </ScrollView>
+                </View>
+              </View>
+            </>
           )}
         </View>
-        <View style={{ flex: 1 }}>
-          {keyboardStatus == "Keyboard Hidden" && (
-            <View style={styles.home}>
-              <TeachersHome />
-            </View>
-          )}
-        </View>
+        {keyboardStatus == "Keyboard Hidden" && (
+          <View style={{ flex: 1 }}>
+            <TeachersHome />
+          </View>
+        )}
       </View>
     </>
   );
@@ -921,34 +919,22 @@ const TeachersTransport = () => {
 
 export default TeachersTransport;
 
-const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
     flexDirection: "row",
-    width: "50%",
-    backgroundColor: "#FDFEFE",
+    width: "49%",
+
+    marginHorizontal: 10,
   },
   container: {
     marginTop: "1%",
     padding: "1%",
   },
-  home: {
-    marginTop: "20%",
-  },
-  headingStyle:{
-    left:'40%'
-  },
-  stopStyle:{
-    fontWeight:'bold',
-    fontSize:deviceWidth < 370 ? 18 : 20,
-    left:'20%'
-  },
+
   btnSubmit1: {
-    // marginTop: 50,
-    // marginBottom: 30,
     marginLeft: "50%",
     width: "50%",
   },
@@ -964,7 +950,6 @@ const styles = StyleSheet.create({
   root: {
     backgroundColor: "#EBECFO",
     height: "100%",
-    //  backgroundColor: "white",
   },
   inputForm: {
     padding: "5%",
@@ -982,64 +967,41 @@ const styles = StyleSheet.create({
   },
   btnSubmit: {
     marginTop: "2%",
-    // marginBottom: '30%',
+
     marginLeft: "35%",
     width: "70%",
   },
-  // cancel: {
-  //   marginTop: 10,
-  //   marginLeft: -15,
-  //   width: "50%",
-  // },
-  th: {
-    padding: 5,
-    marginRight: 13,
-    //fontSize: 24,
-  },
-  tableHeader: {
-    backgroundColor: "skyblue",
-
-    height: 50,
-    fontWeight: "bold",
-  },
-  tableTitle: {
-    // padding: 5,
-    margin: 7,
-    fontFamily: "MonsterratBold",
-    fontSize: deviceWidth < 370 ? 14 : 16,
-  },
-  tableCell: {
-    width: 40,
-    //  fontFamily: "Montserrat_600SemiBold",
-    marginLeft: 35,
+  cardData: {
+    fontSize: 16,
+    fontFamily: "HindSemiBold",
+    color: "grey",
   },
 
-  tableRow: {
-    height: "9%",
-    borderBottomColor: "black",
-    borderBottomWidth: 2,
-  },
   cardTextStyle: {
-    fontFamily: "HindRegular",
+    fontFamily: "HindSemiBold",
     fontSize: deviceWidth < 370 ? 14 : 16,
   },
-  submit:{
-    padding: '3%',
+  submit: {
+    padding: "3%",
     backgroundColor: "#00B8AC",
     borderRadius: 10,
     borderWidth: 1,
-    top: '10%',
+    top: "10%",
     borderColor: "#fff",
-    left:'10%',
-    width:deviceWidth < 370 ? '50%' : '50%'
+    left: "10%",
+    width: deviceWidth < 370 ? "50%" : "50%",
   },
-  delete:{
-    padding: '3%',
+  delete: {
+    padding: "3%",
     backgroundColor: "#00B8AC",
     borderRadius: 10,
     borderWidth: 1,
-    top: '10%',
+    top: "10%",
     borderColor: "#fff",
-    width:deviceWidth < 370 ? '50%' : '50%',
-  }
+    width: deviceWidth < 370 ? "50%" : "50%",
+  },
+  searchBar: {
+    marginTop: 10,
+    marginBottom: 20,
+  },
 });

@@ -622,7 +622,7 @@ import {
                 style={selectExamNameIsInValid && styles.errorBorderColor}
                 onChangeText={examNameChangeHandler}
                 value={examName}
-                placeholder="Exam Name"
+                placeholder="Exam name"
                 blur={examBlurHandler}
                 onSubmitEditing={Keyboard.dismiss}
               />

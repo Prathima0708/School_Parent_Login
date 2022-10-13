@@ -22,6 +22,7 @@ import TeachersHome from "../BottomTab/TeachersHome";
 import Button from "../../../components/UI/Button";
 import { Card, DataTable } from "react-native-paper";
 import moment from "moment";
+import SearchBar from "react-native-dynamic-search-bar";
 export var ID;
 const TecahersExamTimeTable = () => {
   const [selectedExamTimeTable, setSelectedExamTimeTable] = useState("");
@@ -74,9 +75,12 @@ const TecahersExamTimeTable = () => {
   const [showExamList, setShowExamList] = useState(true);
   const [showExamData, setShowExamData] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
-  const [showbtns, setshowBtns] = useState(true);
+  const [showaddBtn, setShowAddBtn] = useState(true);
 
   const [showInitialBtn, setShowInitialBtn] = useState(true);
+
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -101,6 +105,7 @@ const TecahersExamTimeTable = () => {
         console.log(res.data);
 
         setShowExamData(res.data);
+        setFilteredData(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -170,6 +175,7 @@ const TecahersExamTimeTable = () => {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Exam/`);
         setShowExamData(res.data);
+        setFilteredData(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -343,6 +349,7 @@ const TecahersExamTimeTable = () => {
   };
 
   function viewExam() {
+    setShowAddBtn(false);
     setShowForm(true);
     setShowExamList(false);
     setEnteredExamName("");
@@ -366,6 +373,7 @@ const TecahersExamTimeTable = () => {
         console.log(res.data);
 
         setShowExamData(res.data);
+        setFilteredData(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -448,6 +456,7 @@ const TecahersExamTimeTable = () => {
           const res = await axios.get(`http://10.0.2.2:8000/school/Exam/`);
           // console.log(res.data);
           setShowExamData(res.data);
+          setFilteredData(res.data);
         } catch (error) {
           console.log(error);
         }
@@ -457,27 +466,67 @@ const TecahersExamTimeTable = () => {
   }
 
   function cancelHandler() {
+    setShowAddBtn(true);
     setShowExamList(true);
     setShowForm(false);
   }
+
+  const searchFilter = (text) => {
+    console.log("search function");
+    if (text) {
+      const newData = showExamData.filter((item) => {
+        const itemData = item.exam_name
+          ? item.exam_name.toUpperCase()
+          : "".toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredData(newData);
+      setSearchText(text);
+    } else {
+      setFilteredData(showExamData);
+      setSearchText(text);
+    }
+  };
   return (
     <>
-      <View style={styles.timetablebtn}>
-        <Button onPress={viewExam}>
-          <Ionicons name="add" size={38} color="black" />
-        </Button>
-      </View>
+      {showaddBtn && (
+        <View style={styles.timetablebtn}>
+          <Button onPress={viewExam}>
+            <Ionicons name="add" size={38} color="black" />
+          </Button>
+        </View>
+      )}
       {showExamList && (
         <>
+          <SearchBar
+            onSubmitEditing={Keyboard.dismiss}
+            style={styles.searchBar}
+            textInputStyle={{
+              fontFamily: "HindRegular",
+              fontSize: 18,
+            }}
+            placeholder="Search here"
+            onChangeText={(text) => searchFilter(text)}
+            value={searchText}
+          />
           <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
-            <View style={{ flex: 8, bottom: 10 }}>
+            <View style={{ flex: 8 }}>
               <ScrollView>
                 <View>
-                  {showExamData &&
-                    showExamData.map((data, key) => (
+                  {filteredData &&
+                    filteredData.map((data, key) => (
                       <>
                         <View key={key}>
-                          <Card style={{ margin: 10 }}>
+                          <Card
+                            style={{
+                              marginTop: 20,
+                              marginVertical: 1,
+                              marginHorizontal: 20,
+                              elevation: 5,
+                              borderRadius: 10,
+                            }}
+                          >
                             <Card.Content>
                               <View
                                 style={[{ flex: 1 }, { flexDirection: "row" }]}
@@ -494,7 +543,7 @@ const TecahersExamTimeTable = () => {
                                         style={[
                                           styles.cardTextStyle,
                                           {
-                                            color: "grey",
+                                            color: "black",
                                             fontSize:
                                               deviceWidth < 370 ? 14 : 18,
                                           },
@@ -512,14 +561,23 @@ const TecahersExamTimeTable = () => {
                                         top: "25%",
                                       }}
                                     >
-                                      <Text>to</Text>
+                                      <Text
+                                        style={{
+                                          fontFamily: "HindRegular",
+                                          fontSize: 18,
+                                          color: "grey",
+                                          fontWeight: "bold",
+                                        }}
+                                      >
+                                        to
+                                      </Text>
                                     </View>
                                     <View style={{ flex: 2 }}>
                                       <Text
                                         style={[
                                           styles.cardTextStyle,
                                           {
-                                            color: "grey",
+                                            color: "black",
                                             fontSize:
                                               deviceWidth < 370 ? 14 : 18,
                                           },
@@ -533,38 +591,16 @@ const TecahersExamTimeTable = () => {
                                   </View>
                                 </View>
                                 <View style={{ flex: 2 }}>
-                                  <Text
-                                    style={[
-                                      styles.cardTextStyle,
-                                      { fontWeight: "bold" },
-                                    ]}
-                                  >
-                                    Class name:
+                                  <Text style={styles.cardTextStyle}>
+                                    Class name
                                   </Text>
-                                  <Text
-                                    style={[
-                                      styles.cardTextStyle,
-                                      { fontWeight: "bold", top: "4%" },
-                                    ]}
-                                  >
-                                    Exam name:
+                                  <Text style={styles.cardTextStyle}>
+                                    Exam name
                                   </Text>
-                                  <Text
-                                    style={[
-                                      styles.cardTextStyle,
-                                      { fontWeight: "bold", top: "8%" },
-                                    ]}
-                                  >
-                                    Total marks:
+                                  <Text style={styles.cardTextStyle}>
+                                    Total marks
                                   </Text>
-                                  <Text
-                                    style={[
-                                      styles.cardTextStyle,
-                                      { fontWeight: "bold", top: "12%" },
-                                    ]}
-                                  >
-                                    Hour:
-                                  </Text>
+                                  <Text style={styles.cardTextStyle}>Hour</Text>
                                 </View>
                                 <View style={{ flex: 2 }}>
                                   <Text
@@ -620,11 +656,11 @@ const TecahersExamTimeTable = () => {
                                   {
                                     flexDirection: "row",
                                     left: "100%",
-                                    top: "2%",
+                                    //  top: "2%",
                                   },
                                 ]}
                               >
-                                <View style={{ flex: 2, left: "400%" }}>
+                                <View style={{ flex: 2, left: "450%" }}>
                                   <Ionicons
                                     name="md-pencil-sharp"
                                     size={24}
@@ -632,7 +668,7 @@ const TecahersExamTimeTable = () => {
                                     onPress={() => editItem(data.id)}
                                   />
                                 </View>
-                                <View style={{ flex: 2 }}>
+                                <View style={{ flex: 2, left: -10 }}>
                                   <Ionicons
                                     name="trash"
                                     size={24}
@@ -641,115 +677,6 @@ const TecahersExamTimeTable = () => {
                                   />
                                 </View>
                               </View>
-                              {/* <View style={[{ flexDirection: "row", flex: 1 }]}>
-                          <View style={{ flex: 3, left: '400%' }}>
-                            <Text
-                              style={[
-                                styles.cardTextStyle,
-                                { fontWeight: "bold" },
-                              ]}
-                            >
-                              Class name:
-                            </Text>
-                          </View>
-                          <View style={{ flex: 2, top: '6%' }}>
-                            <Text
-                              style={[
-                                styles.cardTextStyle,
-                                { color: "grey", fontSize: deviceWidth < 370 ? 14 : 18, },
-                              ]}
-                            >
-                              {data.class_name}
-                            </Text>
-                          </View>
-                          <View style={{ flex: 2, left: '200%', bottom: 5 }}>
-                            <Ionicons
-                              name="md-pencil-sharp"
-                              size={24}
-                              color="green"
-                              onPress={() => editItem(homeworkData.id)}
-                            />
-                          </View>
-                          <View style={{ flex: 2, left: '130%', bottom: 5 }}>
-                            <Ionicons
-                              name="trash"
-                              size={24}
-                              color="red"
-                              onPress={() => deleteItem(homeworkData.id)}
-                            />
-                          </View>
-                        </View> */}
-                              {/* <View style={[{ flexDirection: "row", flex: 1 }]}>
-                          <View style={{ flex: 3, left: '400%', top: '5%' }}>
-                            <Text
-                              style={[
-                                styles.cardTextStyle,
-                                { fontWeight: "bold" },
-                              ]}
-                            >
-                              Exam name:
-                            </Text>
-                          </View>
-                          <View style={{ flex: 6, top: '11%' }}>
-                            <Text
-                              style={[
-                                styles.cardTextStyle,
-                                { color: "grey", fontSize: deviceWidth < 370 ? 14 : 18, },
-                              ]}
-                            >
-                              {data.exam_name}
-                            </Text>
-                          </View>
-                        
-                        </View> */}
-
-                              {/* 
-                        <View style={[{ flexDirection: "row", flex: 1 }]}>
-                          <View style={{ flex: 2, left: '400%', top: '10%' }}>
-                            <Text
-                              style={[
-                                styles.cardTextStyle,
-                                { fontWeight: "bold" },
-                              ]}
-                            >
-                              Total marks:
-                            </Text>
-                          </View>
-                          <View style={{ flex: 4, top: '16%' }}>
-                            <Text
-                              style={[
-                                styles.cardTextStyle,
-                                { color: "grey",fontSize: deviceWidth < 370 ? 14 : 18,},
-                              ]}
-                            >
-                              {data.Total_marks}
-                            </Text>
-                          </View>
-                        </View> */}
-
-                              {/* <View style={[{ flexDirection: "row", flex: 1 }]}>
-                          <View style={{ flex: 2, left: '400%', top: '15%' }}>
-                            <Text
-                              style={[
-                                styles.cardTextStyle,
-                                { fontWeight: "bold" },
-                              ]}
-                            >
-                              Hour:
-                            </Text>
-                          </View>
-                          <View style={{ flex: 4, top: '20%' }}>
-                            <Text
-                              style={[
-                                styles.cardTextStyle,
-                                { color: "grey",fontSize: deviceWidth < 370 ? 14 : 18,},
-                              ]}
-                            >
-                              {data.hour}
-                            </Text>
-                          </View>
-                        </View>
-                         */}
                             </Card.Content>
                           </Card>
                         </View>
@@ -758,142 +685,12 @@ const TecahersExamTimeTable = () => {
                 </View>
               </ScrollView>
             </View>
-            <View style={{ flex: 1 }}>
-              <TeachersHome />
-            </View>
+            {keyboardStatus == "Keyboard Hidden" && (
+              <View>
+                <TeachersHome />
+              </View>
+            )}
           </View>
-          {/* <View style={styles.timetablebtn}>
-            <Button onPress={viewExam}>
-              <Ionicons name="add" size={38} color="black" />
-            </Button>
-          </View>
-          <ScrollView horizontal={true}>
-            <DataTable style={styles.container}>
-              <DataTable.Header style={styles.tableHeader}>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> EXAM NAME</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> START DATE</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> END DATE</Text>
-                </View>
-
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}>TOTAL MARKS</Text>
-                </View>
-
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}>HOUR</Text>
-                </View>
-
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> CLASSNAME</Text>
-                </View>
-
-                <View style={styles.th}>
-                  <Text
-                    style={{
-                      margin: 7,
-                      marginLeft: 50,
-                      fontFamily: "MonsterratBold",
-                      fontSize: 16,
-                    }}
-                  >
-                    ACTIONS
-                  </Text>
-                </View>
-              </DataTable.Header>
-              {showExamData.map((data, key) => (
-                <DataTable.Row style={styles.tableRow} key={key}>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 20,
-                    }}
-                  >
-                    {data.exam_name}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 40,
-                    }}
-                  >
-                    {moment(data.start_date).format("DD/MM/YYYY")}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 40,
-                    }}
-                  >
-                    {moment(data.end_date).format("DD/MM/YYYY")}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 90,
-                    }}
-                  >
-                    {data.Total_marks}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 50,
-                    }}
-                  >
-                    {data.hour}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 60,
-                    }}
-                  >
-                    {data.class_name}
-                  </DataTable.Cell>
-
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 140,
-                    }}
-                  >
-                    <Ionicons
-                      name="md-pencil-sharp"
-                      size={24}
-                      color="green"
-                      onPress={() => editItem(data.id)}
-                    />
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 6,
-                    }}
-                  >
-                    <Ionicons
-                      name="trash"
-                      size={24}
-                      color="red"
-                      onPress={() => deleteItem(data.id)}
-                    />
-                  </DataTable.Cell>
-                </DataTable.Row>
-              ))}
-            </DataTable>
-          </ScrollView> */}
         </>
       )}
       {showform && (
@@ -934,7 +731,7 @@ const TecahersExamTimeTable = () => {
               style={selectExamNameIsInValid && styles.errorBorderColor}
               onChangeText={examNameChangeHandler}
               value={examName}
-              placeholder="Exam Name"
+              placeholder="Exam name"
               blur={examBlurHandler}
               onSubmitEditing={Keyboard.dismiss}
             />
@@ -1140,7 +937,9 @@ const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
     fontSize: 24,
+    marginHorizontal: 10,
   },
+
   title: {
     paddingVertical: 15,
     paddingHorizontal: 10,
@@ -1204,10 +1003,7 @@ const styles = StyleSheet.create({
     marginTop: -30,
     marginLeft: 290,
   },
-  BtnContainer: {
-    flexDirection: "row",
-    width: 220,
-  },
+
   container: {
     padding: 10,
   },
@@ -1265,7 +1061,7 @@ const styles = StyleSheet.create({
     left: "20%",
   },
   cardTextStyle: {
-    fontFamily: "HindRegular",
+    fontFamily: "HindSemiBold",
     fontSize: deviceWidth < 370 ? 14 : 16,
   },
   submit: {

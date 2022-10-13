@@ -52,11 +52,6 @@ const TeachersCalendarScreenBuild = () => {
   const descriptionInputIsInValid =
     !enteredDescriptionIsValid && enteredDescriptionTouched;
 
-  // const [createdby, setEnteredcreatedby] = useState("");
-  // const [enteredCreatedByTouched,setEnteredCreatedbyTouched]=useState(false)
-  // const enteredCreatedByIsValid=createdby.trim()!=='';
-  // const createdByInputIsInValid=!enteredCreatedByIsValid && enteredCreatedByTouched;
-
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
 
@@ -89,6 +84,8 @@ const TeachersCalendarScreenBuild = () => {
 
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState("");
+
+  const [showInitialBtn, setShowInitialBtn] = useState(true);
 
   let i = 0;
 
@@ -236,6 +233,7 @@ const TeachersCalendarScreenBuild = () => {
   }
 
   function updateHandler() {
+    setShowInitialBtn(true);
     const FormData = {
       description: description,
       // created_by:createdby,
@@ -263,19 +261,15 @@ const TeachersCalendarScreenBuild = () => {
       }
     }
     updateData();
-    Alert.alert("Successfully updated", "", [
-      { text: "OK", onPress: () => fetchData() },
-    ]);
 
-    async function fetchData() {
-      try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
-        setData(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData();
+    Alert.alert("Successfully updated", "", [
+      {
+        text: "OK",
+        onPress: () => {
+          showCalendar();
+        },
+      },
+    ]);
 
     setEnteredDescription("");
     setEnteredTitle("");
@@ -425,10 +419,17 @@ const TeachersCalendarScreenBuild = () => {
           // setEnteredCreatedbyTouched(false);
           setEnteredFromDateTouched(false);
           setEnteredtoDateTouched(false);
-          setForCalendarList({ fontWeight: "bold", color: "black" });
-          setForCalendarForm({ color: "black" });
-          setForCalendarForm({ fontWeight: "bold", color: "black" });
-          setForCalendarList({ color: "black" });
+          setForCalendarList({
+            backgroundColor: "#F4F6F6",
+            color: "black",
+            borderRadius: 10,
+          });
+          setForCalendarForm({
+            color: "white",
+            backgroundColor: "#1E8449",
+            borderRadius: 10,
+          });
+
           setShowForm(false);
           setShowList(true);
         }
@@ -507,6 +508,7 @@ const TeachersCalendarScreenBuild = () => {
   }
 
   function editItem(id) {
+    setShowInitialBtn(false);
     ID = id;
     console.log(id);
     const filteredDummuyData = data.find((data) => data.id == id);
@@ -532,6 +534,7 @@ const TeachersCalendarScreenBuild = () => {
     setShowList(false);
     setIsEdit(true);
   }
+
   function deleteItem(id) {
     Alert.alert("Confirm Deletion", "You are about to delete this row!", [
       {
@@ -559,7 +562,6 @@ const TeachersCalendarScreenBuild = () => {
         );
         // const token = resLogin.data.token;
         // const userId = resLogin.data.user_id;
-        console.log(resLogin.data);
       } catch (error) {
         console.log(error);
       }
@@ -567,7 +569,7 @@ const TeachersCalendarScreenBuild = () => {
         try {
           const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
           // console.log(res.data);
-          setData(res.data);
+          setFilteredData(res.data);
         } catch (error) {
           console.log(error);
         }
@@ -595,23 +597,23 @@ const TeachersCalendarScreenBuild = () => {
   };
 
   function cancelHandler() {
+    setShowInitialBtn(true);
     setShowList(true);
     setShowForm(false);
   }
   return (
     <>
-      {/* <View style={styles.BtnContainer}>
-          <BgButton>Add Event</BgButton>
-        </View> */}
-      <View style={styles.BtnContainer}>
-        <BgButton onPress={showCalendarForm} style={forCalendarList}>
-          Add Event
-        </BgButton>
+      {showInitialBtn && (
+        <View style={styles.BtnContainer}>
+          <BgButton onPress={showCalendarForm} style={forCalendarList}>
+            Add Event
+          </BgButton>
 
-        <BgButton onPress={showCalendar} style={forCalendarForm}>
-          Show Event
-        </BgButton>
-      </View>
+          <BgButton onPress={showCalendar} style={forCalendarForm}>
+            Show Event
+          </BgButton>
+        </View>
+      )}
       {showForm && (
         <ScrollView>
           <View style={styles.inputForm}>
@@ -792,118 +794,149 @@ const TeachersCalendarScreenBuild = () => {
       {showList && (
         <>
           <SearchBar
+            onSubmitEditing={Keyboard.dismiss}
             style={styles.searchBar}
             textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
             placeholder="Search here"
             onChangeText={(text) => searchFilter(text)}
             value={searchText}
           />
-          <View style={[{flex:1}, {flexDirection: "column"}]}>
-        <View style={{ flex: 8,bottom:10 }} >
-        <ScrollView>
-       <View style={styles.root}>
-          {filteredData &&
-              filteredData.map((filteredData, key) => (
-                <>
-                  <View key={key}>
-                    <Card style={{ margin: 10 }}>
-                      <Card.Content>
-                        <Card.Title title={filteredData.titlee} />
-                        <View style={[{ flexDirection: "row" }]}>
-                          <View style={{ flex: 2, left: 20 }}>
-                            <Text style={styles.cardTextStyle}>
-                              <Ionicons
-                                name="calendar"
-                                size={24}
-                                color="green"
-                              />
-                              Start date
-                            </Text>
-                          </View>
-                          <View style={{ flex: 2 }}>
-                            <Text style={styles.cardTextStyle}>
-                              <Ionicons
-                                name="calendar"
-                                size={24}
-                                color="green"
-                              />
-                              End date
-                            </Text>
-                          </View>
+          <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
+            <View style={{ flex: 8, bottom: 10 }}>
+              <ScrollView>
+                <View style={styles.root}>
+                  {filteredData &&
+                    filteredData.map((filteredData, key) => (
+                      <>
+                        <View>
+                          <Card
+                            key={key}
+                            style={{
+                              marginVertical: 15,
+                              marginHorizontal: 20,
+                              elevation: 5,
+                              borderRadius: 10,
+                              paddingBottom: 20,
+                            }}
+                          >
+                            <Card.Content style={{ margin: 5, marginTop: 0 }}>
+                              <Text style={styles.eventName}>
+                                {filteredData.titlee}
+                              </Text>
+
+                              <View style={[{ flexDirection: "row" }]}>
+                                <View style={{ flex: 2, marginLeft: 5 }}>
+                                  <Ionicons
+                                    name="calendar"
+                                    size={25}
+                                    color="#D4AC0D"
+                                    style={{ position: "absolute", left: 5 }}
+                                  />
+                                  <Text style={styles.cardTextStyle}>
+                                    Start Date
+                                  </Text>
+                                </View>
+                                <View style={{ flex: 2 }}>
+                                  <View style={{ flex: 2 }}>
+                                    <Ionicons
+                                      name="calendar"
+                                      size={25}
+                                      color="#D4AC0D"
+                                      style={{ position: "absolute", left: 5 }}
+                                    />
+                                    <Text style={styles.cardTextStyle}>
+                                      End Date
+                                    </Text>
+                                  </View>
+                                </View>
+                              </View>
+                              <View style={[{ flexDirection: "row" }]}>
+                                <View style={{ flex: 2, left: 45 }}>
+                                  <Text
+                                    style={{
+                                      fontSize: 16,
+                                      fontFamily: "HindSemiBold",
+                                      color: "grey",
+                                    }}
+                                  >
+                                    {moment(filteredData.startdate).format(
+                                      "DD/MM/YYYY"
+                                    )}
+                                  </Text>
+                                </View>
+                                <View style={{ flex: 2, left: 120 }}>
+                                  <Text
+                                    style={{
+                                      fontSize: 16,
+                                      fontFamily: "HindSemiBold",
+                                      color: "grey",
+                                    }}
+                                  >
+                                    {moment(filteredData.enddate).format(
+                                      "DD/MM/YYYY"
+                                    )}
+                                  </Text>
+                                </View>
+                                <View
+                                  style={{ flex: 2, left: 110, bottom: -50 }}
+                                >
+                                  <Ionicons
+                                    name="md-pencil-sharp"
+                                    size={24}
+                                    color="green"
+                                    onPress={() => editItem(filteredData.id)}
+                                  />
+                                </View>
+                                <View
+                                  style={{ flex: 2, left: 60, bottom: -50 }}
+                                >
+                                  <Ionicons
+                                    name="trash"
+                                    size={24}
+                                    color="red"
+                                    onPress={() => deleteItem(filteredData.id)}
+                                  />
+                                </View>
+                              </View>
+                              <View style={[{ flexDirection: "row", flex: 1 }]}>
+                                <View style={{ flex: 2, left: -20, top: 5 }}>
+                                  <Text
+                                    style={[
+                                      styles.cardTextStyle,
+                                      { fontWeight: "bold" },
+                                    ]}
+                                  >
+                                    Description:
+                                  </Text>
+                                </View>
+                                <View style={{ flex: 2, left: -40, top: 5 }}>
+                                  <Text
+                                    style={{
+                                      fontSize: 16,
+                                      fontFamily: "HindSemiBold",
+                                      color: "grey",
+                                    }}
+                                  >
+                                    {filteredData.description}
+                                  </Text>
+                                </View>
+                              </View>
+                            </Card.Content>
+                          </Card>
                         </View>
-                        <View style={[{ flexDirection: "row" }]}>
-                          <View style={{ flex: 2, left: 40 }}>
-                            <Text
-                              style={[styles.cardTextStyle, { fontSize: 15 }]}
-                            >
-                              {moment(filteredData.startdate).format(
-                                "DD/MM/YYYY"
-                              )}
-                            </Text>
-                          </View>
-                          <View style={{ flex: 2, left: 105 }}>
-                            <Text
-                              style={[styles.cardTextStyle, { fontSize: 15 }]}
-                            >
-                              {moment(filteredData.enddate).format(
-                                "DD/MM/YYYY"
-                              )}
-                            </Text>
-                          </View>
-                          <View style={{ flex: 2, left: 120, bottom: 5 }}>
-                            <Ionicons
-                              name="md-pencil-sharp"
-                              size={24}
-                              color="green"
-                              onPress={() => editItem(filteredData.id)}
-                            />
-                          </View>
-                          <View style={{ flex: 2, left: 70, bottom: 5 }}>
-                            <Ionicons
-                              name="trash"
-                              size={24}
-                              color="red"
-                              onPress={() => deleteItem(filteredData.id)}
-                            />
-                          </View>
-                        </View>
-                        <View style={[{ flexDirection: "column", flex: 1 }]}>
-                          <View style={{ flex: 2, left: 40, top: 5 }}>
-                            <Text
-                              style={[
-                                styles.cardTextStyle,
-                                { fontWeight: "bold" },
-                              ]}
-                            >
-                              Description:
-                            </Text>
-                          </View>
-                          <View style={{ flex: 2, left: 40, top: 5 }}>
-                            <Text
-                              style={[
-                                styles.cardTextStyle,
-                                { color: "grey", fontSize: 18 },
-                              ]}
-                            >
-                              {filteredData.description}
-                            </Text>
-                          </View>
-                        </View>
-                      </Card.Content>
-                    </Card>
-                  </View>
-                </>
-              ))}
-        </View>
-      </ScrollView>
-        </View>
-        <View style={{ flex: 1}} >
-          <TeachersHome />
-        </View>
-      </View>
+                      </>
+                    ))}
+                </View>
+              </ScrollView>
+            </View>
+            {keyboardStatus == "Keyboard Hidden" && (
+              <View style={{ flex: 1 }}>
+                <TeachersHome />
+              </View>
+            )}
+          </View>
         </>
       )}
-      {keyboardStatus == "Keyboard Hidden" && <TeachersHome />}
     </>
   );
 };
@@ -914,7 +947,14 @@ const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
     flexDirection: "row",
-    width: "50%",
+    width: "49%",
+    marginHorizontal: 10,
+  },
+  eventName: {
+    fontFamily: "HindSemiBold",
+    fontSize: 18,
+    margin: 10,
+    marginTop: 0,
   },
   home: {
     marginTop: 29,
@@ -995,7 +1035,8 @@ const styles = StyleSheet.create({
     width: "50%",
   },
   cardTextStyle: {
-    fontFamily: "HindRegular",
+    fontFamily: "HindSemiBold",
     fontSize: 16,
+    left: 35,
   },
 });

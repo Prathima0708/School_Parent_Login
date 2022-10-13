@@ -29,6 +29,7 @@ import Input from "../../../../components/UI/Input";
 
 import { Card, DataTable } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import SearchBar from "react-native-dynamic-search-bar";
 export var ID;
 const TeacherHomeworkScreenBuild = () => {
   const [showForm, setShowForm] = useState(true);
@@ -97,6 +98,10 @@ const TeacherHomeworkScreenBuild = () => {
 
   const [image, setImage] = useState("");
   const [enteredImageTouched, setEnteredImageTouched] = useState(false);
+
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchText, setSearchText] = useState("");
+
   // const enteredImageIsValid = image.trim() !== "";
   // const imageInputIsInValid = !enteredImageIsValid && enteredImageTouched;
 
@@ -119,6 +124,7 @@ const TeacherHomeworkScreenBuild = () => {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
         setHomeworkData(res.data);
+        setFilteredData(res.data);
         let test = 0;
         const value = await AsyncStorage.getItem("key");
         for (i = 0; i < res.data.length; i++) {
@@ -411,6 +417,7 @@ const TeacherHomeworkScreenBuild = () => {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
         setHomeworkData(res.data);
+        setFilteredData(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -652,7 +659,7 @@ const TeacherHomeworkScreenBuild = () => {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
         setHomeworkData(res.data);
-
+        setFilteredData(res.data);
         setForHomeworkForm({
           color: "white",
           backgroundColor: "#1E8449",
@@ -745,6 +752,7 @@ const TeacherHomeworkScreenBuild = () => {
           const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
           // console.log(res.data);
           setHomeworkData(res.data);
+          setFilteredData(res.data);
         } catch (error) {
           console.log(error);
         }
@@ -758,6 +766,24 @@ const TeacherHomeworkScreenBuild = () => {
     setShowList(true);
     setShowForm(false);
   }
+
+  const searchFilter = (text) => {
+    console.log("search function");
+    if (text) {
+      const newData = homeworkData.filter((item) => {
+        const itemData = item.class_name
+          ? item.class_name.toUpperCase()
+          : "".toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredData(newData);
+      setSearchText(text);
+    } else {
+      setFilteredData(homeworkData);
+      setSearchText(text);
+    }
+  };
   return (
     <>
       {showInitialBtn && (
@@ -1003,91 +1029,138 @@ const TeacherHomeworkScreenBuild = () => {
           </View>
         </ScrollView>
       )}
-      <ScrollView>
-        {showList &&
-          homeworkData &&
-          homeworkData.map((homeworkData, key) => (
-            <Card style={{ marginTop: 15, margin: 10 }} key={key}>
-              <Card.Content>
-                <Card.Title
-                  title={homeworkData.class_name}
-                  titleStyle={{
-                    color: "purple",
-                    fontFamily: "HindRegular",
-                    fontWeight: "bold",
-                  }}
-                />
-                <View style={[{ flexDirection: "row" }]}>
-                  <View style={{ flex: 2, left: 20 }}>
-                    <Text style={styles.cardTextStyle}>
-                      <Ionicons name="calendar" size={24} color="green" />
-                      Assigned
-                    </Text>
-                  </View>
-                  <View style={{ flex: 2 }}>
-                    <Text style={styles.cardTextStyle}>
-                      <Ionicons name="calendar" size={24} color="green" />
-                      Due
-                    </Text>
-                  </View>
-                </View>
-                <View style={[{ flexDirection: "row" }]}>
-                  <View style={{ flex: 2, left: 40 }}>
-                    <Text style={[styles.cardTextStyle, { fontSize: 17 }]}>
-                      {moment(homeworkData.homework_date).format("DD/MM/YYYY")}
-                    </Text>
-                  </View>
-                  <View style={{ flex: 2, left: 105 }}>
-                    <Text style={[styles.cardTextStyle, { fontSize: 17 }]}>
-                      {moment(homeworkData.due_date).format("DD/MM/YYYY")}
-                    </Text>
-                  </View>
-                  <View style={{ flex: 2, left: 120, bottom: 5 }}>
-                    <Ionicons
-                      name="md-pencil-sharp"
-                      size={24}
-                      color="green"
-                      onPress={() => editItem(homeworkData.id)}
-                    />
-                  </View>
-                  <View style={{ flex: 2, left: 70, bottom: 5 }}>
-                    <Ionicons
-                      name="trash"
-                      size={24}
-                      color="red"
-                      onPress={() => deleteItem(homeworkData.id)}
-                    />
-                  </View>
-                </View>
-                <View style={[{ flexDirection: "column", flex: 1 }]}>
-                  <View style={{ flex: 2, left: 40, top: 5 }}>
-                    <Text
-                      style={[styles.cardTextStyle, { fontWeight: "bold" }]}
-                    >
-                      Description:
-                    </Text>
-                  </View>
-                  <View style={{ flex: 2, left: 40, top: 5 }}>
-                    <Text
-                      style={[
-                        styles.cardTextStyle,
-                        { color: "grey", fontSize: 18 },
-                      ]}
-                    >
-                      {homeworkData.description}
-                    </Text>
-                  </View>
-                </View>
-              </Card.Content>
-            </Card>
-          ))}
-      </ScrollView>
+      <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
+        <View style={{ flex: 8, bottom: 5 }}>
+          <ScrollView>
+            <SearchBar
+              onSubmitEditing={Keyboard.dismiss}
+              style={styles.searchBar}
+              textInputStyle={{
+                fontFamily: "HindRegular",
+                fontSize: 18,
+              }}
+              placeholder="Search here"
+              onChangeText={(text) => searchFilter(text)}
+              value={searchText}
+            />
+            {showList &&
+              filteredData &&
+              filteredData.map((homeworkData, key) => (
+                <>
+                  <Card
+                    style={{
+                      marginVertical: 15,
+                      marginHorizontal: 20,
+                      elevation: 5,
+                      borderRadius: 10,
+                      paddingBottom: 30,
+                    }}
+                    key={key}
+                  >
+                    <Card.Content>
+                      <Card.Title
+                        title={homeworkData.class_name}
+                        titleStyle={{
+                          color: "purple",
+                          fontFamily: "HindSemiBold",
+                          fontSize: 20,
+                          marginTop: -20,
+                        }}
+                      />
 
-      {showForm && keyboardStatus == "Keyboard Hidden" && (
-        <View>
-          <TeachersHome />
+                      <View style={[{ flexDirection: "row" }]}>
+                        <View style={{ flex: 2, marginLeft: 5, top: -10 }}>
+                          <Ionicons
+                            name="calendar"
+                            size={25}
+                            color="#D4AC0D"
+                            style={{ position: "absolute", left: 5 }}
+                          />
+                          <Text style={styles.cardTextStyle}>Start Date</Text>
+                        </View>
+                        <View style={{ flex: 2 }}>
+                          <View style={{ flex: 2, top: -10 }}>
+                            <Ionicons
+                              name="calendar"
+                              size={25}
+                              color="#D4AC0D"
+                              style={{ position: "absolute", left: 5 }}
+                            />
+                            <Text style={styles.cardTextStyle}>End Date</Text>
+                          </View>
+                        </View>
+                      </View>
+
+                      <View style={[{ flexDirection: "row" }]}>
+                        <View style={{ flex: 2, left: 40, top: -5 }}>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontFamily: "HindSemiBold",
+                              color: "grey",
+                            }}
+                          >
+                            {moment(homeworkData.homework_date).format(
+                              "DD/MM/YYYY"
+                            )}
+                          </Text>
+                        </View>
+                        <View style={{ flex: 2, left: 110, top: -5 }}>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontFamily: "HindSemiBold",
+                              color: "grey",
+                            }}
+                          >
+                            {moment(homeworkData.due_date).format("DD/MM/YYYY")}
+                          </Text>
+                        </View>
+                        <View style={{ flex: 2, left: 100, bottom: -50 }}>
+                          <Ionicons
+                            name="md-pencil-sharp"
+                            size={24}
+                            color="green"
+                            onPress={() => editItem(homeworkData.id)}
+                          />
+                        </View>
+                        <View style={{ flex: 2, left: 50, bottom: -50 }}>
+                          <Ionicons
+                            name="trash"
+                            size={24}
+                            color="red"
+                            onPress={() => deleteItem(homeworkData.id)}
+                          />
+                        </View>
+                      </View>
+                      <View style={[{ flexDirection: "row", flex: 1 }]}>
+                        <View style={{ flex: 2, left: -15, top: 5 }}>
+                          <Text style={styles.cardTextStyle}>Description:</Text>
+                        </View>
+                        <View style={{ flex: 2, left: -50, top: 5 }}>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontFamily: "HindSemiBold",
+                              color: "grey",
+                            }}
+                          >
+                            {homeworkData.description}
+                          </Text>
+                        </View>
+                      </View>
+                    </Card.Content>
+                  </Card>
+                </>
+              ))}
+          </ScrollView>
         </View>
-      )}
+        {keyboardStatus == "Keyboard Hidden" && (
+          <View style={{ flex: 1 }}>
+            <TeachersHome />
+          </View>
+        )}
+      </View>
     </>
   );
 };
@@ -1215,7 +1288,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   cardTextStyle: {
-    fontFamily: "HindRegular",
+    fontFamily: "HindSemiBold",
     fontSize: 16,
+    left: 35,
+  },
+  searchBar: {
+    marginTop: 10,
+    marginBottom: 10,
   },
 });
