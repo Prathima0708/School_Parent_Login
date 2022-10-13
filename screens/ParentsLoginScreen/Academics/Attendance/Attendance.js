@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView, Button, FlatList } from "react-native";
+import { View, StyleSheet, ScrollView, Button, FlatList, Dimensions } from "react-native";
 import React, { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
@@ -65,6 +65,8 @@ const Attendance = () => {
   );
 };
 export default Attendance;
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   searchBar: {

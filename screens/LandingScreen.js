@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
 
   submit: {
     width: deviceWidth < 370 ? "32%" : "30%",
-    height: deviceWidth < 370 ? "22%" : "22%",
+    height: deviceWidth < 370 ? "24%" : "22%",
     left: deviceHieght < 600 ? "60%" : "60%",
     backgroundColor: "#002D62",
     borderRadius: 10,

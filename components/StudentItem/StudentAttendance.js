@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Checkbox } from 'react-native-paper';
 import {
   Button,
+  Dimensions,
   Image,
   Pressable,
   ScrollView,
@@ -91,16 +92,15 @@ function StudentAttendance({
   );
 }
 export default StudentAttendance;
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
-  statusContainer:{
-  
-  },
   studentItem: {
     // width: "90%",
 
     padding: 11,
-    marginVertical: 8,
+    marginVertical:  deviceWidth < 370 ? '2%' : '5%',
     // //  backgroundColor: "#3e04c3",
     backgroundColor: "#f0f0fc",
     flexDirection: "row",
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     marginRight: 33,
   },
   description: {
-    fontSize: 20,
+    fontSize:  deviceWidth < 370 ? 16 : 20,
     marginBottom: 4,
     fontWeight: "bold",
   },

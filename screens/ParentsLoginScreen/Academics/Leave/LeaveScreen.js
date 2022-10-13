@@ -5,6 +5,7 @@ import {
   Text,
   ScrollView,
   Button as Btn,
+  Dimensions,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 
@@ -20,8 +21,12 @@ import ParentsHome from "../../BottomTab/ParentsHome";
 import Input from "../../../../components/UI/Input";
 import moment from "moment";
 import { StudentRegNo } from "../../../../components/StudentItem/StudentItem";
-
+export var statusData=[]
 const LeaveScreen = () => {
+
+  const [isApproved,setIsApproved]=useState(false);
+  let i=0;
+  // const [statusData,setStatusData]=useState([]);
   const [regno, setEnteredRegno] = useState("");
   const [enteredRegNoTouched, setEnteredRegNoTouched] = useState(false);
   const enteredRegNoIsValid = regno.trim() !== "";
@@ -134,9 +139,12 @@ const LeaveScreen = () => {
         const res = await axios.get(
           `http://10.0.2.2:8000/school/Leave/${StudentRegNo}`
         );
-        console.log(res.data);
+      //  console.log(res.data);
+      setData(res.data);
+      for( i=0;i<res.data.length;i++){
+        statusData[i]=res.data[i].leave_status;
+      }
 
-        setData(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -144,6 +152,13 @@ const LeaveScreen = () => {
     fetchData();
   }, []);
 
+  useEffect(()=>{
+    statusData.forEach(element => {
+      element=='Denied'
+      setIsApproved(false);
+    });
+  },[statusData])
+  
   const fromDateChangeHandler = (event, selectedFromDate) => {
     const currentFromDate = selectedFromDate || fromDate;
     setFromShow(Platform.OS === "ios");
@@ -480,91 +495,43 @@ const LeaveScreen = () => {
         </BgButton>
       </View>
       {showList && (
-        <ScrollView horizontal={true}>
-          <DataTable style={styles.container}>
-            <DataTable.Header style={styles.tableHeader}>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> REG NO</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> LEAVE TYPE</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> LEAVE FROM</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> LEAVE TO</Text>
-              </View>
-
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> REASON</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> STATUS</Text>
-              </View>
-            </DataTable.Header>
-            {data &&
+        <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
+        <View style={{ flex: 8, bottom: 10 }}>
+          <ScrollView>
+          {data &&
               data.map((data, key) => (
-                <DataTable.Row style={styles.tableRow} key={key}>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 30,
-                    }}
-                  >
-                    {data.student_reg_number}
-                  </DataTable.Cell>
-
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 50,
-                    }}
-                  >
-                    {data.leave_type}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 50,
-                    }}
-                  >
-                    {moment(data.leave_from).format("DD/MM/YYYY")}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 40,
-                    }}
-                  >
-                    {moment(data.leave_to).format("DD/MM/YYYY")}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 30,
-                    }}
-                  >
-                    {data.leave_reason}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 50,
-                    }}
-                  >
-                    {data.leave_status}
-                  </DataTable.Cell>
-                </DataTable.Row>
+                <>
+                  <View key={key} style={{height:'260%'}}>
+                    <Card style={styles.cardStyle}>
+                      <Card.Content>
+                      <View style={[{flex:1}, {flexDirection: "row"}]}>
+                        <View style={{ flex:1,top:-15 }} >
+                          <Text style={[styles.dateStyle,{color:"black"}]}>{moment(data.leave_from).format("DD/MM/YYYY")}
+                          <Text style={{fontWeight:'normal',fontSize:deviceWidth < 370 ? 12 : 14,}}> to </Text>{moment(data.leave_to).format("DD/MM/YYYY")}
+                          </Text>
+                          <Text style={[styles.dateStyle,{color:'black',top:'20%'}]}>
+                            Leave type: <Text style={[styles.dateStyle]}>{data.leave_type}</Text>
+                          </Text>
+                          <Text style={[styles.dateStyle,{color:'black',top:'33%'}]}>
+                            Leave reason: <Text style={[styles.dateStyle]}>{data.leave_reason}</Text>
+                          </Text>
+                        </View>
+                        <View style={{top:'2%'}}>
+                          <Text style={[styles.status,!isApproved ? 
+                            {backgroundColor:'#FECED1',color:'red'} :
+                            {backgroundColor:'#EFFFFD',color:'#00B8AC'}]}>
+                            {data.leave_status}
+                          </Text>
+                        </View>
+                      </View>
+                      </Card.Content>
+                    </Card>
+                  </View>
+                </>
               ))}
-          </DataTable>
-        </ScrollView>
+          </ScrollView>
+        </View>
+      </View>
       )}
       {showForm && (
         <ScrollView style={styles.root}>
@@ -744,11 +711,14 @@ const LeaveScreen = () => {
 };
 
 export default LeaveScreen;
-
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
-    width: "50%",
+    width: "48%",
+    left:'2%',
+    top:'1%'
   },
   container: {
     padding: 10,
@@ -853,4 +823,38 @@ const styles = StyleSheet.create({
     borderBottomColor: "black",
     borderBottomWidth: 2,
   },
+  //new one
+  status:{
+    left:'15%',
+    fontSize: deviceWidth < 370 ? 16 : 18,
+    fontWeight:'bold',
+    top:-15,
+    borderRadius:5,
+  
+    paddingHorizontal:10,
+    paddingVertical:10,
+    paddingTop:5    
+  },
+  dateStyle:{
+    fontWeight:'bold',
+    fontSize: deviceWidth < 370 ? 16 : 17,
+    color:'grey',
+    top:'5%',
+    left:-13
+  },
+  cardStyle:{
+    padding:5,
+    margin:10,
+    backgroundColor:'#E5E8E8',
+    elevation: 5,
+    shadowColor: "black",
+    backgroundColor: "#E5E8E8",
+    shadowOpacity: 0.75,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    marginRight:'7%',
+    marginLeft:'7%',
+    marginTop:'10%',
+    borderRadius:5
+  }
 });
