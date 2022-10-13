@@ -900,7 +900,7 @@ const TeachersTimetable = () => {
 
   return (
     <>
-      <View style={{ backgroundColor: "white", height: "100%" }}>
+      <View style={{ height: "100%" }}>
         <View style={styles.BtnContainer}>
           {/* <AccountTypeBtn onPress={timeTableList} style={forTimeTableList}>
             Daily TimeTable
@@ -1141,7 +1141,7 @@ const TeachersTimetable = () => {
                           style={{
                             borderWidth: 2,
                             borderColor: "lightgrey",
-                            backgroundColor: "white",
+                            //  backgroundColor: "white",
                             borderRadius: 13,
                             marginTop: -5,
                           }}
@@ -1571,7 +1571,8 @@ const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
 
-    width: deviceWidth < 370 ? "48%" : "50%",
+    width: deviceWidth < 370 ? "48%" : "46%",
+    marginHorizontal: 10,
   },
   year: {
     width: 70,
