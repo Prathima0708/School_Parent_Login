@@ -118,13 +118,13 @@ const TeachersTimetable = () => {
 
   const [fromTimeText, setFromTimeText] = useState("");
   const [enteredFromTimeTouched, setEnteredFromTimeTouched] = useState(false);
-  const enteredFromTimeIsValid = fromTimeText.trim() !== "";
+  const enteredFromTimeIsValid = fromTimeText;
   const fromtimeInputIsInValid =
     !enteredFromTimeIsValid && enteredFromTimeTouched;
 
   const [toTimeText, setToTimeText] = useState("");
   const [enteredToTimeTouched, setEnteredToTimeTouched] = useState(false);
-  const enteredToTimeIsValid = toTimeText.trim() !== "";
+  const enteredToTimeIsValid = toTimeText;
   const TotimeInputIsInValid = !enteredToTimeIsValid && enteredToTimeTouched;
 
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
@@ -296,6 +296,8 @@ const TeachersTimetable = () => {
   // }
 
   const fromTimeChangeHandler = (event, selectedFromTime) => {
+    //console.log(selectedFromTime);
+
     const currentFromTime = selectedFromTime;
     setFromTimeShow(Platform.OS === "ios");
     setFromTime(currentFromTime);
@@ -310,7 +312,6 @@ const TeachersTimetable = () => {
     if (event.type == "set") {
       setFromTimeText(fTime);
     } else {
-      //cancel button clicked
     }
 
     // console.log(fDate);
@@ -714,22 +715,6 @@ const TeachersTimetable = () => {
     setMonday(text);
   };
 
-  const inputHandlerFromDate = (text, key) => {
-    //  fromTimeChangeHandler();
-
-    const _inputs = [...inputs];
-    _inputs[key].fromTime = text;
-
-    setInputs(_inputs);
-  };
-
-  const inputHandlerToDate = (text, key) => {
-    const _inputs = [...inputs];
-    _inputs[key].toTime = text;
-
-    setInputs(_inputs);
-  };
-
   const inputHandlerTuesday = (text, key) => {
     const _inputs = [...inputs];
     _inputs[key].tuesday = text;
@@ -776,6 +761,7 @@ const TeachersTimetable = () => {
     setIsEdit(false);
     setFromTimeText("");
     setToTimeText("");
+    setDateText("");
     setMonday("");
     setTuesday("");
     setWednesday("");
@@ -961,9 +947,12 @@ const TeachersTimetable = () => {
     setShowTimeTableList(true);
     setShowTable(false);
   }
+  function inputHandlerFromDate(text, key) {
+    console.log(key);
+  }
   return (
     <>
-      <View style={{ backgroundColor: "white", height: "100%" }}>
+      <View style={{ height: "100%" }}>
         <View style={styles.BtnContainer}>
           {/* <AccountTypeBtn onPress={timeTableList} style={forTimeTableList}>
             Daily TimeTable
@@ -1304,9 +1293,7 @@ const TeachersTimetable = () => {
                           //  onChangeText={fromTimeChangeHandler}
                           //onChangeText={fromTimeHandler}
                           //  value={input.fromTime || fromTimeText}
-                          // onChangeText={(text) =>
-                          //   inputHandlerFromDate(text, key)
-                          // }
+                          // onChange={(text) => inputHandlerFromDate(text, key)}
                           style={
                             fromtimeInputIsInValid && styles.errorBorderColor
                           }
@@ -1329,7 +1316,7 @@ const TeachersTimetable = () => {
                             display="default"
                             onChange={fromTimeChangeHandler}
 
-                            //  onChange={() => fromTimeChangeHandler(key)}
+                            // onChange={() => fromTimeChangeHandler(key)}
                             // onChange={fromTimeChangeHandler(key)}
                           />
                           // </View>

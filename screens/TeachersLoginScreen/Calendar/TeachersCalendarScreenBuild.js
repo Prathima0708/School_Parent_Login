@@ -338,15 +338,6 @@ const TeachersCalendarScreenBuild = () => {
       enteredFromDateIsValid &&
       enteredtoDateIsValid;
     if (formIsValid) {
-      Alert.alert("Saved Data", "Saved Data successfully", [
-        {
-          text: "OK",
-          onPress: () => {
-            setShowForm(false);
-            showCalendar();
-          },
-        },
-      ]);
     }
 
     setEnteredTitleTouched(true);
@@ -410,6 +401,15 @@ const TeachersCalendarScreenBuild = () => {
             }
           }
           storeData();
+          Alert.alert("Saved Data", "Saved Data successfully", [
+            {
+              text: "OK",
+              onPress: () => {
+                setShowForm(false);
+                showCalendar();
+              },
+            },
+          ]);
           setEnteredDescription("");
           setEnteredTitle("");
           setFromText("");

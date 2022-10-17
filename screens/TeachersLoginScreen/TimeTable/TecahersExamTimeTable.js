@@ -497,202 +497,183 @@ const TecahersExamTimeTable = () => {
           </Button>
         </View>
       )}
-      {showExamList && (
-        <>
-          <SearchBar
-            onSubmitEditing={Keyboard.dismiss}
-            style={styles.searchBar}
-            textInputStyle={{
-              fontFamily: "HindRegular",
-              fontSize: 18,
-            }}
-            placeholder="Search here"
-            onChangeText={(text) => searchFilter(text)}
-            value={searchText}
-          />
-          <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
-            <View style={{ flex: 8 }}>
-              <ScrollView>
-                <View>
-                  {filteredData &&
-                    filteredData.map((data, key) => (
-                      <>
-                        <View key={key}>
-                          <Card
-                            style={{
-                              marginTop: 20,
-                              marginVertical: 1,
-                              marginHorizontal: 20,
-                              elevation: 5,
-                              borderRadius: 10,
-                            }}
+      <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
+        <View style={{ flex: 8, bottom: 5 }}>
+          <ScrollView>
+            <SearchBar
+              onSubmitEditing={Keyboard.dismiss}
+              style={styles.searchBar}
+              textInputStyle={{
+                fontFamily: "HindRegular",
+                fontSize: 18,
+              }}
+              placeholder="Search here"
+              onChangeText={(text) => searchFilter(text)}
+              value={searchText}
+            />
+            {showExamList &&
+              filteredData &&
+              filteredData.map((data, key) => (
+                <>
+                  <Card
+                    style={{
+                      marginTop: 20,
+                      marginVertical: 1,
+                      marginHorizontal: 20,
+                      elevation: 5,
+                      borderRadius: 10,
+                    }}
+                    key={key}
+                  >
+                    <Card.Content>
+                      <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
+                        <View style={{ flex: 2 }}>
+                          <View
+                            style={[
+                              { flex: 1 },
+                              { flexDirection: "column", top: "10%" },
+                            ]}
                           >
-                            <Card.Content>
-                              <View
-                                style={[{ flex: 1 }, { flexDirection: "row" }]}
-                              >
-                                <View style={{ flex: 2 }}>
-                                  <View
-                                    style={[
-                                      { flex: 1 },
-                                      { flexDirection: "column", top: "10%" },
-                                    ]}
-                                  >
-                                    <View style={{ flex: 2 }}>
-                                      <Text
-                                        style={[
-                                          styles.cardTextStyle,
-                                          {
-                                            color: "black",
-                                            fontSize:
-                                              deviceWidth < 370 ? 14 : 18,
-                                          },
-                                        ]}
-                                      >
-                                        {moment(data.start_date).format(
-                                          "DD/MM/YYYY"
-                                        )}
-                                      </Text>
-                                    </View>
-                                    <View
-                                      style={{
-                                        left: "30%",
-                                        position: "absolute",
-                                        top: "25%",
-                                      }}
-                                    >
-                                      <Text
-                                        style={{
-                                          fontFamily: "HindRegular",
-                                          fontSize: 18,
-                                          color: "grey",
-                                          fontWeight: "bold",
-                                        }}
-                                      >
-                                        to
-                                      </Text>
-                                    </View>
-                                    <View style={{ flex: 2 }}>
-                                      <Text
-                                        style={[
-                                          styles.cardTextStyle,
-                                          {
-                                            color: "black",
-                                            fontSize:
-                                              deviceWidth < 370 ? 14 : 18,
-                                          },
-                                        ]}
-                                      >
-                                        {moment(data.end_date).format(
-                                          "DD/MM/YYYY"
-                                        )}
-                                      </Text>
-                                    </View>
-                                  </View>
-                                </View>
-                                <View style={{ flex: 2 }}>
-                                  <Text style={styles.cardTextStyle}>
-                                    Class name
-                                  </Text>
-                                  <Text style={styles.cardTextStyle}>
-                                    Exam name
-                                  </Text>
-                                  <Text style={styles.cardTextStyle}>
-                                    Total marks
-                                  </Text>
-                                  <Text style={styles.cardTextStyle}>Hour</Text>
-                                </View>
-                                <View style={{ flex: 2 }}>
-                                  <Text
-                                    style={[
-                                      styles.cardTextStyle,
-                                      {
-                                        color: "grey",
-                                        fontSize: deviceWidth < 370 ? 14 : 18,
-                                      },
-                                    ]}
-                                  >
-                                    {data.class_name}
-                                  </Text>
-                                  <Text
-                                    style={[
-                                      styles.cardTextStyle,
-                                      {
-                                        width: "120%",
-                                        color: "grey",
-                                        fontSize: deviceWidth < 370 ? 14 : 18,
-                                      },
-                                    ]}
-                                  >
-                                    {data.exam_name}
-                                  </Text>
-                                  <Text
-                                    style={[
-                                      styles.cardTextStyle,
-                                      {
-                                        color: "grey",
-                                        fontSize: deviceWidth < 370 ? 14 : 18,
-                                      },
-                                    ]}
-                                  >
-                                    {data.Total_marks}
-                                  </Text>
-                                  <Text
-                                    style={[
-                                      styles.cardTextStyle,
-                                      {
-                                        color: "grey",
-                                        fontSize: deviceWidth < 370 ? 14 : 18,
-                                      },
-                                    ]}
-                                  >
-                                    {data.hour}
-                                  </Text>
-                                </View>
-                              </View>
-                              <View
+                            <View style={{ flex: 2 }}>
+                              <Text
                                 style={[
-                                  { flex: 1 },
+                                  styles.cardTextStyle,
                                   {
-                                    flexDirection: "row",
-                                    left: "100%",
-                                    //  top: "2%",
+                                    color: "black",
+                                    fontSize: deviceWidth < 370 ? 14 : 16,
                                   },
                                 ]}
                               >
-                                <View style={{ flex: 2, left: "450%" }}>
-                                  <Ionicons
-                                    name="md-pencil-sharp"
-                                    size={24}
-                                    color="green"
-                                    onPress={() => editItem(data.id)}
-                                  />
-                                </View>
-                                <View style={{ flex: 2, left: -10 }}>
-                                  <Ionicons
-                                    name="trash"
-                                    size={24}
-                                    color="red"
-                                    onPress={() => deleteItem(data.id)}
-                                  />
-                                </View>
-                              </View>
-                            </Card.Content>
-                          </Card>
+                                {moment(data.start_date).format("DD/MM/YYYY")}
+                              </Text>
+                            </View>
+                            <View
+                              style={{
+                                left: "30%",
+                                position: "absolute",
+                                top: "25%",
+                              }}
+                            >
+                              <Text
+                                style={{
+                                  fontFamily: "HindRegular",
+                                  fontSize: 18,
+                                  color: "grey",
+                                  fontWeight: "bold",
+                                }}
+                              >
+                                to
+                              </Text>
+                            </View>
+                            <View style={{ flex: 2 }}>
+                              <Text
+                                style={[
+                                  styles.cardTextStyle,
+                                  {
+                                    color: "black",
+                                    fontSize: deviceWidth < 370 ? 14 : 16,
+                                  },
+                                ]}
+                              >
+                                {moment(data.end_date).format("DD/MM/YYYY")}
+                              </Text>
+                            </View>
+                          </View>
                         </View>
-                      </>
-                    ))}
-                </View>
-              </ScrollView>
-            </View>
-            {keyboardStatus == "Keyboard Hidden" && (
-              <View>
-                <TeachersHome />
-              </View>
-            )}
+                        <View style={{ flex: 2 }}>
+                          <Text style={styles.cardTextStyle}>Class name</Text>
+                          <Text style={styles.cardTextStyle}>Exam name</Text>
+                          <Text style={styles.cardTextStyle}>Total marks</Text>
+                          <Text style={styles.cardTextStyle}>Hour</Text>
+                        </View>
+                        <View style={{ flex: 2 }}>
+                          <Text
+                            style={[
+                              styles.cardTextStyle,
+                              {
+                                color: "grey",
+                                fontSize: deviceWidth < 370 ? 14 : 16,
+                              },
+                            ]}
+                          >
+                            {data.class_name}
+                          </Text>
+                          <Text
+                            style={[
+                              styles.cardTextStyle,
+                              {
+                                width: "120%",
+                                color: "grey",
+                                fontSize: deviceWidth < 370 ? 14 : 16,
+                              },
+                            ]}
+                          >
+                            {data.exam_name}
+                          </Text>
+                          <Text
+                            style={[
+                              styles.cardTextStyle,
+                              {
+                                color: "grey",
+                                fontSize: deviceWidth < 370 ? 14 : 16,
+                              },
+                            ]}
+                          >
+                            {data.Total_marks}
+                          </Text>
+                          <Text
+                            style={[
+                              styles.cardTextStyle,
+                              {
+                                color: "grey",
+                                fontSize: deviceWidth < 370 ? 14 : 16,
+                              },
+                            ]}
+                          >
+                            {data.hour}
+                          </Text>
+                        </View>
+                      </View>
+                      <View
+                        style={[
+                          { flex: 1 },
+                          {
+                            flexDirection: "row",
+                            left: "100%",
+                            //  top: "2%",
+                          },
+                        ]}
+                      >
+                        <View style={{ flex: 2, left: "450%" }}>
+                          <Ionicons
+                            name="md-pencil-sharp"
+                            size={24}
+                            color="green"
+                            onPress={() => editItem(data.id)}
+                          />
+                        </View>
+                        <View style={{ flex: 2, left: -10 }}>
+                          <Ionicons
+                            name="trash"
+                            size={24}
+                            color="red"
+                            onPress={() => deleteItem(data.id)}
+                          />
+                        </View>
+                      </View>
+                    </Card.Content>
+                  </Card>
+                </>
+              ))}
+          </ScrollView>
+        </View>
+        {showaddBtn && keyboardStatus == "Keyboard Hidden" && (
+          <View style={{ flex: 1 }}>
+            <TeachersHome />
           </View>
-        </>
-      )}
+        )}
+      </View>
+
       {showform && (
         <ScrollView>
           <View style={styles.inputForm}>
@@ -920,7 +901,7 @@ const TecahersExamTimeTable = () => {
           </View>
         </ScrollView>
       )}
-      {keyboardStatus == "Keyboard Hidden" && (
+      {showform && keyboardStatus == "Keyboard Hidden" && (
         <View style={styles.home}>
           <TeachersHome />
         </View>

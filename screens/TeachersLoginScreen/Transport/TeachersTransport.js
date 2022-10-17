@@ -267,20 +267,6 @@ const TeachersTransport = () => {
       enteredRoutenameIsValid &&
       enteredStopnameIsValid;
     if (formIsValid) {
-      Alert.alert("Saved Data", "Saved Data successfully", [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
-        },
-        {
-          text: "OK",
-          onPress: () => {
-            setShowForm(false);
-            showTransport();
-          },
-        },
-      ]);
     }
 
     if (!enteredBusnumberIsValid) {
@@ -345,6 +331,20 @@ const TeachersTransport = () => {
             }
           }
           storeData();
+          Alert.alert("Saved Data", "Saved Data successfully", [
+            {
+              text: "Cancel",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel",
+            },
+            {
+              text: "OK",
+              onPress: () => {
+                setShowForm(false);
+                showTransport();
+              },
+            },
+          ]);
           setEnteredStudentID("");
           setEnteredBusNumber("");
           setEnteredVehicleNo("");

@@ -35,38 +35,39 @@ const TeachersMarksheet = () => {
 
   const [engMarks, setEngMarks] = useState("");
   const [enteredEngMarksTouched, setEnteredEngMarksTouched] = useState(false);
-  const enteredEngMarksIsValid = engMarks.trim() !== "";
+  const enteredEngMarksIsValid = engMarks.toString().trim() !== "";
+  //const enteredEngMarksIsValid = engMarks.length >= 1 && engMarks.length <= 3;
   const engMarksInputIsInValid =
     !enteredEngMarksIsValid && enteredEngMarksTouched;
 
   const [sciMarks, setSciMarks] = useState("");
   const [enteredSciMarksTouched, setEnteredSciMarksTouched] = useState(false);
-  const enteredSciMarksIsValid = sciMarks.trim() !== "";
+  const enteredSciMarksIsValid = sciMarks.toString().trim() !== "";
   const sciMarksInputIsInValid =
     !enteredSciMarksIsValid && enteredSciMarksTouched;
 
   const [hindiMarks, setHindiMarks] = useState("");
   const [enteredHindiMarksTouched, setEnteredHindiMarksTouched] =
     useState(false);
-  const enteredHindiMarksIsValid = hindiMarks.trim() !== "";
+  const enteredHindiMarksIsValid = hindiMarks.toString().trim() !== "";
   const hindiMarksInputIsInValid =
     !enteredHindiMarksIsValid && enteredHindiMarksTouched;
 
   const [socMarks, setSocMarks] = useState("");
   const [enteredSocMarksTouched, setEnteredSocMarksTouched] = useState(false);
-  const enteredSocMarksIsValid = socMarks.trim() !== "";
+  const enteredSocMarksIsValid = socMarks.toString().trim() !== "";
   const socMarksInputIsInValid =
     !enteredSocMarksIsValid && enteredSocMarksTouched;
 
   const [kanMarks, setKanMarks] = useState("");
   const [enteredKanMarksTouched, setEnteredKanMarksTouched] = useState(false);
-  const enteredKanMarksIsValid = kanMarks.trim() !== "";
+  const enteredKanMarksIsValid = kanMarks.toString().trim() !== "";
   const kanMarksInputIsInValid =
     !enteredKanMarksIsValid && enteredKanMarksTouched;
 
   const [compMarks, setCompMarks] = useState("");
   const [enteredCompMarksTouched, setEnteredCompMarksTouched] = useState(false);
-  const enteredCompMarksIsValid = compMarks.trim() !== "";
+  const enteredCompMarksIsValid = compMarks.toString().trim() !== "";
   const compMarksInputIsInValid =
     !enteredCompMarksIsValid && enteredCompMarksTouched;
 
@@ -89,6 +90,9 @@ const TeachersMarksheet = () => {
 
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState("");
+
+  const [filteredMarks, setFilteredMarks] = useState([]);
+  const [searchMarks, setSearchMarks] = useState("");
 
   const [forMarkssheetList, setForMarkssheetList] = useState({
     backgroundColor: "#0C60F4",
@@ -180,13 +184,14 @@ const TeachersMarksheet = () => {
   // }, []);
 
   function updateHandler() {
+    setShowInitialBtn(true);
     // console.log(UserId);
     console.log(ID);
     const FormData = {
       student_name: StudentList.student_name,
       class_name: StudentList.class_name,
-      Roll_no: 0,
-      student_reg_no: StudentList.reg_number,
+      Roll_no: StudentList.reg_number,
+      //student_reg_no: StudentList.reg_number,
       maths_max_marks: 0,
       maths_obt_mark: mathsMarks,
       maths_min_mark: 0,
@@ -231,6 +236,16 @@ const TeachersMarksheet = () => {
       computer_percentg: 0,
     };
     // console.log(FormData);
+    async function fetchData() {
+      try {
+        const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
+        setMarksheetData(res.data);
+        setFilteredMarks(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
     async function updateData() {
       try {
         let headers = {
@@ -252,18 +267,8 @@ const TeachersMarksheet = () => {
     }
     updateData();
     Alert.alert("Successfully updated", "", [
-      { text: "OK", onPress: () => fetchData },
+      { text: "OK", onPress: () => fetchData() },
     ]);
-
-    async function fetchData() {
-      try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
-        setMarksheetData(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData();
 
     setMathsMarks("");
     setEngMarks("");
@@ -334,7 +339,7 @@ const TeachersMarksheet = () => {
       kannada_percentg: 0,
       computer_max_mark: 0,
 
-      computer_obt_mark: 0,
+      computer_obt_mark: compMarks,
       computer_min_mark: 0,
       computer_tot_mark: 0,
       computer_percentg: 0,
@@ -342,13 +347,6 @@ const TeachersMarksheet = () => {
 
     //console.log(FormData);
 
-    setEnteredMathsMarksTouched(true);
-    setEnteredSciMarksTouched(true);
-    setEnteredEngMarksTouched(true);
-    setEnteredHindiMarksTouched(true);
-    setEnteredSocMarksTouched(true);
-    setEnteredKanMarksTouched(true);
-    // setEnteredCompMarksTouched(true);
     // setEnteredOverallPercentageTouched(true);
     // setEnteredReamrkTouched(true);
 
@@ -358,20 +356,20 @@ const TeachersMarksheet = () => {
       enteredSciMarksIsValid &&
       enteredHindiMarksIsValid &&
       enteredSocMarksIsValid &&
-      enteredKanMarksIsValid;
+      enteredKanMarksIsValid &&
+      enteredCompMarksIsValid;
 
     // if (formIsValid) {
-    Alert.alert("Saved Data", "Saved Data successfully", [
-      {
-        text: "OK",
-        onPress: () => {
-          setShowForm(false);
-          setShowAddForm(false);
-          showMarksheetList();
-        },
-      },
-    ]);
-    // }
+
+    //  }
+    setEnteredMathsMarksTouched(true);
+    setEnteredMathsMarksTouched(true);
+    setEnteredEngMarksTouched(true);
+    setEnteredSciMarksTouched(true);
+    setEnteredSocMarksTouched(true);
+    setEnteredHindiMarksTouched(true);
+    setEnteredKanMarksTouched(true);
+    setEnteredCompMarksTouched(true);
 
     if (!enteredMathsMarksIsValid) {
       return;
@@ -389,6 +387,9 @@ const TeachersMarksheet = () => {
       return;
     }
     if (!enteredKanMarksIsValid) {
+      return;
+    }
+    if (!enteredCompMarksIsValid) {
       return;
     }
 
@@ -415,6 +416,17 @@ const TeachersMarksheet = () => {
     }
     storeData();
 
+    Alert.alert("Saved Data", "Saved Data successfully", [
+      {
+        text: "OK",
+        onPress: () => {
+          setShowForm(false);
+          setShowAddForm(false);
+          showMarksheetList();
+        },
+      },
+    ]);
+
     setMathsMarks("");
     setEngMarks("");
     setSciMarks("");
@@ -431,6 +443,7 @@ const TeachersMarksheet = () => {
     setEnteredSocMarksTouched(false);
     setEnteredHindiMarksTouched(false);
     setEnteredKanMarksTouched(false);
+    setEnteredCompMarksTouched(false);
     setForMarkssheetList({
       backgroundColor: "#F4F6F6",
       color: "black",
@@ -467,6 +480,7 @@ const TeachersMarksheet = () => {
     setEnteredSocMarksTouched(false);
     setEnteredHindiMarksTouched(false);
     setEnteredKanMarksTouched(false);
+    setEnteredCompMarksTouched(false);
     setIsEdit(false);
   }
   function showMarksheetList() {
@@ -492,6 +506,7 @@ const TeachersMarksheet = () => {
         // console.log(res.data);
         setMarksheetData(res.data);
         setFilteredData(res.data);
+        setFilteredMarks(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -567,7 +582,7 @@ const TeachersMarksheet = () => {
     const filteredDummuyData = studList.find((data) => data.id == id);
     // console.log(filteredDummuyData.student_name);
     StudentList = filteredDummuyData;
-    //  console.log(StudentList.student_name);
+    console.log(StudentList.reg_number);
     async function getData() {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
@@ -606,6 +621,7 @@ const TeachersMarksheet = () => {
     setEnteredSocMarksTouched(false);
     setEnteredHindiMarksTouched(false);
     setEnteredKanMarksTouched(false);
+    setEnteredCompMarksTouched(false);
   }
 
   function cancelPressHandler() {
@@ -682,6 +698,7 @@ const TeachersMarksheet = () => {
           const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
           // console.log(res.data);
           setMarksheetData(res.data);
+          setFilteredMarks(res.data);
         } catch (error) {
           console.log(error);
         }
@@ -708,6 +725,26 @@ const TeachersMarksheet = () => {
       setFilteredData(studList);
       setStudList(studList);
       setSearchText(text);
+    }
+  };
+
+  const search = (text) => {
+    console.log("search function");
+
+    if (text) {
+      const newData = marksheetData.filter((item) => {
+        const itemData = item.student_name
+          ? item.student_name.toUpperCase()
+          : "".toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredMarks(newData);
+
+      setSearchMarks(text);
+    } else {
+      setFilteredMarks(marksheetData);
+      setSearchMarks(text);
     }
   };
 
@@ -1087,26 +1124,28 @@ const TeachersMarksheet = () => {
               </View>
             </View>
 
-            {/* <Input
-              placeholder="Remark"
-              onChangeText={remarkChangeHandler}
-              blur={remarkBlurHandler}
-              value={remark}
-              onSubmitEditing={Keyboard.dismiss}
-              style={remarkInputIsInValid && styles.errorBorderColor}
-            />
-            {remarkInputIsInValid && (
-              <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: 18,
-                }}
-              >
-                Enter remark
-              </Text>
-            )} */}
+            <View style={{ width: "40%", marginTop: 5 }}>
+              <Input
+                placeholder="Computer"
+                onChangeText={compMarksChangeHandler}
+                blur={compMarksBlurHandler}
+                value={compMarks.toString()}
+                onSubmitEditing={Keyboard.dismiss}
+                style={compMarksInputIsInValid && styles.errorBorderColor}
+              />
+              {compMarksInputIsInValid && (
+                <Text
+                  style={{
+                    color: "red",
+                    left: 20,
+                    fontFamily: "HindRegular",
+                    fontSize: 18,
+                  }}
+                >
+                  Enter comp marks
+                </Text>
+              )}
+            </View>
           </View>
           {isEdit && (
             <>
@@ -1127,172 +1166,181 @@ const TeachersMarksheet = () => {
       )}
 
       {showMarksheet && (
-        <ScrollView horizontal={true}>
-          <DataTable style={styles.container}>
-            <DataTable.Header style={styles.tableHeader}>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}>REG NO</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}>NAME</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}>MATHS</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}>ENG</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}>SCI</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}>HIN</Text>
-              </View>
+        <>
+          <SearchBar
+            style={styles.searchBar}
+            textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
+            placeholder="Search here"
+            onChangeText={(text) => search(text)}
+            value={searchMarks}
+          />
+          <ScrollView horizontal={true}>
+            <DataTable style={styles.container}>
+              <DataTable.Header style={styles.tableHeader}>
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}>REG NO</Text>
+                </View>
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}>NAME</Text>
+                </View>
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}>MATHS</Text>
+                </View>
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}>ENG</Text>
+                </View>
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}>SCI</Text>
+                </View>
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}>HIN</Text>
+                </View>
 
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}>SOC</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}>KAN</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}>COMP</Text>
-              </View>
-              <View style={styles.th}>
-                <Text
-                  style={{
-                    margin: 7,
-                    marginLeft: 50,
-                    fontFamily: "MonsterratBold",
-                    fontSize: 16,
-                  }}
-                >
-                  ACTIONS
-                </Text>
-              </View>
-            </DataTable.Header>
-
-            {marksheetData &&
-              marksheetData.map((data, key) => (
-                <DataTable.Row style={styles.tableRow} key={key}>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 40,
-                    }}
-                  >
-                    {data.Roll_no}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 40,
-                      width: "60%",
-                    }}
-                  >
-                    {data.student_name}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 40,
-                      width: "60%",
-                    }}
-                  >
-                    {data.maths_obt_mark}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 40,
-                    }}
-                  >
-                    {data.english_obt_mark}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 40,
-                    }}
-                  >
-                    {data.science_obt_mark}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 40,
-                    }}
-                  >
-                    {data.hindi_obt_mark}
-                  </DataTable.Cell>
-
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 40,
-                    }}
-                  >
-                    {data.social_obt_mark}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 40,
-                    }}
-                  >
-                    {data.kannada_obt_mark}
-                  </DataTable.Cell>
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}>SOC</Text>
+                </View>
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}>KAN</Text>
+                </View>
+                <View style={styles.th}>
+                  <Text style={styles.tableTitle}>COMP</Text>
+                </View>
+                <View style={styles.th}>
+                  <Text
+                    style={{
+                      margin: 7,
                       marginLeft: 50,
+                      fontFamily: "MonsterratBold",
+                      fontSize: 16,
                     }}
                   >
-                    {data.computer_obt_mark}
-                  </DataTable.Cell>
+                    ACTIONS
+                  </Text>
+                </View>
+              </DataTable.Header>
 
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 100,
-                    }}
-                  >
-                    <Ionicons
-                      name="md-pencil-sharp"
-                      size={24}
-                      color="green"
-                      onPress={() => editItem(data.id)}
-                    />
-                  </DataTable.Cell>
+              {filteredMarks &&
+                filteredMarks.map((data, key) => (
+                  <DataTable.Row style={styles.tableRow} key={key}>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 40,
+                      }}
+                    >
+                      {data.Roll_no}
+                    </DataTable.Cell>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 40,
+                        width: "60%",
+                      }}
+                    >
+                      {data.student_name}
+                    </DataTable.Cell>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 40,
+                        width: "60%",
+                      }}
+                    >
+                      {data.maths_obt_mark}
+                    </DataTable.Cell>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 40,
+                      }}
+                    >
+                      {data.english_obt_mark}
+                    </DataTable.Cell>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 40,
+                      }}
+                    >
+                      {data.science_obt_mark}
+                    </DataTable.Cell>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 40,
+                      }}
+                    >
+                      {data.hindi_obt_mark}
+                    </DataTable.Cell>
 
-                  <DataTable.Cell
-                    textStyle={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      marginLeft: 10,
-                    }}
-                  >
-                    <Ionicons
-                      name="trash"
-                      size={24}
-                      color="red"
-                      onPress={() => deleteItem(data.id)}
-                    />
-                  </DataTable.Cell>
-                </DataTable.Row>
-              ))}
-          </DataTable>
-        </ScrollView>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 40,
+                      }}
+                    >
+                      {data.social_obt_mark}
+                    </DataTable.Cell>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 40,
+                      }}
+                    >
+                      {data.kannada_obt_mark}
+                    </DataTable.Cell>
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 50,
+                      }}
+                    >
+                      {data.computer_obt_mark}
+                    </DataTable.Cell>
+
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 100,
+                      }}
+                    >
+                      <Ionicons
+                        name="md-pencil-sharp"
+                        size={24}
+                        color="green"
+                        onPress={() => editItem(data.id)}
+                      />
+                    </DataTable.Cell>
+
+                    <DataTable.Cell
+                      textStyle={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        marginLeft: 10,
+                      }}
+                    >
+                      <Ionicons
+                        name="trash"
+                        size={24}
+                        color="red"
+                        onPress={() => deleteItem(data.id)}
+                      />
+                    </DataTable.Cell>
+                  </DataTable.Row>
+                ))}
+            </DataTable>
+          </ScrollView>
+        </>
       )}
     </>
   );
