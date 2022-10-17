@@ -789,7 +789,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   btnSubmit: {
-    marginTop: 45,
+    top: deviceHieght < 600 ? -25 : "7%",
   },
   space: {
     width: 20, // or whatever size you need
