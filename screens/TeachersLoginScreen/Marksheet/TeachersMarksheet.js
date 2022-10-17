@@ -29,51 +29,51 @@ const TeachersMarksheet = () => {
   const [mathsMarks, setMathsMarks] = useState("");
   const [enteredMathsMarksTouched, setEnteredMathsMarksTouched] =
     useState(false);
-  const enteredMathsMarksIsValid = mathsMarks;
+  const enteredMathsMarksIsValid = mathsMarks.toString().trim() !== "";
   const mathsMarksInputIsInValid =
     !enteredMathsMarksIsValid && enteredMathsMarksTouched;
 
   const [engMarks, setEngMarks] = useState("");
   const [enteredEngMarksTouched, setEnteredEngMarksTouched] = useState(false);
-  const enteredEngMarksIsValid = engMarks;
+  const enteredEngMarksIsValid = engMarks.trim() !== "";
   const engMarksInputIsInValid =
     !enteredEngMarksIsValid && enteredEngMarksTouched;
 
   const [sciMarks, setSciMarks] = useState("");
   const [enteredSciMarksTouched, setEnteredSciMarksTouched] = useState(false);
-  const enteredSciMarksIsValid = sciMarks;
+  const enteredSciMarksIsValid = sciMarks.trim() !== "";
   const sciMarksInputIsInValid =
     !enteredSciMarksIsValid && enteredSciMarksTouched;
 
   const [hindiMarks, setHindiMarks] = useState("");
   const [enteredHindiMarksTouched, setEnteredHindiMarksTouched] =
     useState(false);
-  const enteredHindiMarksIsValid = hindiMarks;
+  const enteredHindiMarksIsValid = hindiMarks.trim() !== "";
   const hindiMarksInputIsInValid =
     !enteredHindiMarksIsValid && enteredHindiMarksTouched;
 
   const [socMarks, setSocMarks] = useState("");
   const [enteredSocMarksTouched, setEnteredSocMarksTouched] = useState(false);
-  const enteredSocMarksIsValid = socMarks;
+  const enteredSocMarksIsValid = socMarks.trim() !== "";
   const socMarksInputIsInValid =
     !enteredSocMarksIsValid && enteredSocMarksTouched;
 
   const [kanMarks, setKanMarks] = useState("");
   const [enteredKanMarksTouched, setEnteredKanMarksTouched] = useState(false);
-  const enteredKanMarksIsValid = kanMarks;
+  const enteredKanMarksIsValid = kanMarks.trim() !== "";
   const kanMarksInputIsInValid =
     !enteredKanMarksIsValid && enteredKanMarksTouched;
 
   const [compMarks, setCompMarks] = useState("");
   const [enteredCompMarksTouched, setEnteredCompMarksTouched] = useState(false);
-  const enteredCompMarksIsValid = compMarks;
+  const enteredCompMarksIsValid = compMarks.trim() !== "";
   const compMarksInputIsInValid =
     !enteredCompMarksIsValid && enteredCompMarksTouched;
 
   const [overallperct, setEnteredOverallPerct] = useState("");
   const [enteredOverallPercentageTouched, setEnteredOverallPercentageTouched] =
     useState(false);
-  const enteredOverallPercentageIsValid = overallperct;
+  const enteredOverallPercentageIsValid = overallperct.trim() !== "";
   const overallpercentageInputIsInValid =
     !enteredOverallPercentageIsValid && enteredOverallPercentageTouched;
 
@@ -288,13 +288,14 @@ const TeachersMarksheet = () => {
     });
   }
 
-  function buttonPressedHandler(key) {
+  function buttonPressedHandler() {
+    //console.log(StudentList.student_name);
     // console.log(UserId);
     const FormData = {
       student_name: StudentList.student_name,
       class_name: StudentList.class_name,
-      Roll_no: 0,
-      student_reg_no: StudentList.reg_number,
+
+      Roll_no: StudentList.reg_number,
       maths_max_marks: 0,
       maths_obt_mark: mathsMarks,
       maths_min_mark: 0,
@@ -339,25 +340,6 @@ const TeachersMarksheet = () => {
       computer_percentg: 0,
     };
 
-    const formIsValid =
-      enteredMathsMarksIsValid &&
-      engMarksInputIsInValid &&
-      enteredSciMarksIsValid &&
-      enteredHindiMarksIsValid &&
-      enteredSocMarksIsValid &&
-      enteredKanMarksIsValid &&
-      enteredCompMarksIsValid;
-    if (formIsValid) {
-      Alert.alert("Saved Data", "Saved Data successfully", [
-        {
-          text: "OK",
-          onPress: () => {
-            setShowAddForm(false);
-            showMarksheetList();
-          },
-        },
-      ]);
-    }
     //console.log(FormData);
 
     setEnteredMathsMarksTouched(true);
@@ -369,6 +351,27 @@ const TeachersMarksheet = () => {
     // setEnteredCompMarksTouched(true);
     // setEnteredOverallPercentageTouched(true);
     // setEnteredReamrkTouched(true);
+
+    const formIsValid =
+      enteredMathsMarksIsValid &&
+      engMarksInputIsInValid &&
+      enteredSciMarksIsValid &&
+      enteredHindiMarksIsValid &&
+      enteredSocMarksIsValid &&
+      enteredKanMarksIsValid;
+
+    // if (formIsValid) {
+    Alert.alert("Saved Data", "Saved Data successfully", [
+      {
+        text: "OK",
+        onPress: () => {
+          setShowForm(false);
+          setShowAddForm(false);
+          showMarksheetList();
+        },
+      },
+    ]);
+    // }
 
     if (!enteredMathsMarksIsValid) {
       return;
@@ -388,16 +391,7 @@ const TeachersMarksheet = () => {
     if (!enteredKanMarksIsValid) {
       return;
     }
-    // if (!enteredCompMarksIsValid) {
-    //   return;
-    // }
-    // if (!enteredOverallPercentageIsValid) {
-    //   return;
-    // }
-    // if (!enteredReamrkIsValid) {
-    //   return;
-    // }
-    // else {
+
     async function storeData() {
       console.log(FormData);
       try {
@@ -497,6 +491,7 @@ const TeachersMarksheet = () => {
         const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
         // console.log(res.data);
         setMarksheetData(res.data);
+        setFilteredData(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -553,7 +548,7 @@ const TeachersMarksheet = () => {
         // console.log(StudentList);
 
         if (filteredc) {
-          console.log(studList);
+          //console.log(studList);
           setStudList(filteredc);
           setFilteredData(filteredc);
         }
@@ -568,13 +563,37 @@ const TeachersMarksheet = () => {
     login();
   }
   function addForm(id) {
-    // console.log("----------------");
-
     console.log("i am pressed");
     const filteredDummuyData = studList.find((data) => data.id == id);
     // console.log(filteredDummuyData.student_name);
     StudentList = filteredDummuyData;
-    console.log(StudentList.student_name);
+    //  console.log(StudentList.student_name);
+    async function getData() {
+      try {
+        const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
+
+        let filteredlist = res.data.filter(
+          (ele) => ele.Roll_no == StudentList.reg_number
+        );
+        // console.log(filteredlist);
+        if (filteredlist.length > 0) {
+          Alert.alert("reg number already exists", "please enter a new one", [
+            {
+              text: "OK",
+              onPress: () => {
+                setShowAddForm(false);
+                showMarksheetList(true);
+              },
+
+              style: "cancel",
+            },
+          ]);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
 
     setShowAddForm(true);
     setShowForm(false);
@@ -919,7 +938,7 @@ const TeachersMarksheet = () => {
               <View style={{ flex: 1 }}>
                 <Input
                   placeholder="Maths"
-                  maxLength={2}
+                  maxLength={3}
                   onChangeText={mathsMarksChangeHandler}
                   blur={mathsMarksBlurHandler}
                   value={mathsMarks.toString()}
@@ -945,7 +964,7 @@ const TeachersMarksheet = () => {
               <View style={{ flex: 1 }}>
                 <Input
                   placeholder="English"
-                  maxLength={2}
+                  maxLength={3}
                   onChangeText={engMarksChangeHandler}
                   blur={engMarksBlurHandler}
                   value={engMarks.toString()}
@@ -995,7 +1014,7 @@ const TeachersMarksheet = () => {
               <View style={{ flex: 1 }}>
                 <Input
                   placeholder="Hindi"
-                  maxLength={2}
+                  maxLength={3}
                   onChangeText={hindiMarksChangeHandler}
                   blur={hindiMarksBlurHandler}
                   value={hindiMarks.toString()}
@@ -1021,7 +1040,7 @@ const TeachersMarksheet = () => {
               <View style={{ flex: 1 }}>
                 <Input
                   placeholder="Social"
-                  maxLength={2}
+                  maxLength={3}
                   onChangeText={socMarksChangeHandler}
                   blur={socMarksBlurHandler}
                   value={socMarks.toString()}
@@ -1112,26 +1131,32 @@ const TeachersMarksheet = () => {
           <DataTable style={styles.container}>
             <DataTable.Header style={styles.tableHeader}>
               <View style={styles.th}>
+                <Text style={styles.tableTitle}>REG NO</Text>
+              </View>
+              <View style={styles.th}>
+                <Text style={styles.tableTitle}>NAME</Text>
+              </View>
+              <View style={styles.th}>
                 <Text style={styles.tableTitle}>MATHS</Text>
               </View>
               <View style={styles.th}>
-                <Text style={styles.tableTitle}>ENGLISH</Text>
+                <Text style={styles.tableTitle}>ENG</Text>
               </View>
               <View style={styles.th}>
-                <Text style={styles.tableTitle}>SCIENCE</Text>
+                <Text style={styles.tableTitle}>SCI</Text>
               </View>
               <View style={styles.th}>
-                <Text style={styles.tableTitle}>HINDI</Text>
+                <Text style={styles.tableTitle}>HIN</Text>
               </View>
 
               <View style={styles.th}>
-                <Text style={styles.tableTitle}>SOCIAL</Text>
+                <Text style={styles.tableTitle}>SOC</Text>
               </View>
               <View style={styles.th}>
-                <Text style={styles.tableTitle}>KANNADA</Text>
+                <Text style={styles.tableTitle}>KAN</Text>
               </View>
               <View style={styles.th}>
-                <Text style={styles.tableTitle}>COMPUTER</Text>
+                <Text style={styles.tableTitle}>COMP</Text>
               </View>
               <View style={styles.th}>
                 <Text
@@ -1157,13 +1182,33 @@ const TeachersMarksheet = () => {
                       marginLeft: 40,
                     }}
                   >
+                    {data.Roll_no}
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 40,
+                      width: "60%",
+                    }}
+                  >
+                    {data.student_name}
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    textStyle={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginLeft: 40,
+                      width: "60%",
+                    }}
+                  >
                     {data.maths_obt_mark}
                   </DataTable.Cell>
                   <DataTable.Cell
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 50,
+                      marginLeft: 40,
                     }}
                   >
                     {data.english_obt_mark}
@@ -1172,7 +1217,7 @@ const TeachersMarksheet = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 60,
+                      marginLeft: 40,
                     }}
                   >
                     {data.science_obt_mark}
@@ -1181,7 +1226,7 @@ const TeachersMarksheet = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 60,
+                      marginLeft: 40,
                     }}
                   >
                     {data.hindi_obt_mark}
@@ -1191,7 +1236,7 @@ const TeachersMarksheet = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 60,
+                      marginLeft: 40,
                     }}
                   >
                     {data.social_obt_mark}
@@ -1200,7 +1245,7 @@ const TeachersMarksheet = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 70,
+                      marginLeft: 40,
                     }}
                   >
                     {data.kannada_obt_mark}
@@ -1209,7 +1254,7 @@ const TeachersMarksheet = () => {
                     textStyle={{
                       fontSize: 18,
                       fontFamily: "HindRegular",
-                      marginLeft: 90,
+                      marginLeft: 50,
                     }}
                   >
                     {data.computer_obt_mark}

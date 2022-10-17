@@ -801,7 +801,7 @@ const TeachersTransport = () => {
                       {filteredData &&
                         filteredData.map((data, key) => (
                           <>
-                            <View key={key}>
+                            <View>
                               <Card
                                 style={{
                                   margin: 5,
@@ -810,6 +810,7 @@ const TeachersTransport = () => {
                                   elevation: 5,
                                   borderRadius: 10,
                                 }}
+                                key={key}
                               >
                                 <Card.Content style={{ marginTop: 0 }}>
                                   <View
