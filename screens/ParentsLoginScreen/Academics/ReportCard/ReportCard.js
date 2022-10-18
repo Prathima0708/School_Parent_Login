@@ -21,12 +21,11 @@ import {
   StudentRegNo,
   Section,
 } from "../../../../components/StudentItem/StudentItem";
-
+var obtMarks=[];
 const ReportCard = () => {
   const [data, setData] = useState([]);
-
+  const [isFail,setIsFail]=useState(false);
   const [maxMarks, setMaxMarks] = useState([]);
-  const [obtMarks, setObtMarks] = useState([]);
   let i;
   useEffect(() => {
     async function fetchData() {
@@ -44,211 +43,265 @@ const ReportCard = () => {
     fetchData();
   }, []);
 
+  useEffect(()=>{
+    for(i=0;i<data.length;i++){
+      if(data[i].maths_obt_mark < 35){
+        setIsFail(true);
+      }
+      if(data[i].english_obt_mark < 35){
+        setIsFail(true);
+      }
+      if(data[i].science_obt_mark < 35){
+        setIsFail(true);
+      }
+      if(data[i].hindi_obt_mark < 35){
+        setIsFail(true);
+      }
+      if(data[i].social_obt_mark < 35){
+        setIsFail(true);
+      }
+      if(data[i].kannada_obt_mark < 35){
+        setIsFail(true);
+      }
+      if(data[i].computer_obt_mark < 35){
+        setIsFail(true);
+      }
+    }
+  },[]);
+
   return (
     <>
-      <View>
-        <View style={{ width: "100%", height: "30%" }}>
-          {/* <Text style={styles.mainHeading}>Report Card</Text> */}
-          <View
-            style={[
-              { flex: 1 },
-              { flexDirection: "column", left: "10%", top: "10%" },
-            ]}
-          >
-            <View style={[{ flex: 1 }, { flexDirection: "row", top: 10 }]}>
-              <View style={{ flex: 1, height: "100%" }}>
-                <Text style={[styles.textBase, styles.description]}>
-                  Name :<Text style={styles.textInfo}>{StudentName}</Text>
-                </Text>
-              </View>
-              <View style={{ flex: 1, height: "100%" }}>
-                <Text style={[styles.textBase, styles.description]}>
-                  Class: <Text style={styles.textInfo}>{className}</Text>
-                </Text>
-              </View>
-            </View>
-            <View
-              style={[
-                { flex: 1 },
-                { flexDirection: "row", position: "absolute", top: 65 },
-              ]}
-            >
-              <View style={{ flex: 1, height: "100%" }}>
-                <Text style={[styles.textBase, styles.description]}>
-                  RegNo: <Text style={styles.textInfo}>{StudentRegNo}</Text>
-                </Text>
-              </View>
-              <View style={{ flex: 1, height: "100%" }}>
-                <Text style={[styles.textBase, styles.description]}>
-                  Section: <Text style={styles.textInfo}>{Section}</Text>
-                </Text>
-              </View>
-            </View>
+    <View style={[{flex:1}, { flexDirection: "column"}]}>
+      <View style={{ flex: 1 }}>
+      <View style={[styles.studInfo,styles.studInfoTopLeftStyle1]}>
+        <View style={[{flex:1}, {flexDirection: "row"}]}>
+          <View style={{ flex: 0.5 }} >
+            <Text style={[styles.description,styles.bottomLine,{justifyContent:'center',alignItems:'center'}]}>
+              Name : <Text style={[styles.textInfo]}>{StudentName}</Text>
+            </Text>
+          </View>
+          <View style={styles.space} />
+          <View style={{ flex: 0.5,marginRight:'5%'}} >
+            <Text style={[styles.description,styles.bottomLine]}>
+              Class: <Text style={styles.textInfo}>{className}</Text>
+            </Text>
           </View>
         </View>
-        <View style={{ width: "100%", height: "50%",padding:10,bottom:'5%' }}>
-          <ScrollView>
-            {/* <ScrollView horizontal={true}> */}
-            {data &&
+      </View>
+      <View style={[styles.studInfo,styles.studInfoTopLeftStyle2]}>
+        <View style={[{flex:1}, {flexDirection: "row"}]}>
+          <View style={{ flex: 1}} >
+            <Text style={[styles.description,styles.bottomLine]}>
+              RegNo: <Text style={styles.textInfo}>{StudentRegNo}</Text>
+            </Text>
+          </View>
+          <View style={styles.space} />
+          <View style={{ flex: 1,marginRight:'5%'}} >
+            <Text style={[styles.description,styles.bottomLine]}>
+              Section: <Text style={styles.textInfo}>{Section}</Text>
+            </Text>
+          </View>
+        </View>
+      </View>
+      </View>
+      <View style={styles.tableTopStyle} >
+      {/* <ScrollView> */}
+      {data &&
               data.map((data, key) => (
                 <>
-                  <View style={[{flex:1}, {flexDirection: "row",borderWidth:1}]}>
-                    <View style={styles.tableHead} >
-                      <Text style={styles.headingFont}>Subjects</Text>
-                    </View>
-                    <View style={styles.tableHead} >
-                      <Text style={styles.headingFont}>Max Marks</Text>
-                    </View>
-                    <View style={styles.tableHead} >
-                      <Text style={styles.headingFont}>Min Marks</Text>
-                    </View>
-                    <View style={styles.tableHead} >
-                      <Text style={styles.headingFont}>Obtained Marks</Text>
-                    </View>
-                  </View>
-                  <View style={[{flex:1}, {flexDirection: "row"}]}>
-                    <View style={[{flex:1}, {flexDirection: "column"}]}>
-                      <View style={[styles.colStyle]}>
-                        <Text style={styles.headingFont}>Maths</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text style={styles.headingFont}>English</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text style={styles.headingFont}>Science</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text style={styles.headingFont}>Hindi</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text style={styles.headingFont}>Social</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text style={styles.headingFont}>Kannada</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text style={styles.headingFont}>Computer</Text>
-                      </View>
-                    </View>
-                    <View style={[{flex:1}, {flexDirection: "column"}]}>
-                      <View style={styles.colStyle}>
-                        <Text>{data.maths_max_marks}</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text>{data.english_max_marks}</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text>{data.science_max_mark}</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text>{data.hindi_max_mark}</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text>{data.social_max_mark}</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text>{data.kannada_max_mark}</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text>{data.computer_max_mark}</Text>
-                      </View>
-                    </View>
-                    <View style={[{flex:1}, {flexDirection: "column"}]}>
-                      <View style={styles.colStyle}>
-                        <Text>{data.maths_min_mark}</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text>{data.english_min_mark}</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text>{data.science_min_mark}</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text>{data.hindi_min_mark}</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text>{data.social_min_mark}</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text>{data.kannada_min_mark}</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text>{data.computer_min_mark}</Text>
-                      </View>
-                    </View>
-                    <View style={[{flex:1}, {flexDirection: "column"}]}>
-                      <View style={styles.colStyle}>
-                        <Text>{data.maths_min_mark}</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text>{data.english_obt_mark}</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text>{data.science_obt_mark}</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text>{data.hindi_obt_mark}</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text>{data.social_obt_mark}</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text>{data.kannada_obt_mark}</Text>
-                      </View>
-                      <View style={styles.colStyle}>
-                        <Text>{data.computer_obt_mark}</Text>
-                      </View>
+                  <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
+                    <View style={{ flex: 8, bottom: 25 }}>
+                      <ScrollView>
+                        <View style={[styles.container, {flexDirection: "column"}]}>
+                          <View style={{ flex: 1 }} >
+                            <View style={[{flex:0.2}, {flexDirection: "row",borderWidth:1,backgroundColor:'#EFFFFD'}]}>
+                              <View style={[styles.tableHead,{backgroundColor:'#00B8AC'}]} >
+                                <Text style={[styles.headingFont,{color:'white'}]}>Subjects</Text>
+                              </View>
+                              <View style={[styles.tableHead,{backgroundColor:'#00B8AC'}]} >
+                                <Text style={[styles.headingFont,{color:'white'}]}>Max Marks</Text>
+                              </View>
+                              <View style={[styles.tableHead,{backgroundColor:'#00B8AC'}]} >
+                                <Text style={[styles.headingFont,{color:'white'}]}>Min Marks</Text>
+                              </View>
+                              <View style={[styles.tableHead,{backgroundColor:'#00B8AC'}]} >
+                                <Text style={[styles.headingFont,{color:'white'}]}>Obtained Marks</Text>
+                              </View>
+                            </View>
+                            <View style={[{flex:1}, {flexDirection: "row"}]}>
+                              <View style={[{flex:1}, {flexDirection: "column"}]}>
+                                <View style={[styles.colStyle]}>
+                                  <Text style={styles.headingFont}>Maths</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text style={styles.headingFont}>English</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text style={styles.headingFont}>Science</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text style={styles.headingFont}>Hindi</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text style={styles.headingFont}>Social</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text style={styles.headingFont}>Kannada</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text style={styles.headingFont}>Computer</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text style={styles.headingFont}>Total</Text>
+                                </View>
+                                {/* <View style={styles.colStyle}>
+                                  <Text style={styles.headingFont}>Percentage</Text>
+                                </View> */}
+                              </View>
+                              <View style={[{flex:1}, {flexDirection: "column"}]}>
+                                <View style={styles.colStyle}>
+                                  <Text>{data.maths_max_marks}</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text>{data.english_max_marks}</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text>{data.science_max_mark}</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text>{data.hindi_max_mark}</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text>{data.social_max_mark}</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text>{data.kannada_max_mark}</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text>{data.computer_max_mark}</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text>{data.maths_max_marks +
+                                    data.english_max_marks +
+                                    data.science_max_mark +
+                                    data.hindi_max_mark +
+                                    data.social_max_mark +
+                                    data.kannada_max_mark +
+                                    data.computer_max_mark}
+                                  </Text>
+                                </View>
+                                {/* <View style={styles.colStyle}>
+                                  <Text>
+                                  </Text>
+                                </View> */}
+                              </View>
+                              <View style={[{flex:1}, {flexDirection: "column"}]}>
+                                <View style={styles.colStyle}>
+                                  <Text>{data.maths_min_mark}</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text>{data.english_min_mark}</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text>{data.science_min_mark}</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text>{data.hindi_min_mark}</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text>{data.social_min_mark}</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text>{data.kannada_min_mark}</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text>{data.computer_min_mark}</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text>{data.maths_min_mark +
+                                    data.english_min_mark +
+                                    data.science_min_mark +
+                                    data.hindi_min_mark +
+                                    data.social_min_mark +
+                                    data.kannada_min_mark +
+                                    data.computer_min_mark}
+                                  </Text>
+                                </View>
+                              </View>
+                              <View style={[{flex:1}, {flexDirection: "column"}]}>
+                                <View style={[styles.colStyle]}>
+                                  <Text style={isFail && styles.textColor}>{data.maths_obt_mark}</Text>
+                                </View>
+                                <View style={[styles.colStyle]}>
+                                  <Text style={isFail && styles.textColor}>{data.english_obt_mark}</Text>
+                                </View>
+                                <View style={[styles.colStyle]}>
+                                  <Text style={isFail && styles.textColor}>{data.science_obt_mark}</Text>
+                                </View>
+                                <View style={[styles.colStyle]}>
+                                  <Text style={isFail && styles.textColor}>{data.hindi_obt_mark}</Text>
+                                </View>
+                                <View style={[styles.colStyle]}>
+                                  <Text style={isFail && styles.textColor}>{data.social_obt_mark}</Text>
+                                </View>
+                                <View style={[styles.colStyle]}>
+                                  <Text style={isFail && styles.textColor}>{data.kannada_obt_mark}</Text>
+                                </View>
+                                <View style={[styles.colStyle]}>
+                                  <Text style={isFail && styles.textColor}>{data.computer_obt_mark}</Text>
+                                </View>
+                                <View style={styles.colStyle}>
+                                  <Text>{data.maths_obt_mark +
+                                    data.english_obt_mark +
+                                    data.science_obt_mark +
+                                    data.hindi_obt_mark +
+                                    data.social_obt_mark +
+                                    data.kannada_obt_mark +
+                                    data.computer_obt_mark}
+                                  </Text>
+                                </View>
+                              </View>
+                            </View>
+                          </View>
+                          <View style={{ flex: 1,flexDirection:'row'}}>
+                            <Text style={[styles.headingFont,{fontSize:16,top:10}]}>
+                              Percentage : {(
+                                    ((data.maths_obt_mark +
+                                      data.english_obt_mark +
+                                      data.science_obt_mark +
+                                      data.hindi_obt_mark +
+                                      data.social_obt_mark +
+                                      data.kannada_obt_mark +
+                                      data.computer_obt_mark) /
+                                      (data.maths_max_marks +
+                                        data.english_max_marks +
+                                        data.science_max_mark +
+                                        data.hindi_max_mark +
+                                        data.social_max_mark +
+                                        data.kannada_max_mark +
+                                        data.computer_max_mark))*100
+                                    ).toFixed(2)}
+                            </Text>
+                            <Text style={[styles.headingFont,{fontSize:16,top:10,left:'400%'}]}>
+                              Result : 
+                              <Text 
+                                style={[isFail ? styles.textColor : styles.textPassColor]}>
+                                  {isFail ? 'Fail' : ' Pass'}
+                              </Text>
+                            </Text>
+                          </View>
+                        </View>
+                      </ScrollView>
                     </View>
                   </View>
                 </>
               ))}
-            {/* </ScrollView> */}
-          </ScrollView>
-        </View>
-        <View style={[ { width: "100%", height: "10%",flexDirection:'row',left:'5%' }]}>
-          <View style={{ flex: 2 }} >
-            <Text style={styles.headingFont}>Total : {data &&
-              data.map((data, key) => (
-                <Text>{data.maths_max_marks +
-                  data.english_max_marks +
-                  data.science_max_mark +
-                  data.hindi_max_mark +
-                  data.social_max_mark +
-                  data.kannada_max_mark +
-                  data.computer_max_mark}
-              </Text>
-              ))}
-            </Text>
-          </View>
-          <View style={{ flex: 2 }} >
-          <Text  style={styles.headingFont}>Percentage : {data &&
-              data.map((data, key) => (
-                <Text>{(
-                  ((data.maths_obt_mark +
-                    data.english_obt_mark +
-                    data.science_obt_mark +
-                    data.hindi_obt_mark +
-                    data.social_obt_mark +
-                    data.kannada_obt_mark +
-                    data.computer_obt_mark) /
-                    (data.maths_max_marks +
-                      data.english_max_marks +
-                      data.science_max_mark +
-                      data.hindi_max_mark +
-                      data.social_max_mark +
-                      data.kannada_max_mark +
-                      data.computer_max_mark)) *
-                  100
-                ).toFixed(2)}
-              </Text>
-              ))}
-            </Text>
-          </View>
-        </View>
-        <View style={{ width: "100%", height: "10%" }}>
+      {/* </ScrollView> */}
+      </View>
+        <View style={{ flex: 0.2, backgroundColor: "green" }} >
           <ParentsHome />
         </View>
-      </View>
+    </View>
     </>
   );
 };
@@ -258,175 +311,29 @@ const deviceWidth = Dimensions.get("window").width;
 const deviceHieght = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
-  BtnContainer: {
-    flexDirection: "row",
-    width: 220,
-  },
-  mainHeading: {
-    fontSize: 24,
-    fontWeight: "bold",
-    left: "33%",
-    top: "1%",
-    textDecorationLine: "underline",
-  },
-  textInfo: {
-    fontSize: deviceWidth < 370 ? 16 : 20,
-    color: "black",
-    textDecorationLine: "underline",
-    fontWeight: "normal",
-    left: 10,
-  },
-  space: {
-    width: 20,
-    height: 20,
-  },
-  container: {
-    padding: 10,
-  },
-  type: {
-    marginLeft: 10,
-  },
-  th: {
-    padding: 5,
-    marginRight: 13,
-    fontSize: 24,
-  },
-  tableHeader: {
-    backgroundColor: "skyblue",
-
-    height: 50,
-    fontWeight: "bold",
-  },
-  tableTitle: {
-    margin: 7,
-    fontFamily: "MonsterratBold",
-    fontSize: 16,
-  },
-  tableCell: {
-    width: 20,
-
-    marginLeft: 35,
-  },
-
-  tableRow: {
-    height: "9%",
-    borderBottomColor: "black",
-    borderBottomWidth: 2,
-  },
-  inputForm: {
-    padding: 20,
-  },
-  inputStyle: {
-    borderWidth: 1,
-    borderColor: "grey",
-    borderRadius: 5,
-  },
-  labels: {
-    marginTop: 2,
-  },
-  btnSubmit: {
-    marginTop: 5,
-  },
-  studentItem: {
-    marginHorizontal: 35,
-    padding: 19,
-    marginVertical: 8,
-    // alignItems: "center",
-    // justifyContent: "center",
-  },
-  textBase: {
-    color: "black",
-    fontFamily: "HindRegular",
-  },
-  description: {
-    fontSize: 20,
-    fontFamily: "HindRegular",
-    marginBottom: 4,
-    fontWeight: "bold",
-    alignItems: "center",
-    justifyContent: "center",
-    // fontWeight: "bold",
-  },
-
-  cardStyle: {
-    width: "100%",
-    height: "80%",
-    top: 10,
-    //marginLeft: 20,
-    marginRight: 20,
-    borderRadius: 10,
-    marginBottom: 75,
-    backgroundColor: "skyblue",
-  },
-  cardView: {
-    flexDirection: "row",
-  },
-  space: {
-    width: 10,
-    height: 10,
-  },
-  textStyle: {
-    padding: 5,
-    // marginTop: 20,
-    fontFamily: "HindRegular",
-    fontSize: 20,
-  },
-  heading: {
-    fontFamily: "HindRegular",
-    fontSize: 20,
-    position: "absolute",
-    top: -10,
-    left: 15,
-  },
-  heading1: {
-    padding: 5,
-    fontFamily: "HindRegular",
-    fontSize: 20,
-    position: "absolute",
-    top: -15,
-    left: 95,
-  },
-  space: {
-    width: 20,
-    height: 20,
-  },
-  textStyle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    fontFamily: "HindRegular",
-  },
-  subStyle: {
-    fontSize: 16,
-    fontFamily: "HindRegular",
-    padding: 5,
-    borderBottomWidth:1,
-    borderLeftWidth:1,
-    borderTopWidth:1,
-
-  },
-  markStyle: {
-    fontSize: 16,
-    backgroundColor: "grey",
-    fontFamily: "HindRegular",
-    padding: 5,
-    paddingRight: 20,
-    paddingLeft: 20,
-    color: "white",
-    fontWeight: "500",
-  },
-  markStyleView: {
-    padding: 5,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRightWidth:1
-  },
 
   //new one
+  container: {
+    padding: 10,
+    
+  },
   tableHead:{
     flex: 1,
     borderRightWidth:1,
     justifyContent:'center',
     alignItems:'center',
+  },
+  studInfo:{
+    flex:1,
+    flexDirection: "row"
+  },
+  studInfoTopLeftStyle1:{
+    marginLeft:'5%',
+    top:'5%'
+  },
+  studInfoTopLeftStyle2:{
+    marginLeft:'5%',
+    top:'1%'
   },
   colStyle:{
     borderRightWidth:1,
@@ -434,9 +341,54 @@ const styles = StyleSheet.create({
     borderBottomWidth:1,
     justifyContent:'center',
     alignItems:'center',
-    padding:10
+    padding: deviceHieght < 600 ? "5%" : "10%",
   },
   headingFont:{
-    fontWeight:'bold'
+    // fontFamily: "Hind-SemiBold",
+    fontWeight:'bold',
+    fontSize: deviceWidth < 370 ? 14 : 14,
+  },
+  tableTopStyle:{
+    flex: 2.2,
+    padding:10,
+    // bottom: deviceHieght < 600 ? "10%" : "1%",
+    // top: deviceHieght < 600 ? "1%" : "1%",
+  },
+  textInfo: {
+    fontSize: deviceWidth < 370 ? 18 : 20,
+    fontFamily: "HindRegular",
+    color: "black",
+    fontWeight: "normal",
+    
+    // left: 10,
+
+  },
+  description: {
+    fontSize: deviceWidth < 370 ? 18 : 20,
+    fontFamily: "HindRegular",
+    marginBottom: 4,
+    fontWeight: "bold",
+    // fontWeight: "bold",
+  },
+  textColor:{
+    color:'red'
+  },
+  textPassColor:{
+    color:'green',
+  },
+  space: {
+    width: 20,
+    height: 20,
+    
+  },
+  bottomLine:{
+    borderBottomColor:"#130BF0",
+    borderBottomWidth:2,
+    borderBottomLeftRadius:5,
+    borderBottomRightRadius:5,
+    // borderRadius:5,
+    backgroundColor:"#CEE7FF",
+    alignSelf:'center',
+    paddingHorizontal:'12%',
   }
 });

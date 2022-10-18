@@ -6,6 +6,7 @@ import {
   ScrollView,
   Alert,
   Button as Btn,
+  Dimensions,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -942,6 +943,8 @@ const TeachersCalendarScreenBuild = () => {
 };
 
 export default TeachersCalendarScreenBuild;
+const deviceWidth = Dimensions.get("window").width;
+const deviceHieght = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   BtnContainer: {
@@ -978,7 +981,7 @@ const styles = StyleSheet.create({
   },
 
   btnSubmit: {
-    marginTop: 147,
+    marginTop: deviceHieght < 600 ? "5%" : "30%",
     width: "50%",
     marginLeft: 180,
   },
