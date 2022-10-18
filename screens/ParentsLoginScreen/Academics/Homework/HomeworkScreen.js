@@ -1,163 +1,3 @@
-// import {
-//   View,
-//   StyleSheet,
-//   TextInput,
-//   Text,
-//   ScrollView,
-//   Image,
-// } from "react-native";
-// import React, { useEffect, useState } from "react";
-
-// import { DataTable } from "react-native-paper";
-
-// import axios from "axios";
-// import BgButton from "../../../components/UI/BgButton";
-// import VerticalLine from "../../../components/UI/VerticalLine";
-// import Button from "../../../components/UI/Button";
-
-// const HomeworkScreen = ({}) => {
-//   const [forTransportList, setForTransportList] = useState({
-//     color: "black",
-//     fontWeight: "bold",
-//   });
-//   const [forAddTransport, setForAddTransport] = useState({ color: "black" });
-//   const [showForm, setShowForm] = useState(false);
-//   const [showTable, setShowTable] = useState(true);
-//   const [data, setData] = useState();
-
-//   useEffect(() => {
-//     async function fetchData() {
-//       try {
-//         const res = await axios.get("http://10.0.2.2:8000/school/Homework/");
-//         console.log(res.data);
-
-//         setData(res.data);
-//       } catch (error) {
-//         console.log(error);
-//       }
-//     }
-//     fetchData();
-//   }, []);
-//   function transportList() {
-//     setForTransportList({ fontWeight: "bold", color: "black" });
-//     setForAddTransport({ color: "black" });
-//     setShowForm(false);
-//     setShowTable(true);
-//   }
-//   function addTransport() {
-//     setForAddTransport({ fontWeight: "bold", color: "black" });
-//     setForTransportList({ color: "black" });
-//     setShowForm(true);
-//     setShowTable(false);
-//   }
-//   return (
-//     <>
-//       <View style={styles.BtnContainer}>
-//         <BgButton onPress={transportList} style={forTransportList}>
-//           Transport List
-//         </BgButton>
-//         <VerticalLine>|</VerticalLine>
-//         <BgButton onPress={addTransport} style={forAddTransport}>
-//           Add Transport
-//         </BgButton>
-//       </View>
-//       {showTable && (
-//         <ScrollView>
-//           <DataTable style={styles.container}>
-//             <DataTable.Header style={styles.tableHeader}>
-//               <DataTable.Title>ID</DataTable.Title>
-//               <DataTable.Title>CLASS NAME</DataTable.Title>
-//               <DataTable.Title>SUBJECT</DataTable.Title>
-//               <DataTable.Title>SECTION</DataTable.Title>
-//               <DataTable.Title>HOMEWORK DATE</DataTable.Title>
-//               <DataTable.Title>REMARK</DataTable.Title>
-//               <DataTable.Title>PHOTO</DataTable.Title>
-//               <DataTable.Title>HOMEWORK</DataTable.Title>
-//             </DataTable.Header>
-
-//             {data &&
-//               data.map((data) => (
-//                 <DataTable.Row>
-//                   <DataTable.Cell>{data.id}</DataTable.Cell>
-//                   <DataTable.Cell>{data.class_name}</DataTable.Cell>
-//                   <DataTable.Cell>{data.section}</DataTable.Cell>
-//                   <DataTable.Cell>{data.subject}</DataTable.Cell>
-//                   <DataTable.Cell>{data.homework_date}</DataTable.Cell>
-//                   <DataTable.Cell>{data.remark}</DataTable.Cell>
-//                   <DataTable.Cell>
-//                     <Image
-//                       source={{
-//                         uri: `http://10.0.2.2:8000${data.homework_photo}`,
-//                       }}
-//                       style={styles.image}
-//                       width="100px"
-//                     />
-//                   </DataTable.Cell>
-//                   <DataTable.Cell>{data.homework}</DataTable.Cell>
-//                 </DataTable.Row>
-//               ))}
-//           </DataTable>
-//         </ScrollView>
-//       )}
-//       {showForm && (
-//         <ScrollView>
-//           <View style={styles.inputForm}>
-//             <Text style={styles.labels}>STUDENT</Text>
-//             <TextInput style={styles.inputStyle} />
-//             <Text style={styles.labels}>VEHICLENO</Text>
-//             <TextInput keyboardType="number-pad" style={styles.inputStyle} />
-//             <Text style={styles.labels}>TYPES</Text>
-//             <TextInput style={styles.inputStyle} />
-//             <Text style={styles.labels}>DRIVERS NAME</Text>
-//             <TextInput style={styles.inputStyle} />
-//             <Text style={styles.labels}>EMP MOBILE</Text>
-//             <TextInput style={styles.inputStyle} />
-//             <Text style={styles.labels}>ROUTE NAME</Text>
-//             <TextInput style={styles.inputStyle} />
-//             <Text style={styles.labels}>STOP NAME</Text>
-//             <TextInput style={styles.inputStyle} />
-//             <View style={styles.btnSubmit}>
-//               <Button>Add Transport</Button>
-//             </View>
-//           </View>
-//         </ScrollView>
-//       )}
-//     </>
-//   );
-// };
-
-// export default HomeworkScreen;
-
-// const styles = StyleSheet.create({
-//   BtnContainer: {
-//     flexDirection: "row",
-//   },
-//   container: {
-//     padding: 15,
-//   },
-//   tableHeader: {
-//     backgroundColor: "#DCDCDC",
-//   },
-//   inputForm: {
-//     padding: 20,
-//   },
-//   inputStyle: {
-//     borderWidth: 1,
-//     borderColor: "grey",
-//     borderRadius: 5,
-//   },
-//   labels: {
-//     marginTop: 2,
-//   },
-//   btnSubmit: {
-//     marginTop: 5,
-//   },
-//   image: {
-//     height: 70,
-//     width: 50,
-//   },
-// });
-
 import {
   View,
   Text,
@@ -327,7 +167,8 @@ const styles = StyleSheet.create({
   main: {
     width: "100%",
     padding: 15,
-    backgroundColor: "#b696d7",
+    // backgroundColor: "#b696d7",
+    backgroundColor: "lightgrey",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -341,7 +182,7 @@ const styles = StyleSheet.create({
     //flexDirection: "row",
     // alignItems: "center",
     //  justifyContent: "space-between",
-    backgroundColor: "#353535",
+    backgroundColor: "lightblack",
     //  paddingVertical: 10,
   },
   root: {
@@ -353,3 +194,131 @@ const styles = StyleSheet.create({
     color: "black",
   },
 });
+
+// import React, { useEffect, useState } from "react";
+// import {
+//   NativeBaseProvider,
+//   Box,
+//   AspectRatio,
+//   Center,
+//   Stack,
+//   Heading,
+//   Text,
+//   HStack,
+//   Image,
+//   ScrollView,
+//   FlatList,
+// } from "native-base";
+// import axios from "axios";
+// import { className } from "../../../../components/StudentItem/StudentItem";
+// import ParentsHome from "../../BottomTab/ParentsHome";
+
+// export default function HomeworkScreen() {
+//   const [data, setData] = useState([]);
+//   const [isLoading, setIsLoading] = useState(true);
+//   useEffect(() => {
+//     async function fetchData() {
+//       try {
+//         const res = await axios.get(
+//           `http://10.0.2.2:8000/school/HomeworkByClass/${className}/`
+//         );
+//         //  console.log(res.data);
+//         setIsLoading(false);
+//         var Homeworkdata = [];
+//         Homeworkdata.push(res.data);
+//         setData(res.data);
+//       } catch (error) {
+//         console.log(error);
+//       }
+//     }
+//     fetchData();
+//   }, []);
+//   // useEffect(() => {
+//   //   LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
+//   //   LogBox.ignoreLogs([
+//   //     "Warning: Async Storage has been extracted from react-native core",
+//   //   ]);
+//   // }, []);
+
+//   return (
+//     <NativeBaseProvider>
+//       <ScrollView>
+//         <FlatList
+//           data={data}
+//           renderItem={({ item }) => {
+//             return (
+//               <Box alignItems="center">
+//                 <Box
+//                   maxW="80"
+//                   rounded="lg"
+//                   margin={5}
+//                   Bottom={5}
+//                   flex={8}
+//                   overflow="hidden"
+//                   borderColor="coolGray.200"
+//                   borderWidth="1"
+//                   _dark={{
+//                     borderColor: "coolGray.800",
+//                     backgroundColor: "gray.700",
+//                   }}
+//                   _web={{
+//                     shadow: 2,
+//                     borderWidth: 0,
+//                   }}
+//                   _light={{
+//                     backgroundColor: "gray.50",
+//                   }}
+//                 >
+//                   <Box>
+//                     <AspectRatio w="100%" ratio={16 / 9}>
+//                       <Image
+//                         source={{
+//                           uri: `http://10.0.2.2:8000${item.homework_photo}`,
+//                         }}
+//                         alt="image"
+//                         resizeMode="cover"
+//                       />
+//                     </AspectRatio>
+//                     {/* <Center
+//                       bg="violet.500"
+//                       _dark={{
+//                         bg: "violet.400",
+//                       }}
+//                       _text={{
+//                         color: "warmGray.50",
+//                         fontWeight: "700",
+//                         fontSize: "xs",
+//                       }}
+//                       position="absolute"
+//                       bottom="0"
+//                       px="3"
+//                       py="1.5"
+//                     >
+//                       PHOTOS
+//                     </Center> */}
+//                   </Box>
+//                   <Stack p="4" space={3}>
+//                     <Stack space={2}>
+//                       <Heading size="md" ml="-1">
+//                         Remark : {item.homework}
+//                       </Heading>
+//                     </Stack>
+//                     <Text fontWeight="400">
+//                       Description : {item.description}
+//                     </Text>
+//                     <HStack
+//                       alignItems="center"
+//                       space={4}
+//                       justifyContent="space-between"
+//                     ></HStack>
+//                   </Stack>
+//                 </Box>
+//               </Box>
+//             );
+//           }}
+//         />
+//       </ScrollView>
+//       <ParentsHome />
+//     </NativeBaseProvider>
+//   );
+// }

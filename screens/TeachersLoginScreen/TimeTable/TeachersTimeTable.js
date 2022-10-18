@@ -26,6 +26,8 @@ import TecahersExamTimeTable from "./TecahersExamTimeTable";
 import { DataTable } from "react-native-paper";
 import Input from "../../../components/UI/Input";
 import moment from "moment";
+import TimeSlots from "./TimeSlots";
+
 export var CLASSNAME,
   SECTION,
   idTimeTab = [];
@@ -428,41 +430,43 @@ const TeachersTimetable = () => {
     fetchDailyTimeTable();
   }
 
+  function TimeSlots() {
+    return <Container></Container>;
+  }
+
   function addPeriodsHandler() {
-    const _inputs = [...inputs];
-
-    _inputs.push({
-      fromTime: "",
-      toTime: "",
-
-      monday: "",
-      tuesday: "",
-      wednesday: "",
-      thursday: "",
-      friday: "",
-      saturday: "",
-    });
-    setInputs(_inputs);
-    setEnteredSelectedTouched(false);
-    setEnteredDateTextTouched(false);
-    setEnteredFromTimeTouched(false);
-    setEnteredToTimeTouched(false);
-    setEnteredMondayTouched(false);
-    setEnteredTuesdayTouched(false);
-    setEnteredWednesdayTouched(false);
-    setEnteredThursdayTouched(false);
-    setEnteredFridayTouched(false);
-    setEnteredSaturdayTouched(false);
-    // setFromTimeText("");
-    // setToTimeText("");
-    // setDateText("");
-    setMonday("");
-    setTuesday("");
-    setWednesday("");
-    setThursday("");
-    setFriday("");
-    setSaturday("");
-
+    TimeSlots();
+    // const _inputs = [...inputs];
+    // _inputs.push({
+    //   fromTime: "",
+    //   toTime: "",
+    //   monday: "",
+    //   tuesday: "",
+    //   wednesday: "",
+    //   thursday: "",
+    //   friday: "",
+    //   saturday: "",
+    // });
+    // setInputs(_inputs);
+    // setEnteredSelectedTouched(false);
+    // setEnteredDateTextTouched(false);
+    // setEnteredFromTimeTouched(false);
+    // setEnteredToTimeTouched(false);
+    // setEnteredMondayTouched(false);
+    // setEnteredTuesdayTouched(false);
+    // setEnteredWednesdayTouched(false);
+    // setEnteredThursdayTouched(false);
+    // setEnteredFridayTouched(false);
+    // setEnteredSaturdayTouched(false);
+    // // setFromTimeText("");
+    // // setToTimeText("");
+    // // setDateText("");
+    // setMonday("");
+    // setTuesday("");
+    // setWednesday("");
+    // setThursday("");
+    // setFriday("");
+    // setSaturday("");
     //console.log(_inputs);
   }
 
