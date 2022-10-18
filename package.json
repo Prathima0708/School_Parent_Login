@@ -45,6 +45,7 @@
     "formik-yup": "^0.0.5",
     "jetifier": "^2.0.0",
     "moment": "^2.29.4",
+    "native-base": "^3.4.18",
     "node-module-resolution": "^0.0.3",
     "radio-buttons-react-native": "^1.0.4",
     "react": "17.0.2",

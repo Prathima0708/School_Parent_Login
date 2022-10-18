@@ -634,6 +634,7 @@ const TeachersCalendarScreenBuild = () => {
                   left: 20,
                   fontFamily: "HindRegular",
                   fontSize: 18,
+                  top:5
                 }}
               >
                 Enter the title
@@ -654,6 +655,7 @@ const TeachersCalendarScreenBuild = () => {
                   left: 20,
                   fontFamily: "HindRegular",
                   fontSize: 18,
+                  top:5
                 }}
               >
                 Enter description
@@ -691,7 +693,7 @@ const TeachersCalendarScreenBuild = () => {
                   //   moment(fromText).format("DD/MM/YYYY") ||
                   //   moment(frmdate).format("DD/MM/YYYY")
                   // }
-                  placeholder="Start date"
+                  placeholder="   Start date"
                   onSubmitEditing={Keyboard.dismiss}
                   style={fromDateInputIsInValid && styles.errorBorderColor}
                   blur={fromDateBlurHandler}
@@ -742,7 +744,7 @@ const TeachersCalendarScreenBuild = () => {
                   //   moment(toText).format("DD/MM/YYYY") ||
                   //   moment(todate).format("DD/MM/YYYY")
                   // }
-                  placeholder="End date"
+                  placeholder="   End date"
                   onSubmitEditing={Keyboard.dismiss}
                   style={toDateInputIsInValid && styles.errorBorderColor}
                   blur={toDateBlurHandler}

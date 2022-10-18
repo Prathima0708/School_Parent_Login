@@ -89,7 +89,7 @@ import TeachersLeaveScreenBuild from "./screens/TeachersLoginScreen/Leave/Teache
 import TeachersCalendarScreenBuild from "./screens/TeachersLoginScreen/Calendar/TeachersCalendarScreenBuild";
 import { LogBox } from "react-native";
 import TeachersAttendance from "./screens/TeachersLoginScreen/TeachersAcademics/Attendance/TeachersAttendance";
-
+import { NativeBaseProvider, Box } from "native-base";
 // function Bottom() {
 //   return (
 //     <Tab.Navigator>
@@ -182,6 +182,7 @@ export default function App() {
   return (
     <>
       {/* <Navigation /> */}
+      <NativeBaseProvider>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
@@ -275,6 +276,7 @@ export default function App() {
           <Stack.Screen name="Homework" component={HomeworkScreen} />
         </Stack.Navigator>
       </NavigationContainer>
+      </NativeBaseProvider>
     </>
   );
 }
