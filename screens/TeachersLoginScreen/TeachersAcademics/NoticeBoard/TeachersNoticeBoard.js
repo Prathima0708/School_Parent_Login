@@ -22,6 +22,12 @@ import Input from "../../../../components/UI/Input";
 import moment from "moment";
 import { DataTable } from "react-native-paper";
 const TeachersNoticeboard = () => {
+
+  const [isUserFocused,setIsUserFocused]=useState(false);
+  const [isTitleFocused,setIsTitleFocused]=useState(false);
+  const [isDescFocused,setIsDescFocused]=useState(false);
+  const [isDOCFocused,setIsDOCFocused]=useState(false);
+
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
   const [forNoticeList, setForNoticeList] = useState({
@@ -214,19 +220,40 @@ const TeachersNoticeboard = () => {
   }
   function usernameInputBlur() {
     setEnteredUserNameTouched(true);
+    setIsUserFocused(false);
+  }
+  function onFocusUserHandler(){
+    setIsUserFocused(true);
+    setEnteredUserNameTouched(false);
   }
 
   function titleInputBlur() {
     setEnteredTitleTouched(true);
+    setIsTitleFocused(false);
+  }
+  function onFocusTitleHandler(){
+    setIsTitleFocused(true);
+    setEnteredTitleTouched(false);
   }
 
   function descriptionInputBlur() {
     setEnteredDescriptionTouched(true);
+    setIsDescFocused(false);
+  }
+  function onFocusDescHandler(){
+    setIsDescFocused(true);
+    setEnteredDescriptionTouched(false);
   }
 
   function datecreationInputBlur() {
     setEnteredFromDateTouched(true);
+    setIsDOCFocused(false);
   }
+  function onFocusDOCHandler(){
+    setIsDOCFocused(true);
+    setEnteredFromDateTouched(false);
+  }
+
   function showNoticeForm() {
     setForNoticeList({ fontWeight: "bold", color: "black" });
     setForNoticeForm({ color: "black" });
@@ -260,9 +287,10 @@ const TeachersNoticeboard = () => {
               placeholder="Username"
               onChangeText={userNameChangeHandler}
               blur={usernameInputBlur}
+              onFocus={onFocusUserHandler}
               value={username}
               onSubmitEditing={Keyboard.dismiss}
-              style={usernameInputIsInValid && styles.errorBorderColor}
+              style={isUserFocused ? styles.focusStyle : usernameInputIsInValid && styles.errorBorderColor}
             />
             {usernameInputIsInValid && (
               <Text style={{ color: "red", left: 20 }}>Enter Username</Text>
@@ -273,9 +301,10 @@ const TeachersNoticeboard = () => {
               placeholder="Title"
               onChangeText={titleChangeHandler}
               blur={titleInputBlur}
+              onFocus={onFocusTitleHandler}
               value={title}
               onSubmitEditing={Keyboard.dismiss}
-              style={titleInputIsInValid && styles.errorBorderColor}
+              style={isTitleFocused ? styles.focusStyle : titleInputIsInValid && styles.errorBorderColor}
             />
             {titleInputIsInValid && (
               <Text style={{ color: "red", left: 20 }}>Enter title</Text>
@@ -285,9 +314,10 @@ const TeachersNoticeboard = () => {
               placeholder="Description"
               onChangeText={descriptionChangeHandler}
               blur={descriptionInputBlur}
+              onFocus={onFocusDescHandler}
               value={description}
               onSubmitEditing={Keyboard.dismiss}
-              style={descriptionInputIsInValid && styles.errorBorderColor}
+              style={isDescFocused ? styles.focusStyle : descriptionInputIsInValid && styles.errorBorderColor}
             />
             {descriptionInputIsInValid && (
               <Text style={{ color: "red", left: 20 }}>Enter description</Text>
@@ -319,8 +349,9 @@ const TeachersNoticeboard = () => {
               value={fromText || fromDate}
               onSubmitEditing={Keyboard.dismiss}
               placeholder=" Date of creation:"
-              style={fromDateInputIsInValid && styles.errorBorderColor}
+              style={isDOCFocused ? styles.focusStyle : fromDateInputIsInValid && styles.errorBorderColor}
               blur={datecreationInputBlur}
+              onFocus={onFocusDOCHandler}
               onChangeText={frmDateHandler}
             />
             {fromDateInputIsInValid && (
@@ -422,14 +453,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   errorBorderColor: {
-    color: "black",
-    borderBottomWidth: 1,
-    borderColor: "red",
-    padding: 10,
-    margin: 15,
-    paddingVertical: 5,
-    borderRadius: 5,
-    fontSize: 18,
+    borderBottomColor:'red'
   },
   labels: {
     margin: 5,
@@ -468,5 +492,8 @@ const styles = StyleSheet.create({
     height: "9%",
     borderBottomColor: "black",
     borderBottomWidth: 2,
+  },
+  focusStyle:{
+    borderBottomColor:'blue'
   },
 });

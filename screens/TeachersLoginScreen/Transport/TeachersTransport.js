@@ -27,8 +27,16 @@ import SearchBar from "react-native-dynamic-search-bar";
 export var ID;
 
 const TeachersTransport = () => {
+
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
+  const [isFocused,setIsFocused]=useState(false);
+  const [isVehFocused,setIsVehFocused]=useState(false);
+  const [isTypeFocused,setIsTypeFocused]=useState(false);
+  const [isDriverFocused,setIsDriverFocused]=useState(false);
+  const [isMobFocused,setIsMobFocused]=useState(false);
+  const [isRouteFocused,setIsRouteFocused]=useState(false);
+  const [isStopFocused,setIsStopFocused]=useState(false);
   const [forTransportList, setForTransportList] = useState({
     color: "white",
     backgroundColor: "#0C60F4",
@@ -100,7 +108,8 @@ const TeachersTransport = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState("");
   let i = 0;
-
+  const [text, onChangeText] = React.useState("Useless Text");
+  const [number, onChangeNumber] = React.useState(null);
   useEffect(() => {
     async function fetchData() {
       try {
@@ -384,24 +393,65 @@ const TeachersTransport = () => {
 
   function busnumberInputBlur() {
     setEnteredBusnumberTouched(true);
+    setIsFocused(false)
   }
+  function onFocusBusHandler(){
+    setIsFocused(true);
+    setEnteredBusnumberTouched(false);
+  }
+
   function vehicleInputBlur() {
     setEnteredVehicleNoTouched(true);
+    setIsVehFocused(false)
   }
+  function onFocusVehHandler(){
+    setIsVehFocused(true);
+    setEnteredVehicleNoTouched(false);
+  }
+
   function typeInputBlur() {
     setEnteredTypeTouched(true);
+    setIsTypeFocused(false);
   }
+  function onFocusTypeHandler(){
+    setIsTypeFocused(true);
+    setEnteredTypeTouched(false);
+  }
+
   function drivernameInputBlur() {
     setEnteredDrivernameTouched(true);
+    setIsDriverFocused(false);
   }
+  function onFocusDriverHandler(){
+    setIsDriverFocused(true);
+    setEnteredDrivernameTouched(false);
+  }
+
   function mobilenumberInputBlur() {
     setEnteredMobileTouched(true);
+    setIsMobFocused(false);
   }
+  function onFocusMobHandler(){
+    setIsMobFocused(true);
+    setEnteredMobileTouched(false);
+  }
+
   function routenameInputBlur() {
     setEnteredRoutenameTouched(true);
+    setIsRouteFocused(false);
   }
+  function onFocusRouteHandler(){
+    setIsRouteFocused(true);
+    setEnteredRoutenameTouched(false);
+  }
+
   function stopnameInputBlur() {
     setEnteredStopnameTouched(true);
+    setIsStopFocused(false);
+  }
+  function onFocusStopHandler(){
+    setIsStopFocused(true);
+    setEnteredStopnameTouched(false);
   }
 
   function showTransportForm() {
@@ -608,9 +658,10 @@ const TeachersTransport = () => {
                   placeholder="Bus Number"
                   onChangeText={busNumberChangeHandler}
                   blur={busnumberInputBlur}
+                  onFocus={onFocusBusHandler}
                   value={busNumber}
                   onSubmitEditing={Keyboard.dismiss}
-                  style={busnumberInputIsInValid && styles.errorBorderColor}
+                  style={isFocused ? styles.focusStyle : busnumberInputIsInValid && styles.errorBorderColor}
                 />
                 {busnumberInputIsInValid && (
                   <Text
@@ -630,9 +681,10 @@ const TeachersTransport = () => {
                   placeholder="Vehicle Number"
                   onChangeText={vehicleChangeHandler}
                   blur={vehicleInputBlur}
+                  onFocus={onFocusVehHandler}
                   value={vehicleno}
                   onSubmitEditing={Keyboard.dismiss}
-                  style={vehicleNoInputIsInValid && styles.errorBorderColor}
+                  style={isVehFocused ? styles.focusStyle : vehicleNoInputIsInValid && styles.errorBorderColor}
                 />
                 {vehicleNoInputIsInValid && (
                   <Text
@@ -651,9 +703,10 @@ const TeachersTransport = () => {
                   placeholder="Type"
                   onChangeText={typeChangeHandler}
                   blur={typeInputBlur}
+                  onFocus={onFocusTypeHandler}
                   value={type}
                   onSubmitEditing={Keyboard.dismiss}
-                  style={typeInputIsInValid && styles.errorBorderColor}
+                  style={isTypeFocused ? styles.focusStyle : typeInputIsInValid && styles.errorBorderColor}
                 />
                 {typeInputIsInValid && (
                   <Text
@@ -672,9 +725,10 @@ const TeachersTransport = () => {
                   placeholder="Driver Name"
                   onChangeText={driverNameChangeHandler}
                   blur={drivernameInputBlur}
+                  onFocus={onFocusDriverHandler}
                   value={drivername}
                   onSubmitEditing={Keyboard.dismiss}
-                  style={drivernameInputIsInValid && styles.errorBorderColor}
+                  style={isDriverFocused ? styles.focusStyle : drivernameInputIsInValid && styles.errorBorderColor}
                 />
                 {drivernameInputIsInValid && (
                   <Text
@@ -696,9 +750,11 @@ const TeachersTransport = () => {
                   maxLength={10}
                   onChangeText={mobileChangeHandler}
                   blur={mobilenumberInputBlur}
+                  onFocus={onFocusMobHandler}
                   value={mobile.toString()}
                   onSubmitEditing={Keyboard.dismiss}
-                  style={mobileInputIsInValid && styles.errorBorderColor}
+                  style={isMobFocused ? styles.focusStyle : mobileInputIsInValid && styles.errorBorderColor}
+
                 />
                 {mobileInputIsInValid && (
                   <Text
@@ -717,9 +773,10 @@ const TeachersTransport = () => {
                   placeholder="Route Name"
                   onChangeText={routeNameChangeHandler}
                   blur={routenameInputBlur}
+                  onFocus={onFocusRouteHandler}
                   value={routename}
                   onSubmitEditing={Keyboard.dismiss}
-                  style={routenameInputIsInValid && styles.errorBorderColor}
+                  style={isRouteFocused ? styles.focusStyle : routenameInputIsInValid && styles.errorBorderColor}
                 />
                 {routenameInputIsInValid && (
                   <Text
@@ -738,9 +795,10 @@ const TeachersTransport = () => {
                   placeholder="Stop Name"
                   onChangeText={stopNameChangeHandler}
                   blur={stopnameInputBlur}
+                  onFocus={onFocusStopHandler}
                   value={stopname}
                   onSubmitEditing={Keyboard.dismiss}
-                  style={stopnameInputIsInValid && styles.errorBorderColor}
+                  style={isStopFocused ? styles.focusStyle : stopnameInputIsInValid && styles.errorBorderColor}
                 />
                 {stopnameInputIsInValid && (
                   <Text
@@ -801,7 +859,7 @@ const TeachersTransport = () => {
                       {filteredData &&
                         filteredData.map((data, key) => (
                           <>
-                            <View>
+                            <View key={key}>
                               <Card
                                 style={{
                                   margin: 5,
@@ -810,7 +868,6 @@ const TeachersTransport = () => {
                                   elevation: 5,
                                   borderRadius: 10,
                                 }}
-                                key={key}
                               >
                                 <Card.Content style={{ marginTop: 0 }}>
                                   <View
@@ -876,7 +933,7 @@ const TeachersTransport = () => {
                                     style={[{ flexDirection: "row", flex: 1 }]}
                                   >
                                     <View
-                                      style={{ flex: 1, top: 5, left: 200 }}
+                                      style={{ flex: 1, top: 5, left: deviceWidth < 370 ? 190 : 200, }}
                                     >
                                       <Ionicons
                                         name="md-pencil-sharp"
@@ -923,6 +980,12 @@ export default TeachersTransport;
 const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
+    input: {
+      height: 40,
+      margin: 12,
+      borderWidth: 1,
+      padding: 10,
+    },
   BtnContainer: {
     fontSize: 24,
     flexDirection: "row",
@@ -957,15 +1020,9 @@ const styles = StyleSheet.create({
     paddingTop: "1%",
   },
   errorBorderColor: {
-    color: "black",
-    borderBottomWidth: 1,
-    borderColor: "red",
-    padding: 10,
-    margin: 15,
-    paddingVertical: 5,
-    borderRadius: 5,
-    fontSize: 18,
+    borderBottomColor:'red'
   },
+  
   btnSubmit: {
     marginTop: "2%",
 
@@ -973,7 +1030,7 @@ const styles = StyleSheet.create({
     width: "70%",
   },
   cardData: {
-    fontSize: 16,
+    fontSize: deviceWidth < 370 ? 14 : 16,
     fontFamily: "HindSemiBold",
     color: "grey",
   },
@@ -1004,5 +1061,10 @@ const styles = StyleSheet.create({
   searchBar: {
     marginTop: 10,
     marginBottom: 20,
+    // height:deviceWidth < 370 ? "6%" : "6%",
   },
+  focusStyle:{
+    borderBottomColor:'blue'
+  },
+
 });

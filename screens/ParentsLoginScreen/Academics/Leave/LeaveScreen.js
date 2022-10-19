@@ -21,11 +21,10 @@ import ParentsHome from "../../BottomTab/ParentsHome";
 import Input from "../../../../components/UI/Input";
 import moment from "moment";
 import { StudentRegNo } from "../../../../components/StudentItem/StudentItem";
-export var statusData=[]
+export var statusData = [];
 const LeaveScreen = () => {
-
-  const [isApproved,setIsApproved]=useState(false);
-  let i=0;
+  const [isApproved, setIsApproved] = useState(false);
+  let i = 0;
   // const [statusData,setStatusData]=useState([]);
   const [regno, setEnteredRegno] = useState("");
   const [enteredRegNoTouched, setEnteredRegNoTouched] = useState(false);
@@ -139,12 +138,11 @@ const LeaveScreen = () => {
         const res = await axios.get(
           `http://10.0.2.2:8000/school/Leave/${StudentRegNo}`
         );
-      //  console.log(res.data);
-      setData(res.data);
-      for( i=0;i<res.data.length;i++){
-        statusData[i]=res.data[i].leave_status;
-      }
-
+        //  console.log(res.data);
+        setData(res.data);
+        for (i = 0; i < res.data.length; i++) {
+          statusData[i] = res.data[i].leave_status;
+        }
       } catch (error) {
         console.log(error);
       }
@@ -152,13 +150,13 @@ const LeaveScreen = () => {
     fetchData();
   }, []);
 
-  useEffect(()=>{
-    statusData.forEach(element => {
-      element=='Denied'
+  useEffect(() => {
+    statusData.forEach((element) => {
+      element == "Denied";
       setIsApproved(false);
     });
-  },[statusData])
-  
+  }, [statusData]);
+
   const fromDateChangeHandler = (event, selectedFromDate) => {
     const currentFromDate = selectedFromDate || fromDate;
     setFromShow(Platform.OS === "ios");
@@ -496,42 +494,81 @@ const LeaveScreen = () => {
       </View>
       {showList && (
         <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
-        <View style={{ flex: 8, bottom: 10 }}>
-          <ScrollView>
-          {data &&
-              data.map((data, key) => (
-                <>
-                  <View key={key} style={{height:'260%'}}>
-                    <Card style={styles.cardStyle}>
-                      <Card.Content>
-                      <View style={[{flex:1}, {flexDirection: "row"}]}>
-                        <View style={{ flex:1,top:-15 }} >
-                          <Text style={[styles.dateStyle,{color:"black"}]}>{moment(data.leave_from).format("DD/MM/YYYY")}
-                          <Text style={{fontWeight:'normal',fontSize:deviceWidth < 370 ? 12 : 14,}}> to </Text>{moment(data.leave_to).format("DD/MM/YYYY")}
-                          </Text>
-                          <Text style={[styles.dateStyle,{color:'black',top:'20%'}]}>
-                            Leave type: <Text style={[styles.dateStyle]}>{data.leave_type}</Text>
-                          </Text>
-                          <Text style={[styles.dateStyle,{color:'black',top:'33%'}]}>
-                            Leave reason: <Text style={[styles.dateStyle]}>{data.leave_reason}</Text>
-                          </Text>
-                        </View>
-                        <View style={{top:'2%'}}>
-                          <Text style={[styles.status,!isApproved ? 
-                            {backgroundColor:'#FECED1',color:'red'} :
-                            {backgroundColor:'#EFFFFD',color:'#00B8AC'}]}>
-                            {data.leave_status}
-                          </Text>
-                        </View>
-                      </View>
-                      </Card.Content>
-                    </Card>
-                  </View>
-                </>
-              ))}
-          </ScrollView>
+          <View style={{ flex: 8, bottom: 10 }}>
+            <ScrollView>
+              {data &&
+                data.map((data, key) => (
+                  <>
+                    <View style={{ height: "260%" }}>
+                      <Card style={styles.cardStyle}>
+                        <Card.Content>
+                          <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
+                            <View style={{ flex: 1, top: -15 }} key={key}>
+                              <Text
+                                style={[styles.dateStyle, { color: "black" }]}
+                              >
+                                {moment(data.leave_from).format("DD/MM/YYYY")}
+                                <Text
+                                  style={{
+                                    fontWeight: "normal",
+                                    fontSize: deviceWidth < 370 ? 12 : 14,
+                                  }}
+                                >
+                                  {" "}
+                                  to{" "}
+                                </Text>
+                                {moment(data.leave_to).format("DD/MM/YYYY")}
+                              </Text>
+                              <Text
+                                style={[
+                                  styles.dateStyle,
+                                  { color: "black", top: "20%" },
+                                ]}
+                              >
+                                Leave type:{" "}
+                                <Text style={[styles.dateStyle]}>
+                                  {data.leave_type}
+                                </Text>
+                              </Text>
+                              <Text
+                                style={[
+                                  styles.dateStyle,
+                                  { color: "black", top: "33%" },
+                                ]}
+                              >
+                                Leave reason:{" "}
+                                <Text style={[styles.dateStyle]}>
+                                  {data.leave_reason}
+                                </Text>
+                              </Text>
+                            </View>
+                            <View style={{ top: "2%" }}>
+                              <Text
+                                style={[
+                                  styles.status,
+                                  !isApproved
+                                    ? {
+                                        backgroundColor: "#FECED1",
+                                        color: "red",
+                                      }
+                                    : {
+                                        backgroundColor: "#EFFFFD",
+                                        color: "#00B8AC",
+                                      },
+                                ]}
+                              >
+                                {data.leave_status}
+                              </Text>
+                            </View>
+                          </View>
+                        </Card.Content>
+                      </Card>
+                    </View>
+                  </>
+                ))}
+            </ScrollView>
+          </View>
         </View>
-      </View>
       )}
       {showForm && (
         <ScrollView style={styles.root}>
@@ -717,8 +754,8 @@ const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
     width: "48%",
-    left:'2%',
-    top:'1%'
+    left: "2%",
+    top: "1%",
   },
   container: {
     padding: 10,
@@ -824,37 +861,37 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   //new one
-  status:{
-    left:'15%',
+  status: {
+    left: "15%",
     fontSize: deviceWidth < 370 ? 16 : 18,
-    fontWeight:'bold',
-    top:-15,
-    borderRadius:5,
-  
-    paddingHorizontal:10,
-    paddingVertical:10,
-    paddingTop:5    
+    fontWeight: "bold",
+    top: -15,
+    borderRadius: 5,
+
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    paddingTop: 5,
   },
-  dateStyle:{
-    fontWeight:'bold',
+  dateStyle: {
+    fontWeight: "bold",
     fontSize: deviceWidth < 370 ? 16 : 17,
-    color:'grey',
-    top:'5%',
-    left:-13
+    color: "grey",
+    top: "5%",
+    left: -13,
   },
-  cardStyle:{
-    padding:5,
-    margin:10,
-    backgroundColor:'#E5E8E8',
+  cardStyle: {
+    padding: 5,
+    margin: 10,
+    backgroundColor: "#E5E8E8",
     elevation: 5,
     shadowColor: "black",
     backgroundColor: "#E5E8E8",
     shadowOpacity: 0.75,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
-    marginRight:'7%',
-    marginLeft:'7%',
-    marginTop:'10%',
-    borderRadius:5
-  }
+    marginRight: "7%",
+    marginLeft: "7%",
+    marginTop: "10%",
+    borderRadius: 5,
+  },
 });

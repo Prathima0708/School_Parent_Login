@@ -26,6 +26,15 @@ import { Ionicons } from "@expo/vector-icons";
 export var ID;
 export var StudentList = [];
 const TeachersMarksheet = () => {
+
+  const [isMathFocused,setIsMathFocused]=useState(false);
+  const [isEngFocused,setIsEngFocused]=useState(false);
+  const [isSciFocused,setIsSciFocused]=useState(false);
+  const [isHindiFocused,setIsHindiFocused]=useState(false);
+  const [isSocFocused,setIsSocFocused]=useState(false);
+  const [isKanFocused,setIsKanFocused]=useState(false);
+  const [isComFocused,setIsComFocused]=useState(false);
+
   const [mathsMarks, setMathsMarks] = useState("");
   const [enteredMathsMarksTouched, setEnteredMathsMarksTouched] =
     useState(false);
@@ -145,25 +154,67 @@ const TeachersMarksheet = () => {
 
   function mathsMarksBlurHandler() {
     setEnteredMathsMarksTouched(true);
+    setIsMathFocused(false);
   }
+  function onFocusMathHandler(){
+    setIsMathFocused(true);
+    setEnteredMathsMarksTouched(false);
+  }
+
   function engMarksBlurHandler() {
     setEnteredEngMarksTouched(true);
+    setIsEngFocused(false);
   }
+  function onFocusEngHandler(){
+    setIsEngFocused(true);
+    setEnteredEngMarksTouched(false);
+  }
+
   function sciMarksBlurHandler() {
     setEnteredSciMarksTouched(true);
+    setIsSciFocused(false);
   }
+  function onFocusSciHandler(){
+    setIsSciFocused(true);
+    setEnteredSciMarksTouched(false);
+  }
+
   function hindiMarksBlurHandler() {
     setEnteredHindiMarksTouched(true);
+    setIsHindiFocused(false);
   }
+  function onFocusHindiHandler(){
+    setIsHindiFocused(true);
+    setEnteredHindiMarksTouched(false);
+  }
+
   function socMarksBlurHandler() {
     setEnteredSocMarksTouched(true);
+    setIsSocFocused(false);
   }
+  function onFocusSocHandler(){
+    setIsSocFocused(true);
+    setEnteredSocMarksTouched(false);
+  }
+
   function kanMarksBlurHandler() {
     setEnteredKanMarksTouched(true);
+    setIsKanFocused(false);
   }
+  function onFocusKanHandler(){
+    setIsKanFocused(true);
+    setEnteredKanMarksTouched(false);
+  }
+
   function compMarksBlurHandler() {
     setEnteredCompMarksTouched(true);
+    setIsComFocused(false);
   }
+  function onFocusComHandler(){
+    setIsComFocused(true);
+    setEnteredCompMarksTouched(false);
+  }
+
   function overallpercentageBlurHandler() {
     setEnteredOverallPercentageTouched(true);
   }
@@ -917,7 +968,7 @@ const TeachersMarksheet = () => {
                   <DataTable.Row style={styles.tableRow} key={key}>
                     <DataTable.Cell
                       textStyle={{
-                        fontSize: 18,
+                        fontSize: deviceWidth < 370 ? 16 : 18,
                         fontFamily: "HindRegular",
                         marginLeft: 50,
                       }}
@@ -926,7 +977,7 @@ const TeachersMarksheet = () => {
                     </DataTable.Cell>
                     <DataTable.Cell
                       textStyle={{
-                        fontSize: 18,
+                        fontSize: deviceWidth < 370 ? 16 : 18,
                         fontFamily: "HindRegular",
                         marginLeft: 80,
                       }}
@@ -935,7 +986,7 @@ const TeachersMarksheet = () => {
                     </DataTable.Cell>
                     <DataTable.Cell
                       textStyle={{
-                        fontSize: 18,
+                        fontSize: deviceWidth < 370 ? 16 : 18,
                         fontFamily: "HindRegular",
                         marginLeft: 90,
                       }}
@@ -944,7 +995,7 @@ const TeachersMarksheet = () => {
                     </DataTable.Cell>
                     <DataTable.Cell
                       textStyle={{
-                        fontSize: 18,
+                        fontSize: deviceWidth < 370 ? 16 : 18,
                         fontFamily: "HindRegular",
                         marginLeft: 70,
                       }}
@@ -954,7 +1005,7 @@ const TeachersMarksheet = () => {
 
                     <DataTable.Cell
                       textStyle={{
-                        fontSize: 18,
+                        fontSize: deviceWidth < 370 ? 16 : 18,
                         fontFamily: "HindRegular",
                         marginLeft: 70,
                       }}
@@ -978,17 +1029,18 @@ const TeachersMarksheet = () => {
                   maxLength={3}
                   onChangeText={mathsMarksChangeHandler}
                   blur={mathsMarksBlurHandler}
+                  onFocus={onFocusMathHandler}
                   value={mathsMarks.toString()}
                   onSubmitEditing={Keyboard.dismiss}
-                  style={mathsMarksInputIsInValid && styles.errorBorderColor}
+                  style={isMathFocused ? styles.focusStyle : mathsMarksInputIsInValid && styles.errorBorderColor}
                 />
                 {mathsMarksInputIsInValid && (
                   <Text
                     style={{
                       color: "red",
-                      left: 20,
                       fontFamily: "HindRegular",
-                      fontSize: 18,
+                      fontSize: deviceWidth < 370 ? 14 : 16,
+                      left:deviceWidth < 370 ? 10 : 10,
                     }}
                   >
                     Enter maths marks
@@ -1004,17 +1056,18 @@ const TeachersMarksheet = () => {
                   maxLength={3}
                   onChangeText={engMarksChangeHandler}
                   blur={engMarksBlurHandler}
+                  onFocus={onFocusEngHandler}
                   value={engMarks.toString()}
                   onSubmitEditing={Keyboard.dismiss}
-                  style={engMarksInputIsInValid && styles.errorBorderColor}
+                  style={isEngFocused ? styles.focusStyle : engMarksInputIsInValid && styles.errorBorderColor}
                 />
                 {engMarksInputIsInValid && (
                   <Text
                     style={{
                       color: "red",
-                      left: 20,
                       fontFamily: "HindRegular",
-                      fontSize: 18,
+                      fontSize: deviceWidth < 370 ? 14 : 16,
+                      left:deviceWidth < 370 ? 2 : 2,
                     }}
                   >
                     Enter eng marks
@@ -1028,17 +1081,18 @@ const TeachersMarksheet = () => {
                   maxLength={2}
                   onChangeText={sciMarksChangeHandler}
                   blur={sciMarksBlurHandler}
+                  onFocus={onFocusSciHandler}
                   value={sciMarks.toString()}
                   onSubmitEditing={Keyboard.dismiss}
-                  style={sciMarksInputIsInValid && styles.errorBorderColor}
+                  style={isSciFocused ? styles.focusStyle : sciMarksInputIsInValid && styles.errorBorderColor}
                 />
                 {sciMarksInputIsInValid && (
                   <Text
                     style={{
                       color: "red",
-                      left: 20,
                       fontFamily: "HindRegular",
-                      fontSize: 18,
+                      fontSize: deviceWidth < 370 ? 14 : 16,
+                      left:deviceWidth < 370 ? 10 : 10,
                     }}
                   >
                     Enter sci marks
@@ -1054,17 +1108,18 @@ const TeachersMarksheet = () => {
                   maxLength={3}
                   onChangeText={hindiMarksChangeHandler}
                   blur={hindiMarksBlurHandler}
+                  onFocus={onFocusHindiHandler}
                   value={hindiMarks.toString()}
                   onSubmitEditing={Keyboard.dismiss}
-                  style={hindiMarksInputIsInValid && styles.errorBorderColor}
+                  style={isHindiFocused ? styles.focusStyle : hindiMarksInputIsInValid && styles.errorBorderColor}
                 />
                 {hindiMarksInputIsInValid && (
                   <Text
                     style={{
                       color: "red",
-                      left: 20,
                       fontFamily: "HindRegular",
-                      fontSize: 18,
+                      fontSize: deviceWidth < 370 ? 14 : 16,
+                      left:deviceWidth < 370 ? 10 : 10,
                     }}
                   >
                     Enter hindi marks
@@ -1080,18 +1135,19 @@ const TeachersMarksheet = () => {
                   maxLength={3}
                   onChangeText={socMarksChangeHandler}
                   blur={socMarksBlurHandler}
+                  onFocus={onFocusSocHandler}
                   value={socMarks.toString()}
                   onSubmitEditing={Keyboard.dismiss}
-                  style={socMarksInputIsInValid && styles.errorBorderColor}
+                  style={isSocFocused ? styles.focusStyle : socMarksInputIsInValid && styles.errorBorderColor}
                   keyboardType="number-pad"
                 />
                 {socMarksInputIsInValid && (
                   <Text
                     style={{
                       color: "red",
-                      left: 20,
                       fontFamily: "HindRegular",
-                      fontSize: 18,
+                      fontSize: deviceWidth < 370 ? 14 : 16,
+                      left:deviceWidth < 370 ? 10 : 10,
                     }}
                   >
                     Enter social marks
@@ -1105,17 +1161,18 @@ const TeachersMarksheet = () => {
                   maxLength={3}
                   onChangeText={kanMarksChangeHandler}
                   blur={kanMarksBlurHandler}
+                  onFocus={onFocusKanHandler}
                   value={kanMarks.toString()}
                   onSubmitEditing={Keyboard.dismiss}
-                  style={kanMarksInputIsInValid && styles.errorBorderColor}
+                  style={isKanFocused ? styles.focusStyle : kanMarksInputIsInValid && styles.errorBorderColor}
                 />
                 {kanMarksInputIsInValid && (
                   <Text
                     style={{
                       color: "red",
-                      left: 20,
                       fontFamily: "HindRegular",
-                      fontSize: 18,
+                      fontSize: deviceWidth < 370 ? 14 : 16,
+                      left:deviceWidth < 370 ? 10 : 10,
                     }}
                   >
                     Enter kannada marks
@@ -1129,17 +1186,18 @@ const TeachersMarksheet = () => {
                 placeholder="Computer"
                 onChangeText={compMarksChangeHandler}
                 blur={compMarksBlurHandler}
+                onFocus={onFocusComHandler}
                 value={compMarks.toString()}
                 onSubmitEditing={Keyboard.dismiss}
-                style={compMarksInputIsInValid && styles.errorBorderColor}
+                style={isComFocused ? styles.focusStyle : compMarksInputIsInValid && styles.errorBorderColor}
               />
               {compMarksInputIsInValid && (
                 <Text
                   style={{
                     color: "red",
-                    left: 20,
                     fontFamily: "HindRegular",
-                    fontSize: 18,
+                    fontSize: deviceWidth < 370 ? 14 : 16,
+                    left:deviceWidth < 370 ? 10 : 10,
                   }}
                 >
                   Enter comp marks
@@ -1224,7 +1282,7 @@ const TeachersMarksheet = () => {
                   <DataTable.Row style={styles.tableRow} key={key}>
                     <DataTable.Cell
                       textStyle={{
-                        fontSize: 18,
+                        fontSize: deviceWidth < 370 ? 16 : 18,
                         fontFamily: "HindRegular",
                         marginLeft: 40,
                       }}
@@ -1233,7 +1291,7 @@ const TeachersMarksheet = () => {
                     </DataTable.Cell>
                     <DataTable.Cell
                       textStyle={{
-                        fontSize: 18,
+                        fontSize: deviceWidth < 370 ? 16 : 18,
                         fontFamily: "HindRegular",
                         marginLeft: 40,
                         width: "60%",
@@ -1243,7 +1301,7 @@ const TeachersMarksheet = () => {
                     </DataTable.Cell>
                     <DataTable.Cell
                       textStyle={{
-                        fontSize: 18,
+                        fontSize: deviceWidth < 370 ? 16 : 18,
                         fontFamily: "HindRegular",
                         marginLeft: 40,
                         width: "60%",
@@ -1253,7 +1311,7 @@ const TeachersMarksheet = () => {
                     </DataTable.Cell>
                     <DataTable.Cell
                       textStyle={{
-                        fontSize: 18,
+                        fontSize: deviceWidth < 370 ? 16 : 18,
                         fontFamily: "HindRegular",
                         marginLeft: 40,
                       }}
@@ -1262,7 +1320,7 @@ const TeachersMarksheet = () => {
                     </DataTable.Cell>
                     <DataTable.Cell
                       textStyle={{
-                        fontSize: 18,
+                        fontSize: deviceWidth < 370 ? 16 : 18,
                         fontFamily: "HindRegular",
                         marginLeft: 40,
                       }}
@@ -1271,7 +1329,7 @@ const TeachersMarksheet = () => {
                     </DataTable.Cell>
                     <DataTable.Cell
                       textStyle={{
-                        fontSize: 18,
+                        fontSize: deviceWidth < 370 ? 16 : 18,
                         fontFamily: "HindRegular",
                         marginLeft: 40,
                       }}
@@ -1281,7 +1339,7 @@ const TeachersMarksheet = () => {
 
                     <DataTable.Cell
                       textStyle={{
-                        fontSize: 18,
+                        fontSize: deviceWidth < 370 ? 16 : 18,
                         fontFamily: "HindRegular",
                         marginLeft: 40,
                       }}
@@ -1290,7 +1348,7 @@ const TeachersMarksheet = () => {
                     </DataTable.Cell>
                     <DataTable.Cell
                       textStyle={{
-                        fontSize: 18,
+                        fontSize: deviceWidth < 370 ? 16 : 18,
                         fontFamily: "HindRegular",
                         marginLeft: 40,
                       }}
@@ -1299,7 +1357,7 @@ const TeachersMarksheet = () => {
                     </DataTable.Cell>
                     <DataTable.Cell
                       textStyle={{
-                        fontSize: 18,
+                        fontSize: deviceWidth < 370 ? 16 : 18,
                         fontFamily: "HindRegular",
                         marginLeft: 50,
                       }}
@@ -1309,7 +1367,7 @@ const TeachersMarksheet = () => {
 
                     <DataTable.Cell
                       textStyle={{
-                        fontSize: 18,
+                        fontSize: deviceWidth < 370 ? 16 : 18,
                         fontFamily: "HindRegular",
                         marginLeft: 100,
                       }}
@@ -1324,7 +1382,7 @@ const TeachersMarksheet = () => {
 
                     <DataTable.Cell
                       textStyle={{
-                        fontSize: 18,
+                        fontSize: deviceWidth < 370 ? 16 : 18,
                         fontFamily: "HindRegular",
                         marginLeft: 10,
                       }}
@@ -1379,14 +1437,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   errorBorderColor: {
-    color: "black",
-    borderBottomWidth: 1,
-    borderColor: "red",
-    padding: 10,
-    margin: 15,
-    paddingVertical: 5,
-    borderRadius: 5,
-    fontSize: 18,
+    borderBottomColor:'red'
   },
   btnSubmit: {
     marginTop: 30,
@@ -1414,7 +1465,7 @@ const styles = StyleSheet.create({
     // padding: 5,
     margin: 7,
     fontFamily: "HindMedium",
-    fontSize: 20,
+    fontSize: deviceWidth < 370 ? 16 : 20,
   },
   tableCell: {
     width: 110,
@@ -1442,5 +1493,8 @@ const styles = StyleSheet.create({
 
     marginTop: 10,
     marginBottom: 20,
+  },
+  focusStyle:{
+    borderBottomColor:'blue'
   },
 });

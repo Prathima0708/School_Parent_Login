@@ -1,51 +1,51 @@
+import { useState } from "react";
 import { Dimensions, StyleSheet } from "react-native";
 import { TextInput, View } from "react-native";
-import  {Input}  from 'native-base';
 
-function InputComponent({
+
+function Input({
   onChangeText,
   placeholder,
   keyboardType,
   value,
   style,
   blur,
+  onFocus,
   onPressIn,
   maxLength,
 }) {
+  const [isActive, setActive] = useState(false);
+  
   return (
     <View>
-      {/* <TextInput
+      <TextInput
         onChangeText={onChangeText}
         style={[styles.inputStyle, { ...style }]}
         placeholder={placeholder}
         keyboardType={keyboardType}
         value={value}
         onBlur={blur}
+        onFocus={onFocus}
         onPressIn={onPressIn}
         maxLength={maxLength}
-      /> */}
-      <Input 
-        variant="underlined"
-        onChangeText={onChangeText}
-        style={[styles.inputStyle, { ...style }]}
-        placeholder={placeholder}
-        keyboardType={keyboardType}
-        value={value}
-        onBlur={blur}
-        onPressIn={onPressIn}
-        maxLength={maxLength} />
+      />
     </View>
   );
 }
 
-export default InputComponent;
+export default Input;
 const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   inputStyle: {
-    margin: 10,
-    paddingVertical: 2,
+    color: "black",
+    borderBottomWidth: 1.5,
+    borderBottomRightRadius: 5,
+    borderBottomLeftRadius: 5,
+    borderBottomColor: "lightgrey",
+    padding: 10,
+    margin: deviceHieght < 600 ? "2%" : "4%",
     fontSize: deviceWidth < 370 ? 16 : 20,
     fontFamily: "HindRegular",
   },

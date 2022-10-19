@@ -1117,7 +1117,13 @@ import { StyleSheet } from "react-native";
 import AccountTypeBtn from "../components/UI/AccountTypeBtn";
 import { Dimensions } from "react-native";
 
-export var Token, UserId, LoginResponse, Teacher, TeacherEmail;
+export var Token,
+  UserId,
+  LoginResponse,
+  Teacher,
+  TeacherEmail,
+  TeacherGroup,
+  ParentGroup;
 function Login() {
   // const [fontsLoaded] = useFonts({
   //   Roboto: require("../assets/fonts/Roboto-Black.ttf"),
@@ -1194,17 +1200,21 @@ function Login() {
       TeacherEmail = resLogin.data.email;
       Token = token;
       UserId = userId;
+      TeacherGroup = resLogin.data.groups[0] == "staff";
+      ParentGroup = resLogin.data.groups[0] == "parents";
+      console.log(TeacherGroup);
+      console.log(ParentGroup);
       // setAuthToken(token);
       // AsyncStorage.setItem("token", token);
       // const tokenValue=AsyncStorage.getItem("token", token);
       // console.log(tokenValue)
       // console.log(resLogin);
-      console.log(resLogin.data);
-      console.log(resLogin.data.groups[0]);
-      console.log(resLogin.data.groups[1]);
+
+      // console.log("group teacher", resLogin.data.groups[0]);
+      // console.log("group parent", resLogin.data.groups[1]);
       try {
-        await AsyncStorage.setItem("datagroupTeacher", resLogin.data.groups[0]);
-        await AsyncStorage.setItem("datagroupParent", resLogin.data.groups[1]);
+        await AsyncStorage.setItem("datagroup", resLogin.data.groups[0]);
+        // await AsyncStorage.setItem("datagroupParent", resLogin.data.groups[1]);
       } catch (error) {
         // Error saving data
       }
