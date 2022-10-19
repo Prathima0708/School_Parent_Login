@@ -84,7 +84,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import IconButton from "../../components/UI/IconButton";
 import ImageSlider from "./ImageSlider";
 export var studentList = [];
-
+export let value;
 function ParentsLoginScreen() {
   const [students, setStudents] = useState([]);
   const route = useRoute();
@@ -112,6 +112,14 @@ function ParentsLoginScreen() {
     }
   }
 
+  useEffect(() => {
+    async function fetchPhone() {
+      value = await AsyncStorage.getItem("Phone");
+      console.log("this is from parents screen", value);
+    }
+    fetchPhone();
+  }, []);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
@@ -129,20 +137,27 @@ function ParentsLoginScreen() {
 
   useEffect(() => {
     async function login() {
+      console.log(route.params.phone);
       try {
         const ph = route.params.phone.toString();
+        console.log(ph);
         const res = await axios.get("http://10.0.2.2:8000/school/Student/");
         //  console.log(res.data);
         let filteredlist = res.data.filter(
           (ele) => ele.contact_num == route.params.phone
         );
         setStudents(filteredlist);
-
+        // if (route.params.phone == null) {
+        //   setStudents("");
+        // }
         console.log(filteredlist);
         studentList = filteredlist;
         if (filteredlist.length == 0) {
           Alert.alert("Invalid Input", "Please enter a valid phone number");
           navigation.navigate("Login");
+          // return;
+        } else {
+          console.log("else part");
         }
         // else {
         //   navigation.navigate("ParentsLogin");

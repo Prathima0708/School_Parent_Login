@@ -94,6 +94,8 @@ const TeachersCalendarScreenBuild = () => {
 
   const [showInitialBtn, setShowInitialBtn] = useState(true);
 
+  const [isActive, setActive] = useState(false);
+
   let i = 0;
 
   // async function logoutHandler() {

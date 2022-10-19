@@ -493,7 +493,7 @@ const LeaveScreen = () => {
         </BgButton>
       </View>
       {showList && (
-        <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
+        <View style={styles.root}>
           <View style={{ flex: 8, bottom: 10 }}>
             <ScrollView>
               {data &&
@@ -526,7 +526,7 @@ const LeaveScreen = () => {
                                 ]}
                               >
                                 Leave type:{" "}
-                                <Text style={[styles.dateStyle]}>
+                                <Text style={styles.dateStyle}>
                                   {data.leave_type}
                                 </Text>
                               </Text>
@@ -604,16 +604,7 @@ const LeaveScreen = () => {
               style={leavetypeInputIsInValid && styles.errorBorderColor}
             />
             {leavetypeInputIsInValid && (
-              <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: 18,
-                }}
-              >
-                Enter leave type
-              </Text>
+              <Text style={styles.errStyle}>Enter leave type</Text>
             )}
             <View style={[{ flexDirection: "row" }]}>
               <View style={{ flex: 1 }}>
@@ -649,16 +640,7 @@ const LeaveScreen = () => {
                   onPressIn={() => showFromMode("date")}
                 />
                 {fromDateInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      left: 20,
-                      fontFamily: "HindRegular",
-                      fontSize: 18,
-                    }}
-                  >
-                    Enter leave from
-                  </Text>
+                  <Text style={styles.errStyle}>Enter leave from</Text>
                 )}
               </View>
               <View style={styles.space} />
@@ -685,16 +667,7 @@ const LeaveScreen = () => {
                   onPressIn={() => showToMode("date")}
                 />
                 {toDateInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      left: 20,
-                      fontFamily: "HindRegular",
-                      fontSize: 18,
-                    }}
-                  >
-                    Enter leave to
-                  </Text>
+                  <Text style={styles.errStyle}>Enter leave to</Text>
                 )}
                 {toShow && (
                   <DateTimePicker
@@ -718,16 +691,7 @@ const LeaveScreen = () => {
               style={leavereasonInputIsInValid && styles.errorBorderColor}
             />
             {leavereasonInputIsInValid && (
-              <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: 18,
-                }}
-              >
-                Enter leave reason
-              </Text>
+              <Text style={styles.errStyle}>Enter leave reason</Text>
             )}
             {!isEdit && (
               <View style={styles.btnSubmit}>
@@ -756,6 +720,16 @@ const styles = StyleSheet.create({
     width: "48%",
     left: "2%",
     top: "1%",
+  },
+  root: {
+    flex: 1,
+    flexDirection: "column",
+  },
+  errStyle: {
+    color: "red",
+    left: 20,
+    fontFamily: "HindRegular",
+    fontSize: 18,
   },
   container: {
     padding: 10,

@@ -71,10 +71,10 @@ const ReportCard = () => {
 
   return (
     <>
-      <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
-        <View style={{ flex: 1 }}>
+      <View style={styles.root}>
+        <View style={styles.flex}>
           <View style={[styles.studInfo, styles.studInfoTopLeftStyle1]}>
-            <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
+            <View style={styles.flexrow}>
               <View style={{ flex: 0.5 }}>
                 <Text
                   style={[
@@ -83,7 +83,7 @@ const ReportCard = () => {
                     { justifyContent: "center", alignItems: "center" },
                   ]}
                 >
-                  Name : <Text style={[styles.textInfo]}>{StudentName}</Text>
+                  Name : <Text style={styles.textInfo}>{StudentName}</Text>
                 </Text>
               </View>
               <View style={styles.space} />
@@ -95,8 +95,8 @@ const ReportCard = () => {
             </View>
           </View>
           <View style={[styles.studInfo, styles.studInfoTopLeftStyle2]}>
-            <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
-              <View style={{ flex: 1 }}>
+            <View style={styles.root}>
+              <View style={styles.flex}>
                 <Text style={[styles.description, styles.bottomLine]}>
                   RegNo: <Text style={styles.textInfo}>{StudentRegNo}</Text>
                 </Text>
@@ -115,16 +115,13 @@ const ReportCard = () => {
           {data &&
             data.map((data, key) => (
               <>
-                <View
-                  style={[{ flex: 1 }, { flexDirection: "column" }]}
-                  key={key}
-                >
+                <View style={styles.root} key={key}>
                   <View style={{ flex: 8, bottom: 25 }}>
                     <ScrollView>
                       <View
                         style={[styles.container, { flexDirection: "column" }]}
                       >
-                        <View style={{ flex: 1 }}>
+                        <View style={styles.flex}>
                           <View
                             style={[
                               { flex: 0.2 },
@@ -135,48 +132,28 @@ const ReportCard = () => {
                               },
                             ]}
                           >
-                            <View
-                              style={[
-                                styles.tableHead,
-                                { backgroundColor: "#00B8AC" },
-                              ]}
-                            >
+                            <View style={styles.tableHead}>
                               <Text
                                 style={[styles.headingFont, { color: "white" }]}
                               >
                                 Subjects
                               </Text>
                             </View>
-                            <View
-                              style={[
-                                styles.tableHead,
-                                { backgroundColor: "#00B8AC" },
-                              ]}
-                            >
+                            <View style={styles.tableHead}>
                               <Text
                                 style={[styles.headingFont, { color: "white" }]}
                               >
                                 Max Marks
                               </Text>
                             </View>
-                            <View
-                              style={[
-                                styles.tableHead,
-                                { backgroundColor: "#00B8AC" },
-                              ]}
-                            >
+                            <View style={styles.tableHead}>
                               <Text
                                 style={[styles.headingFont, { color: "white" }]}
                               >
                                 Min Marks
                               </Text>
                             </View>
-                            <View
-                              style={[
-                                styles.tableHead,
-                                { backgroundColor: "#00B8AC" },
-                              ]}
-                            >
+                            <View style={styles.tableHead}>
                               <Text
                                 style={[styles.headingFont, { color: "white" }]}
                               >
@@ -184,10 +161,8 @@ const ReportCard = () => {
                               </Text>
                             </View>
                           </View>
-                          <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
-                            <View
-                              style={[{ flex: 1 }, { flexDirection: "column" }]}
-                            >
+                          <View style={styles.flexrow}>
+                            <View style={styles.root}>
                               <View style={[styles.colStyle]}>
                                 <Text style={styles.headingFont}>Maths</Text>
                               </View>
@@ -216,9 +191,7 @@ const ReportCard = () => {
                                   <Text style={styles.headingFont}>Percentage</Text>
                                 </View> */}
                             </View>
-                            <View
-                              style={[{ flex: 1 }, { flexDirection: "column" }]}
-                            >
+                            <View style={styles.root}>
                               <View style={styles.colStyle}>
                                 <Text>{data.maths_max_marks}</Text>
                               </View>
@@ -256,9 +229,7 @@ const ReportCard = () => {
                                   </Text>
                                 </View> */}
                             </View>
-                            <View
-                              style={[{ flex: 1 }, { flexDirection: "column" }]}
-                            >
+                            <View style={styles.root}>
                               <View style={styles.colStyle}>
                                 <Text>{data.maths_min_mark}</Text>
                               </View>
@@ -292,9 +263,7 @@ const ReportCard = () => {
                                 </Text>
                               </View>
                             </View>
-                            <View
-                              style={[{ flex: 1 }, { flexDirection: "column" }]}
-                            >
+                            <View style={styles.root}>
                               <View style={[styles.colStyle]}>
                                 <Text style={isFail && styles.textColor}>
                                   {data.maths_obt_mark}
@@ -409,7 +378,17 @@ const deviceWidth = Dimensions.get("window").width;
 const deviceHieght = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
-  //new one
+  root: {
+    flex: 1,
+    flexDirection: "column",
+  },
+  flexrow: {
+    flex: 1,
+    flexDirection: "row",
+  },
+  flex: {
+    flex: 1,
+  },
   container: {
     padding: 10,
   },
@@ -418,6 +397,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#00B8AC",
   },
   studInfo: {
     flex: 1,
