@@ -181,16 +181,7 @@ const CalenderScreen = () => {
     <>
       <Calendar
         markedDates={dates}
-        style={{
-          elevation: 5,
-          shadowColor: "black",
-          borderBottomLeftRadius: 20,
-          borderBottomRightRadius: 20,
-          shadowOpacity: 0.75,
-          shadowOffset: { width: 0, height: 2 },
-          shadowRadius: 8,
-          overflow: Platform.OS === "android" ? "hidden" : "visible",
-        }}
+        style={styles.calenderStyle}
         // markingType={'period'}
         onDayPress={(day) => {
           showEvent(day);
@@ -206,7 +197,7 @@ const CalenderScreen = () => {
           filteredDataVar.map((data, key) => (
             <>
               <View style={styles.space} />
-              <Card style={styles.cardStyle} key={data.id}>
+              <Card style={styles.cardStyle} key={key}>
                 <Card.Content>
                   <View style={styles.cardView}>
                     {/* <View style={{flex:1}}>
@@ -263,6 +254,16 @@ const styles = StyleSheet.create({
     elevation: 5,
     shadowColor: "black",
 
+    shadowOpacity: 0.75,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    overflow: Platform.OS === "android" ? "hidden" : "visible",
+  },
+  calenderStyle: {
+    elevation: 5,
+    shadowColor: "black",
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
     shadowOpacity: 0.75,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,

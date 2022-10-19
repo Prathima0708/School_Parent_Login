@@ -1202,16 +1202,9 @@ function Login() {
       UserId = userId;
       TeacherGroup = resLogin.data.groups[0] == "staff";
       ParentGroup = resLogin.data.groups[0] == "parents";
-      console.log(TeacherGroup);
-      console.log(ParentGroup);
-      // setAuthToken(token);
-      // AsyncStorage.setItem("token", token);
-      // const tokenValue=AsyncStorage.getItem("token", token);
-      // console.log(tokenValue)
-      // console.log(resLogin);
+      // console.log("teacher group is :", TeacherGroup);
+      // console.log("parent group is :", ParentGroup);
 
-      // console.log("group teacher", resLogin.data.groups[0]);
-      // console.log("group parent", resLogin.data.groups[1]);
       try {
         await AsyncStorage.setItem("datagroup", resLogin.data.groups[0]);
         // await AsyncStorage.setItem("datagroupParent", resLogin.data.groups[1]);
@@ -1275,6 +1268,28 @@ function Login() {
         console.log("this is the userid:" + value);
       }
     });
+
+    // AsyncStorage.setItem("Phone", enteredPhone);
+    // //  console.log(Group);
+
+    // let Phone = AsyncStorage.getItem("Phone");
+    // console.log(Phone);
+
+    try {
+      await AsyncStorage.setItem("Phone", enteredPhone);
+    } catch (error) {
+      // Error saving data
+    }
+
+    // try {
+    //   const value = await AsyncStorage.getItem("Phone");
+
+    //   if (value !== null) {
+    //     console.log("This is the Phone of login page:" + value);
+    //   }
+    // } catch (error) {
+    //   // Error retrieving data
+    // }
   }
   function toggleParents() {
     setShow(true);
@@ -1431,8 +1446,8 @@ function Login() {
 export default Login;
 const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
-console.log("hieght" + deviceHieght);
-console.log("width" + deviceWidth);
+// console.log("hieght" + deviceHieght);
+// console.log("width" + deviceWidth);
 const styles = StyleSheet.create({
   upperPartView: {
     flex: 2,

@@ -76,42 +76,15 @@ const ParentsProfile = () => {
       <View style={styles.userInfoSection}>
         <View style={styles.row}>
           <Ionicons name="location-sharp" size={20} color="black" />
-          <Text
-            style={{
-              color: "#777777",
-              marginLeft: 20,
-              fontFamily: "HindRegular",
-              fontSize: 18,
-            }}
-          >
-            Kolkata, India
-          </Text>
+          <Text style={styles.headingStyle}>Kolkata, India</Text>
         </View>
         <View style={styles.row}>
           <Ionicons name="call-sharp" size={20} color="black" />
-          <Text
-            style={{
-              color: "#777777",
-              marginLeft: 20,
-              fontFamily: "HindRegular",
-              fontSize: 18,
-            }}
-          >
-            +91-900000009
-          </Text>
+          <Text style={styles.headingStyle}>+91-900000009</Text>
         </View>
         <View style={styles.row}>
           <Ionicons name="mail-sharp" size={20} color="black" />
-          <Text
-            style={{
-              color: "#777777",
-              marginLeft: 20,
-              fontFamily: "HindRegular",
-              fontSize: 18,
-            }}
-          >
-            {TeacherEmail}
-          </Text>
+          <Text style={styles.headingStyle}>{TeacherEmail}</Text>
         </View>
       </View>
 
@@ -175,6 +148,12 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: "HindRegular",
     backgroundColor: "white",
+  },
+  headingStyle: {
+    color: "#777777",
+    marginLeft: 20,
+    fontFamily: "HindRegular",
+    fontSize: 18,
   },
   userInfoSection: {
     paddingHorizontal: 30,
