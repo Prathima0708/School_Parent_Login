@@ -5,7 +5,9 @@ import {
   Text,
   ScrollView,
   Keyboard,
+  Dimensions,
 } from "react-native";
+import { Button as NativeButton, Icon} from "native-base";
 import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../../../components/UI/Button";
@@ -32,6 +34,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
 export var ID;
 const TeacherHomeworkScreenBuild = () => {
+
+  const [isClassFocused,setIsClassFocused]=useState(false);
+  const [isSubjectFocused,setIsSubjectFocused]=useState(false);
+  const [isFromDateFocused,setIsFromDateFocused]=useState(false);
+  const [isToDateFocused,setIsToDateFocused]=useState(false);
+  const [isTRemarkFocused,setIsTRemarkFocused]=useState(false);
+  const [isHomeworkFocused,setIsHomeworkFocused]=useState(false);
+
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
   const [forHomeworkList, setForHomeworkList] = useState({
@@ -98,6 +108,8 @@ const TeacherHomeworkScreenBuild = () => {
 
   const [image, setImage] = useState("");
   const [enteredImageTouched, setEnteredImageTouched] = useState(false);
+  const enteredImageIsValid = toText.trim() !== "";
+  const ImageInputIsInValid = !enteredImageIsValid && enteredImageTouched;
 
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -206,7 +218,7 @@ const TeacherHomeworkScreenBuild = () => {
       setImage(result.uri);
     }
   };
-  let imagePreView = <Text>No image taken yet.</Text>;
+  let imagePreView;
 
   if (image) {
     imagePreView = <Image style={styles.image} source={{ uri: image }} />;
@@ -508,7 +520,7 @@ const TeacherHomeworkScreenBuild = () => {
     setEnteredtoDateTouched(true);
     setEnteredRemarkTouched(true);
     setEnteredHomeWorkTouched(true);
-    // setEnteredImageTouched(true);
+    setEnteredImageTouched(true);
 
     if (!enteredSelcetdIsValid) {
       return;
@@ -533,9 +545,9 @@ const TeacherHomeworkScreenBuild = () => {
       return;
     }
 
-    // if (!enteredImageIsValid) {
-    //   return;
-    // }
+    if (!enteredImageIsValid) {
+      return;
+    }
     else {
       let selectedData = selected.split(" - ");
       let class_name = selectedData[0];
@@ -611,20 +623,52 @@ const TeacherHomeworkScreenBuild = () => {
 
   function subjectInputBlur() {
     setEnteredSubjectTouched(true);
+    setIsSubjectFocused(false);
   }
-  function dateFromHandler() {
-    setEnteredFromDateTouched(true);
-  }
-  function dateToHandler() {
-    setEnteredtoDateTouched(true);
-  }
-  function remarkBlurHandler() {
-    setEnteredRemarkTouched(true);
-  }
-  function homeworkBlurHandler() {
-    setEnteredHomeWorkTouched(true);
+  function onSubjectFocusHandler(){
+    setIsSubjectFocused(true);
+    setEnteredSubjectTouched(false);
   }
 
+  function dateFromHandler() {
+    setEnteredFromDateTouched(true);
+    setIsFromDateFocused(false);
+  }
+  function onFocusFromHandler(){
+    setIsFromDateFocused(true);
+    setEnteredFromDateTouched(false);
+  }
+
+  function dateToHandler() {
+    setEnteredtoDateTouched(true);
+    setIsToDateFocused(false);
+  }
+  function onFocusToHandler(){
+    setEnteredtoDateTouched(false);
+    setIsToDateFocused(true);
+  }
+
+  function remarkBlurHandler() {
+    setEnteredRemarkTouched(true);
+    setIsTRemarkFocused(false);
+  }
+  function onFocusRemarkHandler(){
+    setEnteredRemarkTouched(false);
+    setIsTRemarkFocused(true);
+  }
+
+  function homeworkBlurHandler() {
+    setEnteredHomeWorkTouched(true);
+    setIsHomeworkFocused(false);
+  }
+  function onFocusHomeworkHandler(){
+    setEnteredHomeWorkTouched(false);
+    setIsHomeworkFocused(true);
+  }
+
+  function uploadImageBlurHandler() {
+    setEnteredImageTouched(true);
+  }
   function showHomeworkForm() {
     setEnteredSubject("");
     setFromText("");
@@ -808,12 +852,15 @@ const TeacherHomeworkScreenBuild = () => {
                   placeholder="Select class"
                   boxStyles={selectInputIsInValid && styles.errorSelectedColor}
                   // boxStyles={{ borderRadius: 0 }}
-                  dropdownTextStyles={{
-                    fontSize: 18,
-                    fontFamily: "HindRegular",
-                  }}
-                  inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                  dropdownTextStyles={styles.dropText}
+                  inputStyles={styles.dropText}
                 />
+                {selectInputIsInValid && (
+                <Text
+                  style={[styles.errorText,{top:5}]}>
+                  Enter class
+                </Text>
+                )}
               </View>
             )}
             <Input
@@ -822,17 +869,12 @@ const TeacherHomeworkScreenBuild = () => {
               placeholder="Subject"
               onSubmitEditing={Keyboard.dismiss}
               blur={subjectInputBlur}
-              style={subjectInputIsInValid && styles.errorBorderColor}
+              onFocus={onSubjectFocusHandler}
+              style={isSubjectFocused ? styles.focusStyle : subjectInputIsInValid && styles.errorBorderColor}
             />
             {subjectInputIsInValid && (
               <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: 18,
-                }}
-              >
+                style={styles.errorText}>
                 Enter subject
               </Text>
             )}
@@ -859,20 +901,15 @@ const TeacherHomeworkScreenBuild = () => {
                   // }
                   placeholder="DD/MM/YYYY"
                   onSubmitEditing={Keyboard.dismiss}
-                  style={fromDateInputIsInValid && styles.errorBorderColor}
+                  style={isFromDateFocused ? styles.focusStyle : fromDateInputIsInValid && styles.errorBorderColor}
                   blur={dateFromHandler}
+                  onFocus={onFocusFromHandler}
                   onChangeText={frmDateHandler}
                   onPressIn={() => showFromMode("date")}
                 />
                 {fromDateInputIsInValid && (
                   <Text
-                    style={{
-                      color: "red",
-                      left: 20,
-                      fontFamily: "HindRegular",
-                      fontSize: 18,
-                    }}
-                  >
+                    style={styles.errorText}>
                     Enter from date
                   </Text>
                 )}
@@ -908,20 +945,15 @@ const TeacherHomeworkScreenBuild = () => {
                   //   moment(toDate).format("DD/MM/YYYY")
                   // }
                   placeholder="DD/MM/YYYY"
-                  style={toDateInputIsInValid && styles.errorBorderColor}
+                  style={isToDateFocused ? styles.focusStyle : toDateInputIsInValid && styles.errorBorderColor}
                   blur={dateToHandler}
+                  onFocus={onFocusToHandler}
                   onChangeText={toDateHandler}
                   onPressIn={() => showToMode("date")}
                 />
                 {toDateInputIsInValid && (
                   <Text
-                    style={{
-                      color: "red",
-                      left: 20,
-                      fontFamily: "HindRegular",
-                      fontSize: 18,
-                    }}
-                  >
+                    style={styles.errorText}>
                     Enter to date
                   </Text>
                 )}
@@ -941,20 +973,15 @@ const TeacherHomeworkScreenBuild = () => {
             <Input
               onChangeText={remarkChangeHandler}
               blur={remarkBlurHandler}
+              onFocus={onFocusRemarkHandler}
               value={remark}
               placeholder="Remark"
               onSubmitEditing={Keyboard.dismiss}
-              style={remarkInputIsInValid && styles.errorBorderColor}
+              style={isTRemarkFocused ? styles.focusStyle : remarkInputIsInValid && styles.errorBorderColor}
             />
             {remarkInputIsInValid && (
               <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: 18,
-                }}
-              >
+                style={styles.errorText}>
                 Enter remark
               </Text>
             )}
@@ -964,27 +991,38 @@ const TeacherHomeworkScreenBuild = () => {
               placeholder="Homework"
               onSubmitEditing={Keyboard.dismiss}
               blur={homeworkBlurHandler}
-              style={homeworkInputIsInValid && styles.errorBorderColor}
+              onFocus={onFocusHomeworkHandler}
+              style={isHomeworkFocused ? styles.focusStyle : homeworkInputIsInValid && styles.errorBorderColor}
             />
             {homeworkInputIsInValid && (
               <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: 18,
-                }}
-              >
+                style={styles.errorText}>
                 Enter homework
               </Text>
             )}
-
-            <Text style={styles.labels}>Upload Image</Text>
+            <View style={{flexDirection:'row'}}>
+              <View
+                style={styles.uploadImgBtn}>
+                <NativeButton 
+                  onPress={PickImage} 
+                  leftIcon={
+                    <Icon as={Ionicons} 
+                      name="cloud-upload-outline" 
+                      size="md" 
+                    />}
+                  >Upload Image
+                </NativeButton>
+                {!image && 
+                  <Text style={ImageInputIsInValid ? styles.imageError : styles.previewText}>No image taken yet</Text>
+                }
+                {/* <Btn title="Upload Image" onPress={PickImage} /> */}
+              </View>
+            </View>
             <View
               // style={
               //   imageInputIsInValid ? styles.imageError : styles.imagePreView
               // }
-              style={styles.imagePreView}
+              style={image ? styles.imagePreView : styles.noImage}
             >
               {imagePreView}
             </View>
@@ -1000,17 +1038,7 @@ const TeacherHomeworkScreenBuild = () => {
                 Please upload or take homework image
               </Text>
             )} */}
-            <View
-              style={{
-                marginTop: 13,
-                backgroundColor: "red",
-                width: "50%",
-                fontFamily: "HindRegular",
-                fontSize: 18,
-              }}
-            >
-              <Btn title="Upload Image" onPress={PickImage} />
-            </View>
+            
             {!isEdit && (
               <View style={styles.btnSubmit}>
                 <Button onPress={buttonPressedHandler}>Add Homework</Button>
@@ -1167,6 +1195,9 @@ const TeacherHomeworkScreenBuild = () => {
 
 export default TeacherHomeworkScreenBuild;
 
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
@@ -1200,14 +1231,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   errorBorderColor: {
-    color: "black",
-    borderBottomWidth: 1,
-    borderColor: "red",
-    padding: 10,
-    margin: 15,
-    paddingVertical: 5,
-    borderRadius: 5,
-    fontSize: 18,
+    borderBottomColor:'red'
   },
   errorSelectedColor: {
     borderColor: "red",
@@ -1215,9 +1239,9 @@ const styles = StyleSheet.create({
   labels: {
     margin: 5,
     fontFamily: "Ubuntu",
-    fontSize: 18,
-    flex: 1,
-
+    fontSize: deviceWidth < 370 ? 16 : 18,
+    flex: 0.7,
+    top:10
     // marginTop: 17,
   },
 
@@ -1227,9 +1251,9 @@ const styles = StyleSheet.create({
   },
   btnSubmit: {
     width: "70%",
-    marginTop: 27,
+    marginTop: deviceWidth < 370 ? '3%' : '1%',
     marginBottom: 59,
-    marginLeft: 130,
+    marginLeft: deviceWidth < 370 ? '35%' : '35%',
   },
   imagePreView: {
     width: "100%",
@@ -1240,16 +1264,15 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: "lightblue",
   },
+  noImage:{
+    //
+  },
   imageError: {
-    borderWidth: 1,
-    width: "100%",
-    height: 200,
-    marginVertical: 8,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 8,
-    borderColor: "red",
-    backgroundColor: "lightblue",
+    color:'red',
+    position:'absolute',
+    left:deviceWidth < 370 ? '120%' : '130%',
+    top:'50%',
+    fontSize:deviceWidth < 370 ? 14 : 16,
   },
   image: {
     width: "100%",
@@ -1295,5 +1318,32 @@ const styles = StyleSheet.create({
   searchBar: {
     marginTop: 10,
     marginBottom: 10,
+  },
+  dropText:{
+    fontSize: deviceWidth < 370 ? 16 : 18,
+    fontFamily: "HindRegular"
+  },
+  errorText:{
+    color: "red",
+    left: 20,
+    fontFamily: "HindRegular",
+    fontSize:deviceWidth < 370 ? 15 : 16,
+  },
+  uploadImgBtn:{
+    marginTop: 13,
+    width:deviceWidth < 370 ? '50%' : '40%',
+    padding:10,
+    fontFamily: "HindRegular",
+    fontSize: 18,
+    flexDirection:'row'
+  },
+  previewText:{
+    position:'absolute',
+    left:deviceWidth < 370 ? '120%' : '130%',
+    top:'50%',
+    fontSize:deviceWidth < 370 ? 14 : 16,
+  },
+  focusStyle:{
+    borderBottomColor:'blue'
   },
 });
