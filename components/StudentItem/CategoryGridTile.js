@@ -35,9 +35,11 @@ const styles = StyleSheet.create({
     padding: 7,
     //paddingTop: 0,
 
-    width: 150,
+    width: deviceWidth < 370 ? 130 : 150,
     right:deviceWidth > 360 ? 1 : 20,
-    height: deviceHieght < 600 ? 110 : 130,
+    height: deviceWidth < 370 ? 90 : 110,
+    marginRight:deviceWidth < 370 ? 5 : 5,
+    marginLeft:deviceWidth < 370 ? 22 : 5,
     borderRadius: 18,
     elevation: 5,
     shadowColor: "black",
@@ -48,10 +50,10 @@ const styles = StyleSheet.create({
     overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
   icon: {
-    width: 60,
-    height: 60,
+    width: deviceWidth < 370 ? 40 : 50,
+    height: deviceWidth < 370 ? 40 : 50,
     borderWidth: 3,
-    top: 15,
+    top: deviceWidth < 370 ? 10 : 15,
     left: 10,
   },
   sub: {
@@ -71,7 +73,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    top: 17,
+    top: deviceWidth < 370 ? 15 : 17,
 
     left: 10,
     fontFamily: "HindMedium",
