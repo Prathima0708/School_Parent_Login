@@ -55,10 +55,16 @@ const HomeworkScreen = () => {
                       <View>
                         <View style={styles.bio}>
                           <Text style={styles.homewrk}>
-                            Remark : {item.homework}
+                            <Text style={{ fontFamily: "HindSemiBold" }}>
+                              Remark :
+                            </Text>{" "}
+                            {item.homework}
                           </Text>
                           <Text style={styles.homewrk}>
-                            Subject: {item.subject}
+                            <Text style={{ fontFamily: "HindSemiBold" }}>
+                              Subject :
+                            </Text>{" "}
+                            {item.subject}
                           </Text>
                         </View>
 
@@ -160,8 +166,10 @@ const styles = StyleSheet.create({
     width: 200,
   },
   homewrk: {
+    fontFamily: "HindRegular",
+
     padding: 5,
-    color: "white",
+    color: "black",
     fontSize: deviceWidth < 370 ? 16 : 20,
   },
   main: {
@@ -182,7 +190,7 @@ const styles = StyleSheet.create({
     //flexDirection: "row",
     // alignItems: "center",
     //  justifyContent: "space-between",
-    backgroundColor: "lightblack",
+    backgroundColor: "grey",
     //  paddingVertical: 10,
   },
   root: {
@@ -191,7 +199,8 @@ const styles = StyleSheet.create({
   },
   remark: {
     fontSize: deviceWidth < 370 ? 16 : 20,
-    color: "black",
+    fontFamily: "HindRegular",
+    marginTop: 10,
   },
 });
 

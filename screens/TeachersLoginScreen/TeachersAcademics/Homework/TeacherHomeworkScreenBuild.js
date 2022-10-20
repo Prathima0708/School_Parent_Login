@@ -102,8 +102,8 @@ const TeacherHomeworkScreenBuild = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState("");
 
-  // const enteredImageIsValid = image.trim() !== "";
-  // const imageInputIsInValid = !enteredImageIsValid && enteredImageTouched;
+  const enteredImageIsValid = image.trim() !== "";
+  const imageInputIsInValid = !enteredImageIsValid && enteredImageTouched;
 
   const [pickedImage, setPickedImage] = useState();
   const [cameraPermissionInformation, requestPermission] =
@@ -981,14 +981,14 @@ const TeacherHomeworkScreenBuild = () => {
 
             <Text style={styles.labels}>Upload Image</Text>
             <View
-              // style={
-              //   imageInputIsInValid ? styles.imageError : styles.imagePreView
-              // }
-              style={styles.imagePreView}
+              style={
+                imageInputIsInValid ? styles.imageError : styles.imagePreView
+              }
+              // style={styles.imagePreView}
             >
               {imagePreView}
             </View>
-            {/* {imageInputIsInValid && (
+            {imageInputIsInValid && (
               <Text
                 style={{
                   color: "red",
@@ -999,7 +999,7 @@ const TeacherHomeworkScreenBuild = () => {
               >
                 Please upload or take homework image
               </Text>
-            )} */}
+            )}
             <View
               style={{
                 marginTop: 13,

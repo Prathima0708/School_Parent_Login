@@ -31,10 +31,10 @@ const TeachersCalendarScreenBuild = () => {
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
 
-  const [isTitleFocused,setIsTitleFocused]=useState(false);
-  const [isDescFocused,setIsDescFocused]=useState(false);
-  const [isFromDateFocused,setIsFromDateFocused]=useState(false);
-  const [isToDateFocused,setIsToDateFocused]=useState(false);
+  const [isTitleFocused, setIsTitleFocused] = useState(false);
+  const [isDescFocused, setIsDescFocused] = useState(false);
+  const [isFromDateFocused, setIsFromDateFocused] = useState(false);
+  const [isToDateFocused, setIsToDateFocused] = useState(false);
 
   const [forCalendarList, setForCalendarList] = useState({
     backgroundColor: "#0C60F4",
@@ -450,9 +450,9 @@ const TeachersCalendarScreenBuild = () => {
   }
   function titleBlurHandler() {
     setEnteredTitleTouched(true);
-    setIsTitleFocused(false)
+    setIsTitleFocused(false);
   }
-  function onFocusTitleHandler(){
+  function onFocusTitleHandler() {
     setIsTitleFocused(true);
     setEnteredTitleTouched(false);
   }
@@ -461,7 +461,7 @@ const TeachersCalendarScreenBuild = () => {
     setEnteredDescriptionTouched(true);
     setIsDescFocused(false);
   }
-  function onFocusDescHandler(){
+  function onFocusDescHandler() {
     setIsDescFocused(true);
     setEnteredDescriptionTouched(false);
   }
@@ -472,7 +472,7 @@ const TeachersCalendarScreenBuild = () => {
     setEnteredFromDateTouched(true);
     setIsFromDateFocused(false);
   }
-  function onFocusFromHandler(){
+  function onFocusFromHandler() {
     setIsFromDateFocused(true);
     setEnteredFromDateTouched(false);
   }
@@ -481,7 +481,7 @@ const TeachersCalendarScreenBuild = () => {
     setEnteredtoDateTouched(true);
     setIsToDateFocused(false);
   }
-  function onFocusToHandler(){
+  function onFocusToHandler() {
     setIsToDateFocused(true);
     setEnteredtoDateTouched(false);
   }
@@ -656,7 +656,11 @@ const TeachersCalendarScreenBuild = () => {
               onFocus={onFocusTitleHandler}
               value={title}
               onSubmitEditing={Keyboard.dismiss}
-              style={isTitleFocused ? styles.focusStyle : titleInputIsInValid && styles.errorBorderColor}
+              style={
+                isTitleFocused
+                  ? styles.focusStyle
+                  : titleInputIsInValid && styles.errorBorderColor
+              }
             />
             {titleInputIsInValid && (
               <Text
@@ -665,7 +669,7 @@ const TeachersCalendarScreenBuild = () => {
                   left: 20,
                   fontFamily: "HindRegular",
                   fontSize: deviceWidth < 370 ? 16 : 18,
-                  top:5
+                  top: 5,
                 }}
               >
                 Enter the title
@@ -678,7 +682,11 @@ const TeachersCalendarScreenBuild = () => {
               onFocus={onFocusDescHandler}
               value={description}
               onSubmitEditing={Keyboard.dismiss}
-              style={isDescFocused ? styles.focusStyle : descriptionInputIsInValid && styles.errorBorderColor}
+              style={
+                isDescFocused
+                  ? styles.focusStyle
+                  : descriptionInputIsInValid && styles.errorBorderColor
+              }
             />
             {descriptionInputIsInValid && (
               <Text
@@ -687,7 +695,7 @@ const TeachersCalendarScreenBuild = () => {
                   left: 20,
                   fontFamily: "HindRegular",
                   fontSize: deviceWidth < 370 ? 16 : 18,
-                  top:5
+                  top: 5,
                 }}
               >
                 Enter description
@@ -727,7 +735,11 @@ const TeachersCalendarScreenBuild = () => {
                   // }
                   placeholder="   Start date"
                   onSubmitEditing={Keyboard.dismiss}
-                  style={isFromDateFocused ? styles.focusStyle : fromDateInputIsInValid && styles.errorBorderColor}
+                  style={
+                    isFromDateFocused
+                      ? styles.focusStyle
+                      : fromDateInputIsInValid && styles.errorBorderColor
+                  }
                   blur={fromDateBlurHandler}
                   onFocus={onFocusFromHandler}
                   onChangeText={frmDateHandler}
@@ -779,7 +791,11 @@ const TeachersCalendarScreenBuild = () => {
                   // }
                   placeholder="   End date"
                   onSubmitEditing={Keyboard.dismiss}
-                  style={isToDateFocused ? styles.focusStyle : toDateInputIsInValid && styles.errorBorderColor}
+                  style={
+                    isToDateFocused
+                      ? styles.focusStyle
+                      : toDateInputIsInValid && styles.errorBorderColor
+                  }
                   blur={toDateBlurHandler}
                   onFocus={onFocusToHandler}
                   onChangeText={toDateHandler}
@@ -915,7 +931,11 @@ const TeachersCalendarScreenBuild = () => {
                                   </Text>
                                 </View>
                                 <View
-                                  style={{ flex: 2, left: deviceWidth < 370 ? 100 : 110, bottom: -50 }}
+                                  style={{
+                                    flex: 2,
+                                    left: deviceWidth < 370 ? 100 : 110,
+                                    bottom: -50,
+                                  }}
                                 >
                                   <Ionicons
                                     name="md-pencil-sharp"
@@ -946,7 +966,13 @@ const TeachersCalendarScreenBuild = () => {
                                     Description:
                                   </Text>
                                 </View>
-                                <View style={{ flex: 2, left: deviceWidth < 370 ? -20 : -40, top: 5 }}>
+                                <View
+                                  style={{
+                                    flex: 2,
+                                    left: deviceWidth < 370 ? -20 : -40,
+                                    top: 5,
+                                  }}
+                                >
                                   <Text
                                     style={{
                                       fontSize: 16,
@@ -1072,8 +1098,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     left: 35,
   },
-  focusStyle:{
-    borderBottomColor:'blue'
+  focusStyle: {
+    borderBottomColor: "blue",
   },
-
 });
