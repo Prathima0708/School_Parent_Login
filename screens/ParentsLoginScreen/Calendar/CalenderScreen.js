@@ -158,6 +158,7 @@ const CalenderScreen = () => {
     const filteredData = calendarData.filter(
       (data) => moment(data.startdate).format("YYYY-MM-DD") == day.dateString
     );
+    console.log(filteredData);
     if (filteredData) {
       setDataIsPresent(true);
       filteredDataVar = filteredData;

@@ -33,6 +33,17 @@ export var CLASSNAME,
   idTimeTab = [];
 export var TimeTabID;
 const TeachersTimetable = () => {
+
+  const [isCreateDateFocused,setIsCreateDateFocused]=useState(false);
+  const [isFromFocused,setIsFromFocused]=useState(false);
+  const [isToFocused,setIsToFocused]=useState(false);
+  const [isMondayFocused,setIsMondayFocused]=useState(false);
+  const [isTuesdayFocused,setIsTuesdayFocused]=useState(false);
+  const [isWednesdayFocused,setIsWednesdayFocused]=useState(false);
+  const [isThurdayFocused,setIsThursdayFocused]=useState(false);
+  const [isFridayFocused,setIsFridayFocused]=useState(false);
+  const [isSaturdayFocused,setIsSaturdayFocused]=useState(false);
+
   const [showForm, setShowForm] = useState(false);
   const [showExamList, setShowExamList] = useState(false);
   const [year, setYear] = useState("");
@@ -792,30 +803,83 @@ const TeachersTimetable = () => {
 
   function dateTextBlur() {
     setEnteredDateTextTouched(true);
+    setIsCreateDateFocused(false);
   }
+  function onCreateFocusHandler(){
+    setIsCreateDateFocused(true);
+    setEnteredDateTextTouched(false);
+  }
+
   function fromTextBlur() {
     setEnteredFromTimeTouched(true);
+    setIsFromFocused(false);
   }
+  function onFromFocusHandler(){
+    setIsFromFocused(true);
+    setEnteredFromTimeTouched(false);
+  }
+
   function toTextBlur() {
     setEnteredToTimeTouched(true);
+    setIsToFocused(false);
   }
+  function onToFocusHandler(){
+    setIsToFocused(true);
+    setEnteredToTimeTouched(false);
+  }
+
   function mondayTextBlur() {
     setEnteredMondayTouched(true);
+    setIsMondayFocused(false);
   }
+  function onMondayFocusHandler(){
+    setIsMondayFocused(true);
+    setEnteredMondayTouched(false);
+  }
+
   function tuesdayTextBlur() {
     setEnteredTuesdayTouched(true);
+    setIsTuesdayFocused(false);
   }
+  function onTuesdayFocusHandler(){
+    setIsTuesdayFocused(true);
+    setEnteredTuesdayTouched(false);
+  }
+
   function wednesdayTextBlur() {
     setEnteredWednesdayTouched(true);
+    setIsWednesdayFocused(false);
   }
+  function onWednesdayFocusHandler(){
+    setIsWednesdayFocused(true);
+    setEnteredWednesdayTouched(false);
+  }
+
   function thursdayTextBlur() {
     setEnteredThursdayTouched(true);
+    setIsThursdayFocused(false);
   }
+  function onThursdayFocusHandler(){
+    setIsThursdayFocused(true);
+    setEnteredThursdayTouched(false);
+  }
+
   function fridayTextBlur() {
     setEnteredFridayTouched(true);
+    setIsFridayFocused(false);
   }
+  function onFridayFocusHandler(){
+    setIsFridayFocused(true);
+    setEnteredFridayTouched(false);
+  }
+
   function saturdayTextBlur() {
     setEnteredSaturdayTouched(true);
+    setIsSaturdayFocused(false);
+  }
+  function onSaturdayFocusHandler(){
+    setIsSaturdayFocused(true);
+    setEnteredSaturdayTouched(false);
   }
 
   function editItem(id) {
@@ -981,7 +1045,7 @@ const TeachersTimetable = () => {
               <Button onPress={viewTimeTableform}>
                 <Ionicons
                   name="add"
-                  size={38}
+                  size={ deviceWidth < 370 ? 35 : 38}
                   color="black"
                   //onPress={viewTimeTableform}
                   // style={{ marginLeft: 70, backgroundColor: "grey" }}
@@ -992,7 +1056,7 @@ const TeachersTimetable = () => {
               <View
                 style={{
                   width: 230,
-                  fontSize: 20,
+                  fontSize:  deviceWidth < 370 ? 16 : 18,
                   margin: 20,
                   marginTop: -110,
                 }}
@@ -1003,10 +1067,12 @@ const TeachersTimetable = () => {
                   placeholder="Select class"
                   boxStyles={{ borderRadius: 0 }}
                   dropdownTextStyles={{
-                    fontSize: 18,
+                    fontSize:  deviceWidth < 370 ? 16 : 18,
                     fontFamily: "HindRegular",
                   }}
-                  inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                  inputStyles={{ 
+                    fontSize:  deviceWidth < 370 ? 16 : 18, 
+                    fontFamily: "HindRegular" }}
                 />
               </View>
             </View>
@@ -1207,11 +1273,11 @@ const TeachersTimetable = () => {
                             data={TimeTableData}
                             placeholder="select class"
                             dropdownTextStyles={{
-                              fontSize: 18,
+                              fontSize: deviceWidth < 370 ? 15 : 18,
                               fontFamily: "HindRegular",
                             }}
                             inputStyles={{
-                              fontSize: 20,
+                              fontSize:  deviceWidth < 370 ? 15 : 18,
                               fontFamily: "HindRegular",
                             }}
                             boxStyles={
@@ -1243,7 +1309,8 @@ const TeachersTimetable = () => {
                       onChangeText={createdDateChangeHandler}
                       value={dateText}
                       blur={dateTextBlur}
-                      style={dateTextInputIsInValid && styles.errorBorderColor}
+                      onFocus={onCreateFocusHandler}
+                      style={isCreateDateFocused ? styles.focusStyle : dateTextInputIsInValid && styles.errorBorderColor}
                       onPressIn={() => showDateMode("date")}
                     />
                     {dateTextInputIsInValid && (
@@ -1293,13 +1360,14 @@ const TeachersTimetable = () => {
                           value={fromTimeText}
                           placeholder="From Time:"
                           blur={fromTextBlur}
+                          onFocus={onFromFocusHandler}
                           onPressIn={() => showTimeFromMode("time")}
                           //  onChangeText={fromTimeChangeHandler}
                           //onChangeText={fromTimeHandler}
                           //  value={input.fromTime || fromTimeText}
                           // onChange={(text) => inputHandlerFromDate(text, key)}
                           style={
-                            fromtimeInputIsInValid && styles.errorBorderColor
+                            isFromFocused ? styles.focusStyle : fromtimeInputIsInValid && styles.errorBorderColor
                           }
                           onSubmitEditing={Keyboard.dismiss}
                         />
@@ -1347,8 +1415,9 @@ const TeachersTimetable = () => {
                           onChangeText={toTimeChangeHandler}
                           placeholder="To Time:"
                           blur={toTextBlur}
+                          onFocus={onToFocusHandler}
                           style={
-                            TotimeInputIsInValid && styles.errorBorderColor
+                            isToFocused ? styles.focusStyle : TotimeInputIsInValid && styles.errorBorderColor
                           }
                           onPressIn={() => showTimeToMode("time")}
                         />
@@ -1389,17 +1458,18 @@ const TeachersTimetable = () => {
                           // onChangeText={(text) => inputHandler(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
                           style={
-                            mondayInputIsInValid && styles.errorBorderColor
+                            isMondayFocused ? styles.focusStyle : mondayInputIsInValid && styles.errorBorderColor
                           }
                           blur={mondayTextBlur}
+                          onFocus={onMondayFocusHandler}
                         />
                         {mondayInputIsInValid && (
                           <Text
                             style={{
                               color: "red",
-                              left: 20,
+                              left:  deviceWidth < 370 ? 10 : 20,
                               fontFamily: "HindRegular",
-                              fontSize: 18,
+                              fontSize:  deviceWidth < 370 ? 16 : 18,
                             }}
                           >
                             Enter monday subject
@@ -1424,17 +1494,18 @@ const TeachersTimetable = () => {
                           //  onChangeText={(text) => inputHandler(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
                           blur={tuesdayTextBlur}
+                          onFocus={onTuesdayFocusHandler}
                           style={
-                            tuesdayInputIsInValid && styles.errorBorderColor
+                            isTuesdayFocused ? styles.focusStyle : tuesdayInputIsInValid && styles.errorBorderColor
                           }
                         />
                         {tuesdayInputIsInValid && (
                           <Text
                             style={{
                               color: "red",
-                              left: 20,
+                              left:  deviceWidth < 370 ? 5 : 20,
                               fontFamily: "HindRegular",
-                              fontSize: 18,
+                              fontSize:  deviceWidth < 370 ? 16 : 18,
                             }}
                           >
                             Enter tuesday subject
@@ -1455,9 +1526,10 @@ const TeachersTimetable = () => {
                           onChangeText={(text) => inputHandlerWed(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
                           style={
-                            wednesdayInputIsInValid && styles.errorBorderColor
+                            isWednesdayFocused ? styles.focusStyle : wednesdayInputIsInValid && styles.errorBorderColor
                           }
                           blur={wednesdayTextBlur}
+                          onFocus={onWednesdayFocusHandler}
                         />
                         {wednesdayInputIsInValid && (
                           <Text
@@ -1465,7 +1537,7 @@ const TeachersTimetable = () => {
                               color: "red",
                               left: 20,
                               fontFamily: "HindRegular",
-                              fontSize: 18,
+                              fontSize:  deviceWidth < 370 ? 16 : 18,
                             }}
                           >
                             Enter wednesday subject
@@ -1483,9 +1555,10 @@ const TeachersTimetable = () => {
                           onChangeText={(text) => inputHandlerThur(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
                           style={
-                            thursdayInputIsInValid && styles.errorBorderColor
+                            isThurdayFocused ? styles.focusStyle : thursdayInputIsInValid && styles.errorBorderColor
                           }
                           blur={thursdayTextBlur}
+                          onFocus={onThursdayFocusHandler}
                         />
                         {thursdayInputIsInValid && (
                           <Text
@@ -1493,7 +1566,7 @@ const TeachersTimetable = () => {
                               color: "red",
                               left: 20,
                               fontFamily: "HindRegular",
-                              fontSize: 18,
+                              fontSize:  deviceWidth < 370 ? 16 : 18,
                             }}
                           >
                             Enter thursday subject
@@ -1511,17 +1584,18 @@ const TeachersTimetable = () => {
                           onChangeText={(text) => inputHandlerFri(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
                           style={
-                            fridayInputIsInValid && styles.errorBorderColor
+                            isFridayFocused ? styles.focusStyle : fridayInputIsInValid && styles.errorBorderColor
                           }
                           blur={fridayTextBlur}
+                          onFocus={onFridayFocusHandler}
                         />
                         {fridayInputIsInValid && (
                           <Text
                             style={{
                               color: "red",
-                              left: 20,
+                              left: deviceWidth < 370 ? 10 : 20,
                               fontFamily: "HindRegular",
-                              fontSize: 18,
+                              fontSize:  deviceWidth < 370 ? 16 : 18,
                             }}
                           >
                             Enter friday subject
@@ -1539,8 +1613,9 @@ const TeachersTimetable = () => {
                           onChangeText={(text) => inputHandlerSat(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
                           blur={saturdayTextBlur}
+                          onFocus={onSaturdayFocusHandler}
                           style={
-                            saturdayInputIsInValid && styles.errorBorderColor
+                            isSaturdayFocused ? styles.focusStyle : saturdayInputIsInValid && styles.errorBorderColor
                           }
                         />
                         {saturdayInputIsInValid && (
@@ -1549,7 +1624,7 @@ const TeachersTimetable = () => {
                               color: "red",
                               left: 20,
                               fontFamily: "HindRegular",
-                              fontSize: 18,
+                              fontSize:  deviceWidth < 370 ? 16 : 18,
                             }}
                           >
                             Enter saturday subject
@@ -1561,14 +1636,15 @@ const TeachersTimetable = () => {
                     <TouchableOpacity onPress={() => deleteHandler(key)}>
                       <Text
                         style={{
-                          width: deviceWidth < 370 ? "20%" : "25%",
+                          width: deviceWidth < 370 ? "20%" : "22%",
                           padding: 9,
                           fontFamily: "HindMedium",
                           borderRadius: 10,
-                          marginLeft: 240,
+                          marginLeft: deviceWidth < 370 ? 240 : 265,
                           color: "red",
                           fontSize: deviceWidth < 370 ? 16 : 20,
                           backgroundColor: "pink",
+                          top:20
                         }}
                       >
                         Delete
@@ -1628,7 +1704,7 @@ const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
 
-    width: "50%",
+    width: deviceWidth < 370 ? '48%' : '49%',
   },
   year: {
     width: 70,
@@ -1651,14 +1727,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   errorBorderColor: {
-    color: "black",
-    borderBottomWidth: 1,
-    borderColor: "red",
-    padding: 10,
-    margin: 15,
-    paddingVertical: 5,
-    borderRadius: 5,
-    fontSize: 18,
+    borderBottomColor:'red'
   },
   errorSelectedColor: {
     borderColor: "red",
@@ -1690,8 +1759,8 @@ const styles = StyleSheet.create({
   btnSubmit1: {
     width: "50%",
     flexDirection: "row",
-    marginTop: -128,
-    marginLeft: 230,
+    marginTop: deviceWidth < 370 ? -118 : -123,
+    marginLeft: deviceWidth < 370 ? 205 : 230,
     marginBottom: 69,
   },
   space: {
@@ -1755,5 +1824,8 @@ const styles = StyleSheet.create({
     height: "10%",
     borderBottomColor: "black",
     borderBottomWidth: 2,
+  },
+  focusStyle:{
+    borderBottomColor:'blue'
   },
 });

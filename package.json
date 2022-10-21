@@ -73,6 +73,7 @@
     "react-native-element-dropdown": "^2.2.0",
     "react-native-events-calendar": "^1.0.8",
     "react-native-floating-label-input": "^1.4.2",
+    "react-native-floating-label-text-input": "^0.1.5",
     "react-native-form-component": "^2.4.0",
     "react-native-gifted-chat": "^1.0.4",
     "react-native-hr": "^1.1.4",

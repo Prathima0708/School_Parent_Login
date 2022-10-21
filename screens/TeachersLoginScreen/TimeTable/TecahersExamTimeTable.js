@@ -25,6 +25,13 @@ import moment from "moment";
 import SearchBar from "react-native-dynamic-search-bar";
 export var ID;
 const TecahersExamTimeTable = () => {
+
+  const [isExamnameFocused,setIsExamnameFocused]=useState(false);
+  const [isFromFocused,setIsFromFocused]=useState(false);
+  const [isToFocused,setIsToFocused]=useState(false);
+  const [isTotalmarkFocused,setIsTotalmarkFocused]=useState(false);
+  const [isHourFocused,setIsHourFocused]=useState(false);
+
   const [selectedExamTimeTable, setSelectedExamTimeTable] = useState("");
   const [enteredSelectedTouched, setEnteredSelectedTouched] = useState(false);
   const enteredSelcetdIsValid = selectedExamTimeTable.trim() !== "";
@@ -386,18 +393,45 @@ const TecahersExamTimeTable = () => {
 
   function examBlurHandler() {
     setEnteredExamNameTouched(true);
+    setIsExamnameFocused(false);
   }
+  function onExamnameFocusHandler(){
+    setIsExamnameFocused(true);
+    setEnteredExamNameTouched(false);
+  }
+
   function fromDateBlurHandler() {
     setEnteredFromDateTouched(true);
+    setIsFromFocused(false);
   }
+  function onFromFocusHandler(){
+    setIsFromFocused(true);
+    setEnteredFromDateTouched(false);
+  }
+
   function toDateBlurHanlder() {
     setEnteredtoDateTouched(true);
   }
+  function onToFocusHandler(){
+    setIsToFocused(true);
+    setEnteredtoDateTouched(false);
+  }
+
   function markBlurHanlder() {
     setEnteredMarksTouched(true);
+    setIsTotalmarkFocused(false);
   }
+  function onMarkFocusHandler(){
+    setIsTotalmarkFocused(true);
+    setEnteredMarksTouched(false);
+  }
+
   function hourBlurHanlder() {
     setEnteredHourTouched(true);
+  }
+  function onHourFocusHandler(){
+    setIsHourFocused(true);
+    setEnteredHourTouched(false);
   }
 
   function editItem(id) {
@@ -495,7 +529,11 @@ const TecahersExamTimeTable = () => {
       {showaddBtn && (
         <View style={styles.timetablebtn}>
           <Button onPress={viewExam}>
-            <Ionicons name="add" size={38} color="black" />
+            <Ionicons 
+              name="add" 
+              size={deviceWidth < 370 ? 35 : 38} 
+              color="black"
+               />
           </Button>
         </View>
       )}
@@ -648,7 +686,7 @@ const TecahersExamTimeTable = () => {
                         },
                       ]}
                     >
-                      <View style={{ flex: 2, left: "450%" }}>
+                      <View style={{ flex: 2, left:  deviceWidth < 370 ? '400%' : '450%' }}>
                         <Ionicons
                           name="md-pencil-sharp"
                           size={24}
@@ -694,25 +732,29 @@ const TecahersExamTimeTable = () => {
                   setSelected={setSelectedExamTimeTable}
                   data={ExamTimeTableData}
                   placeholder="select class"
-                  style={{ fontSize: 16 }}
+                  style={{ fontSize:  deviceWidth < 370 ? 14 : 18, }}
                   boxStyles={[
                     selectInputIsInValid && styles.errorSelectedColor,
                     { borderRadius: 0 },
                   ]}
                   inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
                   dropdownTextStyles={{
-                    fontSize: 18,
+                    fontSize:  deviceWidth < 370 ? 14 : 18,
                     fontFamily: "HindRegular",
                   }}
                 />
+                {selectInputIsInValid && (
+                  <Text style={{ color: "red", left: 20 }}>Enter class</Text>
+                )}
               </View>
             )}
             <Input
-              style={selectExamNameIsInValid && styles.errorBorderColor}
+              style={isExamnameFocused ? styles.focusStyle : selectExamNameIsInValid && styles.errorBorderColor}
               onChangeText={examNameChangeHandler}
               value={examName}
               placeholder="Exam name"
               blur={examBlurHandler}
+              onFocus={onExamnameFocusHandler}
               onSubmitEditing={Keyboard.dismiss}
             />
             {selectExamNameIsInValid && (
@@ -721,7 +763,7 @@ const TecahersExamTimeTable = () => {
                   color: "red",
                   left: 20,
                   fontFamily: "HindRegular",
-                  fontSize: 18,
+                  fontSize: deviceWidth < 370 ? 14 : 18,
                 }}
               >
                 Enter exam name
@@ -757,7 +799,8 @@ const TecahersExamTimeTable = () => {
                   value={fromText}
                   placeholder="From Date"
                   blur={fromDateBlurHandler}
-                  style={fromDateInputIsInValid && styles.errorBorderColor}
+                  onFocus={onFromFocusHandler}
+                  style={isFromFocused ? styles.focusStyle : fromDateInputIsInValid && styles.errorBorderColor}
                   onChangeText={fromDateChangeHandler}
                   onPressIn={() => showFromMode("date")}
                 />
@@ -767,7 +810,7 @@ const TecahersExamTimeTable = () => {
                       color: "red",
                       left: 20,
                       fontFamily: "HindRegular",
-                      fontSize: 18,
+                      fontSize: deviceWidth < 370 ? 14 : 18,
                     }}
                   >
                     Enter from date
@@ -807,7 +850,8 @@ const TecahersExamTimeTable = () => {
                   value={toText}
                   placeholder="To Date"
                   blur={toDateBlurHanlder}
-                  style={toDateInputIsInValid && styles.errorBorderColor}
+                  onFocus={onToFocusHandler}
+                  style={isToFocused ? styles.focusStyle : toDateInputIsInValid && styles.errorBorderColor}
                   onPressIn={() => showToMode("date")}
                 />
                 {toDateInputIsInValid && (
@@ -816,7 +860,7 @@ const TecahersExamTimeTable = () => {
                       color: "red",
                       left: 20,
                       fontFamily: "HindRegular",
-                      fontSize: 18,
+                      fontSize: deviceWidth < 370 ? 14 : 18,
                     }}
                   >
                     Enter to date
@@ -839,9 +883,10 @@ const TecahersExamTimeTable = () => {
               onChangeText={totalMarksChangeHandler}
               value={totalMarks.toString()}
               placeholder="Total Marks"
-              style={marksInputIsInValid && styles.errorBorderColor}
+              style={isTotalmarkFocused ? styles.focusStyle : marksInputIsInValid && styles.errorBorderColor}
               onSubmitEditing={Keyboard.dismiss}
               blur={markBlurHanlder}
+              onFocus={onMarkFocusHandler}
             />
             {marksInputIsInValid && (
               <Text
@@ -849,7 +894,7 @@ const TecahersExamTimeTable = () => {
                   color: "red",
                   left: 20,
                   fontFamily: "HindRegular",
-                  fontSize: 18,
+                  fontSize: deviceWidth < 370 ? 14 : 18,
                 }}
               >
                 Enter total marks
@@ -859,9 +904,10 @@ const TecahersExamTimeTable = () => {
               onChangeText={hourChangeHandler}
               placeholder="Hour"
               value={hour}
-              style={hourInputIsInValid && styles.errorBorderColor}
+              style={isHourFocused ? styles.focusStyle : hourInputIsInValid && styles.errorBorderColor}
               onSubmitEditing={Keyboard.dismiss}
               blur={hourBlurHanlder}
+              onFocus={onHourFocusHandler}
             />
             {hourInputIsInValid && (
               <Text
@@ -869,7 +915,7 @@ const TecahersExamTimeTable = () => {
                   color: "red",
                   left: 20,
                   fontFamily: "HindRegular",
-                  fontSize: 18,
+                  fontSize: deviceWidth < 370 ? 14 : 18,
                 }}
               >
                 Enter hour
@@ -981,7 +1027,7 @@ const styles = StyleSheet.create({
     //paddingVertical: 20,
     //paddingHorizontal: 0,
     marginTop: -30,
-    marginLeft: 290,
+    marginLeft:  deviceWidth < 370 ? 260 :280,
   },
 
   container: {
@@ -1019,14 +1065,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   errorBorderColor: {
-    color: "black",
-    borderBottomWidth: 1,
-    borderColor: "red",
-    padding: 10,
-    margin: 15,
-    paddingVertical: 5,
-    borderRadius: 5,
-    fontSize: 18,
+    borderBottomColor:'red'
   },
   errorSelectedColor: {
     borderColor: "red",
@@ -1062,5 +1101,8 @@ const styles = StyleSheet.create({
     top: "10%",
     borderColor: "#fff",
     width: deviceWidth < 370 ? "50%" : "50%",
+  },
+  focusStyle:{
+    borderBottomColor:'blue'
   },
 });

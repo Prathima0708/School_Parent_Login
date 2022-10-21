@@ -845,7 +845,7 @@ const TeacherHomeworkScreenBuild = () => {
         <ScrollView style={styles.root}>
           <View style={styles.inputForm}>
             {!isEdit && (
-              <View>
+              <View style={styles.selectStyle}>
                 <SelectList
                   setSelected={setSelected}
                   data={data}
@@ -1122,11 +1122,7 @@ const TeacherHomeworkScreenBuild = () => {
                       <View style={[{ flexDirection: "row" }]}>
                         <View style={{ flex: 2, left: 40, top: -5 }}>
                           <Text
-                            style={{
-                              fontSize: 16,
-                              fontFamily: "HindSemiBold",
-                              color: "grey",
-                            }}
+                            style={styles.textInfo}
                           >
                             {moment(homeworkData.homework_date).format(
                               "DD/MM/YYYY"
@@ -1135,16 +1131,12 @@ const TeacherHomeworkScreenBuild = () => {
                         </View>
                         <View style={{ flex: 2, left: 110, top: -5 }}>
                           <Text
-                            style={{
-                              fontSize: 16,
-                              fontFamily: "HindSemiBold",
-                              color: "grey",
-                            }}
+                            style={styles.textInfo}
                           >
                             {moment(homeworkData.due_date).format("DD/MM/YYYY")}
                           </Text>
                         </View>
-                        <View style={{ flex: 2, left: 100, bottom: -50 }}>
+                        <View style={{ flex: 2, left:deviceWidth < 370 ? 90 : 100, bottom: -50 }}>
                           <Ionicons
                             name="md-pencil-sharp"
                             size={24}
@@ -1165,13 +1157,9 @@ const TeacherHomeworkScreenBuild = () => {
                         <View style={{ flex: 2, left: -15, top: 5 }}>
                           <Text style={styles.cardTextStyle}>Description:</Text>
                         </View>
-                        <View style={{ flex: 2, left: -50, top: 5 }}>
+                        <View style={{ flex: 2, left:deviceWidth < 370 ? -30 : -40, top: 6 }}>
                           <Text
-                            style={{
-                              fontSize: 16,
-                              fontFamily: "HindSemiBold",
-                              color: "grey",
-                            }}
+                            style={styles.textInfo}
                           >
                             {homeworkData.description}
                           </Text>
@@ -1202,7 +1190,7 @@ const styles = StyleSheet.create({
   BtnContainer: {
     flexDirection: "row",
     fontSize: 24,
-    width: "50%",
+    width: "51%",
   },
   btnSubmit1: {
     // marginTop: 50,
@@ -1235,6 +1223,10 @@ const styles = StyleSheet.create({
   },
   errorSelectedColor: {
     borderColor: "red",
+  },
+  selectStyle:{
+    marginRight:deviceWidth < 370 ? '2%' : '5%',
+    marginLeft:deviceWidth < 370 ? '2%' : '4%',
   },
   labels: {
     margin: 5,
@@ -1346,4 +1338,9 @@ const styles = StyleSheet.create({
   focusStyle:{
     borderBottomColor:'blue'
   },
+  textInfo:{
+    fontSize: deviceWidth < 370 ? 14 : 16,
+    fontFamily: "HindSemiBold",
+    color: "grey"
+  }
 });

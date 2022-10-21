@@ -7,6 +7,7 @@ import {
   Platform,
   Button as Btn,
   Alert,
+  Dimensions,
 } from "react-native";
 import moment from "moment";
 import { Keyboard } from "react-native";
@@ -26,6 +27,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
 export var ID;
 const TeachersLeaveScreenBuild = () => {
+
+  const [isLeavetypeFocused,setIsLeavetypeFocused]=useState(false);
+  const [isLeavereasonFocused,setIsLeavereasonFocused]=useState(false);
+  const [isFromFocused,setIsFromFocused]=useState(false);
+  const [isToFocused,setIsToFocused]=useState(false);
+
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
   const [forLeaveList, setForLeaveList] = useState({
@@ -424,16 +431,40 @@ const TeachersLeaveScreenBuild = () => {
   }
   function leavetypeBlurHandler() {
     setEnteredLeaveTypeTouched(true);
+    setIsLeavetypeFocused(false);
   }
+  function onLeavetypeFocusHandler(){
+    setIsLeavetypeFocused(true);
+    setEnteredLeaveTypeTouched(false);
+  }
+
   function leavereasonBlurHandler() {
     setEnteredLeaveReasonTouched(true);
+    setIsLeavereasonFocused(false);
   }
+  function onLeavereasonFocusHandler(){
+    setIsLeavereasonFocused(true);
+    setEnteredLeaveReasonTouched(false);
+  }
+
   function fromDateBlurHandler() {
     setEnteredFromDateTouched(true);
+    setIsFromFocused(false);
   }
+  function onFromFocusHandler(){
+    setIsFromFocused(true);
+    setEnteredFromDateTouched(false);
+  }
+
   function toDateBlurHandler() {
     setEnteredtoDateTouched(true);
+    setIsToFocused(false);
   }
+  function onToFocusHandler(){
+    setIsToFocused(true);
+    setEnteredtoDateTouched(false);
+  }
+
   function showLeaveForm() {
     setEnteredLeaveType("");
     setEnteredLeaveReason("");
@@ -594,9 +625,10 @@ const TeachersLeaveScreenBuild = () => {
               placeholder="Leave Type"
               onChangeText={leaveTypeChangeHandler}
               blur={leavetypeBlurHandler}
+              onFocus={onLeavetypeFocusHandler}
               value={leaveType}
               onSubmitEditing={Keyboard.dismiss}
-              style={leavetypeInputIsInValid && styles.errorBorderColor}
+              style={isLeavetypeFocused ? styles.focusStyle : leavetypeInputIsInValid && styles.errorBorderColor}
             />
             {leavetypeInputIsInValid && (
               <Text style={{ color: "red", left: 20 }}>Enter the type</Text>
@@ -604,10 +636,11 @@ const TeachersLeaveScreenBuild = () => {
             <Input
               onChangeText={leaveReasonChangeHandler}
               blur={leavereasonBlurHandler}
+              onFocus={onLeavereasonFocusHandler}
               placeholder="Leave Reason"
               value={leaveReason}
               onSubmitEditing={Keyboard.dismiss}
-              style={leavereasonInputIsInValid && styles.errorBorderColor}
+              style={isLeavereasonFocused ? styles.focusStyle : leavereasonInputIsInValid && styles.errorBorderColor}
             />
             {leavereasonInputIsInValid && (
               <Text
@@ -640,8 +673,9 @@ const TeachersLeaveScreenBuild = () => {
                   value={fromText}
                   placeholder="Leave from"
                   onSubmitEditing={Keyboard.dismiss}
-                  style={fromDateInputIsInValid && styles.errorBorderColor}
+                  style={isFromFocused ? styles.focusStyle : fromDateInputIsInValid && styles.errorBorderColor}
                   blur={fromDateBlurHandler}
+                  onFocus={onFromFocusHandler}
                   onChangeText={frmDateHandler}
                   onPressIn={() => showFromMode("date")}
                 />
@@ -686,8 +720,9 @@ const TeachersLeaveScreenBuild = () => {
                   value={toText}
                   placeholder="Leave to:"
                   onSubmitEditing={Keyboard.dismiss}
-                  style={toDateInputIsInValid && styles.errorBorderColor}
+                  style={isToFocused ? styles.focusStyle : toDateInputIsInValid && styles.errorBorderColor}
                   blur={toDateBlurHandler}
+                  onFocus={onToFocusHandler}
                   onChangeText={toDateHandler}
                   onPressIn={() => showToMode("date")}
                 />
@@ -794,7 +829,7 @@ const TeachersLeaveScreenBuild = () => {
                                 <View style={{ flex: 2, left: 45 }}>
                                   <Text
                                     style={{
-                                      fontSize: 16,
+                                      fontSize: deviceWidth < 370 ? 14 : 16,
                                       fontFamily: "HindSemiBold",
                                       color: "grey",
                                     }}
@@ -807,7 +842,7 @@ const TeachersLeaveScreenBuild = () => {
                                 <View style={{ flex: 2, left: 120 }}>
                                   <Text
                                     style={{
-                                      fontSize: 16,
+                                      fontSize:  deviceWidth < 370 ? 14 : 16,
                                       fontFamily: "HindSemiBold",
                                       color: "grey",
                                     }}
@@ -816,7 +851,10 @@ const TeachersLeaveScreenBuild = () => {
                                   </Text>
                                 </View>
                                 <View
-                                  style={{ flex: 2, left: 100, bottom: -65 }}
+                                  style={{ 
+                                    flex: 2,
+                                    left:  deviceWidth < 370 ? 90 : 100, 
+                                    bottom: -65 }}
                                 >
                                   <Ionicons
                                     name="md-pencil-sharp"
@@ -842,7 +880,10 @@ const TeachersLeaveScreenBuild = () => {
                                     Leave Reason:
                                   </Text>
                                 </View>
-                                <View style={{ flex: 2, left: -35, top: 5 }}>
+                                <View style={{ 
+                                  flex: 2, 
+                                  left:  deviceWidth < 370 ? -20 : -35, 
+                                  top: 5 }}>
                                   <Text
                                     style={{
                                       fontSize: 16,
@@ -856,12 +897,18 @@ const TeachersLeaveScreenBuild = () => {
                               </View>
 
                               <View style={[{ flexDirection: "row", flex: 1 }]}>
-                                <View style={{ flex: 2, left: -15, top: 5 }}>
+                                <View style={{ 
+                                  flex: 2, 
+                                  left: -15, 
+                                  top: 5 }}>
                                   <Text style={styles.cardTextStyle}>
                                     Leave Type:
                                   </Text>
                                 </View>
-                                <View style={{ flex: 2, left: -50, top: 5 }}>
+                                <View style={{ 
+                                  flex: 2, 
+                                  left: deviceWidth < 370 ? -35 : -50, 
+                                  top: 5 }}>
                                   <Text
                                     style={{
                                       fontSize: 16,
@@ -894,6 +941,8 @@ const TeachersLeaveScreenBuild = () => {
 };
 
 export default TeachersLeaveScreenBuild;
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   BtnContainer: {
@@ -930,14 +979,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   errorBorderColor: {
-    color: "black",
-    borderBottomWidth: 1,
-    borderColor: "red",
-    padding: 10,
-    margin: 15,
-    paddingVertical: 5,
-    borderRadius: 5,
-    fontSize: 18,
+    borderBottomColor:'red'
   },
   // labels: {
   //   margin: 5,
@@ -946,7 +988,7 @@ const styles = StyleSheet.create({
   //   // marginTop: 17,
   // },
   btnSubmit: {
-    marginTop: 147,
+    marginTop: deviceWidth < 370 ? 50 : 70,
     width: "50%",
     marginLeft: 180,
   },
@@ -989,5 +1031,8 @@ const styles = StyleSheet.create({
     fontFamily: "HindSemiBold",
     fontSize: 16,
     left: 35,
+  },
+  focusStyle:{
+    borderBottomColor:'blue'
   },
 });
