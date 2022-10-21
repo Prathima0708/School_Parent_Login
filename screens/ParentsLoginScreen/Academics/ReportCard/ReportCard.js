@@ -95,20 +95,19 @@ const ReportCard = () => {
             </View>
           </View>
           <View style={[styles.studInfo, styles.studInfoTopLeftStyle2]}>
-            <View style={{flex:1,flexDirection:'row'}}>
+            <View style={{ flex: 1, flexDirection: "row" }}>
               <View style={styles.flex}>
-              <Text style={[styles.description, styles.bottomLine]}>
+                <Text style={[styles.description, styles.bottomLine]}>
                   Class: <Text style={styles.textInfo}>{className}</Text>
                 </Text>
               </View>
               <View style={styles.space} />
               <View style={{ flex: 1, marginRight: "5%" }}>
-
                 <View style={styles.flex}>
-                <Text style={[styles.description, styles.bottomLine]}>
-                  Section: <Text style={styles.textInfo}>{Section}</Text>
-                </Text>
-              </View>
+                  <Text style={[styles.description, styles.bottomLine]}>
+                    Section: <Text style={styles.textInfo}>{Section}</Text>
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
@@ -118,9 +117,9 @@ const ReportCard = () => {
           {data &&
             data.map((data, key) => (
               <>
-                <View style={styles.root} key={key}>
+                <View style={styles.root}>
                   <View style={{ flex: 8, bottom: 25 }}>
-                    <ScrollView>
+                    <ScrollView key={key}>
                       <View
                         style={[styles.container, { flexDirection: "column" }]}
                       >

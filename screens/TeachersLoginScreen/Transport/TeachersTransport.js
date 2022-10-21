@@ -24,6 +24,7 @@ import { Card, DataTable } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import SearchBar from "react-native-dynamic-search-bar";
+import { Toast, useToast } from "native-base";
 export var ID;
 
 const TeachersTransport = () => {
@@ -109,6 +110,9 @@ const TeachersTransport = () => {
   let i = 0;
   const [text, onChangeText] = React.useState("Useless Text");
   const [number, onChangeNumber] = React.useState(null);
+
+  const toast = useToast();
+  const id = "test-toast";
   useEffect(() => {
     async function fetchData() {
       try {
@@ -628,6 +632,24 @@ const TeachersTransport = () => {
       setSearchText(text);
     }
   };
+  function show() {
+    //   Toast.show({
+    //     title: "Bus Number",
+
+    //     top: -260,
+    //     left: -140,
+    //   });
+    // }
+    if (!toast.isActive(id)) {
+      toast.show({
+        id,
+        title: "Bus Number",
+        top: -260,
+        left: -90,
+        backgroundColor: "grey",
+      });
+    }
+  }
   return (
     <>
       <View
@@ -653,6 +675,7 @@ const TeachersTransport = () => {
             <ScrollView style={styles.root}>
               <View style={styles.inputForm}>
                 <Input
+                  onPressIn={show}
                   // keyboardType="number-pad"
                   placeholder="Bus Number"
                   onChangeText={busNumberChangeHandler}

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Dimensions, StyleSheet } from "react-native";
 import { TextInput, View } from "react-native";
 
-
 function Input({
   onChangeText,
   placeholder,
@@ -13,12 +12,14 @@ function Input({
   onFocus,
   onPressIn,
   maxLength,
+  onKeyPress,
 }) {
   const [isActive, setActive] = useState(false);
-  
+
   return (
     <View>
       <TextInput
+        onKeyPress={onKeyPress}
         onChangeText={onChangeText}
         style={[styles.inputStyle, { ...style }]}
         placeholder={placeholder}
