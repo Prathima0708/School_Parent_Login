@@ -41,13 +41,16 @@ const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   inputStyle: {
     color: "black",
-    borderBottomWidth: 1.5,
-    borderBottomRightRadius: 5,
-    borderBottomLeftRadius: 5,
-    borderBottomColor: "lightgrey",
+    borderWidth:1.5,
+    // borderBottomWidth: 1.5,
+    // borderBottomRightRadius: 5,
+    // borderBottomLeftRadius: 5,
+    borderRadius:10,
+    borderColor: "lightgrey",
     padding: 10,
     margin: deviceHieght < 600 ? "2%" : "4%",
     fontSize: deviceWidth < 370 ? 16 : 20,
     fontFamily: "HindRegular",
+    zIndex:-1
   },
 });

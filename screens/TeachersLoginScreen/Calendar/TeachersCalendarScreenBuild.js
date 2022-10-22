@@ -33,7 +33,11 @@ import { Label } from "react-native-form-component";
     const [showForm, setShowForm] = useState(true);
     const [showList, setShowList] = useState(false);
 
-    const [label,setLabel]=useState(false)
+    const [label,setLabel]=useState(false);
+    const [descriptionLabel,setDescriptionLabel]=useState(false);
+    const [startDateLabel,setstartDateLabel]=useState(false);
+    const [endDateLabel,setendDateLabel]=useState(false);
+
     const [isTitleFocused, setIsTitleFocused] = useState(false);
     const [isDescFocused, setIsDescFocused] = useState(false);
     const [isFromDateFocused, setIsFromDateFocused] = useState(false);
@@ -469,6 +473,7 @@ import { Label } from "react-native-form-component";
     function onFocusDescHandler() {
       setIsDescFocused(true);
       setEnteredDescriptionTouched(false);
+      setDescriptionLabel(true);
     }
     // function createdbyBlurHandler(){
     //   setEnteredCreatedbyTouched(true);
@@ -480,6 +485,7 @@ import { Label } from "react-native-form-component";
     function onFocusFromHandler() {
       setIsFromDateFocused(true);
       setEnteredFromDateTouched(false);
+      setstartDateLabel(true);
     }
   
     function toDateBlurHandler() {
@@ -489,6 +495,7 @@ import { Label } from "react-native-form-component";
     function onFocusToHandler() {
       setIsToDateFocused(true);
       setEnteredtoDateTouched(false);
+      setendDateLabel(true);
     }
   
     function showCalendarForm() {
@@ -545,6 +552,8 @@ import { Label } from "react-native-form-component";
   
     function editItem(id) {
       setShowInitialBtn(false);
+      setLabel(true);
+      setDescriptionLabel(true);
       ID = id;
       console.log(id);
       const filteredDummuyData = data.find((data) => data.id == id);
@@ -639,6 +648,9 @@ import { Label } from "react-native-form-component";
     }
     return (
       <>
+      <View>
+        
+      </View>
         {showInitialBtn && (
           <View style={styles.BtnContainer}>
             <BgButton onPress={showCalendarForm} style={forCalendarList}>
@@ -653,9 +665,9 @@ import { Label } from "react-native-form-component";
         {showForm && (
           <ScrollView>
             <View style={styles.inputForm}>
-            <View style={label ? styles.test : styles.testSuccess}>
-              <Text style={{color:'grey'}}>Label</Text>
-            </View>
+              <View style={label ? styles.test : styles.testSuccess}>
+                <Text style={[titleInputIsInValid ? styles.errorLabel : styles.normalLabel]}>Title</Text>
+              </View>
               <Input
                 // keyboardType="number-pad"
                 // placeholder="Title"
@@ -683,8 +695,15 @@ import { Label } from "react-native-form-component";
                   Enter the title
                 </Text>
               )}
+              <View style={
+                [
+                  !titleInputIsInValid ? (descriptionLabel ? styles.descriptionUp : styles.descriptionDown)
+                  : (descriptionLabel ? styles.descriptionUpExtra : styles.descriptionDownExtra)
+                ]}>
+                <Text style={[descriptionInputIsInValid ? styles.errorLabel : styles.normalLabel]}>Description</Text>
+              </View>
               <Input
-                placeholder="Description"
+                // placeholder="Description"
                 onChangeText={descriptionChangeHandler}
                 blur={descriptionBlurHandler}
                 onFocus={onFocusDescHandler}
@@ -839,6 +858,7 @@ import { Label } from "react-native-form-component";
                   <Button onPress={buttonPressedHandler}>Add Event</Button>
                 </View>
               )}
+              
               {isEdit && (
                 <View style={styles.btnSubmit1}>
                   <Button onPress={updateHandler}>Update</Button>
@@ -1040,7 +1060,7 @@ import { Label } from "react-native-form-component";
       paddingTop: 5,
     },
     errorBorderColor: {
-      borderBottomColor: "red",
+      borderColor: "red",
     },
   
     btnSubmit: {
@@ -1090,6 +1110,18 @@ import { Label } from "react-native-form-component";
   
       // width:deviceWidth < 370 ? "50%" : "100%",
     },
+    errorLabel:{
+      color:'red',
+      backgroundColor:'#F2F2F2',
+      paddingHorizontal:5,
+      fontSize: deviceWidth < 370 ? 13 : 15,
+    },
+    normalLabel:{
+      color:'grey',
+      backgroundColor:'#F2F2F2',
+      paddingHorizontal:5,
+      fontSize: deviceWidth < 370 ? 13 : 15,
+    },
     btnSubmit1: {
       marginTop: 90,
       marginBottom: 30,
@@ -1107,12 +1139,28 @@ import { Label } from "react-native-form-component";
       left: 35,
     },
     focusStyle: {
-      borderBottomColor: "blue",
+      borderColor: "blue",
     },
     test:{
       position:'absolute',top:10,left:50
     },
     testSuccess:{
-      position:'absolute',top:40,left:50
-    }
+      position:'absolute',top:35,left:40
+    },
+    descriptionUp:{
+      position:'absolute',top:90,left:50
+    },
+    descriptionDown:{
+      position:'absolute',top:115,left:40
+    },
+    descriptionUpExtra:{
+      position:'absolute',
+      top:115,
+      left:50
+    },
+    descriptionDownExtra:{
+      position:'absolute',
+      top:137,
+      left:40
+    },
   });

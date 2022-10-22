@@ -28,6 +28,9 @@ import SearchBar from "react-native-dynamic-search-bar";
 export var ID;
 const TeachersLeaveScreenBuild = () => {
 
+  const [typeLabel,setTypeLabel]=useState(false);
+  const [reasonLabel,setReasonLabel]=useState(false);
+
   const [isLeavetypeFocused,setIsLeavetypeFocused]=useState(false);
   const [isLeavereasonFocused,setIsLeavereasonFocused]=useState(false);
   const [isFromFocused,setIsFromFocused]=useState(false);
@@ -436,6 +439,7 @@ const TeachersLeaveScreenBuild = () => {
   function onLeavetypeFocusHandler(){
     setIsLeavetypeFocused(true);
     setEnteredLeaveTypeTouched(false);
+    setTypeLabel(true);
   }
 
   function leavereasonBlurHandler() {
@@ -445,6 +449,7 @@ const TeachersLeaveScreenBuild = () => {
   function onLeavereasonFocusHandler(){
     setIsLeavereasonFocused(true);
     setEnteredLeaveReasonTouched(false);
+    setReasonLabel(true);
   }
 
   function fromDateBlurHandler() {
@@ -516,6 +521,7 @@ const TeachersLeaveScreenBuild = () => {
   }
   function editItem(id) {
     setShowInitialBtn(false);
+    setReasonLabel(false);
     ID = id;
     const filteredDummuyData = data.find((data) => data.id == id);
     // console.log(filteredDummuyData);
@@ -621,8 +627,10 @@ const TeachersLeaveScreenBuild = () => {
       {showForm && (
         <ScrollView>
           <View style={styles.inputForm}>
+            <View style={!typeLabel ? styles.normal : styles.up}>
+              <Text style={[leavetypeInputIsInValid ? styles.errorLabel : styles.normalLabel]}>Leave type</Text>
+            </View>
             <Input
-              placeholder="Leave Type"
               onChangeText={leaveTypeChangeHandler}
               blur={leavetypeBlurHandler}
               onFocus={onLeavetypeFocusHandler}
@@ -633,11 +641,20 @@ const TeachersLeaveScreenBuild = () => {
             {leavetypeInputIsInValid && (
               <Text style={{ color: "red", left: 20 }}>Enter the type</Text>
             )}
+            <View style={!leavetypeInputIsInValid ? (!reasonLabel ? styles.normalRemark : styles.upRemark)
+                  : (!reasonLabel ? styles.normalRemarkExtra : styles.upRemarkExtra)}>
+              <Text style={[leavereasonInputIsInValid ? styles.errorLabel : styles.normalLabel]}>Leave reason</Text>
+            </View>
+
+            {/* <View style={!reasonLabel ? styles.normalRemark : styles.upRemark}>
+              <Text style={[leavereasonInputIsInValid ? styles.errorLabel : styles.normalLabel]}>Leave reason</Text>
+            </View> */}
+
+            
             <Input
               onChangeText={leaveReasonChangeHandler}
               blur={leavereasonBlurHandler}
               onFocus={onLeavereasonFocusHandler}
-              placeholder="Leave Reason"
               value={leaveReason}
               onSubmitEditing={Keyboard.dismiss}
               style={isLeavereasonFocused ? styles.focusStyle : leavereasonInputIsInValid && styles.errorBorderColor}
@@ -978,7 +995,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   errorBorderColor: {
-    borderBottomColor:'red'
+    borderColor:'red'
   },
   // labels: {
   //   margin: 5,
@@ -1032,6 +1049,49 @@ const styles = StyleSheet.create({
     left: 35,
   },
   focusStyle:{
-    borderBottomColor:'blue'
+    borderColor:'blue'
   },
+  normal:{
+    position:'absolute',
+    top:35,
+    left:50,
+  },
+  up:{
+    position:'absolute',
+    top:10,
+    left:50,
+  },
+  errorLabel:{
+    color:'red',
+    backgroundColor:'#F2F2F2',
+    paddingHorizontal:5,
+    fontSize: deviceWidth < 370 ? 13 : 15,
+  },
+  normalLabel:{
+    color:'grey',
+    backgroundColor:'#F2F2F2',
+    paddingHorizontal:5,
+    fontSize: deviceWidth < 370 ? 13 : 15,
+  },
+
+  normalRemark:{
+    position:'absolute',
+    top:110,
+    left:50,
+  },
+  upRemark:{
+    position:'absolute',
+    top:88,
+    left:50,
+  },
+  normalRemarkExtra:{
+    position:'absolute',
+    left:50,
+    top:130
+  },
+  upRemarkExtra:{
+    position:'absolute',
+    left:50,
+    top:106
+  }
 });
