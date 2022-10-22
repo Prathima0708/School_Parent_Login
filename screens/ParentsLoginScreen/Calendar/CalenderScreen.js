@@ -160,9 +160,11 @@ const CalenderScreen = () => {
     );
     console.log(filteredData);
     if (filteredData) {
+      console.log("data is present");
       setDataIsPresent(true);
       filteredDataVar = filteredData;
     } else {
+      console.log("else part");
       setDataIsPresent(false);
       Alert.alert("Data not found!", "No events are found for this date", [
         {
@@ -182,7 +184,16 @@ const CalenderScreen = () => {
     <>
       <Calendar
         markedDates={dates}
-        style={styles.calenderStyle}
+        style={{
+          elevation: 5,
+          shadowColor: "black",
+          borderBottomLeftRadius: 20,
+          borderBottomRightRadius: 20,
+          shadowOpacity: 0.75,
+          shadowOffset: { width: 0, height: 2 },
+          shadowRadius: 8,
+          overflow: Platform.OS === "android" ? "hidden" : "visible",
+        }}
         // markingType={'period'}
         onDayPress={(day) => {
           showEvent(day);

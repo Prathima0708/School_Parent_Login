@@ -454,7 +454,7 @@ import { Label } from "react-native-form-component";
     function titleBlurHandler() {
       setEnteredTitleTouched(true);
       setIsTitleFocused(false);
-      setLabel(false);
+      // setLabel(false);
     }
     function onFocusTitleHandler() {
       setIsTitleFocused(true);
@@ -653,12 +653,12 @@ import { Label } from "react-native-form-component";
         {showForm && (
           <ScrollView>
             <View style={styles.inputForm}>
-            {/* <View style={label ? styles.test : styles.testSuccess}>
-              <Text>Label</Text>
-            </View> */}
+            <View style={label ? styles.test : styles.testSuccess}>
+              <Text style={{color:'grey'}}>Label</Text>
+            </View>
               <Input
                 // keyboardType="number-pad"
-                placeholder="Title"
+                // placeholder="Title"
                 onChangeText={titleChangeHandler}
                 blur={titleBlurHandler}
                 onFocus={onFocusTitleHandler}

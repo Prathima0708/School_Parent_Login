@@ -785,11 +785,10 @@ const TeachersLeaveScreenBuild = () => {
               <ScrollView>
                 <View style={styles.root}>
                   {filteredData &&
-                    filteredData.map((data, key) => (
+                    filteredData.map((data) => (
                       <>
                         <View>
                           <Card
-                            key={key}
                             style={{
                               marginVertical: 15,
                               marginHorizontal: 20,

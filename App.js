@@ -196,7 +196,7 @@ export default function App() {
             <Stack.Screen
               name="TeachersTransport"
               component={TeachersTransport}
-              options={{ title: "" }}
+              options={{ title: "Transport" }}
             />
 
             {/* <Stack.Screen name="TeachersHomework" component={TeachersHomework} /> */}
