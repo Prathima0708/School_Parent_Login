@@ -34,10 +34,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
 export var ID;
 const TeacherHomeworkScreenBuild = () => {
-
-  const [subLabel,setSubLabel]=useState(false);
-  const [remarkLabel,setRemarkLabel]=useState(false);
-  const [homeworkLabel,setHomeworkLabel]=useState(false);
+  const [subLabel, setSubLabel] = useState(false);
+  const [remarkLabel, setRemarkLabel] = useState(false);
+  const [homeworkLabel, setHomeworkLabel] = useState(false);
 
   const [isClassFocused, setIsClassFocused] = useState(false);
   const [isSubjectFocused, setIsSubjectFocused] = useState(false);
@@ -726,13 +725,14 @@ const TeacherHomeworkScreenBuild = () => {
     }
     fetchData();
   }
+
   function editItem(id) {
+    console.log(id);
     setShowInitialBtn(false);
     let selectedData = selected.split(" - ");
     let class_name = selectedData[0];
     let section = selectedData[1];
     ID = id;
-    console.log(id);
 
     const filteredDummuyData = homeworkData.find((data) => data.id == id);
     // console.log(filteredDummuyData);
@@ -762,6 +762,7 @@ const TeacherHomeworkScreenBuild = () => {
   }
 
   function deleteItem(id) {
+    console.log("i am pressed");
     // console.log(id);
     // const newFilteredData=data.filter((data)=>data.id != id);
 
@@ -867,9 +868,16 @@ const TeacherHomeworkScreenBuild = () => {
               </View>
             )}
             <View style={!subLabel ? styles.normal : styles.up}>
-              <Text 
-                style={[subjectInputIsInValid ? styles.errorLabel : styles.normalLabel]}
-                onPress={onSubjectFocusHandler}>Subject</Text>
+              <Text
+                style={[
+                  subjectInputIsInValid
+                    ? styles.errorLabel
+                    : styles.normalLabel,
+                ]}
+                onPress={onSubjectFocusHandler}
+              >
+                Subject
+              </Text>
             </View>
             <Input
               onChangeText={subjectChangeHandler}
@@ -884,7 +892,9 @@ const TeacherHomeworkScreenBuild = () => {
               }
             />
             {subjectInputIsInValid && (
-              <Text style={[styles.errorText,{top:125}]}>Enter subject</Text>
+              <Text style={[styles.errorText, { top: 125 }]}>
+                Enter subject
+              </Text>
             )}
 
             <View style={{ flexDirection: "row" }}>
@@ -981,9 +991,14 @@ const TeacherHomeworkScreenBuild = () => {
               </View>
             </View>
             <View style={!remarkLabel ? styles.normalRemark : styles.upRemark}>
-              <Text 
-                style={[remarkInputIsInValid ? styles.errorLabel : styles.normalLabel]}
-                onPress={onSubjectFocusHandler}>Remark</Text>
+              <Text
+                style={[
+                  remarkInputIsInValid ? styles.errorLabel : styles.normalLabel,
+                ]}
+                onPress={onSubjectFocusHandler}
+              >
+                Remark
+              </Text>
             </View>
             <Input
               onChangeText={remarkChangeHandler}
@@ -998,12 +1013,21 @@ const TeacherHomeworkScreenBuild = () => {
               }
             />
             {remarkInputIsInValid && (
-              <Text style={[styles.errorText,{top:270}]}>Enter remark</Text>
+              <Text style={[styles.errorText, { top: 270 }]}>Enter remark</Text>
             )}
-            <View style={!homeworkLabel ? styles.normalHomework : styles.upHomework}>
-              <Text 
-                style={[homeworkInputIsInValid ? styles.errorLabel : styles.normalLabel]}
-                onPress={onFocusHomeworkHandler}>Homework</Text>
+            <View
+              style={!homeworkLabel ? styles.normalHomework : styles.upHomework}
+            >
+              <Text
+                style={[
+                  homeworkInputIsInValid
+                    ? styles.errorLabel
+                    : styles.normalLabel,
+                ]}
+                onPress={onFocusHomeworkHandler}
+              >
+                Homework
+              </Text>
             </View>
             <Input
               onChangeText={hwChangeHandler}
@@ -1018,7 +1042,9 @@ const TeacherHomeworkScreenBuild = () => {
               }
             />
             {homeworkInputIsInValid && (
-              <Text style={[styles.errorText,{top:350}]}>Enter homework</Text>
+              <Text style={[styles.errorText, { top: 350 }]}>
+                Enter homework
+              </Text>
             )}
             <View style={{ flexDirection: "row" }}>
               <View style={styles.uploadImgBtn}>
@@ -1147,22 +1173,24 @@ const TeacherHomeworkScreenBuild = () => {
 
                       <View style={[{ flexDirection: "row" }]}>
                         <View style={{ flex: 2, left: 40, top: -5 }}>
-                          <Text
-                            style={styles.textInfo}
-                          >
+                          <Text style={styles.textInfo}>
                             {moment(homeworkData.homework_date).format(
                               "DD/MM/YYYY"
                             )}
                           </Text>
                         </View>
                         <View style={{ flex: 2, left: 110, top: -5 }}>
-                          <Text
-                            style={styles.textInfo}
-                          >
+                          <Text style={styles.textInfo}>
                             {moment(homeworkData.due_date).format("DD/MM/YYYY")}
                           </Text>
                         </View>
-                        <View style={{ flex: 2, left:deviceWidth < 370 ? 90 : 100, bottom: -50 }}>
+                        <View
+                          style={{
+                            flex: 2,
+                            left: deviceWidth < 370 ? 90 : 100,
+                            bottom: -50,
+                          }}
+                        >
                           <Ionicons
                             name="md-pencil-sharp"
                             size={24}
@@ -1183,10 +1211,14 @@ const TeacherHomeworkScreenBuild = () => {
                         <View style={{ flex: 2, left: -15, top: 5 }}>
                           <Text style={styles.cardTextStyle}>Description:</Text>
                         </View>
-                        <View style={{ flex: 2, left:deviceWidth < 370 ? -30 : -40, top: 6 }}>
-                          <Text
-                            style={styles.textInfo}
-                          >
+                        <View
+                          style={{
+                            flex: 2,
+                            left: deviceWidth < 370 ? -30 : -40,
+                            top: 6,
+                          }}
+                        >
+                          <Text style={styles.textInfo}>
                             {homeworkData.description}
                           </Text>
                         </View>
@@ -1250,9 +1282,9 @@ const styles = StyleSheet.create({
   errorSelectedColor: {
     borderColor: "red",
   },
-  selectStyle:{
-    marginRight:deviceWidth < 370 ? '2%' : '5%',
-    marginLeft:deviceWidth < 370 ? '2%' : '4%',
+  selectStyle: {
+    marginRight: deviceWidth < 370 ? "2%" : "5%",
+    marginLeft: deviceWidth < 370 ? "2%" : "4%",
   },
   labels: {
     margin: 5,
@@ -1346,8 +1378,7 @@ const styles = StyleSheet.create({
     left: 40,
     fontFamily: "HindRegular",
     fontSize: deviceWidth < 370 ? 15 : 16,
-    position:'absolute'
-
+    position: "absolute",
   },
   uploadImgBtn: {
     marginTop: 13,
@@ -1366,51 +1397,51 @@ const styles = StyleSheet.create({
   focusStyle: {
     borderColor: "blue",
   },
-  textInfo:{
+  textInfo: {
     fontSize: deviceWidth < 370 ? 14 : 16,
     fontFamily: "HindSemiBold",
-    color: "grey"
+    color: "grey",
   },
-  normal:{
-    position:'absolute',
-    top:85,
-    left:50,
+  normal: {
+    position: "absolute",
+    top: 85,
+    left: 50,
   },
-  up:{
-    position:'absolute',
-    top:63,
-    left:50,
+  up: {
+    position: "absolute",
+    top: 63,
+    left: 50,
   },
-  normalRemark:{
-    position:'absolute',
-    top:230,
-    left:50,
+  normalRemark: {
+    position: "absolute",
+    top: 230,
+    left: 50,
   },
-  upRemark:{
-    position:'absolute',
-    top:205,
-    left:50,
+  upRemark: {
+    position: "absolute",
+    top: 205,
+    left: 50,
   },
-  normalHomework:{
-    position:'absolute',
-    top:307,
-    left:50,
+  normalHomework: {
+    position: "absolute",
+    top: 307,
+    left: 50,
   },
-  upHomework:{
-    position:'absolute',
-    top:283,
-    left:50,
+  upHomework: {
+    position: "absolute",
+    top: 283,
+    left: 50,
   },
-  errorLabel:{
-    color:'red',
-    backgroundColor:'#F2F2F2',
-    paddingHorizontal:5,
+  errorLabel: {
+    color: "red",
+    backgroundColor: "#F2F2F2",
+    paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
-  normalLabel:{
-    color:'grey',
-    backgroundColor:'#F2F2F2',
-    paddingHorizontal:5,
+  normalLabel: {
+    color: "grey",
+    backgroundColor: "#F2F2F2",
+    paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
 });

@@ -26,6 +26,7 @@ import moment from "moment";
 import { Card, DataTable } from "react-native-paper";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 // import { Label } from "react-native-form-component";
 var FloatingLabel = require("react-native-floating-labels");
 export var ID;
@@ -43,6 +44,8 @@ const TeachersCalendarScreenBuild = () => {
   const [isDescFocused, setIsDescFocused] = useState(false);
   const [isFromDateFocused, setIsFromDateFocused] = useState(false);
   const [isToDateFocused, setIsToDateFocused] = useState(false);
+
+  const [btn, setBtn] = useState(false);
 
   const [forCalendarList, setForCalendarList] = useState({
     backgroundColor: "#0C60F4",
@@ -307,6 +310,7 @@ const TeachersCalendarScreenBuild = () => {
   }
 
   function buttonPressedHandler() {
+    setBtn(true);
     const FormData = {
       description: description,
       // created_by:createdby,
@@ -476,9 +480,7 @@ const TeachersCalendarScreenBuild = () => {
     setEnteredDescriptionTouched(false);
     setDescriptionLabel(true);
   }
-  // function createdbyBlurHandler(){
-  //   setEnteredCreatedbyTouched(true);
-  // }
+
   function fromDateBlurHandler() {
     setEnteredFromDateTouched(true);
     setIsFromDateFocused(false);
@@ -663,26 +665,14 @@ const TeachersCalendarScreenBuild = () => {
       {showForm && (
         <ScrollView>
           <View style={styles.inputForm}>
-            {/* <FloatingLabel
-              labelStyle={styles.labelInput}
-              inputStyle={styles.input}
-              style={[
-                styles.formInput,
-                titleInputIsInValid && styles.errorBorderColor,
-              ]}
-              onChangeText={titleChangeHandler}
-              blur={titleBlurHandler}
-              onFocus={onFocusTitleHandler}
-              value={title}
-              onSubmitEditing={Keyboard.dismiss}
-              // style={titleInputIsInValid && styles.errorBorderColor}
-            >
-              Title
-            </FloatingLabel> */}
             <View style={label ? styles.test : styles.testSuccess}>
               <Text
                 style={[
-                  titleInputIsInValid ? styles.errorLabel : styles.normalLabel,
+                  btn
+                    ? styles.submitLabel
+                    : titleInputIsInValid
+                    ? styles.errorLabel
+                    : styles.normalLabel,
                 ]}
               >
                 Title
@@ -728,7 +718,9 @@ const TeachersCalendarScreenBuild = () => {
             >
               <Text
                 style={[
-                  descriptionInputIsInValid
+                  btn
+                    ? styles.normalLabel
+                    : descriptionInputIsInValid
                     ? styles.errorLabel
                     : styles.normalLabel,
                 ]}
@@ -762,18 +754,7 @@ const TeachersCalendarScreenBuild = () => {
                 Enter description
               </Text>
             )}
-            {/* <Input
-                // keyboardType="number-pad"
-                placeholder="created by"
-                onChangeText={createdByChangeHandler}
-                blur={createdbyBlurHandler}
-                value={createdby}
-                onSubmitEditing={Keyboard.dismiss}
-                style={createdByInputIsInValid && styles.errorBorderColor}
-              />
-              {createdByInputIsInValid && (
-                  <Text style={{ color: "red",left:20 }}>Created by</Text>
-                )} */}
+
             <View style={[{ flexDirection: "row" }]}>
               <View style={{ flex: 1 }}>
                 <View>
@@ -788,12 +769,8 @@ const TeachersCalendarScreenBuild = () => {
                     onPress={() => showFromMode("date")}
                   />
                 </View>
-                <Input
+                <UnderlinedInput
                   value={fromText || frmdate}
-                  // value={
-                  //   moment(fromText).format("DD/MM/YYYY") ||
-                  //   moment(frmdate).format("DD/MM/YYYY")
-                  // }
                   placeholder="   Start date"
                   onSubmitEditing={Keyboard.dismiss}
                   style={
@@ -843,7 +820,7 @@ const TeachersCalendarScreenBuild = () => {
                     onPress={() => showToMode("date")}
                   />
                 </View>
-                <Input
+                <UnderlinedInput
                   // value={moment(toText).format('DD/MM/YYYY') || moment(toDate).format('DD/MM/YYYY')}
                   value={toText || todate}
                   // value={
@@ -1163,6 +1140,13 @@ const styles = StyleSheet.create({
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
   normalLabel: {
+    color: "grey",
+    backgroundColor: "#F2F2F2",
+    paddingHorizontal: 5,
+    fontSize: deviceWidth < 370 ? 13 : 17,
+    fontFamily: "HindRegular",
+  },
+  submitLabel: {
     color: "grey",
     backgroundColor: "#F2F2F2",
     paddingHorizontal: 5,
