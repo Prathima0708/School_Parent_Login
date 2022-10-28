@@ -27,15 +27,16 @@ import SearchBar from "react-native-dynamic-search-bar";
 export var ID;
 
 const TeachersTransport = () => {
-  const [busLabel,setBusLabel]=useState(false);
-  const [vehLabel,setVehLabel]=useState(false);
-  const [typeLabel,setTypeLabel]=useState(false);
-  const [driverLabel,setDriverLabel]=useState(false);
-  const [mobLabel,setMobLabel]=useState(false);
-  const [rootLabel,setRootLabel]=useState(false);
-  const [stopLabel,setStopLabel]=useState(false);
+  const [busLabel, setBusLabel] = useState(false);
+  const [vehLabel, setVehLabel] = useState(false);
+  const [typeLabel, setTypeLabel] = useState(false);
+  const [driverLabel, setDriverLabel] = useState(false);
+  const [mobLabel, setMobLabel] = useState(false);
+  const [rootLabel, setRootLabel] = useState(false);
+  const [stopLabel, setStopLabel] = useState(false);
 
-  const [top,setTop]=useState(false);
+  const [top, setTop] = useState(false);
+  const [btn, setBtn] = useState(false);
 
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
@@ -256,6 +257,7 @@ const TeachersTransport = () => {
   }
 
   function buttonPressedHandler() {
+    setBtn(true);
     // console.log(UserId);
     const FormData = {
       busnumber: busNumber,
@@ -682,26 +684,35 @@ const TeachersTransport = () => {
           {showForm && (
             <ScrollView style={styles.root}>
               <View style={styles.inputForm}>
-              <View style={!busLabel ? styles.normal : styles.up}>
-                    <Text 
-                     style={[busnumberInputIsInValid ? styles.errorLabel : styles.normalLabel]}
-                     onPress={onFocusBusHandler}
-                     onPressOut={busnumberInputBlur}>Bus number</Text>
-                  </View>
-                  <Input
-                    // keyboardType="number-pad"
-                    // placeholder="Bus Number"
-                    onChangeText={busNumberChangeHandler}
-                    blur={busnumberInputBlur}
-                    onFocus={onFocusBusHandler}
-                    value={busNumber}
-                    onSubmitEditing={Keyboard.dismiss}
-                    style={
-                      isFocused
-                        ? styles.focusStyle
-                        : busnumberInputIsInValid && styles.errorBorderColor
-                    }
-                  />
+                <View style={!busLabel ? styles.normal : styles.up}>
+                  <Text
+                    style={[
+                      btn
+                        ? styles.normalLabel
+                        : busnumberInputIsInValid
+                        ? styles.errorLabel
+                        : styles.normalLabel,
+                    ]}
+                    onPress={onFocusBusHandler}
+                    onPressOut={busnumberInputBlur}
+                  >
+                    Bus number
+                  </Text>
+                </View>
+                <Input
+                  // keyboardType="number-pad"
+                  // placeholder="Bus Number"
+                  onChangeText={busNumberChangeHandler}
+                  blur={busnumberInputBlur}
+                  onFocus={onFocusBusHandler}
+                  value={busNumber}
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={
+                    isFocused
+                      ? styles.focusStyle
+                      : busnumberInputIsInValid && styles.errorBorderColor
+                  }
+                />
                 {busnumberInputIsInValid && (
                   <Text
                     style={{
@@ -715,11 +726,20 @@ const TeachersTransport = () => {
                   </Text>
                 )}
 
-                  <View>
+                <View>
                   <View style={!vehLabel ? styles.normalVeh : styles.upVeh}>
-                    <Text 
-                      style={[vehicleNoInputIsInValid ? styles.errorLabel : styles.normalLabel]}
-                      onPress={onFocusVehHandler}>Vehicle number</Text>
+                    <Text
+                      style={[
+                        btn
+                          ? styles.normalLabel
+                          : vehicleNoInputIsInValid
+                          ? styles.errorLabel
+                          : styles.normalLabel,
+                      ]}
+                      onPress={onFocusVehHandler}
+                    >
+                      Vehicle number
+                    </Text>
                   </View>
                   <Input
                     // keyboardType="number-pad"
@@ -735,7 +755,7 @@ const TeachersTransport = () => {
                         : vehicleNoInputIsInValid && styles.errorBorderColor
                     }
                   />
-                  </View>
+                </View>
                 {vehicleNoInputIsInValid && (
                   <Text
                     style={{
@@ -751,9 +771,18 @@ const TeachersTransport = () => {
 
                 <View>
                   <View style={!typeLabel ? styles.normalType : styles.upType}>
-                    <Text 
-                      style={[typeInputIsInValid ? styles.errorLabel : styles.normalLabel]}
-                      onPress={onFocusTypeHandler}>Transport Type</Text>
+                    <Text
+                      style={[
+                        btn
+                          ? styles.normalLabel
+                          : typeInputIsInValid
+                          ? styles.errorLabel
+                          : styles.normalLabel,
+                      ]}
+                      onPress={onFocusTypeHandler}
+                    >
+                      Transport Type
+                    </Text>
                   </View>
                   <Input
                     // placeholder="Type"
@@ -768,7 +797,7 @@ const TeachersTransport = () => {
                         : typeInputIsInValid && styles.errorBorderColor
                     }
                   />
-                  </View>
+                </View>
                 {typeInputIsInValid && (
                   <Text
                     style={{
@@ -783,10 +812,21 @@ const TeachersTransport = () => {
                 )}
 
                 <View>
-                  <View style={!driverLabel ? styles.normalDriver : styles.upDriver}>
-                    <Text 
-                      style={[drivernameInputIsInValid ? styles.errorLabel : styles.normalLabel]}
-                      onPress={onFocusDriverHandler}>Driver name</Text>
+                  <View
+                    style={!driverLabel ? styles.normalDriver : styles.upDriver}
+                  >
+                    <Text
+                      style={[
+                        btn
+                          ? styles.normalLabel
+                          : drivernameInputIsInValid
+                          ? styles.errorLabel
+                          : styles.normalLabel,
+                      ]}
+                      onPress={onFocusDriverHandler}
+                    >
+                      Driver name
+                    </Text>
                   </View>
                   <Input
                     // placeholder="Driver Name"
@@ -801,7 +841,7 @@ const TeachersTransport = () => {
                         : drivernameInputIsInValid && styles.errorBorderColor
                     }
                   />
-                  </View>
+                </View>
                 {drivernameInputIsInValid && (
                   <Text
                     style={{
@@ -817,9 +857,18 @@ const TeachersTransport = () => {
 
                 <View>
                   <View style={!mobLabel ? styles.normalMob : styles.upMob}>
-                    <Text 
-                      style={[mobileInputIsInValid ? styles.errorLabel : styles.normalLabel]}
-                      onPress={onFocusMobHandler}>Mobile number</Text>
+                    <Text
+                      style={[
+                        btn
+                          ? styles.normalLabel
+                          : mobileInputIsInValid
+                          ? styles.errorLabel
+                          : styles.normalLabel,
+                      ]}
+                      onPress={onFocusMobHandler}
+                    >
+                      Mobile number
+                    </Text>
                   </View>
                   <Input
                     keyboardType="number-pad"
@@ -837,7 +886,7 @@ const TeachersTransport = () => {
                         : mobileInputIsInValid && styles.errorBorderColor
                     }
                   />
-                  </View>
+                </View>
                 {mobileInputIsInValid && (
                   <Text
                     style={{
@@ -853,9 +902,18 @@ const TeachersTransport = () => {
 
                 <View>
                   <View style={!rootLabel ? styles.normalRoot : styles.upRoot}>
-                    <Text 
-                      style={[routenameInputIsInValid ? styles.errorLabel : styles.normalLabel]}
-                      onPress={onFocusRouteHandler}>Root name</Text>
+                    <Text
+                      style={[
+                        btn
+                          ? styles.normalLabel
+                          : routenameInputIsInValid
+                          ? styles.errorLabel
+                          : styles.normalLabel,
+                      ]}
+                      onPress={onFocusRouteHandler}
+                    >
+                      Route name
+                    </Text>
                   </View>
                   <Input
                     // placeholder="Route Name"
@@ -870,7 +928,7 @@ const TeachersTransport = () => {
                         : routenameInputIsInValid && styles.errorBorderColor
                     }
                   />
-                  </View>
+                </View>
                 {routenameInputIsInValid && (
                   <Text
                     style={{
@@ -886,9 +944,18 @@ const TeachersTransport = () => {
 
                 <View>
                   <View style={!stopLabel ? styles.normalStop : styles.upStop}>
-                    <Text 
-                      style={[stopnameInputIsInValid ? styles.errorLabel : styles.normalLabel]}
-                      onPress={onFocusStopHandler}>Stop name</Text>
+                    <Text
+                      style={[
+                        btn
+                          ? styles.normalLabel
+                          : stopnameInputIsInValid
+                          ? styles.errorLabel
+                          : styles.normalLabel,
+                      ]}
+                      onPress={onFocusStopHandler}
+                    >
+                      Stop name
+                    </Text>
                   </View>
                   <Input
                     // placeholder="Stop Name"
@@ -897,13 +964,13 @@ const TeachersTransport = () => {
                     onFocus={onFocusStopHandler}
                     value={stopname}
                     onSubmitEditing={Keyboard.dismiss}
-                    style={
-                      [isStopFocused
+                    style={[
+                      isStopFocused
                         ? styles.focusStyle
-                        : stopnameInputIsInValid && styles.errorBorderColor]
-                    }
+                        : stopnameInputIsInValid && styles.errorBorderColor,
+                    ]}
                   />
-                  </View>
+                </View>
                 {stopnameInputIsInValid && (
                   <Text
                     style={{
@@ -1175,136 +1242,136 @@ const styles = StyleSheet.create({
   focusStyle: {
     borderColor: "blue",
   },
-  normal:{
-    position:'absolute',
-    top:35,
-    left:50,
+  normal: {
+    position: "absolute",
+    top: 35,
+    left: 50,
   },
-  up:{
-    position:'absolute',
-    top:10,
-    left:50,
+  up: {
+    position: "absolute",
+    top: 10,
+    left: 50,
   },
-  errorLabel:{
-    color:'red',
-    backgroundColor:'#F2F2F2',
-    paddingHorizontal:5,
+  errorLabel: {
+    color: "red",
+    backgroundColor: "#F2F2F2",
+    paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
-  normalLabel:{
-    color:'grey',
-    backgroundColor:'#F2F2F2',
-    paddingHorizontal:5,
+  normalLabel: {
+    color: "grey",
+    backgroundColor: "#F2F2F2",
+    paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
 
-  normalVeh:{
-    position:'absolute',
-    top:27,
-    left:30,
+  normalVeh: {
+    position: "absolute",
+    top: 27,
+    left: 30,
   },
-  upVeh:{
-    top:27,
-    width:120,
-    left:30,
+  upVeh: {
+    top: 27,
+    width: 120,
+    left: 30,
   },
-  normalVehExtra:{
-    position:'absolute',
-    left:50,
-    top:137
+  normalVehExtra: {
+    position: "absolute",
+    left: 50,
+    top: 137,
   },
-  upVehExtra:{
-    position:'absolute',
-    left:50,
-    top:106
-  },
-
-  normalType:{
-    position:'absolute',
-    top:27,
-    left:30,
-  },
-  upType:{
-    top:25,
-    width:120,
-    left:30,
-  },
-  normalTypeExtra:{
-    position:'absolute',
-    left:50,
-    top:215
-  },
-  upTypeExtra:{
-    position:'absolute',
-    left:50,
-    top:193
+  upVehExtra: {
+    position: "absolute",
+    left: 50,
+    top: 106,
   },
 
-  normalDriver:{
-    position:'absolute',
-    top:26,
-    left:30,
+  normalType: {
+    position: "absolute",
+    top: 27,
+    left: 30,
   },
-  upDriver:{
-    top:25,
-    width:110,
-    left:30,
+  upType: {
+    top: 25,
+    width: 120,
+    left: 30,
   },
-  normalDriverExtra:{
-    position:'absolute',
-    left:50,
-    top:295
+  normalTypeExtra: {
+    position: "absolute",
+    left: 50,
+    top: 215,
   },
-  upDriverExtra:{
-    position:'absolute',
-    left:50,
-    top:270
-  },
-
-  normalMob:{
-    position:'absolute',
-    top:27,
-    left:30,
-  },
-  upMob:{
-    top:25,
-    width:120,
-    left:30,
+  upTypeExtra: {
+    position: "absolute",
+    left: 50,
+    top: 193,
   },
 
-  normalRoot:{
-    position:'absolute',
-    top:27,
-    left:30,
+  normalDriver: {
+    position: "absolute",
+    top: 26,
+    left: 30,
   },
-  upRoot:{
-    top:25,
-    left:30,
-    width:100
+  upDriver: {
+    top: 25,
+    width: 110,
+    left: 30,
+  },
+  normalDriverExtra: {
+    position: "absolute",
+    left: 50,
+    top: 295,
+  },
+  upDriverExtra: {
+    position: "absolute",
+    left: 50,
+    top: 270,
   },
 
-  normalStop:{
-    position:'absolute',
-    top:30,
-    left:30,
+  normalMob: {
+    position: "absolute",
+    top: 27,
+    left: 30,
   },
-  upStop:{
+  upMob: {
+    top: 25,
+    width: 120,
+    left: 30,
+  },
+
+  normalRoot: {
+    position: "absolute",
+    top: 27,
+    left: 30,
+  },
+  upRoot: {
+    top: 25,
+    left: 30,
+    width: 100,
+  },
+
+  normalStop: {
+    position: "absolute",
+    top: 30,
+    left: 30,
+  },
+  upStop: {
     // position:'absolute',
-    top:27,
-    left:37,
-    width:90
+    top: 27,
+    left: 37,
+    width: 90,
   },
-  normalStopExtra:{
-    position:'absolute',
-    left:50,
-    top:530
+  normalStopExtra: {
+    position: "absolute",
+    left: 50,
+    top: 530,
   },
-  upStopExtra:{
-    position:'absolute',
-    left:50,
-    top:507
+  upStopExtra: {
+    position: "absolute",
+    left: 50,
+    top: 507,
   },
-  topInputStyle:{
-    top:10
+  topInputStyle: {
+    top: 10,
   },
 });

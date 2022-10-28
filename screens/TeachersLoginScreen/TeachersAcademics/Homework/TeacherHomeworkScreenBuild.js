@@ -729,13 +729,14 @@ const TeacherHomeworkScreenBuild = () => {
     }
     fetchData();
   }
+
   function editItem(id) {
+    console.log(id);
     setShowInitialBtn(false);
     let selectedData = selected.split(" - ");
     let class_name = selectedData[0];
     let section = selectedData[1];
     ID = id;
-    console.log(id);
 
     const filteredDummuyData = homeworkData.find((data) => data.id == id);
     // console.log(filteredDummuyData);
@@ -765,6 +766,7 @@ const TeacherHomeworkScreenBuild = () => {
   }
 
   function deleteItem(id) {
+    console.log("i am pressed");
     // console.log(id);
     // const newFilteredData=data.filter((data)=>data.id != id);
 
@@ -1157,22 +1159,24 @@ const TeacherHomeworkScreenBuild = () => {
 
                       <View style={[{ flexDirection: "row" }]}>
                         <View style={{ flex: 2, left: 40, top: -5 }}>
-                          <Text
-                            style={styles.textInfo}
-                          >
+                          <Text style={styles.textInfo}>
                             {moment(homeworkData.homework_date).format(
                               "DD/MM/YYYY"
                             )}
                           </Text>
                         </View>
                         <View style={{ flex: 2, left: 110, top: -5 }}>
-                          <Text
-                            style={styles.textInfo}
-                          >
+                          <Text style={styles.textInfo}>
                             {moment(homeworkData.due_date).format("DD/MM/YYYY")}
                           </Text>
                         </View>
-                        <View style={{ flex: 2, left:deviceWidth < 370 ? 90 : 100, bottom: -50 }}>
+                        <View
+                          style={{
+                            flex: 2,
+                            left: deviceWidth < 370 ? 90 : 100,
+                            bottom: -50,
+                          }}
+                        >
                           <Ionicons
                             name="md-pencil-sharp"
                             size={24}
@@ -1193,10 +1197,14 @@ const TeacherHomeworkScreenBuild = () => {
                         <View style={{ flex: 2, left: -15, top: 5 }}>
                           <Text style={styles.cardTextStyle}>Description:</Text>
                         </View>
-                        <View style={{ flex: 2, left:deviceWidth < 370 ? -30 : -40, top: 6 }}>
-                          <Text
-                            style={styles.textInfo}
-                          >
+                        <View
+                          style={{
+                            flex: 2,
+                            left: deviceWidth < 370 ? -30 : -40,
+                            top: 6,
+                          }}
+                        >
+                          <Text style={styles.textInfo}>
                             {homeworkData.description}
                           </Text>
                         </View>
@@ -1260,9 +1268,9 @@ const styles = StyleSheet.create({
   errorSelectedColor: {
     borderColor: "red",
   },
-  selectStyle:{
-    marginRight:deviceWidth < 370 ? '2%' : '5%',
-    marginLeft:deviceWidth < 370 ? '2%' : '4%',
+  selectStyle: {
+    marginRight: deviceWidth < 370 ? "2%" : "5%",
+    marginLeft: deviceWidth < 370 ? "2%" : "4%",
   },
   labels: {
     margin: 5,
@@ -1356,8 +1364,7 @@ const styles = StyleSheet.create({
     left: 40,
     fontFamily: "HindRegular",
     fontSize: deviceWidth < 370 ? 15 : 16,
-    position:'absolute'
-
+    position: "absolute",
   },
   uploadImgBtn: {
     marginTop: 13,
@@ -1376,10 +1383,10 @@ const styles = StyleSheet.create({
   focusStyle: {
     borderColor: "blue",
   },
-  textInfo:{
+  textInfo: {
     fontSize: deviceWidth < 370 ? 14 : 16,
     fontFamily: "HindSemiBold",
-    color: "grey"
+    color: "grey",
   },
   normal:{
     position:'absolute',
@@ -1411,16 +1418,16 @@ const styles = StyleSheet.create({
     left:30,
     width:90
   },
-  errorLabel:{
-    color:'red',
-    backgroundColor:'#F2F2F2',
-    paddingHorizontal:5,
+  errorLabel: {
+    color: "red",
+    backgroundColor: "#F2F2F2",
+    paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
-  normalLabel:{
-    color:'grey',
-    backgroundColor:'#F2F2F2',
-    paddingHorizontal:5,
+  normalLabel: {
+    color: "grey",
+    backgroundColor: "#F2F2F2",
+    paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
   upWaring:{

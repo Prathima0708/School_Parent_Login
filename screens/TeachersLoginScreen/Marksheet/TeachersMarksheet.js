@@ -23,10 +23,17 @@ import SearchBar from "react-native-dynamic-search-bar";
 
 import SelectList from "react-native-dropdown-select-list";
 import { Ionicons } from "@expo/vector-icons";
+import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 export var ID;
 export var StudentList = [];
 const TeachersMarksheet = () => {
   const [mathsLabel, setMathsLabel] = useState(false);
+  const [engLabel, setEngLabel] = useState(false);
+  const [sciLabel, setSciLabel] = useState(false);
+  const [hindiLabel, setHindiLabel] = useState(false);
+  const [socLabel, setSocLabel] = useState(false);
+  const [kanLabel, setKanLabel] = useState(false);
+  const [compLabel, setCompLabel] = useState(false);
 
   const [isMathFocused, setIsMathFocused] = useState(false);
   const [isEngFocused, setIsEngFocused] = useState(false);
@@ -125,6 +132,8 @@ const TeachersMarksheet = () => {
   const [showDefaultList, setShowDefaultList] = useState(true);
   const [showInitialBtn, setShowInitialBtn] = useState(true);
 
+  const [btn, setBtn] = useState(false);
+
   function mathsMarksChangeHandler(enteredValue) {
     setMathsMarks(enteredValue);
   }
@@ -170,6 +179,7 @@ const TeachersMarksheet = () => {
   function onFocusEngHandler() {
     setIsEngFocused(true);
     setEnteredEngMarksTouched(false);
+    setEngLabel(true);
   }
 
   function sciMarksBlurHandler() {
@@ -179,6 +189,7 @@ const TeachersMarksheet = () => {
   function onFocusSciHandler() {
     setIsSciFocused(true);
     setEnteredSciMarksTouched(false);
+    setSciLabel(true);
   }
 
   function hindiMarksBlurHandler() {
@@ -188,6 +199,7 @@ const TeachersMarksheet = () => {
   function onFocusHindiHandler() {
     setIsHindiFocused(true);
     setEnteredHindiMarksTouched(false);
+    setHindiLabel(true);
   }
 
   function socMarksBlurHandler() {
@@ -197,6 +209,7 @@ const TeachersMarksheet = () => {
   function onFocusSocHandler() {
     setIsSocFocused(true);
     setEnteredSocMarksTouched(false);
+    setSocLabel(true);
   }
 
   function kanMarksBlurHandler() {
@@ -206,6 +219,7 @@ const TeachersMarksheet = () => {
   function onFocusKanHandler() {
     setIsKanFocused(true);
     setEnteredKanMarksTouched(false);
+    setKanLabel(true);
   }
 
   function compMarksBlurHandler() {
@@ -215,6 +229,7 @@ const TeachersMarksheet = () => {
   function onFocusComHandler() {
     setIsComFocused(true);
     setEnteredCompMarksTouched(false);
+    setCompLabel(true);
   }
 
   function overallpercentageBlurHandler() {
@@ -223,22 +238,16 @@ const TeachersMarksheet = () => {
   function remarkBlurHandler() {
     setEnteredReamrkTouched(true);
   }
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
-  //       setMarksheetData(res.data);
-  //       console.log(data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  //   fetchData();
-  // }, []);
 
   function updateHandler() {
     setShowInitialBtn(true);
-    // console.log(UserId);
+    setMathsLabel(false);
+    setEngLabel(false);
+    setSciLabel(false);
+    setHindiLabel(false);
+    setSocLabel(false);
+    setKanLabel(false);
+    setCompLabel(false);
     console.log(ID);
     const FormData = {
       student_name: StudentList.student_name,
@@ -289,16 +298,7 @@ const TeachersMarksheet = () => {
       computer_percentg: 0,
     };
     // console.log(FormData);
-    async function fetchData() {
-      try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
-        setMarksheetData(res.data);
-        setFilteredMarks(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData();
+
     async function updateData() {
       try {
         let headers = {
@@ -320,8 +320,19 @@ const TeachersMarksheet = () => {
     }
     updateData();
     Alert.alert("Successfully updated", "", [
-      { text: "OK", onPress: () => fetchData() },
+      { text: "OK", onPress: () => showMarksheetList() },
     ]);
+
+    // async function fetchData() {
+    //   try {
+    //     const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
+    //     setMarksheetData(res.data);
+    //     setFilteredMarks(res.data);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
+    // fetchData();
 
     setMathsMarks("");
     setEngMarks("");
@@ -347,8 +358,7 @@ const TeachersMarksheet = () => {
   }
 
   function buttonPressedHandler() {
-    //console.log(StudentList.student_name);
-    // console.log(UserId);
+    setBtn(true);
     const FormData = {
       student_name: StudentList.student_name,
       class_name: StudentList.class_name,
@@ -631,7 +641,16 @@ const TeachersMarksheet = () => {
     login();
   }
   function addForm(id) {
-    console.log("i am pressed");
+    setMathsMarks("");
+    setEngMarks("");
+    setSciMarks("");
+    setSocMarks("");
+    setKanMarks("");
+    setHindiMarks("");
+    setCompMarks("");
+    setEnteredOverallPerct("");
+    setEnteredRemark("");
+
     const filteredDummuyData = studList.find((data) => data.id == id);
     // console.log(filteredDummuyData.student_name);
     StudentList = filteredDummuyData;
@@ -682,6 +701,13 @@ const TeachersMarksheet = () => {
     setShowBtn(true);
     setShowForm(true);
     setShowAddForm(false);
+    setMathsLabel(false);
+    setEngLabel(false);
+    setSciLabel(false);
+    setHindiLabel(false);
+    setSocLabel(false);
+    setKanLabel(false);
+    setCompLabel(false);
     {
       isEdit && showMarksheetList(true);
     }
@@ -689,6 +715,13 @@ const TeachersMarksheet = () => {
 
   function editItem(id) {
     setShowInitialBtn(false);
+    setMathsLabel(true);
+    setEngLabel(true);
+    setSciLabel(true);
+    setSocLabel(true);
+    setHindiLabel(true);
+    setCompLabel(true);
+    setKanLabel(true);
     console.log(id);
     ID = id;
     const filteredDummuyData = marksheetData.find((data) => data.id == id);
@@ -698,6 +731,7 @@ const TeachersMarksheet = () => {
     setHindiMarks(filteredDummuyData.hindi_obt_mark);
     setSocMarks(filteredDummuyData.social_obt_mark);
     setKanMarks(filteredDummuyData.kannada_obt_mark);
+    setCompMarks(filteredDummuyData.computer_obt_mark);
     setForMarkssheetList({
       backgroundColor: "#F4F6F6",
       color: "black",
@@ -1028,18 +1062,19 @@ const TeachersMarksheet = () => {
               <View style={{ flex: 1 }}>
                 <View style={!mathsLabel ? styles.normal : styles.up}>
                   <Text
-                    onPress={onFocusMathHandler}
                     style={[
-                      mathsMarksInputIsInValid
+                      btn
+                        ? styles.normalLabel
+                        : mathsMarksInputIsInValid
                         ? styles.errorLabel
                         : styles.normalLabel,
                     ]}
                   >
-                    Maths marks
+                    Maths
                   </Text>
                 </View>
                 <Input
-                  // placeholder="Maths"
+                  // placeholder="maths"
                   maxLength={3}
                   onChangeText={mathsMarksChangeHandler}
                   blur={mathsMarksBlurHandler}
@@ -1069,8 +1104,21 @@ const TeachersMarksheet = () => {
               <View style={styles.space} />
 
               <View style={{ flex: 1 }}>
+                <View style={!engLabel ? styles.normal : styles.up}>
+                  <Text
+                    style={[
+                      btn
+                        ? styles.normalLabel
+                        : engMarksInputIsInValid
+                        ? styles.errorLabel
+                        : styles.normalLabel,
+                    ]}
+                  >
+                    English
+                  </Text>
+                </View>
                 <Input
-                  placeholder="English"
+                  //   placeholder="English"
                   maxLength={3}
                   onChangeText={engMarksChangeHandler}
                   blur={engMarksBlurHandler}
@@ -1098,8 +1146,21 @@ const TeachersMarksheet = () => {
               </View>
 
               <View style={{ flex: 1 }}>
+                <View style={!sciLabel ? styles.normal : styles.up}>
+                  <Text
+                    style={[
+                      btn
+                        ? styles.normalLabel
+                        : sciMarksInputIsInValid
+                        ? styles.errorLabel
+                        : styles.normalLabel,
+                    ]}
+                  >
+                    Science
+                  </Text>
+                </View>
                 <Input
-                  placeholder="Science"
+                  //  placeholder="Science"
                   maxLength={2}
                   onChangeText={sciMarksChangeHandler}
                   blur={sciMarksBlurHandler}
@@ -1129,8 +1190,21 @@ const TeachersMarksheet = () => {
 
             <View style={{ flexDirection: "row" }}>
               <View style={{ flex: 1 }}>
+                <View style={!hindiLabel ? styles.normal : styles.up}>
+                  <Text
+                    style={[
+                      btn
+                        ? styles.normalLabel
+                        : hindiMarksInputIsInValid
+                        ? styles.errorLabel
+                        : styles.normalLabel,
+                    ]}
+                  >
+                    Hindi
+                  </Text>
+                </View>
                 <Input
-                  placeholder="Hindi"
+                  // placeholder="Hindi"
                   maxLength={3}
                   onChangeText={hindiMarksChangeHandler}
                   blur={hindiMarksBlurHandler}
@@ -1160,8 +1234,21 @@ const TeachersMarksheet = () => {
               <View style={styles.space} />
 
               <View style={{ flex: 1 }}>
+                <View style={!socLabel ? styles.normal : styles.up}>
+                  <Text
+                    style={[
+                      btn
+                        ? styles.normalLabel
+                        : socMarksInputIsInValid
+                        ? styles.errorLabel
+                        : styles.normalLabel,
+                    ]}
+                  >
+                    Social
+                  </Text>
+                </View>
                 <Input
-                  placeholder="Social"
+                  // placeholder="Social"
                   maxLength={3}
                   onChangeText={socMarksChangeHandler}
                   blur={socMarksBlurHandler}
@@ -1190,8 +1277,21 @@ const TeachersMarksheet = () => {
               </View>
 
               <View style={{ flex: 1 }}>
+                <View style={!kanLabel ? styles.normal : styles.up}>
+                  <Text
+                    style={[
+                      btn
+                        ? styles.normalLabel
+                        : kanMarksInputIsInValid
+                        ? styles.errorLabel
+                        : styles.normalLabel,
+                    ]}
+                  >
+                    Kannada
+                  </Text>
+                </View>
                 <Input
-                  placeholder="Kannada"
+                  //  placeholder="Kannada"
                   maxLength={3}
                   onChangeText={kanMarksChangeHandler}
                   blur={kanMarksBlurHandler}
@@ -1220,8 +1320,21 @@ const TeachersMarksheet = () => {
             </View>
 
             <View style={{ width: "40%", marginTop: 5 }}>
+              <View style={!compLabel ? styles.normal : styles.up}>
+                <Text
+                  style={[
+                    btn
+                      ? styles.normalLabel
+                      : compMarksInputIsInValid
+                      ? styles.errorLabel
+                      : styles.normalLabel,
+                  ]}
+                >
+                  Computer
+                </Text>
+              </View>
               <Input
-                placeholder="Computer"
+                // placeholder="Computer"
                 onChangeText={compMarksChangeHandler}
                 blur={compMarksBlurHandler}
                 onFocus={onFocusComHandler}
@@ -1479,7 +1592,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   errorBorderColor: {
-    borderBottomColor: "red",
+    borderColor: "red",
   },
   btnSubmit: {
     marginTop: 30,
@@ -1559,8 +1672,9 @@ const styles = StyleSheet.create({
   normalLabel: {
     color: "grey",
     backgroundColor: "#F2F2F2",
-    paddingHorizontal: 5,
-    fontSize: deviceWidth < 370 ? 13 : 15,
+    paddingHorizontal: 7,
+    fontSize: deviceWidth < 370 ? 13 : 17,
+    fontFamily: "HindRegular",
   },
 
   normalRemark: {
@@ -1582,5 +1696,25 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 50,
     top: 106,
+  },
+  normal: {
+    position: "absolute",
+    top: 20,
+    left: 10,
+  },
+  up: {
+    position: "absolute",
+    top: -5,
+    left: 15,
+  },
+  normalEng: {
+    position: "absolute",
+    top: 20,
+    left: 10,
+  },
+  upEng: {
+    position: "absolute",
+    top: 1,
+    left: 15,
   },
 });
