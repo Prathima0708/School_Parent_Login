@@ -634,6 +634,7 @@ const TeachersLeaveScreenBuild = () => {
       {showForm && (
         <ScrollView>
           <View style={styles.inputForm}>
+            <View>
             <View style={!typeLabel ? styles.normal : styles.up}>
               <Text
                 onPress={onLeavetypeFocusHandler}
@@ -659,9 +660,15 @@ const TeachersLeaveScreenBuild = () => {
                   : leavetypeInputIsInValid && styles.errorBorderColor
               }
             />
+            </View>
             {leavetypeInputIsInValid && (
-              <Text style={{ color: "red", left: 20 }}>Enter the type</Text>
+              <Text style={{ color: "red",
+               left: 40,
+               position:'absolute',
+               top:90, 
+              }}>Enter the type</Text>
             )}
+            <View>
             <View
               style={
                 !leavetypeInputIsInValid
@@ -700,6 +707,7 @@ const TeachersLeaveScreenBuild = () => {
                   : leavereasonInputIsInValid && styles.errorBorderColor
               }
             />
+            </View>
             {leavereasonInputIsInValid && (
               <Text
                 style={{
@@ -1113,13 +1121,13 @@ const styles = StyleSheet.create({
   },
   normal: {
     position: "absolute",
-    top: 35,
-    left: 50,
+    top: 27,
+    left: 30,
   },
   up: {
-    position: "absolute",
-    top: 10,
-    left: 50,
+    top: 24,
+    width:85,
+    left: 30,
   },
   errorLabel: {
     color: "red",
@@ -1136,22 +1144,22 @@ const styles = StyleSheet.create({
 
   normalRemark: {
     position: "absolute",
-    top: 110,
-    left: 50,
+    top: 26,
+    left: 30,
   },
   upRemark: {
-    position: "absolute",
-    top: 88,
-    left: 50,
+    top: 43,
+    left: 30,
+    width:100
   },
   normalRemarkExtra: {
     position: "absolute",
-    left: 50,
-    top: 130,
+    left: 30,
+    top: 25,
   },
   upRemarkExtra: {
     position: "absolute",
-    left: 50,
-    top: 106,
+    left: 30,
+    top: 5,
   },
 });

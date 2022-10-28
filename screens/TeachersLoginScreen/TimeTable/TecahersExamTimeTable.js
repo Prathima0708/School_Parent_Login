@@ -29,7 +29,7 @@ const TecahersExamTimeTable = () => {
   const [examLabel,setExamLabel]=useState(false);
   const [totalLabel,setTotalLabel]=useState(false);
   const [hourLabel,setHourLabel]=useState(false);
-
+  const [btn,subBtn]=useState(false);
   const [isExamnameFocused,setIsExamnameFocused]=useState(false);
   const [isFromFocused,setIsFromFocused]=useState(false);
   const [isToFocused,setIsToFocused]=useState(false);
@@ -202,6 +202,8 @@ const TecahersExamTimeTable = () => {
     setShowForm(false);
   }
   function addExamTimeTableHandler() {
+    subBtn(true);
+
     let selectedData = selectedExamTimeTable.split(" - ");
     let class_name = selectedData[0];
     let section = selectedData[1];
@@ -759,6 +761,7 @@ const TecahersExamTimeTable = () => {
                 )}
               </View>
             )}
+            <View>
             <View style={!examLabel ? styles.normal : styles.up}>
               <Text 
               style={[selectExamNameIsInValid ? styles.errorLabel : styles.normalLabel]}
@@ -772,6 +775,7 @@ const TecahersExamTimeTable = () => {
               onFocus={onExamnameFocusHandler}
               onSubmitEditing={Keyboard.dismiss}
             />
+            </View>
             {selectExamNameIsInValid && (
               <Text
                 style={{
@@ -894,7 +898,8 @@ const TecahersExamTimeTable = () => {
                 )}
               </View>
             </View>
-            <View style={!totalLabel ? styles.normalTotal : styles.upTotal}>
+            <View>
+            <View style={btn ? styles.topLabelExtra :(!totalLabel ? styles.normalTotal : styles.upTotal)}>
               <Text 
               style={[marksInputIsInValid ? styles.errorLabel : styles.normalLabel]}
               onPress={onMarkFocusHandler}>Total marks</Text>
@@ -907,20 +912,14 @@ const TecahersExamTimeTable = () => {
               blur={markBlurHanlder}
               onFocus={onMarkFocusHandler}
             />
+            </View>
             {marksInputIsInValid && (
               <Text
-                style={{
-                  color: "red",
-                  left: 40,
-                  fontFamily: "HindRegular",
-                  fontSize: deviceWidth < 370 ? 14 : 18,
-                  position:'absolute',
-                  top:330,
-                }}
-              >
+                style={[btn ? styles.topExtra : (styles.errorText,{bottom:10,color:'red',left:30})]}>
                 Enter total marks
               </Text>
             )}
+            <View>
             <View style={!hourLabel ? styles.normalHour : styles.upHour}>
               <Text 
                 style={[hourInputIsInValid ? styles.errorLabel : styles.normalLabel]}
@@ -935,15 +934,10 @@ const TecahersExamTimeTable = () => {
               blur={hourBlurHanlder}
               onFocus={onHourFocusHandler}
             />
+            </View>
             {hourInputIsInValid && (
               <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: deviceWidth < 370 ? 14 : 18,
-                }}
-              >
+                style={[btn ? styles.topExtra :(styles.errorText,marksInputIsInValid ? {bottom:10,left:30,color:'red'} : {top:430})]}>
                 Enter hour
               </Text>
             )}
@@ -1134,35 +1128,35 @@ const styles = StyleSheet.create({
 
   normal:{
     position:'absolute',
-    top:127,
-    left:50,
+    top:30,
+    left:30,
   },
   up:{
-    position:'absolute',
-    top:106,
-    left:50,
+    top:25,
+    width:90,
+    left:30,
   },
 
   normalTotal:{
     position:'absolute',
-    top:288,
-    left:50,
+    top:27,
+    left:30,
   },
   upTotal:{
-    position:'absolute',
-    top:267,
-    left:50,
+    top:25,
+    width:92,
+    left:30,
   },
 
   normalHour:{
     position:'absolute',
-    top:370,
-    left:50,
+    top:27,
+    left:30,
   },
   upHour:{
-    position:'absolute',
-    top:345,
-    left:50,
+    top:24,
+    width:44,
+    left:30,
   },
 
 
@@ -1178,4 +1172,21 @@ const styles = StyleSheet.create({
     paddingHorizontal:5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
+  errorText:{
+    color: "red",
+    left: 40,
+    fontFamily: "HindRegular",
+    fontSize: deviceWidth < 370 ? 14 : 18,
+    position:'absolute',
+  },
+  topLabelExtra:{
+    top:25,
+    left:30,
+    width:100
+  },
+  topExtra:{
+    bottom:10,
+    left:30,
+    color:'red'
+  }
 });
