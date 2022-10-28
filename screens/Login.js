@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Test from "../components/UI/LgButton";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import KeyboardAccessory from "react-native-sticky-keyboard-accessory";
 import {
   Alert,
@@ -32,6 +32,7 @@ import { formikFieldApplyYupTransforms } from "formik-yup";
 import { StyleSheet } from "react-native";
 import AccountTypeBtn from "../components/UI/AccountTypeBtn";
 import { Dimensions } from "react-native";
+import { Icon, Input, Pressable } from "native-base";
 
 export var Token,
   UserId,
@@ -54,6 +55,7 @@ function Login() {
   const [authToken, setAuthToken] = useState();
 
   const [show, setShow] = useState(false);
+  const [show1, setShow1] = useState(false);
 
   const [forPartentBackground, setForPartentBackground] = useState({
     color: "#d9dffc",
@@ -118,8 +120,8 @@ function Login() {
       UserId = userId;
       TeacherGroup = resLogin.data.groups[0] == "staff";
       ParentGroup = resLogin.data.groups[0] == "parents";
-      // console.log("teacher group is :", TeacherGroup);
-      // console.log("parent group is :", ParentGroup);
+      console.log("teacher group is :", TeacherGroup);
+      console.log("parent group is :", ParentGroup);
 
       try {
         await AsyncStorage.setItem("datagroup", resLogin.data.groups[0]);
@@ -335,6 +337,33 @@ function Login() {
             value={enteredPassword}
             placeholder="Password"
           />
+
+          {/* <Input
+            variant="outline"
+            w={{
+              base: "75%",
+              md: "25%",
+            }}
+            marginTop={5}
+            ml={39}
+            fontSize={18}
+            type={show1 ? "text" : "password"}
+            InputRightElement={
+              <Pressable onPress={() => setShow1(!show1)}>
+                <Icon
+                  as={
+                    <MaterialIcons
+                      name={show1 ? "visibility" : "visibility-off"}
+                    />
+                  }
+                  size={5}
+                  mr="2"
+                  color="muted.400"
+                />
+              </Pressable>
+            }
+            placeholder="Password"
+          /> */}
           {show && (
             <>
               <TextInput

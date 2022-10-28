@@ -13,6 +13,7 @@ function Input({
   onPressIn,
   maxLength,
   onKeyPress,
+  ref,
 }) {
   const [isActive, setActive] = useState(false);
 
@@ -29,6 +30,7 @@ function Input({
         onFocus={onFocus}
         onPressIn={onPressIn}
         maxLength={maxLength}
+        ref={ref}
       />
     </View>
   );
@@ -41,16 +43,16 @@ const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   inputStyle: {
     color: "black",
-    borderWidth:1.5,
+    borderWidth: 1.5,
     // borderBottomWidth: 1.5,
     // borderBottomRightRadius: 5,
     // borderBottomLeftRadius: 5,
-    borderRadius:10,
+    borderRadius: 10,
     borderColor: "lightgrey",
     padding: 10,
     margin: deviceHieght < 600 ? "2%" : "4%",
     fontSize: deviceWidth < 370 ? 16 : 20,
     fontFamily: "HindRegular",
-    zIndex:-1
+    zIndex: -1,
   },
 });

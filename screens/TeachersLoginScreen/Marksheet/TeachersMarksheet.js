@@ -26,14 +26,15 @@ import { Ionicons } from "@expo/vector-icons";
 export var ID;
 export var StudentList = [];
 const TeachersMarksheet = () => {
+  const [mathsLabel, setMathsLabel] = useState(false);
 
-  const [isMathFocused,setIsMathFocused]=useState(false);
-  const [isEngFocused,setIsEngFocused]=useState(false);
-  const [isSciFocused,setIsSciFocused]=useState(false);
-  const [isHindiFocused,setIsHindiFocused]=useState(false);
-  const [isSocFocused,setIsSocFocused]=useState(false);
-  const [isKanFocused,setIsKanFocused]=useState(false);
-  const [isComFocused,setIsComFocused]=useState(false);
+  const [isMathFocused, setIsMathFocused] = useState(false);
+  const [isEngFocused, setIsEngFocused] = useState(false);
+  const [isSciFocused, setIsSciFocused] = useState(false);
+  const [isHindiFocused, setIsHindiFocused] = useState(false);
+  const [isSocFocused, setIsSocFocused] = useState(false);
+  const [isKanFocused, setIsKanFocused] = useState(false);
+  const [isComFocused, setIsComFocused] = useState(false);
 
   const [mathsMarks, setMathsMarks] = useState("");
   const [enteredMathsMarksTouched, setEnteredMathsMarksTouched] =
@@ -156,16 +157,17 @@ const TeachersMarksheet = () => {
     setEnteredMathsMarksTouched(true);
     setIsMathFocused(false);
   }
-  function onFocusMathHandler(){
+  function onFocusMathHandler() {
     setIsMathFocused(true);
     setEnteredMathsMarksTouched(false);
+    setMathsLabel(true);
   }
 
   function engMarksBlurHandler() {
     setEnteredEngMarksTouched(true);
     setIsEngFocused(false);
   }
-  function onFocusEngHandler(){
+  function onFocusEngHandler() {
     setIsEngFocused(true);
     setEnteredEngMarksTouched(false);
   }
@@ -174,7 +176,7 @@ const TeachersMarksheet = () => {
     setEnteredSciMarksTouched(true);
     setIsSciFocused(false);
   }
-  function onFocusSciHandler(){
+  function onFocusSciHandler() {
     setIsSciFocused(true);
     setEnteredSciMarksTouched(false);
   }
@@ -183,7 +185,7 @@ const TeachersMarksheet = () => {
     setEnteredHindiMarksTouched(true);
     setIsHindiFocused(false);
   }
-  function onFocusHindiHandler(){
+  function onFocusHindiHandler() {
     setIsHindiFocused(true);
     setEnteredHindiMarksTouched(false);
   }
@@ -192,7 +194,7 @@ const TeachersMarksheet = () => {
     setEnteredSocMarksTouched(true);
     setIsSocFocused(false);
   }
-  function onFocusSocHandler(){
+  function onFocusSocHandler() {
     setIsSocFocused(true);
     setEnteredSocMarksTouched(false);
   }
@@ -201,7 +203,7 @@ const TeachersMarksheet = () => {
     setEnteredKanMarksTouched(true);
     setIsKanFocused(false);
   }
-  function onFocusKanHandler(){
+  function onFocusKanHandler() {
     setIsKanFocused(true);
     setEnteredKanMarksTouched(false);
   }
@@ -210,7 +212,7 @@ const TeachersMarksheet = () => {
     setEnteredCompMarksTouched(true);
     setIsComFocused(false);
   }
-  function onFocusComHandler(){
+  function onFocusComHandler() {
     setIsComFocused(true);
     setEnteredCompMarksTouched(false);
   }
@@ -1024,15 +1026,31 @@ const TeachersMarksheet = () => {
           <View style={styles.inputForm}>
             <View style={{ flexDirection: "row" }}>
               <View style={{ flex: 1 }}>
+                <View style={!mathsLabel ? styles.normal : styles.up}>
+                  <Text
+                    onPress={onFocusMathHandler}
+                    style={[
+                      mathsMarksInputIsInValid
+                        ? styles.errorLabel
+                        : styles.normalLabel,
+                    ]}
+                  >
+                    Maths marks
+                  </Text>
+                </View>
                 <Input
-                  placeholder="Maths"
+                  // placeholder="Maths"
                   maxLength={3}
                   onChangeText={mathsMarksChangeHandler}
                   blur={mathsMarksBlurHandler}
                   onFocus={onFocusMathHandler}
                   value={mathsMarks.toString()}
                   onSubmitEditing={Keyboard.dismiss}
-                  style={isMathFocused ? styles.focusStyle : mathsMarksInputIsInValid && styles.errorBorderColor}
+                  style={
+                    isMathFocused
+                      ? styles.focusStyle
+                      : mathsMarksInputIsInValid && styles.errorBorderColor
+                  }
                 />
                 {mathsMarksInputIsInValid && (
                   <Text
@@ -1040,7 +1058,7 @@ const TeachersMarksheet = () => {
                       color: "red",
                       fontFamily: "HindRegular",
                       fontSize: deviceWidth < 370 ? 14 : 16,
-                      left:deviceWidth < 370 ? 10 : 10,
+                      left: deviceWidth < 370 ? 10 : 10,
                     }}
                   >
                     Enter maths marks
@@ -1059,7 +1077,11 @@ const TeachersMarksheet = () => {
                   onFocus={onFocusEngHandler}
                   value={engMarks.toString()}
                   onSubmitEditing={Keyboard.dismiss}
-                  style={isEngFocused ? styles.focusStyle : engMarksInputIsInValid && styles.errorBorderColor}
+                  style={
+                    isEngFocused
+                      ? styles.focusStyle
+                      : engMarksInputIsInValid && styles.errorBorderColor
+                  }
                 />
                 {engMarksInputIsInValid && (
                   <Text
@@ -1067,7 +1089,7 @@ const TeachersMarksheet = () => {
                       color: "red",
                       fontFamily: "HindRegular",
                       fontSize: deviceWidth < 370 ? 14 : 16,
-                      left:deviceWidth < 370 ? 2 : 2,
+                      left: deviceWidth < 370 ? 2 : 2,
                     }}
                   >
                     Enter eng marks
@@ -1084,7 +1106,11 @@ const TeachersMarksheet = () => {
                   onFocus={onFocusSciHandler}
                   value={sciMarks.toString()}
                   onSubmitEditing={Keyboard.dismiss}
-                  style={isSciFocused ? styles.focusStyle : sciMarksInputIsInValid && styles.errorBorderColor}
+                  style={
+                    isSciFocused
+                      ? styles.focusStyle
+                      : sciMarksInputIsInValid && styles.errorBorderColor
+                  }
                 />
                 {sciMarksInputIsInValid && (
                   <Text
@@ -1092,7 +1118,7 @@ const TeachersMarksheet = () => {
                       color: "red",
                       fontFamily: "HindRegular",
                       fontSize: deviceWidth < 370 ? 14 : 16,
-                      left:deviceWidth < 370 ? 10 : 10,
+                      left: deviceWidth < 370 ? 10 : 10,
                     }}
                   >
                     Enter sci marks
@@ -1111,7 +1137,11 @@ const TeachersMarksheet = () => {
                   onFocus={onFocusHindiHandler}
                   value={hindiMarks.toString()}
                   onSubmitEditing={Keyboard.dismiss}
-                  style={isHindiFocused ? styles.focusStyle : hindiMarksInputIsInValid && styles.errorBorderColor}
+                  style={
+                    isHindiFocused
+                      ? styles.focusStyle
+                      : hindiMarksInputIsInValid && styles.errorBorderColor
+                  }
                 />
                 {hindiMarksInputIsInValid && (
                   <Text
@@ -1119,7 +1149,7 @@ const TeachersMarksheet = () => {
                       color: "red",
                       fontFamily: "HindRegular",
                       fontSize: deviceWidth < 370 ? 14 : 16,
-                      left:deviceWidth < 370 ? 10 : 10,
+                      left: deviceWidth < 370 ? 10 : 10,
                     }}
                   >
                     Enter hindi marks
@@ -1138,7 +1168,11 @@ const TeachersMarksheet = () => {
                   onFocus={onFocusSocHandler}
                   value={socMarks.toString()}
                   onSubmitEditing={Keyboard.dismiss}
-                  style={isSocFocused ? styles.focusStyle : socMarksInputIsInValid && styles.errorBorderColor}
+                  style={
+                    isSocFocused
+                      ? styles.focusStyle
+                      : socMarksInputIsInValid && styles.errorBorderColor
+                  }
                   keyboardType="number-pad"
                 />
                 {socMarksInputIsInValid && (
@@ -1147,7 +1181,7 @@ const TeachersMarksheet = () => {
                       color: "red",
                       fontFamily: "HindRegular",
                       fontSize: deviceWidth < 370 ? 14 : 16,
-                      left:deviceWidth < 370 ? 10 : 10,
+                      left: deviceWidth < 370 ? 10 : 10,
                     }}
                   >
                     Enter social marks
@@ -1164,7 +1198,11 @@ const TeachersMarksheet = () => {
                   onFocus={onFocusKanHandler}
                   value={kanMarks.toString()}
                   onSubmitEditing={Keyboard.dismiss}
-                  style={isKanFocused ? styles.focusStyle : kanMarksInputIsInValid && styles.errorBorderColor}
+                  style={
+                    isKanFocused
+                      ? styles.focusStyle
+                      : kanMarksInputIsInValid && styles.errorBorderColor
+                  }
                 />
                 {kanMarksInputIsInValid && (
                   <Text
@@ -1172,7 +1210,7 @@ const TeachersMarksheet = () => {
                       color: "red",
                       fontFamily: "HindRegular",
                       fontSize: deviceWidth < 370 ? 14 : 16,
-                      left:deviceWidth < 370 ? 10 : 10,
+                      left: deviceWidth < 370 ? 10 : 10,
                     }}
                   >
                     Enter kannada marks
@@ -1189,7 +1227,11 @@ const TeachersMarksheet = () => {
                 onFocus={onFocusComHandler}
                 value={compMarks.toString()}
                 onSubmitEditing={Keyboard.dismiss}
-                style={isComFocused ? styles.focusStyle : compMarksInputIsInValid && styles.errorBorderColor}
+                style={
+                  isComFocused
+                    ? styles.focusStyle
+                    : compMarksInputIsInValid && styles.errorBorderColor
+                }
               />
               {compMarksInputIsInValid && (
                 <Text
@@ -1197,7 +1239,7 @@ const TeachersMarksheet = () => {
                     color: "red",
                     fontFamily: "HindRegular",
                     fontSize: deviceWidth < 370 ? 14 : 16,
-                    left:deviceWidth < 370 ? 10 : 10,
+                    left: deviceWidth < 370 ? 10 : 10,
                   }}
                 >
                   Enter comp marks
@@ -1437,7 +1479,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   errorBorderColor: {
-    borderBottomColor:'red'
+    borderBottomColor: "red",
   },
   btnSubmit: {
     marginTop: 30,
@@ -1494,7 +1536,51 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 20,
   },
-  focusStyle:{
-    borderBottomColor:'blue'
+
+  focusStyle: {
+    borderColor: "blue",
+  },
+  normal: {
+    position: "absolute",
+    top: 35,
+    left: 50,
+  },
+  up: {
+    position: "absolute",
+    top: 10,
+    left: 50,
+  },
+  errorLabel: {
+    color: "red",
+    backgroundColor: "#F2F2F2",
+    paddingHorizontal: 5,
+    fontSize: deviceWidth < 370 ? 13 : 15,
+  },
+  normalLabel: {
+    color: "grey",
+    backgroundColor: "#F2F2F2",
+    paddingHorizontal: 5,
+    fontSize: deviceWidth < 370 ? 13 : 15,
+  },
+
+  normalRemark: {
+    position: "absolute",
+    top: 110,
+    left: 50,
+  },
+  upRemark: {
+    position: "absolute",
+    top: 88,
+    left: 50,
+  },
+  normalRemarkExtra: {
+    position: "absolute",
+    left: 50,
+    top: 130,
+  },
+  upRemarkExtra: {
+    position: "absolute",
+    left: 50,
+    top: 106,
   },
 });

@@ -112,7 +112,7 @@ const CalenderScreen = () => {
   const [calendarData, setCalendarData] = useState([]);
   const [eventDisplay, setEventDisplay] = useState(false);
   const [dataIsPresent, setDataIsPresent] = useState(false);
-  const [test, setColor] = useState("2022-10-10");
+  const [color, setColor] = useState("");
   let dates = {};
   let i;
 
@@ -121,21 +121,16 @@ const CalenderScreen = () => {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
         setCalendarData(res.data);
-        // for (i = 0; i < res.data.length; i++) {
-        // fromDateVar = moment(res.data[0].startdate).format("YYYY-MM-DD");
-        // }
+        for (i = 0; i < res.data.length; i++) {
+          fromDateVar[i] = moment(res.data[i].startdate).format("YYYY-MM-DD");
+        }
       } catch (error) {
         console.log(error);
       }
     }
     fetchData();
-  }, []);
+  }, [calendarData]);
 
-  for (i = 0; i < calendarData.length; i++) {
-    fromDateVar[i] = moment(calendarData[i].startdate).format("YYYY-MM-DD");
-  }
-
-  console.log(fromDateVar);
   for (i = 0; i < calendarData.length; i++) {
     toDateVar[i] = moment(calendarData[i].enddate).format("YYYY-MM-DD");
   }
@@ -146,9 +141,6 @@ const CalenderScreen = () => {
 
   fromDateVar.forEach((val) => {
     dates[val] = {
-      // startingDay: false,
-      // color: '#89CFF0',
-      // marked:true,
       selected: true,
     };
   });
@@ -158,13 +150,10 @@ const CalenderScreen = () => {
     const filteredData = calendarData.filter(
       (data) => moment(data.startdate).format("YYYY-MM-DD") == day.dateString
     );
-    console.log(filteredData);
     if (filteredData) {
-      console.log("data is present");
       setDataIsPresent(true);
       filteredDataVar = filteredData;
     } else {
-      console.log("else part");
       setDataIsPresent(false);
       Alert.alert("Data not found!", "No events are found for this date", [
         {
@@ -209,7 +198,7 @@ const CalenderScreen = () => {
           filteredDataVar.map((data, key) => (
             <>
               <View style={styles.space} />
-              <Card style={styles.cardStyle} key={key}>
+              <Card style={styles.cardStyle} key={data.id}>
                 <Card.Content>
                   <View style={styles.cardView}>
                     {/* <View style={{flex:1}}>
@@ -266,16 +255,6 @@ const styles = StyleSheet.create({
     elevation: 5,
     shadowColor: "black",
 
-    shadowOpacity: 0.75,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-    overflow: Platform.OS === "android" ? "hidden" : "visible",
-  },
-  calenderStyle: {
-    elevation: 5,
-    shadowColor: "black",
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
     shadowOpacity: 0.75,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,

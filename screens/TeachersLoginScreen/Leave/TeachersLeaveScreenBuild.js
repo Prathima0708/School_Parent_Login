@@ -8,6 +8,7 @@ import {
   Button as Btn,
   Alert,
   Dimensions,
+  LogBox,
 } from "react-native";
 import moment from "moment";
 import { Keyboard } from "react-native";
@@ -27,14 +28,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
 export var ID;
 const TeachersLeaveScreenBuild = () => {
+  const [typeLabel, setTypeLabel] = useState(false);
+  const [reasonLabel, setReasonLabel] = useState(false);
 
-  const [typeLabel,setTypeLabel]=useState(false);
-  const [reasonLabel,setReasonLabel]=useState(false);
-
-  const [isLeavetypeFocused,setIsLeavetypeFocused]=useState(false);
-  const [isLeavereasonFocused,setIsLeavereasonFocused]=useState(false);
-  const [isFromFocused,setIsFromFocused]=useState(false);
-  const [isToFocused,setIsToFocused]=useState(false);
+  const [isLeavetypeFocused, setIsLeavetypeFocused] = useState(false);
+  const [isLeavereasonFocused, setIsLeavereasonFocused] = useState(false);
+  const [isFromFocused, setIsFromFocused] = useState(false);
+  const [isToFocused, setIsToFocused] = useState(false);
 
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
@@ -96,6 +96,12 @@ const TeachersLeaveScreenBuild = () => {
 
   const [showInitialBtn, setShowInitialBtn] = useState(true);
   let i = 0;
+
+  useEffect(() => {
+    LogBox.ignoreLogs([
+      "Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false` ",
+    ]);
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -436,7 +442,7 @@ const TeachersLeaveScreenBuild = () => {
     setEnteredLeaveTypeTouched(true);
     setIsLeavetypeFocused(false);
   }
-  function onLeavetypeFocusHandler(){
+  function onLeavetypeFocusHandler() {
     setIsLeavetypeFocused(true);
     setEnteredLeaveTypeTouched(false);
     setTypeLabel(true);
@@ -446,7 +452,7 @@ const TeachersLeaveScreenBuild = () => {
     setEnteredLeaveReasonTouched(true);
     setIsLeavereasonFocused(false);
   }
-  function onLeavereasonFocusHandler(){
+  function onLeavereasonFocusHandler() {
     setIsLeavereasonFocused(true);
     setEnteredLeaveReasonTouched(false);
     setReasonLabel(true);
@@ -456,7 +462,7 @@ const TeachersLeaveScreenBuild = () => {
     setEnteredFromDateTouched(true);
     setIsFromFocused(false);
   }
-  function onFromFocusHandler(){
+  function onFromFocusHandler() {
     setIsFromFocused(true);
     setEnteredFromDateTouched(false);
   }
@@ -465,7 +471,7 @@ const TeachersLeaveScreenBuild = () => {
     setEnteredtoDateTouched(true);
     setIsToFocused(false);
   }
-  function onToFocusHandler(){
+  function onToFocusHandler() {
     setIsToFocused(true);
     setEnteredtoDateTouched(false);
   }
@@ -629,36 +635,70 @@ const TeachersLeaveScreenBuild = () => {
         <ScrollView>
           <View style={styles.inputForm}>
             <View style={!typeLabel ? styles.normal : styles.up}>
-              <Text style={[leavetypeInputIsInValid ? styles.errorLabel : styles.normalLabel]}>Leave type</Text>
+              <Text
+                onPress={onLeavetypeFocusHandler}
+                style={[
+                  leavetypeInputIsInValid
+                    ? styles.errorLabel
+                    : styles.normalLabel,
+                ]}
+              >
+                Leave type
+              </Text>
             </View>
             <Input
+              // placeholder="leave type"
               onChangeText={leaveTypeChangeHandler}
               blur={leavetypeBlurHandler}
               onFocus={onLeavetypeFocusHandler}
               value={leaveType}
               onSubmitEditing={Keyboard.dismiss}
-              style={isLeavetypeFocused ? styles.focusStyle : leavetypeInputIsInValid && styles.errorBorderColor}
+              style={
+                isLeavetypeFocused
+                  ? styles.focusStyle
+                  : leavetypeInputIsInValid && styles.errorBorderColor
+              }
             />
             {leavetypeInputIsInValid && (
               <Text style={{ color: "red", left: 20 }}>Enter the type</Text>
             )}
-            <View style={!leavetypeInputIsInValid ? (!reasonLabel ? styles.normalRemark : styles.upRemark)
-                  : (!reasonLabel ? styles.normalRemarkExtra : styles.upRemarkExtra)}>
-              <Text style={[leavereasonInputIsInValid ? styles.errorLabel : styles.normalLabel]}>Leave reason</Text>
+            <View
+              style={
+                !leavetypeInputIsInValid
+                  ? !reasonLabel
+                    ? styles.normalRemark
+                    : styles.upRemark
+                  : !reasonLabel
+                  ? styles.normalRemarkExtra
+                  : styles.upRemarkExtra
+              }
+            >
+              <Text
+                style={[
+                  leavereasonInputIsInValid
+                    ? styles.errorLabel
+                    : styles.normalLabel,
+                ]}
+              >
+                Leave reason
+              </Text>
             </View>
 
             {/* <View style={!reasonLabel ? styles.normalRemark : styles.upRemark}>
               <Text style={[leavereasonInputIsInValid ? styles.errorLabel : styles.normalLabel]}>Leave reason</Text>
             </View> */}
 
-            
             <Input
               onChangeText={leaveReasonChangeHandler}
               blur={leavereasonBlurHandler}
               onFocus={onLeavereasonFocusHandler}
               value={leaveReason}
               onSubmitEditing={Keyboard.dismiss}
-              style={isLeavereasonFocused ? styles.focusStyle : leavereasonInputIsInValid && styles.errorBorderColor}
+              style={
+                isLeavereasonFocused
+                  ? styles.focusStyle
+                  : leavereasonInputIsInValid && styles.errorBorderColor
+              }
             />
             {leavereasonInputIsInValid && (
               <Text
@@ -691,12 +731,17 @@ const TeachersLeaveScreenBuild = () => {
                   value={fromText}
                   placeholder="Leave from"
                   onSubmitEditing={Keyboard.dismiss}
-                  style={isFromFocused ? styles.focusStyle : fromDateInputIsInValid && styles.errorBorderColor}
+                  style={
+                    isFromFocused
+                      ? styles.focusStyle
+                      : fromDateInputIsInValid && styles.errorBorderColor
+                  }
                   blur={fromDateBlurHandler}
                   onFocus={onFromFocusHandler}
                   onChangeText={frmDateHandler}
                   onPressIn={() => showFromMode("date")}
                 />
+
                 {fromDateInputIsInValid && (
                   <Text
                     style={{
@@ -738,7 +783,11 @@ const TeachersLeaveScreenBuild = () => {
                   value={toText}
                   placeholder="Leave to:"
                   onSubmitEditing={Keyboard.dismiss}
-                  style={isToFocused ? styles.focusStyle : toDateInputIsInValid && styles.errorBorderColor}
+                  style={
+                    isToFocused
+                      ? styles.focusStyle
+                      : toDateInputIsInValid && styles.errorBorderColor
+                  }
                   blur={toDateBlurHandler}
                   onFocus={onToFocusHandler}
                   onChangeText={toDateHandler}
@@ -859,7 +908,7 @@ const TeachersLeaveScreenBuild = () => {
                                 <View style={{ flex: 2, left: 120 }}>
                                   <Text
                                     style={{
-                                      fontSize:  deviceWidth < 370 ? 14 : 16,
+                                      fontSize: deviceWidth < 370 ? 14 : 16,
                                       fontFamily: "HindSemiBold",
                                       color: "grey",
                                     }}
@@ -868,10 +917,11 @@ const TeachersLeaveScreenBuild = () => {
                                   </Text>
                                 </View>
                                 <View
-                                  style={{ 
+                                  style={{
                                     flex: 2,
-                                    left:  deviceWidth < 370 ? 90 : 100, 
-                                    bottom: -65 }}
+                                    left: deviceWidth < 370 ? 90 : 100,
+                                    bottom: -65,
+                                  }}
                                 >
                                   <Ionicons
                                     name="md-pencil-sharp"
@@ -897,10 +947,13 @@ const TeachersLeaveScreenBuild = () => {
                                     Leave Reason:
                                   </Text>
                                 </View>
-                                <View style={{ 
-                                  flex: 2, 
-                                  left:  deviceWidth < 370 ? -20 : -35, 
-                                  top: 5 }}>
+                                <View
+                                  style={{
+                                    flex: 2,
+                                    left: deviceWidth < 370 ? -20 : -35,
+                                    top: 5,
+                                  }}
+                                >
                                   <Text
                                     style={{
                                       fontSize: 16,
@@ -914,18 +967,24 @@ const TeachersLeaveScreenBuild = () => {
                               </View>
 
                               <View style={[{ flexDirection: "row", flex: 1 }]}>
-                                <View style={{ 
-                                  flex: 2, 
-                                  left: -15, 
-                                  top: 5 }}>
+                                <View
+                                  style={{
+                                    flex: 2,
+                                    left: -15,
+                                    top: 5,
+                                  }}
+                                >
                                   <Text style={styles.cardTextStyle}>
                                     Leave Type:
                                   </Text>
                                 </View>
-                                <View style={{ 
-                                  flex: 2, 
-                                  left: deviceWidth < 370 ? -35 : -50, 
-                                  top: 5 }}>
+                                <View
+                                  style={{
+                                    flex: 2,
+                                    left: deviceWidth < 370 ? -35 : -50,
+                                    top: 5,
+                                  }}
+                                >
                                   <Text
                                     style={{
                                       fontSize: 16,
@@ -996,7 +1055,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   errorBorderColor: {
-    borderColor:'red'
+    borderColor: "red",
   },
   // labels: {
   //   margin: 5,
@@ -1049,50 +1108,50 @@ const styles = StyleSheet.create({
     fontSize: 16,
     left: 35,
   },
-  focusStyle:{
-    borderColor:'blue'
+  focusStyle: {
+    borderColor: "blue",
   },
-  normal:{
-    position:'absolute',
-    top:35,
-    left:50,
+  normal: {
+    position: "absolute",
+    top: 35,
+    left: 50,
   },
-  up:{
-    position:'absolute',
-    top:10,
-    left:50,
+  up: {
+    position: "absolute",
+    top: 10,
+    left: 50,
   },
-  errorLabel:{
-    color:'red',
-    backgroundColor:'#F2F2F2',
-    paddingHorizontal:5,
+  errorLabel: {
+    color: "red",
+    backgroundColor: "#F2F2F2",
+    paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
-  normalLabel:{
-    color:'grey',
-    backgroundColor:'#F2F2F2',
-    paddingHorizontal:5,
+  normalLabel: {
+    color: "grey",
+    backgroundColor: "#F2F2F2",
+    paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
 
-  normalRemark:{
-    position:'absolute',
-    top:110,
-    left:50,
+  normalRemark: {
+    position: "absolute",
+    top: 110,
+    left: 50,
   },
-  upRemark:{
-    position:'absolute',
-    top:88,
-    left:50,
+  upRemark: {
+    position: "absolute",
+    top: 88,
+    left: 50,
   },
-  normalRemarkExtra:{
-    position:'absolute',
-    left:50,
-    top:130
+  normalRemarkExtra: {
+    position: "absolute",
+    left: 50,
+    top: 130,
   },
-  upRemarkExtra:{
-    position:'absolute',
-    left:50,
-    top:106
-  }
+  upRemarkExtra: {
+    position: "absolute",
+    left: 50,
+    top: 106,
+  },
 });
