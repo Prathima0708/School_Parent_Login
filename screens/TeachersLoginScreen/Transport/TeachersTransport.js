@@ -27,6 +27,17 @@ import {
   export var ID;
   
   const TeachersTransport = () => {
+
+    const [busLabel,setBusLabel]=useState(false);
+    const [vehLabel,setVehLabel]=useState(false);
+    const [typeLabel,setTypeLabel]=useState(false);
+    const [driverLabel,setDriverLabel]=useState(false);
+    const [mobLabel,setMobLabel]=useState(false);
+    const [rootLabel,setRootLabel]=useState(false);
+    const [stopLabel,setStopLabel]=useState(false);
+
+    const [top,setTop]=useState(false);
+
     const [showForm, setShowForm] = useState(true);
     const [showList, setShowList] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
@@ -397,6 +408,8 @@ import {
     function onFocusBusHandler() {
       setIsFocused(true);
       setEnteredBusnumberTouched(false);
+      setBusLabel(true);
+
     }
   
     function vehicleInputBlur() {
@@ -406,6 +419,8 @@ import {
     function onFocusVehHandler() {
       setIsVehFocused(true);
       setEnteredVehicleNoTouched(false);
+      setVehLabel(true);
+      setTop(true);
     }
   
     function typeInputBlur() {
@@ -415,6 +430,8 @@ import {
     function onFocusTypeHandler() {
       setIsTypeFocused(true);
       setEnteredTypeTouched(false);
+      setTypeLabel(true);
+      setTop(true);
     }
   
     function drivernameInputBlur() {
@@ -424,6 +441,8 @@ import {
     function onFocusDriverHandler() {
       setIsDriverFocused(true);
       setEnteredDrivernameTouched(false);
+      setDriverLabel(true);
+      setTop(true);
     }
   
     function mobilenumberInputBlur() {
@@ -433,6 +452,8 @@ import {
     function onFocusMobHandler() {
       setIsMobFocused(true);
       setEnteredMobileTouched(false);
+      setMobLabel(true);
+      setTop(true);
     }
   
     function routenameInputBlur() {
@@ -442,6 +463,8 @@ import {
     function onFocusRouteHandler() {
       setIsRouteFocused(true);
       setEnteredRoutenameTouched(false);
+      setRootLabel(true);
+      setTop(true);
     }
   
     function stopnameInputBlur() {
@@ -451,6 +474,8 @@ import {
     function onFocusStopHandler() {
       setIsStopFocused(true);
       setEnteredStopnameTouched(false);
+      setStopLabel(true);
+      setTop(true);
     }
   
     function showTransportForm() {
@@ -537,6 +562,13 @@ import {
   
     function editItem(id) {
       setShowInitialBtn(false);
+      setBusLabel(true);
+      setVehLabel(true);
+      setTypeLabel(true);
+      setDriverLabel(true);
+      setMobLabel(true);
+      setRootLabel(true);
+      setStopLabel(true);
       ID = id;
       const filteredDummuyData = data.find((data) => data.id == id);
       console.log(filteredDummuyData);
@@ -652,9 +684,16 @@ import {
             {showForm && (
               <ScrollView style={styles.root}>
                 <View style={styles.inputForm}>
+                  
+                  <View style={!busLabel ? styles.normal : styles.up}>
+                    <Text 
+                     style={[busnumberInputIsInValid ? styles.errorLabel : styles.normalLabel]}
+                     onPress={onFocusBusHandler}
+                     onPressOut={busnumberInputBlur}>Bus number</Text>
+                  </View>
                   <Input
                     // keyboardType="number-pad"
-                    placeholder="Bus Number"
+                    // placeholder="Bus Number"
                     onChangeText={busNumberChangeHandler}
                     blur={busnumberInputBlur}
                     onFocus={onFocusBusHandler}
@@ -667,21 +706,30 @@ import {
                     }
                   />
                   {busnumberInputIsInValid && (
+                    
                     <Text
                       style={{
                         color: "red",
-                        left: 20,
+                        left: 40,
                         fontFamily: "HindRegular",
                         fontSize: deviceWidth < 370 ? 16 : 18,
+                        position:'absolute',
+                        top:70,
+                        
                       }}
                     >
                       Enter bus number
                     </Text>
                   )}
-  
+                  <View>
+                  <View style={!vehLabel ? styles.normalVeh : styles.upVeh}>
+                    <Text 
+                      style={[vehicleNoInputIsInValid ? styles.errorLabel : styles.normalLabel]}
+                      onPress={onFocusVehHandler}>Vehicle number</Text>
+                  </View>
                   <Input
                     // keyboardType="number-pad"
-                    placeholder="Vehicle Number"
+                    // placeholder="Vehicle Number"
                     onChangeText={vehicleChangeHandler}
                     blur={vehicleInputBlur}
                     onFocus={onFocusVehHandler}
@@ -693,21 +741,29 @@ import {
                         : vehicleNoInputIsInValid && styles.errorBorderColor
                     }
                   />
+                  </View>
                   {vehicleNoInputIsInValid && (
                     <Text
                       style={{
                         color: "red",
-                        left: 20,
+                        left: 40,
                         fontFamily: "HindRegular",
                         fontSize: deviceWidth < 370 ? 16 : 18,
+                        position:'absolute',
+                        top:170
                       }}
                     >
                       Enter vehicle number
                     </Text>
                   )}
-  
+                  <View>
+                  <View style={!typeLabel ? styles.normalType : styles.upType}>
+                    <Text 
+                      style={[typeInputIsInValid ? styles.errorLabel : styles.normalLabel]}
+                      onPress={onFocusTypeHandler}>Transport Type</Text>
+                  </View>
                   <Input
-                    placeholder="Type"
+                    // placeholder="Type"
                     onChangeText={typeChangeHandler}
                     blur={typeInputBlur}
                     onFocus={onFocusTypeHandler}
@@ -719,21 +775,29 @@ import {
                         : typeInputIsInValid && styles.errorBorderColor
                     }
                   />
+                  </View>
                   {typeInputIsInValid && (
                     <Text
                       style={{
                         color: "red",
-                        left: 20,
+                        left: 40,
                         fontFamily: "HindRegular",
                         fontSize: deviceWidth < 370 ? 16 : 18,
+                        position:'absolute',
+                        top:270
                       }}
                     >
                       Enter type
                     </Text>
                   )}
-  
+                  <View>
+                  <View style={!driverLabel ? styles.normalDriver : styles.upDriver}>
+                    <Text 
+                      style={[drivernameInputIsInValid ? styles.errorLabel : styles.normalLabel]}
+                      onPress={onFocusDriverHandler}>Driver name</Text>
+                  </View>
                   <Input
-                    placeholder="Driver Name"
+                    // placeholder="Driver Name"
                     onChangeText={driverNameChangeHandler}
                     blur={drivernameInputBlur}
                     onFocus={onFocusDriverHandler}
@@ -745,23 +809,31 @@ import {
                         : drivernameInputIsInValid && styles.errorBorderColor
                     }
                   />
+                  </View>
                   {drivernameInputIsInValid && (
                     <Text
                       style={{
                         color: "red",
-                        left: 20,
+                        left: 40,
                         fontFamily: "HindRegular",
                         fontSize: deviceWidth < 370 ? 16 : 18,
+                        position:'absolute',
+                        top:370
                       }}
                     >
                       Enter driver name
                     </Text>
                   )}
-  
+                  <View>
+                  <View style={!mobLabel ? styles.normalMob : styles.upMob}>
+                    <Text 
+                      style={[mobileInputIsInValid ? styles.errorLabel : styles.normalLabel]}
+                      onPress={onFocusMobHandler}>Mobile number</Text>
+                  </View>
                   <Input
                     keyboardType="number-pad"
                     // style={styles.inputStyle}
-                    placeholder="Mobile Number"
+                    // placeholder="Mobile Number"
                     maxLength={10}
                     onChangeText={mobileChangeHandler}
                     blur={mobilenumberInputBlur}
@@ -774,21 +846,29 @@ import {
                         : mobileInputIsInValid && styles.errorBorderColor
                     }
                   />
+                  </View>
                   {mobileInputIsInValid && (
                     <Text
                       style={{
                         color: "red",
-                        left: 20,
+                        left: 40,
                         fontFamily: "HindRegular",
                         fontSize: deviceWidth < 370 ? 16 : 18,
+                        position:'absolute',
+                        top:470
                       }}
                     >
                       Enter a valid mobile number(10 digits)
                     </Text>
                   )}
-  
+                  <View>
+                  <View style={!rootLabel ? styles.normalRoot : styles.upRoot}>
+                    <Text 
+                      style={[routenameInputIsInValid ? styles.errorLabel : styles.normalLabel]}
+                      onPress={onFocusRouteHandler}>Root name</Text>
+                  </View>
                   <Input
-                    placeholder="Route Name"
+                    // placeholder="Route Name"
                     onChangeText={routeNameChangeHandler}
                     blur={routenameInputBlur}
                     onFocus={onFocusRouteHandler}
@@ -800,39 +880,50 @@ import {
                         : routenameInputIsInValid && styles.errorBorderColor
                     }
                   />
+                  </View>
                   {routenameInputIsInValid && (
                     <Text
                       style={{
                         color: "red",
-                        left: 20,
+                        left: 40,
                         fontFamily: "HindRegular",
-                        fontSize: deviceWidth < 370 ? 16 : 18,
+                        fontSize: deviceWidth < 370 ? 16 : 16,
+                        position:'absolute',
+                        top:570,
                       }}
                     >
                       Enter route name
                     </Text>
                   )}
-  
+                  <View>
+                  <View style={!stopLabel ? styles.normalStop : styles.upStop}>
+                    <Text 
+                      style={[stopnameInputIsInValid ? styles.errorLabel : styles.normalLabel]}
+                      onPress={onFocusStopHandler}>Stop name</Text>
+                  </View>
                   <Input
-                    placeholder="Stop Name"
+                    // placeholder="Stop Name"
                     onChangeText={stopNameChangeHandler}
                     blur={stopnameInputBlur}
                     onFocus={onFocusStopHandler}
                     value={stopname}
                     onSubmitEditing={Keyboard.dismiss}
                     style={
-                      isStopFocused
+                      [isStopFocused
                         ? styles.focusStyle
-                        : stopnameInputIsInValid && styles.errorBorderColor
+                        : stopnameInputIsInValid && styles.errorBorderColor]
                     }
                   />
+                  </View>
                   {stopnameInputIsInValid && (
                     <Text
                       style={{
                         color: "red",
-                        left: 20,
+                        left: 40,
                         fontFamily: "HindRegular",
                         fontSize: deviceWidth < 370 ? 16 : 18,
+                        position:'absolute',
+                        top:670
                       }}
                     >
                       Enter stop name
@@ -1051,7 +1142,7 @@ import {
       paddingTop: "1%",
     },
     errorBorderColor: {
-      borderBottomColor: "red",
+      borderColor: "red",
     },
   
     btnSubmit: {
@@ -1095,6 +1186,138 @@ import {
       // height:deviceWidth < 370 ? "6%" : "6%",
     },
     focusStyle: {
-      borderBottomColor: "blue",
+      borderColor: "blue",
+    },
+    normal:{
+      position:'absolute',
+      top:35,
+      left:50,
+    },
+    up:{
+      position:'absolute',
+      top:10,
+      left:50,
+    },
+    errorLabel:{
+      color:'red',
+      backgroundColor:'#F2F2F2',
+      paddingHorizontal:5,
+      fontSize: deviceWidth < 370 ? 13 : 15,
+    },
+    normalLabel:{
+      color:'grey',
+      backgroundColor:'#F2F2F2',
+      paddingHorizontal:5,
+      fontSize: deviceWidth < 370 ? 13 : 15,
+    },
+
+    normalVeh:{
+      position:'absolute',
+      top:27,
+      left:30,
+    },
+    upVeh:{
+      top:27,
+      width:120,
+      left:30,
+    },
+    normalVehExtra:{
+      position:'absolute',
+      left:50,
+      top:137
+    },
+    upVehExtra:{
+      position:'absolute',
+      left:50,
+      top:106
+    },
+
+    normalType:{
+      position:'absolute',
+      top:27,
+      left:30,
+    },
+    upType:{
+      top:25,
+      width:120,
+      left:30,
+    },
+    normalTypeExtra:{
+      position:'absolute',
+      left:50,
+      top:215
+    },
+    upTypeExtra:{
+      position:'absolute',
+      left:50,
+      top:193
+    },
+
+    normalDriver:{
+      position:'absolute',
+      top:26,
+      left:30,
+    },
+    upDriver:{
+      top:25,
+      width:110,
+      left:30,
+    },
+    normalDriverExtra:{
+      position:'absolute',
+      left:50,
+      top:295
+    },
+    upDriverExtra:{
+      position:'absolute',
+      left:50,
+      top:270
+    },
+
+    normalMob:{
+      position:'absolute',
+      top:27,
+      left:30,
+    },
+    upMob:{
+      top:25,
+      width:120,
+      left:30,
+    },
+
+    normalRoot:{
+      position:'absolute',
+      top:27,
+      left:30,
+    },
+    upRoot:{
+      top:25,
+      left:30,
+      width:100
+    },
+
+    normalStop:{
+      position:'absolute',
+      top:30,
+      left:30,
+    },
+    upStop:{
+      // position:'absolute',
+      top:27,
+      left:37,
+      width:90
+    },
+    normalStopExtra:{
+      position:'absolute',
+      left:50,
+      top:530
+    },
+    upStopExtra:{
+      position:'absolute',
+      left:50,
+      top:507
+    },
+    topInputStyle:{
+      top:10
     },
   });

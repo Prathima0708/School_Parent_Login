@@ -521,7 +521,8 @@ const TeachersLeaveScreenBuild = () => {
   }
   function editItem(id) {
     setShowInitialBtn(false);
-    setReasonLabel(false);
+    setReasonLabel(true);
+    setTypeLabel(true)
     ID = id;
     const filteredDummuyData = data.find((data) => data.id == id);
     // console.log(filteredDummuyData);

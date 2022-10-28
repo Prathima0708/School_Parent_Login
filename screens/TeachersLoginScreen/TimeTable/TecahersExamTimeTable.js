@@ -26,6 +26,10 @@ import SearchBar from "react-native-dynamic-search-bar";
 export var ID;
 const TecahersExamTimeTable = () => {
 
+  const [examLabel,setExamLabel]=useState(false);
+  const [totalLabel,setTotalLabel]=useState(false);
+  const [hourLabel,setHourLabel]=useState(false);
+
   const [isExamnameFocused,setIsExamnameFocused]=useState(false);
   const [isFromFocused,setIsFromFocused]=useState(false);
   const [isToFocused,setIsToFocused]=useState(false);
@@ -398,6 +402,7 @@ const TecahersExamTimeTable = () => {
   function onExamnameFocusHandler(){
     setIsExamnameFocused(true);
     setEnteredExamNameTouched(false);
+    setExamLabel(true);
   }
 
   function fromDateBlurHandler() {
@@ -424,18 +429,24 @@ const TecahersExamTimeTable = () => {
   function onMarkFocusHandler(){
     setIsTotalmarkFocused(true);
     setEnteredMarksTouched(false);
+    setTotalLabel(true);
   }
 
   function hourBlurHanlder() {
     setEnteredHourTouched(true);
+    setIsHourFocused(false);
   }
   function onHourFocusHandler(){
     setIsHourFocused(true);
     setEnteredHourTouched(false);
+    setHourLabel(true);
   }
 
   function editItem(id) {
     setShowAddBtn(false);
+    setExamLabel(true);
+    setTotalLabel(true);
+    setHourLabel(true);
     ID = id;
     console.log(id);
     const filteredDummuyData = showExamData.find((data) => data.id == id);
@@ -748,11 +759,15 @@ const TecahersExamTimeTable = () => {
                 )}
               </View>
             )}
+            <View style={!examLabel ? styles.normal : styles.up}>
+              <Text 
+              style={[selectExamNameIsInValid ? styles.errorLabel : styles.normalLabel]}
+              onPress={onExamnameFocusHandler}>Exam name</Text>
+            </View>
             <Input
               style={isExamnameFocused ? styles.focusStyle : selectExamNameIsInValid && styles.errorBorderColor}
               onChangeText={examNameChangeHandler}
               value={examName}
-              placeholder="Exam name"
               blur={examBlurHandler}
               onFocus={onExamnameFocusHandler}
               onSubmitEditing={Keyboard.dismiss}
@@ -879,10 +894,14 @@ const TecahersExamTimeTable = () => {
                 )}
               </View>
             </View>
+            <View style={!totalLabel ? styles.normalTotal : styles.upTotal}>
+              <Text 
+              style={[marksInputIsInValid ? styles.errorLabel : styles.normalLabel]}
+              onPress={onMarkFocusHandler}>Total marks</Text>
+            </View>
             <Input
               onChangeText={totalMarksChangeHandler}
               value={totalMarks.toString()}
-              placeholder="Total Marks"
               style={isTotalmarkFocused ? styles.focusStyle : marksInputIsInValid && styles.errorBorderColor}
               onSubmitEditing={Keyboard.dismiss}
               blur={markBlurHanlder}
@@ -892,17 +911,24 @@ const TecahersExamTimeTable = () => {
               <Text
                 style={{
                   color: "red",
-                  left: 20,
+                  left: 40,
                   fontFamily: "HindRegular",
                   fontSize: deviceWidth < 370 ? 14 : 18,
+                  position:'absolute',
+                  top:330,
                 }}
               >
                 Enter total marks
               </Text>
             )}
+            <View style={!hourLabel ? styles.normalHour : styles.upHour}>
+              <Text 
+                style={[hourInputIsInValid ? styles.errorLabel : styles.normalLabel]}
+                
+              onPress={onHourFocusHandler}>Hour</Text>
+            </View>
             <Input
               onChangeText={hourChangeHandler}
-              placeholder="Hour"
               value={hour}
               style={isHourFocused ? styles.focusStyle : hourInputIsInValid && styles.errorBorderColor}
               onSubmitEditing={Keyboard.dismiss}
@@ -1065,7 +1091,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   errorBorderColor: {
-    borderBottomColor:'red'
+    borderColor:'red'
   },
   errorSelectedColor: {
     borderColor: "red",
@@ -1103,6 +1129,53 @@ const styles = StyleSheet.create({
     width: deviceWidth < 370 ? "50%" : "50%",
   },
   focusStyle:{
-    borderBottomColor:'blue'
+    borderColor:'blue'
+  },
+
+  normal:{
+    position:'absolute',
+    top:127,
+    left:50,
+  },
+  up:{
+    position:'absolute',
+    top:106,
+    left:50,
+  },
+
+  normalTotal:{
+    position:'absolute',
+    top:288,
+    left:50,
+  },
+  upTotal:{
+    position:'absolute',
+    top:267,
+    left:50,
+  },
+
+  normalHour:{
+    position:'absolute',
+    top:370,
+    left:50,
+  },
+  upHour:{
+    position:'absolute',
+    top:345,
+    left:50,
+  },
+
+
+  errorLabel:{
+    color:'red',
+    backgroundColor:'#F2F2F2',
+    paddingHorizontal:5,
+    fontSize: deviceWidth < 370 ? 13 : 15,
+  },
+  normalLabel:{
+    color:'grey',
+    backgroundColor:'#F2F2F2',
+    paddingHorizontal:5,
+    fontSize: deviceWidth < 370 ? 13 : 15,
   },
 });
