@@ -1173,32 +1173,32 @@ const styles = StyleSheet.create({
   },
   test: {
     position: "absolute",
-    top: 10,
-    left: 50,
+    top: deviceWidth < 370 ? 2 : 10,
+    left: deviceWidth < 370 ? 40 : 50,
   },
   testSuccess: {
     position: "absolute",
-    top: 35,
+    top: deviceWidth < 370 ? 28 : 35,
     left: 40,
   },
   descriptionUp: {
     position: "absolute",
-    top: 90,
-    left: 50,
+    top: deviceWidth < 370 ? 68 : 90,
+    left: deviceWidth < 370 ? 40 : 50,
   },
   descriptionDown: {
     position: "absolute",
-    top: 115,
+    top:deviceWidth < 370 ? 93 : 115,
     left: 40,
   },
   descriptionUpExtra: {
     position: "absolute",
-    top: 115,
-    left: 50,
+    top: deviceWidth < 370 ? 90 : 115,
+    left: deviceWidth < 370 ? 40 : 50,
   },
   descriptionDownExtra: {
     position: "absolute",
-    top: 137,
+    top: deviceWidth < 370 ? 115 : 137,
     left: 40,
   },
 });

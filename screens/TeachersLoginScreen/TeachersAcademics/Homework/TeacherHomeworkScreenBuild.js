@@ -732,6 +732,9 @@ const TeacherHomeworkScreenBuild = () => {
 
   function editItem(id) {
     console.log(id);
+    // setSubLabel(true);
+    setRemarkLabel(true);
+    setHomeworkLabel(true);
     setShowInitialBtn(false);
     let selectedData = selected.split(" - ");
     let class_name = selectedData[0];
@@ -865,7 +868,7 @@ const TeacherHomeworkScreenBuild = () => {
                   inputStyles={styles.dropText}
                 />
                 {selectInputIsInValid && (
-                  <Text style={[styles.errorText, { top: 47,left:20 }]}>
+                  <Text style={[styles.errorText]}>
                     Enter class
                   </Text>
                 )}
@@ -874,8 +877,8 @@ const TeacherHomeworkScreenBuild = () => {
             <View>
             <View style={!subLabel ? styles.normal : styles.up}>
               <Text 
-                style={[subBtn ? styles.normalLabel:(subjectInputIsInValid ? styles.errorLabel : styles.normalLabel)]}
-                onPress={onSubjectFocusHandler}>Subject</Text>
+                onPress={onSubjectFocusHandler}
+                style={subBtn ? styles.normalLabel:(subjectInputIsInValid ? styles.errorLabel : styles.normalLabel)}>Subject</Text>
             </View>
             <Input
               onChangeText={subjectChangeHandler}
@@ -890,7 +893,7 @@ const TeacherHomeworkScreenBuild = () => {
               }
             />
             {subjectInputIsInValid && (
-              <Text style={[btn ? styles.upWaring : (styles.errorText,{color:'red',bottom:5,left:25})]}>Enter subject</Text>
+              <Text style={styles.errorText}>Enter subject</Text>
             )}
             </View>
 
@@ -927,7 +930,7 @@ const TeacherHomeworkScreenBuild = () => {
                   onPressIn={() => showFromMode("date")}
                 />
                 {fromDateInputIsInValid && (
-                  <Text style={[styles.errorText,{top:57,left:30}]}>Enter from date</Text>
+                  <Text style={[styles.errorText]}>Enter from date</Text>
                 )}
                 {fromShow && (
                   <DateTimePicker
@@ -972,7 +975,7 @@ const TeacherHomeworkScreenBuild = () => {
                   onPressIn={() => showToMode("date")}
                 />
                 {toDateInputIsInValid && (
-                  <Text style={[styles.errorText,{top:57,left:30}]}>Enter to date</Text>
+                  <Text style={[styles.errorText]}>Enter to date</Text>
                 )}
                 {toShow && (
                   <DateTimePicker
@@ -990,8 +993,8 @@ const TeacherHomeworkScreenBuild = () => {
             <View>
             <View style={!remarkLabel ? styles.normalRemark : styles.upRemark}>
               <Text 
-                style={[subBtn ? styles.normalLabel:(remarkInputIsInValid ? styles.errorLabel : styles.normalLabel)]}
-                onPress={onSubjectFocusHandler}>Remark</Text>
+                onPress={onSubjectFocusHandler}
+                style={subBtn ? styles.normalLabel:(remarkInputIsInValid ? styles.errorLabel : styles.normalLabel)}>Remark</Text>
             </View>
             <Input
               onChangeText={remarkChangeHandler}
@@ -1006,15 +1009,15 @@ const TeacherHomeworkScreenBuild = () => {
               }
             />
             {remarkInputIsInValid && (
-              <Text style={[btn ? styles.upWaring : (styles.errorText,{color:'red',bottom:5,left:30})]}>Enter remark</Text>
+              <Text style={styles.errorText}>Enter remark</Text>
             )}
             </View>
             
             <View>
             <View style={!homeworkLabel ? styles.normalHomework : styles.upHomework}>
-              <Text 
-                style={[subBtn ? styles.normalLabel:(homeworkInputIsInValid ? styles.errorLabel : styles.normalLabel)]}
-                onPress={onFocusHomeworkHandler}>Homework</Text>
+              <Text
+                onPress={onFocusHomeworkHandler}
+                style={subBtn ? styles.normalLabel:(homeworkInputIsInValid ? styles.errorLabel : styles.normalLabel)}>Homework</Text>
             </View>
             <Input
               onChangeText={hwChangeHandler}
@@ -1029,7 +1032,7 @@ const TeacherHomeworkScreenBuild = () => {
               }
             />
             {homeworkInputIsInValid && (
-              <Text style={[btn ? styles.upWaring : (styles.errorText,{color:'red',bottom:5,left:25})]}>Enter homework</Text>
+              <Text style={styles.errorText}>Enter homework</Text>
             )}
             </View>
             <View style={{ flexDirection: "row" }}>
@@ -1361,10 +1364,9 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: "red",
-    left: 40,
+    left: 20,
     fontFamily: "HindRegular",
-    fontSize: deviceWidth < 370 ? 15 : 16,
-    position: "absolute",
+    fontSize: 16,
   },
   uploadImgBtn: {
     marginTop: 13,
@@ -1390,33 +1392,33 @@ const styles = StyleSheet.create({
   },
   normal:{
     position:'absolute',
-    top:27,
-    left:30,
+    top: deviceWidth < 370 ? 23 : 27,
+    left:deviceWidth < 370 ? 20 : 30,
   },
   up:{
-    top:26,
-    left:30,
-    width:64
+    top:deviceWidth < 370 ? 15 : 26,
+    left:deviceWidth < 370 ? 20 : 30,
+    width:deviceWidth < 370 ? 57 : 64
   },
   normalRemark:{
     position:'absolute',
-    top:27,
-    left:30,
+    top:deviceWidth < 370 ? 23 : 27,
+    left:deviceWidth < 370 ? 20 : 30,
   },
   upRemark:{
-    top:25,
-    width:65,
-    left:30,
+    top:deviceWidth < 370 ? 15 : 25,
+    width:deviceWidth < 370 ? 57 : 65,
+    left:deviceWidth < 370 ? 20 : 30,
   },
   normalHomework:{
     position:'absolute',
-    top:27,
-    left:30,
+    top:deviceWidth < 370 ? 23 : 27,
+    left:deviceWidth < 370 ? 20 : 30,
   },
   upHomework:{
-    top:24,
-    left:30,
-    width:90
+    top:deviceWidth < 370 ? 15 : 24,
+    left:deviceWidth < 370 ? 20 : 30,
+    width:deviceWidth < 370 ? 75 : 90
   },
   errorLabel: {
     color: "red",

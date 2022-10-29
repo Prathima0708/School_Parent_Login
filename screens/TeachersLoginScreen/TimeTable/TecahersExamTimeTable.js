@@ -764,7 +764,7 @@ const TecahersExamTimeTable = () => {
             <View>
             <View style={!examLabel ? styles.normal : styles.up}>
               <Text 
-              style={[selectExamNameIsInValid ? styles.errorLabel : styles.normalLabel]}
+              style={[btn ? styles.normalLabel : (selectExamNameIsInValid ? styles.errorLabel : styles.normalLabel)]}
               onPress={onExamnameFocusHandler}>Exam name</Text>
             </View>
             <Input
@@ -899,9 +899,15 @@ const TecahersExamTimeTable = () => {
               </View>
             </View>
             <View>
-            <View style={btn ? styles.topLabelExtra :(!totalLabel ? styles.normalTotal : styles.upTotal)}>
+            {/* <View style={btn ? styles.topLabelExtra :(!totalLabel ? styles.normalTotal : styles.upTotal)}>
               <Text 
               style={[marksInputIsInValid ? styles.errorLabel : styles.normalLabel]}
+              onPress={onMarkFocusHandler}>Total marks</Text>
+            </View> */}
+            <View style={!totalLabel ? styles.normalTotal : styles.upTotal}>
+              <Text 
+                style={btn ? styles.normalLabel : ([marksInputIsInValid ? styles.errorLabel : styles.normalLabel])}
+                
               onPress={onMarkFocusHandler}>Total marks</Text>
             </View>
             <Input
@@ -922,7 +928,7 @@ const TecahersExamTimeTable = () => {
             <View>
             <View style={!hourLabel ? styles.normalHour : styles.upHour}>
               <Text 
-                style={[hourInputIsInValid ? styles.errorLabel : styles.normalLabel]}
+                style={btn ? styles.normalLabel : ([hourInputIsInValid ? styles.errorLabel : styles.normalLabel])}
                 
               onPress={onHourFocusHandler}>Hour</Text>
             </View>
@@ -1128,35 +1134,35 @@ const styles = StyleSheet.create({
 
   normal:{
     position:'absolute',
-    top:30,
-    left:30,
+    top:deviceWidth < 370 ? 23 : 30,
+    left:deviceWidth < 370 ? 20 : 30,
   },
   up:{
-    top:25,
-    width:90,
-    left:30,
+    top:deviceWidth < 370 ? 15 : 25,
+    width:deviceWidth < 370 ? 80 : 90,
+    left:deviceWidth < 370 ? 20 : 30,
   },
 
   normalTotal:{
     position:'absolute',
-    top:27,
-    left:30,
+    top:deviceWidth < 370 ? 22 : 27,
+    left:deviceWidth < 370 ? 20 : 30,
   },
   upTotal:{
-    top:25,
-    width:92,
-    left:30,
+    top:deviceWidth < 370 ? 15 : 25,
+    width:deviceWidth < 370 ? 80 : 92,
+    left:deviceWidth < 370 ? 20 : 30,
   },
 
   normalHour:{
     position:'absolute',
-    top:27,
-    left:30,
+    top:deviceWidth < 370 ? 22 : 27,
+    left:deviceWidth < 370 ? 20 : 30,
   },
   upHour:{
-    top:24,
+    top:deviceWidth < 370 ? 14 : 24,
     width:44,
-    left:30,
+    left:deviceWidth < 370 ? 20 : 30,
   },
 
 
@@ -1180,13 +1186,13 @@ const styles = StyleSheet.create({
     position:'absolute',
   },
   topLabelExtra:{
-    top:25,
-    left:30,
+    top:47,
+    left:deviceWidth < 370 ? 20 : 30,
     width:100
   },
   topExtra:{
     bottom:10,
-    left:30,
+    left:deviceWidth < 370 ? 20 : 30,
     color:'red'
   }
 });
