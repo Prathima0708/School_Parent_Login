@@ -10,13 +10,13 @@ const TeachersHome = () => {
       <Ionicons
         name="grid-outline"
         size={34}
-        color="black"
+        color="white"
         onPress={() => navigation.navigate("TeachersLogin")}
       />
       <Ionicons
         name="person"
         size={34}
-        color="black"
+        color="white"
         onPress={() => navigation.navigate("TeachersProfile")}
       />
     </View>
@@ -40,6 +40,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     // borderColor: "white",
     elevation: 2,
-    borderWidth: 1,
+    borderTopLeftRadius:10,
+    borderTopRightRadius:10
+    // borderWidth: 1,
   },
 });

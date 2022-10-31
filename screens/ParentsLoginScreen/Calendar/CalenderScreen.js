@@ -143,10 +143,19 @@ const CalenderScreen = () => {
     
     dates[val] = {
       selected: true,
+      selectedColor:'#00B8AC'
     };
   });
+  // fromDateVar.map((item) => {
+  //   dates[item] = {
+  //     marked: true,
+  //     selectedColor: 'red',
+  //     color: 'red',
+  //   };
+  // });
 
   function showEvent(day) {
+    console.log(day)
     setEventDisplay(true);
     const filteredData = calendarData.filter(
       (data) => moment(data.startdate).format("YYYY-MM-DD") == day.dateString
@@ -183,6 +192,8 @@ const CalenderScreen = () => {
           shadowOffset: { width: 0, height: 2 },
           shadowRadius: 8,
           overflow: Platform.OS === "android" ? "hidden" : "visible",
+          marginLeft:10,
+          marginRight:10
         }}
         // markingType={'period'}
         onDayPress={(day) => {
@@ -194,22 +205,31 @@ const CalenderScreen = () => {
           textDayHeaderFontSize: 16,
         }}
       />
-      <ScrollView>
+      <ScrollView style={{top:1}}>
         {filteredDataVar &&
           filteredDataVar.map((data, key) => (
             <>
-              <View style={styles.space} />
-              <Card style={styles.cardStyle} key={data.id}>
+            
+              <View style={[{flex:1}, {flexDirection: "row",backgroundColor:'#EFFFFD',top:10}]}>
+                <View style={{ flex: 1, padding:10,}} >
+                <View style={[{flex:1}, {flexDirection: "column",backgroundColor:'#00B8AC',borderRadius:10}]}>
+                  <View style={{ flex: 1,justifyContent:'center',alignItems:'center',top:10}} >
+                    <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>{moment(data.enddate).format("DD")}</Text>
+                  </View>
+                  <View style={{ flex: 1,justifyContent:'center',alignItems:'center' }} >
+                    <Text style={{fontSize:25,color:'white',fontFamily: "HindBold",}}>{moment(data.enddate).format("ddd")}</Text>
+                  </View>
+                  <View style={{ flex: 1,justifyContent:'center',alignItems:'center',bottom:10}} >
+                    <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>{moment(data.enddate).format("YYYY")}</Text>
+                  </View>
+                </View>
+                <View style={styles.space} />
+                </View>
+                
+                <View style={{ flex: 2}} >
+                {/* <Card style={styles.cardStyle} key={data.id}>
                 <Card.Content>
                   <View style={styles.cardView}>
-                    {/* <View style={{flex:1}}>
-                  <Text style={[styles.textStyle,{fontWeight:'bold'}]}>Description</Text>
-                  <Text style={styles.textStyle}>{data.description}</Text>
-                </View>
-                <View style={{flex:1,left:30}}>
-                  <Text style={[styles.textStyle,{fontWeight:'bold'}]}>Event end date</Text>
-                  <Text style={[styles.textStyle]}>{ moment(data.enddate).format("DD-MM-YYYY")}</Text>
-                </View> */}
                     <View style={[{ flexDirection: "row", flex: 1 }]}>
                       <View style={{ flex: 2 }}>
                         <Text
@@ -219,23 +239,26 @@ const CalenderScreen = () => {
                         </Text>
                         <Text style={styles.textStyle}>{data.description}</Text>
                       </View>
-                      <View style={{ flex: 2 }}>
-                        <Text
-                          style={[
-                            styles.textStyle,
-                            { fontWeight: "bold", left: 10 },
-                          ]}
-                        >
-                          Event end date
-                        </Text>
-                        <Text style={[styles.textStyle, { left: 10 }]}>
-                          {moment(data.enddate).format("DD-MM-YYYY")}
-                        </Text>
-                      </View>
+                      
                     </View>
                   </View>
                 </Card.Content>
-              </Card>
+              </Card>  */}
+                    <View style={[styles.container, {flexDirection: "column",top:15}]}>
+                      <View style={{ flex: 1}} >
+                        {/* <Text
+                          style={[styles.textStyle, { fontWeight: "bold" }]}
+                        >
+                          Description
+                        </Text> */}
+                      </View>
+                      <View style={{ flex: 2,top:35}} >
+                        <Text style={styles.textStyle}>{data.description}</Text>
+                      </View>
+                    </View>
+                </View>
+                <View style={styles.space} />
+              </View>
             </>
           ))}
       </ScrollView>
@@ -250,27 +273,29 @@ const styles = StyleSheet.create({
     top: 10,
     marginLeft: 10,
     marginRight: 10,
-    borderRadius: 20,
-    marginBottom: 15,
-    backgroundColor: "#0080FF",
-    elevation: 5,
-    shadowColor: "black",
+    backgroundColor:'#EFFFFD'
+    // borderRadius: 20,
+    // marginBottom: 15,
 
-    shadowOpacity: 0.75,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-    overflow: Platform.OS === "android" ? "hidden" : "visible",
+    // backgroundColor: "#0080FF",
+    // elevation: 5,
+    // shadowColor: "black",
+
+    // shadowOpacity: 0.75,
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowRadius: 8,
+    // overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
   cardView: {
     flexDirection: "row",
   },
   space: {
     width: 20,
-    height: 20,
+    height: 5,
   },
   textStyle: {
     fontFamily: "HindRegular",
     fontSize: 20,
-    color: "white",
+    color: "black",
   },
 });
