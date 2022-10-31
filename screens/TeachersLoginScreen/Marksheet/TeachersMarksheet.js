@@ -292,7 +292,7 @@ const TeachersMarksheet = () => {
       kannada_percentg: 0,
       computer_max_mark: 0,
 
-      computer_obt_mark: 0,
+      computer_obt_mark: compMarks,
       computer_min_mark: 0,
       computer_tot_mark: 0,
       computer_percentg: 0,
@@ -319,42 +319,44 @@ const TeachersMarksheet = () => {
       }
     }
     updateData();
-    Alert.alert("Successfully updated", "", [
-      { text: "OK", onPress: () => showMarksheetList() },
-    ]);
 
-    // async function fetchData() {
-    //   try {
-    //     const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
-    //     setMarksheetData(res.data);
-    //     setFilteredMarks(res.data);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
-    // fetchData();
+    if (
+      !enteredMathsMarksIsValid ||
+      !enteredEngMarksIsValid ||
+      !enteredSciMarksIsValid ||
+      !enteredHindiMarksIsValid ||
+      !enteredSocMarksIsValid ||
+      !enteredKanMarksIsValid ||
+      !enteredCompMarksIsValid
+    ) {
+      Alert.alert("Please enter all fields");
+    } else {
+      Alert.alert("Successfully updated", "", [
+        { text: "OK", onPress: () => showMarksheetList() },
+      ]);
 
-    setMathsMarks("");
-    setEngMarks("");
-    setSciMarks("");
-    setSocMarks("");
-    setKanMarks("");
-    setHindiMarks("");
-    setCompMarks("");
-    setEnteredOverallPerct("");
-    setEnteredRemark("");
-    setShowAddForm(false);
-    setShowMarksheet(true);
-    setForMarkssheetList({
-      backgroundColor: "#F4F6F6",
-      color: "black",
-      borderRadius: 10,
-    });
-    setForMarkssheetForm({
-      color: "white",
-      backgroundColor: "#1E8449",
-      borderRadius: 10,
-    });
+      setMathsMarks("");
+      setEngMarks("");
+      setSciMarks("");
+      setSocMarks("");
+      setKanMarks("");
+      setHindiMarks("");
+      setCompMarks("");
+      setEnteredOverallPerct("");
+      setEnteredRemark("");
+      setShowAddForm(false);
+      setShowMarksheet(true);
+      setForMarkssheetList({
+        backgroundColor: "#F4F6F6",
+        color: "black",
+        borderRadius: 10,
+      });
+      setForMarkssheetForm({
+        color: "white",
+        backgroundColor: "#1E8449",
+        borderRadius: 10,
+      });
+    }
   }
 
   function buttonPressedHandler() {
@@ -1058,8 +1060,14 @@ const TeachersMarksheet = () => {
       {showAddForm && (
         <>
           <View style={styles.inputForm}>
-            <View style={{ flexDirection: "row" }}>
-              <View style={{ flex: 1 }}>
+            <View
+              style={{
+                flexDirection: "row",
+                marginHorizontal: 10,
+                marginVertical: 20,
+              }}
+            >
+              <View style={{ flex: 1.5, right: 10 }}>
                 <View style={!mathsLabel ? styles.normal : styles.up}>
                   <Text
                     style={[
@@ -1103,7 +1111,7 @@ const TeachersMarksheet = () => {
 
               <View style={styles.space} />
 
-              <View style={{ flex: 1 }}>
+              <View style={{ flex: 1.5, right: 10 }}>
                 <View style={!engLabel ? styles.normal : styles.up}>
                   <Text
                     style={[
@@ -1145,7 +1153,7 @@ const TeachersMarksheet = () => {
                 )}
               </View>
 
-              <View style={{ flex: 1 }}>
+              <View style={{ flex: 1.5 }}>
                 <View style={!sciLabel ? styles.normal : styles.up}>
                   <Text
                     style={[
@@ -1189,7 +1197,7 @@ const TeachersMarksheet = () => {
             </View>
 
             <View style={{ flexDirection: "row" }}>
-              <View style={{ flex: 1 }}>
+              <View style={{ flex: 1.5 }}>
                 <View style={!hindiLabel ? styles.normal : styles.up}>
                   <Text
                     style={[
@@ -1233,7 +1241,7 @@ const TeachersMarksheet = () => {
 
               <View style={styles.space} />
 
-              <View style={{ flex: 1 }}>
+              <View style={{ flex: 1.5, right: 10 }}>
                 <View style={!socLabel ? styles.normal : styles.up}>
                   <Text
                     style={[
@@ -1276,7 +1284,7 @@ const TeachersMarksheet = () => {
                 )}
               </View>
 
-              <View style={{ flex: 1 }}>
+              <View style={{ flex: 1.5 }}>
                 <View style={!kanLabel ? styles.normal : styles.up}>
                   <Text
                     style={[
@@ -1319,7 +1327,7 @@ const TeachersMarksheet = () => {
               </View>
             </View>
 
-            <View style={{ width: "40%", marginTop: 5 }}>
+            <View style={{ width: "30%", marginTop: 5 }}>
               <View style={!compLabel ? styles.normal : styles.up}>
                 <Text
                   style={[
@@ -1589,7 +1597,10 @@ const styles = StyleSheet.create({
   },
   inputForm: {
     padding: 20,
-    paddingTop: 5,
+    paddingTop: 15,
+    paddingHorizontal: 10,
+    marginHorizontal: 10,
+    marginVertical: 10,
   },
   errorBorderColor: {
     borderColor: "red",

@@ -23,18 +23,18 @@ import Button from "../../../components/UI/Button";
 import { Card, DataTable } from "react-native-paper";
 import moment from "moment";
 import SearchBar from "react-native-dynamic-search-bar";
+import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 export var ID;
 const TecahersExamTimeTable = () => {
-
-  const [examLabel,setExamLabel]=useState(false);
-  const [totalLabel,setTotalLabel]=useState(false);
-  const [hourLabel,setHourLabel]=useState(false);
-  const [btn,subBtn]=useState(false);
-  const [isExamnameFocused,setIsExamnameFocused]=useState(false);
-  const [isFromFocused,setIsFromFocused]=useState(false);
-  const [isToFocused,setIsToFocused]=useState(false);
-  const [isTotalmarkFocused,setIsTotalmarkFocused]=useState(false);
-  const [isHourFocused,setIsHourFocused]=useState(false);
+  const [examLabel, setExamLabel] = useState(false);
+  const [totalLabel, setTotalLabel] = useState(false);
+  const [hourLabel, setHourLabel] = useState(false);
+  const [btn, subBtn] = useState(false);
+  const [isExamnameFocused, setIsExamnameFocused] = useState(false);
+  const [isFromFocused, setIsFromFocused] = useState(false);
+  const [isToFocused, setIsToFocused] = useState(false);
+  const [isTotalmarkFocused, setIsTotalmarkFocused] = useState(false);
+  const [isHourFocused, setIsHourFocused] = useState(false);
 
   const [selectedExamTimeTable, setSelectedExamTimeTable] = useState("");
   const [enteredSelectedTouched, setEnteredSelectedTouched] = useState(false);
@@ -179,10 +179,22 @@ const TecahersExamTimeTable = () => {
       }
     }
     storeData();
-    Alert.alert("Successfully updated", "", [
-      { text: "OK", onPress: () => fetchData() },
-    ]);
 
+    if (
+      !enteredExamNameIsValid ||
+      !enteredFromDateIsValid ||
+      !enteredtoDateIsValid ||
+      !enteredHourIsValid ||
+      !enteredMarksIsValid ||
+      !enteredSelcetdIsValid
+    ) {
+      Alert.alert("Please enter all the fields");
+      return;
+    } else {
+      Alert.alert("Successfully updated", "", [
+        { text: "OK", onPress: () => fetchData() },
+      ]);
+    }
     async function fetchData() {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Exam/`);
@@ -401,7 +413,7 @@ const TecahersExamTimeTable = () => {
     setEnteredExamNameTouched(true);
     setIsExamnameFocused(false);
   }
-  function onExamnameFocusHandler(){
+  function onExamnameFocusHandler() {
     setIsExamnameFocused(true);
     setEnteredExamNameTouched(false);
     setExamLabel(true);
@@ -411,7 +423,7 @@ const TecahersExamTimeTable = () => {
     setEnteredFromDateTouched(true);
     setIsFromFocused(false);
   }
-  function onFromFocusHandler(){
+  function onFromFocusHandler() {
     setIsFromFocused(true);
     setEnteredFromDateTouched(false);
   }
@@ -419,7 +431,7 @@ const TecahersExamTimeTable = () => {
   function toDateBlurHanlder() {
     setEnteredtoDateTouched(true);
   }
-  function onToFocusHandler(){
+  function onToFocusHandler() {
     setIsToFocused(true);
     setEnteredtoDateTouched(false);
   }
@@ -428,7 +440,7 @@ const TecahersExamTimeTable = () => {
     setEnteredMarksTouched(true);
     setIsTotalmarkFocused(false);
   }
-  function onMarkFocusHandler(){
+  function onMarkFocusHandler() {
     setIsTotalmarkFocused(true);
     setEnteredMarksTouched(false);
     setTotalLabel(true);
@@ -438,7 +450,7 @@ const TecahersExamTimeTable = () => {
     setEnteredHourTouched(true);
     setIsHourFocused(false);
   }
-  function onHourFocusHandler(){
+  function onHourFocusHandler() {
     setIsHourFocused(true);
     setEnteredHourTouched(false);
     setHourLabel(true);
@@ -542,11 +554,11 @@ const TecahersExamTimeTable = () => {
       {showaddBtn && (
         <View style={styles.timetablebtn}>
           <Button onPress={viewExam}>
-            <Ionicons 
-              name="add" 
-              size={deviceWidth < 370 ? 35 : 38} 
+            <Ionicons
+              name="add"
+              size={deviceWidth < 370 ? 35 : 38}
               color="black"
-               />
+            />
           </Button>
         </View>
       )}
@@ -699,7 +711,12 @@ const TecahersExamTimeTable = () => {
                         },
                       ]}
                     >
-                      <View style={{ flex: 2, left:  deviceWidth < 370 ? '400%' : '450%' }}>
+                      <View
+                        style={{
+                          flex: 2,
+                          left: deviceWidth < 370 ? "400%" : "450%",
+                        }}
+                      >
                         <Ionicons
                           name="md-pencil-sharp"
                           size={24}
@@ -745,14 +762,14 @@ const TecahersExamTimeTable = () => {
                   setSelected={setSelectedExamTimeTable}
                   data={ExamTimeTableData}
                   placeholder="select class"
-                  style={{ fontSize:  deviceWidth < 370 ? 14 : 18, }}
+                  style={{ fontSize: deviceWidth < 370 ? 14 : 18 }}
                   boxStyles={[
                     selectInputIsInValid && styles.errorSelectedColor,
                     { borderRadius: 0 },
                   ]}
                   inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
                   dropdownTextStyles={{
-                    fontSize:  deviceWidth < 370 ? 14 : 18,
+                    fontSize: deviceWidth < 370 ? 14 : 18,
                     fontFamily: "HindRegular",
                   }}
                 />
@@ -762,19 +779,32 @@ const TecahersExamTimeTable = () => {
               </View>
             )}
             <View>
-            <View style={!examLabel ? styles.normal : styles.up}>
-              <Text 
-              style={[btn ? styles.normalLabel : (selectExamNameIsInValid ? styles.errorLabel : styles.normalLabel)]}
-              onPress={onExamnameFocusHandler}>Exam name</Text>
-            </View>
-            <Input
-              style={isExamnameFocused ? styles.focusStyle : selectExamNameIsInValid && styles.errorBorderColor}
-              onChangeText={examNameChangeHandler}
-              value={examName}
-              blur={examBlurHandler}
-              onFocus={onExamnameFocusHandler}
-              onSubmitEditing={Keyboard.dismiss}
-            />
+              <View style={!examLabel ? styles.normal : styles.up}>
+                <Text
+                  style={[
+                    btn
+                      ? styles.normalLabel
+                      : selectExamNameIsInValid
+                      ? styles.errorLabel
+                      : styles.normalLabel,
+                  ]}
+                  onPress={onExamnameFocusHandler}
+                >
+                  Exam name
+                </Text>
+              </View>
+              <Input
+                style={
+                  isExamnameFocused
+                    ? styles.focusStyle
+                    : selectExamNameIsInValid && styles.errorBorderColor
+                }
+                onChangeText={examNameChangeHandler}
+                value={examName}
+                blur={examBlurHandler}
+                onFocus={onExamnameFocusHandler}
+                onSubmitEditing={Keyboard.dismiss}
+              />
             </View>
             {selectExamNameIsInValid && (
               <Text
@@ -814,12 +844,16 @@ const TecahersExamTimeTable = () => {
                     onPress={() => showFromMode("date")}
                   />
                 </View>
-                <Input
+                <UnderlinedInput
                   value={fromText}
                   placeholder="From Date"
                   blur={fromDateBlurHandler}
                   onFocus={onFromFocusHandler}
-                  style={isFromFocused ? styles.focusStyle : fromDateInputIsInValid && styles.errorBorderColor}
+                  style={
+                    isFromFocused
+                      ? styles.focusStyle
+                      : fromDateInputIsInValid && styles.errorBorderColor
+                  }
                   onChangeText={fromDateChangeHandler}
                   onPressIn={() => showFromMode("date")}
                 />
@@ -865,12 +899,16 @@ const TecahersExamTimeTable = () => {
                     onPress={() => showToMode("date")}
                   />
                 </View>
-                <Input
+                <UnderlinedInput
                   value={toText}
                   placeholder="To Date"
                   blur={toDateBlurHanlder}
                   onFocus={onToFocusHandler}
-                  style={isToFocused ? styles.focusStyle : toDateInputIsInValid && styles.errorBorderColor}
+                  style={
+                    isToFocused
+                      ? styles.focusStyle
+                      : toDateInputIsInValid && styles.errorBorderColor
+                  }
                   onPressIn={() => showToMode("date")}
                 />
                 {toDateInputIsInValid && (
@@ -899,51 +937,93 @@ const TecahersExamTimeTable = () => {
               </View>
             </View>
             <View>
-            {/* <View style={btn ? styles.topLabelExtra :(!totalLabel ? styles.normalTotal : styles.upTotal)}>
+              {/* <View style={btn ? styles.topLabelExtra :(!totalLabel ? styles.normalTotal : styles.upTotal)}>
               <Text 
               style={[marksInputIsInValid ? styles.errorLabel : styles.normalLabel]}
               onPress={onMarkFocusHandler}>Total marks</Text>
             </View> */}
-            <View style={!totalLabel ? styles.normalTotal : styles.upTotal}>
-              <Text 
-                style={btn ? styles.normalLabel : ([marksInputIsInValid ? styles.errorLabel : styles.normalLabel])}
-                
-              onPress={onMarkFocusHandler}>Total marks</Text>
-            </View>
-            <Input
-              onChangeText={totalMarksChangeHandler}
-              value={totalMarks.toString()}
-              style={isTotalmarkFocused ? styles.focusStyle : marksInputIsInValid && styles.errorBorderColor}
-              onSubmitEditing={Keyboard.dismiss}
-              blur={markBlurHanlder}
-              onFocus={onMarkFocusHandler}
-            />
+              <View style={!totalLabel ? styles.normalTotal : styles.upTotal}>
+                <Text
+                  style={
+                    btn
+                      ? styles.normalLabel
+                      : [
+                          marksInputIsInValid
+                            ? styles.errorLabel
+                            : styles.normalLabel,
+                        ]
+                  }
+                  onPress={onMarkFocusHandler}
+                >
+                  Total marks
+                </Text>
+              </View>
+              <Input
+                onChangeText={totalMarksChangeHandler}
+                value={totalMarks.toString()}
+                style={
+                  isTotalmarkFocused
+                    ? styles.focusStyle
+                    : marksInputIsInValid && styles.errorBorderColor
+                }
+                onSubmitEditing={Keyboard.dismiss}
+                blur={markBlurHanlder}
+                onFocus={onMarkFocusHandler}
+              />
             </View>
             {marksInputIsInValid && (
               <Text
-                style={[btn ? styles.topExtra : (styles.errorText,{bottom:10,color:'red',left:30})]}>
+                style={[
+                  btn
+                    ? styles.topExtra
+                    : (styles.errorText,
+                      { bottom: 10, color: "red", left: 30 }),
+                ]}
+              >
                 Enter total marks
               </Text>
             )}
             <View>
-            <View style={!hourLabel ? styles.normalHour : styles.upHour}>
-              <Text 
-                style={btn ? styles.normalLabel : ([hourInputIsInValid ? styles.errorLabel : styles.normalLabel])}
-                
-              onPress={onHourFocusHandler}>Hour</Text>
-            </View>
-            <Input
-              onChangeText={hourChangeHandler}
-              value={hour}
-              style={isHourFocused ? styles.focusStyle : hourInputIsInValid && styles.errorBorderColor}
-              onSubmitEditing={Keyboard.dismiss}
-              blur={hourBlurHanlder}
-              onFocus={onHourFocusHandler}
-            />
+              <View style={!hourLabel ? styles.normalHour : styles.upHour}>
+                <Text
+                  style={
+                    btn
+                      ? styles.normalLabel
+                      : [
+                          hourInputIsInValid
+                            ? styles.errorLabel
+                            : styles.normalLabel,
+                        ]
+                  }
+                  onPress={onHourFocusHandler}
+                >
+                  Hour
+                </Text>
+              </View>
+              <Input
+                onChangeText={hourChangeHandler}
+                value={hour}
+                style={
+                  isHourFocused
+                    ? styles.focusStyle
+                    : hourInputIsInValid && styles.errorBorderColor
+                }
+                onSubmitEditing={Keyboard.dismiss}
+                blur={hourBlurHanlder}
+                onFocus={onHourFocusHandler}
+              />
             </View>
             {hourInputIsInValid && (
               <Text
-                style={[btn ? styles.topExtra :(styles.errorText,marksInputIsInValid ? {bottom:10,left:30,color:'red'} : {top:430})]}>
+                style={[
+                  btn
+                    ? styles.topExtra
+                    : (styles.errorText,
+                      marksInputIsInValid
+                        ? { bottom: 10, left: 30, color: "red" }
+                        : { top: 430 }),
+                ]}
+              >
                 Enter hour
               </Text>
             )}
@@ -972,11 +1052,11 @@ const TecahersExamTimeTable = () => {
           </View>
         </ScrollView>
       )}
-      {keyboardStatus == "Keyboard Hidden" && (
+      {/* {keyboardStatus == "Keyboard Hidden" && (
         <View style={styles.home}>
           <TeachersHome />
         </View>
-      )}
+      )} */}
     </>
   );
 };
@@ -1053,7 +1133,7 @@ const styles = StyleSheet.create({
     //paddingVertical: 20,
     //paddingHorizontal: 0,
     marginTop: -30,
-    marginLeft:  deviceWidth < 370 ? 260 :280,
+    marginLeft: deviceWidth < 370 ? 260 : 280,
   },
 
   container: {
@@ -1091,7 +1171,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   errorBorderColor: {
-    borderColor:'red'
+    borderColor: "red",
   },
   errorSelectedColor: {
     borderColor: "red",
@@ -1128,71 +1208,70 @@ const styles = StyleSheet.create({
     borderColor: "#fff",
     width: deviceWidth < 370 ? "50%" : "50%",
   },
-  focusStyle:{
-    borderColor:'blue'
+  focusStyle: {
+    borderColor: "blue",
   },
 
-  normal:{
-    position:'absolute',
-    top:deviceWidth < 370 ? 23 : 30,
-    left:deviceWidth < 370 ? 20 : 30,
+  normal: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 23 : 30,
+    left: deviceWidth < 370 ? 20 : 30,
   },
-  up:{
-    top:deviceWidth < 370 ? 15 : 25,
-    width:deviceWidth < 370 ? 80 : 90,
-    left:deviceWidth < 370 ? 20 : 30,
-  },
-
-  normalTotal:{
-    position:'absolute',
-    top:deviceWidth < 370 ? 22 : 27,
-    left:deviceWidth < 370 ? 20 : 30,
-  },
-  upTotal:{
-    top:deviceWidth < 370 ? 15 : 25,
-    width:deviceWidth < 370 ? 80 : 92,
-    left:deviceWidth < 370 ? 20 : 30,
+  up: {
+    top: deviceWidth < 370 ? 15 : 25,
+    width: deviceWidth < 370 ? 80 : 90,
+    left: deviceWidth < 370 ? 20 : 30,
   },
 
-  normalHour:{
-    position:'absolute',
-    top:deviceWidth < 370 ? 22 : 27,
-    left:deviceWidth < 370 ? 20 : 30,
+  normalTotal: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 22 : 27,
+    left: deviceWidth < 370 ? 20 : 30,
   },
-  upHour:{
-    top:deviceWidth < 370 ? 14 : 24,
-    width:44,
-    left:deviceWidth < 370 ? 20 : 30,
+  upTotal: {
+    top: deviceWidth < 370 ? 15 : 25,
+    width: deviceWidth < 370 ? 80 : 92,
+    left: deviceWidth < 370 ? 20 : 30,
   },
 
+  normalHour: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 22 : 27,
+    left: deviceWidth < 370 ? 20 : 30,
+  },
+  upHour: {
+    top: deviceWidth < 370 ? 14 : 24,
+    width: 44,
+    left: deviceWidth < 370 ? 20 : 30,
+  },
 
-  errorLabel:{
-    color:'red',
-    backgroundColor:'#F2F2F2',
-    paddingHorizontal:5,
+  errorLabel: {
+    color: "red",
+    backgroundColor: "#F2F2F2",
+    paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
-  normalLabel:{
-    color:'grey',
-    backgroundColor:'#F2F2F2',
-    paddingHorizontal:5,
+  normalLabel: {
+    color: "grey",
+    backgroundColor: "#F2F2F2",
+    paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
-  errorText:{
+  errorText: {
     color: "red",
     left: 40,
     fontFamily: "HindRegular",
     fontSize: deviceWidth < 370 ? 14 : 18,
-    position:'absolute',
+    position: "absolute",
   },
-  topLabelExtra:{
-    top:47,
-    left:deviceWidth < 370 ? 20 : 30,
-    width:100
+  topLabelExtra: {
+    top: 47,
+    left: deviceWidth < 370 ? 20 : 30,
+    width: 100,
   },
-  topExtra:{
-    bottom:10,
-    left:deviceWidth < 370 ? 20 : 30,
-    color:'red'
-  }
+  topExtra: {
+    bottom: 10,
+    left: deviceWidth < 370 ? 20 : 30,
+    color: "red",
+  },
 });

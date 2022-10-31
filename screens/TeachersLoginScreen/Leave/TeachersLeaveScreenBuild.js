@@ -26,6 +26,7 @@ import Input from "../../../components/UI/Input";
 import { Card, DataTable } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
+import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 export var ID;
 const TeachersLeaveScreenBuild = () => {
   const [typeLabel, setTypeLabel] = useState(false);
@@ -36,7 +37,7 @@ const TeachersLeaveScreenBuild = () => {
   const [isFromFocused, setIsFromFocused] = useState(false);
   const [isToFocused, setIsToFocused] = useState(false);
 
-  const [btn,setBtn]=useState(false);
+  const [btn, setBtn] = useState(false);
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
   const [forLeaveList, setForLeaveList] = useState({
@@ -530,7 +531,7 @@ const TeachersLeaveScreenBuild = () => {
   function editItem(id) {
     setShowInitialBtn(false);
     setReasonLabel(true);
-    setTypeLabel(true)
+    setTypeLabel(true);
     ID = id;
     const filteredDummuyData = data.find((data) => data.id == id);
     // console.log(filteredDummuyData);
@@ -637,79 +638,81 @@ const TeachersLeaveScreenBuild = () => {
         <ScrollView>
           <View style={styles.inputForm}>
             <View>
-            <View style={!typeLabel ? styles.normal : styles.up}>
-              <Text
-                onPress={onLeavetypeFocusHandler}
-                style={[
-                  btn ? styles.normalLabel :(leavetypeInputIsInValid
-                    ? styles.errorLabel
-                    : styles.normalLabel)
-                ]}
-              >
-                Leave type
-              </Text>
-            </View>
-            <Input
-              // placeholder="leave type"
-              onChangeText={leaveTypeChangeHandler}
-              blur={leavetypeBlurHandler}
-              onFocus={onLeavetypeFocusHandler}
-              value={leaveType}
-              onSubmitEditing={Keyboard.dismiss}
-              style={
-                isLeavetypeFocused
-                  ? styles.focusStyle
-                  : leavetypeInputIsInValid && styles.errorBorderColor
-              }
-            />
+              <View style={!typeLabel ? styles.normal : styles.up}>
+                <Text
+                  onPress={onLeavetypeFocusHandler}
+                  style={[
+                    btn
+                      ? styles.normalLabel
+                      : leavetypeInputIsInValid
+                      ? styles.errorLabel
+                      : styles.normalLabel,
+                  ]}
+                >
+                  Leave type
+                </Text>
+              </View>
+              <Input
+                // placeholder="leave type"
+                onChangeText={leaveTypeChangeHandler}
+                blur={leavetypeBlurHandler}
+                onFocus={onLeavetypeFocusHandler}
+                value={leaveType}
+                onSubmitEditing={Keyboard.dismiss}
+                style={
+                  isLeavetypeFocused
+                    ? styles.focusStyle
+                    : leavetypeInputIsInValid && styles.errorBorderColor
+                }
+              />
             </View>
             {leavetypeInputIsInValid && (
               <Text style={styles.errorText}>Enter the type</Text>
             )}
             <View>
-            <View
-              style={
-                !leavetypeInputIsInValid
-                  ? !reasonLabel
-                    ? styles.normalRemark
-                    : styles.upRemark
-                  : !reasonLabel
-                  ? styles.normalRemarkExtra
-                  : styles.upRemarkExtra
-              }
-            >
-              <Text
-                style={[
-                  btn ? styles.normalLabel :(leavereasonInputIsInValid
-                    ? styles.errorLabel
-                    : styles.normalLabel)
-                ]}
+              <View
+                style={
+                  !leavetypeInputIsInValid
+                    ? !reasonLabel
+                      ? styles.normalRemark
+                      : styles.upRemark
+                    : !reasonLabel
+                    ? styles.normalRemarkExtra
+                    : styles.upRemarkExtra
+                }
               >
-                Leave reason
-              </Text>
-            </View>
+                <Text
+                  style={[
+                    btn
+                      ? styles.normalLabel
+                      : leavereasonInputIsInValid
+                      ? styles.errorLabel
+                      : styles.normalLabel,
+                  ]}
+                >
+                  Leave reason
+                </Text>
+              </View>
 
-            {/* <View style={!reasonLabel ? styles.normalRemark : styles.upRemark}>
+              {/* <View style={!reasonLabel ? styles.normalRemark : styles.upRemark}>
               <Text style={[leavereasonInputIsInValid ? styles.errorLabel : styles.normalLabel]}>Leave reason</Text>
             </View> */}
 
-            <Input
-              onChangeText={leaveReasonChangeHandler}
-              blur={leavereasonBlurHandler}
-              onFocus={onLeavereasonFocusHandler}
-              value={leaveReason}
-              onSubmitEditing={Keyboard.dismiss}
-              style={
-                isLeavereasonFocused
-                  ? styles.focusStyle
-                  : leavereasonInputIsInValid && styles.errorBorderColor
-              }
-            />
+              <Input
+                onChangeText={leaveReasonChangeHandler}
+                blur={leavereasonBlurHandler}
+                onFocus={onLeavereasonFocusHandler}
+                value={leaveReason}
+                onSubmitEditing={Keyboard.dismiss}
+                style={
+                  isLeavereasonFocused
+                    ? styles.focusStyle
+                    : leavereasonInputIsInValid && styles.errorBorderColor
+                }
+              />
             </View>
             {leavereasonInputIsInValid && (
-              <Text style={styles.errorText}>
-                Enter leave reason
-              </Text>
+              <Text style={styles.errorText}>Enter leave reason</Text>
             )}
 
             <View style={[{ flexDirection: "row" }]}>
@@ -726,7 +729,7 @@ const TeachersLeaveScreenBuild = () => {
                     onPress={() => showFromMode("date")}
                   />
                 </View>
-                <Input
+                <UnderlinedInput
                   value={fromText}
                   placeholder="Leave from"
                   onSubmitEditing={Keyboard.dismiss}
@@ -778,7 +781,7 @@ const TeachersLeaveScreenBuild = () => {
                     onPress={() => showToMode("date")}
                   />
                 </View>
-                <Input
+                <UnderlinedInput
                   value={toText}
                   placeholder="Leave to:"
                   onSubmitEditing={Keyboard.dismiss}
@@ -1117,7 +1120,7 @@ const styles = StyleSheet.create({
   },
   up: {
     top: deviceWidth < 370 ? 16 : 24,
-    width:deviceWidth < 370 ? 75 : 85,
+    width: deviceWidth < 370 ? 75 : 85,
     left: deviceWidth < 370 ? 20 : 30,
   },
   errorLabel: {
@@ -1141,7 +1144,7 @@ const styles = StyleSheet.create({
   upRemark: {
     top: deviceWidth < 370 ? 15 : 43,
     left: deviceWidth < 370 ? 20 : 30,
-    width:deviceWidth < 370 ? 90 : 100
+    width: deviceWidth < 370 ? 90 : 100,
   },
   normalRemarkExtra: {
     position: "absolute",
@@ -1153,10 +1156,10 @@ const styles = StyleSheet.create({
     left: deviceWidth < 370 ? 20 : 30,
     top: 5,
   },
-  errorText:{
+  errorText: {
     color: "red",
     left: 20,
     fontFamily: "HindRegular",
     fontSize: 16,
-  }
+  },
 });

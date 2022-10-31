@@ -188,6 +188,13 @@ const TeachersTransport = () => {
 
   function updateHandler() {
     setShowInitialBtn(true);
+    // setBusLabel(false);
+    // setVehLabel(false);
+    // setTypeLabel(false);
+    // setDriverLabel(false);
+    // setMobLabel(false);
+    // setRootLabel(false);
+    // setStopLabel(false);
     const FormData = {
       busnumber: busNumber,
       vehicleno: vehicleno,
@@ -220,40 +227,63 @@ const TeachersTransport = () => {
       }
     }
     updateData();
-    Alert.alert("Successfully updated", "", [
-      { text: "OK", onPress: () => fetchData },
-    ]);
-    async function fetchData() {
-      try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/Transportreport/`
-        );
-        setFilteredData(res.data);
-      } catch (error) {
-        console.log(error);
-      }
+
+    if (
+      !enteredBusnumberIsValid
+      // !enteredVehicleNoIsValid ||
+      // !enteredTypeIsValid ||
+      // !enteredDrivernameIsValid ||
+      // !enteredMobileIsValid ||
+      // !enteredRoutenameIsValid ||
+      // !enteredStopnameIsValid
+    ) {
+      Alert.alert("Please enter Bus number ");
     }
-    fetchData();
-    setEnteredStudentID("");
-    setEnteredBusNumber("");
-    setEnteredVehicleNo("");
-    setEnteredType("");
-    setEnteredDriverName("");
-    setEnteredMobile("");
-    setEnteredRouteName("");
-    setEnteredStopName("");
-    setShowForm(false);
-    setShowList(true);
-    setForTransportList({
-      backgroundColor: "#F4F6F6",
-      color: "black",
-      borderRadius: 10,
-    });
-    setForTransportForm({
-      color: "white",
-      backgroundColor: "#1E8449",
-      borderRadius: 10,
-    });
+    if (
+      !enteredVehicleNoIsValid
+      // !enteredTypeIsValid ||
+      // !enteredDrivernameIsValid ||
+      // !enteredMobileIsValid ||
+      // !enteredRoutenameIsValid ||
+      // !enteredStopnameIsValid
+    ) {
+      Alert.alert("Please enter all fields");
+    } else {
+      Alert.alert("Successfully updated", "", [
+        { text: "OK", onPress: () => fetchData() },
+      ]);
+      async function fetchData() {
+        try {
+          const res = await axios.get(
+            `http://10.0.2.2:8000/school/Transportreport/`
+          );
+          setFilteredData(res.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      fetchData();
+      setEnteredStudentID("");
+      setEnteredBusNumber("");
+      setEnteredVehicleNo("");
+      setEnteredType("");
+      setEnteredDriverName("");
+      setEnteredMobile("");
+      setEnteredRouteName("");
+      setEnteredStopName("");
+      setShowForm(false);
+      setShowList(true);
+      setForTransportList({
+        backgroundColor: "#F4F6F6",
+        color: "black",
+        borderRadius: 10,
+      });
+      setForTransportForm({
+        color: "white",
+        backgroundColor: "#1E8449",
+        borderRadius: 10,
+      });
+    }
   }
 
   function buttonPressedHandler() {
@@ -479,6 +509,13 @@ const TeachersTransport = () => {
   }
 
   function showTransportForm() {
+    setBusLabel(false);
+    setVehLabel(false);
+    setTypeLabel(false);
+    setDriverLabel(false);
+    setMobLabel(false);
+    setRootLabel(false);
+    setStopLabel(false);
     setForTransportForm({
       color: "black",
       backgroundColor: "#F4F6F6",
@@ -574,7 +611,7 @@ const TeachersTransport = () => {
     console.log(filteredDummuyData);
     setEnteredBusNumber(filteredDummuyData.busnumber);
     setEnteredVehicleNo(filteredDummuyData.vehicleno);
-    setEnteredType(filteredDummuyData.types);
+    // setEnteredType(filteredDummuyData.types);
     setEnteredDriverName(filteredDummuyData.driver_name);
     setEnteredMobile(filteredDummuyData.emp_mobile);
     setEnteredRouteName(filteredDummuyData.route_name);
@@ -662,13 +699,7 @@ const TeachersTransport = () => {
   };
   return (
     <>
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "column",
-          // backgroundColor: "white",
-        }}
-      >
+      <View style={styles.flexStyleCol}>
         <View style={{ flex: 8 }}>
           {showInitialBtn && (
             <View style={styles.BtnContainer}>
@@ -680,6 +711,26 @@ const TeachersTransport = () => {
                 Show Transport
               </BgButton>
             </View>
+            // <View
+            //   style={[
+            //     { flexDirection: "row", height: "13%", marginHorizontal: 10 },
+            //   ]}
+            // >
+            //   <View
+            //     style={{ flex: 1, backgroundColor: "white", width: "100%" }}
+            //   >
+            //     <BgButton onPress={showTransportForm} style={forTransportList}>
+            //       Add Transport
+            //     </BgButton>
+            //   </View>
+            //   <View
+            //     style={{ flex: 1, backgroundColor: "white", width: "100%" }}
+            //   >
+            //     <BgButton onPress={showTransport} style={forTransportForm}>
+            //       Show Transport
+            //     </BgButton>
+            //   </View>
+            // </View>
           )}
           {showForm && (
             <ScrollView style={styles.root}>
@@ -701,7 +752,7 @@ const TeachersTransport = () => {
                 </View>
                 <Input
                   // keyboardType="number-pad"
-                  // placeholder="Bus Number"
+
                   onChangeText={busNumberChangeHandler}
                   blur={busnumberInputBlur}
                   onFocus={onFocusBusHandler}
@@ -714,16 +765,7 @@ const TeachersTransport = () => {
                   }
                 />
                 {busnumberInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      left: 20,
-                      fontFamily: "HindRegular",
-                      fontSize: deviceWidth < 370 ? 16 : 18,
-                    }}
-                  >
-                    Enter bus number
-                  </Text>
+                  <Text style={styles.commonErrorMsg}>Enter bus number</Text>
                 )}
 
                 <View>
@@ -733,7 +775,7 @@ const TeachersTransport = () => {
                         btn
                           ? styles.normalLabel
                           : vehicleNoInputIsInValid
-                          ? styles.errorLabel
+                          ? styles.vehError
                           : styles.normalLabel,
                       ]}
                       onPress={onFocusVehHandler}
@@ -742,8 +784,6 @@ const TeachersTransport = () => {
                     </Text>
                   </View>
                   <Input
-                    // keyboardType="number-pad"
-                    // placeholder="Vehicle Number"
                     onChangeText={vehicleChangeHandler}
                     blur={vehicleInputBlur}
                     onFocus={onFocusVehHandler}
@@ -757,58 +797,46 @@ const TeachersTransport = () => {
                   />
                 </View>
                 {vehicleNoInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      left: 20,
-                      fontFamily: "HindRegular",
-                      fontSize: deviceWidth < 370 ? 16 : 18,
-                    }}
-                  >
+                  <Text style={styles.commonErrorMsg}>
                     Enter vehicle number
                   </Text>
                 )}
 
-                <View>
-                  <View style={!typeLabel ? styles.normalType : styles.upType}>
-                    <Text
-                      style={[
-                        btn
-                          ? styles.normalLabel
-                          : typeInputIsInValid
-                          ? styles.errorLabel
-                          : styles.normalLabel,
-                      ]}
-                      onPress={onFocusTypeHandler}
+                {!isEdit && (
+                  <View>
+                    <View
+                      style={!typeLabel ? styles.normalType : styles.upType}
                     >
-                      Transport Type
-                    </Text>
+                      <Text
+                        style={[
+                          btn
+                            ? styles.normalLabel
+                            : typeInputIsInValid
+                            ? styles.errorLabel
+                            : styles.normalLabel,
+                        ]}
+                        onPress={onFocusTypeHandler}
+                      >
+                        Transport Type
+                      </Text>
+                    </View>
+                    <Input
+                      // placeholder="Type"
+                      onChangeText={typeChangeHandler}
+                      blur={typeInputBlur}
+                      onFocus={onFocusTypeHandler}
+                      value={type}
+                      onSubmitEditing={Keyboard.dismiss}
+                      style={
+                        isTypeFocused
+                          ? styles.focusStyle
+                          : typeInputIsInValid && styles.errorBorderColor
+                      }
+                    />
                   </View>
-                  <Input
-                    // placeholder="Type"
-                    onChangeText={typeChangeHandler}
-                    blur={typeInputBlur}
-                    onFocus={onFocusTypeHandler}
-                    value={type}
-                    onSubmitEditing={Keyboard.dismiss}
-                    style={
-                      isTypeFocused
-                        ? styles.focusStyle
-                        : typeInputIsInValid && styles.errorBorderColor
-                    }
-                  />
-                </View>
-                {typeInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      left: 20,
-                      fontFamily: "HindRegular",
-                      fontSize: deviceWidth < 370 ? 16 : 18,
-                    }}
-                  >
-                    Enter type
-                  </Text>
+                )}
+                {typeInputIsInValid && !isEdit && (
+                  <Text style={styles.commonErrorMsg}>Enter type</Text>
                 )}
 
                 <View>
@@ -843,16 +871,7 @@ const TeachersTransport = () => {
                   />
                 </View>
                 {drivernameInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      left: 20,
-                      fontFamily: "HindRegular",
-                      fontSize: deviceWidth < 370 ? 16 : 18,
-                    }}
-                  >
-                    Enter driver name
-                  </Text>
+                  <Text style={styles.commonErrorMsg}>Enter driver name</Text>
                 )}
 
                 <View>
@@ -872,8 +891,6 @@ const TeachersTransport = () => {
                   </View>
                   <Input
                     keyboardType="number-pad"
-                    // style={styles.inputStyle}
-                    // placeholder="Mobile Number"
                     maxLength={10}
                     onChangeText={mobileChangeHandler}
                     blur={mobilenumberInputBlur}
@@ -888,14 +905,7 @@ const TeachersTransport = () => {
                   />
                 </View>
                 {mobileInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      left: 20,
-                      fontFamily: "HindRegular",
-                      fontSize: deviceWidth < 370 ? 16 : 18,
-                    }}
-                  >
+                  <Text style={styles.commonErrorMsg}>
                     Enter a valid mobile number(10 digits)
                   </Text>
                 )}
@@ -930,16 +940,7 @@ const TeachersTransport = () => {
                   />
                 </View>
                 {routenameInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      left: 20,
-                      fontFamily: "HindRegular",
-                      fontSize: deviceWidth < 370 ? 16 : 18,
-                    }}
-                  >
-                    Enter route name
-                  </Text>
+                  <Text style={styles.commonErrorMsg}>Enter route name</Text>
                 )}
 
                 <View>
@@ -972,16 +973,7 @@ const TeachersTransport = () => {
                   />
                 </View>
                 {stopnameInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      left: 20,
-                      fontFamily: "HindRegular",
-                      fontSize: deviceWidth < 370 ? 16 : 18,
-                    }}
-                  >
-                    Enter stop name
-                  </Text>
+                  <Text style={styles.commonErrorMsg}>Enter stop name</Text>
                 )}
 
                 {!isEdit && (
@@ -1012,130 +1004,137 @@ const TeachersTransport = () => {
               </View>} */}
           {showList && (
             <>
-              <SearchBar
-                // onSubmitEditing={Keyboard.dismiss}
-                style={styles.searchBar}
-                textInputStyle={{
-                  fontFamily: "HindRegular",
-                  fontSize: 18,
-                }}
-                placeholder="Search here"
-                onChangeText={(text) => searchFilter(text)}
-                value={searchText}
-              />
-              <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
-                <View style={{ flex: 8, bottom: 10 }}>
-                  <ScrollView>
-                    <View style={styles.root}>
-                      {filteredData &&
-                        filteredData.map((data, key) => (
-                          <>
-                            <View>
-                              <Card
-                                style={{
-                                  margin: 5,
-                                  marginVertical: 15,
-                                  marginHorizontal: 25,
-                                  elevation: 5,
-                                  borderRadius: 10,
-                                }}
-                                key={key}
-                              >
-                                <Card.Content style={{ marginTop: 0 }}>
-                                  <View
-                                    style={[{ flexDirection: "row", flex: 1 }]}
-                                  >
-                                    <View style={{ flex: 2, left: 20, top: 5 }}>
-                                      <Text style={[styles.cardTextStyle]}>
-                                        Driver Name
-                                      </Text>
+              <View
+                style={{ backgroundColor: "white", height: "100%", top: 20 }}
+              >
+                <SearchBar
+                  // onSubmitEditing={Keyboard.dismiss}
+                  style={
+                    keyboardStatus == "Keyboard Shown"
+                      ? styles.upSearch
+                      : styles.searchBar
+                  }
+                  textInputStyle={{
+                    fontFamily: "HindRegular",
+                    fontSize: 18,
+                  }}
+                  placeholder="Search here"
+                  onChangeText={(text) => searchFilter(text)}
+                  value={searchText}
+                />
+                <View style={styles.flexStyleCol}>
+                  <View style={{ flex: 8, bottom: 10 }}>
+                    <ScrollView>
+                      <View style={styles.root}>
+                        {filteredData &&
+                          filteredData.map((data, key) => (
+                            <>
+                              <View>
+                                <Card style={styles.card} key={key}>
+                                  <Card.Content style={{ marginTop: 0 }}>
+                                    <View style={styles.flexStyleRow}>
+                                      <View
+                                        style={{ flex: 2, left: 20, top: 5 }}
+                                      >
+                                        <Text style={[styles.cardTextStyle]}>
+                                          Driver Name
+                                        </Text>
+                                      </View>
+                                      <View
+                                        style={{ flex: 2, left: 40, top: 5 }}
+                                      >
+                                        <Text style={styles.cardData}>
+                                          {data.driver_name}
+                                        </Text>
+                                      </View>
                                     </View>
-                                    <View style={{ flex: 2, left: 40, top: 5 }}>
-                                      <Text style={styles.cardData}>
-                                        {data.driver_name}
-                                      </Text>
-                                    </View>
-                                  </View>
 
-                                  <View
-                                    style={[{ flexDirection: "row", flex: 1 }]}
-                                  >
-                                    <View style={{ flex: 2, left: 20, top: 5 }}>
-                                      <Text style={[styles.cardTextStyle]}>
-                                        Bus Number
-                                      </Text>
+                                    <View style={styles.flexStyleRow}>
+                                      <View
+                                        style={{ flex: 2, left: 20, top: 5 }}
+                                      >
+                                        <Text style={[styles.cardTextStyle]}>
+                                          Bus Number
+                                        </Text>
+                                      </View>
+                                      <View
+                                        style={{ flex: 2, left: 40, top: 5 }}
+                                      >
+                                        <Text style={styles.cardData}>
+                                          {data.busnumber}
+                                        </Text>
+                                      </View>
                                     </View>
-                                    <View style={{ flex: 2, left: 40, top: 5 }}>
-                                      <Text style={styles.cardData}>
-                                        {data.busnumber}
-                                      </Text>
-                                    </View>
-                                  </View>
 
-                                  <View
-                                    style={[{ flexDirection: "row", flex: 1 }]}
-                                  >
-                                    <View style={{ flex: 2, left: 20, top: 5 }}>
-                                      <Text style={[styles.cardTextStyle]}>
-                                        Vehicle Number
-                                      </Text>
+                                    <View style={styles.flexStyleRow}>
+                                      <View
+                                        style={{ flex: 2, left: 20, top: 5 }}
+                                      >
+                                        <Text style={[styles.cardTextStyle]}>
+                                          Vehicle Number
+                                        </Text>
+                                      </View>
+                                      <View
+                                        style={{ flex: 2, left: 40, top: 5 }}
+                                      >
+                                        <Text style={styles.cardData}>
+                                          {data.vehicleno}
+                                        </Text>
+                                      </View>
                                     </View>
-                                    <View style={{ flex: 2, left: 40, top: 5 }}>
-                                      <Text style={styles.cardData}>
-                                        {data.vehicleno}
-                                      </Text>
-                                    </View>
-                                  </View>
 
-                                  <View
-                                    style={[{ flexDirection: "row", flex: 1 }]}
-                                  >
-                                    <View style={{ flex: 2, left: 20, top: 5 }}>
-                                      <Text style={[styles.cardTextStyle]}>
-                                        Contact Number
-                                      </Text>
+                                    <View style={styles.flexStyleRow}>
+                                      <View
+                                        style={{ flex: 2, left: 20, top: 5 }}
+                                      >
+                                        <Text style={[styles.cardTextStyle]}>
+                                          Contact Number
+                                        </Text>
+                                      </View>
+                                      <View
+                                        style={{ flex: 2, left: 40, top: 5 }}
+                                      >
+                                        <Text style={styles.cardData}>
+                                          {data.emp_mobile}
+                                        </Text>
+                                      </View>
                                     </View>
-                                    <View style={{ flex: 2, left: 40, top: 5 }}>
-                                      <Text style={styles.cardData}>
-                                        {data.emp_mobile}
-                                      </Text>
+                                    <View style={styles.flexStyleRow}>
+                                      <View
+                                        style={{
+                                          flex: 1,
+                                          top: 5,
+                                          left: deviceWidth < 370 ? 190 : 200,
+                                        }}
+                                      >
+                                        <Ionicons
+                                          name="md-pencil-sharp"
+                                          size={24}
+                                          color="green"
+                                          style={{ left: "30%" }}
+                                          onPress={() => editItem(data.id)}
+                                        />
+                                      </View>
+                                      <View
+                                        style={{ flex: 1, left: 40, top: 5 }}
+                                      >
+                                        <Ionicons
+                                          name="trash"
+                                          size={24}
+                                          color="red"
+                                          style={{ left: "60%" }}
+                                          onPress={() => deleteItem(data.id)}
+                                        />
+                                      </View>
                                     </View>
-                                  </View>
-                                  <View
-                                    style={[{ flexDirection: "row", flex: 1 }]}
-                                  >
-                                    <View
-                                      style={{
-                                        flex: 1,
-                                        top: 5,
-                                        left: deviceWidth < 370 ? 190 : 200,
-                                      }}
-                                    >
-                                      <Ionicons
-                                        name="md-pencil-sharp"
-                                        size={24}
-                                        color="green"
-                                        style={{ left: "30%" }}
-                                        onPress={() => editItem(data.id)}
-                                      />
-                                    </View>
-                                    <View style={{ flex: 1, left: 40, top: 5 }}>
-                                      <Ionicons
-                                        name="trash"
-                                        size={24}
-                                        color="red"
-                                        style={{ left: "60%" }}
-                                        onPress={() => deleteItem(data.id)}
-                                      />
-                                    </View>
-                                  </View>
-                                </Card.Content>
-                              </Card>
-                            </View>
-                          </>
-                        ))}
-                    </View>
-                  </ScrollView>
+                                  </Card.Content>
+                                </Card>
+                              </View>
+                            </>
+                          ))}
+                      </View>
+                    </ScrollView>
+                  </View>
                 </View>
               </View>
             </>
@@ -1154,6 +1153,9 @@ const TeachersTransport = () => {
 export default TeachersTransport;
 
 const deviceWidth = Dimensions.get("window").width;
+const deviceHieght = Dimensions.get("window").height;
+// console.log("H", deviceHieght);
+// console.log("W", deviceWidth);
 
 const styles = StyleSheet.create({
   input: {
@@ -1162,12 +1164,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
   },
+  card: {
+    margin: 5,
+    marginVertical: 15,
+    marginHorizontal: 25,
+    elevation: 5,
+    borderRadius: 10,
+  },
   BtnContainer: {
     fontSize: 24,
     flexDirection: "row",
     width: "49%",
-
-    marginHorizontal: 10,
+    // backgroundColor: "white",
+    // marginHorizontal: 10,
   },
   container: {
     marginTop: "1%",
@@ -1188,8 +1197,10 @@ const styles = StyleSheet.create({
     left: 30,
   },
   root: {
-    backgroundColor: "#EBECFO",
+    // backgroundColor: "#EBECFO",
+    backgroundColor: "white",
     height: "100%",
+    top: 10,
   },
   inputForm: {
     padding: "5%",
@@ -1237,6 +1248,7 @@ const styles = StyleSheet.create({
   searchBar: {
     marginTop: 10,
     marginBottom: 20,
+    backgroundColor: "#F0F3F4",
     // height:deviceWidth < 370 ? "6%" : "6%",
   },
   focusStyle: {
@@ -1251,127 +1263,127 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: deviceWidth < 370 ? 2 : 10,
     left: deviceWidth < 370 ? 40 : 50,
+    fontFamily: "HindRegular",
   },
   errorLabel: {
     color: "red",
     backgroundColor: "#F2F2F2",
     paddingHorizontal: 5,
-    fontSize: deviceWidth < 370 ? 13 : 15,
+    fontSize: deviceWidth < 370 ? 13 : 16,
+    fontFamily: "HindRegular",
   },
   normalLabel: {
-    color: "grey",
+    color: "#A7ADAD",
     backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
     paddingHorizontal: 5,
-    fontSize: deviceWidth < 370 ? 13 : 15,
+    fontSize: deviceWidth < 370 ? 13 : 16,
   },
 
   normalVeh: {
     position: "absolute",
     top: deviceWidth < 370 ? 23 : 27,
     left: deviceWidth < 370 ? 20 : 30,
+    fontFamily: "HindRegular",
   },
   upVeh: {
-    top: deviceWidth < 370 ? 15 : 27,
+    top: deviceWidth < 370 ? 15 : 25,
     width: deviceWidth < 370 ? 100 : 120,
     left: deviceWidth < 370 ? 20 : 30,
+    color: "black",
+    height: 20,
+    fontFamily: "HindRegular",
   },
-  normalVehExtra: {
-    position: "absolute",
-    left: 50,
-    top: 137,
-  },
-  upVehExtra: {
-    position: "absolute",
-    left: 50,
-    top: 106,
+  vehError: {
+    bottom: deviceWidth < 370 ? 15 : 15,
+    color: "red",
+    backgroundColor: "#F2F2F2",
+    paddingHorizontal: 5,
+    fontSize: deviceWidth < 370 ? 13 : 16,
+    fontFamily: "HindRegular",
   },
 
   normalType: {
     position: "absolute",
     top: deviceWidth < 370 ? 23 : 27,
     left: deviceWidth < 370 ? 20 : 30,
+    fontFamily: "HindRegular",
   },
   upType: {
     top: deviceWidth < 370 ? 15 : 25,
     width: deviceWidth < 370 ? 100 : 120,
     left: deviceWidth < 370 ? 20 : 30,
-  },
-  normalTypeExtra: {
-    position: "absolute",
-    left: 50,
-    top: 215,
-  },
-  upTypeExtra: {
-    position: "absolute",
-    left: 50,
-    top: 193,
+    fontFamily: "HindRegular",
   },
 
   normalDriver: {
     position: "absolute",
     top: 26,
     left: deviceWidth < 370 ? 20 : 30,
+    fontFamily: "HindRegular",
   },
   upDriver: {
     top: deviceWidth < 370 ? 15 : 25,
     width: deviceWidth < 370 ? 90 : 110,
     left: deviceWidth < 370 ? 20 : 30,
-  },
-  normalDriverExtra: {
-    position: "absolute",
-    left: 50,
-    top: 295,
-  },
-  upDriverExtra: {
-    position: "absolute",
-    left: 50,
-    top: 270,
+    fontFamily: "HindRegular",
   },
 
   normalMob: {
     position: "absolute",
     top: deviceWidth < 370 ? 23 : 27,
     left: deviceWidth < 370 ? 20 : 30,
+    fontFamily: "HindRegular",
   },
   upMob: {
     top: deviceWidth < 370 ? 15 : 25,
     width: deviceWidth < 370 ? 100 : 120,
     left: deviceWidth < 370 ? 20 : 30,
+    fontFamily: "HindRegular",
   },
 
   normalRoot: {
     position: "absolute",
     top: deviceWidth < 370 ? 23 : 27,
     left: deviceWidth < 370 ? 20 : 30,
+    fontFamily: "HindRegular",
   },
   upRoot: {
     top: deviceWidth < 370 ? 15 : 25,
     left: deviceWidth < 370 ? 20 : 30,
-    width: deviceWidth < 370 ? 80 : 100
+    width: deviceWidth < 370 ? 80 : 100,
+    fontFamily: "HindRegular",
   },
 
   normalStop: {
     position: "absolute",
     top: deviceWidth < 370 ? 22 : 30,
     left: deviceWidth < 370 ? 20 : 30,
+    fontFamily: "HindRegular",
   },
   upStop: {
     // position:'absolute',
     top: deviceWidth < 370 ? 15 : 27,
     left: deviceWidth < 370 ? 25 : 37,
-    width: deviceWidth < 370 ? 80 : 90
+    width: deviceWidth < 370 ? 80 : 90,
+    fontFamily: "HindRegular",
   },
-  normalStopExtra: {
-    position: "absolute",
-    left: 50,
-    top: 530,
+
+  commonErrorMsg: {
+    color: "red",
+    left: 20,
+    fontFamily: "HindRegular",
+    fontSize: deviceWidth < 370 ? 14 : 17,
   },
-  upStopExtra: {
-    position: "absolute",
-    left: 50,
-    top: 507,
+  flexStyleCol: {
+    flex: 1,
+    flexDirection: "column",
   },
-  topInputStyle: {
-    top: 10,
+  flexStyleRow: {
+    flex: 1,
+    flexDirection: "row",
   },
+  // upSearch:{
+  //   top:50
+  // }
 });

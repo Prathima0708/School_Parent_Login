@@ -44,14 +44,17 @@ const styles = StyleSheet.create({
   inputStyle: {
     color: "black",
     borderWidth: 1.5,
+
     // borderBottomWidth: 1.5,
     // borderBottomRightRadius: 5,
     // borderBottomLeftRadius: 5,
-    borderRadius: 10,
-    borderColor: "lightgrey",
-    padding: 10,
+    borderRadius: 7,
+    borderColor: "#A3A5A5",
+    padding: 9,
+
     margin: deviceHieght < 600 ? "2%" : "4%",
-    fontSize: deviceWidth < 370 ? 16 : 20,
+    fontSize: deviceWidth < 370 ? 16 : 18,
+
     fontFamily: "HindRegular",
     zIndex: -1,
   },

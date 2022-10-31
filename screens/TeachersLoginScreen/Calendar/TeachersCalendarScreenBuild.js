@@ -282,31 +282,35 @@ const TeachersCalendarScreenBuild = () => {
     }
     updateData();
 
-    Alert.alert("Successfully updated", "", [
-      {
-        text: "OK",
-        onPress: () => {
-          showCalendar();
+    if (!enteredTitleIsValid || !enteredDescriptionIsValid) {
+      Alert.alert("Please enter all fields");
+    } else {
+      Alert.alert("Successfully updated", "", [
+        {
+          text: "OK",
+          onPress: () => {
+            showCalendar();
+          },
         },
-      },
-    ]);
+      ]);
 
-    setEnteredDescription("");
-    setEnteredTitle("");
-    setFromText("");
-    setToText("");
-    setShowForm(false);
-    setShowList(true);
-    setForCalendarList({
-      backgroundColor: "#F4F6F6",
-      color: "black",
-      borderRadius: 10,
-    });
-    setForCalendarForm({
-      color: "white",
-      backgroundColor: "#1E8449",
-      borderRadius: 10,
-    });
+      setEnteredDescription("");
+      setEnteredTitle("");
+      setFromText("");
+      setToText("");
+      setShowForm(false);
+      setShowList(true);
+      setForCalendarList({
+        backgroundColor: "#F4F6F6",
+        color: "black",
+        borderRadius: 10,
+      });
+      setForCalendarForm({
+        color: "white",
+        backgroundColor: "#1E8449",
+        borderRadius: 10,
+      });
+    }
   }
 
   function buttonPressedHandler() {
@@ -693,17 +697,7 @@ const TeachersCalendarScreenBuild = () => {
               }
             />
             {titleInputIsInValid && (
-              <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: deviceWidth < 370 ? 16 : 18,
-                  top: 5,
-                }}
-              >
-                Enter the title
-              </Text>
+              <Text style={styles.commonErrorMsg}>Enter the title</Text>
             )}
             <View
               style={[
@@ -742,17 +736,7 @@ const TeachersCalendarScreenBuild = () => {
               }
             />
             {descriptionInputIsInValid && (
-              <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: deviceWidth < 370 ? 16 : 18,
-                  top: 5,
-                }}
-              >
-                Enter description
-              </Text>
+              <Text style={styles.commonErrorMsg}>Enter description</Text>
             )}
 
             <View style={[{ flexDirection: "row" }]}>
@@ -784,16 +768,7 @@ const TeachersCalendarScreenBuild = () => {
                   onPressIn={() => showFromMode("date")}
                 />
                 {fromDateInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      left: 20,
-                      fontFamily: "HindRegular",
-                      fontSize: deviceWidth < 370 ? 16 : 18,
-                    }}
-                  >
-                    Select from date
-                  </Text>
+                  <Text style={styles.commonErrorMsg}>Select from date</Text>
                 )}
                 {fromShow && (
                   <DateTimePicker
@@ -840,16 +815,7 @@ const TeachersCalendarScreenBuild = () => {
                   onPressIn={() => showToMode("date")}
                 />
                 {toDateInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      left: 20,
-                      fontFamily: "HindRegular",
-                      fontSize: deviceWidth < 370 ? 16 : 18,
-                    }}
-                  >
-                    Select to date
-                  </Text>
+                  <Text style={styles.commonErrorMsg}>Select to date</Text>
                 )}
                 {toShow && (
                   <DateTimePicker
@@ -1140,10 +1106,10 @@ const styles = StyleSheet.create({
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
   normalLabel: {
-    color: "grey",
+    color: "#A7ADAD",
     backgroundColor: "#F2F2F2",
-    paddingHorizontal: 5,
-    fontSize: deviceWidth < 370 ? 13 : 17,
+    paddingHorizontal: 17,
+    fontSize: deviceWidth < 370 ? 13 : 16,
     fontFamily: "HindRegular",
   },
   submitLabel: {
@@ -1188,7 +1154,7 @@ const styles = StyleSheet.create({
   },
   descriptionDown: {
     position: "absolute",
-    top:deviceWidth < 370 ? 93 : 115,
+    top: deviceWidth < 370 ? 93 : 115,
     left: 40,
   },
   descriptionUpExtra: {
@@ -1200,5 +1166,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: deviceWidth < 370 ? 115 : 137,
     left: 40,
+  },
+  commonErrorMsg: {
+    color: "red",
+    left: 20,
+    fontFamily: "HindRegular",
+    fontSize: deviceWidth < 370 ? 16 : 18,
+    top: 5,
   },
 });

@@ -140,6 +140,7 @@ const CalenderScreen = () => {
   // }
 
   fromDateVar.forEach((val) => {
+    
     dates[val] = {
       selected: true,
     };

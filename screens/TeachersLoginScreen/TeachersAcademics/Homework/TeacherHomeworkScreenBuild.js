@@ -32,6 +32,7 @@ import Input from "../../../../components/UI/Input";
 import { Card, DataTable } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
+import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 export var ID;
 const TeacherHomeworkScreenBuild = () => {
   const [subLabel, setSubLabel] = useState(false);
@@ -917,13 +918,9 @@ const TeacherHomeworkScreenBuild = () => {
                     onPress={() => showFromMode("date")}
                   />
                 </View>
-                <Input
+                <UnderlinedInput
                   value={fromText}
-                  // value={
-                  //   moment(fromText).format("DD/MM/YYYY") ||
-                  //   moment(fromDate).format("DD/MM/YYYY")
-                  // }
-                  placeholder="DD/MM/YYYY"
+                  placeholder="From Date"
                   onSubmitEditing={Keyboard.dismiss}
                   style={
                     isFromDateFocused
@@ -963,13 +960,9 @@ const TeacherHomeworkScreenBuild = () => {
                     onPress={() => showToMode("date")}
                   />
                 </View>
-                <Input
+                <UnderlinedInput
                   value={toText}
-                  // value={
-                  //   moment(toText).format("DD/MM/YYYY") ||
-                  //   moment(toDate).format("DD/MM/YYYY")
-                  // }
-                  placeholder="DD/MM/YYYY"
+                  placeholder="Due Date"
                   style={
                     isToDateFocused
                       ? styles.focusStyle

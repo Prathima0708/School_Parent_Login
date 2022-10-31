@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     //  borderWidth:1,
     //marginRight:10,
+ 
   },
 
   buttonText: {
