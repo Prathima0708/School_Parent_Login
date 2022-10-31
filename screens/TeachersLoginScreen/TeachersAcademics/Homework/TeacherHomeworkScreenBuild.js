@@ -34,12 +34,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
 export var ID;
 const TeacherHomeworkScreenBuild = () => {
-
-  const [subLabel,setSubLabel]=useState(false);
-  const [remarkLabel,setRemarkLabel]=useState(false);
-  const [homeworkLabel,setHomeworkLabel]=useState(false);
-  const [btn,setBtn]=useState(false);
-  const [subBtn,setSubBtn]=useState(false);
+  const [subLabel, setSubLabel] = useState(false);
+  const [remarkLabel, setRemarkLabel] = useState(false);
+  const [homeworkLabel, setHomeworkLabel] = useState(false);
+  const [btn, setBtn] = useState(false);
+  const [subBtn, setSubBtn] = useState(false);
   const [isClassFocused, setIsClassFocused] = useState(false);
   const [isSubjectFocused, setIsSubjectFocused] = useState(false);
   const [isFromDateFocused, setIsFromDateFocused] = useState(false);
@@ -868,33 +867,40 @@ const TeacherHomeworkScreenBuild = () => {
                   inputStyles={styles.dropText}
                 />
                 {selectInputIsInValid && (
-                  <Text style={[styles.errorText]}>
-                    Enter class
-                  </Text>
+                  <Text style={[styles.errorText]}>Enter class</Text>
                 )}
               </View>
             )}
             <View>
-            <View style={!subLabel ? styles.normal : styles.up}>
-              <Text 
-                onPress={onSubjectFocusHandler}
-                style={subBtn ? styles.normalLabel:(subjectInputIsInValid ? styles.errorLabel : styles.normalLabel)}>Subject</Text>
-            </View>
-            <Input
-              onChangeText={subjectChangeHandler}
-              value={subject}
-              onSubmitEditing={Keyboard.dismiss}
-              blur={subjectInputBlur}
-              onFocus={onSubjectFocusHandler}
-              style={
-                isSubjectFocused
-                  ? styles.focusStyle
-                  : subjectInputIsInValid && styles.errorBorderColor
-              }
-            />
-            {subjectInputIsInValid && (
-              <Text style={styles.errorText}>Enter subject</Text>
-            )}
+              <View style={!subLabel ? styles.normal : styles.up}>
+                <Text
+                  onPress={onSubjectFocusHandler}
+                  style={
+                    subBtn
+                      ? styles.normalLabel
+                      : subjectInputIsInValid
+                      ? styles.errorLabel
+                      : styles.normalLabel
+                  }
+                >
+                  Subject
+                </Text>
+              </View>
+              <Input
+                onChangeText={subjectChangeHandler}
+                value={subject}
+                onSubmitEditing={Keyboard.dismiss}
+                blur={subjectInputBlur}
+                onFocus={onSubjectFocusHandler}
+                style={
+                  isSubjectFocused
+                    ? styles.focusStyle
+                    : subjectInputIsInValid && styles.errorBorderColor
+                }
+              />
+              {subjectInputIsInValid && (
+                <Text style={styles.errorText}>Enter subject</Text>
+              )}
             </View>
 
             <View style={{ flexDirection: "row" }}>
@@ -991,49 +997,73 @@ const TeacherHomeworkScreenBuild = () => {
               </View>
             </View>
             <View>
-            <View style={!remarkLabel ? styles.normalRemark : styles.upRemark}>
-              <Text 
-                onPress={onSubjectFocusHandler}
-                style={subBtn ? styles.normalLabel:(remarkInputIsInValid ? styles.errorLabel : styles.normalLabel)}>Remark</Text>
+              <View
+                style={!remarkLabel ? styles.normalRemark : styles.upRemark}
+              >
+                <Text
+                  onPress={onSubjectFocusHandler}
+                  style={
+                    subBtn
+                      ? styles.normalLabel
+                      : remarkInputIsInValid
+                      ? styles.errorLabel
+                      : styles.normalLabel
+                  }
+                >
+                  Remark
+                </Text>
+              </View>
+              <Input
+                onChangeText={remarkChangeHandler}
+                blur={remarkBlurHandler}
+                onFocus={onFocusRemarkHandler}
+                value={remark}
+                onSubmitEditing={Keyboard.dismiss}
+                style={
+                  isTRemarkFocused
+                    ? styles.focusStyle
+                    : remarkInputIsInValid && styles.errorBorderColor
+                }
+              />
+              {remarkInputIsInValid && (
+                <Text style={styles.errorText}>Enter remark</Text>
+              )}
             </View>
-            <Input
-              onChangeText={remarkChangeHandler}
-              blur={remarkBlurHandler}
-              onFocus={onFocusRemarkHandler}
-              value={remark}
-              onSubmitEditing={Keyboard.dismiss}
-              style={
-                isTRemarkFocused
-                  ? styles.focusStyle
-                  : remarkInputIsInValid && styles.errorBorderColor
-              }
-            />
-            {remarkInputIsInValid && (
-              <Text style={styles.errorText}>Enter remark</Text>
-            )}
-            </View>
-            
+
             <View>
-            <View style={!homeworkLabel ? styles.normalHomework : styles.upHomework}>
-              <Text
-                onPress={onFocusHomeworkHandler}
-                style={subBtn ? styles.normalLabel:(homeworkInputIsInValid ? styles.errorLabel : styles.normalLabel)}>Homework</Text>
-            </View>
-            <Input
-              onChangeText={hwChangeHandler}
-              value={hw}
-              onSubmitEditing={Keyboard.dismiss}
-              blur={homeworkBlurHandler}
-              onFocus={onFocusHomeworkHandler}
-              style={
-                isHomeworkFocused
-                  ? styles.focusStyle
-                  : homeworkInputIsInValid && styles.errorBorderColor
-              }
-            />
-            {homeworkInputIsInValid && (
-              <Text style={styles.errorText}>Enter homework</Text>
-            )}
+              <View
+                style={
+                  !homeworkLabel ? styles.normalHomework : styles.upHomework
+                }
+              >
+                <Text
+                  onPress={onFocusHomeworkHandler}
+                  style={
+                    subBtn
+                      ? styles.normalLabel
+                      : homeworkInputIsInValid
+                      ? styles.errorLabel
+                      : styles.normalLabel
+                  }
+                >
+                  Homework
+                </Text>
+              </View>
+              <Input
+                onChangeText={hwChangeHandler}
+                value={hw}
+                onSubmitEditing={Keyboard.dismiss}
+                blur={homeworkBlurHandler}
+                onFocus={onFocusHomeworkHandler}
+                style={
+                  isHomeworkFocused
+                    ? styles.focusStyle
+                    : homeworkInputIsInValid && styles.errorBorderColor
+                }
+              />
+              {homeworkInputIsInValid && (
+                <Text style={styles.errorText}>Enter homework</Text>
+              )}
             </View>
             <View style={{ flexDirection: "row" }}>
               <View style={styles.uploadImgBtn}>
@@ -1390,35 +1420,35 @@ const styles = StyleSheet.create({
     fontFamily: "HindSemiBold",
     color: "grey",
   },
-  normal:{
-    position:'absolute',
+  normal: {
+    position: "absolute",
     top: deviceWidth < 370 ? 23 : 27,
-    left:deviceWidth < 370 ? 20 : 30,
+    left: deviceWidth < 370 ? 20 : 30,
   },
-  up:{
-    top:deviceWidth < 370 ? 15 : 26,
-    left:deviceWidth < 370 ? 20 : 30,
-    width:deviceWidth < 370 ? 57 : 64
+  up: {
+    top: deviceWidth < 370 ? 15 : 26,
+    left: deviceWidth < 370 ? 20 : 30,
+    width: deviceWidth < 370 ? 57 : 64,
   },
-  normalRemark:{
-    position:'absolute',
-    top:deviceWidth < 370 ? 23 : 27,
-    left:deviceWidth < 370 ? 20 : 30,
+  normalRemark: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 23 : 27,
+    left: deviceWidth < 370 ? 20 : 30,
   },
-  upRemark:{
-    top:deviceWidth < 370 ? 15 : 25,
-    width:deviceWidth < 370 ? 57 : 65,
-    left:deviceWidth < 370 ? 20 : 30,
+  upRemark: {
+    top: deviceWidth < 370 ? 15 : 25,
+    width: deviceWidth < 370 ? 57 : 65,
+    left: deviceWidth < 370 ? 20 : 30,
   },
-  normalHomework:{
-    position:'absolute',
-    top:deviceWidth < 370 ? 23 : 27,
-    left:deviceWidth < 370 ? 20 : 30,
+  normalHomework: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 23 : 27,
+    left: deviceWidth < 370 ? 20 : 30,
   },
-  upHomework:{
-    top:deviceWidth < 370 ? 15 : 24,
-    left:deviceWidth < 370 ? 20 : 30,
-    width:deviceWidth < 370 ? 75 : 90
+  upHomework: {
+    top: deviceWidth < 370 ? 15 : 24,
+    left: deviceWidth < 370 ? 20 : 30,
+    width: deviceWidth < 370 ? 75 : 90,
   },
   errorLabel: {
     color: "red",
@@ -1432,12 +1462,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
-  upWaring:{
+  upWaring: {
     color: "red",
     left: 30,
     fontFamily: "HindRegular",
     fontSize: deviceWidth < 370 ? 15 : 16,
-    position:'absolute',
-    top:65
-  }
+    position: "absolute",
+    top: 65,
+  },
 });
