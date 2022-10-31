@@ -44,6 +44,7 @@
     "formik": "^2.2.9",
     "formik-yup": "^0.0.5",
     "jetifier": "^2.0.0",
+    "mdbreact": "^5.2.0",
     "moment": "^2.29.4",
     "native-base": "^3.4.19",
     "node-module-resolution": "^0.0.3",
