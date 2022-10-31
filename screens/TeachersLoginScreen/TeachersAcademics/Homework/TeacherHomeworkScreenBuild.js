@@ -32,7 +32,6 @@ import Input from "../../../../components/UI/Input";
 import { Card, DataTable } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
-import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 export var ID;
 const TeacherHomeworkScreenBuild = () => {
   const [subLabel, setSubLabel] = useState(false);
@@ -731,10 +730,10 @@ const TeacherHomeworkScreenBuild = () => {
   }
 
   function editItem(id) {
-
+    console.log(id);
+    // setSubLabel(true);
     setRemarkLabel(true);
     setHomeworkLabel(true);
-    console.log(id);
     setShowInitialBtn(false);
     let selectedData = selected.split(" - ");
     let class_name = selectedData[0];
@@ -868,23 +867,21 @@ const TeacherHomeworkScreenBuild = () => {
                   inputStyles={styles.dropText}
                 />
                 {selectInputIsInValid && (
-                  <Text style={[styles.errorText, { top: 47, left: 20 }]}>
-                    Enter class
-                  </Text>
+                  <Text style={[styles.errorText]}>Enter class</Text>
                 )}
               </View>
             )}
             <View>
               <View style={!subLabel ? styles.normal : styles.up}>
                 <Text
-                  style={[
+                  onPress={onSubjectFocusHandler}
+                  style={
                     subBtn
                       ? styles.normalLabel
                       : subjectInputIsInValid
                       ? styles.errorLabel
-                      : styles.normalLabel,
-                  ]}
-                  onPress={onSubjectFocusHandler}
+                      : styles.normalLabel
+                  }
                 >
                   Subject
                 </Text>
@@ -902,16 +899,7 @@ const TeacherHomeworkScreenBuild = () => {
                 }
               />
               {subjectInputIsInValid && (
-                <Text
-                  style={[
-                    btn
-                      ? styles.upWaring
-                      : (styles.errorText,
-                        { color: "red", bottom: 5, left: 25 }),
-                  ]}
-                >
-                  Enter subject
-                </Text>
+                <Text style={styles.errorText}>Enter subject</Text>
               )}
             </View>
 
@@ -929,13 +917,13 @@ const TeacherHomeworkScreenBuild = () => {
                     onPress={() => showFromMode("date")}
                   />
                 </View>
-                <UnderlinedInput
+                <Input
                   value={fromText}
                   // value={
                   //   moment(fromText).format("DD/MM/YYYY") ||
                   //   moment(fromDate).format("DD/MM/YYYY")
                   // }
-                  placeholder="From date"
+                  placeholder="DD/MM/YYYY"
                   onSubmitEditing={Keyboard.dismiss}
                   style={
                     isFromDateFocused
@@ -948,9 +936,7 @@ const TeacherHomeworkScreenBuild = () => {
                   onPressIn={() => showFromMode("date")}
                 />
                 {fromDateInputIsInValid && (
-                  <Text style={[styles.errorText, { top: 57, left: 30 }]}>
-                    Enter from date
-                  </Text>
+                  <Text style={[styles.errorText]}>Enter from date</Text>
                 )}
                 {fromShow && (
                   <DateTimePicker
@@ -977,13 +963,13 @@ const TeacherHomeworkScreenBuild = () => {
                     onPress={() => showToMode("date")}
                   />
                 </View>
-                <UnderlinedInput
+                <Input
                   value={toText}
                   // value={
                   //   moment(toText).format("DD/MM/YYYY") ||
                   //   moment(toDate).format("DD/MM/YYYY")
                   // }
-                  placeholder="Due date"
+                  placeholder="DD/MM/YYYY"
                   style={
                     isToDateFocused
                       ? styles.focusStyle
@@ -995,9 +981,7 @@ const TeacherHomeworkScreenBuild = () => {
                   onPressIn={() => showToMode("date")}
                 />
                 {toDateInputIsInValid && (
-                  <Text style={[styles.errorText, { top: 57, left: 30 }]}>
-                    Enter to date
-                  </Text>
+                  <Text style={[styles.errorText]}>Enter to date</Text>
                 )}
                 {toShow && (
                   <DateTimePicker
@@ -1017,14 +1001,14 @@ const TeacherHomeworkScreenBuild = () => {
                 style={!remarkLabel ? styles.normalRemark : styles.upRemark}
               >
                 <Text
-                  style={[
+                  onPress={onSubjectFocusHandler}
+                  style={
                     subBtn
                       ? styles.normalLabel
                       : remarkInputIsInValid
                       ? styles.errorLabel
-                      : styles.normalLabel,
-                  ]}
-                  onPress={onSubjectFocusHandler}
+                      : styles.normalLabel
+                  }
                 >
                   Remark
                 </Text>
@@ -1042,16 +1026,7 @@ const TeacherHomeworkScreenBuild = () => {
                 }
               />
               {remarkInputIsInValid && (
-                <Text
-                  style={[
-                    btn
-                      ? styles.upWaring
-                      : (styles.errorText,
-                        { color: "red", bottom: 5, left: 30 }),
-                  ]}
-                >
-                  Enter remark
-                </Text>
+                <Text style={styles.errorText}>Enter remark</Text>
               )}
             </View>
 
@@ -1062,14 +1037,14 @@ const TeacherHomeworkScreenBuild = () => {
                 }
               >
                 <Text
-                  style={[
+                  onPress={onFocusHomeworkHandler}
+                  style={
                     subBtn
                       ? styles.normalLabel
                       : homeworkInputIsInValid
                       ? styles.errorLabel
-                      : styles.normalLabel,
-                  ]}
-                  onPress={onFocusHomeworkHandler}
+                      : styles.normalLabel
+                  }
                 >
                   Homework
                 </Text>
@@ -1087,16 +1062,7 @@ const TeacherHomeworkScreenBuild = () => {
                 }
               />
               {homeworkInputIsInValid && (
-                <Text
-                  style={[
-                    btn
-                      ? styles.upWaring
-                      : (styles.errorText,
-                        { color: "red", bottom: 5, left: 25 }),
-                  ]}
-                >
-                  Enter homework
-                </Text>
+                <Text style={styles.errorText}>Enter homework</Text>
               )}
             </View>
             <View style={{ flexDirection: "row" }}>
@@ -1428,10 +1394,9 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: "red",
-    left: 40,
+    left: 20,
     fontFamily: "HindRegular",
-    fontSize: deviceWidth < 370 ? 15 : 16,
-    position: "absolute",
+    fontSize: 16,
   },
   uploadImgBtn: {
     marginTop: 13,
@@ -1457,33 +1422,33 @@ const styles = StyleSheet.create({
   },
   normal: {
     position: "absolute",
-    top: 27,
-    left: 30,
+    top: deviceWidth < 370 ? 23 : 27,
+    left: deviceWidth < 370 ? 20 : 30,
   },
   up: {
-    top: 26,
-    left: 30,
-    width: 66,
+    top: deviceWidth < 370 ? 15 : 26,
+    left: deviceWidth < 370 ? 20 : 30,
+    width: deviceWidth < 370 ? 57 : 64,
   },
   normalRemark: {
     position: "absolute",
-    top: 27,
-    left: 30,
+    top: deviceWidth < 370 ? 23 : 27,
+    left: deviceWidth < 370 ? 20 : 30,
   },
   upRemark: {
-    top: 25,
-    width: 65,
-    left: 30,
+    top: deviceWidth < 370 ? 15 : 25,
+    width: deviceWidth < 370 ? 57 : 65,
+    left: deviceWidth < 370 ? 20 : 30,
   },
   normalHomework: {
     position: "absolute",
-    top: 27,
-    left: 30,
+    top: deviceWidth < 370 ? 23 : 27,
+    left: deviceWidth < 370 ? 20 : 30,
   },
   upHomework: {
-    top: 24,
-    left: 30,
-    width: 90,
+    top: deviceWidth < 370 ? 15 : 24,
+    left: deviceWidth < 370 ? 20 : 30,
+    width: deviceWidth < 370 ? 75 : 90,
   },
   errorLabel: {
     color: "red",
@@ -1495,8 +1460,7 @@ const styles = StyleSheet.create({
     color: "grey",
     backgroundColor: "#F2F2F2",
     paddingHorizontal: 5,
-    fontSize: deviceWidth < 370 ? 13 : 17,
-    fontFamily: "HindRegular",
+    fontSize: deviceWidth < 370 ? 13 : 15,
   },
   upWaring: {
     color: "red",

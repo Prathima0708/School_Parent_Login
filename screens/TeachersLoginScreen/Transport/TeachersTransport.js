@@ -964,11 +964,11 @@ const TeachersTransport = () => {
                     onFocus={onFocusStopHandler}
                     value={stopname}
                     onSubmitEditing={Keyboard.dismiss}
-                    style={[
+                    style={
                       isStopFocused
                         ? styles.focusStyle
-                        : stopnameInputIsInValid && styles.errorBorderColor,
-                    ]}
+                        : stopnameInputIsInValid && styles.errorBorderColor
+                    }
                   />
                 </View>
                 {stopnameInputIsInValid && (
@@ -1244,13 +1244,13 @@ const styles = StyleSheet.create({
   },
   normal: {
     position: "absolute",
-    top: 35,
-    left: 50,
+    top: deviceWidth < 370 ? 27 : 35,
+    left: deviceWidth < 370 ? 40 : 50,
   },
   up: {
     position: "absolute",
-    top: 10,
-    left: 50,
+    top: deviceWidth < 370 ? 2 : 10,
+    left: deviceWidth < 370 ? 40 : 50,
   },
   errorLabel: {
     color: "red",
@@ -1267,13 +1267,13 @@ const styles = StyleSheet.create({
 
   normalVeh: {
     position: "absolute",
-    top: 27,
-    left: 30,
+    top: deviceWidth < 370 ? 23 : 27,
+    left: deviceWidth < 370 ? 20 : 30,
   },
   upVeh: {
-    top: 27,
-    width: 120,
-    left: 30,
+    top: deviceWidth < 370 ? 15 : 27,
+    width: deviceWidth < 370 ? 100 : 120,
+    left: deviceWidth < 370 ? 20 : 30,
   },
   normalVehExtra: {
     position: "absolute",
@@ -1288,13 +1288,13 @@ const styles = StyleSheet.create({
 
   normalType: {
     position: "absolute",
-    top: 27,
-    left: 30,
+    top: deviceWidth < 370 ? 23 : 27,
+    left: deviceWidth < 370 ? 20 : 30,
   },
   upType: {
-    top: 25,
-    width: 120,
-    left: 30,
+    top: deviceWidth < 370 ? 15 : 25,
+    width: deviceWidth < 370 ? 100 : 120,
+    left: deviceWidth < 370 ? 20 : 30,
   },
   normalTypeExtra: {
     position: "absolute",
@@ -1310,12 +1310,12 @@ const styles = StyleSheet.create({
   normalDriver: {
     position: "absolute",
     top: 26,
-    left: 30,
+    left: deviceWidth < 370 ? 20 : 30,
   },
   upDriver: {
-    top: 25,
-    width: 110,
-    left: 30,
+    top: deviceWidth < 370 ? 15 : 25,
+    width: deviceWidth < 370 ? 90 : 110,
+    left: deviceWidth < 370 ? 20 : 30,
   },
   normalDriverExtra: {
     position: "absolute",
@@ -1330,36 +1330,36 @@ const styles = StyleSheet.create({
 
   normalMob: {
     position: "absolute",
-    top: 27,
-    left: 30,
+    top: deviceWidth < 370 ? 23 : 27,
+    left: deviceWidth < 370 ? 20 : 30,
   },
   upMob: {
-    top: 25,
-    width: 120,
-    left: 30,
+    top: deviceWidth < 370 ? 15 : 25,
+    width: deviceWidth < 370 ? 100 : 120,
+    left: deviceWidth < 370 ? 20 : 30,
   },
 
   normalRoot: {
     position: "absolute",
-    top: 27,
-    left: 30,
+    top: deviceWidth < 370 ? 23 : 27,
+    left: deviceWidth < 370 ? 20 : 30,
   },
   upRoot: {
-    top: 25,
-    left: 30,
-    width: 100,
+    top: deviceWidth < 370 ? 15 : 25,
+    left: deviceWidth < 370 ? 20 : 30,
+    width: deviceWidth < 370 ? 80 : 100
   },
 
   normalStop: {
     position: "absolute",
-    top: 30,
-    left: 30,
+    top: deviceWidth < 370 ? 22 : 30,
+    left: deviceWidth < 370 ? 20 : 30,
   },
   upStop: {
     // position:'absolute',
-    top: 27,
-    left: 37,
-    width: 90,
+    top: deviceWidth < 370 ? 15 : 27,
+    left: deviceWidth < 370 ? 25 : 37,
+    width: deviceWidth < 370 ? 80 : 90
   },
   normalStopExtra: {
     position: "absolute",

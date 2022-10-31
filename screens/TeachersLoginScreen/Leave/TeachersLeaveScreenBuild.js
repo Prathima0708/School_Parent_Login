@@ -36,6 +36,7 @@ const TeachersLeaveScreenBuild = () => {
   const [isFromFocused, setIsFromFocused] = useState(false);
   const [isToFocused, setIsToFocused] = useState(false);
 
+  const [btn,setBtn]=useState(false);
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
   const [forLeaveList, setForLeaveList] = useState({
@@ -316,6 +317,7 @@ const TeachersLeaveScreenBuild = () => {
     });
   }
   function buttonPressedHandler() {
+    setBtn(true);
     console.log(UserId);
     const FormData = {
       student_reg_number: 11,
@@ -639,9 +641,9 @@ const TeachersLeaveScreenBuild = () => {
               <Text
                 onPress={onLeavetypeFocusHandler}
                 style={[
-                  leavetypeInputIsInValid
+                  btn ? styles.normalLabel :(leavetypeInputIsInValid
                     ? styles.errorLabel
-                    : styles.normalLabel,
+                    : styles.normalLabel)
                 ]}
               >
                 Leave type
@@ -662,11 +664,7 @@ const TeachersLeaveScreenBuild = () => {
             />
             </View>
             {leavetypeInputIsInValid && (
-              <Text style={{ color: "red",
-               left: 40,
-               position:'absolute',
-               top:90, 
-              }}>Enter the type</Text>
+              <Text style={styles.errorText}>Enter the type</Text>
             )}
             <View>
             <View
@@ -682,9 +680,9 @@ const TeachersLeaveScreenBuild = () => {
             >
               <Text
                 style={[
-                  leavereasonInputIsInValid
+                  btn ? styles.normalLabel :(leavereasonInputIsInValid
                     ? styles.errorLabel
-                    : styles.normalLabel,
+                    : styles.normalLabel)
                 ]}
               >
                 Leave reason
@@ -709,14 +707,7 @@ const TeachersLeaveScreenBuild = () => {
             />
             </View>
             {leavereasonInputIsInValid && (
-              <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: 18,
-                }}
-              >
+              <Text style={styles.errorText}>
                 Enter leave reason
               </Text>
             )}
@@ -1121,13 +1112,13 @@ const styles = StyleSheet.create({
   },
   normal: {
     position: "absolute",
-    top: 27,
-    left: 30,
+    top: deviceWidth < 370 ? 23 : 27,
+    left: deviceWidth < 370 ? 20 : 30,
   },
   up: {
-    top: 24,
-    width:85,
-    left: 30,
+    top: deviceWidth < 370 ? 16 : 24,
+    width:deviceWidth < 370 ? 75 : 85,
+    left: deviceWidth < 370 ? 20 : 30,
   },
   errorLabel: {
     color: "red",
@@ -1144,22 +1135,28 @@ const styles = StyleSheet.create({
 
   normalRemark: {
     position: "absolute",
-    top: 26,
-    left: 30,
+    top: deviceWidth < 370 ? 20 : 27,
+    left: deviceWidth < 370 ? 20 : 30,
   },
   upRemark: {
-    top: 43,
-    left: 30,
-    width:100
+    top: deviceWidth < 370 ? 15 : 43,
+    left: deviceWidth < 370 ? 20 : 30,
+    width:deviceWidth < 370 ? 90 : 100
   },
   normalRemarkExtra: {
     position: "absolute",
-    left: 30,
+    left: deviceWidth < 370 ? 20 : 30,
     top: 25,
   },
   upRemarkExtra: {
     position: "absolute",
-    left: 30,
+    left: deviceWidth < 370 ? 20 : 30,
     top: 5,
   },
+  errorText:{
+    color: "red",
+    left: 20,
+    fontFamily: "HindRegular",
+    fontSize: 16,
+  }
 });
