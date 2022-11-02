@@ -1004,9 +1004,7 @@ const TeachersTransport = () => {
               </View>} */}
           {showList && (
             <>
-              <View
-                style={{ backgroundColor: "white", height: "100%", top: 20 }}
-              >
+             
                 <SearchBar
                   // onSubmitEditing={Keyboard.dismiss}
                   style={
@@ -1136,7 +1134,7 @@ const TeachersTransport = () => {
                     </ScrollView>
                   </View>
                 </View>
-              </View>
+            
             </>
           )}
         </View>
@@ -1197,8 +1195,8 @@ const styles = StyleSheet.create({
     left: 30,
   },
   root: {
-    // backgroundColor: "#EBECFO",
-    backgroundColor: "white",
+     backgroundColor: "#EBECFO",
+   // backgroundColor: "white",
     height: "100%",
     top: 10,
   },
@@ -1248,7 +1246,7 @@ const styles = StyleSheet.create({
   searchBar: {
     marginTop: 10,
     marginBottom: 20,
-    backgroundColor: "#F0F3F4",
+   // backgroundColor: "#F0F3F4",
     // height:deviceWidth < 370 ? "6%" : "6%",
   },
   focusStyle: {
@@ -1275,7 +1273,7 @@ const styles = StyleSheet.create({
   normalLabel: {
     color: "#A7ADAD",
     backgroundColor: "#F2F2F2",
-    backgroundColor: "white",
+    //backgroundColor: "white",
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 16,
   },

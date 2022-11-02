@@ -30,8 +30,8 @@ import TimeSlots from "./TimeSlots";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 
 export var CLASSNAME,
-  SECTION,
-  idTimeTab = [];
+  SECTION,ID
+  //idTimeTab = [];
 export var TimeTabID;
 const TeachersTimetable = () => {
   const [isCreateDateFocused, setIsCreateDateFocused] = useState(false);
@@ -972,8 +972,10 @@ const TeachersTimetable = () => {
   function updateHandler() {
     // console.log(UserId);
     console.log(ID);
+    console.log("pressed")
+
     const FormData = {};
-    // console.log(FormData);
+    // // console.log(FormData);
     async function updateData() {
       try {
         let headers = {
@@ -994,6 +996,8 @@ const TeachersTimetable = () => {
       }
     }
     updateData();
+    // setShowTimeTableList(false);
+    // setShowTable(true);
     Alert.alert("Successfully updated", "", [
       { text: "OK", onPress: () => fetchData },
     ]);
@@ -1009,6 +1013,8 @@ const TeachersTimetable = () => {
       }
     }
     fetchData();
+    setShowTable(false);
+    setShowTimeTableList(true);
   }
 
   function cancelHandler() {
