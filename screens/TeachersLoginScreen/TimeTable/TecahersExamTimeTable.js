@@ -29,6 +29,7 @@ const TecahersExamTimeTable = () => {
   const [examLabel, setExamLabel] = useState(false);
   const [totalLabel, setTotalLabel] = useState(false);
   const [hourLabel, setHourLabel] = useState(false);
+  
   const [btn, subBtn] = useState(false);
   const [isExamnameFocused, setIsExamnameFocused] = useState(false);
   const [isFromFocused, setIsFromFocused] = useState(false);
@@ -182,29 +183,27 @@ const TecahersExamTimeTable = () => {
 
     if (
       !enteredExamNameIsValid ||
-      !enteredFromDateIsValid ||
-      !enteredtoDateIsValid ||
-      !enteredHourIsValid ||
       !enteredMarksIsValid ||
-      !enteredSelcetdIsValid
+      !enteredHourIsValid
     ) {
-      Alert.alert("Please enter all the fields");
-      return;
+      Alert.alert("Please enter all fields", "", [{ text: "OK" }]);
     } else {
       Alert.alert("Successfully updated", "", [
         { text: "OK", onPress: () => fetchData() },
       ]);
-    }
-    async function fetchData() {
-      try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Exam/`);
-        setShowExamData(res.data);
-        setFilteredData(res.data);
-      } catch (error) {
-        console.log(error);
+
+      async function fetchData() {
+        try {
+          const res = await axios.get(`http://10.0.2.2:8000/school/Exam/`);
+          setShowExamData(res.data);
+          setFilteredData(res.data);
+        } catch (error) {
+          console.log(error);
+        }
       }
+      fetchData();
     }
-    fetchData();
+
     setEnteredExamName("");
     setFromText("");
     setToText("");
@@ -375,6 +374,9 @@ const TecahersExamTimeTable = () => {
   };
 
   function viewExam() {
+    setExamLabel(false);
+    setTotalLabel(false);
+    setHourLabel(false);
     setShowAddBtn(false);
     setShowForm(true);
     setShowExamList(false);

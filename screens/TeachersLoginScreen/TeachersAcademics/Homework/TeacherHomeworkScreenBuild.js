@@ -752,7 +752,8 @@ const TeacherHomeworkScreenBuild = () => {
     // moment(filteredDummuyData.due_date).format('DD/MM/YYYY')
     setEnteredRemark(filteredDummuyData.remark);
     setHW(filteredDummuyData.homework);
-    setImage(filteredDummuyData.homework_photo);
+
+    //setImage(filteredDummuyData.homework_photo);
     setForHomeworkList({
       backgroundColor: "#F4F6F6",
       color: "black",
@@ -1231,7 +1232,7 @@ const TeacherHomeworkScreenBuild = () => {
                           }}
                         >
                           <Text style={styles.textInfo}>
-                            {homeworkData.description}
+                            {homeworkData.remark}
                           </Text>
                         </View>
                       </View>

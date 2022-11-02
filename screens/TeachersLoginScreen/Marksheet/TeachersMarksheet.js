@@ -241,13 +241,23 @@ const TeachersMarksheet = () => {
 
   function updateHandler() {
     setShowInitialBtn(true);
-    setMathsLabel(false);
-    setEngLabel(false);
-    setSciLabel(false);
-    setHindiLabel(false);
-    setSocLabel(false);
-    setKanLabel(false);
-    setCompLabel(false);
+
+    setIsMathFocused(false);
+    setIsEngFocused(false);
+    setIsSciFocused(false);
+    setIsHindiFocused(false);
+    setIsSocFocused(false);
+    setIsKanFocused(false);
+    setIsComFocused(false);
+
+    setMathsLabel(true);
+    setEngLabel(true);
+    setSciLabel(true);
+    setHindiLabel(true);
+    setSocLabel(true);
+    setKanLabel(true);
+    setCompLabel(true);
+
     console.log(ID);
     const FormData = {
       student_name: StudentList.student_name,
