@@ -33,6 +33,7 @@ export var CLASSNAME,
   SECTION,
   idTimeTab = [];
 export var TimeTabID;
+export var ID;
 const TeachersTimetable = () => {
   const [isCreateDateFocused, setIsCreateDateFocused] = useState(false);
   const [isFromFocused, setIsFromFocused] = useState(false);
@@ -43,6 +44,15 @@ const TeachersTimetable = () => {
   const [isThurdayFocused, setIsThursdayFocused] = useState(false);
   const [isFridayFocused, setIsFridayFocused] = useState(false);
   const [isSaturdayFocused, setIsSaturdayFocused] = useState(false);
+
+  const [monLabel, setMonLabel] = useState(false);
+  const [tueLabel, setTueLabel] = useState(false);
+  const [wedLable, setWedLabel] = useState(false);
+  const [thurLabel, setTHurLabel] = useState(false);
+  const [friLabel, setFriLabel] = useState(false);
+  const [satLabel, setSatLabel] = useState(false);
+
+  const [btn, setBtn] = useState(false);
 
   const [showForm, setShowForm] = useState(false);
   const [showExamList, setShowExamList] = useState(false);
@@ -482,6 +492,7 @@ const TeachersTimetable = () => {
   }
 
   function addDailyTimeTableHandler() {
+    setBtn(true);
     //console.log(inputs);
     console.log("-----------------------------------------------");
     let selectedData = selectedTimeTable.split(" - ");
@@ -783,6 +794,12 @@ const TeachersTimetable = () => {
     setThursday("");
     setFriday("");
     setSaturday("");
+
+    setMonLabel(false);
+    setTueLabel(false);
+    setWedLabel(false);
+    setTHurLabel(false);
+    setFriLabel(false);
   }
   const skip = (num) => new Array(num);
   useEffect(() => {
@@ -835,6 +852,7 @@ const TeachersTimetable = () => {
   function onMondayFocusHandler() {
     setIsMondayFocused(true);
     setEnteredMondayTouched(false);
+    setMonLabel(true);
   }
 
   function tuesdayTextBlur() {
@@ -844,6 +862,7 @@ const TeachersTimetable = () => {
   function onTuesdayFocusHandler() {
     setIsTuesdayFocused(true);
     setEnteredTuesdayTouched(false);
+    setTueLabel(true);
   }
 
   function wednesdayTextBlur() {
@@ -853,6 +872,7 @@ const TeachersTimetable = () => {
   function onWednesdayFocusHandler() {
     setIsWednesdayFocused(true);
     setEnteredWednesdayTouched(false);
+    setWedLabel(true);
   }
 
   function thursdayTextBlur() {
@@ -862,6 +882,7 @@ const TeachersTimetable = () => {
   function onThursdayFocusHandler() {
     setIsThursdayFocused(true);
     setEnteredThursdayTouched(false);
+    setTHurLabel(true);
   }
 
   function fridayTextBlur() {
@@ -871,6 +892,7 @@ const TeachersTimetable = () => {
   function onFridayFocusHandler() {
     setIsFridayFocused(true);
     setEnteredFridayTouched(false);
+    setFriLabel(true);
   }
 
   function saturdayTextBlur() {
@@ -880,10 +902,18 @@ const TeachersTimetable = () => {
   function onSaturdayFocusHandler() {
     setIsSaturdayFocused(true);
     setEnteredSaturdayTouched(false);
+    setSatLabel(true);
   }
 
   function editItem(id) {
-    console.log(monday);
+    setMonLabel(true);
+    setTueLabel(true);
+    setWedLabel(true);
+    setTHurLabel(true);
+    setFriLabel(true);
+    setSatLabel(true);
+
+    setShowTimeTableList(false);
     // ID=id
     const filteredDummuyData = showTimeTableData.find((data) => data.id == id);
 
@@ -995,7 +1025,12 @@ const TeachersTimetable = () => {
     }
     updateData();
     Alert.alert("Successfully updated", "", [
-      { text: "OK", onPress: () => fetchData },
+      {
+        text: "OK",
+        onPress: () => {
+          fetchData();
+        },
+      },
     ]);
 
     async function fetchData() {
@@ -1009,6 +1044,8 @@ const TeachersTimetable = () => {
       }
     }
     fetchData();
+    setShowTable(false);
+    setShowTimeTableList(true);
   }
 
   function cancelHandler() {
@@ -1030,7 +1067,6 @@ const TeachersTimetable = () => {
             Exam
           </BgButton>
         </View>
-
         {showTimeTableList && (
           <>
             <View style={styles.timetablebtn}>
@@ -1089,6 +1125,7 @@ const TeachersTimetable = () => {
                 {selectedClass}
               </Text>
             </View>
+
             <View style={{ flex: 1, height: " 100%" }}>
               <ScrollView style={{ flex: 1 }}>
                 <ScrollView horizontal={true} style={{}}>
@@ -1237,7 +1274,6 @@ const TeachersTimetable = () => {
             </View>
           </>
         )}
-
         {showTable && (
           <>
             <ScrollView style={styles.root}>
@@ -1446,13 +1482,23 @@ const TeachersTimetable = () => {
                     </View>
 
                     <View style={{ flexDirection: "row" }}>
-                      <View style={{ flex: 1 }}>
-                        <View style={styles.title}>
-                          {/* <Text style={styles.labels}>Monday </Text> */}
+                      <View style={{ flex: 1, marginTop: 30 }}>
+                        <View style={!monLabel ? styles.normal : styles.up}>
+                          <Text
+                            style={[
+                              btn
+                                ? styles.normalLabel
+                                : mondayInputIsInValid
+                                ? styles.errorLabel
+                                : styles.normalLabel,
+                            ]}
+                          >
+                            Monday
+                          </Text>
                         </View>
 
                         <Input
-                          placeholder="Monday"
+                          //  placeholder="Monday"
                           // style={styles.inputStyle}
                           // onChangeText={setEnteredMonday}
                           value={input.monday || monday}
@@ -1467,6 +1513,7 @@ const TeachersTimetable = () => {
                           blur={mondayTextBlur}
                           onFocus={onMondayFocusHandler}
                         />
+
                         {mondayInputIsInValid && (
                           <Text
                             style={{
@@ -1483,11 +1530,23 @@ const TeachersTimetable = () => {
 
                       <View style={styles.space} />
 
-                      <View style={{ flex: 1 }}>
-                        <View style={styles.title}></View>
+                      <View style={{ flex: 1, marginTop: 30 }}>
+                        <View style={!tueLabel ? styles.normal : styles.up}>
+                          <Text
+                            style={[
+                              btn
+                                ? styles.normalLabel
+                                : tuesdayInputIsInValid
+                                ? styles.errorLabel
+                                : styles.normalLabel,
+                            ]}
+                          >
+                            Tuesday
+                          </Text>
+                        </View>
 
                         <Input
-                          placeholder="Tuesday"
+                          // placeholder="Tuesday"
                           //style={styles.inputStyle}
                           // onChangeText={setEnteredTuesday}
                           value={input.tuesday || tuesday}
@@ -1521,13 +1580,23 @@ const TeachersTimetable = () => {
                     </View>
 
                     <View style={{ flexDirection: "row" }}>
-                      <View style={{ flex: 1 }}>
-                        <View style={styles.title}>
-                          {/* <Text style={styles.labels}>Wednesday </Text> */}
+                      <View style={{ flex: 1, marginTop: 30 }}>
+                        <View style={!wedLable ? styles.normal : styles.up}>
+                          <Text
+                            style={[
+                              btn
+                                ? styles.normalLabel
+                                : wednesdayInputIsInValid
+                                ? styles.errorLabel
+                                : styles.normalLabel,
+                            ]}
+                          >
+                            Wednesday
+                          </Text>
                         </View>
 
                         <Input
-                          placeholder="Wednesday"
+                          //  placeholder="Wednesday"
                           value={input.wednesday || wednesday}
                           onChangeText={(text) => inputHandlerWed(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
@@ -1556,10 +1625,22 @@ const TeachersTimetable = () => {
 
                       <View style={styles.space} />
 
-                      <View style={{ flex: 1 }}>
-                        <View style={styles.title}></View>
+                      <View style={{ flex: 1, marginTop: 30 }}>
+                        <View style={!thurLabel ? styles.normal : styles.up}>
+                          <Text
+                            style={[
+                              btn
+                                ? styles.normalLabel
+                                : thursdayInputIsInValid
+                                ? styles.errorLabel
+                                : styles.normalLabel,
+                            ]}
+                          >
+                            Thursday
+                          </Text>
+                        </View>
                         <Input
-                          placeholder="Thursday"
+                          // placeholder="Thursday"
                           value={input.thursday || thursday}
                           onChangeText={(text) => inputHandlerThur(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
@@ -1588,10 +1669,22 @@ const TeachersTimetable = () => {
                     </View>
 
                     <View style={{ flexDirection: "row" }}>
-                      <View style={{ flex: 1 }}>
-                        <View style={styles.title}></View>
+                      <View style={{ flex: 1, marginTop: 30 }}>
+                        <View style={!friLabel ? styles.normal : styles.up}>
+                          <Text
+                            style={[
+                              btn
+                                ? styles.normalLabel
+                                : fridayInputIsInValid
+                                ? styles.errorLabel
+                                : styles.normalLabel,
+                            ]}
+                          >
+                            Friday
+                          </Text>
+                        </View>
                         <Input
-                          placeholder="Friday"
+                          //placeholder="Friday"
                           value={input.friday || friday}
                           onChangeText={(text) => inputHandlerFri(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
@@ -1619,10 +1712,22 @@ const TeachersTimetable = () => {
 
                       <View style={styles.space} />
 
-                      <View style={{ flex: 1 }}>
-                        <View style={styles.title}></View>
+                      <View style={{ flex: 1, marginTop: 30 }}>
+                        <View style={!satLabel ? styles.normal : styles.up}>
+                          <Text
+                            style={[
+                              btn
+                                ? styles.normalLabel
+                                : saturdayInputIsInValid
+                                ? styles.errorLabel
+                                : styles.normalLabel,
+                            ]}
+                          >
+                            Saturday
+                          </Text>
+                        </View>
                         <Input
-                          placeholder="Saturday"
+                          //placeholder="Saturday"
                           value={input.saturday || saturday}
                           onChangeText={(text) => inputHandlerSat(text, key)}
                           onSubmitEditing={Keyboard.dismiss}
@@ -1744,7 +1849,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   errorBorderColor: {
-    borderBottomColor: "red",
+    borderColor: "red",
   },
   errorSelectedColor: {
     borderColor: "red",
@@ -1843,6 +1948,29 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   focusStyle: {
-    borderBottomColor: "blue",
+    borderColor: "blue",
+  },
+  normal: {
+    position: "absolute",
+    top: 20,
+    left: 10,
+  },
+  up: {
+    position: "absolute",
+    top: -5,
+    left: 15,
+  },
+  errorLabel: {
+    color: "red",
+    backgroundColor: "#F2F2F2",
+    paddingHorizontal: 5,
+    fontSize: deviceWidth < 370 ? 13 : 15,
+  },
+  normalLabel: {
+    color: "grey",
+    backgroundColor: "#F2F2F2",
+    paddingHorizontal: 7,
+    fontSize: deviceWidth < 370 ? 13 : 17,
+    fontFamily: "HindRegular",
   },
 });
