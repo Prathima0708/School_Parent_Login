@@ -180,17 +180,36 @@ const TecahersExamTimeTable = () => {
       }
     }
     storeData();
+  
+    // if (
+    //   !enteredExamNameIsValid ||
+    //   !enteredMarksIsValid ||
+    //   !enteredHourIsValid
+    // ) {
+    //   Alert.alert("Please enter all fields", "", [{ text: "OK" ,
+    //   onPress:()=>{
+    //     // setShowExamList(false);
+    //     // setShowForm(true);
+    //     return;
+    //   }
+    // }]);
 
-    if (
-      !enteredExamNameIsValid ||
-      !enteredMarksIsValid ||
-      !enteredHourIsValid
-    ) {
-      Alert.alert("Please enter all fields", "", [{ text: "OK" }]);
+    if (!enteredExamNameIsValid || !enteredMarksIsValid || ! enteredHourIsValid) {
+      Alert.alert("Please enter all fields");
     } else {
+    setShowExamList(true);
+    setShowAddBtn(true)
+    setShowForm(false);
       Alert.alert("Successfully updated", "", [
-        { text: "OK", onPress: () => fetchData() },
+        {
+          text: "OK",
+          onPress: () => {
+            fetchData();
+          },
+        },
       ]);
+
+    } 
 
       async function fetchData() {
         try {
@@ -202,15 +221,16 @@ const TecahersExamTimeTable = () => {
         }
       }
       fetchData();
-    }
+    
 
-    setEnteredExamName("");
-    setFromText("");
-    setToText("");
-    setEnteredTotalMarks("");
-    setEnteredHour("");
-    setShowExamList(true);
-    setShowForm(false);
+    // setEnteredExamName("");
+    // setFromText("");
+    // setToText("");
+    // setEnteredTotalMarks("");
+    // setEnteredHour("");
+    // setShowExamList(false);
+    // setShowForm(true);
+    setShowAddBtn(false)
   }
   function addExamTimeTableHandler() {
     subBtn(true);
