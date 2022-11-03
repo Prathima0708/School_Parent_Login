@@ -143,7 +143,7 @@ const TecahersExamTimeTable = () => {
   }, []);
 
   function updateHandler() {
-    setShowAddBtn(true);
+
     let selectedData = selectedExamTimeTable.split(" - ");
     let class_name = selectedData[0];
     let section = selectedData[1];
@@ -198,13 +198,14 @@ const TecahersExamTimeTable = () => {
       Alert.alert("Please enter all fields");
     } else {
     setShowExamList(true);
-    setShowAddBtn(true)
     setShowForm(false);
+    setShowAddBtn(true);
       Alert.alert("Successfully updated", "", [
         {
           text: "OK",
           onPress: () => {
             fetchData();
+            
           },
         },
       ]);
@@ -230,7 +231,7 @@ const TecahersExamTimeTable = () => {
     // setEnteredHour("");
     // setShowExamList(false);
     // setShowForm(true);
-    setShowAddBtn(false)
+    // setShowAddBtn(true)
   }
   function addExamTimeTableHandler() {
     subBtn(true);
@@ -397,7 +398,7 @@ const TecahersExamTimeTable = () => {
     setExamLabel(false);
     setTotalLabel(false);
     setHourLabel(false);
-    setShowAddBtn(false);
+    setShowAddBtn(true);
     setShowForm(true);
     setShowExamList(false);
     setEnteredExamName("");

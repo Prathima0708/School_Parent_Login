@@ -88,7 +88,7 @@ const TeachersTransport = () => {
 
   const [mobile, setEnteredMobile] = useState("");
   const [enteredMobileTouched, setEnteredMobileTouched] = useState(false);
-  const enteredMobileIsValid = mobile.length == 10;
+  const enteredMobileIsValid = mobile.toString().trim() !== "";
   const mobileInputIsInValid = !enteredMobileIsValid && enteredMobileTouched;
 
   const [routename, setEnteredRouteName] = useState("");
@@ -221,16 +221,18 @@ const TeachersTransport = () => {
     }
     updateData();
 
-    // if (
-    //   // !enteredBusnumberIsValid ||
-    //   // !enteredVehicleNoIsValid ||
-    //   !enteredDrivernameIsValid ||
-    //   !enteredMobileIsValid ||
-    //   !enteredRoutenameIsValid ||
-    //   !enteredStopnameIsValid
-    // ) {
-    //   Alert.alert("Please enter all fields");
-    // } else {
+    if (
+      !enteredBusnumberIsValid ||
+      !enteredVehicleNoIsValid ||
+      !enteredDrivernameIsValid ||
+      !enteredMobileIsValid ||
+      !enteredRoutenameIsValid ||
+      !enteredStopnameIsValid
+    ) {
+      Alert.alert("Please enter all fields");
+    } else {
+      setShowForm(false);
+      setShowList(true);
     Alert.alert("Successfully updated", "", [
       {
         text: "OK",
@@ -270,26 +272,26 @@ const TeachersTransport = () => {
     //   }
     // }
     // fetchData();
-    setEnteredStudentID("");
-    setEnteredBusNumber("");
-    setEnteredVehicleNo("");
-    setEnteredType("");
-    setEnteredDriverName("");
-    setEnteredMobile("");
-    setEnteredRouteName("");
-    setEnteredStopName("");
-    setShowForm(false);
-    setShowList(true);
-    setForTransportList({
-      backgroundColor: "#F4F6F6",
-      color: "black",
-      borderRadius: 10,
-    });
-    setForTransportForm({
-      color: "white",
-      backgroundColor: "#1E8449",
-      borderRadius: 10,
-    });
+    // setEnteredStudentID("");
+    // setEnteredBusNumber("");
+    // setEnteredVehicleNo("");
+    // setEnteredType("");
+    // setEnteredDriverName("");
+    // setEnteredMobile("");
+    // setEnteredRouteName("");
+    // setEnteredStopName("");
+
+    // setForTransportList({
+    //   backgroundColor: "#F4F6F6",
+    //   color: "black",
+    //   borderRadius: 10,
+    // });
+    // setForTransportForm({
+    //   color: "white",
+    //   backgroundColor: "#1E8449",
+    //   borderRadius: 10,
+    // });
+  }
     //  }
   }
 
