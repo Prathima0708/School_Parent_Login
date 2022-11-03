@@ -260,9 +260,9 @@ const TeachersMarksheet = () => {
 
     console.log(ID);
     const FormData = {
-      student_name: StudentList.student_name,
-      class_name: StudentList.class_name,
-      Roll_no: StudentList.reg_number,
+      // student_name: StudentList.student_name,
+      // class_name: StudentList.class_name,
+      // Roll_no: StudentList.reg_number,
       //student_reg_no: StudentList.reg_number,
       maths_max_marks: 0,
       maths_obt_mark: mathsMarks,
@@ -663,6 +663,14 @@ const TeachersMarksheet = () => {
     setEnteredOverallPerct("");
     setEnteredRemark("");
 
+    setMathsLabel(false);
+    setEngLabel(false);
+    setSciLabel(false);
+    setSocLabel(false);
+    setKanLabel(false);
+    setHindiLabel(false);
+    setCompLabel(false);
+
     const filteredDummuyData = studList.find((data) => data.id == id);
     // console.log(filteredDummuyData.student_name);
     StudentList = filteredDummuyData;
@@ -807,8 +815,6 @@ const TeachersMarksheet = () => {
   }
 
   const searchFilter = (text) => {
-    console.log("search function");
-
     if (text) {
       const newData = studList.filter((item) => {
         const itemData = item.student_name
@@ -828,8 +834,6 @@ const TeachersMarksheet = () => {
   };
 
   const search = (text) => {
-    console.log("search function");
-
     if (text) {
       const newData = marksheetData.filter((item) => {
         const itemData = item.student_name
@@ -1401,9 +1405,10 @@ const TeachersMarksheet = () => {
           <SearchBar
             style={styles.searchBar}
             textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
-            placeholder="Search here"
+            placeholder="Search here..."
             onChangeText={(text) => search(text)}
             value={searchMarks}
+            //  onClearPress={() => setMarksheetData("")}
           />
           <ScrollView horizontal={true}>
             <DataTable style={styles.container}>

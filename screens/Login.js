@@ -32,11 +32,12 @@ import { formikFieldApplyYupTransforms } from "formik-yup";
 import { StyleSheet } from "react-native";
 import AccountTypeBtn from "../components/UI/AccountTypeBtn";
 import { Dimensions } from "react-native";
-import { 
-  Icon as NativeIcon, 
-  Input as NativeInput, 
+import {
+  Icon as NativeIcon,
+  Input as NativeInput,
   Pressable,
-  Button as NativeButton } from "native-base";
+  Button as NativeButton,
+} from "native-base";
 
 export var Token,
   UserId,
@@ -58,13 +59,13 @@ function Login() {
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [authToken, setAuthToken] = useState();
 
-  const [userNameFocused,setUserNameFocused]=useState(false);
-  const [passwordFocused,setPasswordFocused]=useState(false);
-  const [numberFocused,setNumberFocused]=useState(false);
+  const [userNameFocused, setUserNameFocused] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
+  const [numberFocused, setNumberFocused] = useState(false);
 
-  const [userNameBlur,setUserNameBlur]=useState(false);
-  const [passwordBlur,setPasswordBlur]=useState(false);
-  const [numberBlur,setNumberBlur]=useState(false);
+  const [userNameBlur, setUserNameBlur] = useState(false);
+  const [passwordBlur, setPasswordBlur] = useState(false);
+  const [numberBlur, setNumberBlur] = useState(false);
 
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
@@ -88,7 +89,7 @@ function Login() {
   const [expandHight, setExpandHieght] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
-  
+
   // function login() {
   //   //fun call get stdent  --  [{ctnum},{}]
   //   // filter ctnum -- enteredPhone  ----- fitertedstdData = [{},{}] || []
@@ -289,29 +290,29 @@ function Login() {
     }
   }
 
-  function userNameFocusHandler(){
+  function userNameFocusHandler() {
     setUserNameFocused(true);
     setUserNameBlur(false);
   }
-  function userNameBlurHandler(){
+  function userNameBlurHandler() {
     setUserNameBlur(true);
     setUserNameFocused(false);
   }
 
-  function passwordFocusHandler(){
+  function passwordFocusHandler() {
     setPasswordFocused(true);
     setPasswordBlur(false);
   }
-  function passwordBlurHandler(){
+  function passwordBlurHandler() {
     setPasswordBlur(true);
     setPasswordFocused(false);
   }
 
-  function numberFocusHandler(){
+  function numberFocusHandler() {
     setNumberFocused(true);
     setNumberBlur(false);
   }
-  function numberBlurHandler(){
+  function numberBlurHandler() {
     setNumberBlur(true);
     setNumberFocused(false);
   }
@@ -375,16 +376,18 @@ function Login() {
             onFocus={userNameFocusHandler}
             onBlur={userNameBlurHandler}
           /> */}
-          <NativeInput 
-            type="text" 
-            w="82%" 
-            left='9%'
+          <NativeInput
+            type="text"
+            w="80%"
+            left="11%"
             top="6"
+            borderWidth={2}
             onChangeText={userInputHandler}
             value={enteredUser}
             style={styles.inputStyle}
-            // py="0"  
-            placeholder="Username" />
+            // py="0"
+            placeholder="Username"
+          />
           {/* <Ionicons
                 name={showPassword ? "eye-outline" : "eye-off-outline"}
                 size={28}
@@ -405,34 +408,33 @@ function Login() {
             onBlur={passwordBlurHandler}
             
           /> */}
-          <NativeInput 
-            type={showPassword ? "text" : "password"} 
-            w="82%" 
-            left='9%'
+          <NativeInput
+            type={showPassword ? "text" : "password"}
+            w="80%"
+            left="11%"
             top="9"
+            borderWidth={1}
             onChangeText={passwordInputHandler}
             value={enteredPassword}
-            // py="0" 
+            // py="0"
             style={styles.inputStyle}
-            InputRightElement=
-              {<NativeButton 
-                size="xs" 
-                rounded="none" 
-                w="1/5" 
-                h="full" 
-                
-                onPress={handleClick}>
-                {showPassword ? <Ionicons
-                    name="eye-outline"
-                    size={24}
-                    color="white"
-                  /> : <Ionicons
-                  name="eye-off-outline"
-                  size={24}
-                  color="white"
-                />}
-              </NativeButton>} 
-            placeholder="Password" />
+            InputRightElement={
+              <NativeButton
+                size="xs"
+                rounded="none"
+                w="1/5"
+                h="full"
+                onPress={handleClick}
+              >
+                {showPassword ? (
+                  <Ionicons name="eye-outline" size={24} color="white" />
+                ) : (
+                  <Ionicons name="eye-off-outline" size={24} color="white" />
+                )}
+              </NativeButton>
+            }
+            placeholder="Password"
+          />
           {/* <Input
             variant="outline"
             w={{
@@ -470,17 +472,19 @@ function Login() {
                 onFocus={numberFocusHandler}
                 onBlur={numberBlurHandler}
               /> */}
-              <NativeInput 
-                type="number" 
-                w="82%" 
+              <NativeInput
+                type="number"
+                w="80%"
                 keyboardType="number-pad"
-                left='9%'
+                left="11%"
+                borderWidth={1}
                 top="12"
                 onChangeText={phoneInputHandler}
                 value={enteredPhone}
                 style={styles.inputStyle}
-                // py="0"  
-                placeholder="Registered phone number" />
+                // py="0"
+                placeholder="Registered phone number"
+              />
             </>
           )}
           <TouchableHighlight
@@ -647,8 +651,8 @@ const styles = StyleSheet.create({
     left: "25%",
     top: 5,
   },
-  focusedBorderColor:{
-    borderColor:'#484EFF',
+  focusedBorderColor: {
+    borderColor: "#484EFF",
     color: "black",
     borderWidth: 2,
     paddingHorizontal: "5%",
@@ -661,8 +665,8 @@ const styles = StyleSheet.create({
     left: deviceWidth < 370 ? "8%" : "8%",
     width: deviceWidth < 370 ? "80%" : "80%",
   },
-  showText:{
-    color:'white',
-    fontSize:11.9
-  }
+  showText: {
+    color: "white",
+    fontSize: 11.9,
+  },
 });
