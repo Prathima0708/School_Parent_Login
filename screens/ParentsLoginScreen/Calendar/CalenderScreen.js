@@ -1,3 +1,4 @@
+
 // import { View, Text, TouchableOpacity } from "react-native";
 // import React, { useEffect, useState } from "react";
 // import { Agenda } from "react-native-calendars";
@@ -104,6 +105,7 @@ import { StyleSheet, View, Text, Alert, Platform } from "react-native";
 import { FlatList } from "react-native";
 import { ScrollView } from "react-native";
 import VerticalLine from "../../../components/UI/VerticalLine";
+import { Progress } from "native-base";
 export var fromDateVar = [],
   toDateVar = [],
   fromatedDate = [];
@@ -201,63 +203,60 @@ const CalenderScreen = () => {
           textDayHeaderFontSize: 16,
         }}
       />
-      <ScrollView style={{top:1}}>
-        {filteredDataVar &&
-          filteredDataVar.map((data, key) => (
-            <>
-            
-              <View style={[{flex:1}, {flexDirection: "row",backgroundColor:'#EFFFFD',top:10}]}>
-                <View style={{ flex: 1, padding:10,}} >
-                <View style={[{flex:1}, {flexDirection: "column",backgroundColor:'#00B8AC',borderRadius:10}]}>
-                  <View style={{ flex: 1,justifyContent:'center',alignItems:'center',top:10}} >
-                    <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>{moment(data.enddate).format("DD")}</Text>
-                  </View>
-                  <View style={{ flex: 1,justifyContent:'center',alignItems:'center' }} >
-                    <Text style={{fontSize:25,color:'white',fontFamily: "HindBold",}}>{moment(data.enddate).format("ddd")}</Text>
-                  </View>
-                  <View style={{ flex: 1,justifyContent:'center',alignItems:'center',bottom:10}} >
-                    <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>{moment(data.enddate).format("YYYY")}</Text>
-                  </View>
+      <ScrollView>
+      {filteredDataVar && 
+        filteredDataVar.map((data,key)=>(
+        <>
+          <View style={[{flex:1}, {flexDirection: "row",top:10,borderWidth:1,borderRadius:10,padding:10,marginHorizontal:10}]}>
+            <View style={{ flex: 0.7}} >
+              <View style={[styles.container, {flexDirection: "column",borderRightWidth:1}]}>
+                <View style={{ flex: 1, backgroundColor: "#00B8AC",alignItems:'center',marginHorizontal:10,borderRadius:10,width:'70%'}} >
+                  {/* <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
+                    {moment(data.startdate).format("MMM")}
+                  </Text>
+                  <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
+                    {moment(data.startdate).format("D")}
+                  </Text>
+                  <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
+                    {moment(data.startdate).format("YYYY")}
+                  </Text> */}
+                  <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
+                    {moment(data.startdate).format("DD/MM/YYYY")}
+                  </Text> 
                 </View>
-                <View style={styles.space} />
+                <View style={{ flex: 2,top:3,left:'30%' }} >
+                  <Text style={{fontSize:16,fontFamily: "HindBold",color:'black'}}>
+                    To
+                  </Text>
                 </View>
-                
-                <View style={{ flex: 2}} >
-                {/* <Card style={styles.cardStyle} key={data.id}>
-                <Card.Content>
-                  <View style={styles.cardView}>
-                    <View style={[{ flexDirection: "row", flex: 1 }]}>
-                      <View style={{ flex: 2 }}>
-                        <Text
-                          style={[styles.textStyle, { fontWeight: "bold" }]}
-                        >
-                          Description
-                        </Text>
-                        <Text style={styles.textStyle}>{data.description}</Text>
-                      </View>
-                      
-                    </View>
-                  </View>
-                </Card.Content>
-              </Card>  */}
-                    <View style={[styles.container, {flexDirection: "column",top:15}]}>
-                      <View style={{ flex: 1}} >
-                        {/* <Text
-                          style={[styles.textStyle, { fontWeight: "bold" }]}
-                        >
-                          Description
-                        </Text> */}
-                      </View>
-                      <View style={{ flex: 2,top:35}} >
-                        <Text style={styles.textStyle}>{data.description}</Text>
-                      </View>
-                    </View>
+                <View style={{ flex: 3, backgroundColor: "#00B8AC",alignItems:'center',marginHorizontal:10,borderRadius:10,width:'70%'}} >
+                  {/* <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
+                    {moment(data.enddate).format("MMM")}
+                  </Text>
+                  <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
+                    {moment(data.enddate).format("D")}
+                  </Text>
+                  <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
+                    {moment(data.enddate).format("YYYY")}
+                  </Text> */}
+                  <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
+                    {moment(data.enddate).format("DD/MM/YYYY")}
+                  </Text>
                 </View>
-                <View style={styles.space} />
               </View>
-            </>
-          ))}
+            </View>
+            <View style={{ flex: 1,left:'10%'}} >
+              <Text style={{fontSize:20,color:'black',fontFamily: "HindBold"}}>
+                {data.description}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.space} />
+        </>
+        ))}
       </ScrollView>
+
+      
     </>
   );
 };
@@ -287,11 +286,31 @@ const styles = StyleSheet.create({
   },
   space: {
     width: 20,
-    height: 5,
+    height: 20,
   },
   textStyle: {
     fontFamily: "HindRegular",
     fontSize: 20,
     color: "black",
   },
+  commonDesign:{
+    flexDirection: "row",
+    top:10,
+    backgroundColor:'#DEF6FF',
+    marginHorizontal:10,
+    borderLeftWidth:1,
+    borderRightWidth:1
+  },
+  upDesign:{
+    borderTopWidth:1,
+    marginHorizontal:10,
+    borderTopRightRadius:10,
+    borderTopLeftRadius:10
+  },
+  downDesign:{
+    paddingBottom:5,
+    borderBottomWidth:1,
+    borderBottomRightRadius:10,
+    borderBottomLeftRadius:10
+  }
 });
