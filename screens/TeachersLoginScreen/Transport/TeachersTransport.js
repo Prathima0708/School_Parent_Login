@@ -718,7 +718,7 @@ const TeachersTransport = () => {
               </BgButton>
 
               <BgButton onPress={showTransport} style={forTransportForm}>
-                Show Transport
+                Show list
               </BgButton>
             </View>
             // <View
@@ -1162,7 +1162,7 @@ const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
     flexDirection: "row",
-    width: "49%",
+    width: "100%",
     // backgroundColor: "white",
     // marginHorizontal: 10,
   },
