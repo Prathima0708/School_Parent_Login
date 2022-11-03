@@ -219,6 +219,7 @@ export default function App() {
           name="ParentsLoginScreen"
           component={ParentsLoginScreen}
         />
+
         <Stack.Screen
           name="Login"
           component={Login}

@@ -19,11 +19,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import IconButton from "../../components/UI/IconButton";
 import ImageSlider from "./ImageSlider";
 export var studentList = [];
-export let value;
+export var value;
 function ParentsLoginScreen() {
   const [students, setStudents] = useState([]);
   const route = useRoute();
   const navigation = useNavigation();
+  //const phone = navigation.getParent("phone");
 
   async function logoutHandler() {
     try {
@@ -50,7 +51,7 @@ function ParentsLoginScreen() {
   useEffect(() => {
     async function fetchPhone() {
       value = await AsyncStorage.getItem("Phone");
-      console.log("this is from parents screen", value);
+      // console.log("this is from parents screen", value);
     }
     fetchPhone();
   }, []);
@@ -72,7 +73,8 @@ function ParentsLoginScreen() {
 
   useEffect(() => {
     async function login() {
-      console.log(route.params.phone);
+      //   console.log(route.params.phone);
+      //console.log("this is inside parentsloginscreen", phone);
       try {
         const ph = route.params.phone.toString();
         console.log(ph);
