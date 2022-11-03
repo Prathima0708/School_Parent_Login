@@ -155,16 +155,15 @@ const CalenderScreen = () => {
   // });
 
   function showEvent(day) {
-    console.log(day)
     setEventDisplay(true);
     const filteredData = calendarData.filter(
       (data) => moment(data.startdate).format("YYYY-MM-DD") == day.dateString
     );
-    if (filteredData) {
+    console.log(filteredData.length)
+    if (filteredData.length>0) {
       setDataIsPresent(true);
       filteredDataVar = filteredData;
-    } else {
-      setDataIsPresent(false);
+    }else{
       Alert.alert("Data not found!", "No events are found for this date", [
         {
           text: "OK",
@@ -176,9 +175,6 @@ const CalenderScreen = () => {
     }
   }
 
-  function testHandler() {
-    console.log("yes");
-  }
   return (
     <>
       <Calendar

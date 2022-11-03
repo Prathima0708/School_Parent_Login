@@ -1017,8 +1017,9 @@ const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
     flexDirection: "row",
-    width: "49%",
-    marginHorizontal: 10,
+    width: "100%",
+    // marginHorizontal: 10,
+    backgroundColor:'white'
   },
   labelInput: {
     color: "#673AB7",
@@ -1047,6 +1048,8 @@ const styles = StyleSheet.create({
   inputForm: {
     padding: 20,
     paddingTop: 5,
+    backgroundColor:'white',
+    height:'100%'
   },
   errorBorderColor: {
     borderColor: "red",
