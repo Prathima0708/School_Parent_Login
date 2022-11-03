@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     // borderColor: "white",
     elevation: 2,
-    borderTopLeftRadius:10,
-    borderTopRightRadius:10
+    // borderTopLeftRadius:10,
+    // borderTopRightRadius:10
     // borderWidth: 1,
   },
 });

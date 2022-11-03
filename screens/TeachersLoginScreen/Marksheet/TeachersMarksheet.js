@@ -867,7 +867,14 @@ const TeachersMarksheet = () => {
 
       {showBtn && (
         <>
-          <View style={{ width: 170, fontSize: 20, marginTop: 13, margin: 10 }}>
+          <View
+            style={{
+              width: 170,
+              fontSize: 20,
+              marginTop: 13,
+              margin: 10,
+            }}
+          >
             <SelectList
               //  defaultOption={{ key: "1", value: "Second-A" }}
               setSelected={setSelected}
@@ -1589,7 +1596,10 @@ const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
     flexDirection: "row",
-    width: "50%",
+
+    width: "100%",
+
+    // backgroundColor: "#FDFEFE",
   },
   tableBtn: {
     marginLeft: -15,
@@ -1607,8 +1617,8 @@ const styles = StyleSheet.create({
     left: 30,
   },
   root: {
-    backgroundColor: "#EBECFO",
-    // backgroundColor:'white'
+    // backgroundColor: "#EBECFO",
+    backgroundColor: "white",
   },
   inputForm: {
     padding: 20,
@@ -1616,6 +1626,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginHorizontal: 10,
     marginVertical: 10,
+    backgroundColor: "#F4F6F7",
+    height: "100%",
   },
   errorBorderColor: {
     borderColor: "red",
@@ -1692,12 +1704,14 @@ const styles = StyleSheet.create({
   errorLabel: {
     color: "red",
     backgroundColor: "#F2F2F2",
+    backgroundColor: "#F4F6F7",
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
   normalLabel: {
     color: "grey",
     backgroundColor: "#F2F2F2",
+    backgroundColor: "#F4F6F7",
     paddingHorizontal: 7,
     fontSize: deviceWidth < 370 ? 13 : 17,
     fontFamily: "HindRegular",

@@ -29,9 +29,8 @@ import moment from "moment";
 import TimeSlots from "./TimeSlots";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 
-export var CLASSNAME,
-  SECTION,ID
-  //idTimeTab = [];
+export var CLASSNAME, SECTION, ID;
+//idTimeTab = [];
 export var TimeTabID;
 
 const TeachersTimetable = () => {
@@ -1002,7 +1001,7 @@ const TeachersTimetable = () => {
   function updateHandler() {
     // console.log(UserId);
     console.log(ID);
-    console.log("pressed")
+    console.log("pressed");
 
     const FormData = {};
     // // console.log(FormData);
@@ -1061,10 +1060,10 @@ const TeachersTimetable = () => {
   }
   return (
     <>
-      <View style={{ height: "100%" }}>
+      <View style={{ height: "100%", backgroundColor: "white" }}>
         <View style={styles.BtnContainer}>
           <BgButton onPress={timeTableList} style={forTimeTableList}>
-            Daily
+            Regular
           </BgButton>
           <View style={styles.space} />
           <BgButton onPress={viewExam} style={forExamTimeTable}>
@@ -1828,9 +1827,12 @@ const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   BtnContainer: {
+    fontSize: 24,
     flexDirection: "row",
 
-    width: deviceWidth < 370 ? "48%" : "49%",
+    width: "100%",
+
+    backgroundColor: "#FDFEFE",
   },
   year: {
     width: 70,
@@ -1967,12 +1969,14 @@ const styles = StyleSheet.create({
   errorLabel: {
     color: "red",
     backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
   normalLabel: {
     color: "grey",
     backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
     paddingHorizontal: 7,
     fontSize: deviceWidth < 370 ? 13 : 17,
     fontFamily: "HindRegular",

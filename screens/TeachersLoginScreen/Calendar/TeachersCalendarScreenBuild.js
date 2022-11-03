@@ -667,7 +667,7 @@ const TeachersCalendarScreenBuild = () => {
         </View>
       )}
       {showForm && (
-        <ScrollView>
+        <ScrollView style={{ backgroundColor: "white" }}>
           <View style={styles.inputForm}>
             <View style={label ? styles.test : styles.testSuccess}>
               <Text
@@ -835,7 +835,6 @@ const TeachersCalendarScreenBuild = () => {
                 <Button onPress={buttonPressedHandler}>Add Event</Button>
               </View>
             )}
-
             {isEdit && (
               <View style={styles.btnSubmit1}>
                 <Button onPress={updateHandler}>Update</Button>
@@ -849,162 +848,164 @@ const TeachersCalendarScreenBuild = () => {
           </View>
         </ScrollView>
       )}
-      {showList && (
-        <>
-          <SearchBar
-            onSubmitEditing={Keyboard.dismiss}
-            style={styles.searchBar}
-            textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
-            placeholder="Search here"
-            onChangeText={(text) => searchFilter(text)}
-            value={searchText}
-          />
-          <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
-            <View style={{ flex: 8, bottom: 10 }}>
-              <ScrollView>
-                <View style={styles.root}>
-                  {filteredData &&
-                    filteredData.map((filteredData, key) => (
-                      <>
-                        <View>
-                          <Card
-                            key={key}
+      <View
+        style={[
+          { flex: 1 },
+          { flexDirection: "column", backgroundColor: "white" },
+        ]}
+      >
+        <View style={{ flex: 8, bottom: 5 }}>
+          <ScrollView>
+            <SearchBar
+              onSubmitEditing={Keyboard.dismiss}
+              style={styles.searchBar}
+              textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
+              placeholder="Search here"
+              onChangeText={(text) => searchFilter(text)}
+              value={searchText}
+            />
+            {showList &&
+              filteredData &&
+              filteredData.map((filteredData, key) => (
+                <>
+                  <Card
+                    key={key}
+                    style={{
+                      marginVertical: 15,
+                      marginHorizontal: 20,
+                      elevation: 5,
+                      borderRadius: 10,
+                      paddingBottom: 20,
+                    }}
+                  >
+                    <Card.Content style={{ margin: 5, marginTop: 0 }}>
+                      <Text style={styles.eventName}>
+                        {filteredData.titlee}
+                      </Text>
+
+                      <View style={[{ flexDirection: "row" }]}>
+                        <View style={{ flex: 2, marginLeft: 5 }}>
+                          <Ionicons
+                            name="calendar"
+                            size={25}
+                            color="#D4AC0D"
                             style={{
-                              marginVertical: 15,
-                              marginHorizontal: 20,
-                              elevation: 5,
-                              borderRadius: 10,
-                              paddingBottom: 20,
+                              position: "absolute",
+                              left: 5,
+                            }}
+                          />
+                          <Text style={styles.cardTextStyle}>Start Date</Text>
+                        </View>
+                        <View style={{ flex: 2 }}>
+                          <View style={{ flex: 2 }}>
+                            <Ionicons
+                              name="calendar"
+                              size={25}
+                              color="#D4AC0D"
+                              style={{
+                                position: "absolute",
+                                left: 5,
+                              }}
+                            />
+                            <Text style={styles.cardTextStyle}>End Date</Text>
+                          </View>
+                        </View>
+                      </View>
+                      <View style={[{ flexDirection: "row" }]}>
+                        <View style={{ flex: 2, left: 45 }}>
+                          <Text
+                            style={{
+                              fontSize: deviceWidth < 370 ? 13 : 15,
+                              fontFamily: "HindSemiBold",
+                              color: "grey",
                             }}
                           >
-                            <Card.Content style={{ margin: 5, marginTop: 0 }}>
-                              <Text style={styles.eventName}>
-                                {filteredData.titlee}
-                              </Text>
-
-                              <View style={[{ flexDirection: "row" }]}>
-                                <View style={{ flex: 2, marginLeft: 5 }}>
-                                  <Ionicons
-                                    name="calendar"
-                                    size={25}
-                                    color="#D4AC0D"
-                                    style={{ position: "absolute", left: 5 }}
-                                  />
-                                  <Text style={styles.cardTextStyle}>
-                                    Start Date
-                                  </Text>
-                                </View>
-                                <View style={{ flex: 2 }}>
-                                  <View style={{ flex: 2 }}>
-                                    <Ionicons
-                                      name="calendar"
-                                      size={25}
-                                      color="#D4AC0D"
-                                      style={{ position: "absolute", left: 5 }}
-                                    />
-                                    <Text style={styles.cardTextStyle}>
-                                      End Date
-                                    </Text>
-                                  </View>
-                                </View>
-                              </View>
-                              <View style={[{ flexDirection: "row" }]}>
-                                <View style={{ flex: 2, left: 45 }}>
-                                  <Text
-                                    style={{
-                                      fontSize: deviceWidth < 370 ? 13 : 15,
-                                      fontFamily: "HindSemiBold",
-                                      color: "grey",
-                                    }}
-                                  >
-                                    {moment(filteredData.startdate).format(
-                                      "DD/MM/YYYY"
-                                    )}
-                                  </Text>
-                                </View>
-                                <View style={{ flex: 2, left: 120 }}>
-                                  <Text
-                                    style={{
-                                      fontSize: deviceWidth < 370 ? 13 : 15,
-                                      fontFamily: "HindSemiBold",
-                                      color: "grey",
-                                    }}
-                                  >
-                                    {moment(filteredData.enddate).format(
-                                      "DD/MM/YYYY"
-                                    )}
-                                  </Text>
-                                </View>
-                                <View
-                                  style={{
-                                    flex: 2,
-                                    left: deviceWidth < 370 ? 100 : 110,
-                                    bottom: -50,
-                                  }}
-                                >
-                                  <Ionicons
-                                    name="md-pencil-sharp"
-                                    size={24}
-                                    color="green"
-                                    onPress={() => editItem(filteredData.id)}
-                                  />
-                                </View>
-                                <View
-                                  style={{ flex: 2, left: 60, bottom: -50 }}
-                                >
-                                  <Ionicons
-                                    name="trash"
-                                    size={24}
-                                    color="red"
-                                    onPress={() => deleteItem(filteredData.id)}
-                                  />
-                                </View>
-                              </View>
-                              <View style={[{ flexDirection: "row", flex: 1 }]}>
-                                <View style={{ flex: 2, left: -20, top: 5 }}>
-                                  <Text
-                                    style={[
-                                      styles.cardTextStyle,
-                                      { fontWeight: "bold" },
-                                    ]}
-                                  >
-                                    Description:
-                                  </Text>
-                                </View>
-                                <View
-                                  style={{
-                                    flex: 2,
-                                    left: deviceWidth < 370 ? -20 : -40,
-                                    top: 5,
-                                  }}
-                                >
-                                  <Text
-                                    style={{
-                                      fontSize: 16,
-                                      fontFamily: "HindSemiBold",
-                                      color: "grey",
-                                    }}
-                                  >
-                                    {filteredData.description}
-                                  </Text>
-                                </View>
-                              </View>
-                            </Card.Content>
-                          </Card>
+                            {moment(filteredData.startdate).format(
+                              "DD/MM/YYYY"
+                            )}
+                          </Text>
                         </View>
-                      </>
-                    ))}
-                </View>
-              </ScrollView>
-            </View>
-            {keyboardStatus == "Keyboard Hidden" && (
-              <View style={{ flex: 1 }}>
-                <TeachersHome />
-              </View>
-            )}
+                        <View style={{ flex: 2, left: 120 }}>
+                          <Text
+                            style={{
+                              fontSize: deviceWidth < 370 ? 13 : 15,
+                              fontFamily: "HindSemiBold",
+                              color: "grey",
+                            }}
+                          >
+                            {moment(filteredData.enddate).format("DD/MM/YYYY")}
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flex: 2,
+                            left: deviceWidth < 370 ? 100 : 110,
+                            bottom: -50,
+                          }}
+                        >
+                          <Ionicons
+                            name="md-pencil-sharp"
+                            size={24}
+                            color="green"
+                            onPress={() => editItem(filteredData.id)}
+                          />
+                        </View>
+                        <View
+                          style={{
+                            flex: 2,
+                            left: 60,
+                            bottom: -50,
+                          }}
+                        >
+                          <Ionicons
+                            name="trash"
+                            size={24}
+                            color="red"
+                            onPress={() => deleteItem(filteredData.id)}
+                          />
+                        </View>
+                      </View>
+                      <View style={[{ flexDirection: "row", flex: 1 }]}>
+                        <View style={{ flex: 2, left: -20, top: 5 }}>
+                          <Text
+                            style={[
+                              styles.cardTextStyle,
+                              { fontWeight: "bold" },
+                            ]}
+                          >
+                            Description:
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flex: 2,
+                            left: deviceWidth < 370 ? -20 : -40,
+                            top: 5,
+                          }}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontFamily: "HindSemiBold",
+                              color: "grey",
+                            }}
+                          >
+                            {filteredData.description}
+                          </Text>
+                        </View>
+                      </View>
+                    </Card.Content>
+                  </Card>
+                </>
+              ))}
+          </ScrollView>
+        </View>
+        {keyboardStatus == "Keyboard Hidden" && (
+          <View style={{ flex: 1 }}>
+            <TeachersHome />
           </View>
-        </>
-      )}
+        )}
+      </View>
     </>
   );
 };
@@ -1017,9 +1018,10 @@ const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
     flexDirection: "row",
+
     width: "100%",
-    // marginHorizontal: 10,
-    backgroundColor:'white'
+
+    backgroundColor: "#FDFEFE",
   },
   labelInput: {
     color: "#673AB7",
@@ -1043,13 +1045,15 @@ const styles = StyleSheet.create({
     marginTop: 29,
   },
   root: {
-    backgroundColor: "#EBECFO",
+    // backgroundColor: "#EBECFO",
+    backgroundColor: "white",
+    height: "100%",
   },
   inputForm: {
     padding: 20,
     paddingTop: 5,
-    backgroundColor:'white',
-    height:'100%'
+    backgroundColor: "white",
+    height: "200%",
   },
   errorBorderColor: {
     borderColor: "red",
@@ -1081,6 +1085,10 @@ const styles = StyleSheet.create({
     fontFamily: "MonsterratBold",
     fontSize: 16,
   },
+  flexStyleCol: {
+    flex: 1,
+    flexDirection: "column",
+  },
   tableCell: {
     width: 50,
     //  fontFamily: "Montserrat_600SemiBold",
@@ -1096,24 +1104,28 @@ const styles = StyleSheet.create({
     whiteSpace: "pre-line",
   },
   searchBar: {
-    //top: 10,
     marginTop: 10,
     marginBottom: 20,
+    // backgroundColor: "white",
+    backgroundColor: "#F0F3F4",
 
-    // width:deviceWidth < 370 ? "50%" : "100%",
+    // height:deviceWidth < 370 ? "6%" : "6%",
   },
   errorLabel: {
     color: "red",
     backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
   normalLabel: {
-    color: "#A7ADAD",
-    backgroundColor: "#F2F2F2",
-    paddingHorizontal: 17,
+    // color: "#A7ADAD",
+    color: "#AEB6BF",
+    // backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
+    paddingHorizontal: 15,
+    bottom: 5,
     fontSize: deviceWidth < 370 ? 13 : 16,
-    fontFamily: "HindRegular",
   },
   submitLabel: {
     color: "grey",

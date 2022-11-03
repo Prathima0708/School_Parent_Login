@@ -635,7 +635,7 @@ const TeachersLeaveScreenBuild = () => {
         </View>
       )}
       {showForm && (
-        <ScrollView>
+        <ScrollView style={{ backgroundColor: "white" }}>
           <View style={styles.inputForm}>
             <View>
               <View style={!typeLabel ? styles.normal : styles.up}>
@@ -849,6 +849,7 @@ const TeachersLeaveScreenBuild = () => {
             onChangeText={(text) => searchFilter(text)}
             value={searchText}
           />
+
           <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
             <View style={{ flex: 8, bottom: 10 }}>
               <ScrollView>
@@ -1026,14 +1027,18 @@ const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
     flexDirection: "row",
-    width: "49%",
-    marginHorizontal: 10,
+
+    width: "100%",
+
+    backgroundColor: "#FDFEFE",
   },
   searchBar: {
-    //top: 10,
-
     marginTop: 10,
     marginBottom: 20,
+    // backgroundColor: "white",
+    backgroundColor: "#F0F3F4",
+
+    // height:deviceWidth < 370 ? "6%" : "6%",
   },
   btnSubmit1: {
     marginTop: 90,
@@ -1050,11 +1055,13 @@ const styles = StyleSheet.create({
     marginTop: 29,
   },
   root: {
-    backgroundColor: "#EBECFO",
+    backgroundColor: "white",
   },
   inputForm: {
     padding: 20,
     paddingTop: 5,
+    backgroundColor: "white",
+    height: "100%",
   },
   errorBorderColor: {
     borderColor: "red",
@@ -1126,12 +1133,14 @@ const styles = StyleSheet.create({
   errorLabel: {
     color: "red",
     backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
   normalLabel: {
     color: "grey",
     backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },

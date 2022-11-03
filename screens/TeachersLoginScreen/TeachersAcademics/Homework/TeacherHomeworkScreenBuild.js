@@ -846,11 +846,11 @@ const TeacherHomeworkScreenBuild = () => {
       {showInitialBtn && (
         <View style={styles.BtnContainer}>
           <BgButton onPress={showHomeworkForm} style={forHomeworkList}>
-            Add Homework
+            Add New
           </BgButton>
 
           <BgButton onPress={showHomework} style={forHomeworkForm}>
-            Show Homework
+            Show List
           </BgButton>
         </View>
       )}
@@ -1122,7 +1122,12 @@ const TeacherHomeworkScreenBuild = () => {
           </View>
         </ScrollView>
       )}
-      <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
+      <View
+        style={[
+          { flex: 1 },
+          { flexDirection: "column", backgroundColor: "white" },
+        ]}
+      >
         <View style={{ flex: 8, bottom: 5 }}>
           <ScrollView>
             <SearchBar
@@ -1259,9 +1264,12 @@ const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   BtnContainer: {
-    flexDirection: "row",
     fontSize: 24,
-    width: "51%",
+    flexDirection: "row",
+
+    width: "100%",
+
+    backgroundColor: "#FDFEFE",
   },
   btnSubmit1: {
     // marginTop: 50,
@@ -1282,12 +1290,15 @@ const styles = StyleSheet.create({
     marginTop: 29,
   },
   root: {
-    backgroundColor: "#EBECFO",
-    marginTop: 10,
+    backgroundColor: "white",
+    height: "100%",
+    // marginTop: 10,
   },
   inputForm: {
     padding: 20,
     paddingTop: 5,
+    backgroundColor: "white",
+    height: "100%",
   },
   errorBorderColor: {
     borderColor: "red",
@@ -1379,8 +1390,11 @@ const styles = StyleSheet.create({
     left: 35,
   },
   searchBar: {
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 20,
+    marginBottom: 20,
+    // backgroundColor: "white",
+    backgroundColor: "#F0F3F4",
+    // height:deviceWidth < 370 ? "6%" : "6%",
   },
   dropText: {
     fontSize: deviceWidth < 370 ? 16 : 18,
@@ -1447,14 +1461,16 @@ const styles = StyleSheet.create({
   errorLabel: {
     color: "red",
     backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
   normalLabel: {
     color: "grey",
     backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
     paddingHorizontal: 5,
-    fontSize: deviceWidth < 370 ? 13 : 15,
+    fontSize: deviceWidth < 370 ? 13 : 16,
   },
   upWaring: {
     color: "red",

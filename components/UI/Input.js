@@ -44,11 +44,11 @@ const styles = StyleSheet.create({
   inputStyle: {
     color: "black",
     borderWidth: 1.5,
-
+  //  backgroundColor: "#FBFCFC",
     // borderBottomWidth: 1.5,
     // borderBottomRightRadius: 5,
     // borderBottomLeftRadius: 5,
-    borderRadius: 7,
+    borderRadius: 5,
     borderColor: "#A3A5A5",
     padding: 9,
 

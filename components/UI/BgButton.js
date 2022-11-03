@@ -48,19 +48,21 @@ const styles = StyleSheet.create({
   button: {
     //  paddingVertical: 6,
     // paddingHorizontal: 12,
-   width: "45%",
-    height: "50%",
-    marginTop: 20,
-    marginBottom: 20,
+    width: "40%",
+    height: "47%",
+    // marginTop: 20,
+    // marginBottom: 20,
     // marginLeft: 20,
     // padding: 5,
-    //margin: 20,
-    marginLeft: 15,
+    // backgroundColor: "white",
+    marginLeft: 25,
+    // margin: 20,
     //borderRadius: 10,
-    elevation: 5,
+    elevation: 9,
     //  borderWidth:1,
     //marginRight:10,
- 
+    //marginHorizontal: 15,
+    marginVertical: 20,
   },
 
   buttonText: {
@@ -68,5 +70,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: deviceWidth < 370 ? 16 : 20,
     padding: 5,
+    //margin: 15,
   },
 });
