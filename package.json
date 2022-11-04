@@ -99,6 +99,7 @@
     "react-native-uuid": "^2.0.1",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "0.17.7",
+    "react-native-x-carousel": "^1.0.1",
     "react-native-zigzag-view": "^0.2.0",
     "rn-calendar-component": "^0.5.1",
     "rn-keyboard-sticky-view": "^1.0.4",

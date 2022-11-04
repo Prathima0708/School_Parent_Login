@@ -46,14 +46,34 @@ function StudentItem({
                 width="100px"
               />
             </View>
-            <Text style={[styles.textBase, styles.description]}>
-              {/* <Text>Student Name:</Text> */}
+            {/* <Text style={[styles.textBase, styles.description]}>
               {student_name}
             </Text>
             <Text style={[styles.textBase, styles.description]}>
-              {/* <Text>Class:</Text> */}
               {class_name}
-            </Text>
+            </Text> */}
+            <View style={[{flex:1}, {flexDirection: "column",left:30}]}>
+              <View style={{ flex: 1 }} >
+                <Text style={[styles.textBase, styles.description]}>Name</Text>
+              </View>
+              <View style={{ flex: 1 }} >
+                <Text style={[styles.textBase, styles.description]}>Class</Text>
+              </View>
+              <View style={{ flex: 1 }} >
+                <Text style={[styles.textBase, styles.description]}>Reg No</Text>
+              </View>
+            </View>
+            <View style={[{flex:1}, {flexDirection: "column",left:10,top:2}]}>
+              <View style={{ flex: 1 }} >
+                <Text style={[styles.textBase, styles.textStyleStudInfo]}>{student_name}</Text>
+              </View>
+              <View style={{ flex: 1 }} >
+                <Text style={[styles.textBase, styles.textStyleStudInfo]}>{class_name} - {section}</Text>
+              </View> 
+              <View style={{ flex: 1 }} >
+                <Text style={[styles.textBase, styles.textStyleStudInfo]}>{reg_number}</Text>
+              </View>
+            </View>
           </View>
         </View>
       </Pressable>
@@ -83,17 +103,24 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   description: {
-    fontSize: deviceWidth < 370 ? 20 : 24,
+    fontSize: deviceWidth < 370 ? 20 : 17,
+
+    marginBottom: 4,
+    // fontWeight: "bold",
+    fontFamily: "HindSemiBold",
+  },
+  textStyleStudInfo:{
+    fontSize: deviceWidth < 370 ? 20 : 17,
 
     marginBottom: 4,
     // fontWeight: "bold",
     fontFamily: "HindMedium",
   },
   imageContainer: {
-    paddingHorizontal: 12,
-    paddingVertical: 4,
+    // paddingHorizontal: 12,
+    // paddingVertical: 4,
     backgroundColor: "white",
-    borderColor: "#23215b",
+    // borderColor: "#23215b",
     borderWidth: 5,
     justifyContent: "center",
     alignItems: "center",
@@ -102,6 +129,6 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 70,
-    width: 50,
+    width: 75,
   },
 });
