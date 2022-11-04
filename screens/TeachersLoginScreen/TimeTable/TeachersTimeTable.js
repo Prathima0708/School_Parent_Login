@@ -346,6 +346,7 @@ const TeachersTimetable = () => {
     // setInputs(currentToTime);
 
     let tempToTime = new Date(currentToTime);
+    //  let tempToTime = currentToTime;
     let tTime =
       tempToTime.getHours() +
       ":" +
