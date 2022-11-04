@@ -261,6 +261,7 @@ const TeachersCalendarScreenBuild = () => {
       enddate: toDate,
       titlee: title,
     };
+    console.log(FormData);
     async function updateData() {
       try {
         let headers = {
@@ -528,6 +529,11 @@ const TeachersCalendarScreenBuild = () => {
     setEnteredTitle("");
     setFromText("");
     setToText("");
+
+    setLabel(false);
+    setDescriptionLabel(false);
+    setIsTitleFocused(false);
+    setIsDescFocused(false);
   }
   function showCalendar() {
     async function fetchData() {
@@ -760,7 +766,7 @@ const TeachersCalendarScreenBuild = () => {
                   style={
                     isFromDateFocused
                       ? styles.focusStyle
-                      : fromDateInputIsInValid && styles.errorBorderColor
+                      : fromDateInputIsInValid && styles.errorBorderColorDate
                   }
                   blur={fromDateBlurHandler}
                   onFocus={onFocusFromHandler}
@@ -807,7 +813,7 @@ const TeachersCalendarScreenBuild = () => {
                   style={
                     isToDateFocused
                       ? styles.focusStyle
-                      : toDateInputIsInValid && styles.errorBorderColor
+                      : toDateInputIsInValid && styles.errorBorderColorDate
                   }
                   blur={toDateBlurHandler}
                   onFocus={onFocusToHandler}
@@ -856,14 +862,16 @@ const TeachersCalendarScreenBuild = () => {
       >
         <View style={{ flex: 8, bottom: 5 }}>
           <ScrollView>
-            <SearchBar
-              onSubmitEditing={Keyboard.dismiss}
-              style={styles.searchBar}
-              textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
-              placeholder="Search here"
-              onChangeText={(text) => searchFilter(text)}
-              value={searchText}
-            />
+            {showList && (
+              <SearchBar
+                onSubmitEditing={Keyboard.dismiss}
+                style={styles.searchBar}
+                textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
+                placeholder="Search here"
+                onChangeText={(text) => searchFilter(text)}
+                value={searchText}
+              />
+            )}
             {showList &&
               filteredData &&
               filteredData.map((filteredData, key) => (
@@ -1058,6 +1066,9 @@ const styles = StyleSheet.create({
   errorBorderColor: {
     borderColor: "red",
   },
+  errorBorderColorDate: {
+    borderBottomColor: "red",
+  },
 
   btnSubmit: {
     marginTop: deviceHieght < 600 ? "5%" : "30%",
@@ -1129,7 +1140,9 @@ const styles = StyleSheet.create({
   },
   submitLabel: {
     color: "grey",
+    color: "#AEB6BF",
     backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
@@ -1155,11 +1168,11 @@ const styles = StyleSheet.create({
   test: {
     position: "absolute",
     top: deviceWidth < 370 ? 2 : 10,
-    left: deviceWidth < 370 ? 40 : 50,
+    left: deviceWidth < 370 ? 40 : 43,
   },
   testSuccess: {
     position: "absolute",
-    top: deviceWidth < 370 ? 28 : 35,
+    top: deviceWidth < 370 ? 28 : 37,
     left: 40,
   },
   descriptionUp: {
@@ -1169,7 +1182,7 @@ const styles = StyleSheet.create({
   },
   descriptionDown: {
     position: "absolute",
-    top: deviceWidth < 370 ? 93 : 115,
+    top: deviceWidth < 370 ? 93 : 113,
     left: 40,
   },
   descriptionUpExtra: {

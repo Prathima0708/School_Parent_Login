@@ -1086,6 +1086,7 @@ const TeachersMarksheet = () => {
                 flexDirection: "row",
                 marginHorizontal: 10,
                 marginVertical: 20,
+              
               }}
             >
               <View style={{ flex: 1.5, right: 10 }}>
@@ -1599,7 +1600,7 @@ const styles = StyleSheet.create({
 
     width: "100%",
 
-    // backgroundColor: "#FDFEFE",
+   // backgroundColor: "#FDFEFE",
   },
   tableBtn: {
     marginLeft: -15,
@@ -1626,14 +1627,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginHorizontal: 10,
     marginVertical: 10,
-    backgroundColor: "#F4F6F7",
-    height: "100%",
+   // backgroundColor: "white",
+    // height: "100%",
   },
   errorBorderColor: {
     borderColor: "red",
   },
   btnSubmit: {
     marginTop: 30,
+    //marginBottom: 30,
+    width: "50%",
+    marginLeft: deviceWidth < 370 ? 170 : 180,
+  },
+  btnSubmit1: {
+    //marginTop: 30,
     //marginBottom: 30,
     width: "50%",
     marginLeft: deviceWidth < 370 ? 170 : 180,

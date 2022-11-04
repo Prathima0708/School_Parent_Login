@@ -29,7 +29,7 @@ const TecahersExamTimeTable = () => {
   const [examLabel, setExamLabel] = useState(false);
   const [totalLabel, setTotalLabel] = useState(false);
   const [hourLabel, setHourLabel] = useState(false);
-  
+
   const [btn, subBtn] = useState(false);
   const [isExamnameFocused, setIsExamnameFocused] = useState(false);
   const [isFromFocused, setIsFromFocused] = useState(false);
@@ -143,7 +143,6 @@ const TecahersExamTimeTable = () => {
   }, []);
 
   function updateHandler() {
-
     let selectedData = selectedExamTimeTable.split(" - ");
     let class_name = selectedData[0];
     let section = selectedData[1];
@@ -180,7 +179,7 @@ const TecahersExamTimeTable = () => {
       }
     }
     storeData();
-  
+
     // if (
     //   !enteredExamNameIsValid ||
     //   !enteredMarksIsValid ||
@@ -194,35 +193,36 @@ const TecahersExamTimeTable = () => {
     //   }
     // }]);
 
-    if (!enteredExamNameIsValid || !enteredMarksIsValid || ! enteredHourIsValid) {
+    if (
+      !enteredExamNameIsValid ||
+      !enteredMarksIsValid ||
+      !enteredHourIsValid
+    ) {
       Alert.alert("Please enter all fields");
     } else {
-    setShowExamList(true);
-    setShowForm(false);
-    setShowAddBtn(true);
+      setShowExamList(true);
+      setShowForm(false);
+      setShowAddBtn(true);
       Alert.alert("Successfully updated", "", [
         {
           text: "OK",
           onPress: () => {
             fetchData();
-            
           },
         },
       ]);
+    }
 
-    } 
-
-      async function fetchData() {
-        try {
-          const res = await axios.get(`http://10.0.2.2:8000/school/Exam/`);
-          setShowExamData(res.data);
-          setFilteredData(res.data);
-        } catch (error) {
-          console.log(error);
-        }
+    async function fetchData() {
+      try {
+        const res = await axios.get(`http://10.0.2.2:8000/school/Exam/`);
+        setShowExamData(res.data);
+        setFilteredData(res.data);
+      } catch (error) {
+        console.log(error);
       }
-      fetchData();
-    
+    }
+    fetchData();
 
     // setEnteredExamName("");
     // setFromText("");
@@ -329,6 +329,7 @@ const TecahersExamTimeTable = () => {
       setEnteredSelectedTouched(false);
       setShowExamList(true);
       setShowForm(false);
+      setShowAddBtn(true);
     }
   }
   function examNameChangeHandler(enteredValue) {
@@ -398,7 +399,7 @@ const TecahersExamTimeTable = () => {
     setExamLabel(false);
     setTotalLabel(false);
     setHourLabel(false);
-    setShowAddBtn(true);
+    setShowAddBtn(false);
     setShowForm(true);
     setShowExamList(false);
     setEnteredExamName("");
@@ -797,7 +798,7 @@ const TecahersExamTimeTable = () => {
                   }}
                 />
                 {selectInputIsInValid && (
-                  <Text style={{ color: "red", left: 20 }}>Enter class</Text>
+                  <Text style={styles.commonErrorMsg}>Enter class</Text>
                 )}
               </View>
             )}
@@ -830,16 +831,7 @@ const TecahersExamTimeTable = () => {
               />
             </View>
             {selectExamNameIsInValid && (
-              <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: deviceWidth < 370 ? 14 : 18,
-                }}
-              >
-                Enter exam name
-              </Text>
+              <Text style={styles.commonErrorMsg}>Enter exam name</Text>
             )}
             <View
               style={[
@@ -875,22 +867,13 @@ const TecahersExamTimeTable = () => {
                   style={
                     isFromFocused
                       ? styles.focusStyle
-                      : fromDateInputIsInValid && styles.errorBorderColor
+                      : fromDateInputIsInValid && styles.errorBorderColorDate
                   }
                   onChangeText={fromDateChangeHandler}
                   onPressIn={() => showFromMode("date")}
                 />
                 {fromDateInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      left: 20,
-                      fontFamily: "HindRegular",
-                      fontSize: deviceWidth < 370 ? 14 : 18,
-                    }}
-                  >
-                    Enter from date
-                  </Text>
+                  <Text style={styles.commonErrorMsg}>select from date</Text>
                 )}
                 {fromShow && (
                   <DateTimePicker
@@ -930,21 +913,12 @@ const TecahersExamTimeTable = () => {
                   style={
                     isToFocused
                       ? styles.focusStyle
-                      : toDateInputIsInValid && styles.errorBorderColor
+                      : toDateInputIsInValid && styles.errorBorderColorDate
                   }
                   onPressIn={() => showToMode("date")}
                 />
                 {toDateInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      left: 20,
-                      fontFamily: "HindRegular",
-                      fontSize: deviceWidth < 370 ? 14 : 18,
-                    }}
-                  >
-                    Enter to date
-                  </Text>
+                  <Text style={styles.commonErrorMsg}>select to date</Text>
                 )}
                 {toShow && (
                   <DateTimePicker
@@ -995,16 +969,7 @@ const TecahersExamTimeTable = () => {
               />
             </View>
             {marksInputIsInValid && (
-              <Text
-                style={[
-                  btn
-                    ? styles.topExtra
-                    : (styles.errorText,
-                      { bottom: 10, color: "red", left: 30 }),
-                ]}
-              >
-                Enter total marks
-              </Text>
+              <Text style={styles.commonErrorMsg}>Enter total marks</Text>
             )}
             <View>
               <View style={!hourLabel ? styles.normalHour : styles.upHour}>
@@ -1037,18 +1002,7 @@ const TecahersExamTimeTable = () => {
               />
             </View>
             {hourInputIsInValid && (
-              <Text
-                style={[
-                  btn
-                    ? styles.topExtra
-                    : (styles.errorText,
-                      marksInputIsInValid
-                        ? { bottom: 10, left: 30, color: "red" }
-                        : { top: 430 }),
-                ]}
-              >
-                Enter hour
-              </Text>
+              <Text style={styles.commonErrorMsg}>Enter hour</Text>
             )}
 
             {!isEdit && (
@@ -1237,8 +1191,9 @@ const styles = StyleSheet.create({
 
   normal: {
     position: "absolute",
-    top: deviceWidth < 370 ? 23 : 30,
+    top: deviceWidth < 370 ? 23 : 28,
     left: deviceWidth < 370 ? 20 : 30,
+    fontFamily: "HindRegular",
   },
   up: {
     top: deviceWidth < 370 ? 15 : 25,
@@ -1259,7 +1214,7 @@ const styles = StyleSheet.create({
 
   normalHour: {
     position: "absolute",
-    top: deviceWidth < 370 ? 22 : 27,
+    top: deviceWidth < 370 ? 22 : 25,
     left: deviceWidth < 370 ? 20 : 30,
   },
   upHour: {
@@ -1271,14 +1226,17 @@ const styles = StyleSheet.create({
   errorLabel: {
     color: "red",
     backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
   normalLabel: {
     color: "grey",
     backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
+    fontFamily: "HindRegular",
   },
   errorText: {
     color: "red",
@@ -1296,5 +1254,20 @@ const styles = StyleSheet.create({
     bottom: 10,
     left: deviceWidth < 370 ? 20 : 30,
     color: "red",
+  },
+  searchBar: {
+    marginTop: 10,
+    marginBottom: 20,
+
+    backgroundColor: "#F0F3F4",
+  },
+  commonErrorMsg: {
+    color: "red",
+    left: 20,
+    fontFamily: "HindRegular",
+    fontSize: deviceWidth < 370 ? 14 : 17,
+  },
+  errorBorderColorDate: {
+    borderBottomColor: "red",
   },
 });

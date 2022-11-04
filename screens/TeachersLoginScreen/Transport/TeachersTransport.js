@@ -194,7 +194,7 @@ const TeachersTransport = () => {
       vehicleno: vehicleno,
       types: type,
       driver_name: drivername,
-      emp_mobile: mobile,
+      emp_mobile: mobile.toString(),
       route_name: routename,
       stop_name: stopname,
     };
@@ -761,8 +761,7 @@ const TeachersTransport = () => {
                   </Text>
                 </View>
                 <Input
-                  // keyboardType="number-pad"
-
+                  keyboardType="number-pad"
                   onChangeText={busNumberChangeHandler}
                   blur={busnumberInputBlur}
                   onFocus={onFocusBusHandler}
@@ -794,6 +793,7 @@ const TeachersTransport = () => {
                     </Text>
                   </View>
                   <Input
+                    keyboardType="number-pad"
                     onChangeText={vehicleChangeHandler}
                     blur={vehicleInputBlur}
                     onFocus={onFocusVehHandler}

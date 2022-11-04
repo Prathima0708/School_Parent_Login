@@ -841,15 +841,16 @@ const TeachersLeaveScreenBuild = () => {
 
       {showList && (
         <>
-          <SearchBar
-            onSubmitEditing={Keyboard.dismiss}
-            style={styles.searchBar}
-            textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
-            placeholder="Search here by leave type"
-            onChangeText={(text) => searchFilter(text)}
-            value={searchText}
-          />
-
+          <View style={{ backgroundColor: "white" }}>
+            <SearchBar
+              onSubmitEditing={Keyboard.dismiss}
+              style={styles.searchBar}
+              textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
+              placeholder="Search here by leave type"
+              onChangeText={(text) => searchFilter(text)}
+              value={searchText}
+            />
+          </View>
           <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
             <View style={{ flex: 8, bottom: 10 }}>
               <ScrollView>
@@ -1124,6 +1125,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: deviceWidth < 370 ? 23 : 27,
     left: deviceWidth < 370 ? 20 : 30,
+    fontFamily: "HindRegular",
   },
   up: {
     top: deviceWidth < 370 ? 16 : 24,
@@ -1139,10 +1141,12 @@ const styles = StyleSheet.create({
   },
   normalLabel: {
     color: "grey",
+    //color: "#AEB6BF",
     backgroundColor: "#F2F2F2",
     backgroundColor: "white",
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
+    fontFamily: "HindRegular",
   },
 
   normalRemark: {

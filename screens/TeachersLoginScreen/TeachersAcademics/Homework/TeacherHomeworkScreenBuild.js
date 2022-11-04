@@ -704,6 +704,10 @@ const TeacherHomeworkScreenBuild = () => {
     setEnteredtoDateTouched(false);
     setEnteredImageTouched(false);
     setIsEdit(false);
+
+    setSubLabel(false);
+    setRemarkLabel(false);
+    setHomeworkLabel(false);
   }
   function showHomework() {
     async function fetchData() {
@@ -748,7 +752,7 @@ const TeacherHomeworkScreenBuild = () => {
     // setEnteredSection(filteredDummuyData.section);
     //  setEnteredSubject(filteredDummuyData.subject);
     setFromText(moment(filteredDummuyData.homework_date).format("DD/MM/YYYY"));
-    setFromText(moment(filteredDummuyData.due_date).format("DD/MM/YYYY"));
+    setToText(moment(filteredDummuyData.due_date).format("DD/MM/YYYY"));
     // moment(filteredDummuyData.due_date).format('DD/MM/YYYY')
     setEnteredRemark(filteredDummuyData.remark);
     setHW(filteredDummuyData.homework);
