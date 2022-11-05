@@ -586,10 +586,10 @@ const TecahersExamTimeTable = () => {
           </Button>
         </View>
       )}
-      <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
-        {/* <View style={{ flex: 8, bottom: 5 }}> */}
-        <ScrollView>
-          {showaddBtn && (
+      {showExamList && (
+            <>
+              <View style={{ backgroundColor: "white" }}>
+                
             <SearchBar
               onSubmitEditing={Keyboard.dismiss}
               style={styles.searchBar}
@@ -601,12 +601,15 @@ const TecahersExamTimeTable = () => {
               onChangeText={(text) => searchFilter(text)}
               value={searchText}
             />
-          )}
-          {showExamList &&
-            filteredData &&
-            filteredData.map((data, key) => (
-              <>
-                <Card
+            </View>
+            <View style={[{ flex: 1 }, { flexDirection: "column",backgroundColor:'white' }]}>
+              <View style={{ flex: 8, bottom: 10 }}>
+                <ScrollView>
+                  <View style={styles.root}>
+                    {filteredData &&
+                      filteredData.map((data,key) => (
+                      <>
+                          <Card
                   style={{
                     marginTop: 20,
                     marginVertical: 1,
@@ -759,11 +762,19 @@ const TecahersExamTimeTable = () => {
                     </View>
                   </Card.Content>
                 </Card>
-              </>
-            ))}
-        </ScrollView>
-        {/* </View> */}
-      </View>
+                      </>
+                    ))}
+                  </View>
+                </ScrollView>
+              </View>
+            {keyboardStatus == "Keyboard Hidden" && (
+              <View style={{ flex: 1.2 }}>
+                <TeachersHome />
+              </View>
+            )}
+          </View>
+            </>
+          )}
 
       {showform && (
         <ScrollView>

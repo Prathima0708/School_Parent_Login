@@ -1085,7 +1085,7 @@ const TeachersMarksheet = () => {
               style={{
                 flexDirection: "row",
                 marginHorizontal: 10,
-                marginVertical: 20,
+                marginVertical: 5,
               
               }}
             >
@@ -1634,7 +1634,7 @@ const styles = StyleSheet.create({
     borderColor: "red",
   },
   btnSubmit: {
-    marginTop: 30,
+    marginTop: 5,
     //marginBottom: 30,
     width: "50%",
     marginLeft: deviceWidth < 370 ? 170 : 180,
@@ -1746,7 +1746,7 @@ const styles = StyleSheet.create({
   },
   normal: {
     position: "absolute",
-    top: 20,
+    top: 16,
     left: 10,
   },
   up: {

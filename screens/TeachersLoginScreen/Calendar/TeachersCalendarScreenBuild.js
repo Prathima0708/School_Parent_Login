@@ -854,38 +854,41 @@ const TeachersCalendarScreenBuild = () => {
           </View>
         </ScrollView>
       )}
-      <View
-        style={[
-          { flex: 1 },
-          { flexDirection: "column", backgroundColor: "white" },
-        ]}
-      >
-        <View style={{ flex: 8, bottom: 5 }}>
-          <ScrollView>
-            {showList && (
-              <SearchBar
-                onSubmitEditing={Keyboard.dismiss}
-                style={styles.searchBar}
-                textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
-                placeholder="Search here"
-                onChangeText={(text) => searchFilter(text)}
-                value={searchText}
-              />
-            )}
-            {showList &&
-              filteredData &&
-              filteredData.map((filteredData, key) => (
-                <>
-                  <Card
-                    key={key}
-                    style={{
-                      marginVertical: 15,
-                      marginHorizontal: 20,
-                      elevation: 5,
-                      borderRadius: 10,
-                      paddingBottom: 20,
-                    }}
-                  >
+        {showList && <View style={{ backgroundColor: "white" }}>
+          <SearchBar
+                  // style={
+                  //   keyboardStatus == "Keyboard Shown"
+                  //     ? styles.upSearch
+                  //     : styles.searchBar
+                  // }
+                  style={styles.searchBar}
+                  textInputStyle={{
+                    fontFamily: "HindRegular",
+                    fontSize: 18,
+                  }}
+                  placeholder="Search here"
+                  onChangeText={(text) => searchFilter(text)}
+                  value={searchText}
+          />
+        </View>}
+          {showList && <View style={[{ flex: 1 }, { flexDirection: "column",backgroundColor:'white' }]}>
+            <View style={{ flex: 8, bottom: 10 }}>
+              <ScrollView>
+                <View style={styles.root}>
+                  {filteredData &&
+                    filteredData.map((filteredData) => (
+                      <>
+                        <View>
+                        <Card
+                        // key={key}
+                        style={{
+                          marginVertical: 15,
+                          marginHorizontal: 20,
+                          elevation: 5,
+                          borderRadius: 10,
+                          paddingBottom: 20,
+                        }}
+                      >
                     <Card.Content style={{ margin: 5, marginTop: 0 }}>
                       <Text style={styles.eventName}>
                         {filteredData.titlee}
@@ -1004,16 +1007,18 @@ const TeachersCalendarScreenBuild = () => {
                       </View>
                     </Card.Content>
                   </Card>
-                </>
-              ))}
-          </ScrollView>
-        </View>
-        {keyboardStatus == "Keyboard Hidden" && (
-          <View style={{ flex: 1 }}>
-            <TeachersHome />
-          </View>
-        )}
-      </View>
+                              </View>
+                      </>
+                    ))}
+                </View>
+              </ScrollView>
+            </View>
+            {keyboardStatus == "Keyboard Hidden" && (
+              <View style={{ flex: 1 }}>
+                <TeachersHome />
+              </View>
+            )}
+          </View>}
     </>
   );
 };

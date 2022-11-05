@@ -721,26 +721,7 @@ const TeachersTransport = () => {
                 Show list
               </BgButton>
             </View>
-            // <View
-            //   style={[
-            //     { flexDirection: "row", height: "13%", marginHorizontal: 10 },
-            //   ]}
-            // >
-            //   <View
-            //     style={{ flex: 1, backgroundColor: "white", width: "100%" }}
-            //   >
-            //     <BgButton onPress={showTransportForm} style={forTransportList}>
-            //       Add Transport
-            //     </BgButton>
-            //   </View>
-            //   <View
-            //     style={{ flex: 1, backgroundColor: "white", width: "100%" }}
-            //   >
-            //     <BgButton onPress={showTransport} style={forTransportForm}>
-            //       Show Transport
-            //     </BgButton>
-            //   </View>
-            // </View>
+
           )}
           {showForm && (
             <ScrollView style={styles.root}>
@@ -1014,49 +995,49 @@ const TeachersTransport = () => {
               </View>} */}
           {showList && (
             <>
-              <View style={{ backgroundColor: "white", height: "100%" }}>
+              <View style={{ backgroundColor: "white" }}>
                 <SearchBar
-                  // onSubmitEditing={Keyboard.dismiss}
-                  style={
-                    keyboardStatus == "Keyboard Shown"
-                      ? styles.upSearch
-                      : styles.searchBar
-                  }
-                  textInputStyle={{
-                    fontFamily: "HindRegular",
-                    fontSize: 18,
-                  }}
-                  placeholder="Search here"
-                  onChangeText={(text) => searchFilter(text)}
-                  value={searchText}
-                />
-                <View style={styles.flexStyleCol}>
-                  <View style={{ flex: 8, bottom: 10 }}>
-                    <ScrollView>
-                      <View style={styles.root}>
-                        {filteredData &&
-                          filteredData.map((data, key) => (
-                            <>
-                              <View>
-                                <Card style={styles.card} key={key}>
-                                  <Card.Content style={{ marginTop: 0 }}>
-                                    <View style={styles.flexStyleRow}>
-                                      <View
-                                        style={{ flex: 2, left: 20, top: 5 }}
-                                      >
-                                        <Text style={[styles.cardTextStyle]}>
-                                          Driver Name
-                                        </Text>
-                                      </View>
-                                      <View
-                                        style={{ flex: 2, left: 40, top: 5 }}
-                                      >
-                                        <Text style={styles.cardData}>
-                                          {data.driver_name}
-                                        </Text>
-                                      </View>
-                                    </View>
-
+                    // style={
+                    //   keyboardStatus == "Keyboard Shown"
+                    //     ? styles.upSearch
+                    //     : styles.searchBar
+                    // }
+                    style={styles.searchBar}
+                    textInputStyle={{
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                    placeholder="Search here"
+                    onChangeText={(text) => searchFilter(text)}
+                    value={searchText}
+                  />
+            </View>
+            <View style={[{ flex: 1 }, { flexDirection: "column",backgroundColor:'white' }]}>
+              <View style={{ flex: 8, bottom: 10 }}>
+                <ScrollView>
+                  <View style={styles.root}>
+                    {filteredData &&
+                      filteredData.map((data) => (
+                      <>
+                          <View>
+                            <Card style={styles.card}>
+                              <Card.Content style={{ marginTop: 0 }}>
+                                <View style={styles.flexStyleRow}>
+                                  <View
+                                    style={{ flex: 2, left: 20, top: 5 }}
+                                  >
+                                    <Text style={[styles.cardTextStyle]}>
+                                      Driver Name
+                                    </Text>
+                                  </View>
+                                  <View
+                                    style={{ flex: 2, left: 40, top: 5 }}
+                                  >
+                                    <Text style={styles.cardData}>
+                                      {data.driver_name}
+                                    </Text>
+                                  </View>
+                                  </View>
                                     <View style={styles.flexStyleRow}>
                                       <View
                                         style={{ flex: 2, left: 20, top: 5 }}
@@ -1073,7 +1054,6 @@ const TeachersTransport = () => {
                                         </Text>
                                       </View>
                                     </View>
-
                                     <View style={styles.flexStyleRow}>
                                       <View
                                         style={{ flex: 2, left: 20, top: 5 }}
@@ -1138,21 +1118,20 @@ const TeachersTransport = () => {
                                   </Card.Content>
                                 </Card>
                               </View>
-                            </>
-                          ))}
-                      </View>
-                    </ScrollView>
+                      </>
+                    ))}
                   </View>
-                </View>
+                </ScrollView>
               </View>
+            {keyboardStatus == "Keyboard Hidden" && (
+              <View style={{ flex: 1 }}>
+                <TeachersHome />
+              </View>
+            )}
+          </View>
             </>
           )}
         </View>
-        {keyboardStatus == "Keyboard Hidden" && (
-          <View style={{ flex: 1, backgroundColor: "white" }}>
-            <TeachersHome />
-          </View>
-        )}
       </View>
     </>
   );
