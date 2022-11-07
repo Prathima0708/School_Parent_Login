@@ -1139,8 +1139,8 @@ const styles = StyleSheet.create({
     color: "#AEB6BF",
     // backgroundColor: "#F2F2F2",
     backgroundColor: "white",
-    paddingHorizontal: 15,
-    bottom: 5,
+    paddingHorizontal: 5,
+    // bottom: 0,
     fontSize: deviceWidth < 370 ? 13 : 16,
   },
   submitLabel: {
@@ -1173,22 +1173,22 @@ const styles = StyleSheet.create({
   test: {
     position: "absolute",
     top: deviceWidth < 370 ? 2 : 10,
-    left: deviceWidth < 370 ? 40 : 43,
+    left: deviceWidth < 370 ? 40 : 50,
   },
   testSuccess: {
     position: "absolute",
-    top: deviceWidth < 370 ? 28 : 37,
-    left: 40,
+    top: deviceWidth < 370 ? 28 : 32,
+    left: 50,
   },
   descriptionUp: {
     position: "absolute",
-    top: deviceWidth < 370 ? 68 : 90,
+    top: deviceWidth < 370 ? 68 : 87,
     left: deviceWidth < 370 ? 40 : 50,
   },
   descriptionDown: {
     position: "absolute",
-    top: deviceWidth < 370 ? 93 : 113,
-    left: 40,
+    top: deviceWidth < 370 ? 93 : 107,
+    left: 50,
   },
   descriptionUpExtra: {
     position: "absolute",
@@ -1198,7 +1198,7 @@ const styles = StyleSheet.create({
   descriptionDownExtra: {
     position: "absolute",
     top: deviceWidth < 370 ? 115 : 137,
-    left: 40,
+    left: 50,
   },
   commonErrorMsg: {
     color: "red",

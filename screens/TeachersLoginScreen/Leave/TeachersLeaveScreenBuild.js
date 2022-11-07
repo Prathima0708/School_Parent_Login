@@ -1171,6 +1171,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
+    top:15
   },
   normalLabel: {
     color: "grey",
@@ -1188,7 +1189,7 @@ const styles = StyleSheet.create({
     left: deviceWidth < 370 ? 20 : 30,
   },
   upRemark: {
-    top: deviceWidth < 370 ? 15 : 43,
+    top: deviceWidth < 370 ? 15 : 27,
     left: deviceWidth < 370 ? 20 : 30,
     width: deviceWidth < 370 ? 90 : 100,
   },

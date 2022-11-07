@@ -447,16 +447,17 @@ const TeacherHomeworkScreenBuild = () => {
     setHW("");
     setShowForm(false);
     setShowList(true);
-    setForHomeworkList({
-      backgroundColor: "#0C60F4",
-      color: "white",
-      borderRadius: 10,
-    });
-    setForHomeworkForm({
-      color: "white",
-      backgroundColor: "#1E8449",
-      borderRadius: 10,
-    });
+    // setForHomeworkList({
+    //   backgroundColor: "#0C60F4",
+    //   color: "white",
+    //   borderRadius: 10,
+    // });
+    // setForHomeworkForm({
+    //   color: "white",
+    //   backgroundColor: "#1E8449",
+    //   borderRadius: 10,
+    // });
+    setShowInitialBtn(true);
     // }
   }
 

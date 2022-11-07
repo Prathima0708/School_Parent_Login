@@ -8,6 +8,7 @@ import {
   Alert,
   Dimensions,
   TouchableHighlight,
+  Animated,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Button from "../../../components/UI/Button";
@@ -35,8 +36,17 @@ const TeachersTransport = () => {
   const [rootLabel, setRootLabel] = useState(false);
   const [stopLabel, setStopLabel] = useState(false);
 
+  const scrollY=new Animated.Value(0)
+  const diffClamp=Animated.diffClamp(scrollY,0,45)
+  const translateY=diffClamp.interpolate({
+    inputRange:[0,45],
+    outputRange:[0,-77]
+  })
+
   const [top, setTop] = useState(false);
   const [btn, setBtn] = useState(false);
+
+  // const [offset,SetOffset]=useState(0)
 
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
@@ -199,28 +209,6 @@ const TeachersTransport = () => {
       stop_name: stopname,
     };
 
-    async function updateData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
-
-        const resLogin = await axios.put(
-          `http://10.0.2.2:8000/school/Transportreport/${ID}/`,
-          FormData,
-          {
-            headers: headers,
-          }
-        );
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
-        console.log(resLogin.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    updateData();
-
     if (
       !enteredBusnumberIsValid ||
       !enteredVehicleNoIsValid ||
@@ -231,6 +219,28 @@ const TeachersTransport = () => {
     ) {
       Alert.alert("Please enter all fields");
     } else {
+      async function updateData() {
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+          };
+  
+          const resLogin = await axios.put(
+            `http://10.0.2.2:8000/school/Transportreport/${ID}/`,
+            FormData,
+            {
+              headers: headers,
+            }
+          );
+          // const token = resLogin.data.token;
+          // const userId = resLogin.data.user_id;
+          console.log(resLogin.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      updateData();
+
       setShowForm(false);
       setShowList(true);
       Alert.alert("Successfully updated", "", [
@@ -707,12 +717,25 @@ const TeachersTransport = () => {
       setSearchText(text);
     }
   };
+
+  // function scrollHanlder(event){
+  //   var currentOffset = event.nativeEvent.contentOffset.y;
+  //   var direction = currentOffset > offset ? 'down' : 'up';
+  //   if(direction == 'down') {
+  //       setShowInitialBtn(false)
+  //   } else {
+  //     setShowInitialBtn(true)
+  //   }
+  // }
   return (
     <>
       <View style={styles.flexStyleCol}>
         <View style={{ flex: 8 }}>
           {showInitialBtn && (
-            <View style={styles.BtnContainer}>
+            // <Animated.View style={{transform:[
+            //   {translateY:translateY}
+            // ]}}>
+              <View style={styles.BtnContainer}>
               <BgButton onPress={showTransportForm} style={forTransportList}>
                 Add Transport
               </BgButton>
@@ -721,6 +744,7 @@ const TeachersTransport = () => {
                 Show list
               </BgButton>
             </View>
+            // </Animated.View>
 
           )}
           {showForm && (
@@ -995,7 +1019,10 @@ const TeachersTransport = () => {
               </View>} */}
           {showList && (
             <>
-              <View style={{ backgroundColor: "white" }}>
+            {/* <Animated.View style={{transform:[
+              {translateY:translateY}
+            ]}}> */}
+            <View style={{ backgroundColor: "white" }}>
                 <SearchBar
                     // style={
                     //   keyboardStatus == "Keyboard Shown"
@@ -1012,15 +1039,21 @@ const TeachersTransport = () => {
                     value={searchText}
                   />
             </View>
+            {/* </Animated.View> */}
             <View style={[{ flex: 1 }, { flexDirection: "column",backgroundColor:'white' }]}>
-              <View style={{ flex: 8, bottom: 10 }}>
-                <ScrollView>
-                  <View style={styles.root}>
+              <View style={{ flex: 8, bottom: 10, }}>
+                <ScrollView
+                //  onScroll={scrollHanlder}
+                // onScroll={((e)=>{
+                //   scrollY.setValue(e.nativeEvent.contentOffset.y)
+                // })}
+                >
+                  <View style={[styles.root]}>
                     {filteredData &&
                       filteredData.map((data) => (
                       <>
                           <View>
-                            <Card style={styles.card}>
+                            <Card style={[styles.card]}>
                               <Card.Content style={{ marginTop: 0 }}>
                                 <View style={styles.flexStyleRow}>
                                   <View
@@ -1281,7 +1314,7 @@ const styles = StyleSheet.create({
   },
   upVeh: {
     top: deviceWidth < 370 ? 15 : 25,
-    width: deviceWidth < 370 ? 100 : 120,
+    width: deviceWidth < 370 ? 100 : 129,
     left: deviceWidth < 370 ? 20 : 30,
     color: "black",
     height: 20,
@@ -1305,7 +1338,7 @@ const styles = StyleSheet.create({
   },
   upType: {
     top: deviceWidth < 370 ? 15 : 25,
-    width: deviceWidth < 370 ? 100 : 120,
+    width: deviceWidth < 370 ? 100 : 130,
     left: deviceWidth < 370 ? 20 : 30,
     fontFamily: "HindRegular",
   },
@@ -1318,7 +1351,7 @@ const styles = StyleSheet.create({
   },
   upDriver: {
     top: deviceWidth < 370 ? 15 : 25,
-    width: deviceWidth < 370 ? 90 : 100,
+    width: deviceWidth < 370 ? 90 : 108,
     left: deviceWidth < 370 ? 20 : 35,
     fontFamily: "HindRegular",
   },
@@ -1331,7 +1364,7 @@ const styles = StyleSheet.create({
   },
   upMob: {
     top: deviceWidth < 370 ? 15 : 25,
-    width: deviceWidth < 370 ? 100 : 120,
+    width: deviceWidth < 370 ? 100 : 130,
     left: deviceWidth < 370 ? 20 : 30,
     fontFamily: "HindRegular",
   },
@@ -1345,7 +1378,7 @@ const styles = StyleSheet.create({
   upRoot: {
     top: deviceWidth < 370 ? 15 : 29,
     left: deviceWidth < 370 ? 20 : 30,
-    width: deviceWidth < 370 ? 80 : 100,
+    width: deviceWidth < 370 ? 80 : 115,
     fontFamily: "HindRegular",
   },
 
@@ -1359,7 +1392,7 @@ const styles = StyleSheet.create({
     // position:'absolute',
     top: deviceWidth < 370 ? 15 : 27,
     left: deviceWidth < 370 ? 25 : 37,
-    width: deviceWidth < 370 ? 80 : 90,
+    width: deviceWidth < 370 ? 80 : 100,
     fontFamily: "HindRegular",
   },
 

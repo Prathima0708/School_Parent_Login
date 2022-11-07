@@ -1028,14 +1028,25 @@ const TeachersTimetable = () => {
     updateData();
     // setShowTimeTableList(false);
     // setShowTable(true);
-    Alert.alert("Successfully updated", "", [
-      {
-        text: "OK",
-        onPress: () => {
-          fetchData();
-        },
-      },
-    ]);
+    if(!enteredMondayIsValid || !enteredTuesdayIsValid || !enteredWednesdayIsValid ||
+        !enteredThursdayIsValid || !enteredFridayIsValid || !enteredSaturdayIsValid ||!enteredFromTimeIsValid
+        || !enteredToTimeIsValid){
+          Alert.alert("Please enter all fields");
+          // setShowTable(true);
+          // setShowTimeTableList(false);
+        }else{
+          setShowTable(false);
+          setShowTimeTableList(true);
+          Alert.alert("Successfully updated", "", [
+            {
+              text: "OK",
+              onPress: () => {
+                fetchData();
+              },
+            },
+          ]);
+        }
+
 
     async function fetchData() {
       try {
@@ -1048,8 +1059,8 @@ const TeachersTimetable = () => {
       }
     }
     fetchData();
-    setShowTable(false);
-    setShowTimeTableList(true);
+    // setShowTable(false);
+    // setShowTimeTableList(true);
   }
 
   function cancelHandler() {
@@ -1832,7 +1843,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
 
     width: "100%",
-
+    marginHorizontal:-10,
     backgroundColor: "#FDFEFE",
   },
   year: {
