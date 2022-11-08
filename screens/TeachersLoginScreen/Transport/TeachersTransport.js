@@ -36,17 +36,30 @@ const TeachersTransport = () => {
   const [rootLabel, setRootLabel] = useState(false);
   const [stopLabel, setStopLabel] = useState(false);
 
-  // const scrollY=new Animated.Value(0)
-  // const diffClamp=Animated.diffClamp(scrollY,0,45)
-  // const translateY=diffClamp.interpolate({
-  //   inputRange:[0,45],
-  //   outputRange:[0,-77]
-  // })
+  const scrollY = new Animated.Value(0);
+
+  const diffClamp = Animated.diffClamp(scrollY, 0, 100);
+
+
+  const headermax = 100;
+  const headermin = 10;
+
+  const animateHeaderBackGround = scrollY.interpolate({
+    inputRange: [0, headermax - headermin],
+    outputRange: ["white", "white"],
+    extrapolate: "clamp",
+  });
+
+  const animateHeaderHeight = diffClamp.interpolate({
+    inputRange: [0, headermax - headermin],
+    outputRange: [headermax, headermin],
+    extrapolate: "clamp",
+  });
 
   const [top, setTop] = useState(false);
   const [btn, setBtn] = useState(false);
 
-  // const [offset,SetOffset]=useState(0)
+  const [offset, SetOffset] = useState(0);
 
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
@@ -224,7 +237,7 @@ const TeachersTransport = () => {
           let headers = {
             "Content-Type": "application/json; charset=utf-8",
           };
-  
+
           const resLogin = await axios.put(
             `http://10.0.2.2:8000/school/Transportreport/${ID}/`,
             FormData,
@@ -718,296 +731,315 @@ const TeachersTransport = () => {
     }
   };
 
-  // function scrollHanlder(event){
-  //   var currentOffset = event.nativeEvent.contentOffset.y;
-  //   var direction = currentOffset > offset ? 'down' : 'up';
-  //   if(direction == 'down') {
-  //       setShowInitialBtn(false)
-  //   } else {
-  //     setShowInitialBtn(true)
-  //   }
-  // }
+  function scrollHanlder(event) {
+    var currentOffset = event.nativeEvent.contentOffset.y;
+    var direction = currentOffset > offset ? "down" : "up";
+    if (direction == "down") {
+      setShowInitialBtn(false);
+    } else {
+      setShowInitialBtn(true);
+    }
+  }
   return (
     <>
       <View style={styles.flexStyleCol}>
         <View style={{ flex: 8 }}>
           {showInitialBtn && (
-           
+            <Animated.View
+              style={[
+                {
+                  height: animateHeaderHeight,
+                  backgroundColor: animateHeaderBackGround,
+                },
+              ]}
+            >
               <View style={styles.BtnContainer}>
-              <BgButton onPress={showTransportForm} style={forTransportList}>
-                Add Transport
-              </BgButton>
+                <BgButton onPress={showTransportForm} style={forTransportList}>
+                  Add Transport
+                </BgButton>
 
-              <BgButton onPress={showTransport} style={forTransportForm}>
-                Show list
-              </BgButton>
-            </View>
-            
-
+                <BgButton onPress={showTransport} style={forTransportForm}>
+                  Show list
+                </BgButton>
+              </View>
+            </Animated.View>
           )}
           {showForm && (
-            <ScrollView style={styles.root}>
-              <View style={styles.inputForm}>
-                <View style={!busLabel ? styles.normal : styles.up}>
-                  <Text
-                    style={[
-                      btn
-                        ? styles.normalLabel
-                        : busnumberInputIsInValid
-                        ? styles.errorLabel
-                        : styles.normalLabel,
-                    ]}
-                    onPress={onFocusBusHandler}
-                    onPressOut={busnumberInputBlur}
-                  >
-                    Bus number
-                  </Text>
-                </View>
-                <Input
-                  keyboardType="number-pad"
-                  onChangeText={busNumberChangeHandler}
-                  blur={busnumberInputBlur}
-                  onFocus={onFocusBusHandler}
-                  value={busNumber}
-                  onSubmitEditing={Keyboard.dismiss}
-                  style={
-                    isFocused
-                      ? styles.focusStyle
-                      : busnumberInputIsInValid && styles.errorBorderColor
-                  }
-                />
-                {busnumberInputIsInValid && (
-                  <Text style={styles.commonErrorMsg}>Enter bus number</Text>
-                )}
-
-                <View>
-                  <View style={!vehLabel ? styles.normalVeh : styles.upVeh}>
+            <>
+              <ScrollView style={styles.root}>
+                <View style={styles.inputForm}>
+                  <View style={!busLabel ? styles.normal : styles.up}>
                     <Text
                       style={[
                         btn
                           ? styles.normalLabel
-                          : vehicleNoInputIsInValid
-                          ? styles.vehError
+                          : busnumberInputIsInValid
+                          ? styles.errorLabel
                           : styles.normalLabel,
                       ]}
-                      onPress={onFocusVehHandler}
+                      onPress={onFocusBusHandler}
+                      onPressOut={busnumberInputBlur}
                     >
-                      Vehicle number
+                      Bus number
                     </Text>
                   </View>
                   <Input
                     keyboardType="number-pad"
-                    onChangeText={vehicleChangeHandler}
-                    blur={vehicleInputBlur}
-                    onFocus={onFocusVehHandler}
-                    value={vehicleno}
+                    onChangeText={busNumberChangeHandler}
+                    blur={busnumberInputBlur}
+                    onFocus={onFocusBusHandler}
+                    value={busNumber}
                     onSubmitEditing={Keyboard.dismiss}
                     style={
-                      isVehFocused
+                      isFocused
                         ? styles.focusStyle
-                        : vehicleNoInputIsInValid && styles.errorBorderColor
+                        : busnumberInputIsInValid && styles.errorBorderColor
                     }
                   />
-                </View>
-                {vehicleNoInputIsInValid && (
-                  <Text style={styles.commonErrorMsg}>
-                    Enter vehicle number
-                  </Text>
-                )}
+                  {busnumberInputIsInValid && (
+                    <Text style={styles.commonErrorMsg}>Enter bus number</Text>
+                  )}
 
-                {!isEdit && (
+                  <View>
+                    <View style={!vehLabel ? styles.normalVeh : styles.upVeh}>
+                      <Text
+                        style={[
+                          btn
+                            ? styles.normalLabel
+                            : vehicleNoInputIsInValid
+                            ? styles.vehError
+                            : styles.normalLabel,
+                        ]}
+                        onPress={onFocusVehHandler}
+                      >
+                        Vehicle number
+                      </Text>
+                    </View>
+                    <Input
+                      keyboardType="number-pad"
+                      onChangeText={vehicleChangeHandler}
+                      blur={vehicleInputBlur}
+                      onFocus={onFocusVehHandler}
+                      value={vehicleno}
+                      onSubmitEditing={Keyboard.dismiss}
+                      style={
+                        isVehFocused
+                          ? styles.focusStyle
+                          : vehicleNoInputIsInValid && styles.errorBorderColor
+                      }
+                    />
+                  </View>
+                  {vehicleNoInputIsInValid && (
+                    <Text style={styles.commonErrorMsg}>
+                      Enter vehicle number
+                    </Text>
+                  )}
+
+                  {!isEdit && (
+                    <View>
+                      <View
+                        style={!typeLabel ? styles.normalType : styles.upType}
+                      >
+                        <Text
+                          style={[
+                            btn
+                              ? styles.normalLabel
+                              : typeInputIsInValid
+                              ? styles.errorLabel
+                              : styles.normalLabel,
+                          ]}
+                          onPress={onFocusTypeHandler}
+                        >
+                          Transport Type
+                        </Text>
+                      </View>
+                      <Input
+                        // placeholder="Type"
+                        onChangeText={typeChangeHandler}
+                        blur={typeInputBlur}
+                        onFocus={onFocusTypeHandler}
+                        value={type}
+                        onSubmitEditing={Keyboard.dismiss}
+                        style={
+                          isTypeFocused
+                            ? styles.focusStyle
+                            : typeInputIsInValid && styles.errorBorderColor
+                        }
+                      />
+                    </View>
+                  )}
+                  {typeInputIsInValid && !isEdit && (
+                    <Text style={styles.commonErrorMsg}>Enter type</Text>
+                  )}
+
                   <View>
                     <View
-                      style={!typeLabel ? styles.normalType : styles.upType}
+                      style={
+                        !driverLabel ? styles.normalDriver : styles.upDriver
+                      }
                     >
                       <Text
                         style={[
                           btn
                             ? styles.normalLabel
-                            : typeInputIsInValid
+                            : drivernameInputIsInValid
                             ? styles.errorLabel
                             : styles.normalLabel,
                         ]}
-                        onPress={onFocusTypeHandler}
+                        onPress={onFocusDriverHandler}
                       >
-                        Transport Type
+                        Driver name
                       </Text>
                     </View>
                     <Input
-                      // placeholder="Type"
-                      onChangeText={typeChangeHandler}
-                      blur={typeInputBlur}
-                      onFocus={onFocusTypeHandler}
-                      value={type}
+                      // placeholder="Driver Name"
+                      onChangeText={driverNameChangeHandler}
+                      blur={drivernameInputBlur}
+                      onFocus={onFocusDriverHandler}
+                      value={drivername}
                       onSubmitEditing={Keyboard.dismiss}
                       style={
-                        isTypeFocused
+                        isDriverFocused
                           ? styles.focusStyle
-                          : typeInputIsInValid && styles.errorBorderColor
+                          : drivernameInputIsInValid && styles.errorBorderColor
                       }
                     />
                   </View>
-                )}
-                {typeInputIsInValid && !isEdit && (
-                  <Text style={styles.commonErrorMsg}>Enter type</Text>
-                )}
+                  {drivernameInputIsInValid && (
+                    <Text style={styles.commonErrorMsg}>Enter driver name</Text>
+                  )}
 
-                <View>
-                  <View
-                    style={!driverLabel ? styles.normalDriver : styles.upDriver}
-                  >
-                    <Text
-                      style={[
-                        btn
-                          ? styles.normalLabel
-                          : drivernameInputIsInValid
-                          ? styles.errorLabel
-                          : styles.normalLabel,
-                      ]}
-                      onPress={onFocusDriverHandler}
-                    >
-                      Driver name
+                  <View>
+                    <View style={!mobLabel ? styles.normalMob : styles.upMob}>
+                      <Text
+                        style={[
+                          btn
+                            ? styles.normalLabel
+                            : mobileInputIsInValid
+                            ? styles.errorLabel
+                            : styles.normalLabel,
+                        ]}
+                        onPress={onFocusMobHandler}
+                      >
+                        Mobile number
+                      </Text>
+                    </View>
+                    <Input
+                      keyboardType="number-pad"
+                      maxLength={10}
+                      onChangeText={mobileChangeHandler}
+                      blur={mobilenumberInputBlur}
+                      onFocus={onFocusMobHandler}
+                      value={mobile.toString()}
+                      onSubmitEditing={Keyboard.dismiss}
+                      style={
+                        isMobFocused
+                          ? styles.focusStyle
+                          : mobileInputIsInValid && styles.errorBorderColor
+                      }
+                    />
+                  </View>
+                  {mobileInputIsInValid && (
+                    <Text style={styles.commonErrorMsg}>
+                      Enter a valid mobile number(10 digits)
                     </Text>
-                  </View>
-                  <Input
-                    // placeholder="Driver Name"
-                    onChangeText={driverNameChangeHandler}
-                    blur={drivernameInputBlur}
-                    onFocus={onFocusDriverHandler}
-                    value={drivername}
-                    onSubmitEditing={Keyboard.dismiss}
-                    style={
-                      isDriverFocused
-                        ? styles.focusStyle
-                        : drivernameInputIsInValid && styles.errorBorderColor
-                    }
-                  />
-                </View>
-                {drivernameInputIsInValid && (
-                  <Text style={styles.commonErrorMsg}>Enter driver name</Text>
-                )}
+                  )}
 
-                <View>
-                  <View style={!mobLabel ? styles.normalMob : styles.upMob}>
-                    <Text
-                      style={[
-                        btn
-                          ? styles.normalLabel
-                          : mobileInputIsInValid
-                          ? styles.errorLabel
-                          : styles.normalLabel,
-                      ]}
-                      onPress={onFocusMobHandler}
+                  <View>
+                    <View
+                      style={!rootLabel ? styles.normalRoot : styles.upRoot}
                     >
-                      Mobile number
-                    </Text>
+                      <Text
+                        style={[
+                          btn
+                            ? styles.normalLabel
+                            : routenameInputIsInValid
+                            ? styles.errorLabel
+                            : styles.normalLabel,
+                        ]}
+                        onPress={onFocusRouteHandler}
+                      >
+                        Route name
+                      </Text>
+                    </View>
+                    <Input
+                      // placeholder="Route Name"
+                      onChangeText={routeNameChangeHandler}
+                      blur={routenameInputBlur}
+                      onFocus={onFocusRouteHandler}
+                      value={routename}
+                      onSubmitEditing={Keyboard.dismiss}
+                      style={
+                        isRouteFocused
+                          ? styles.focusStyle
+                          : routenameInputIsInValid && styles.errorBorderColor
+                      }
+                    />
                   </View>
-                  <Input
-                    keyboardType="number-pad"
-                    maxLength={10}
-                    onChangeText={mobileChangeHandler}
-                    blur={mobilenumberInputBlur}
-                    onFocus={onFocusMobHandler}
-                    value={mobile.toString()}
-                    onSubmitEditing={Keyboard.dismiss}
-                    style={
-                      isMobFocused
-                        ? styles.focusStyle
-                        : mobileInputIsInValid && styles.errorBorderColor
-                    }
-                  />
-                </View>
-                {mobileInputIsInValid && (
-                  <Text style={styles.commonErrorMsg}>
-                    Enter a valid mobile number(10 digits)
-                  </Text>
-                )}
+                  {routenameInputIsInValid && (
+                    <Text style={styles.commonErrorMsg}>Enter route name</Text>
+                  )}
 
-                <View>
-                  <View style={!rootLabel ? styles.normalRoot : styles.upRoot}>
-                    <Text
-                      style={[
-                        btn
-                          ? styles.normalLabel
-                          : routenameInputIsInValid
-                          ? styles.errorLabel
-                          : styles.normalLabel,
-                      ]}
-                      onPress={onFocusRouteHandler}
+                  <View>
+                    <View
+                      style={!stopLabel ? styles.normalStop : styles.upStop}
                     >
-                      Route name
-                    </Text>
+                      <Text
+                        style={[
+                          btn
+                            ? styles.normalLabel
+                            : stopnameInputIsInValid
+                            ? styles.errorLabel
+                            : styles.normalLabel,
+                        ]}
+                        onPress={onFocusStopHandler}
+                      >
+                        Stop name
+                      </Text>
+                    </View>
+                    <Input
+                      // placeholder="Stop Name"
+                      onChangeText={stopNameChangeHandler}
+                      blur={stopnameInputBlur}
+                      onFocus={onFocusStopHandler}
+                      value={stopname}
+                      onSubmitEditing={Keyboard.dismiss}
+                      style={
+                        isStopFocused
+                          ? styles.focusStyle
+                          : stopnameInputIsInValid && styles.errorBorderColor
+                      }
+                    />
                   </View>
-                  <Input
-                    // placeholder="Route Name"
-                    onChangeText={routeNameChangeHandler}
-                    blur={routenameInputBlur}
-                    onFocus={onFocusRouteHandler}
-                    value={routename}
-                    onSubmitEditing={Keyboard.dismiss}
-                    style={
-                      isRouteFocused
-                        ? styles.focusStyle
-                        : routenameInputIsInValid && styles.errorBorderColor
-                    }
-                  />
-                </View>
-                {routenameInputIsInValid && (
-                  <Text style={styles.commonErrorMsg}>Enter route name</Text>
-                )}
+                  {stopnameInputIsInValid && (
+                    <Text style={styles.commonErrorMsg}>Enter stop name</Text>
+                  )}
 
-                <View>
-                  <View style={!stopLabel ? styles.normalStop : styles.upStop}>
-                    <Text
-                      style={[
-                        btn
-                          ? styles.normalLabel
-                          : stopnameInputIsInValid
-                          ? styles.errorLabel
-                          : styles.normalLabel,
-                      ]}
-                      onPress={onFocusStopHandler}
-                    >
-                      Stop name
-                    </Text>
-                  </View>
-                  <Input
-                    // placeholder="Stop Name"
-                    onChangeText={stopNameChangeHandler}
-                    blur={stopnameInputBlur}
-                    onFocus={onFocusStopHandler}
-                    value={stopname}
-                    onSubmitEditing={Keyboard.dismiss}
-                    style={
-                      isStopFocused
-                        ? styles.focusStyle
-                        : stopnameInputIsInValid && styles.errorBorderColor
-                    }
-                  />
+                  {!isEdit && (
+                    <View style={styles.btnSubmit}>
+                      <Button onPress={buttonPressedHandler}>
+                        Add Transport
+                      </Button>
+                    </View>
+                  )}
+                  {isEdit && (
+                    <View style={styles.btnSubmit1}>
+                      <Button onPress={updateHandler}>Update</Button>
+                    </View>
+                  )}
+                  {isEdit && (
+                    <View style={styles.cancel}>
+                      <Button onPress={cancelHandler}>Cancel</Button>
+                    </View>
+                  )}
                 </View>
-                {stopnameInputIsInValid && (
-                  <Text style={styles.commonErrorMsg}>Enter stop name</Text>
-                )}
-
-                {!isEdit && (
-                  <View style={styles.btnSubmit}>
-                    <Button onPress={buttonPressedHandler}>
-                      Add Transport
-                    </Button>
-                  </View>
-                )}
-                {isEdit && (
-                  <View style={styles.btnSubmit1}>
-                    <Button onPress={updateHandler}>Update</Button>
-                  </View>
-                )}
-                {isEdit && (
-                  <View style={styles.cancel}>
-                    <Button onPress={cancelHandler}>Cancel</Button>
-                  </View>
-                )}
-              </View>
-            </ScrollView>
+              </ScrollView>
+              {keyboardStatus == "Keyboard Hidden" && (
+                <View style={{ flex: 1 }}>
+                  <TeachersHome />
+                </View>
+              )}
+            </>
           )}
           {/* {isSame && <View style={styles.th}>
                 <Text style={styles.tableTitle}> Update</Text>
@@ -1017,149 +1049,141 @@ const TeachersTransport = () => {
               </View>} */}
           {showList && (
             <>
-            <Animated.View style={{transform:[
+              {/* <Animated.View style={{transform:[
               {translateY:translateY}
-            ]}}>
-            <View style={{ backgroundColor: "white" }}>
+            ]}}> */}
+              <View style={{ backgroundColor: "white" }}>
                 <SearchBar
-                    // style={
-                    //   keyboardStatus == "Keyboard Shown"
-                    //     ? styles.upSearch
-                    //     : styles.searchBar
-                    // }
-                    style={styles.searchBar}
-                    textInputStyle={{
-                      fontFamily: "HindRegular",
-                      fontSize: 18,
-                    }}
-                    placeholder="Search here"
-                    onChangeText={(text) => searchFilter(text)}
-                    value={searchText}
-                  />
-            </View>
-            </Animated.View>
-            <View style={[{ flex: 1 }, { flexDirection: "column",backgroundColor:'white' }]}>
-              <View style={{ flex: 8, bottom: 10, }}>
-                <ScrollView
-                //  onScroll={scrollHanlder}
-                // onScroll={((e)=>{
-                //   scrollY.setValue(e.nativeEvent.contentOffset.y)
-                // })}
-                >
-                  <View style={[styles.root]}>
-                    {filteredData &&
-                      filteredData.map((data) => (
-                      <>
-                          <View>
-                            <Card style={[styles.card]}>
-                              <Card.Content style={{ marginTop: 0 }}>
-                                <View style={styles.flexStyleRow}>
-                                  <View
-                                    style={{ flex: 2, left: 20, top: 5 }}
-                                  >
-                                    <Text style={[styles.cardTextStyle]}>
-                                      Driver Name
-                                    </Text>
-                                  </View>
-                                  <View
-                                    style={{ flex: 2, left: 40, top: 5 }}
-                                  >
-                                    <Text style={styles.cardData}>
-                                      {data.driver_name}
-                                    </Text>
-                                  </View>
-                                  </View>
-                                    <View style={styles.flexStyleRow}>
-                                      <View
-                                        style={{ flex: 2, left: 20, top: 5 }}
-                                      >
-                                        <Text style={[styles.cardTextStyle]}>
-                                          Bus Number
-                                        </Text>
-                                      </View>
-                                      <View
-                                        style={{ flex: 2, left: 40, top: 5 }}
-                                      >
-                                        <Text style={styles.cardData}>
-                                          {data.busnumber}
-                                        </Text>
-                                      </View>
+                  // style={
+                  //   keyboardStatus == "Keyboard Shown"
+                  //     ? styles.upSearch
+                  //     : styles.searchBar
+                  // }
+                  style={styles.searchBar}
+                  textInputStyle={{
+                    fontFamily: "HindRegular",
+                    fontSize: 18,
+                  }}
+                  placeholder="Search here"
+                  onChangeText={(text) => searchFilter(text)}
+                  value={searchText}
+                />
+              </View>
+              {/* </Animated.View> */}
+              <View
+                style={[
+                  { flex: 1 },
+                  { flexDirection: "column", backgroundColor: "white" },
+                ]}
+              >
+                <View style={{ flex: 8, bottom: 10 }}>
+                  <ScrollView
+                    //  onScroll={scrollHanlder}
+                    // onScroll={((e)=>{
+                    //   scrollY.setValue(e.nativeEvent.contentOffset.y)
+                    // })}
+                    scrollEventThrottle={25}
+                    onScroll={Animated.event(
+                      [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                      { useNativeDriver: false }
+                    )}
+                  >
+                    <View style={[styles.root]}>
+                      {filteredData &&
+                        filteredData.map((data) => (
+                          <>
+                            <View>
+                              <Card style={[styles.card]}>
+                                <Card.Content style={{ marginTop: 0 }}>
+                                  <View style={styles.flexStyleRow}>
+                                    <View style={{ flex: 2, left: 20, top: 5 }}>
+                                      <Text style={[styles.cardTextStyle]}>
+                                        Driver Name
+                                      </Text>
                                     </View>
-                                    <View style={styles.flexStyleRow}>
-                                      <View
-                                        style={{ flex: 2, left: 20, top: 5 }}
-                                      >
-                                        <Text style={[styles.cardTextStyle]}>
-                                          Vehicle Number
-                                        </Text>
-                                      </View>
-                                      <View
-                                        style={{ flex: 2, left: 40, top: 5 }}
-                                      >
-                                        <Text style={styles.cardData}>
-                                          {data.vehicleno}
-                                        </Text>
-                                      </View>
+                                    <View style={{ flex: 2, left: 40, top: 5 }}>
+                                      <Text style={styles.cardData}>
+                                        {data.driver_name}
+                                      </Text>
                                     </View>
+                                  </View>
+                                  <View style={styles.flexStyleRow}>
+                                    <View style={{ flex: 2, left: 20, top: 5 }}>
+                                      <Text style={[styles.cardTextStyle]}>
+                                        Bus Number
+                                      </Text>
+                                    </View>
+                                    <View style={{ flex: 2, left: 40, top: 5 }}>
+                                      <Text style={styles.cardData}>
+                                        {data.busnumber}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                  <View style={styles.flexStyleRow}>
+                                    <View style={{ flex: 2, left: 20, top: 5 }}>
+                                      <Text style={[styles.cardTextStyle]}>
+                                        Vehicle Number
+                                      </Text>
+                                    </View>
+                                    <View style={{ flex: 2, left: 40, top: 5 }}>
+                                      <Text style={styles.cardData}>
+                                        {data.vehicleno}
+                                      </Text>
+                                    </View>
+                                  </View>
 
-                                    <View style={styles.flexStyleRow}>
-                                      <View
-                                        style={{ flex: 2, left: 20, top: 5 }}
-                                      >
-                                        <Text style={[styles.cardTextStyle]}>
-                                          Contact Number
-                                        </Text>
-                                      </View>
-                                      <View
-                                        style={{ flex: 2, left: 40, top: 5 }}
-                                      >
-                                        <Text style={styles.cardData}>
-                                          {data.emp_mobile}
-                                        </Text>
-                                      </View>
+                                  <View style={styles.flexStyleRow}>
+                                    <View style={{ flex: 2, left: 20, top: 5 }}>
+                                      <Text style={[styles.cardTextStyle]}>
+                                        Contact Number
+                                      </Text>
                                     </View>
-                                    <View style={styles.flexStyleRow}>
-                                      <View
-                                        style={{
-                                          flex: 1,
-                                          top: 5,
-                                          left: deviceWidth < 370 ? 190 : 200,
-                                        }}
-                                      >
-                                        <Ionicons
-                                          name="md-pencil-sharp"
-                                          size={24}
-                                          color="green"
-                                          style={{ left: "30%" }}
-                                          onPress={() => editItem(data.id)}
-                                        />
-                                      </View>
-                                      <View
-                                        style={{ flex: 1, left: 40, top: 5 }}
-                                      >
-                                        <Ionicons
-                                          name="trash"
-                                          size={24}
-                                          color="red"
-                                          style={{ left: "60%" }}
-                                          onPress={() => deleteItem(data.id)}
-                                        />
-                                      </View>
+                                    <View style={{ flex: 2, left: 40, top: 5 }}>
+                                      <Text style={styles.cardData}>
+                                        {data.emp_mobile}
+                                      </Text>
                                     </View>
-                                  </Card.Content>
-                                </Card>
-                              </View>
-                      </>
-                    ))}
+                                  </View>
+                                  <View style={styles.flexStyleRow}>
+                                    <View
+                                      style={{
+                                        flex: 1,
+                                        top: 5,
+                                        left: deviceWidth < 370 ? 190 : 200,
+                                      }}
+                                    >
+                                      <Ionicons
+                                        name="md-pencil-sharp"
+                                        size={24}
+                                        color="green"
+                                        style={{ left: "30%" }}
+                                        onPress={() => editItem(data.id)}
+                                      />
+                                    </View>
+                                    <View style={{ flex: 1, left: 40, top: 5 }}>
+                                      <Ionicons
+                                        name="trash"
+                                        size={24}
+                                        color="red"
+                                        style={{ left: "60%" }}
+                                        onPress={() => deleteItem(data.id)}
+                                      />
+                                    </View>
+                                  </View>
+                                </Card.Content>
+                              </Card>
+                            </View>
+                          </>
+                        ))}
+                    </View>
+                  </ScrollView>
+                </View>
+                {keyboardStatus == "Keyboard Hidden" && (
+                  <View style={{ flex: 1 }}>
+                    <TeachersHome />
                   </View>
-                </ScrollView>
+                )}
               </View>
-            {keyboardStatus == "Keyboard Hidden" && (
-              <View style={{ flex: 1 }}>
-                <TeachersHome />
-              </View>
-            )}
-          </View>
             </>
           )}
         </View>
@@ -1233,6 +1257,7 @@ const styles = StyleSheet.create({
 
   btnSubmit: {
     marginTop: "2%",
+    marginBottom: 30,
 
     marginLeft: "35%",
     width: "70%",

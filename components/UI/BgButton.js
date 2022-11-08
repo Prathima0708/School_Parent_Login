@@ -63,6 +63,10 @@ const styles = StyleSheet.create({
     //marginRight:10,
     //marginHorizontal: 15,
     marginVertical: 20,
+    // position: "relative",
+    // top: 0,
+    // left: 10,
+    // right: 10,
   },
 
   buttonText: {

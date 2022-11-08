@@ -7,6 +7,7 @@ import {
   Button as Btn,
   Alert,
   Dimensions,
+  Animated,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Button from "../../../components/UI/Button";
@@ -34,6 +35,31 @@ const TeachersMarksheet = () => {
   const [socLabel, setSocLabel] = useState(true);
   const [kanLabel, setKanLabel] = useState(true);
   const [compLabel, setCompLabel] = useState(true);
+  const scrollY = new Animated.Value(0);
+
+  const diffClamp = Animated.diffClamp(scrollY, 0, 100);
+
+  const headermax = 100;
+  const headermin = 10;
+
+  const animateHeaderBackGround = scrollY.interpolate({
+    inputRange: [0, headermax - headermin],
+    outputRange: ["white", "white"],
+    extrapolate: "clamp",
+  });
+
+  const animateHeaderHeight = diffClamp.interpolate({
+    inputRange: [0, headermax - headermin],
+    outputRange: [headermax, headermin],
+    extrapolate: "clamp",
+  });
+  // const [mathsLabel, setMathsLabel] = useState(false);
+  // const [engLabel, setEngLabel] = useState(false);
+  // const [sciLabel, setSciLabel] = useState(false);
+  // const [hindiLabel, setHindiLabel] = useState(false);
+  // const [socLabel, setSocLabel] = useState(false);
+  // const [kanLabel, setKanLabel] = useState(false);
+  // const [compLabel, setCompLabel] = useState(false);
 
   const [isMathFocused, setIsMathFocused] = useState(false);
   const [isEngFocused, setIsEngFocused] = useState(false);
@@ -854,15 +880,24 @@ const TeachersMarksheet = () => {
   return (
     <>
       {showInitialBtn && (
-        <View style={styles.BtnContainer}>
-          <BgButton onPress={showMarkssheetForm} style={forMarkssheetList}>
-            Add Marksheet
-          </BgButton>
+        <Animated.View
+          style={[
+            {
+              height: animateHeaderHeight,
+              backgroundColor: animateHeaderBackGround,
+            },
+          ]}
+        >
+          <View style={styles.BtnContainer}>
+            <BgButton onPress={showMarkssheetForm} style={forMarkssheetList}>
+              Add Marksheet
+            </BgButton>
 
-          <BgButton onPress={showMarksheetList} style={forMarkssheetForm}>
-            Show List
-          </BgButton>
-        </View>
+            <BgButton onPress={showMarksheetList} style={forMarkssheetForm}>
+              Show List
+            </BgButton>
+          </View>
+        </Animated.View>
       )}
 
       {showBtn && (
@@ -1086,7 +1121,6 @@ const TeachersMarksheet = () => {
                 flexDirection: "row",
                 marginHorizontal: 10,
                 marginVertical: 5,
-              
               }}
             >
               <View style={{ flex: 1.5, right: 10 }}>
@@ -1418,7 +1452,14 @@ const TeachersMarksheet = () => {
             value={searchMarks}
             //  onClearPress={() => setMarksheetData("")}
           />
-          <ScrollView horizontal={true}>
+          <ScrollView
+            horizontal={true}
+            scrollEventThrottle={25}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+              { useNativeDriver: false }
+            )}
+          >
             <DataTable style={styles.container}>
               <DataTable.Header style={styles.tableHeader}>
                 <View style={styles.th}>
@@ -1475,6 +1516,7 @@ const TeachersMarksheet = () => {
                     >
                       {data.Roll_no}
                     </DataTable.Cell>
+
                     <DataTable.Cell
                       textStyle={{
                         fontSize: deviceWidth < 370 ? 16 : 18,
@@ -1600,7 +1642,7 @@ const styles = StyleSheet.create({
 
     width: "100%",
 
-   // backgroundColor: "#FDFEFE",
+    // backgroundColor: "#FDFEFE",
   },
   tableBtn: {
     marginLeft: -15,
@@ -1627,7 +1669,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginHorizontal: 10,
     marginVertical: 10,
-   // backgroundColor: "white",
+    // backgroundColor: "white",
     // height: "100%",
   },
   errorBorderColor: {

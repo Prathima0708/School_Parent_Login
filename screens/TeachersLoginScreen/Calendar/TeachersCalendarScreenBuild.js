@@ -28,10 +28,29 @@ import { Card, DataTable } from "react-native-paper";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
+import { Animated } from "react-native";
 // import { Label } from "react-native-form-component";
 var FloatingLabel = require("react-native-floating-labels");
 export var ID;
 const TeachersCalendarScreenBuild = () => {
+  const scrollY = new Animated.Value(0);
+
+  const diffClamp = Animated.diffClamp(scrollY, 0, 100);
+
+  const headermax = 100;
+  const headermin = 10;
+
+  const animateHeaderBackGround = scrollY.interpolate({
+    inputRange: [0, headermax - headermin],
+    outputRange: ["white", "white"],
+    extrapolate: "clamp",
+  });
+
+  const animateHeaderHeight = diffClamp.interpolate({
+    inputRange: [0, headermax - headermin],
+    outputRange: [headermax, headermin],
+    extrapolate: "clamp",
+  });
   const br = "\n";
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
@@ -666,363 +685,410 @@ const TeachersCalendarScreenBuild = () => {
   return (
     <>
       {showInitialBtn && (
-        <View style={styles.BtnContainer}>
-          <BgButton onPress={showCalendarForm} style={forCalendarList}>
-            Add Event
-          </BgButton>
+        <Animated.View
+          style={[
+            {
+              height: animateHeaderHeight,
+              backgroundColor: animateHeaderBackGround,
+            },
+          ]}
+        >
+          <View style={styles.BtnContainer}>
+            <BgButton onPress={showCalendarForm} style={forCalendarList}>
+              Add Event
+            </BgButton>
 
-          <BgButton onPress={showCalendar} style={forCalendarForm}>
-            Show Event
-          </BgButton>
-        </View>
+            <BgButton onPress={showCalendar} style={forCalendarForm}>
+              Show Event
+            </BgButton>
+          </View>
+        </Animated.View>
       )}
       {showForm && (
-        <ScrollView style={{ backgroundColor: "white" }}>
-          <View style={styles.inputForm}>
-            <View style={label ? styles.test : styles.testSuccess}>
-              <Text
+        <>
+          <ScrollView style={{ backgroundColor: "white" }}>
+            <View style={styles.inputForm}>
+              <View style={label ? styles.test : styles.testSuccess}>
+                <Text
+                  style={[
+                    btn
+                      ? styles.submitLabel
+                      : titleInputIsInValid
+                      ? styles.errorLabel
+                      : styles.normalLabel,
+                  ]}
+                >
+                  Title
+                </Text>
+              </View>
+              <Input
+                // keyboardType="number-pad"
+                // placeholder="Title"
+                onChangeText={titleChangeHandler}
+                blur={titleBlurHandler}
+                onFocus={onFocusTitleHandler}
+                value={title}
+                onSubmitEditing={Keyboard.dismiss}
+                style={
+                  isTitleFocused
+                    ? styles.focusStyle
+                    : titleInputIsInValid && styles.errorBorderColor
+                }
+              />
+              {titleInputIsInValid && (
+                <Text style={styles.commonErrorMsg}>Enter the title</Text>
+              )}
+              <View
                 style={[
-                  btn
-                    ? styles.submitLabel
-                    : titleInputIsInValid
-                    ? styles.errorLabel
-                    : styles.normalLabel,
+                  !titleInputIsInValid
+                    ? descriptionLabel
+                      ? styles.descriptionUp
+                      : styles.descriptionDown
+                    : descriptionLabel
+                    ? styles.descriptionUpExtra
+                    : styles.descriptionDownExtra,
                 ]}
               >
-                Title
-              </Text>
-            </View>
-            <Input
-              // keyboardType="number-pad"
-              // placeholder="Title"
-              onChangeText={titleChangeHandler}
-              blur={titleBlurHandler}
-              onFocus={onFocusTitleHandler}
-              value={title}
-              onSubmitEditing={Keyboard.dismiss}
-              style={
-                isTitleFocused
-                  ? styles.focusStyle
-                  : titleInputIsInValid && styles.errorBorderColor
-              }
-            />
-            {titleInputIsInValid && (
-              <Text style={styles.commonErrorMsg}>Enter the title</Text>
-            )}
-            <View
-              style={[
-                !titleInputIsInValid
-                  ? descriptionLabel
-                    ? styles.descriptionUp
-                    : styles.descriptionDown
-                  : descriptionLabel
-                  ? styles.descriptionUpExtra
-                  : styles.descriptionDownExtra,
-              ]}
-            >
-              <Text
-                style={[
-                  btn
-                    ? styles.normalLabel
-                    : descriptionInputIsInValid
-                    ? styles.errorLabel
-                    : styles.normalLabel,
-                ]}
-              >
-                Description
-              </Text>
-            </View>
-            <Input
-              // placeholder="Description"
-              onChangeText={descriptionChangeHandler}
-              blur={descriptionBlurHandler}
-              onFocus={onFocusDescHandler}
-              value={description}
-              onSubmitEditing={Keyboard.dismiss}
-              style={
-                isDescFocused
-                  ? styles.focusStyle
-                  : descriptionInputIsInValid && styles.errorBorderColor
-              }
-            />
-            {descriptionInputIsInValid && (
-              <Text style={styles.commonErrorMsg}>Enter description</Text>
-            )}
+                <Text
+                  style={[
+                    btn
+                      ? styles.normalLabel
+                      : descriptionInputIsInValid
+                      ? styles.errorLabel
+                      : styles.normalLabel,
+                  ]}
+                >
+                  Description
+                </Text>
+              </View>
+              <Input
+                // placeholder="Description"
+                onChangeText={descriptionChangeHandler}
+                blur={descriptionBlurHandler}
+                onFocus={onFocusDescHandler}
+                value={description}
+                onSubmitEditing={Keyboard.dismiss}
+                style={
+                  isDescFocused
+                    ? styles.focusStyle
+                    : descriptionInputIsInValid && styles.errorBorderColor
+                }
+              />
+              {descriptionInputIsInValid && (
+                <Text style={styles.commonErrorMsg}>Enter description</Text>
+              )}
 
-            <View style={[{ flexDirection: "row" }]}>
-              <View style={{ flex: 1 }}>
-                <View>
-                  <Ionicons
-                    style={{
-                      position: "absolute",
-                      top: 22,
-                    }}
-                    name="calendar"
-                    size={24}
-                    color="black"
-                    onPress={() => showFromMode("date")}
+              <View style={[{ flexDirection: "row" }]}>
+                <View style={{ flex: 1 }}>
+                  <View>
+                    <Ionicons
+                      style={{
+                        position: "absolute",
+                        top: 22,
+                      }}
+                      name="calendar"
+                      size={24}
+                      color="black"
+                      onPress={() => showFromMode("date")}
+                    />
+                  </View>
+                  <UnderlinedInput
+                    value={fromText || frmdate}
+                    placeholder="   Start date"
+                    onSubmitEditing={Keyboard.dismiss}
+                    style={
+                      isFromDateFocused
+                        ? styles.focusStyle
+                        : fromDateInputIsInValid && styles.errorBorderColorDate
+                    }
+                    blur={fromDateBlurHandler}
+                    onFocus={onFocusFromHandler}
+                    onChangeText={frmDateHandler}
+                    onPressIn={() => showFromMode("date")}
                   />
+                  {fromDateInputIsInValid && (
+                    <Text style={styles.commonErrorMsg}>Select from date</Text>
+                  )}
+                  {fromShow && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={fromDate}
+                      mode={frommode}
+                      is24Hour={true}
+                      display="default"
+                      onChange={fromDateChangeHandler}
+                    />
+                  )}
                 </View>
-                <UnderlinedInput
-                  value={fromText || frmdate}
-                  placeholder="   Start date"
-                  onSubmitEditing={Keyboard.dismiss}
-                  style={
-                    isFromDateFocused
-                      ? styles.focusStyle
-                      : fromDateInputIsInValid && styles.errorBorderColorDate
-                  }
-                  blur={fromDateBlurHandler}
-                  onFocus={onFocusFromHandler}
-                  onChangeText={frmDateHandler}
-                  onPressIn={() => showFromMode("date")}
-                />
-                {fromDateInputIsInValid && (
-                  <Text style={styles.commonErrorMsg}>Select from date</Text>
-                )}
-                {fromShow && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={fromDate}
-                    mode={frommode}
-                    is24Hour={true}
-                    display="default"
-                    onChange={fromDateChangeHandler}
+                <View style={styles.space} />
+                <View style={{ flex: 1 }}>
+                  <View>
+                    <Ionicons
+                      style={{
+                        position: "absolute",
+                        top: 22,
+                      }}
+                      name="calendar"
+                      size={24}
+                      color="black"
+                      onPress={() => showToMode("date")}
+                    />
+                  </View>
+                  <UnderlinedInput
+                    // value={moment(toText).format('DD/MM/YYYY') || moment(toDate).format('DD/MM/YYYY')}
+                    value={toText || todate}
+                    // value={
+                    //   moment(toText).format("DD/MM/YYYY") ||
+                    //   moment(todate).format("DD/MM/YYYY")
+                    // }
+                    placeholder="   End date"
+                    onSubmitEditing={Keyboard.dismiss}
+                    style={
+                      isToDateFocused
+                        ? styles.focusStyle
+                        : toDateInputIsInValid && styles.errorBorderColorDate
+                    }
+                    blur={toDateBlurHandler}
+                    onFocus={onFocusToHandler}
+                    onChangeText={toDateHandler}
+                    onPressIn={() => showToMode("date")}
                   />
-                )}
-              </View>
-              <View style={styles.space} />
-              <View style={{ flex: 1 }}>
-                <View>
-                  <Ionicons
-                    style={{
-                      position: "absolute",
-                      top: 22,
-                    }}
-                    name="calendar"
-                    size={24}
-                    color="black"
-                    onPress={() => showToMode("date")}
-                  />
+                  {toDateInputIsInValid && (
+                    <Text style={styles.commonErrorMsg}>Select to date</Text>
+                  )}
+                  {toShow && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={toDate}
+                      mode={tomode}
+                      is24Hour={true}
+                      display="default"
+                      onChange={toDateChangeHandler}
+                      //  minimumDate={fromDate}
+                    />
+                  )}
                 </View>
-                <UnderlinedInput
-                  // value={moment(toText).format('DD/MM/YYYY') || moment(toDate).format('DD/MM/YYYY')}
-                  value={toText || todate}
-                  // value={
-                  //   moment(toText).format("DD/MM/YYYY") ||
-                  //   moment(todate).format("DD/MM/YYYY")
-                  // }
-                  placeholder="   End date"
-                  onSubmitEditing={Keyboard.dismiss}
-                  style={
-                    isToDateFocused
-                      ? styles.focusStyle
-                      : toDateInputIsInValid && styles.errorBorderColorDate
-                  }
-                  blur={toDateBlurHandler}
-                  onFocus={onFocusToHandler}
-                  onChangeText={toDateHandler}
-                  onPressIn={() => showToMode("date")}
-                />
-                {toDateInputIsInValid && (
-                  <Text style={styles.commonErrorMsg}>Select to date</Text>
-                )}
-                {toShow && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={toDate}
-                    mode={tomode}
-                    is24Hour={true}
-                    display="default"
-                    onChange={toDateChangeHandler}
-                    //  minimumDate={fromDate}
-                  />
-                )}
               </View>
+              {!isEdit && (
+                <View style={styles.btnSubmit}>
+                  <Button onPress={buttonPressedHandler}>Add Event</Button>
+                </View>
+              )}
+              {isEdit && (
+                <View style={styles.btnSubmit1}>
+                  <Button onPress={updateHandler}>Update</Button>
+                </View>
+              )}
+              {isEdit && (
+                <View style={styles.cancel}>
+                  <Button onPress={cancelHandler}>Cancel</Button>
+                </View>
+              )}
             </View>
-            {!isEdit && (
-              <View style={styles.btnSubmit}>
-                <Button onPress={buttonPressedHandler}>Add Event</Button>
-              </View>
-            )}
-            {isEdit && (
-              <View style={styles.btnSubmit1}>
-                <Button onPress={updateHandler}>Update</Button>
-              </View>
-            )}
-            {isEdit && (
-              <View style={styles.cancel}>
-                <Button onPress={cancelHandler}>Cancel</Button>
-              </View>
-            )}
-          </View>
-        </ScrollView>
+          </ScrollView>
+          {keyboardStatus == "Keyboard Hidden" && (
+            <View style={{ flex: 1 }}>
+              <TeachersHome />
+            </View>
+          )}
+        </>
       )}
-        {showList && <View style={{ backgroundColor: "white" }}>
-          <SearchBar
-                  // style={
-                  //   keyboardStatus == "Keyboard Shown"
-                  //     ? styles.upSearch
-                  //     : styles.searchBar
-                  // }
-                  style={styles.searchBar}
-                  textInputStyle={{
-                    fontFamily: "HindRegular",
-                    fontSize: 18,
-                  }}
-                  placeholder="Search here"
-                  onChangeText={(text) => searchFilter(text)}
-                  value={searchText}
-          />
-        </View>}
-          {showList && <View style={[{ flex: 1 }, { flexDirection: "column",backgroundColor:'white' }]}>
-            <View style={{ flex: 8, bottom: 10 }}>
-              <ScrollView>
-                <View style={styles.root}>
-                  {filteredData &&
-                    filteredData.map((filteredData,key) => (
-                      <>
-                        <View>
-                        <Card
-                        key={key}
-                        style={{
-                          marginVertical: 15,
-                          marginHorizontal: 20,
-                          elevation: 5,
-                          borderRadius: 10,
-                          paddingBottom: 20,
-                        }}
-                      >
-                    <Card.Content style={{ margin: 5, marginTop: 0 }}>
-                      <Text style={styles.eventName}>
-                        {filteredData.titlee}
-                      </Text>
 
-                      <View style={[{ flexDirection: "row" }]}>
-                        <View style={{ flex: 2, marginLeft: 5 }}>
-                          <Ionicons
-                            name="calendar"
-                            size={25}
-                            color="#D4AC0D"
-                            style={{
-                              position: "absolute",
-                              left: 5,
-                            }}
-                          />
-                          <Text style={styles.cardTextStyle}>Start Date</Text>
-                        </View>
-                        <View style={{ flex: 2 }}>
-                          <View style={{ flex: 2 }}>
-                            <Ionicons
-                              name="calendar"
-                              size={25}
-                              color="#D4AC0D"
-                              style={{
-                                position: "absolute",
-                                left: 5,
-                              }}
-                            />
-                            <Text style={styles.cardTextStyle}>End Date</Text>
-                          </View>
-                        </View>
-                      </View>
-                      <View style={[{ flexDirection: "row" }]}>
-                        <View style={{ flex: 2, left: 45 }}>
-                          <Text
-                            style={{
-                              fontSize: deviceWidth < 370 ? 13 : 15,
-                              fontFamily: "HindSemiBold",
-                              color: "grey",
-                            }}
-                          >
-                            {moment(filteredData.startdate).format(
-                              "DD/MM/YYYY"
-                            )}
-                          </Text>
-                        </View>
-                        <View style={{ flex: 2, left: 120 }}>
-                          <Text
-                            style={{
-                              fontSize: deviceWidth < 370 ? 13 : 15,
-                              fontFamily: "HindSemiBold",
-                              color: "grey",
-                            }}
-                          >
-                            {moment(filteredData.enddate).format("DD/MM/YYYY")}
-                          </Text>
-                        </View>
-                        <View
+      {showList && (
+        <View
+          style={[
+            { backgroundColor: "white" },
+            //    { transform: [{ translateY: translateY }] },
+            // { elevation: 4, zIndex: 100 },
+          ]}
+        >
+          <SearchBar
+            // style={
+            //   keyboardStatus == "Keyboard Shown"
+            //     ? styles.upSearch
+            //     : styles.searchBar
+            // }
+            style={styles.searchBar}
+            textInputStyle={{
+              fontFamily: "HindRegular",
+              fontSize: 18,
+            }}
+            placeholder="Search here"
+            onChangeText={(text) => searchFilter(text)}
+            value={searchText}
+          />
+        </View>
+      )}
+      {showList && (
+        <View
+          style={[
+            { flex: 1 },
+            { flexDirection: "column", backgroundColor: "white" },
+          ]}
+        >
+          <View style={{ flex: 8, bottom: 10 }}>
+            <ScrollView
+              // onScroll={(e) => {
+              //   scrollY.setValue(e.nativeEvent.contentOffset.y);
+              // }}
+              scrollEventThrottle={25}
+              onScroll={Animated.event(
+                [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                { useNativeDriver: false }
+              )}
+            >
+              <View style={styles.root}>
+                {filteredData &&
+                  filteredData.map((filteredData) => (
+                    <>
+                      <View>
+                        <Card
+                          // key={key}
                           style={{
-                            flex: 2,
-                            left: deviceWidth > 400 ? 100 : 110,
-                            bottom: -50,
+                            marginVertical: 15,
+                            marginHorizontal: 20,
+                            elevation: 5,
+                            borderRadius: 10,
+                            paddingBottom: 20,
                           }}
                         >
-                          <Ionicons
-                            name="md-pencil-sharp"
-                            size={24}
-                            color="green"
-                            onPress={() => editItem(filteredData.id)}
-                          />
-                        </View>
-                        <View
-                          style={{
-                            flex: 2,
-                            left: 60,
-                            bottom: -50,
-                          }}
-                        >
-                          <Ionicons
-                            name="trash"
-                            size={24}
-                            color="red"
-                            onPress={() => deleteItem(filteredData.id)}
-                          />
-                        </View>
-                      </View>
-                      <View style={[{ flexDirection: "row", flex: 1 }]}>
-                        <View style={{ flex: 2, left: -20, top: 5 }}>
-                          <Text
-                            style={[
-                              styles.cardTextStyle,
-                              { fontWeight: "bold" },
-                            ]}
-                          >
-                            Description:
-                          </Text>
-                        </View>
-                        <View
-                          style={{
-                            flex: 2,
-                            left: deviceWidth < 370 ? -20 : -40,
-                            top: 5,
-                          }}
-                        >
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              fontFamily: "HindSemiBold",
-                              color: "grey",
-                            }}
-                          >
-                            {filteredData.description}
-                          </Text>
-                        </View>
-                      </View>
-                    </Card.Content>
-                  </Card>
+                          <Card.Content style={{ margin: 5, marginTop: 0 }}>
+                            <Text style={styles.eventName}>
+                              {filteredData.titlee}
+                            </Text>
+
+                            <View style={[{ flexDirection: "row" }]}>
+                              <View style={{ flex: 2, marginLeft: 5 }}>
+                                <Ionicons
+                                  name="calendar"
+                                  size={25}
+                                  color="#D4AC0D"
+                                  style={{
+                                    position: "absolute",
+                                    left: 5,
+                                  }}
+                                />
+                                <Text style={styles.cardTextStyle}>
+                                  Start Date
+                                </Text>
                               </View>
-                      </>
-                    ))}
-                </View>
-              </ScrollView>
-            </View>
-            {keyboardStatus == "Keyboard Hidden" && (
-              <View style={{ flex: 1 }}>
-                <TeachersHome />
+                              <View style={{ flex: 2 }}>
+                                <View style={{ flex: 2 }}>
+                                  <Ionicons
+                                    name="calendar"
+                                    size={25}
+                                    color="#D4AC0D"
+                                    style={{
+                                      position: "absolute",
+                                      left: 5,
+                                    }}
+                                  />
+                                  <Text style={styles.cardTextStyle}>
+                                    End Date
+                                  </Text>
+                                </View>
+                              </View>
+                            </View>
+                            <View style={[{ flexDirection: "row" }]}>
+                              <View style={{ flex: 2, left: 45 }}>
+                                <Text
+                                  style={{
+                                    fontSize: deviceWidth < 370 ? 13 : 15,
+                                    fontFamily: "HindSemiBold",
+                                    color: "grey",
+                                  }}
+                                >
+                                  {moment(filteredData.startdate).format(
+                                    "DD/MM/YYYY"
+                                  )}
+                                </Text>
+                              </View>
+                              <View style={{ flex: 2, left: 120 }}>
+                                <Text
+                                  style={{
+                                    fontSize: deviceWidth < 370 ? 13 : 15,
+                                    fontFamily: "HindSemiBold",
+                                    color: "grey",
+                                  }}
+                                >
+                                  {moment(filteredData.enddate).format(
+                                    "DD/MM/YYYY"
+                                  )}
+                                </Text>
+                              </View>
+                              <View
+                                style={{
+                                  flex: 2,
+                                  left: deviceWidth < 370 ? 100 : 110,
+                                  bottom: -50,
+                                }}
+                              >
+                                <Ionicons
+                                  name="md-pencil-sharp"
+                                  size={24}
+                                  color="green"
+                                  onPress={() => editItem(filteredData.id)}
+                                />
+                              </View>
+                              <View
+                                style={{
+                                  flex: 2,
+                                  left: 60,
+                                  bottom: -50,
+                                }}
+                              >
+                                <Ionicons
+                                  name="trash"
+                                  size={24}
+                                  color="red"
+                                  onPress={() => deleteItem(filteredData.id)}
+                                />
+                              </View>
+                            </View>
+                            <View style={[{ flexDirection: "row", flex: 1 }]}>
+                              <View style={{ flex: 2, left: -20, top: 5 }}>
+                                <Text
+                                  style={[
+                                    styles.cardTextStyle,
+                                    { fontWeight: "bold" },
+                                  ]}
+                                >
+                                  Description:
+                                </Text>
+                              </View>
+                              <View
+                                style={{
+                                  flex: 2,
+                                  left: deviceWidth < 370 ? -20 : -40,
+                                  top: 5,
+                                }}
+                              >
+                                <Text
+                                  style={{
+                                    fontSize: 16,
+                                    fontFamily: "HindSemiBold",
+                                    color: "grey",
+                                  }}
+                                >
+                                  {filteredData.description}
+                                </Text>
+                              </View>
+                            </View>
+                          </Card.Content>
+                        </Card>
+                      </View>
+                    </>
+                  ))}
               </View>
-            )}
-          </View>}
+            </ScrollView>
+          </View>
+          {keyboardStatus == "Keyboard Hidden" && (
+            <View style={{ flex: 1 }}>
+              <TeachersHome />
+            </View>
+          )}
+        </View>
+      )}
     </>
   );
 };
@@ -1038,7 +1104,7 @@ const styles = StyleSheet.create({
 
     width: "100%",
 
-    backgroundColor: "#FDFEFE",
+    backgroundColor: "white",
   },
   labelInput: {
     color: "#673AB7",

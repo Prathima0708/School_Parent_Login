@@ -422,11 +422,6 @@ export default function App() {
               component={TransportScreen}
               options={{ title: "Transport" }}
             />
-            <Stack.Screen
-              name="TeachersTransport"
-              component={TeachersTransport}
-              options={{ title: "Transport" }}
-            />
 
             {/* <Stack.Screen name="TeachersHomework" component={TeachersHomework} /> */}
             <Stack.Screen
@@ -438,6 +433,11 @@ export default function App() {
               name="TeachersProfile"
               component={TeachersProfile}
               options={{ title: "Profile" }}
+            />
+            <Stack.Screen
+              name="TeachersTransport"
+              component={TeachersTransport}
+              options={{ title: "Transport" }}
             />
             {/* <Stack.Screen
               name="TeachersOverview"
