@@ -9,6 +9,7 @@ import {
   Alert,
   Dimensions,
   LogBox,
+  Animated,
 } from "react-native";
 import moment from "moment";
 import { Keyboard } from "react-native";
@@ -29,6 +30,24 @@ import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 export var ID;
 const TeachersLeaveScreenBuild = () => {
+  const scrollY = new Animated.Value(0);
+
+  const diffClamp = Animated.diffClamp(scrollY, 0, 100);
+
+  const headermax = 100;
+  const headermin = 10;
+
+  const animateHeaderBackGround = scrollY.interpolate({
+    inputRange: [0, headermax - headermin],
+    outputRange: ["white", "white"],
+    extrapolate: "clamp",
+  });
+
+  const animateHeaderHeight = diffClamp.interpolate({
+    inputRange: [0, headermax - headermin],
+    outputRange: [headermax, headermin],
+    extrapolate: "clamp",
+  });
 
   const [offset, SetOffset] = useState(0);
   const [typeLabel, setTypeLabel] = useState(false);
@@ -265,67 +284,68 @@ const TeachersLeaveScreenBuild = () => {
     //   );
     // }
 
-    if(!enteredLeaveReasonIsValid || !enteredLeaveTypeIsValid ||
-      !enteredFromDateIsValid || !enteredtoDateIsValid){
-        Alert.alert("Please enter all fields");
-      }else{
-        async function updateData() {
-          try {
-            let headers = {
-              "Content-Type": "application/json; charset=utf-8",
-            };
-            const dataForm = FormData;
-            const resLogin = await axios.put(
-              `http://10.0.2.2:8000/school/Leave/${ID}/`,
-              dataForm,
-              {
-                headers: headers,
-              }
-            );
-            // const token = resLogin.data.token;
-            // const userId = resLogin.data.user_id;
-            console.log(resLogin.data);
-          } catch (error) {
-            console.log(error);
-          }
+    if (
+      !enteredLeaveReasonIsValid ||
+      !enteredLeaveTypeIsValid ||
+      !enteredFromDateIsValid ||
+      !enteredtoDateIsValid
+    ) {
+      Alert.alert("Please enter all fields");
+    } else {
+      async function updateData() {
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+          };
+          const dataForm = FormData;
+          const resLogin = await axios.put(
+            `http://10.0.2.2:8000/school/Leave/${ID}/`,
+            dataForm,
+            {
+              headers: headers,
+            }
+          );
+          // const token = resLogin.data.token;
+          // const userId = resLogin.data.user_id;
+          console.log(resLogin.data);
+        } catch (error) {
+          console.log(error);
         }
-        updateData();
-
-        Alert.alert("Successfully updated", "", [
-          { text: "OK", onPress: () => fetchData },
-        ]);
-    
-        async function fetchData() {
-          try {
-            const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
-            setData(res.data);
-            setFilteredData(res.data);
-          } catch (error) {
-            console.log(error);
-          }
-        }
-        fetchData();
-    
-        setEnteredLeaveType("");
-        setEnteredLeaveReason("");
-        setFromText("");
-        setToText("");
-        setShowForm(false);
-        setShowList(true);
-        setForLeaveList({
-          backgroundColor: "#F4F6F6",
-          color: "black",
-          borderRadius: 10,
-        });
-        setForLeaveForm({
-          color: "white",
-          backgroundColor: "#1E8449",
-          borderRadius: 10,
-        });
       }
-    
+      updateData();
 
-   
+      Alert.alert("Successfully updated", "", [
+        { text: "OK", onPress: () => fetchData },
+      ]);
+
+      async function fetchData() {
+        try {
+          const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
+          setData(res.data);
+          setFilteredData(res.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      fetchData();
+
+      setEnteredLeaveType("");
+      setEnteredLeaveReason("");
+      setFromText("");
+      setToText("");
+      setShowForm(false);
+      setShowList(true);
+      setForLeaveList({
+        backgroundColor: "#F4F6F6",
+        color: "black",
+        borderRadius: 10,
+      });
+      setForLeaveForm({
+        color: "white",
+        backgroundColor: "#1E8449",
+        borderRadius: 10,
+      });
+    }
   }
   function buttonPressedHandler() {
     setBtn(true);
@@ -489,21 +509,20 @@ const TeachersLeaveScreenBuild = () => {
     setEnteredtoDateTouched(false);
   }
 
-  function onScrollHandler(event){
+  function onScrollHandler(event) {
     setOnScroll(true);
     const currentOffset = event.nativeEvent.contentOffset.y;
     const dif = currentOffset - (this.offset || 0);
 
     if (Math.abs(dif) < 3) {
-      console.log('unclear');
+      console.log("unclear");
     } else if (dif > 0) {
-      console.log('up');
+      console.log("up");
     } else {
-      console.log('down');
+      console.log("down");
     }
 
     // this.offset = currentOffset;
-
   }
 
   function showLeaveForm() {
@@ -654,7 +673,7 @@ const TeachersLeaveScreenBuild = () => {
   //     let currentOffset = event.nativeEvent.contentOffset.y;
   //     let direction = currentOffset > offset ? 'down' : 'up';
   //     SetOffset(currentOffset);
-      
+
   //     if(direction=='down'){
   //       setShowInitialBtn(false);
   //     }else{
@@ -664,20 +683,28 @@ const TeachersLeaveScreenBuild = () => {
 
   return (
     <>
-      {showInitialBtn  && (
-        <View style={styles.BtnContainer}>
-          <BgButton onPress={showLeaveForm} style={forLeaveList}>
-            Add Leave
-          </BgButton>
+      {showInitialBtn && (
+        <Animated.View
+          style={[
+            {
+              height: animateHeaderHeight,
+              backgroundColor: animateHeaderBackGround,
+            },
+          ]}
+        >
+          <View style={styles.BtnContainer}>
+            <BgButton onPress={showLeaveForm} style={forLeaveList}>
+              Add Leave
+            </BgButton>
 
-          <BgButton onPress={showLeave} style={forLeaveForm}>
-            Show Leave
-          </BgButton>
-        </View>
+            <BgButton onPress={showLeave} style={forLeaveForm}>
+              Show Leave
+            </BgButton>
+          </View>
+        </Animated.View>
       )}
       {showForm && (
-        <ScrollView 
-          style={{ backgroundColor: "white" }}>
+        <ScrollView style={{ backgroundColor: "white" }}>
           <View style={styles.inputForm}>
             <View>
               <View style={!typeLabel ? styles.normal : styles.up}>
@@ -893,11 +920,20 @@ const TeachersLeaveScreenBuild = () => {
               value={searchText}
             />
           </View>
-          <View style={[{ flex: 1 }, { flexDirection: "column",backgroundColor:'white' }]}>
+          <View
+            style={[
+              { flex: 1 },
+              { flexDirection: "column", backgroundColor: "white" },
+            ]}
+          >
             <View style={{ flex: 8, bottom: 10 }}>
-              <ScrollView 
-                //  onScroll={scrollHandler}
-                >
+              <ScrollView
+                scrollEventThrottle={25}
+                onScroll={Animated.event(
+                  [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                  { useNativeDriver: false }
+                )}
+              >
                 <View style={styles.root}>
                   {filteredData &&
                     filteredData.map((data) => (
@@ -1179,7 +1215,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
-    top:deviceHieght > 800 ? -2 : -2,
+    top: deviceHieght > 800 ? -2 : -2,
   },
   normalLabel: {
     color: "grey",

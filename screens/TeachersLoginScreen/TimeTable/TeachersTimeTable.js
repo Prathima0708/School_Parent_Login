@@ -1096,17 +1096,16 @@ const TeachersTimetable = () => {
   return (
     <>
       <View style={{ height: "100%", backgroundColor: "white" }}>
-    
-          <View style={styles.BtnContainer}>
-            <BgButton onPress={timeTableList} style={forTimeTableList}>
-              Regular
-            </BgButton>
-            <View style={styles.space} />
-            <BgButton onPress={viewExam} style={forExamTimeTable}>
-              Exam
-            </BgButton>
-          </View>
-     
+        <View style={styles.BtnContainer}>
+          <BgButton onPress={timeTableList} style={forTimeTableList}>
+            Regular
+          </BgButton>
+          <View style={styles.space} />
+          <BgButton onPress={viewExam} style={forExamTimeTable}>
+            Exam
+          </BgButton>
+        </View>
+
         {showTimeTableList && (
           <>
             <View style={styles.timetablebtn}>
@@ -1167,150 +1166,153 @@ const TeachersTimetable = () => {
             </View>
 
             <View style={{ flex: 1, height: " 100%" }}>
-              <ScrollView style={{ flex: 1 }}>
-                <ScrollView horizontal={true} style={{}}>
-                  <DataTable style={styles.container}>
-                    <DataTable.Header style={styles.tableHeader}>
-                      <View style={styles.th}>
-                        <Text style={styles.tableTitle}> TIMINGS</Text>
-                      </View>
+              <>
+                <ScrollView style={{ flex: 1 }}>
+                  <ScrollView horizontal={true} style={{}}>
+                    <DataTable style={styles.container}>
+                      <DataTable.Header style={styles.tableHeader}>
+                        <View style={styles.th}>
+                          <Text style={styles.tableTitle}> TIMINGS</Text>
+                        </View>
 
-                      <View style={styles.th}>
-                        <Text style={styles.tableTitle}> MON</Text>
-                      </View>
-                      <View style={styles.th}>
-                        <Text style={styles.tableTitle}> TUE</Text>
-                      </View>
-                      <View style={styles.th}>
-                        <Text style={styles.tableTitle}> WED</Text>
-                      </View>
+                        <View style={styles.th}>
+                          <Text style={styles.tableTitle}> MON</Text>
+                        </View>
+                        <View style={styles.th}>
+                          <Text style={styles.tableTitle}> TUE</Text>
+                        </View>
+                        <View style={styles.th}>
+                          <Text style={styles.tableTitle}> WED</Text>
+                        </View>
 
-                      <View style={styles.th}>
-                        <Text style={styles.tableTitle}>THUR</Text>
-                      </View>
+                        <View style={styles.th}>
+                          <Text style={styles.tableTitle}>THUR</Text>
+                        </View>
 
-                      <View style={styles.th}>
-                        <Text style={styles.tableTitle}>FRI</Text>
-                      </View>
+                        <View style={styles.th}>
+                          <Text style={styles.tableTitle}>FRI</Text>
+                        </View>
 
-                      <View style={styles.th}>
-                        <Text style={styles.tableTitle}> SAT</Text>
-                      </View>
-                      <View style={styles.th}>
-                        <Text
-                          style={{
-                            margin: 7,
-                            marginLeft: 50,
-                            fontFamily: "MonsterratBold",
-                            fontSize: 16,
-                          }}
-                        >
-                          ACTIONS
-                        </Text>
-                      </View>
-                    </DataTable.Header>
-                    {showTimeTableData.map((data, key) => (
-                      <DataTable.Row style={styles.tableRow} key={key}>
-                        <DataTable.Cell
-                          textStyle={{
-                            fontSize: 18,
-                            fontFamily: "HindRegular",
-                            marginLeft: 10,
-                          }}
-                        >
-                          {moment(data.from_time, "HH:mm").format("hh:mm ")}{" "}
-                          {"-"} {""}
-                          {moment(data.to_time, "HH:mm").format("hh:mm ")}
-                        </DataTable.Cell>
+                        <View style={styles.th}>
+                          <Text style={styles.tableTitle}> SAT</Text>
+                        </View>
+                        <View style={styles.th}>
+                          <Text
+                            style={{
+                              margin: 7,
+                              marginLeft: 50,
+                              fontFamily: "MonsterratBold",
+                              fontSize: 16,
+                            }}
+                          >
+                            ACTIONS
+                          </Text>
+                        </View>
+                      </DataTable.Header>
+                      {showTimeTableData.map((data, key) => (
+                        <DataTable.Row style={styles.tableRow} key={key}>
+                          <DataTable.Cell
+                            textStyle={{
+                              fontSize: 18,
+                              fontFamily: "HindRegular",
+                              marginLeft: 10,
+                            }}
+                          >
+                            {moment(data.from_time, "HH:mm").format("hh:mm ")}{" "}
+                            {"-"} {""}
+                            {moment(data.to_time, "HH:mm").format("hh:mm ")}
+                          </DataTable.Cell>
 
-                        <DataTable.Cell
-                          textStyle={{
-                            fontSize: 18,
-                            fontFamily: "HindRegular",
-                            marginLeft: 20,
-                          }}
-                        >
-                          {data.monday}
-                        </DataTable.Cell>
-                        <DataTable.Cell
-                          textStyle={{
-                            fontSize: 18,
-                            fontFamily: "HindRegular",
-                            marginLeft: 40,
-                          }}
-                        >
-                          {data.Tuesday}
-                        </DataTable.Cell>
-                        <DataTable.Cell
-                          textStyle={{
-                            fontSize: 18,
-                            fontFamily: "HindRegular",
-                            marginLeft: 30,
-                          }}
-                        >
-                          {data.wednesday}
-                        </DataTable.Cell>
-                        <DataTable.Cell
-                          textStyle={{
-                            fontSize: 18,
-                            fontFamily: "HindRegular",
-                            marginLeft: 20,
-                          }}
-                        >
-                          {data.thursday}
-                        </DataTable.Cell>
-                        <DataTable.Cell
-                          textStyle={{
-                            fontSize: 18,
-                            fontFamily: "HindRegular",
-                            marginLeft: 40,
-                          }}
-                        >
-                          {data.friday}
-                        </DataTable.Cell>
-                        <DataTable.Cell
-                          textStyle={{
-                            fontSize: 18,
-                            fontFamily: "HindRegular",
-                            marginLeft: 30,
-                          }}
-                        >
-                          {data.saturday}
-                        </DataTable.Cell>
+                          <DataTable.Cell
+                            textStyle={{
+                              fontSize: 18,
+                              fontFamily: "HindRegular",
+                              marginLeft: 20,
+                            }}
+                          >
+                            {data.monday}
+                          </DataTable.Cell>
+                          <DataTable.Cell
+                            textStyle={{
+                              fontSize: 18,
+                              fontFamily: "HindRegular",
+                              marginLeft: 40,
+                            }}
+                          >
+                            {data.Tuesday}
+                          </DataTable.Cell>
+                          <DataTable.Cell
+                            textStyle={{
+                              fontSize: 18,
+                              fontFamily: "HindRegular",
+                              marginLeft: 30,
+                            }}
+                          >
+                            {data.wednesday}
+                          </DataTable.Cell>
+                          <DataTable.Cell
+                            textStyle={{
+                              fontSize: 18,
+                              fontFamily: "HindRegular",
+                              marginLeft: 20,
+                            }}
+                          >
+                            {data.thursday}
+                          </DataTable.Cell>
+                          <DataTable.Cell
+                            textStyle={{
+                              fontSize: 18,
+                              fontFamily: "HindRegular",
+                              marginLeft: 40,
+                            }}
+                          >
+                            {data.friday}
+                          </DataTable.Cell>
+                          <DataTable.Cell
+                            textStyle={{
+                              fontSize: 18,
+                              fontFamily: "HindRegular",
+                              marginLeft: 30,
+                            }}
+                          >
+                            {data.saturday}
+                          </DataTable.Cell>
 
-                        <DataTable.Cell
-                          textStyle={{
-                            fontSize: 18,
-                            fontFamily: "HindRegular",
-                            marginLeft: 50,
-                          }}
-                        >
-                          <Ionicons
-                            name="md-pencil-sharp"
-                            size={24}
-                            color="green"
-                            onPress={() => editItem(data.id)}
-                          />
-                        </DataTable.Cell>
-                        <DataTable.Cell
-                          textStyle={{
-                            fontSize: 18,
-                            fontFamily: "HindRegular",
-                            //marginLeft: 15,
-                          }}
-                        >
-                          <Ionicons
-                            name="trash"
-                            size={24}
-                            color="red"
-                            onPress={() => deleteItem(data.id)}
-                          />
-                        </DataTable.Cell>
-                      </DataTable.Row>
-                    ))}
-                  </DataTable>
+                          <DataTable.Cell
+                            textStyle={{
+                              fontSize: 18,
+                              fontFamily: "HindRegular",
+                              marginLeft: 50,
+                            }}
+                          >
+                            <Ionicons
+                              name="md-pencil-sharp"
+                              size={24}
+                              color="green"
+                              onPress={() => editItem(data.id)}
+                            />
+                          </DataTable.Cell>
+                          <DataTable.Cell
+                            textStyle={{
+                              fontSize: 18,
+                              fontFamily: "HindRegular",
+                              //marginLeft: 15,
+                            }}
+                          >
+                            <Ionicons
+                              name="trash"
+                              size={24}
+                              color="red"
+                              onPress={() => deleteItem(data.id)}
+                            />
+                          </DataTable.Cell>
+                        </DataTable.Row>
+                      ))}
+                    </DataTable>
+                  </ScrollView>
                 </ScrollView>
-              </ScrollView>
+                {keyboardStatus == "Keyboard Hidden" && <TeachersHome />}
+              </>
             </View>
           </>
         )}
@@ -1868,7 +1870,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
 
     width: "100%",
-    marginHorizontal:deviceWidth > 400 ? -5 : -5 ,
+    marginHorizontal: deviceWidth > 400 ? -5 : -5,
     backgroundColor: "#FDFEFE",
   },
   year: {

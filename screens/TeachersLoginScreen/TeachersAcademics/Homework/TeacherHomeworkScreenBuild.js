@@ -422,76 +422,74 @@ const TeacherHomeworkScreenBuild = () => {
     };
     console.log(formdata);
 
+    if (
+      !enteredSubjectIsValid ||
+      !enteredFromDateIsValid ||
+      !enteredtoDateIsValid ||
+      !enteredRemarkIsValid ||
+      !enteredHomeWorkIsValid
+    ) {
+      Alert.alert("Please enter all fields");
+    } else {
+      async function updateData() {
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+          };
 
+          const resLogin = await axios.put(
+            `http://10.0.2.2:8000/school/Homework/${ID}/`,
+            formdata,
+            {
+              headers: headers,
+            }
+          );
 
-    if(!enteredSubjectIsValid || !enteredFromDateIsValid || !enteredtoDateIsValid
-      || !enteredRemarkIsValid || !enteredHomeWorkIsValid){
-        Alert.alert("Please enter all fields");
-      }else{
-        async function updateData() {
-          try {
-            let headers = {
-              "Content-Type": "application/json; charset=utf-8",
-            };
-    
-            const resLogin = await axios.put(
-              `http://10.0.2.2:8000/school/Homework/${ID}/`,
-              formdata,
-              {
-                headers: headers,
-              }
-            );
-    
-            console.log(resLogin.data);
-          } catch (error) {
-            console.log(error);
-          }
+          console.log(resLogin.data);
+        } catch (error) {
+          console.log(error);
         }
-
-        updateData();
-        Alert.alert("Successfully updated", "", [
-          {
-            text: "OK",
-            onPress: () => {
-              
-            },
-          },
-        ]);
-        async function fetchData() {
-          try {
-            const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
-            setHomeworkData(res.data);
-            setFilteredData(res.data);
-          } catch (error) {
-            console.log(error);
-          }
-        }
-        fetchData();
-    
-        setEnteredSubject("");
-        setFromText("");
-        setToText("");
-        setPickedImage("");
-        setEnteredRemark("");
-        setHW("");
-        setShowForm(false);
-        setShowList(true);
-        // setForHomeworkList({
-        //   backgroundColor: "#0C60F4",
-        //   color: "white",
-        //   borderRadius: 10,
-        // });
-        // setForHomeworkForm({
-        //   color: "white",
-        //   backgroundColor: "#1E8449",
-        //   borderRadius: 10,
-        // });
-        setShowInitialBtn(true);
       }
-    
-   
 
-    
+      updateData();
+      Alert.alert("Successfully updated", "", [
+        {
+          text: "OK",
+          onPress: () => {},
+        },
+      ]);
+      async function fetchData() {
+        try {
+          const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
+          setHomeworkData(res.data);
+          setFilteredData(res.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      fetchData();
+
+      setEnteredSubject("");
+      setFromText("");
+      setToText("");
+      setPickedImage("");
+      setEnteredRemark("");
+      setHW("");
+      setShowForm(false);
+      setShowList(true);
+      // setForHomeworkList({
+      //   backgroundColor: "#0C60F4",
+      //   color: "white",
+      //   borderRadius: 10,
+      // });
+      // setForHomeworkForm({
+      //   color: "white",
+      //   backgroundColor: "#1E8449",
+      //   borderRadius: 10,
+      // });
+      setShowInitialBtn(true);
+    }
+
     // }
   }
 
@@ -904,272 +902,285 @@ const TeacherHomeworkScreenBuild = () => {
         </Animated.View>
       )}
       {showForm && (
-        <ScrollView style={styles.root}>
-          <View style={styles.inputForm}>
-            {!isEdit && (
-              <View style={styles.selectStyle}>
-                <SelectList
-                  setSelected={setSelected}
-                  data={data}
-                  placeholder="Select class"
-                  boxStyles={selectInputIsInValid && styles.errorSelectedColor}
-                  // boxStyles={{ borderRadius: 0 }}
-                  dropdownTextStyles={styles.dropText}
-                  inputStyles={styles.dropText}
-                />
-                {selectInputIsInValid && (
-                  <Text style={[styles.errorText]}>Enter class</Text>
-                )}
-              </View>
-            )}
-            <View>
-              <View style={!subLabel ? styles.normal : styles.up}>
-                <Text
-                  onPress={onSubjectFocusHandler}
-                  style={
-                    subBtn
-                      ? styles.normalLabel
-                      : subjectInputIsInValid
-                      ? styles.errorLabel
-                      : styles.normalLabel
-                  }
-                >
-                  Subject
-                </Text>
-              </View>
-              <Input
-                onChangeText={subjectChangeHandler}
-                value={subject}
-                onSubmitEditing={Keyboard.dismiss}
-                blur={subjectInputBlur}
-                onFocus={onSubjectFocusHandler}
-                style={
-                  isSubjectFocused
-                    ? styles.focusStyle
-                    : subjectInputIsInValid && styles.errorBorderColor
-                }
-              />
-              {subjectInputIsInValid && (
-                <Text style={styles.errorText}>Enter subject</Text>
-              )}
-            </View>
-
-            <View style={{ flexDirection: "row" }}>
-              <View style={{ flex: 1 }}>
-                <View>
-                  <Ionicons
-                    style={{
-                      position: "absolute",
-                      top: 23,
-                    }}
-                    name="calendar"
-                    size={24}
-                    color="black"
-                    onPress={() => showFromMode("date")}
+        <>
+          <ScrollView style={styles.root}>
+            <View style={styles.inputForm}>
+              {!isEdit && (
+                <View style={styles.selectStyle}>
+                  <SelectList
+                    setSelected={setSelected}
+                    data={data}
+                    placeholder="Select class"
+                    boxStyles={
+                      selectInputIsInValid && styles.errorSelectedColor
+                    }
+                    // boxStyles={{ borderRadius: 0 }}
+                    dropdownTextStyles={styles.dropText}
+                    inputStyles={styles.dropText}
                   />
+                  {selectInputIsInValid && (
+                    <Text style={[styles.errorText]}>Enter class</Text>
+                  )}
                 </View>
-                <UnderlinedInput
-                  value={fromText}
-                  placeholder="From Date"
-                  onSubmitEditing={Keyboard.dismiss}
-                  style={
-                    isFromDateFocused
-                      ? styles.focusStyle
-                      : fromDateInputIsInValid && styles.errorBorderColor
-                  }
-                  blur={dateFromHandler}
-                  onFocus={onFocusFromHandler}
-                  onChangeText={frmDateHandler}
-                  onPressIn={() => showFromMode("date")}
-                />
-                {fromDateInputIsInValid && (
-                  <Text style={[styles.errorText]}>Enter from date</Text>
-                )}
-                {fromShow && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={fromDate}
-                    mode={frommode}
-                    is24Hour={true}
-                    display="default"
-                    onChange={fromDateChangeHandler}
-                  />
-                )}
-              </View>
-              <View style={styles.space} />
-              <View style={{ flex: 1 }}>
-                <View>
-                  <Ionicons
-                    style={{
-                      position: "absolute",
-                      top: 23,
-                    }}
-                    name="calendar"
-                    size={24}
-                    color="black"
-                    onPress={() => showToMode("date")}
-                  />
-                </View>
-                <UnderlinedInput
-                  value={toText}
-                  placeholder="Due Date"
-                  style={
-                    isToDateFocused
-                      ? styles.focusStyle
-                      : toDateInputIsInValid && styles.errorBorderColor
-                  }
-                  blur={dateToHandler}
-                  onFocus={onFocusToHandler}
-                  onChangeText={toDateHandler}
-                  onPressIn={() => showToMode("date")}
-                />
-                {toDateInputIsInValid && (
-                  <Text style={[styles.errorText]}>Enter to date</Text>
-                )}
-                {toShow && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={toDate}
-                    mode={tomode}
-                    is24Hour={true}
-                    display="default"
-                    onChange={toDateChangeHandler}
-                    onTouchEnd={dateToHandler}
-                  />
-                )}
-              </View>
-            </View>
-            <View>
-              <View
-                style={!remarkLabel ? styles.normalRemark : styles.upRemark}
-              >
-                <Text
-                  onPress={onSubjectFocusHandler}
-                  style={
-                    subBtn
-                      ? styles.normalLabel
-                      : remarkInputIsInValid
-                      ? styles.errorLabel
-                      : styles.normalLabel
-                  }
-                >
-                  Remark
-                </Text>
-              </View>
-              <Input
-                onChangeText={remarkChangeHandler}
-                blur={remarkBlurHandler}
-                onFocus={onFocusRemarkHandler}
-                value={remark}
-                onSubmitEditing={Keyboard.dismiss}
-                style={
-                  isTRemarkFocused
-                    ? styles.focusStyle
-                    : remarkInputIsInValid && styles.errorBorderColor
-                }
-              />
-              {remarkInputIsInValid && (
-                <Text style={styles.errorText}>Enter remark</Text>
               )}
-            </View>
-
-            <View>
-              <View
-                style={
-                  !homeworkLabel ? styles.normalHomework : styles.upHomework
-                }
-              >
-                <Text
-                  onPress={onFocusHomeworkHandler}
-                  style={
-                    subBtn
-                      ? styles.normalLabel
-                      : homeworkInputIsInValid
-                      ? styles.errorLabel
-                      : styles.normalLabel
-                  }
-                >
-                  Homework
-                </Text>
-              </View>
-              <Input
-                onChangeText={hwChangeHandler}
-                value={hw}
-                onSubmitEditing={Keyboard.dismiss}
-                blur={homeworkBlurHandler}
-                onFocus={onFocusHomeworkHandler}
-                style={
-                  isHomeworkFocused
-                    ? styles.focusStyle
-                    : homeworkInputIsInValid && styles.errorBorderColor
-                }
-              />
-              {homeworkInputIsInValid && (
-                <Text style={styles.errorText}>Enter homework</Text>
-              )}
-            </View>
-            <View style={{ flexDirection: "row" }}>
-              <View style={styles.uploadImgBtn}>
-                <NativeButton
-                  onPress={PickImage}
-                  leftIcon={
-                    <Icon as={Ionicons} name="cloud-upload-outline" size="md" />
-                  }
-                >
-                  Upload Image
-                </NativeButton>
-                {!image && (
+              <View>
+                <View style={!subLabel ? styles.normal : styles.up}>
                   <Text
+                    onPress={onSubjectFocusHandler}
                     style={
-                      imageInputIsInValid
-                        ? styles.imageError
-                        : styles.previewText
+                      subBtn
+                        ? styles.normalLabel
+                        : subjectInputIsInValid
+                        ? styles.errorLabel
+                        : styles.normalLabel
                     }
                   >
-                    No image taken yet
+                    Subject
                   </Text>
+                </View>
+                <Input
+                  onChangeText={subjectChangeHandler}
+                  value={subject}
+                  onSubmitEditing={Keyboard.dismiss}
+                  blur={subjectInputBlur}
+                  onFocus={onSubjectFocusHandler}
+                  style={
+                    isSubjectFocused
+                      ? styles.focusStyle
+                      : subjectInputIsInValid && styles.errorBorderColor
+                  }
+                />
+                {subjectInputIsInValid && (
+                  <Text style={styles.errorText}>Enter subject</Text>
                 )}
-                {/* <Btn title="Upload Image" onPress={PickImage} /> */}
               </View>
-            </View>
-            <View
-              // style={
-              //   imageInputIsInValid ? styles.imageError : styles.imagePreView
-              // }
-              style={image ? styles.imagePreView : styles.noImage}
-            >
-              {imagePreView}
-            </View>
-            {imageInputIsInValid && (
-              <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: 18,
-                }}
-              >
-                Please upload or take homework image
-              </Text>
-            )}
 
-            {!isEdit && (
-              <View style={styles.btnSubmit}>
-                <Button onPress={buttonPressedHandler}>Add Homework</Button>
+              <View style={{ flexDirection: "row" }}>
+                <View style={{ flex: 1 }}>
+                  <View>
+                    <Ionicons
+                      style={{
+                        position: "absolute",
+                        top: 23,
+                      }}
+                      name="calendar"
+                      size={24}
+                      color="black"
+                      onPress={() => showFromMode("date")}
+                    />
+                  </View>
+                  <UnderlinedInput
+                    value={fromText}
+                    placeholder="From Date"
+                    onSubmitEditing={Keyboard.dismiss}
+                    style={
+                      isFromDateFocused
+                        ? styles.focusStyle
+                        : fromDateInputIsInValid && styles.errorBorderColor
+                    }
+                    blur={dateFromHandler}
+                    onFocus={onFocusFromHandler}
+                    onChangeText={frmDateHandler}
+                    onPressIn={() => showFromMode("date")}
+                  />
+                  {fromDateInputIsInValid && (
+                    <Text style={[styles.errorText]}>Enter from date</Text>
+                  )}
+                  {fromShow && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={fromDate}
+                      mode={frommode}
+                      is24Hour={true}
+                      display="default"
+                      onChange={fromDateChangeHandler}
+                    />
+                  )}
+                </View>
+                <View style={styles.space} />
+                <View style={{ flex: 1 }}>
+                  <View>
+                    <Ionicons
+                      style={{
+                        position: "absolute",
+                        top: 23,
+                      }}
+                      name="calendar"
+                      size={24}
+                      color="black"
+                      onPress={() => showToMode("date")}
+                    />
+                  </View>
+                  <UnderlinedInput
+                    value={toText}
+                    placeholder="Due Date"
+                    style={
+                      isToDateFocused
+                        ? styles.focusStyle
+                        : toDateInputIsInValid && styles.errorBorderColor
+                    }
+                    blur={dateToHandler}
+                    onFocus={onFocusToHandler}
+                    onChangeText={toDateHandler}
+                    onPressIn={() => showToMode("date")}
+                  />
+                  {toDateInputIsInValid && (
+                    <Text style={[styles.errorText]}>Enter to date</Text>
+                  )}
+                  {toShow && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={toDate}
+                      mode={tomode}
+                      is24Hour={true}
+                      display="default"
+                      onChange={toDateChangeHandler}
+                      onTouchEnd={dateToHandler}
+                    />
+                  )}
+                </View>
               </View>
-            )}
-            {isEdit && (
-              <View style={styles.btnSubmit1}>
-                <Button onPress={updateHandler}>Update</Button>
+              <View>
+                <View
+                  style={!remarkLabel ? styles.normalRemark : styles.upRemark}
+                >
+                  <Text
+                    onPress={onSubjectFocusHandler}
+                    style={
+                      subBtn
+                        ? styles.normalLabel
+                        : remarkInputIsInValid
+                        ? styles.errorLabel
+                        : styles.normalLabel
+                    }
+                  >
+                    Remark
+                  </Text>
+                </View>
+                <Input
+                  onChangeText={remarkChangeHandler}
+                  blur={remarkBlurHandler}
+                  onFocus={onFocusRemarkHandler}
+                  value={remark}
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={
+                    isTRemarkFocused
+                      ? styles.focusStyle
+                      : remarkInputIsInValid && styles.errorBorderColor
+                  }
+                />
+                {remarkInputIsInValid && (
+                  <Text style={styles.errorText}>Enter remark</Text>
+                )}
               </View>
-            )}
-            {isEdit && (
-              <View style={styles.cancel}>
-                <Button onPress={cancelHandler}>Cancel</Button>
+
+              <View>
+                <View
+                  style={
+                    !homeworkLabel ? styles.normalHomework : styles.upHomework
+                  }
+                >
+                  <Text
+                    onPress={onFocusHomeworkHandler}
+                    style={
+                      subBtn
+                        ? styles.normalLabel
+                        : homeworkInputIsInValid
+                        ? styles.errorLabel
+                        : styles.normalLabel
+                    }
+                  >
+                    Homework
+                  </Text>
+                </View>
+                <Input
+                  onChangeText={hwChangeHandler}
+                  value={hw}
+                  onSubmitEditing={Keyboard.dismiss}
+                  blur={homeworkBlurHandler}
+                  onFocus={onFocusHomeworkHandler}
+                  style={
+                    isHomeworkFocused
+                      ? styles.focusStyle
+                      : homeworkInputIsInValid && styles.errorBorderColor
+                  }
+                />
+                {homeworkInputIsInValid && (
+                  <Text style={styles.errorText}>Enter homework</Text>
+                )}
               </View>
-            )}
-          </View>
-        </ScrollView>
+              <View style={{ flexDirection: "row" }}>
+                <View style={styles.uploadImgBtn}>
+                  <NativeButton
+                    onPress={PickImage}
+                    leftIcon={
+                      <Icon
+                        as={Ionicons}
+                        name="cloud-upload-outline"
+                        size="md"
+                      />
+                    }
+                  >
+                    Upload Image
+                  </NativeButton>
+                  {!image && (
+                    <Text
+                      style={
+                        imageInputIsInValid
+                          ? styles.imageError
+                          : styles.previewText
+                      }
+                    >
+                      No image taken yet
+                    </Text>
+                  )}
+                  {/* <Btn title="Upload Image" onPress={PickImage} /> */}
+                </View>
+              </View>
+              <View
+                // style={
+                //   imageInputIsInValid ? styles.imageError : styles.imagePreView
+                // }
+                style={image ? styles.imagePreView : styles.noImage}
+              >
+                {imagePreView}
+              </View>
+              {imageInputIsInValid && (
+                <Text
+                  style={{
+                    color: "red",
+                    left: 20,
+                    fontFamily: "HindRegular",
+                    fontSize: 18,
+                  }}
+                >
+                  Please upload or take homework image
+                </Text>
+              )}
+
+              {!isEdit && (
+                <View style={styles.btnSubmit}>
+                  <Button onPress={buttonPressedHandler}>Add Homework</Button>
+                </View>
+              )}
+              {isEdit && (
+                <View style={styles.btnSubmit1}>
+                  <Button onPress={updateHandler}>Update</Button>
+                </View>
+              )}
+              {isEdit && (
+                <View style={styles.cancel}>
+                  <Button onPress={cancelHandler}>Cancel</Button>
+                </View>
+              )}
+            </View>
+          </ScrollView>
+          {keyboardStatus == "Keyboard Hidden" && (
+            <View style={{ flex: 1 }}>
+              <TeachersHome />
+            </View>
+          )}
+        </>
       )}
       {showList && (
         <>
