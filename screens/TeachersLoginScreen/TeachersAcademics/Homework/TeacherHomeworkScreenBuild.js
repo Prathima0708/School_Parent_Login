@@ -550,9 +550,10 @@ const TeacherHomeworkScreenBuild = () => {
       return;
     }
 
-    if (!enteredImageIsValid) {
-      return;
-    } else {
+    // if (!enteredImageIsValid) {
+    //   return;
+    // }
+    else {
       let selectedData = selected.split(" - ");
       let class_name = selectedData[0];
       let section = selectedData[1];
