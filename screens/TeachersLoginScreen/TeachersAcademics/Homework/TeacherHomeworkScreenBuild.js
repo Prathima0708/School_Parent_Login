@@ -403,61 +403,76 @@ const TeacherHomeworkScreenBuild = () => {
     };
     console.log(formdata);
 
-    async function updateData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
 
-        const resLogin = await axios.put(
-          `http://10.0.2.2:8000/school/Homework/${ID}/`,
-          formdata,
-          {
-            headers: headers,
+
+    if(!enteredSubjectIsValid || !enteredFromDateIsValid || !enteredtoDateIsValid
+      || !enteredRemarkIsValid || !enteredHomeWorkIsValid){
+        Alert.alert("Please enter all fields");
+      }else{
+        async function updateData() {
+          try {
+            let headers = {
+              "Content-Type": "application/json; charset=utf-8",
+            };
+    
+            const resLogin = await axios.put(
+              `http://10.0.2.2:8000/school/Homework/${ID}/`,
+              formdata,
+              {
+                headers: headers,
+              }
+            );
+    
+            console.log(resLogin.data);
+          } catch (error) {
+            console.log(error);
           }
-        );
+        }
 
-        console.log(resLogin.data);
-      } catch (error) {
-        console.log(error);
+        updateData();
+        Alert.alert("Successfully updated", "", [
+          {
+            text: "OK",
+            onPress: () => {
+              
+            },
+          },
+        ]);
+        async function fetchData() {
+          try {
+            const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
+            setHomeworkData(res.data);
+            setFilteredData(res.data);
+          } catch (error) {
+            console.log(error);
+          }
+        }
+        fetchData();
+    
+        setEnteredSubject("");
+        setFromText("");
+        setToText("");
+        setPickedImage("");
+        setEnteredRemark("");
+        setHW("");
+        setShowForm(false);
+        setShowList(true);
+        // setForHomeworkList({
+        //   backgroundColor: "#0C60F4",
+        //   color: "white",
+        //   borderRadius: 10,
+        // });
+        // setForHomeworkForm({
+        //   color: "white",
+        //   backgroundColor: "#1E8449",
+        //   borderRadius: 10,
+        // });
+        setShowInitialBtn(true);
       }
-    }
+    
+   
 
-    updateData();
-    Alert.alert("Successfully updated", "", [
-      { text: "OK", onPress: () => fetchData },
-    ]);
-
-    async function fetchData() {
-      try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
-        setHomeworkData(res.data);
-        setFilteredData(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData();
-
-    setEnteredSubject("");
-    setFromText("");
-    setToText("");
-    setPickedImage("");
-    setEnteredRemark("");
-    setHW("");
-    setShowForm(false);
-    setShowList(true);
-    // setForHomeworkList({
-    //   backgroundColor: "#0C60F4",
-    //   color: "white",
-    //   borderRadius: 10,
-    // });
-    // setForHomeworkForm({
-    //   color: "white",
-    //   backgroundColor: "#1E8449",
-    //   borderRadius: 10,
-    // });
-    setShowInitialBtn(true);
+    
     // }
   }
 
@@ -1441,7 +1456,7 @@ const styles = StyleSheet.create({
   up: {
     top: deviceWidth < 370 ? 15 : 26,
     left: deviceWidth < 370 ? 20 : 30,
-    width: deviceWidth < 370 ? 57 : 64,
+    width: deviceWidth > 400 ? 70 : 64,
   },
   normalRemark: {
     position: "absolute",
@@ -1449,9 +1464,10 @@ const styles = StyleSheet.create({
     left: deviceWidth < 370 ? 20 : 30,
   },
   upRemark: {
-    top: deviceWidth < 370 ? 15 : 25,
-    width: deviceWidth < 370 ? 57 : 65,
+    top: deviceHieght > 800 ? 30 : 25,
+    width: deviceWidth > 400 ? 70 : 65,
     left: deviceWidth < 370 ? 20 : 30,
+    height: deviceHieght > 800 ? 25 : 25,
   },
   normalHomework: {
     position: "absolute",
@@ -1461,7 +1477,7 @@ const styles = StyleSheet.create({
   upHomework: {
     top: deviceWidth < 370 ? 15 : 24,
     left: deviceWidth < 370 ? 20 : 30,
-    width: deviceWidth < 370 ? 75 : 90,
+    width: deviceWidth > 400 ? 100 : 90,
   },
   errorLabel: {
     color: "red",

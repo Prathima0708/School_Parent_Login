@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     fontFamily: "HindMedium",
     letterSpacing: 0.7,
 
-    fontSize: deviceWidth < 370 ? 16 : 20,
+    fontSize: deviceWidth < 370 ? 16 : 18,
     left: 10,
   },
 });

@@ -1208,7 +1208,7 @@ const styles = StyleSheet.create({
   },
   up: {
     top: deviceWidth < 370 ? 15 : 25,
-    width: deviceWidth < 370 ? 80 : 90,
+    width: deviceWidth > 400 ? 100 : 90,
     left: deviceWidth < 370 ? 20 : 30,
   },
 
@@ -1219,7 +1219,7 @@ const styles = StyleSheet.create({
   },
   upTotal: {
     top: deviceWidth < 370 ? 15 : 25,
-    width: deviceWidth < 370 ? 80 : 92,
+    width: deviceWidth > 400 ? 110 : 92,
     left: deviceWidth < 370 ? 20 : 30,
   },
 
@@ -1230,7 +1230,7 @@ const styles = StyleSheet.create({
   },
   upHour: {
     top: deviceWidth < 370 ? 14 : 24,
-    width: 44,
+    width: 48,
     left: deviceWidth < 370 ? 20 : 30,
   },
 

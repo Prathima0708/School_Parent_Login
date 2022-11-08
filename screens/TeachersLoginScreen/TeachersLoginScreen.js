@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     //padding: 32,
   },
   title: {
-    fontSize: 20,
+    fontSize: deviceWidth < 370 ? 16 : 18,
     // fontWeight: "500",
     // marginBottom: '10%',
     fontFamily: "HindRegular",

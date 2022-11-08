@@ -1843,7 +1843,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
 
     width: "100%",
-    marginHorizontal:-10,
+    marginHorizontal:deviceWidth > 400 ? -5 : -5 ,
     backgroundColor: "#FDFEFE",
   },
   year: {

@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     //  color: "red",
 
     //  fontWeight: "bold",
-    fontSize: deviceWidth < 370 ? 16 : 20,
+    fontSize: deviceWidth < 370 ? 16 : 18,
     left: 10,
     // fontFamily: "Roboto",
   },

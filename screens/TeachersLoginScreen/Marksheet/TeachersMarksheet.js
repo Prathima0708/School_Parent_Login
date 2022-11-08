@@ -27,13 +27,13 @@ import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 export var ID;
 export var StudentList = [];
 const TeachersMarksheet = () => {
-  const [mathsLabel, setMathsLabel] = useState(false);
-  const [engLabel, setEngLabel] = useState(false);
-  const [sciLabel, setSciLabel] = useState(false);
-  const [hindiLabel, setHindiLabel] = useState(false);
-  const [socLabel, setSocLabel] = useState(false);
-  const [kanLabel, setKanLabel] = useState(false);
-  const [compLabel, setCompLabel] = useState(false);
+  const [mathsLabel, setMathsLabel] = useState(true);
+  const [engLabel, setEngLabel] = useState(true);
+  const [sciLabel, setSciLabel] = useState(true);
+  const [hindiLabel, setHindiLabel] = useState(true);
+  const [socLabel, setSocLabel] = useState(true);
+  const [kanLabel, setKanLabel] = useState(true);
+  const [compLabel, setCompLabel] = useState(true);
 
   const [isMathFocused, setIsMathFocused] = useState(false);
   const [isEngFocused, setIsEngFocused] = useState(false);
@@ -1078,7 +1078,7 @@ const TeachersMarksheet = () => {
         </>
       )}
 
-      {showAddForm && (
+      {showAddForm &&  (
         <>
           <View style={styles.inputForm}>
             <View
@@ -1698,16 +1698,16 @@ const styles = StyleSheet.create({
   focusStyle: {
     borderColor: "blue",
   },
-  normal: {
-    position: "absolute",
-    top: 35,
-    left: 50,
-  },
-  up: {
-    position: "absolute",
-    top: 10,
-    left: 50,
-  },
+  // normal: {
+  //   position: "absolute",
+  //   top: 35,
+  //   left: 50,
+  // },
+  // up: {
+  //   position: "absolute",
+  //   top: 10,
+  //   left: 50,
+  // },
   errorLabel: {
     color: "red",
     backgroundColor: "#F2F2F2",
@@ -1746,7 +1746,7 @@ const styles = StyleSheet.create({
   },
   normal: {
     position: "absolute",
-    top: 16,
+    top: -7,
     left: 10,
   },
   up: {

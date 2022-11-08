@@ -91,6 +91,7 @@ export default function App() {
     ]);
   }, []);
 
+  console.disableYellowBox = true;
   useEffect(() => {
     async function getGroup() {
       Group = await AsyncStorage.getItem("datagroup");

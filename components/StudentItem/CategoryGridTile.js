@@ -13,7 +13,7 @@ function CategoryGridTile({ title, color, icon, onPress, txtclr }) {
   return (
     <View style={[styles.gridItem, { backgroundColor: color }]}>
       <Pressable
-        android_ripple={{ color: "#ccc" }}
+        // android_ripple={{ color: "#ccc" }}
         style={({ pressed }) => [styles.buttton, pressed && styles.pressed]}
         onPress={onPress}
       >
@@ -30,16 +30,15 @@ const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   gridItem: {
-    marginHorizontal: 7,
+    marginHorizontal: deviceHieght > 800 ? 7 : 7,
     marginVertical: 10,
     padding: 7,
     //paddingTop: 0,
 
-    width: deviceWidth < 370 ? 130 : 150,
-    right:deviceWidth > 360 ? 1 : 20,
+    width: deviceHieght > 800 ? 160 : 150,
+    // right:deviceWidth > 360 ? 1 : 20,
     height: deviceWidth < 370 ? 90 : 110,
-    marginRight:deviceWidth < 370 ? 5 : 5,
-    marginLeft:deviceWidth < 370 ? 22 : 5,
+    
     borderRadius: 18,
     elevation: 5,
     shadowColor: "black",
@@ -73,13 +72,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    top: deviceWidth < 370 ? 15 : 17,
-
+    top: deviceWidth < 370 ? 15 : 20,
     left: 10,
     fontFamily: "HindMedium",
     letterSpacing: 0.7,
-
-    fontSize: deviceWidth < 370 ? 16 : 20,
-    left: 10,
+    fontSize: deviceWidth < 370 ? 16 : 18,
   },
 });

@@ -7,6 +7,7 @@ import {
   Alert,
   Button as Btn,
   Dimensions,
+  LogBox,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import FloatLabelTextInput from "react-native-floating-label-text-input";
@@ -119,6 +120,8 @@ const TeachersCalendarScreenBuild = () => {
   //     console.log(error);
   //   }
   // }
+
+
 
   useEffect(() => {
     async function fetchData() {
@@ -262,30 +265,31 @@ const TeachersCalendarScreenBuild = () => {
       titlee: title,
     };
     console.log(FormData);
-    async function updateData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
-        const dataForm = FormData;
-        const resLogin = await axios.put(
-          `http://10.0.2.2:8000/school/Calendar/${ID}/`,
-          dataForm,
-          {
-            headers: headers,
-          }
-        );
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    updateData();
+
 
     if (!enteredTitleIsValid || !enteredDescriptionIsValid) {
       Alert.alert("Please enter all fields");
     } else {
+      async function updateData() {
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+          };
+          const dataForm = FormData;
+          const resLogin = await axios.put(
+            `http://10.0.2.2:8000/school/Calendar/${ID}/`,
+            dataForm,
+            {
+              headers: headers,
+            }
+          );
+          // const token = resLogin.data.token;
+          // const userId = resLogin.data.user_id;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      updateData();
       Alert.alert("Successfully updated", "", [
         {
           text: "OK",
@@ -876,11 +880,11 @@ const TeachersCalendarScreenBuild = () => {
               <ScrollView>
                 <View style={styles.root}>
                   {filteredData &&
-                    filteredData.map((filteredData) => (
+                    filteredData.map((filteredData,key) => (
                       <>
                         <View>
                         <Card
-                        // key={key}
+                        key={key}
                         style={{
                           marginVertical: 15,
                           marginHorizontal: 20,
@@ -950,7 +954,7 @@ const TeachersCalendarScreenBuild = () => {
                         <View
                           style={{
                             flex: 2,
-                            left: deviceWidth < 370 ? 100 : 110,
+                            left: deviceWidth > 400 ? 100 : 110,
                             bottom: -50,
                           }}
                         >
@@ -1205,6 +1209,6 @@ const styles = StyleSheet.create({
     left: 20,
     fontFamily: "HindRegular",
     fontSize: deviceWidth < 370 ? 16 : 18,
-    top: 5,
+    top: deviceHieght>800 ? -3 : 1,
   },
 });

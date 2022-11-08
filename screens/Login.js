@@ -503,8 +503,8 @@ function Login() {
 export default Login;
 const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
-// console.log("hieght" + deviceHieght);
-// console.log("width" + deviceWidth);
+console.log("hieght" + deviceHieght);
+console.log("width" + deviceWidth);
 const styles = StyleSheet.create({
   upperPartView: {
     flex: 2,

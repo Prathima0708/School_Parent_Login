@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     color: "white",
-    fontSize: deviceWidth < 370 ? 16 : 20,
+    fontSize: deviceWidth < 370 ? 16 : 18,
 
     fontFamily: "HindMedium",
   },

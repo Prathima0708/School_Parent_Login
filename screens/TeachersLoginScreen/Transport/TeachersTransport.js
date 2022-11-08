@@ -36,12 +36,12 @@ const TeachersTransport = () => {
   const [rootLabel, setRootLabel] = useState(false);
   const [stopLabel, setStopLabel] = useState(false);
 
-  const scrollY=new Animated.Value(0)
-  const diffClamp=Animated.diffClamp(scrollY,0,45)
-  const translateY=diffClamp.interpolate({
-    inputRange:[0,45],
-    outputRange:[0,-77]
-  })
+  // const scrollY=new Animated.Value(0)
+  // const diffClamp=Animated.diffClamp(scrollY,0,45)
+  // const translateY=diffClamp.interpolate({
+  //   inputRange:[0,45],
+  //   outputRange:[0,-77]
+  // })
 
   const [top, setTop] = useState(false);
   const [btn, setBtn] = useState(false);
@@ -732,9 +732,7 @@ const TeachersTransport = () => {
       <View style={styles.flexStyleCol}>
         <View style={{ flex: 8 }}>
           {showInitialBtn && (
-            // <Animated.View style={{transform:[
-            //   {translateY:translateY}
-            // ]}}>
+           
               <View style={styles.BtnContainer}>
               <BgButton onPress={showTransportForm} style={forTransportList}>
                 Add Transport
@@ -744,7 +742,7 @@ const TeachersTransport = () => {
                 Show list
               </BgButton>
             </View>
-            // </Animated.View>
+            
 
           )}
           {showForm && (
@@ -1019,9 +1017,9 @@ const TeachersTransport = () => {
               </View>} */}
           {showList && (
             <>
-            {/* <Animated.View style={{transform:[
+            <Animated.View style={{transform:[
               {translateY:translateY}
-            ]}}> */}
+            ]}}>
             <View style={{ backgroundColor: "white" }}>
                 <SearchBar
                     // style={
@@ -1039,7 +1037,7 @@ const TeachersTransport = () => {
                     value={searchText}
                   />
             </View>
-            {/* </Animated.View> */}
+            </Animated.View>
             <View style={[{ flex: 1 }, { flexDirection: "column",backgroundColor:'white' }]}>
               <View style={{ flex: 8, bottom: 10, }}>
                 <ScrollView
@@ -1218,7 +1216,7 @@ const styles = StyleSheet.create({
     left: 30,
   },
   root: {
-    backgroundColor: "#EBECFO",
+    // backgroundColor: "#EBECFO",
     backgroundColor: "white",
     height: "100%",
     //  top: 10,
@@ -1337,8 +1335,8 @@ const styles = StyleSheet.create({
     fontFamily: "HindRegular",
   },
   upType: {
-    top: deviceWidth < 370 ? 15 : 25,
-    width: deviceWidth < 370 ? 100 : 130,
+    top: deviceHieght > 800 ? 30 : 27,
+    width: deviceWidth > 400 ? 130 : 120,
     left: deviceWidth < 370 ? 20 : 30,
     fontFamily: "HindRegular",
   },
@@ -1350,7 +1348,7 @@ const styles = StyleSheet.create({
     fontFamily: "HindRegular",
   },
   upDriver: {
-    top: deviceWidth < 370 ? 15 : 25,
+    top: deviceHieght > 800 ? 30 : 27,
     width: deviceWidth < 370 ? 90 : 108,
     left: deviceWidth < 370 ? 20 : 35,
     fontFamily: "HindRegular",
@@ -1364,7 +1362,7 @@ const styles = StyleSheet.create({
   },
   upMob: {
     top: deviceWidth < 370 ? 15 : 25,
-    width: deviceWidth < 370 ? 100 : 130,
+    width: deviceWidth > 400 ? 130 : 120,
     left: deviceWidth < 370 ? 20 : 30,
     fontFamily: "HindRegular",
   },
@@ -1378,7 +1376,7 @@ const styles = StyleSheet.create({
   upRoot: {
     top: deviceWidth < 370 ? 15 : 29,
     left: deviceWidth < 370 ? 20 : 30,
-    width: deviceWidth < 370 ? 80 : 115,
+    width: deviceWidth >400 ? 107 : 105,
     fontFamily: "HindRegular",
   },
 
