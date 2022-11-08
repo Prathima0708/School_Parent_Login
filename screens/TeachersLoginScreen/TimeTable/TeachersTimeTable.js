@@ -10,6 +10,7 @@ import {
   Alert,
   Dimensions,
   LogBox,
+  Animated,
 } from "react-native";
 import React, { useRef, useState } from "react";
 import axios from "axios";
@@ -34,6 +35,22 @@ export var CLASSNAME, SECTION, ID;
 export var TimeTabID;
 
 const TeachersTimetable = () => {
+  const scrollY = new Animated.Value(0);
+
+  const headermax = 80;
+  const headermin = 10;
+
+  const animateHeaderBackGround = scrollY.interpolate({
+    inputRange: [0, headermax - headermin],
+    outputRange: ["white", "white"],
+    extrapolate: "clamp",
+  });
+
+  const animateHeaderHeight = scrollY.interpolate({
+    inputRange: [0, headermax - headermin],
+    outputRange: [headermax, headermin],
+    extrapolate: "clamp",
+  });
   const [isCreateDateFocused, setIsCreateDateFocused] = useState(false);
   const [isFromFocused, setIsFromFocused] = useState(false);
   const [isToFocused, setIsToFocused] = useState(false);
@@ -1028,14 +1045,31 @@ const TeachersTimetable = () => {
     updateData();
     // setShowTimeTableList(false);
     // setShowTable(true);
-    Alert.alert("Successfully updated", "", [
-      {
-        text: "OK",
-        onPress: () => {
-          fetchData();
+    if (
+      !enteredMondayIsValid ||
+      !enteredTuesdayIsValid ||
+      !enteredWednesdayIsValid ||
+      !enteredThursdayIsValid ||
+      !enteredFridayIsValid ||
+      !enteredSaturdayIsValid ||
+      !enteredFromTimeIsValid ||
+      !enteredToTimeIsValid
+    ) {
+      Alert.alert("Please enter all fields");
+      // setShowTable(true);
+      // setShowTimeTableList(false);
+    } else {
+      setShowTable(false);
+      setShowTimeTableList(true);
+      Alert.alert("Successfully updated", "", [
+        {
+          text: "OK",
+          onPress: () => {
+            fetchData();
+          },
         },
-      },
-    ]);
+      ]);
+    }
 
     async function fetchData() {
       try {
@@ -1048,8 +1082,8 @@ const TeachersTimetable = () => {
       }
     }
     fetchData();
-    setShowTable(false);
-    setShowTimeTableList(true);
+    // setShowTable(false);
+    // setShowTimeTableList(true);
   }
 
   function cancelHandler() {
@@ -1062,15 +1096,17 @@ const TeachersTimetable = () => {
   return (
     <>
       <View style={{ height: "100%", backgroundColor: "white" }}>
-        <View style={styles.BtnContainer}>
-          <BgButton onPress={timeTableList} style={forTimeTableList}>
-            Regular
-          </BgButton>
-          <View style={styles.space} />
-          <BgButton onPress={viewExam} style={forExamTimeTable}>
-            Exam
-          </BgButton>
-        </View>
+    
+          <View style={styles.BtnContainer}>
+            <BgButton onPress={timeTableList} style={forTimeTableList}>
+              Regular
+            </BgButton>
+            <View style={styles.space} />
+            <BgButton onPress={viewExam} style={forExamTimeTable}>
+              Exam
+            </BgButton>
+          </View>
+     
         {showTimeTableList && (
           <>
             <View style={styles.timetablebtn}>
@@ -1832,7 +1868,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
 
     width: "100%",
-
+    marginHorizontal: -10,
     backgroundColor: "#FDFEFE",
   },
   year: {

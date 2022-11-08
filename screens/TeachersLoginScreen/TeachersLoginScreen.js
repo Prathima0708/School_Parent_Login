@@ -120,7 +120,6 @@ const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
-
   rootContainer: {
     // flex: 1,
     // justifyContent: "center",

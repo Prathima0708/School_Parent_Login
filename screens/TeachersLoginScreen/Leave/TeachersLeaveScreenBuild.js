@@ -29,6 +29,8 @@ import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 export var ID;
 const TeachersLeaveScreenBuild = () => {
+
+  const [offset, SetOffset] = useState(0);
   const [typeLabel, setTypeLabel] = useState(false);
   const [reasonLabel, setReasonLabel] = useState(false);
 
@@ -479,6 +481,23 @@ const TeachersLeaveScreenBuild = () => {
     setEnteredtoDateTouched(false);
   }
 
+  function onScrollHandler(event){
+    setOnScroll(true);
+    const currentOffset = event.nativeEvent.contentOffset.y;
+    const dif = currentOffset - (this.offset || 0);
+
+    if (Math.abs(dif) < 3) {
+      console.log('unclear');
+    } else if (dif > 0) {
+      console.log('up');
+    } else {
+      console.log('down');
+    }
+
+    // this.offset = currentOffset;
+
+  }
+
   function showLeaveForm() {
     setEnteredLeaveType("");
     setEnteredLeaveReason("");
@@ -621,9 +640,23 @@ const TeachersLeaveScreenBuild = () => {
     setShowList(true);
     setShowForm(false);
   }
+
+  // function scrollHandler(event) {
+  //   // console.log(event.nativeEvent.contentOffset.y);
+  //     let currentOffset = event.nativeEvent.contentOffset.y;
+  //     let direction = currentOffset > offset ? 'down' : 'up';
+  //     SetOffset(currentOffset);
+      
+  //     if(direction=='down'){
+  //       setShowInitialBtn(false);
+  //     }else{
+  //       setShowInitialBtn(true)
+  //     }
+  // };
+
   return (
     <>
-      {showInitialBtn && (
+      {showInitialBtn  && (
         <View style={styles.BtnContainer}>
           <BgButton onPress={showLeaveForm} style={forLeaveList}>
             Add Leave
@@ -635,7 +668,8 @@ const TeachersLeaveScreenBuild = () => {
         </View>
       )}
       {showForm && (
-        <ScrollView style={{ backgroundColor: "white" }}>
+        <ScrollView 
+          style={{ backgroundColor: "white" }}>
           <View style={styles.inputForm}>
             <View>
               <View style={!typeLabel ? styles.normal : styles.up}>
@@ -851,9 +885,11 @@ const TeachersLeaveScreenBuild = () => {
               value={searchText}
             />
           </View>
-          <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
+          <View style={[{ flex: 1 }, { flexDirection: "column",backgroundColor:'white' }]}>
             <View style={{ flex: 8, bottom: 10 }}>
-              <ScrollView>
+              <ScrollView 
+                //  onScroll={scrollHandler}
+                >
                 <View style={styles.root}>
                   {filteredData &&
                     filteredData.map((data) => (
@@ -1036,10 +1072,7 @@ const styles = StyleSheet.create({
   searchBar: {
     marginTop: 10,
     marginBottom: 20,
-    // backgroundColor: "white",
     backgroundColor: "#F0F3F4",
-
-    // height:deviceWidth < 370 ? "6%" : "6%",
   },
   btnSubmit1: {
     marginTop: 90,
@@ -1138,6 +1171,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
+    top:15
   },
   normalLabel: {
     color: "grey",
@@ -1155,7 +1189,7 @@ const styles = StyleSheet.create({
     left: deviceWidth < 370 ? 20 : 30,
   },
   upRemark: {
-    top: deviceWidth < 370 ? 15 : 43,
+    top: deviceWidth < 370 ? 15 : 27,
     left: deviceWidth < 370 ? 20 : 30,
     width: deviceWidth < 370 ? 90 : 100,
   },
