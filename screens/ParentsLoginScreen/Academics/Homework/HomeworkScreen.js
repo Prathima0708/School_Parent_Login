@@ -9,7 +9,10 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { className } from "../../../../components/StudentItem/StudentItem";
+import {
+  className,
+  Section,
+} from "../../../../components/StudentItem/StudentItem";
 import ParentsHome from "../../BottomTab/ParentsHome";
 import { ScrollView } from "react-native";
 
@@ -20,7 +23,7 @@ const HomeworkScreen = () => {
     async function fetchData() {
       try {
         const res = await axios.get(
-          `http://10.0.2.2:8000/school/HomeworkByClass/${className}/`
+          `http://10.0.2.2:8000/school/HomeworkListByClass/${className}/${Section}`
         );
         //  console.log(res.data);
         setIsLoading(false);

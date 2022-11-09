@@ -25,9 +25,11 @@ import { Card, DataTable } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import SearchBar from "react-native-dynamic-search-bar";
+import { useNavigation } from "@react-navigation/native";
 export var ID;
 
 const TeachersTransport = () => {
+  const navigation = useNavigation();
   const [busLabel, setBusLabel] = useState(false);
   const [vehLabel, setVehLabel] = useState(false);
   const [typeLabel, setTypeLabel] = useState(false);
@@ -39,7 +41,6 @@ const TeachersTransport = () => {
   const scrollY = new Animated.Value(0);
 
   const diffClamp = Animated.diffClamp(scrollY, 0, 100);
-
 
   const headermax = 100;
   const headermin = 10;
@@ -88,8 +89,6 @@ const TeachersTransport = () => {
     borderRightWidth: 0,
     fontFamily: "HindSemiBold",
   });
-
-  const [studentID, setEnteredStudentID] = useState("");
 
   const [vehicleno, setEnteredVehicleNo] = useState("");
   const [enteredVehicleNoTouched, setEnteredVehicleNoTouched] = useState(false);
@@ -630,6 +629,9 @@ const TeachersTransport = () => {
   }
 
   function editItem(id) {
+    navigation.navigate("EditTransport", {
+      busno: busNumber,
+    });
     setShowInitialBtn(false);
     setBusLabel(true);
     setVehLabel(true);
@@ -659,9 +661,9 @@ const TeachersTransport = () => {
       backgroundColor: "#1E8449",
       borderRadius: 10,
     });
-    setShowForm(true);
-    setShowList(false);
-    setIsEdit(true);
+    // setShowForm(true);
+    // setShowList(false);
+    // setIsEdit(true);
   }
 
   function deleteItem(busnumber) {
@@ -1401,7 +1403,7 @@ const styles = StyleSheet.create({
   upRoot: {
     top: deviceWidth < 370 ? 15 : 29,
     left: deviceWidth < 370 ? 20 : 30,
-    width: deviceWidth >400 ? 107 : 105,
+    width: deviceWidth > 400 ? 107 : 105,
     fontFamily: "HindRegular",
   },
 

@@ -140,8 +140,6 @@ const TeachersCalendarScreenBuild = () => {
   //   }
   // }
 
-
-
   useEffect(() => {
     async function fetchData() {
       try {
@@ -237,6 +235,7 @@ const TeachersCalendarScreenBuild = () => {
     setToDate(currentToDate);
 
     let tempToDate = new Date(currentToDate);
+    console.log(tempToDate);
     let tDate =
       tempToDate.getDate() +
       "/" +
@@ -283,8 +282,7 @@ const TeachersCalendarScreenBuild = () => {
       enddate: toDate,
       titlee: title,
     };
-    console.log(FormData);
-
+    //console.log(FormData);
 
     if (!enteredTitleIsValid || !enteredDescriptionIsValid) {
       Alert.alert("Please enter all fields");
@@ -338,6 +336,7 @@ const TeachersCalendarScreenBuild = () => {
   }
 
   function buttonPressedHandler() {
+    console.log(fromDate, toDate);
     setBtn(true);
     const FormData = {
       description: description,
@@ -405,13 +404,13 @@ const TeachersCalendarScreenBuild = () => {
     // if(!enteredCreatedByIsValid){
     //   return;
     // }
-    // if (!enteredFromDateIsValid) {
-    //   return;
-    // }
+    if (!enteredFromDateIsValid) {
+      return;
+    }
 
-    // if (!enteredtoDateIsValid) {
-    //   return;
-    // }
+    if (!enteredtoDateIsValid) {
+      return;
+    }
     async function getData() {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
@@ -444,7 +443,7 @@ const TeachersCalendarScreenBuild = () => {
               );
               // const token = resLogin.data.token;
               // const userId = resLogin.data.user_id;
-              console.log(resLogin.data);
+              // console.log(resLogin.data);
             } catch (error) {
               console.log(error);
             }
@@ -1275,6 +1274,6 @@ const styles = StyleSheet.create({
     left: 20,
     fontFamily: "HindRegular",
     fontSize: deviceWidth < 370 ? 16 : 18,
-    top: deviceHieght>800 ? -3 : 1,
+    top: deviceHieght > 800 ? -3 : 1,
   },
 });

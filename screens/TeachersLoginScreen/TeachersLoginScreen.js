@@ -61,27 +61,26 @@ const TeachersLoginScreen = ({ navigation }) => {
         navigation.navigate("TeachersCalendar");
       }
       if (itemData.item.id === "c3") {
-        navigation.navigate("TeachersMarksheet");
+        navigation.navigate("TeachersNoticeBoard");
       }
       if (itemData.item.id === "c4") {
         navigation.navigate("TeachersAcademics");
       }
       if (itemData.item.id === "c5") {
-        navigation.navigate("TeachersLeave");
-      }
-      if (itemData.item.id === "c6") {
         navigation.navigate("TeachersProfile");
       }
     }
     return (
-      <TeachersCategoryGridTile
-        title={itemData.item.title}
-        color={itemData.item.color}
-        icon={itemData.item.icon}
-        onPress={pressHandler}
-        txtclr={itemData.item.txtclr}
-        subTitle={itemData.item.subTitle}
-      />
+      <View style={styles.rootContainer1}>
+        <TeachersCategoryGridTile
+          title={itemData.item.title}
+          color={itemData.item.color}
+          icon={itemData.item.icon}
+          onPress={pressHandler}
+          txtclr={itemData.item.txtclr}
+          subTitle={itemData.item.subTitle}
+        />
+      </View>
     );
   }
 
@@ -101,14 +100,15 @@ const TeachersLoginScreen = ({ navigation }) => {
             <Text style={[styles.textBase, styles.description]}>{Teacher}</Text>
           </View>
         </View>
-
-        <FlatList
-          style={styles.rootContainer}
-          data={TEACHERS}
-          keyExtractor={(item) => item.id}
-          renderItem={renderCategoryItem}
-          numColumns={2}
-        />
+        <View style={{ backgroundColor: "white", height: "100%" }}>
+          <FlatList
+            style={styles.rootContainer}
+            data={TEACHERS}
+            keyExtractor={(item) => item.id}
+            renderItem={renderCategoryItem}
+            numColumns={2}
+          />
+        </View>
       </View>
     </>
   );
@@ -129,6 +129,15 @@ const styles = StyleSheet.create({
     // padding: 32,
     //padding: 32,
   },
+
+  rootContainer1: {
+    flex: 1,
+    top: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    //padding: 32,
+  },
+
   title: {
     fontSize: deviceWidth < 370 ? 16 : 18,
     // fontWeight: "500",

@@ -33,7 +33,7 @@ const TecahersExamTimeTable = () => {
   const diffClamp = Animated.diffClamp(scrollY, 0, 80);
 
   const headermax = 80;
-  const headermin = 20;
+  const headermin = 10;
 
   const animateHeaderBackGround = scrollY.interpolate({
     inputRange: [0, headermax - headermin],
@@ -617,9 +617,9 @@ const TecahersExamTimeTable = () => {
             {/* <NativeBtn onPress={viewExam}>Add new</NativeBtn> */}
 
             <IconButton
-              colorScheme="indigo"
+              colorScheme="blue"
               onPress={viewExam}
-              variant="outline"
+              variant="solid"
               _icon={{
                 as: Ionicons,
                 name: "add",
@@ -841,268 +841,271 @@ const TecahersExamTimeTable = () => {
       )}
 
       {showform && (
-        <ScrollView>
-          <View style={styles.inputForm}>
-            {!isEdit && (
-              <Text style={[styles.labels, { marginLeft: 20 }]}>
-                Class Name
-              </Text>
-            )}
-            {!isEdit && (
-              <View
-                style={{
-                  width: 250,
-                  fontSize: 18,
-                  marginTop: 3,
-                  marginLeft: 20,
-                }}
-              >
-                <SelectList
-                  setSelected={setSelectedExamTimeTable}
-                  data={ExamTimeTableData}
-                  placeholder="select class"
-                  style={{ fontSize: deviceWidth < 370 ? 14 : 18 }}
-                  boxStyles={[
-                    selectInputIsInValid && styles.errorSelectedColor,
-                    { borderRadius: 0 },
-                  ]}
-                  inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-                  dropdownTextStyles={{
-                    fontSize: deviceWidth < 370 ? 14 : 18,
-                    fontFamily: "HindRegular",
-                  }}
-                />
-                {selectInputIsInValid && (
-                  <Text style={styles.commonErrorMsg}>Enter class</Text>
-                )}
-              </View>
-            )}
-            <View>
-              <View style={!examLabel ? styles.normal : styles.up}>
-                <Text
-                  style={[
-                    btn
-                      ? styles.normalLabel
-                      : selectExamNameIsInValid
-                      ? styles.errorLabel
-                      : styles.normalLabel,
-                  ]}
-                  onPress={onExamnameFocusHandler}
-                >
-                  Exam name
+        <>
+          <ScrollView>
+            <View style={styles.inputForm}>
+              {!isEdit && (
+                <Text style={[styles.labels, { marginLeft: 20 }]}>
+                  Class Name
                 </Text>
-              </View>
-              <Input
-                style={
-                  isExamnameFocused
-                    ? styles.focusStyle
-                    : selectExamNameIsInValid && styles.errorBorderColor
-                }
-                onChangeText={examNameChangeHandler}
-                value={examName}
-                blur={examBlurHandler}
-                onFocus={onExamnameFocusHandler}
-                onSubmitEditing={Keyboard.dismiss}
-              />
-            </View>
-            {selectExamNameIsInValid && (
-              <Text style={styles.commonErrorMsg}>Enter exam name</Text>
-            )}
-            <View
-              style={[
-                styles.container,
-                {
-                  // Try setting `flexDirection` to `"row"`.
-                  flexDirection: "row",
-                },
-              ]}
-            >
-              <View style={{ flex: 1 }}>
+              )}
+              {!isEdit && (
                 <View
                   style={{
-                    flexDirection: "row",
+                    width: 250,
+                    fontSize: 18,
+                    marginTop: 3,
+                    marginLeft: 20,
                   }}
                 >
-                  <Ionicons
-                    style={{
-                      position: "absolute",
-                      top: 15,
+                  <SelectList
+                    setSelected={setSelectedExamTimeTable}
+                    data={ExamTimeTableData}
+                    placeholder="select class"
+                    style={{ fontSize: deviceWidth < 370 ? 14 : 18 }}
+                    boxStyles={[
+                      selectInputIsInValid && styles.errorSelectedColor,
+                      { borderRadius: 0 },
+                    ]}
+                    inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                    dropdownTextStyles={{
+                      fontSize: deviceWidth < 370 ? 14 : 18,
+                      fontFamily: "HindRegular",
                     }}
-                    name="calendar"
-                    size={24}
-                    color="black"
-                    onPress={() => showFromMode("date")}
                   />
+                  {selectInputIsInValid && (
+                    <Text style={styles.commonErrorMsg}>Enter class</Text>
+                  )}
                 </View>
-                <UnderlinedInput
-                  value={fromText}
-                  placeholder="From Date"
-                  blur={fromDateBlurHandler}
-                  onFocus={onFromFocusHandler}
+              )}
+              <View>
+                <View style={!examLabel ? styles.normal : styles.up}>
+                  <Text
+                    style={[
+                      btn
+                        ? styles.normalLabel
+                        : selectExamNameIsInValid
+                        ? styles.errorLabel
+                        : styles.normalLabel,
+                    ]}
+                    onPress={onExamnameFocusHandler}
+                  >
+                    Exam name
+                  </Text>
+                </View>
+                <Input
                   style={
-                    isFromFocused
+                    isExamnameFocused
                       ? styles.focusStyle
-                      : fromDateInputIsInValid && styles.errorBorderColorDate
+                      : selectExamNameIsInValid && styles.errorBorderColor
                   }
-                  onChangeText={fromDateChangeHandler}
-                  onPressIn={() => showFromMode("date")}
+                  onChangeText={examNameChangeHandler}
+                  value={examName}
+                  blur={examBlurHandler}
+                  onFocus={onExamnameFocusHandler}
+                  onSubmitEditing={Keyboard.dismiss}
                 />
-                {fromDateInputIsInValid && (
-                  <Text style={styles.commonErrorMsg}>select from date</Text>
-                )}
-                {fromShow && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={fromDate}
-                    mode={frommode}
-                    is24Hour={true}
-                    display="default"
-                    onChange={fromDateChangeHandler}
-                  />
-                )}
               </View>
-              <View style={styles.space} />
+              {selectExamNameIsInValid && (
+                <Text style={styles.commonErrorMsg}>Enter exam name</Text>
+              )}
+              <View
+                style={[
+                  styles.container,
+                  {
+                    // Try setting `flexDirection` to `"row"`.
+                    flexDirection: "row",
+                  },
+                ]}
+              >
+                <View style={{ flex: 1 }}>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                    }}
+                  >
+                    <Ionicons
+                      style={{
+                        position: "absolute",
+                        top: 15,
+                      }}
+                      name="calendar"
+                      size={24}
+                      color="black"
+                      onPress={() => showFromMode("date")}
+                    />
+                  </View>
+                  <UnderlinedInput
+                    value={fromText}
+                    placeholder="From Date"
+                    blur={fromDateBlurHandler}
+                    onFocus={onFromFocusHandler}
+                    style={
+                      isFromFocused
+                        ? styles.focusStyle
+                        : fromDateInputIsInValid && styles.errorBorderColorDate
+                    }
+                    onChangeText={fromDateChangeHandler}
+                    onPressIn={() => showFromMode("date")}
+                  />
+                  {fromDateInputIsInValid && (
+                    <Text style={styles.commonErrorMsg}>select from date</Text>
+                  )}
+                  {fromShow && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={fromDate}
+                      mode={frommode}
+                      is24Hour={true}
+                      display="default"
+                      onChange={fromDateChangeHandler}
+                    />
+                  )}
+                </View>
+                <View style={styles.space} />
 
-              <View style={{ flex: 1 }}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                  }}
-                >
-                  <Ionicons
+                <View style={{ flex: 1 }}>
+                  <View
                     style={{
-                      position: "absolute",
-                      top: 20,
+                      flexDirection: "row",
                     }}
-                    name="calendar"
-                    size={24}
-                    color="black"
-                    onPress={() => showToMode("date")}
+                  >
+                    <Ionicons
+                      style={{
+                        position: "absolute",
+                        top: 20,
+                      }}
+                      name="calendar"
+                      size={24}
+                      color="black"
+                      onPress={() => showToMode("date")}
+                    />
+                  </View>
+                  <UnderlinedInput
+                    value={toText}
+                    placeholder="To Date"
+                    blur={toDateBlurHanlder}
+                    onFocus={onToFocusHandler}
+                    style={
+                      isToFocused
+                        ? styles.focusStyle
+                        : toDateInputIsInValid && styles.errorBorderColorDate
+                    }
+                    onPressIn={() => showToMode("date")}
                   />
+                  {toDateInputIsInValid && (
+                    <Text style={styles.commonErrorMsg}>select to date</Text>
+                  )}
+                  {toShow && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={toDate}
+                      mode={tomode}
+                      is24Hour={true}
+                      display="default"
+                      onChange={toDateChangeHandler}
+                      //  minimumDate={fromDate}
+                    />
+                  )}
                 </View>
-                <UnderlinedInput
-                  value={toText}
-                  placeholder="To Date"
-                  blur={toDateBlurHanlder}
-                  onFocus={onToFocusHandler}
-                  style={
-                    isToFocused
-                      ? styles.focusStyle
-                      : toDateInputIsInValid && styles.errorBorderColorDate
-                  }
-                  onPressIn={() => showToMode("date")}
-                />
-                {toDateInputIsInValid && (
-                  <Text style={styles.commonErrorMsg}>select to date</Text>
-                )}
-                {toShow && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={toDate}
-                    mode={tomode}
-                    is24Hour={true}
-                    display="default"
-                    onChange={toDateChangeHandler}
-                    //  minimumDate={fromDate}
-                  />
-                )}
               </View>
-            </View>
-            <View>
-              {/* <View style={btn ? styles.topLabelExtra :(!totalLabel ? styles.normalTotal : styles.upTotal)}>
+              <View>
+                {/* <View style={btn ? styles.topLabelExtra :(!totalLabel ? styles.normalTotal : styles.upTotal)}>
               <Text 
               style={[marksInputIsInValid ? styles.errorLabel : styles.normalLabel]}
               onPress={onMarkFocusHandler}>Total marks</Text>
             </View> */}
-              <View style={!totalLabel ? styles.normalTotal : styles.upTotal}>
-                <Text
+                <View style={!totalLabel ? styles.normalTotal : styles.upTotal}>
+                  <Text
+                    style={
+                      btn
+                        ? styles.normalLabel
+                        : [
+                            marksInputIsInValid
+                              ? styles.errorLabel
+                              : styles.normalLabel,
+                          ]
+                    }
+                    onPress={onMarkFocusHandler}
+                  >
+                    Total marks
+                  </Text>
+                </View>
+                <Input
+                  onChangeText={totalMarksChangeHandler}
+                  value={totalMarks.toString()}
                   style={
-                    btn
-                      ? styles.normalLabel
-                      : [
-                          marksInputIsInValid
-                            ? styles.errorLabel
-                            : styles.normalLabel,
-                        ]
+                    isTotalmarkFocused
+                      ? styles.focusStyle
+                      : marksInputIsInValid && styles.errorBorderColor
                   }
-                  onPress={onMarkFocusHandler}
-                >
-                  Total marks
-                </Text>
+                  onSubmitEditing={Keyboard.dismiss}
+                  blur={markBlurHanlder}
+                  onFocus={onMarkFocusHandler}
+                />
               </View>
-              <Input
-                onChangeText={totalMarksChangeHandler}
-                value={totalMarks.toString()}
-                style={
-                  isTotalmarkFocused
-                    ? styles.focusStyle
-                    : marksInputIsInValid && styles.errorBorderColor
-                }
-                onSubmitEditing={Keyboard.dismiss}
-                blur={markBlurHanlder}
-                onFocus={onMarkFocusHandler}
-              />
-            </View>
-            {marksInputIsInValid && (
-              <Text style={styles.commonErrorMsg}>Enter total marks</Text>
-            )}
-            <View>
-              <View style={!hourLabel ? styles.normalHour : styles.upHour}>
-                <Text
+              {marksInputIsInValid && (
+                <Text style={styles.commonErrorMsg}>Enter total marks</Text>
+              )}
+              <View>
+                <View style={!hourLabel ? styles.normalHour : styles.upHour}>
+                  <Text
+                    style={
+                      btn
+                        ? styles.normalLabel
+                        : [
+                            hourInputIsInValid
+                              ? styles.errorLabel
+                              : styles.normalLabel,
+                          ]
+                    }
+                    onPress={onHourFocusHandler}
+                  >
+                    Hour
+                  </Text>
+                </View>
+                <Input
+                  onChangeText={hourChangeHandler}
+                  value={hour}
                   style={
-                    btn
-                      ? styles.normalLabel
-                      : [
-                          hourInputIsInValid
-                            ? styles.errorLabel
-                            : styles.normalLabel,
-                        ]
+                    isHourFocused
+                      ? styles.focusStyle
+                      : hourInputIsInValid && styles.errorBorderColor
                   }
-                  onPress={onHourFocusHandler}
-                >
-                  Hour
-                </Text>
+                  onSubmitEditing={Keyboard.dismiss}
+                  blur={hourBlurHanlder}
+                  onFocus={onHourFocusHandler}
+                />
               </View>
-              <Input
-                onChangeText={hourChangeHandler}
-                value={hour}
-                style={
-                  isHourFocused
-                    ? styles.focusStyle
-                    : hourInputIsInValid && styles.errorBorderColor
-                }
-                onSubmitEditing={Keyboard.dismiss}
-                blur={hourBlurHanlder}
-                onFocus={onHourFocusHandler}
-              />
+              {hourInputIsInValid && (
+                <Text style={styles.commonErrorMsg}>Enter hour</Text>
+              )}
+
+              {!isEdit && (
+                <View style={styles.btnSubmit}>
+                  <Button onPress={addExamTimeTableHandler}>Add</Button>
+                </View>
+              )}
+              {!isEdit && (
+                <View style={styles.cancel}>
+                  <Button onPress={cancelHandler}>Cancel</Button>
+                </View>
+              )}
+              {isEdit && (
+                <View style={styles.btnSubmit1}>
+                  <Button onPress={updateHandler}>Update</Button>
+                </View>
+              )}
+
+              {isEdit && (
+                <View style={styles.cancel}>
+                  <Button onPress={cancelHandler}>Cancel</Button>
+                </View>
+              )}
             </View>
-            {hourInputIsInValid && (
-              <Text style={styles.commonErrorMsg}>Enter hour</Text>
-            )}
-
-            {!isEdit && (
-              <View style={styles.btnSubmit}>
-                <Button onPress={addExamTimeTableHandler}>Add</Button>
-              </View>
-            )}
-            {!isEdit && (
-              <View style={styles.cancel}>
-                <Button onPress={cancelHandler}>Cancel</Button>
-              </View>
-            )}
-            {isEdit && (
-              <View style={styles.btnSubmit1}>
-                <Button onPress={updateHandler}>Update</Button>
-              </View>
-            )}
-
-            {isEdit && (
-              <View style={styles.cancel}>
-                <Button onPress={cancelHandler}>Cancel</Button>
-              </View>
-            )}
-          </View>
-        </ScrollView>
+          </ScrollView>
+          {keyboardStatus == "Keyboard Hidden" && <TeachersHome />}
+        </>
       )}
       {/* {keyboardStatus == "Keyboard Hidden" && (
         <View style={styles.home}>
@@ -1180,16 +1183,8 @@ const styles = StyleSheet.create({
     height: 20,
   },
   timetablebtn: {
-    // width: "180%",
-    // height: "150%",
-    // fontWeight: "200",
-    // // paddingVertical: 20,
-    // //paddingHorizontal: 0,
-    // // marginTop: -30,
-    // // marginBottom: 10,
-    // marginLeft: deviceWidth < 370 ? 260 : 280,
-    width: "30%",
-    marginLeft: deviceWidth < 370 ? 260 : 250,
+    width: "15%",
+    marginLeft: deviceWidth < 370 ? 260 : 310,
     marginTop: 10,
   },
 

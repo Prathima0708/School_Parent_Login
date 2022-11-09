@@ -6,7 +6,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { useLayoutEffect } from "react";
 import ParentCateogryGridTile from "../../components/StudentItem/ParentCateogryGridTile";
-import MainTab from '../ParentsLoginScreen/BottomTab/MainTab'
+import MainTab from "../ParentsLoginScreen/BottomTab/MainTab";
+import ParentsHome from "./BottomTab/ParentsHome";
 
 function StudentCategories({ navigation }) {
   async function logoutHandler() {
@@ -90,7 +91,7 @@ function StudentCategories({ navigation }) {
         renderItem={renderCategoryItem}
         numColumns={2}
       />
-      <MainTab />
+      <ParentsHome />
     </View>
   );
 }

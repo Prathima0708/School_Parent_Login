@@ -44,7 +44,7 @@ const TeachersMarksheet = () => {
 
   const animateHeaderBackGround = scrollY.interpolate({
     inputRange: [0, headermax - headermin],
-    outputRange: ["white", "white"],
+    outputRange: ["#F2F2F2", "#F2F2F2"],
     extrapolate: "clamp",
   });
 
@@ -159,7 +159,21 @@ const TeachersMarksheet = () => {
   const [showInitialBtn, setShowInitialBtn] = useState(true);
 
   const [btn, setBtn] = useState(false);
+  const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardStatus("Keyboard Shown");
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardStatus("Keyboard Hidden");
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
   function mathsMarksChangeHandler(enteredValue) {
     setMathsMarks(enteredValue);
   }
@@ -1113,7 +1127,7 @@ const TeachersMarksheet = () => {
         </>
       )}
 
-      {showAddForm &&  (
+      {showAddForm && (
         <>
           <View style={styles.inputForm}>
             <View
@@ -1439,6 +1453,11 @@ const TeachersMarksheet = () => {
           <View style={styles.btnCancel}>
             <Button onPress={cancelPressHandler}> Cancel</Button>
           </View>
+          {keyboardStatus == "Keyboard Hidden" && (
+            <View style={{ flex: 1 }}>
+              <TeachersHome />
+            </View>
+          )}
         </>
       )}
 
@@ -1626,6 +1645,11 @@ const TeachersMarksheet = () => {
                 ))}
             </DataTable>
           </ScrollView>
+          {keyboardStatus == "Keyboard Hidden" && (
+            <View style={{ flex: 1 }}>
+              <TeachersHome />
+            </View>
+          )}
         </>
       )}
     </>
