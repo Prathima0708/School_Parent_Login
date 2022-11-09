@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
 
     height: 110,
     borderRadius: 18,
-    elevation: 5,
+    elevation: 3,
     shadowColor: "black",
 
     shadowOpacity: 0.75,

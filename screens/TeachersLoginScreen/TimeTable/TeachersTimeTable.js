@@ -31,7 +31,7 @@ import TimeSlots from "./TimeSlots";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 
 export var CLASSNAME, SECTION, ID;
-//idTimeTab = [];
+export var idTimeTab = [];
 export var TimeTabID;
 
 const TeachersTimetable = () => {
@@ -468,44 +468,39 @@ const TeachersTimetable = () => {
     fetchDailyTimeTable();
   }
 
-  function TimeSlots() {
-    return <Container></Container>;
-  }
-
   function addPeriodsHandler() {
-    TimeSlots();
-    // const _inputs = [...inputs];
-    // _inputs.push({
-    //   fromTime: "",
-    //   toTime: "",
-    //   monday: "",
-    //   tuesday: "",
-    //   wednesday: "",
-    //   thursday: "",
-    //   friday: "",
-    //   saturday: "",
-    // });
-    // setInputs(_inputs);
-    // setEnteredSelectedTouched(false);
-    // setEnteredDateTextTouched(false);
-    // setEnteredFromTimeTouched(false);
-    // setEnteredToTimeTouched(false);
-    // setEnteredMondayTouched(false);
-    // setEnteredTuesdayTouched(false);
-    // setEnteredWednesdayTouched(false);
-    // setEnteredThursdayTouched(false);
-    // setEnteredFridayTouched(false);
-    // setEnteredSaturdayTouched(false);
-    // // setFromTimeText("");
-    // // setToTimeText("");
-    // // setDateText("");
-    // setMonday("");
-    // setTuesday("");
-    // setWednesday("");
-    // setThursday("");
-    // setFriday("");
-    // setSaturday("");
-    //console.log(_inputs);
+    const _inputs = [...inputs];
+    _inputs.push({
+      fromTime: "",
+      toTime: "",
+      monday: "",
+      tuesday: "",
+      wednesday: "",
+      thursday: "",
+      friday: "",
+      saturday: "",
+    });
+    setInputs(_inputs);
+    setEnteredSelectedTouched(false);
+    setEnteredDateTextTouched(false);
+    setEnteredFromTimeTouched(false);
+    setEnteredToTimeTouched(false);
+    setEnteredMondayTouched(false);
+    setEnteredTuesdayTouched(false);
+    setEnteredWednesdayTouched(false);
+    setEnteredThursdayTouched(false);
+    setEnteredFridayTouched(false);
+    setEnteredSaturdayTouched(false);
+    // setFromTimeText("");
+    // setToTimeText("");
+    // setDateText("");
+    setMonday("");
+    setTuesday("");
+    setWednesday("");
+    setThursday("");
+    setFriday("");
+    setSaturday("");
+    // console.log(_inputs);
   }
 
   function addDailyTimeTableHandler() {
@@ -817,6 +812,25 @@ const TeachersTimetable = () => {
     setWedLabel(false);
     setTHurLabel(false);
     setFriLabel(false);
+    setSatLabel(false);
+
+    setEnteredMondayTouched(false);
+    setEnteredTuesdayTouched(false);
+    setEnteredWednesdayTouched(false);
+    setEnteredThursdayTouched(false);
+    setEnteredFridayTouched(false);
+    setEnteredSaturdayTouched(false);
+    setEnteredDateTextTouched(false);
+    setEnteredFromTimeTouched(false);
+    setEnteredToTimeTouched(false);
+    setEnteredSelectedTouched(false);
+
+    setIsMondayFocused(false);
+    setIsTuesdayFocused(false);
+    setIsWednesdayFocused(false);
+    setIsThursdayFocused(false);
+    setIsFridayFocused(false);
+    setIsSaturdayFocused(false);
   }
   const skip = (num) => new Array(num);
   useEffect(() => {
@@ -1114,8 +1128,6 @@ const TeachersTimetable = () => {
                   name="add"
                   size={deviceWidth < 370 ? 35 : 38}
                   color="black"
-                  //onPress={viewTimeTableform}
-                  // style={{ marginLeft: 70, backgroundColor: "grey" }}
                 />
               </Button>
             </View>
@@ -1357,6 +1369,9 @@ const TeachersTimetable = () => {
                           />
                         </View>
                       )}
+                      {selectInputIsInValid && (
+                        <Text style={styles.commonErrorMsg}>select class</Text>
+                      )}
                     </View>
                   )}
 
@@ -1384,12 +1399,13 @@ const TeachersTimetable = () => {
                       style={
                         isCreateDateFocused
                           ? styles.focusStyle
-                          : dateTextInputIsInValid && styles.errorBorderColor
+                          : dateTextInputIsInValid &&
+                            styles.errorBorderColorDate
                       }
                       onPressIn={() => showDateMode("date")}
                     />
                     {dateTextInputIsInValid && (
-                      <Text style={{ color: "red", left: 20 }}>
+                      <Text style={styles.commonErrorMsg}>
                         Enter creation date
                       </Text>
                     )}
@@ -1445,12 +1461,12 @@ const TeachersTimetable = () => {
                             isFromFocused
                               ? styles.focusStyle
                               : fromtimeInputIsInValid &&
-                                styles.errorBorderColor
+                                styles.errorBorderColorDate
                           }
                           onSubmitEditing={Keyboard.dismiss}
                         />
                         {fromtimeInputIsInValid && (
-                          <Text style={{ color: "red", left: 20 }}>
+                          <Text style={styles.commonErrorMsg}>
                             Enter from time
                           </Text>
                         )}
@@ -1497,12 +1513,13 @@ const TeachersTimetable = () => {
                           style={
                             isToFocused
                               ? styles.focusStyle
-                              : TotimeInputIsInValid && styles.errorBorderColor
+                              : TotimeInputIsInValid &&
+                                styles.errorBorderColorDate
                           }
                           onPressIn={() => showTimeToMode("time")}
                         />
                         {TotimeInputIsInValid && (
-                          <Text style={{ color: "red", left: 20 }}>
+                          <Text style={styles.commonErrorMsg}>
                             Enter to time
                           </Text>
                         )}
@@ -1557,14 +1574,7 @@ const TeachersTimetable = () => {
                         />
 
                         {mondayInputIsInValid && (
-                          <Text
-                            style={{
-                              color: "red",
-                              left: deviceWidth < 370 ? 10 : 20,
-                              fontFamily: "HindRegular",
-                              fontSize: deviceWidth < 370 ? 16 : 18,
-                            }}
-                          >
+                          <Text style={styles.commonErrorMsg}>
                             Enter monday subject
                           </Text>
                         )}
@@ -1607,14 +1617,7 @@ const TeachersTimetable = () => {
                           }
                         />
                         {tuesdayInputIsInValid && (
-                          <Text
-                            style={{
-                              color: "red",
-                              left: deviceWidth < 370 ? 5 : 20,
-                              fontFamily: "HindRegular",
-                              fontSize: deviceWidth < 370 ? 16 : 18,
-                            }}
-                          >
+                          <Text style={styles.commonErrorMsg}>
                             Enter tuesday subject
                           </Text>
                         )}
@@ -1652,14 +1655,7 @@ const TeachersTimetable = () => {
                           onFocus={onWednesdayFocusHandler}
                         />
                         {wednesdayInputIsInValid && (
-                          <Text
-                            style={{
-                              color: "red",
-                              left: 20,
-                              fontFamily: "HindRegular",
-                              fontSize: deviceWidth < 370 ? 16 : 18,
-                            }}
-                          >
+                          <Text style={styles.commonErrorMsg}>
                             Enter wednesday subject
                           </Text>
                         )}
@@ -1696,14 +1692,7 @@ const TeachersTimetable = () => {
                           onFocus={onThursdayFocusHandler}
                         />
                         {thursdayInputIsInValid && (
-                          <Text
-                            style={{
-                              color: "red",
-                              left: 20,
-                              fontFamily: "HindRegular",
-                              fontSize: deviceWidth < 370 ? 16 : 18,
-                            }}
-                          >
+                          <Text style={styles.commonErrorMsg}>
                             Enter thursday subject
                           </Text>
                         )}
@@ -1739,14 +1728,7 @@ const TeachersTimetable = () => {
                           onFocus={onFridayFocusHandler}
                         />
                         {fridayInputIsInValid && (
-                          <Text
-                            style={{
-                              color: "red",
-                              left: deviceWidth < 370 ? 10 : 20,
-                              fontFamily: "HindRegular",
-                              fontSize: deviceWidth < 370 ? 16 : 18,
-                            }}
-                          >
+                          <Text style={styles.commonErrorMsg}>
                             Enter friday subject
                           </Text>
                         )}
@@ -1783,14 +1765,7 @@ const TeachersTimetable = () => {
                           }
                         />
                         {saturdayInputIsInValid && (
-                          <Text
-                            style={{
-                              color: "red",
-                              left: 20,
-                              fontFamily: "HindRegular",
-                              fontSize: deviceWidth < 370 ? 16 : 18,
-                            }}
-                          >
+                          <Text style={styles.commonErrorMsg}>
                             Enter saturday subject
                           </Text>
                         )}
@@ -1895,6 +1870,9 @@ const styles = StyleSheet.create({
   },
   errorBorderColor: {
     borderColor: "red",
+  },
+  errorBorderColorDate: {
+    borderBottomColor: "red",
   },
   errorSelectedColor: {
     borderColor: "red",
@@ -2019,5 +1997,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 7,
     fontSize: deviceWidth < 370 ? 13 : 17,
     fontFamily: "HindRegular",
+  },
+  commonErrorMsg: {
+    color: "red",
+    left: deviceWidth < 370 ? 5 : 20,
+    fontFamily: "HindRegular",
+    fontSize: deviceWidth < 370 ? 16 : 18,
   },
 });

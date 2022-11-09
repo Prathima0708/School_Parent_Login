@@ -1777,14 +1777,14 @@ const styles = StyleSheet.create({
   errorLabel: {
     color: "red",
     backgroundColor: "#F2F2F2",
-    backgroundColor: "#F4F6F7",
+   // backgroundColor: "#F4F6F7",
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
   normalLabel: {
     color: "grey",
     backgroundColor: "#F2F2F2",
-    backgroundColor: "#F4F6F7",
+   // backgroundColor: "#F4F6F7",
     paddingHorizontal: 7,
     fontSize: deviceWidth < 370 ? 13 : 17,
     fontFamily: "HindRegular",
