@@ -10,10 +10,15 @@ const ParentsHome = () => {
       <Ionicons
         name="grid-outline"
         size={34}
-        color="black"
-        onPress={() => navigation.navigate("Category")}
+        color="white"
+        onPress={() => navigation.navigate("ParentsLoginScreen")}
       />
-      <Ionicons name="person" size={34} color="black" />
+      <Ionicons
+        name="person"
+        size={34}
+        color="white"
+        onPress={() => navigation.navigate("ParentsProfile")}
+      />
     </View>
   );
 };

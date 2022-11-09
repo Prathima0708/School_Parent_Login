@@ -54,9 +54,11 @@ const TeacherHomeworkScreenBuild = () => {
     outputRange: [headermax, headermin],
     extrapolate: "clamp",
   });
+  
   const [subLabel, setSubLabel] = useState(false);
   const [remarkLabel, setRemarkLabel] = useState(false);
   const [homeworkLabel, setHomeworkLabel] = useState(false);
+
   const [btn, setBtn] = useState(false);
   const [subBtn, setSubBtn] = useState(false);
   const [isClassFocused, setIsClassFocused] = useState(false);

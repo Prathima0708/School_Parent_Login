@@ -10,7 +10,7 @@ const MainTab = () => {
       <Ionicons
         name="grid-outline"
         size={34}
-        color="black"
+        color="white"
         onPress={() => navigation.navigate("ParentsLoginScreen")}
       />
       <Ionicons name="person" size={34} color="black" />

@@ -5,6 +5,7 @@ import {
   Text,
   ScrollView,
   Alert,
+  Animated,
 } from "react-native";
 import React, { useState } from "react";
 import { useFonts } from "expo-font";
@@ -22,19 +23,42 @@ import Input from "../../../../components/UI/Input";
 import moment from "moment";
 import { DataTable } from "react-native-paper";
 const TeachersNoticeboard = () => {
+  const scrollY = new Animated.Value(0);
 
-  const [isUserFocused,setIsUserFocused]=useState(false);
-  const [isTitleFocused,setIsTitleFocused]=useState(false);
-  const [isDescFocused,setIsDescFocused]=useState(false);
-  const [isDOCFocused,setIsDOCFocused]=useState(false);
+  const diffClamp = Animated.diffClamp(scrollY, 0, 100);
+
+  const headermax = 100;
+  const headermin = 10;
+
+  const animateHeaderBackGround = scrollY.interpolate({
+    inputRange: [0, headermax - headermin],
+    outputRange: ["white", "white"],
+    extrapolate: "clamp",
+  });
+
+  const animateHeaderHeight = diffClamp.interpolate({
+    inputRange: [0, headermax - headermin],
+    outputRange: [headermax, headermin],
+    extrapolate: "clamp",
+  });
+  const [isUserFocused, setIsUserFocused] = useState(false);
+  const [isTitleFocused, setIsTitleFocused] = useState(false);
+  const [isDescFocused, setIsDescFocused] = useState(false);
+  const [isDOCFocused, setIsDOCFocused] = useState(false);
 
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
+
   const [forNoticeList, setForNoticeList] = useState({
-    color: "black",
-    fontWeight: "bold",
+    color: "white",
+    backgroundColor: "#0C60F4",
+    borderRadius: 10,
   });
-  const [forNoticeForm, setForNoticeForm] = useState({ color: "black" });
+  const [forNoticeForm, setForNoticeForm] = useState({
+    color: "black",
+    backgroundColor: "#F4F6F6",
+    borderRadius: 10,
+  });
 
   const [username, setEnteredUserName] = useState("");
   const [enteredUserNameTouched, setEnteredUserNameTouched] = useState(false);
@@ -69,6 +93,8 @@ const TeachersNoticeboard = () => {
   const [data, setData] = useState([]);
   const [isSame, SetIsSame] = useState(false);
   let i = 0;
+
+  const [showInitialBtn, setShowInitialBtn] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
@@ -212,17 +238,23 @@ const TeachersNoticeboard = () => {
       setEnteredFromDateTouched(false);
       setShowForm(false);
       setShowList(true);
-      setForNoticeList({ fontWeight: "bold", color: "black" });
-      setForNoticeForm({ color: "black" });
-      setForNoticeForm({ fontWeight: "bold", color: "black" });
-      setForNoticeList({ color: "black" });
+      setForNoticeList({
+        color: "black",
+        backgroundColor: "#F4F6F6",
+        borderRadius: 10,
+      });
+      setForNoticeForm({
+        color: "white",
+        backgroundColor: "#0C60F4",
+        borderRadius: 10,
+      });
     }
   }
   function usernameInputBlur() {
     setEnteredUserNameTouched(true);
     setIsUserFocused(false);
   }
-  function onFocusUserHandler(){
+  function onFocusUserHandler() {
     setIsUserFocused(true);
     setEnteredUserNameTouched(false);
   }
@@ -231,7 +263,7 @@ const TeachersNoticeboard = () => {
     setEnteredTitleTouched(true);
     setIsTitleFocused(false);
   }
-  function onFocusTitleHandler(){
+  function onFocusTitleHandler() {
     setIsTitleFocused(true);
     setEnteredTitleTouched(false);
   }
@@ -240,7 +272,7 @@ const TeachersNoticeboard = () => {
     setEnteredDescriptionTouched(true);
     setIsDescFocused(false);
   }
-  function onFocusDescHandler(){
+  function onFocusDescHandler() {
     setIsDescFocused(true);
     setEnteredDescriptionTouched(false);
   }
@@ -249,37 +281,61 @@ const TeachersNoticeboard = () => {
     setEnteredFromDateTouched(true);
     setIsDOCFocused(false);
   }
-  function onFocusDOCHandler(){
+  function onFocusDOCHandler() {
     setIsDOCFocused(true);
     setEnteredFromDateTouched(false);
   }
 
   function showNoticeForm() {
-    setForNoticeList({ fontWeight: "bold", color: "black" });
-    setForNoticeForm({ color: "black" });
+    setForNoticeList({
+      color: "black",
+      backgroundColor: "#F4F6F6",
+      borderRadius: 10,
+    });
+    setForNoticeForm({
+      color: "white",
+      backgroundColor: "#0C60F4",
+      borderRadius: 10,
+    });
     setShowForm(true);
     setShowList(false);
   }
   function showNotice() {
-    setForNoticeForm({ fontWeight: "bold", color: "black" });
-    setForNoticeList({ color: "black" });
+    setForNoticeForm({
+      color: "white",
+      backgroundColor: "#0C60F4",
+      borderRadius: 10,
+    });
+    setForNoticeList({
+      color: "black",
+      backgroundColor: "#F4F6F6",
+      borderRadius: 10,
+    });
     setShowForm(false);
     setShowList(true);
   }
   return (
     <>
-      {/* <View style={styles.BtnContainer}>
-          <BgButton>Add Notice</BgButton>
-        </View> */}
-      <View style={styles.BtnContainer}>
-        <BgButton onPress={showNoticeForm} style={forNoticeList}>
-          Add Notice
-        </BgButton>
+      {showInitialBtn && (
+        <Animated.View
+          style={[
+            {
+              height: animateHeaderHeight,
+              backgroundColor: animateHeaderBackGround,
+            },
+          ]}
+        >
+          <View style={styles.BtnContainer}>
+            <BgButton onPress={showNoticeForm} style={forNoticeList}>
+              Add New
+            </BgButton>
 
-        <BgButton onPress={showNotice} style={forNoticeForm}>
-          Show Notice
-        </BgButton>
-      </View>
+            <BgButton onPress={showNotice} style={forNoticeForm}>
+              Show List
+            </BgButton>
+          </View>
+        </Animated.View>
+      )}
       {showForm && (
         <ScrollView style={styles.root}>
           <View style={styles.inputForm}>
@@ -290,7 +346,11 @@ const TeachersNoticeboard = () => {
               onFocus={onFocusUserHandler}
               value={username}
               onSubmitEditing={Keyboard.dismiss}
-              style={isUserFocused ? styles.focusStyle : usernameInputIsInValid && styles.errorBorderColor}
+              style={
+                isUserFocused
+                  ? styles.focusStyle
+                  : usernameInputIsInValid && styles.errorBorderColor
+              }
             />
             {usernameInputIsInValid && (
               <Text style={{ color: "red", left: 20 }}>Enter Username</Text>
@@ -304,7 +364,11 @@ const TeachersNoticeboard = () => {
               onFocus={onFocusTitleHandler}
               value={title}
               onSubmitEditing={Keyboard.dismiss}
-              style={isTitleFocused ? styles.focusStyle : titleInputIsInValid && styles.errorBorderColor}
+              style={
+                isTitleFocused
+                  ? styles.focusStyle
+                  : titleInputIsInValid && styles.errorBorderColor
+              }
             />
             {titleInputIsInValid && (
               <Text style={{ color: "red", left: 20 }}>Enter title</Text>
@@ -317,7 +381,11 @@ const TeachersNoticeboard = () => {
               onFocus={onFocusDescHandler}
               value={description}
               onSubmitEditing={Keyboard.dismiss}
-              style={isDescFocused ? styles.focusStyle : descriptionInputIsInValid && styles.errorBorderColor}
+              style={
+                isDescFocused
+                  ? styles.focusStyle
+                  : descriptionInputIsInValid && styles.errorBorderColor
+              }
             />
             {descriptionInputIsInValid && (
               <Text style={{ color: "red", left: 20 }}>Enter description</Text>
@@ -349,7 +417,11 @@ const TeachersNoticeboard = () => {
               value={fromText || fromDate}
               onSubmitEditing={Keyboard.dismiss}
               placeholder=" Date of creation:"
-              style={isDOCFocused ? styles.focusStyle : fromDateInputIsInValid && styles.errorBorderColor}
+              style={
+                isDOCFocused
+                  ? styles.focusStyle
+                  : fromDateInputIsInValid && styles.errorBorderColor
+              }
               blur={datecreationInputBlur}
               onFocus={onFocusDOCHandler}
               onChangeText={frmDateHandler}
@@ -440,7 +512,10 @@ const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
     flexDirection: "row",
-    width: "50%",
+
+    width: "100%",
+
+    backgroundColor: "#FDFEFE",
   },
   home: {
     marginTop: 29,
@@ -453,7 +528,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   errorBorderColor: {
-    borderBottomColor:'red'
+    borderBottomColor: "red",
   },
   labels: {
     margin: 5,
@@ -493,7 +568,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "black",
     borderBottomWidth: 2,
   },
-  focusStyle:{
-    borderBottomColor:'blue'
+  focusStyle: {
+    borderBottomColor: "blue",
   },
 });

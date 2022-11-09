@@ -23,8 +23,13 @@ function TeachersAcademics({ navigation }) {
         });
       }
 
-      if (itemData.item.id === "c6") {
-        navigation.navigate("TeachersNoticeBoard", {
+      if (itemData.item.id === "c4") {
+        navigation.navigate("TeachersMarksheet", {
+          stdId: itemData.item.id,
+        });
+      }
+      if (itemData.item.id === "c5") {
+        navigation.navigate("TeachersLeave", {
           stdId: itemData.item.id,
         });
       }
@@ -36,7 +41,7 @@ function TeachersAcademics({ navigation }) {
       //   style={{}}
 
       // >
-      <View style={styles.root}>
+      <View style={styles.rootContainer}>
         <CategoryGridTile
           title={itemData.item.title}
           color={itemData.item.color}
@@ -79,5 +84,11 @@ const styles = StyleSheet.create({
   },
   test: {
     top: 25,
+  },
+  rootContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    //padding: 32,
   },
 });

@@ -12,7 +12,7 @@ import {
 import ImageSlider from "../../screens/ParentsLoginScreen/ImageSlider";
 
 export var studentId, className, StudentRegNo, busNumber, Section, StudentName;
-function StudentItem({
+function StudentProfile({
   student_name,
   class_name,
   id,
@@ -29,8 +29,13 @@ function StudentItem({
     className = class_name;
     busNumber = busnumber;
     Section = section;
-    console.log(id);
-    navigation.navigate("Category");
+    // console.log(id);
+    navigation.navigate("StudentDetails", {
+      stdreg: reg_number,
+      stdname: student_name,
+      stdclass: class_name,
+      stdsection: section,
+    });
   }
   return (
     <>
@@ -93,7 +98,7 @@ function StudentItem({
     </>
   );
 }
-export default StudentItem;
+export default StudentProfile;
 const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 

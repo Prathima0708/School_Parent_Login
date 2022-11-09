@@ -33,7 +33,7 @@ const TecahersExamTimeTable = () => {
   const diffClamp = Animated.diffClamp(scrollY, 0, 80);
 
   const headermax = 80;
-  const headermin = 20;
+  const headermin = 10;
 
   const animateHeaderBackGround = scrollY.interpolate({
     inputRange: [0, headermax - headermin],
@@ -617,9 +617,9 @@ const TecahersExamTimeTable = () => {
             {/* <NativeBtn onPress={viewExam}>Add new</NativeBtn> */}
 
             <IconButton
-              colorScheme="indigo"
+              colorScheme="blue"
               onPress={viewExam}
-              variant="outline"
+              variant="solid"
               _icon={{
                 as: Ionicons,
                 name: "add",
@@ -1183,16 +1183,8 @@ const styles = StyleSheet.create({
     height: 20,
   },
   timetablebtn: {
-    // width: "180%",
-    // height: "150%",
-    // fontWeight: "200",
-    // // paddingVertical: 20,
-    // //paddingHorizontal: 0,
-    // // marginTop: -30,
-    // // marginBottom: 10,
-    // marginLeft: deviceWidth < 370 ? 260 : 280,
-    width: "30%",
-    marginLeft: deviceWidth < 370 ? 260 : 250,
+    width: "15%",
+    marginLeft: deviceWidth < 370 ? 260 : 310,
     marginTop: 10,
   },
 

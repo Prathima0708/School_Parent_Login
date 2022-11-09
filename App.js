@@ -48,6 +48,8 @@ import TeachersCalendarScreenBuild from "./screens/TeachersLoginScreen/Calendar/
 import { LogBox } from "react-native";
 import TeachersAttendance from "./screens/TeachersLoginScreen/TeachersAcademics/Attendance/TeachersAttendance";
 import { NativeBaseProvider } from "native-base";
+import StudentDetails from "./components/StudentItem/StudentDetails";
+import EditTransport from "./screens/TeachersLoginScreen/Transport/EditTransport";
 var value, Group, GroupP, GroupT;
 // function Bottom() {
 //   return (
@@ -91,7 +93,7 @@ export default function App() {
     ]);
   }, []);
 
-  // console.disableYellowBox = true;
+  console.disableYellowBox = true;
   useEffect(() => {
     async function getGroup() {
       Group = await AsyncStorage.getItem("datagroup");
@@ -439,6 +441,7 @@ export default function App() {
               component={TeachersTransport}
               options={{ title: "Transport" }}
             />
+            <Stack.Screen name="EditTransport" component={EditTransport} />
             {/* <Stack.Screen
               name="TeachersOverview"
               component={TeachersOverviewScreen}
@@ -467,6 +470,11 @@ export default function App() {
               name="Homework"
               component={HomeworkScreen}
               options={{ title: "Homework" }}
+            />
+            <Stack.Screen
+              name="StudentDetails"
+              component={StudentDetails}
+              options={{ title: "EditProfile" }}
             />
           </Stack.Navigator>
         </NavigationContainer>

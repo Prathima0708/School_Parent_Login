@@ -30,17 +30,16 @@ const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   gridItem: {
-    marginHorizontal: deviceHieght > 800 ? 7 : 7,
-    marginVertical: 10,
+    flex: 1,
+    marginHorizontal: 9,
+    marginVertical: 15,
     padding: 7,
-    //paddingTop: 0,
+    paddingTop: 0,
+    width: 150,
 
-    width: deviceHieght > 800 ? 160 : 150,
-    // right:deviceWidth > 360 ? 1 : 20,
-    height: deviceWidth < 370 ? 90 : 110,
-    
+    height: 110,
     borderRadius: 18,
-    elevation: 5,
+    elevation: 3,
     shadowColor: "black",
 
     shadowOpacity: 0.75,
@@ -49,10 +48,10 @@ const styles = StyleSheet.create({
     overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
   icon: {
-    width: deviceWidth < 370 ? 40 : 50,
-    height: deviceWidth < 370 ? 40 : 50,
+    width: 50,
+    height: 50,
     borderWidth: 3,
-    top: deviceWidth < 370 ? 10 : 15,
+    top: 15,
     left: 10,
   },
   sub: {
@@ -72,10 +71,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    top: deviceWidth < 370 ? 15 : 20,
+    top: 17,
+
     left: 10,
     fontFamily: "HindMedium",
     letterSpacing: 0.7,
+
     fontSize: deviceWidth < 370 ? 16 : 18,
+    left: 10,
   },
 });
