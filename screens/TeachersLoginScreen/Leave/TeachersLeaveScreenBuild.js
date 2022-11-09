@@ -714,13 +714,7 @@ const TeachersLeaveScreenBuild = () => {
             <View>
               <View
                 style={
-                  !leavetypeInputIsInValid
-                    ? !reasonLabel
-                      ? styles.normalRemark
-                      : styles.upRemark
-                    : !reasonLabel
-                    ? styles.normalRemarkExtra
-                    : styles.upRemarkExtra
+                  !leavetypeInputIsInValid ? !reasonLabel ? styles.normalRemark : styles.upRemark : !reasonLabel ? styles.normalRemarkExtra : [styles.upRemarkExtra,{top:3}]
                 }
               >
                 <Text
@@ -728,7 +722,7 @@ const TeachersLeaveScreenBuild = () => {
                     btn
                       ? styles.normalLabel
                       : leavereasonInputIsInValid
-                      ? styles.errorLabel
+                      ? [styles.errorLabel,leavetypeInputIsInValid ? {top:1} : {top:13}]
                       : styles.normalLabel,
                   ]}
                 >
@@ -1197,7 +1191,7 @@ const styles = StyleSheet.create({
     left: deviceWidth < 370 ? 20 : 30,
   },
   upRemark: {
-    top: deviceHieght > 800 ? 25 : 40,
+    top: deviceHieght > 800 ? 25 : 27,
     left: deviceWidth < 370 ? 20 : 30,
     width: deviceWidth > 400 ? 110 : 100,
   },

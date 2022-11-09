@@ -347,7 +347,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   studInfoStyle:{
-    flex: 2.5,
+    flex: 1.4,
     padding:20,
     backgroundColor:'white',
     margin:20,
