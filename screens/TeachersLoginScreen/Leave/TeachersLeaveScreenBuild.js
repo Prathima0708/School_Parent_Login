@@ -550,6 +550,9 @@ const TeachersLeaveScreenBuild = () => {
     setEnteredFromDateTouched(false);
     setEnteredtoDateTouched(false);
     setIsEdit(false);
+
+    setTypeLabel(false);
+    setReasonLabel(false);
   }
   function showLeave() {
     async function fetchData() {
@@ -744,7 +747,13 @@ const TeachersLeaveScreenBuild = () => {
             <View>
               <View
                 style={
-                  !leavetypeInputIsInValid ? !reasonLabel ? styles.normalRemark : styles.upRemark : !reasonLabel ? styles.normalRemarkExtra : [styles.upRemarkExtra,{top:3}]
+                  !leavetypeInputIsInValid
+                    ? !reasonLabel
+                      ? styles.normalRemark
+                      : styles.upRemark
+                    : !reasonLabel
+                    ? styles.normalRemarkExtra
+                    : [styles.upRemarkExtra, { top: 3 }]
                 }
               >
                 <Text
@@ -752,7 +761,10 @@ const TeachersLeaveScreenBuild = () => {
                     btn
                       ? styles.normalLabel
                       : leavereasonInputIsInValid
-                      ? [styles.errorLabel,leavetypeInputIsInValid ? {top:1} : {top:13}]
+                      ? [
+                          styles.errorLabel,
+                          leavetypeInputIsInValid ? { top: 1 } : { top: 13 },
+                        ]
                       : styles.normalLabel,
                   ]}
                 >
@@ -802,7 +814,7 @@ const TeachersLeaveScreenBuild = () => {
                   style={
                     isFromFocused
                       ? styles.focusStyle
-                      : fromDateInputIsInValid && styles.errorBorderColor
+                      : fromDateInputIsInValid && styles.errorBorderColorDate
                   }
                   blur={fromDateBlurHandler}
                   onFocus={onFromFocusHandler}
@@ -854,7 +866,7 @@ const TeachersLeaveScreenBuild = () => {
                   style={
                     isToFocused
                       ? styles.focusStyle
-                      : toDateInputIsInValid && styles.errorBorderColor
+                      : toDateInputIsInValid && styles.errorBorderColorDate
                   }
                   blur={toDateBlurHandler}
                   onFocus={onToFocusHandler}
@@ -1142,6 +1154,9 @@ const styles = StyleSheet.create({
   errorBorderColor: {
     borderColor: "red",
   },
+  errorBorderColorDate: {
+    borderBottomColor: "red",
+  },
   // labels: {
   //   margin: 5,
   //   fontFamily: "Ubuntu",
@@ -1203,9 +1218,10 @@ const styles = StyleSheet.create({
     fontFamily: "HindRegular",
   },
   up: {
-    top: deviceHieght > 800 ? 26 : 26,
+    top: deviceHieght > 800 ? 26 : 21,
     width: deviceWidth > 400 ? 90 : 85,
     left: deviceWidth < 370 ? 20 : 30,
+    fontFamily: "HindRegular",
   },
   errorLabel: {
     color: "red",
@@ -1227,18 +1243,18 @@ const styles = StyleSheet.create({
 
   normalRemark: {
     position: "absolute",
-    top: deviceWidth < 370 ? 20 : 27,
+    top: deviceWidth < 370 ? 20 : 25,
     left: deviceWidth < 370 ? 20 : 30,
   },
   upRemark: {
-    top: deviceHieght > 800 ? 25 : 27,
+    top: deviceHieght > 800 ? 25 : 28,
     left: deviceWidth < 370 ? 20 : 30,
     width: deviceWidth > 400 ? 110 : 100,
   },
   normalRemarkExtra: {
     position: "absolute",
     left: deviceWidth < 370 ? 20 : 30,
-    top: 25,
+    top: 26,
   },
   upRemarkExtra: {
     position: "absolute",

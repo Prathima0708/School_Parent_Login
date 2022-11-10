@@ -54,7 +54,7 @@ const TeacherHomeworkScreenBuild = () => {
     outputRange: [headermax, headermin],
     extrapolate: "clamp",
   });
-  
+
   const [subLabel, setSubLabel] = useState(false);
   const [remarkLabel, setRemarkLabel] = useState(false);
   const [homeworkLabel, setHomeworkLabel] = useState(false);
@@ -479,16 +479,7 @@ const TeacherHomeworkScreenBuild = () => {
       setHW("");
       setShowForm(false);
       setShowList(true);
-      // setForHomeworkList({
-      //   backgroundColor: "#0C60F4",
-      //   color: "white",
-      //   borderRadius: 10,
-      // });
-      // setForHomeworkForm({
-      //   color: "white",
-      //   backgroundColor: "#1E8449",
-      //   borderRadius: 10,
-      // });
+
       setShowInitialBtn(true);
     }
 
@@ -916,7 +907,6 @@ const TeacherHomeworkScreenBuild = () => {
                     boxStyles={
                       selectInputIsInValid && styles.errorSelectedColor
                     }
-                    // boxStyles={{ borderRadius: 0 }}
                     dropdownTextStyles={styles.dropText}
                     inputStyles={styles.dropText}
                   />
@@ -961,10 +951,7 @@ const TeacherHomeworkScreenBuild = () => {
                 <View style={{ flex: 1 }}>
                   <View>
                     <Ionicons
-                      style={{
-                        position: "absolute",
-                        top: 23,
-                      }}
+                      style={styles.iconStyle}
                       name="calendar"
                       size={24}
                       color="black"
@@ -978,7 +965,7 @@ const TeacherHomeworkScreenBuild = () => {
                     style={
                       isFromDateFocused
                         ? styles.focusStyle
-                        : fromDateInputIsInValid && styles.errorBorderColor
+                        : fromDateInputIsInValid && styles.errorBorderColorDate
                     }
                     blur={dateFromHandler}
                     onFocus={onFocusFromHandler}
@@ -1003,10 +990,7 @@ const TeacherHomeworkScreenBuild = () => {
                 <View style={{ flex: 1 }}>
                   <View>
                     <Ionicons
-                      style={{
-                        position: "absolute",
-                        top: 23,
-                      }}
+                      style={styles.iconStyle}
                       name="calendar"
                       size={24}
                       color="black"
@@ -1019,7 +1003,7 @@ const TeacherHomeworkScreenBuild = () => {
                     style={
                       isToDateFocused
                         ? styles.focusStyle
-                        : toDateInputIsInValid && styles.errorBorderColor
+                        : toDateInputIsInValid && styles.errorBorderColorDate
                     }
                     blur={dateToHandler}
                     onFocus={onFocusToHandler}
@@ -1148,14 +1132,7 @@ const TeacherHomeworkScreenBuild = () => {
                 {imagePreView}
               </View>
               {imageInputIsInValid && (
-                <Text
-                  style={{
-                    color: "red",
-                    left: 20,
-                    fontFamily: "HindRegular",
-                    fontSize: 18,
-                  }}
-                >
+                <Text style={styles.errorText}>
                   Please upload or take homework image
                 </Text>
               )}
@@ -1361,8 +1338,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#FDFEFE",
   },
   btnSubmit1: {
-    // marginTop: 50,
-    // marginBottom: 30,
     marginLeft: "50%",
     width: "50%",
   },
@@ -1372,12 +1347,7 @@ const styles = StyleSheet.create({
     marginLeft: -15,
     width: "50%",
   },
-  container: {
-    marginTop: 20,
-  },
-  home: {
-    marginTop: 29,
-  },
+
   root: {
     backgroundColor: "white",
     height: "100%",
@@ -1392,20 +1362,15 @@ const styles = StyleSheet.create({
   errorBorderColor: {
     borderColor: "red",
   },
+  errorBorderColorDate: {
+    borderBottomColor: "red",
+  },
   errorSelectedColor: {
     borderColor: "red",
   },
   selectStyle: {
     marginRight: deviceWidth < 370 ? "2%" : "5%",
     marginLeft: deviceWidth < 370 ? "2%" : "4%",
-  },
-  labels: {
-    margin: 5,
-    fontFamily: "Ubuntu",
-    fontSize: deviceWidth < 370 ? 16 : 18,
-    flex: 0.7,
-    top: 10,
-    // marginTop: 17,
   },
 
   space: {
@@ -1427,9 +1392,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: "lightblue",
   },
-  noImage: {
-    //
-  },
+
   imageError: {
     color: "red",
     position: "absolute",
@@ -1445,34 +1408,7 @@ const styles = StyleSheet.create({
     width: 15, // or whatever size you need
     // height: 15,
   },
-  th: {
-    padding: 5,
-    marginRight: 13,
-    //fontSize: 24,
-  },
-  tableHeader: {
-    backgroundColor: "skyblue",
 
-    height: 50,
-    fontWeight: "bold",
-  },
-  tableTitle: {
-    // padding: 5,
-    margin: 7,
-    fontFamily: "MonsterratBold",
-    fontSize: 16,
-  },
-  tableCell: {
-    width: 50,
-    //  fontFamily: "Montserrat_600SemiBold",
-    left: 5,
-  },
-
-  tableRow: {
-    height: "9%",
-    borderBottomColor: "black",
-    borderBottomWidth: 2,
-  },
   cardTextStyle: {
     fontFamily: "HindSemiBold",
     fontSize: 16,
@@ -1481,9 +1417,8 @@ const styles = StyleSheet.create({
   searchBar: {
     marginTop: 20,
     marginBottom: 20,
-    // backgroundColor: "white",
+
     backgroundColor: "#F0F3F4",
-    // height:deviceWidth < 370 ? "6%" : "6%",
   },
   dropText: {
     fontSize: deviceWidth < 370 ? 16 : 18,
@@ -1562,12 +1497,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 16,
   },
-  upWaring: {
-    color: "red",
-    left: 30,
-    fontFamily: "HindRegular",
-    fontSize: deviceWidth < 370 ? 15 : 16,
+
+  iconStyle: {
     position: "absolute",
-    top: 65,
+    top: 23,
   },
 });

@@ -26,6 +26,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import SearchBar from "react-native-dynamic-search-bar";
 import { useNavigation } from "@react-navigation/native";
+import { Skeleton } from "native-base";
 export var ID;
 
 const TeachersTransport = () => {
@@ -183,9 +184,6 @@ const TeachersTransport = () => {
     };
   }, []);
 
-  function studentIDChangeHandler(enteredValue) {
-    setEnteredStudentID(enteredValue);
-  }
   function vehicleChangeHandler(enteredValue) {
     setEnteredVehicleNo(enteredValue);
   }
@@ -426,7 +424,7 @@ const TeachersTransport = () => {
               },
             },
           ]);
-          setEnteredStudentID("");
+
           setEnteredBusNumber("");
           setEnteredVehicleNo("");
           setEnteredType("");
@@ -578,7 +576,7 @@ const TeachersTransport = () => {
     setEnteredRoutenameTouched(false);
     setEnteredStopnameTouched(false);
     setIsEdit(false);
-    setEnteredStudentID("");
+
     setEnteredBusNumber("");
     setEnteredVehicleNo("");
     setEnteredType("");
@@ -1054,6 +1052,7 @@ const TeachersTransport = () => {
               {/* <Animated.View style={{transform:[
               {translateY:translateY}
             ]}}> */}
+
               <View style={{ backgroundColor: "white" }}>
                 <SearchBar
                   // style={
@@ -1071,7 +1070,7 @@ const TeachersTransport = () => {
                   value={searchText}
                 />
               </View>
-              {/* </Animated.View> */}
+
               <View
                 style={[
                   { flex: 1 },
