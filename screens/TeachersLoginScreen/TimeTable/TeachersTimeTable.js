@@ -31,7 +31,7 @@ import TimeSlots from "./TimeSlots";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 
 export var CLASSNAME, SECTION, ID;
-//idTimeTab = [];
+export var idTimeTab = [];
 export var TimeTabID;
 
 const TeachersTimetable = () => {
@@ -468,49 +468,49 @@ const TeachersTimetable = () => {
     fetchDailyTimeTable();
   }
 
-  function TimeSlots() {
-    return <Container></Container>;
-  }
+  // function TimeSlots() {
+  //   return <Container></Container>;
+  // }
 
   function addPeriodsHandler() {
-    TimeSlots();
-    // const _inputs = [...inputs];
-    // _inputs.push({
-    //   fromTime: "",
-    //   toTime: "",
-    //   monday: "",
-    //   tuesday: "",
-    //   wednesday: "",
-    //   thursday: "",
-    //   friday: "",
-    //   saturday: "",
-    // });
-    // setInputs(_inputs);
-    // setEnteredSelectedTouched(false);
-    // setEnteredDateTextTouched(false);
-    // setEnteredFromTimeTouched(false);
-    // setEnteredToTimeTouched(false);
-    // setEnteredMondayTouched(false);
-    // setEnteredTuesdayTouched(false);
-    // setEnteredWednesdayTouched(false);
-    // setEnteredThursdayTouched(false);
-    // setEnteredFridayTouched(false);
-    // setEnteredSaturdayTouched(false);
-    // // setFromTimeText("");
-    // // setToTimeText("");
-    // // setDateText("");
-    // setMonday("");
-    // setTuesday("");
-    // setWednesday("");
-    // setThursday("");
-    // setFriday("");
-    // setSaturday("");
+    // TimeSlots();
+    const _inputs = [...inputs];
+    _inputs.push({
+      fromTime: "",
+      toTime: "",
+      monday: "",
+      tuesday: "",
+      wednesday: "",
+      thursday: "",
+      friday: "",
+      saturday: "",
+    });
+    setInputs(_inputs);
+    setEnteredSelectedTouched(false);
+    setEnteredDateTextTouched(false);
+    setEnteredFromTimeTouched(false);
+    setEnteredToTimeTouched(false);
+    setEnteredMondayTouched(false);
+    setEnteredTuesdayTouched(false);
+    setEnteredWednesdayTouched(false);
+    setEnteredThursdayTouched(false);
+    setEnteredFridayTouched(false);
+    setEnteredSaturdayTouched(false);
+    // setFromTimeText("");
+    // setToTimeText("");
+    // setDateText("");
+    setMonday("");
+    setTuesday("");
+    setWednesday("");
+    setThursday("");
+    setFriday("");
+    setSaturday("");
     //console.log(_inputs);
   }
 
   function addDailyTimeTableHandler() {
     setBtn(true);
-    //console.log(inputs);
+    console.log(inputs);
     console.log("-----------------------------------------------");
     let selectedData = selectedTimeTable.split(" - ");
     let class_name = selectedData[0];

@@ -12,6 +12,9 @@ import {
   Animated,
 } from "react-native";
 import moment from "moment";
+import {
+Spinner
+} from "native-base";
 import { Keyboard } from "react-native";
 import React, { useEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -929,6 +932,7 @@ const TeachersLeaveScreenBuild = () => {
                 )}
               >
                 <View style={styles.root}>
+                {/* {!filteredData && <Spinner size="lg" />} */}
                   {filteredData &&
                     filteredData.map((data) => (
                       <>
