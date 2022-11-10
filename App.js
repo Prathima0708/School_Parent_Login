@@ -50,6 +50,7 @@ import TeachersAttendance from "./screens/TeachersLoginScreen/TeachersAcademics/
 import { NativeBaseProvider } from "native-base";
 import StudentDetails from "./components/StudentItem/StudentDetails";
 import EditTransport from "./screens/TeachersLoginScreen/Transport/EditTransport";
+import EditCalendar from "./screens/TeachersLoginScreen/Calendar/EditCalendar";
 var value, Group, GroupP, GroupT;
 // function Bottom() {
 //   return (
@@ -442,6 +443,7 @@ export default function App() {
               options={{ title: "Transport" }}
             />
             <Stack.Screen name="EditTransport" component={EditTransport} />
+            <Stack.Screen name="EditCalendar" component={EditCalendar} />
             {/* <Stack.Screen
               name="TeachersOverview"
               component={TeachersOverviewScreen}

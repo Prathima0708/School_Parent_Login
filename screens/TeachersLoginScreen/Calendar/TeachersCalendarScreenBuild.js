@@ -8,6 +8,7 @@ import {
   Button as Btn,
   Dimensions,
   LogBox,
+  Pressable,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import FloatLabelTextInput from "react-native-floating-label-text-input";
@@ -29,10 +30,13 @@ import { Card, DataTable } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import { Animated } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import EditCalendar from "./EditCalendar";
 // import { Label } from "react-native-form-component";
 var FloatingLabel = require("react-native-floating-labels");
 export var ID;
 const TeachersCalendarScreenBuild = () => {
+  const navigation = useNavigation();
   const scrollY = new Animated.Value(0);
 
   const diffClamp = Animated.diffClamp(scrollY, 0, 100);
@@ -585,6 +589,46 @@ const TeachersCalendarScreenBuild = () => {
     fetchData();
   }
 
+  // function editItem(id) {
+  //   // setShowInitialBtn(false);
+
+  //   setLabel(true);
+  //   setDescriptionLabel(true);
+  //   ID = id;
+  //   // console.log(id);
+  //   const filteredDummuyData = data.find((data) => data.id == id);
+  //   navigation.navigate("EditCalendar", {
+  //     id: id,
+  //     title: filteredDummuyData.titlee,
+  //     desc: filteredDummuyData.description,
+  //     fromtext: moment(filteredDummuyData.startdate).format("DD/MM/YYYY"),
+  //     totext: moment(filteredDummuyData.enddate).format("DD/MM/YYYY"),
+  //     cancel: cancelHandler.bind(this),
+  //   });
+
+  //   setEnteredDescription(filteredDummuyData.description);
+  //   //  setEnteredcreatedby(filteredDummuyData.created_by);
+  //   setFromText(moment(filteredDummuyData.startdate).format("DD/MM/YYYY"));
+  //   setToText(moment(filteredDummuyData.enddate).format("DD/MM/YYYY"));
+  //   setEnteredTitle(filteredDummuyData.titlee);
+  //   //  setEnteredMobile(filteredDummuyData.exam_name);
+  //   //  setEnteredRouteName(filteredDummuyData.hour);
+
+  //   setForCalendarList({
+  //     backgroundColor: "#F4F6F6",
+  //     color: "black",
+  //     borderRadius: 10,
+  //   });
+  //   setForCalendarForm({
+  //     color: "white",
+  //     backgroundColor: "#1E8449",
+  //     borderRadius: 10,
+  //   });
+  //   // setShowForm(true);
+  //   // setShowList(false);
+  //   setIsEdit(true);
+  // }
+
   function editItem(id) {
     setShowInitialBtn(false);
     setLabel(true);
@@ -614,7 +658,6 @@ const TeachersCalendarScreenBuild = () => {
     setShowList(false);
     setIsEdit(true);
   }
-
   function deleteItem(id) {
     Alert.alert("Confirm Deletion", "You are about to delete this row!", [
       {
@@ -938,7 +981,7 @@ const TeachersCalendarScreenBuild = () => {
             >
               <View style={styles.root}>
                 {filteredData &&
-                  filteredData.map((filteredData) => (
+                  filteredData.map((filteredData, key) => (
                     <>
                       <View>
                         <Card
