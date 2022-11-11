@@ -12,9 +12,7 @@ import {
   Animated,
 } from "react-native";
 import moment from "moment";
-import {
-Spinner
-} from "native-base";
+import { Spinner } from "native-base";
 import { Keyboard } from "react-native";
 import React, { useEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -190,9 +188,9 @@ const TeachersLeaveScreenBuild = () => {
   };
 
   const fromDateChangeHandler = (event, selectedFromDate) => {
-    const currentFromDate = selectedFromDate || fromDate;
+    const currentFromDate = selectedFromDate;
     setFromShow(Platform.OS === "ios");
-    setFromDate(currentFromDate);
+    // setFromDate(currentFromDate);
 
     let tempFromDate = new Date(currentFromDate);
     let fDate =
@@ -205,16 +203,19 @@ const TeachersLeaveScreenBuild = () => {
     if (event.type == "set") {
       setFromText(fDate);
     } else {
-      //cancel button clicked
+      // if (event?.type === "dismissed") {
+      //   setFromText("");
+      //   return;
+      // }
     }
 
     //console.log(fDate);
   };
 
   const toDateChangeHandler = (event, selectedToDate) => {
-    const currentToDate = selectedToDate || toDate;
+    const currentToDate = selectedToDate;
     setToShow(Platform.OS === "ios");
-    setToDate(currentToDate);
+    // setToDate(currentToDate);
 
     let tempToDate = new Date(currentToDate);
     let tDate =
@@ -227,7 +228,10 @@ const TeachersLeaveScreenBuild = () => {
     if (event.type == "set") {
       setToText(tDate);
     } else {
-      //cancel button clicked
+      // if (event?.type === "dismissed") {
+      //   setToText(tDate);
+      //   return;
+      // }
     }
     // console.log(fDate);
   };
@@ -893,6 +897,7 @@ const TeachersLeaveScreenBuild = () => {
                     is24Hour={true}
                     display="default"
                     onChange={toDateChangeHandler}
+                    
                     //  minimumDate={fromDate}
                   />
                 )}
@@ -944,7 +949,7 @@ const TeachersLeaveScreenBuild = () => {
                 )}
               >
                 <View style={styles.root}>
-                {/* {!filteredData && <Spinner size="lg" />} */}
+                  {/* {!filteredData && <Spinner size="lg" />} */}
                   {filteredData &&
                     filteredData.map((data) => (
                       <>

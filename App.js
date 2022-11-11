@@ -78,6 +78,7 @@ export default function App() {
     HindLight: require("./assets/fonts/Hind-Light.ttf"),
     HindMedium: require("./assets/fonts/Hind-Medium.ttf"),
     HindSemiBold: require("./assets/fonts/Hind-SemiBold.ttf"),
+    LunchTypeItalic: require("./assets/fonts/Lunchtype23-Regular-Italic.ttf"),
   });
   const [tokenIsPresent, setTokenIsPresent] = useState(false);
   const [showtab, setShowTab] = useState(false);

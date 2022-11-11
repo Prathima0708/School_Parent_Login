@@ -27,6 +27,7 @@ import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import { Button as NativeBtn, IconButton } from "native-base";
 export var ID;
+export var FROMDATE, TODATE;
 const TecahersExamTimeTable = () => {
   const scrollY = new Animated.Value(0);
 
@@ -168,13 +169,13 @@ const TecahersExamTimeTable = () => {
     let section = selectedData[1];
     const FormData = {
       exam_name: examName,
-      start_date: fromDate,
-      end_date: toDate,
+      start_date: FROMDATE,
+      end_date: TODATE,
       Total_marks: totalMarks,
       hour: hour,
-      class_name: class_name,
+      //class_name: class_name,
     };
-    console.log(FormData);
+    // console.log(FormData);
 
     async function storeData() {
       try {
@@ -261,8 +262,8 @@ const TecahersExamTimeTable = () => {
     let section = selectedData[1];
     const FormData = {
       exam_name: examName,
-      start_date: fromDate,
-      end_date: toDate,
+      start_date: FROMDATE,
+      end_date: TODATE,
       Total_marks: totalMarks,
       hour: hour,
       class_name: class_name,
@@ -378,7 +379,10 @@ const TecahersExamTimeTable = () => {
     setDateMode(currentToMode);
   };
   const fromDateChangeHandler = (event, selectedFromDate) => {
-    const currentFromDate = selectedFromDate || fromDate;
+    // console.log(selectedFromDate);
+    // console.log(fromDate);
+    FROMDATE = selectedFromDate;
+    const currentFromDate = selectedFromDate;
     setFromShow(Platform.OS === "ios");
     setFromDate(currentFromDate);
 
@@ -397,7 +401,8 @@ const TecahersExamTimeTable = () => {
   };
 
   const toDateChangeHandler = (event, selectedToDate) => {
-    const currentToDate = selectedToDate || toDate;
+    const currentToDate = selectedToDate;
+    TODATE = selectedToDate;
     setToShow(Platform.OS === "ios");
     setToDate(currentToDate);
 

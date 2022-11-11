@@ -35,6 +35,7 @@ import EditCalendar from "./EditCalendar";
 // import { Label } from "react-native-form-component";
 var FloatingLabel = require("react-native-floating-labels");
 export var ID;
+export var FROMDATE, TODATE;
 const TeachersCalendarScreenBuild = () => {
   const navigation = useNavigation();
   const scrollY = new Animated.Value(0);
@@ -212,7 +213,9 @@ const TeachersCalendarScreenBuild = () => {
   };
 
   const fromDateChangeHandler = (event, selectedFromDate) => {
-    const currentFromDate = selectedFromDate || fromDate;
+    const currentFromDate = selectedFromDate;
+    FROMDATE = selectedFromDate;
+
     setFromShow(Platform.OS === "ios");
     setFromDate(currentFromDate);
 
@@ -234,7 +237,8 @@ const TeachersCalendarScreenBuild = () => {
   };
 
   const toDateChangeHandler = (event, selectedToDate) => {
-    const currentToDate = selectedToDate || toDate;
+    const currentToDate = selectedToDate;
+    TODATE = selectedToDate;
     setToShow(Platform.OS === "ios");
     setToDate(currentToDate);
 
@@ -282,8 +286,8 @@ const TeachersCalendarScreenBuild = () => {
     const FormData = {
       description: description,
       // created_by:createdby,
-      startdate: fromDate,
-      enddate: toDate,
+      startdate: FROMDATE,
+      enddate: TODATE,
       titlee: title,
     };
     //console.log(FormData);
@@ -345,8 +349,8 @@ const TeachersCalendarScreenBuild = () => {
     const FormData = {
       description: description,
       // created_by:createdby,
-      startdate: fromDate,
-      enddate: toDate,
+      startdate: FROMDATE,
+      enddate: TODATE,
       titlee: title,
     };
 
