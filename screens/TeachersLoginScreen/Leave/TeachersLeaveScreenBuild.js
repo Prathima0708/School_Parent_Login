@@ -33,6 +33,9 @@ import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 export var ID;
 const TeachersLeaveScreenBuild = () => {
+
+  const [loading,setLoading]=useState(false);
+
   const scrollY = new Animated.Value(0);
 
   const diffClamp = Animated.diffClamp(scrollY, 0, 100);
@@ -132,9 +135,11 @@ const TeachersLeaveScreenBuild = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
+        const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`)
+        
         setData(res.data);
         setFilteredData(res.data);
+        setLoading(true);
         // console.log(data)
         let test = 0;
         const value = await AsyncStorage.getItem("key");
@@ -352,6 +357,7 @@ const TeachersLeaveScreenBuild = () => {
   }
   function buttonPressedHandler() {
     setBtn(true);
+
     console.log(UserId);
     const FormData = {
       student_reg_number: 11,
@@ -374,11 +380,13 @@ const TeachersLeaveScreenBuild = () => {
           text: "OK",
           onPress: () => {
             setShowForm(false);
+            
             showLeave();
           },
         },
       ]);
     }
+    
     // console.log(FormData);
 
     // var dateFromValidate = fromText;
@@ -445,6 +453,7 @@ const TeachersLeaveScreenBuild = () => {
             headers: headers,
           }
         );
+  
         // const token = resLogin.data.token;
         // const userId = resLogin.data.user_id;
         console.log(resLogin.data);
@@ -453,7 +462,7 @@ const TeachersLeaveScreenBuild = () => {
       }
     }
     storeData();
-
+  
     setEnteredLeaveType("");
     setEnteredLeaveReason("");
     setFromText("");
@@ -707,6 +716,7 @@ const TeachersLeaveScreenBuild = () => {
               Show Leave
             </BgButton>
           </View>
+          
         </Animated.View>
       )}
       {showForm && (
@@ -916,196 +926,10 @@ const TeachersLeaveScreenBuild = () => {
           </View>
         </ScrollView>
       )}
-
-      {showList && (
-        <>
-          <View style={{ backgroundColor: "white" }}>
-            <SearchBar
-              onSubmitEditing={Keyboard.dismiss}
-              style={styles.searchBar}
-              textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
-              placeholder="Search here by leave type"
-              onChangeText={(text) => searchFilter(text)}
-              value={searchText}
-            />
-          </View>
-          <View
-            style={[
-              { flex: 1 },
-              { flexDirection: "column", backgroundColor: "white" },
-            ]}
-          >
-            <View style={{ flex: 8, bottom: 10 }}>
-              <ScrollView
-                scrollEventThrottle={25}
-                onScroll={Animated.event(
-                  [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-                  { useNativeDriver: false }
-                )}
-              >
-                <View style={styles.root}>
-                {/* {!filteredData && <Spinner size="lg" />} */}
-                  {filteredData &&
-                    filteredData.map((data) => (
-                      <>
-                        <View>
-                          <Card
-                            style={{
-                              marginVertical: 15,
-                              marginHorizontal: 20,
-                              elevation: 5,
-                              borderRadius: 10,
-                              paddingBottom: 20,
-                            }}
-                          >
-                            <Card.Content>
-                              <View style={[{ flexDirection: "row" }]}>
-                                <View style={{ flex: 2, marginLeft: 5 }}>
-                                  <Ionicons
-                                    name="calendar"
-                                    size={25}
-                                    color="#D4AC0D"
-                                    style={{ position: "absolute", left: 5 }}
-                                  />
-                                  <Text style={styles.cardTextStyle}>
-                                    Leave from
-                                  </Text>
-                                </View>
-                                <View style={{ flex: 2 }}>
-                                  <View style={{ flex: 2 }}>
-                                    <Ionicons
-                                      name="calendar"
-                                      size={25}
-                                      color="#D4AC0D"
-                                      style={{ position: "absolute", left: 5 }}
-                                    />
-                                    <Text style={styles.cardTextStyle}>
-                                      Leave to
-                                    </Text>
-                                  </View>
-                                </View>
-                              </View>
-                              <View style={[{ flexDirection: "row" }]}>
-                                <View style={{ flex: 2, left: 45 }}>
-                                  <Text
-                                    style={{
-                                      fontSize: deviceWidth < 370 ? 14 : 16,
-                                      fontFamily: "HindSemiBold",
-                                      color: "grey",
-                                    }}
-                                  >
-                                    {moment(data.leave_form).format(
-                                      "DD/MM/YYYY"
-                                    )}
-                                  </Text>
-                                </View>
-                                <View style={{ flex: 2, left: 120 }}>
-                                  <Text
-                                    style={{
-                                      fontSize: deviceWidth < 370 ? 14 : 16,
-                                      fontFamily: "HindSemiBold",
-                                      color: "grey",
-                                    }}
-                                  >
-                                    {moment(data.leave_to).format("DD/MM/YYYY")}
-                                  </Text>
-                                </View>
-                                <View
-                                  style={{
-                                    flex: 2,
-                                    left: deviceWidth < 370 ? 90 : 100,
-                                    bottom: -65,
-                                  }}
-                                >
-                                  <Ionicons
-                                    name="md-pencil-sharp"
-                                    size={24}
-                                    color="green"
-                                    onPress={() => editItem(data.id)}
-                                  />
-                                </View>
-                                <View
-                                  style={{ flex: 2, left: 50, bottom: -65 }}
-                                >
-                                  <Ionicons
-                                    name="trash"
-                                    size={24}
-                                    color="red"
-                                    onPress={() => deleteItem(data.id)}
-                                  />
-                                </View>
-                              </View>
-                              <View style={[{ flexDirection: "row", flex: 1 }]}>
-                                <View style={{ flex: 2, left: -15, top: 5 }}>
-                                  <Text style={styles.cardTextStyle}>
-                                    Leave Reason:
-                                  </Text>
-                                </View>
-                                <View
-                                  style={{
-                                    flex: 2,
-                                    left: deviceWidth < 370 ? -20 : -35,
-                                    top: 5,
-                                  }}
-                                >
-                                  <Text
-                                    style={{
-                                      fontSize: 16,
-                                      fontFamily: "HindSemiBold",
-                                      color: "grey",
-                                    }}
-                                  >
-                                    {data.leave_reason}
-                                  </Text>
-                                </View>
-                              </View>
-
-                              <View style={[{ flexDirection: "row", flex: 1 }]}>
-                                <View
-                                  style={{
-                                    flex: 2,
-                                    left: -15,
-                                    top: 5,
-                                  }}
-                                >
-                                  <Text style={styles.cardTextStyle}>
-                                    Leave Type:
-                                  </Text>
-                                </View>
-                                <View
-                                  style={{
-                                    flex: 2,
-                                    left: deviceWidth < 370 ? -35 : -50,
-                                    top: 5,
-                                  }}
-                                >
-                                  <Text
-                                    style={{
-                                      fontSize: 16,
-                                      fontFamily: "HindSemiBold",
-                                      color: "grey",
-                                    }}
-                                  >
-                                    {data.leave_type}
-                                  </Text>
-                                </View>
-                              </View>
-                            </Card.Content>
-                          </Card>
-                        </View>
-                      </>
-                    ))}
-                </View>
-              </ScrollView>
-            </View>
-            {keyboardStatus == "Keyboard Hidden" && (
-              <View style={{ flex: 1 }}>
-                <TeachersHome />
-              </View>
-            )}
-          </View>
-        </>
-      )}
+      {loading ? (
+        <Text>1</Text>
+      ) :  <Spinner size="lg" />}
+      
     </>
   );
 };
