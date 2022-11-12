@@ -31,12 +31,15 @@
 //   },
 // });
 
-import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
+import { Text } from "native-base";
+import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 
 function BgButton({ children, onPress, style }) {
   return (
     <Pressable style={[style, styles.button]} onPress={onPress}>
-      <Text style={[style, styles.buttonText]}>{children}</Text>
+      <Text italic bold style={[style, styles.buttonText]}>
+        {children}
+      </Text>
     </Pressable>
   );
 }
@@ -58,7 +61,7 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     // margin: 20,
     //borderRadius: 10,
-    elevation: 9,
+    elevation: 3,
     //  borderWidth:1,
     //marginRight:10,
     //marginHorizontal: 15,
@@ -70,10 +73,12 @@ const styles = StyleSheet.create({
   },
 
   buttonText: {
-    fontFamily: "HindSemiBold",
+    //fontFamily: "LunchTypeItalic",
+    fontFamily: "HindRegular",
     textAlign: "center",
     fontSize: deviceWidth < 370 ? 16 : 20,
-    padding: 5,
+    padding: 9,
+
     //margin: 15,
   },
 });

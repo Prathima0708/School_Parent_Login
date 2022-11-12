@@ -60,7 +60,7 @@ export const TEACHERSACADEMICS = [
   ),
   new Category(
     "c4",
-    "Reportcard",
+    "Marksheet",
 
     "#EFFFFD",
 

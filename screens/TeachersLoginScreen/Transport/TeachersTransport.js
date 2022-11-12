@@ -1,13 +1,10 @@
 import {
   View,
   StyleSheet,
-  TextInput,
   Text,
   ScrollView,
-  Button as Btn,
   Alert,
   Dimensions,
-  TouchableHighlight,
   Animated,
 } from "react-native";
 import React, { useEffect, useState } from "react";
@@ -19,14 +16,13 @@ import BgButton from "../../../components/UI/BgButton";
 import TeachersHome from "../BottomTab/TeachersHome";
 import Input from "../../../components/UI/Input";
 
-import { FlatList } from "react-native";
-import { Card, DataTable } from "react-native-paper";
+import { Card } from "react-native-paper";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import SearchBar from "react-native-dynamic-search-bar";
 import { useNavigation } from "@react-navigation/native";
-import { Skeleton } from "native-base";
+
 export var ID;
 
 const TeachersTransport = () => {
@@ -141,8 +137,7 @@ const TeachersTransport = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState("");
   let i = 0;
-  const [text, onChangeText] = React.useState("Useless Text");
-  const [number, onChangeNumber] = React.useState(null);
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -242,8 +237,7 @@ const TeachersTransport = () => {
               headers: headers,
             }
           );
-          // const token = resLogin.data.token;
-          // const userId = resLogin.data.user_id;
+
           console.log(resLogin.data);
         } catch (error) {
           console.log(error);
@@ -261,63 +255,13 @@ const TeachersTransport = () => {
           },
         },
       ]);
-
-      // if (
-      //   !enteredBusnumberIsValid ||
-      //   !enteredVehicleNoIsValid ||
-      //   !enteredDrivernameIsValid ||
-      //   !enteredMobileIsValid ||
-      //   !enteredRoutenameIsValid ||
-      //   !enteredStopnameIsValid
-      // ) {
-      //   Alert.alert("Please enter all the fields");
-      // } else {
-      // Alert.alert("Successfully updated", "", [
-      //   {
-      //     text: "OK",
-      //     onPress: () => {
-      //       showTransport();
-      //     },
-      //   },
-      // ]);
-
-      // async function fetchData() {
-      //   try {
-      //     const res = await axios.get(
-      //       `http://10.0.2.2:8000/school/Transportreport/`
-      //     );
-      //     setFilteredData(res.data);
-      //   } catch (error) {
-      //     console.log(error);
-      //   }
-      // }
-      // fetchData();
-      // setEnteredStudentID("");
-      // setEnteredBusNumber("");
-      // setEnteredVehicleNo("");
-      // setEnteredType("");
-      // setEnteredDriverName("");
-      // setEnteredMobile("");
-      // setEnteredRouteName("");
-      // setEnteredStopName("");
-
-      // setForTransportList({
-      //   backgroundColor: "#F4F6F6",
-      //   color: "black",
-      //   borderRadius: 10,
-      // });
-      // setForTransportForm({
-      //   color: "white",
-      //   backgroundColor: "#1E8449",
-      //   borderRadius: 10,
-      // });
     }
     //  }
   }
 
   function buttonPressedHandler() {
     setBtn(true);
-    // console.log(UserId);
+
     const FormData = {
       busnumber: busNumber,
       vehicleno: vehicleno,
@@ -328,7 +272,7 @@ const TeachersTransport = () => {
       stop_name: stopname,
     };
 
-    console.log(FormData);
+    //  console.log(FormData);
 
     setEnteredBusnumberTouched(true);
     setEnteredVehicleNoTouched(true);
@@ -402,8 +346,7 @@ const TeachersTransport = () => {
                   headers: headers,
                 }
               );
-              // const token = resLogin.data.token;
-              // const userId = resLogin.data.user_id;
+
               console.log(resLogin.data);
             } catch (error) {
               console.log(error);
@@ -439,8 +382,7 @@ const TeachersTransport = () => {
           setEnteredMobileTouched(false);
           setEnteredRoutenameTouched(false);
           setEnteredStopnameTouched(false);
-          // setShowForm(false);
-          // setShowList(true);
+
           setForTransportList({
             backgroundColor: "#F4F6F6",
             color: "black",
@@ -451,8 +393,6 @@ const TeachersTransport = () => {
             backgroundColor: "#1E8449",
             borderRadius: 10,
           });
-          // setForTransportForm({ fontWeight: "bold", color: "black" });
-          // setForTransportList({ color: "black" });
         }
       } catch (error) {
         console.log(error);
@@ -549,8 +489,7 @@ const TeachersTransport = () => {
       color: "black",
       backgroundColor: "#F4F6F6",
       borderRadius: 10,
-      // borderTopColor: "#d9dffc",
-      // backgroundColor: "#D6EAF8",
+
       borderBottomWidth: 0,
       borderLeftWidth: 0,
       borderRightWidth: 0,
@@ -564,8 +503,7 @@ const TeachersTransport = () => {
       borderLeftWidth: 0,
       borderRightWidth: 0,
     });
-    // setForTransportList({ fontWeight: "bold", color: "black" });
-    // setForTransportForm({ color: "black" });
+
     setShowForm(true);
     setShowList(false);
     setEnteredBusnumberTouched(false);
@@ -595,8 +533,6 @@ const TeachersTransport = () => {
 
         setFilteredData(res.data);
 
-        // setForTransportForm({ fontWeight: "bold", color: "black" });
-        // setForTransportList({ color: "black" });
         setShowForm(false);
         setShowList(true);
       } catch (error) {
@@ -604,8 +540,7 @@ const TeachersTransport = () => {
       }
     }
     fetchData();
-    // setForTransportForm({ fontWeight: "bold", color: "black" });
-    // setForTransportList({ color: "black" });
+
     setForTransportList({
       backgroundColor: "#F4F6F6",
       color: "black",
@@ -626,10 +561,39 @@ const TeachersTransport = () => {
     setShowList(true);
   }
 
+  // function editItem(id) {
+  //   setShowInitialBtn(false);
+  //   setBusLabel(true);
+  //   setVehLabel(true);
+  //   setTypeLabel(true);
+  //   setDriverLabel(true);
+  //   setMobLabel(true);
+  //   setRootLabel(true);
+  //   setStopLabel(true);
+
+  //   ID = id;
+  //   const filteredDummuyData = data.find((data) => data.id == id);
+
+  //   setEnteredBusNumber(filteredDummuyData.busnumber);
+  //   setEnteredVehicleNo(filteredDummuyData.vehicleno);
+
+  //   setEnteredDriverName(filteredDummuyData.driver_name);
+  //   setEnteredMobile(filteredDummuyData.emp_mobile);
+  //   setEnteredRouteName(filteredDummuyData.route_name);
+  //   setEnteredStopName(filteredDummuyData.stop_name);
+  //   setForTransportList({
+  //     backgroundColor: "#F4F6F6",
+  //     color: "black",
+  //     borderRadius: 10,
+  //   });
+  //   setForTransportForm({
+  //     color: "white",
+  //     backgroundColor: "#1E8449",
+  //     borderRadius: 10,
+  //   });
+  // }
+
   function editItem(id) {
-    navigation.navigate("EditTransport", {
-      busno: busNumber,
-    });
     setShowInitialBtn(false);
     setBusLabel(true);
     setVehLabel(true);
@@ -638,13 +602,13 @@ const TeachersTransport = () => {
     setMobLabel(true);
     setRootLabel(true);
     setStopLabel(true);
-
     ID = id;
+    console.log(id);
     const filteredDummuyData = data.find((data) => data.id == id);
-    //console.log(filteredDummuyData);
+
     setEnteredBusNumber(filteredDummuyData.busnumber);
     setEnteredVehicleNo(filteredDummuyData.vehicleno);
-    // setEnteredType(filteredDummuyData.types);
+
     setEnteredDriverName(filteredDummuyData.driver_name);
     setEnteredMobile(filteredDummuyData.emp_mobile);
     setEnteredRouteName(filteredDummuyData.route_name);
@@ -659,9 +623,9 @@ const TeachersTransport = () => {
       backgroundColor: "#1E8449",
       borderRadius: 10,
     });
-    // setShowForm(true);
-    // setShowList(false);
-    // setIsEdit(true);
+    setShowForm(true);
+    setShowList(false);
+    setIsEdit(true);
   }
 
   function deleteItem(busnumber) {
@@ -697,7 +661,7 @@ const TeachersTransport = () => {
           const res = await axios.get(
             `http://10.0.2.2:8000/school/Transportreport/`
           );
-          // console.log(res.data);
+
           setFilteredData(res.data);
         } catch (error) {
           console.log(error);
@@ -854,7 +818,6 @@ const TeachersTransport = () => {
                         </Text>
                       </View>
                       <Input
-                        // placeholder="Type"
                         onChangeText={typeChangeHandler}
                         blur={typeInputBlur}
                         onFocus={onFocusTypeHandler}
@@ -892,7 +855,6 @@ const TeachersTransport = () => {
                       </Text>
                     </View>
                     <Input
-                      // placeholder="Driver Name"
                       onChangeText={driverNameChangeHandler}
                       blur={drivernameInputBlur}
                       onFocus={onFocusDriverHandler}
@@ -963,7 +925,6 @@ const TeachersTransport = () => {
                       </Text>
                     </View>
                     <Input
-                      // placeholder="Route Name"
                       onChangeText={routeNameChangeHandler}
                       blur={routenameInputBlur}
                       onFocus={onFocusRouteHandler}
@@ -1055,11 +1016,6 @@ const TeachersTransport = () => {
 
               <View style={{ backgroundColor: "white" }}>
                 <SearchBar
-                  // style={
-                  //   keyboardStatus == "Keyboard Shown"
-                  //     ? styles.upSearch
-                  //     : styles.searchBar
-                  // }
                   style={styles.searchBar}
                   textInputStyle={{
                     fontFamily: "HindRegular",
@@ -1097,36 +1053,36 @@ const TeachersTransport = () => {
                               <Card style={[styles.card]}>
                                 <Card.Content style={{ marginTop: 0 }}>
                                   <View style={styles.flexStyleRow}>
-                                    <View style={{ flex: 2, left: 20, top: 5 }}>
+                                    <View style={styles.flexData1}>
                                       <Text style={[styles.cardTextStyle]}>
                                         Driver Name
                                       </Text>
                                     </View>
-                                    <View style={{ flex: 2, left: 40, top: 5 }}>
+                                    <View style={styles.flexData}>
                                       <Text style={styles.cardData}>
                                         {data.driver_name}
                                       </Text>
                                     </View>
                                   </View>
                                   <View style={styles.flexStyleRow}>
-                                    <View style={{ flex: 2, left: 20, top: 5 }}>
+                                    <View style={styles.flexData1}>
                                       <Text style={[styles.cardTextStyle]}>
                                         Bus Number
                                       </Text>
                                     </View>
-                                    <View style={{ flex: 2, left: 40, top: 5 }}>
+                                    <View style={styles.flexData}>
                                       <Text style={styles.cardData}>
                                         {data.busnumber}
                                       </Text>
                                     </View>
                                   </View>
                                   <View style={styles.flexStyleRow}>
-                                    <View style={{ flex: 2, left: 20, top: 5 }}>
+                                    <View style={styles.flexData1}>
                                       <Text style={[styles.cardTextStyle]}>
                                         Vehicle Number
                                       </Text>
                                     </View>
-                                    <View style={{ flex: 2, left: 40, top: 5 }}>
+                                    <View style={styles.flexData}>
                                       <Text style={styles.cardData}>
                                         {data.vehicleno}
                                       </Text>
@@ -1134,25 +1090,19 @@ const TeachersTransport = () => {
                                   </View>
 
                                   <View style={styles.flexStyleRow}>
-                                    <View style={{ flex: 2, left: 20, top: 5 }}>
+                                    <View style={styles.flexData1}>
                                       <Text style={[styles.cardTextStyle]}>
                                         Contact Number
                                       </Text>
                                     </View>
-                                    <View style={{ flex: 2, left: 40, top: 5 }}>
+                                    <View style={styles.flexData}>
                                       <Text style={styles.cardData}>
                                         {data.emp_mobile}
                                       </Text>
                                     </View>
                                   </View>
                                   <View style={styles.flexStyleRow}>
-                                    <View
-                                      style={{
-                                        flex: 1,
-                                        top: 5,
-                                        left: deviceWidth < 370 ? 190 : 200,
-                                      }}
-                                    >
+                                    <View style={styles.edititem}>
                                       <Ionicons
                                         name="md-pencil-sharp"
                                         size={24}
@@ -1197,8 +1147,6 @@ export default TeachersTransport;
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHieght = Dimensions.get("window").height;
-// console.log("H", deviceHieght);
-// console.log("W", deviceWidth);
 
 const styles = StyleSheet.create({
   input: {
@@ -1206,6 +1154,21 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
+  },
+  flexData: {
+    flex: 2,
+    left: 40,
+    top: 5,
+  },
+  flexData1: {
+    flex: 2,
+    left: 20,
+    top: 5,
+  },
+  edititem: {
+    flex: 1,
+    top: 5,
+    left: deviceWidth < 370 ? 190 : 200,
   },
   card: {
     margin: 5,

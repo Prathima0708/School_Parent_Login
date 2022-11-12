@@ -35,6 +35,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 export var ID;
+export var FROMDATE, TODATE;
 const TeacherHomeworkScreenBuild = () => {
   const scrollY = new Animated.Value(0);
 
@@ -298,7 +299,8 @@ const TeacherHomeworkScreenBuild = () => {
   }
 
   const fromDateChangeHandler = (event, selectedFromDate) => {
-    const currentFromDate = selectedFromDate || fromDate;
+    FROMDATE = selectedFromDate;
+    const currentFromDate = selectedFromDate;
     setFromShow(Platform.OS === "ios");
     setFromDate(currentFromDate);
 
@@ -319,7 +321,8 @@ const TeacherHomeworkScreenBuild = () => {
   };
 
   const toDateChangeHandler = (event, selectedToDate) => {
-    const currentToDate = selectedToDate || toDate;
+    const currentToDate = selectedToDate;
+    TODATE = selectedToDate;
     setToShow(Platform.OS === "ios");
     setToDate(currentToDate);
 
@@ -415,11 +418,11 @@ const TeacherHomeworkScreenBuild = () => {
       class_name: class_name,
       section: section,
       subject: subject,
-      homework_date: fromDate,
+      homework_date: FROMDATE,
       remark: remark,
       homework_photo: "",
       homework: "",
-      due_date: toDate,
+      due_date: TODATE,
       description: hw,
     };
     console.log(formdata);
@@ -489,8 +492,7 @@ const TeacherHomeworkScreenBuild = () => {
   function buttonPressedHandler() {
     setBtn(true);
     setSubBtn(true);
-    console.log(selected);
-    console.log(fromText, toText);
+
     const test = image.substring(image.lastIndexOf("/") + 1);
 
     console.log(test);
@@ -592,8 +594,8 @@ const TeacherHomeworkScreenBuild = () => {
         class_name: class_name,
         section: section,
         subject: subject,
-        homework_date: fromDate,
-        due_date: toDate,
+        homework_date: FROMDATE,
+        due_date: TODATE,
         // homework_photo: `/assets/images/${filename}`,
         // homework_photo:uploadedImg,
         remark: remark,
