@@ -12,7 +12,7 @@ import {
   Animated,
 } from "react-native";
 import moment from "moment";
-import { Spinner } from "native-base";
+import { HStack, Spinner } from "native-base";
 import { Keyboard } from "react-native";
 import React, { useEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -31,6 +31,9 @@ import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 export var ID;
 const TeachersLeaveScreenBuild = () => {
+
+  const [loading,setLoading]=useState(true);
+
   const scrollY = new Animated.Value(0);
 
   const diffClamp = Animated.diffClamp(scrollY, 0, 100);
@@ -127,32 +130,34 @@ const TeachersLeaveScreenBuild = () => {
     ]);
   }, []);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
-        setData(res.data);
-        setFilteredData(res.data);
-        // console.log(data)
-        let test = 0;
-        const value = await AsyncStorage.getItem("key");
-        for (i = 0; i < res.data.length; i++) {
-          if (value == res.data[i].created_by) {
-            test = res.data[i].created_by;
-          } else {
-            // console.log('false')
-          }
-        }
-        if (test == value) {
-          // console.log("is same")
-          SetIsSame(true);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`)
+        
+  //       setData(res.data);
+  //       setFilteredData(res.data);
+  //       setLoading(false);
+  //       // console.log(data)
+  //       let test = 0;
+  //       const value = await AsyncStorage.getItem("key");
+  //       for (i = 0; i < res.data.length; i++) {
+  //         if (value == res.data[i].created_by) {
+  //           test = res.data[i].created_by;
+  //         } else {
+  //           // console.log('false')
+  //         }
+  //       }
+  //       if (test == value) {
+  //         // console.log("is same")
+  //         SetIsSame(true);
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -356,6 +361,7 @@ const TeachersLeaveScreenBuild = () => {
   }
   function buttonPressedHandler() {
     setBtn(true);
+
     console.log(UserId);
     const FormData = {
       student_reg_number: 11,
@@ -378,11 +384,13 @@ const TeachersLeaveScreenBuild = () => {
           text: "OK",
           onPress: () => {
             setShowForm(false);
+            
             showLeave();
           },
         },
       ]);
     }
+    
     // console.log(FormData);
 
     // var dateFromValidate = fromText;
@@ -449,6 +457,7 @@ const TeachersLeaveScreenBuild = () => {
             headers: headers,
           }
         );
+  
         // const token = resLogin.data.token;
         // const userId = resLogin.data.user_id;
         console.log(resLogin.data);
@@ -457,7 +466,7 @@ const TeachersLeaveScreenBuild = () => {
       }
     }
     storeData();
-
+  
     setEnteredLeaveType("");
     setEnteredLeaveReason("");
     setFromText("");
@@ -533,6 +542,7 @@ const TeachersLeaveScreenBuild = () => {
   }
 
   function showLeaveForm() {
+    
     setEnteredLeaveType("");
     setEnteredLeaveReason("");
     setFromText("");
@@ -566,6 +576,7 @@ const TeachersLeaveScreenBuild = () => {
 
         setData(res.data);
         setFilteredData(res.data);
+        setLoading(false);
         setForLeaveForm({
           color: "white",
           backgroundColor: "#1E8449",
@@ -711,8 +722,10 @@ const TeachersLeaveScreenBuild = () => {
               Show Leave
             </BgButton>
           </View>
+          
         </Animated.View>
       )}
+
       {showForm && (
         <ScrollView style={{ backgroundColor: "white" }}>
           <View style={styles.inputForm}>
@@ -921,7 +934,12 @@ const TeachersLeaveScreenBuild = () => {
           </View>
         </ScrollView>
       )}
-
+      {/* {!loading && <Text>Testing</Text>} */}
+      {loading && 
+            <HStack space={2} position="absolute" left='45%' top='12%'>
+              <Spinner accessibilityLabel="Loading posts" />
+            </HStack>
+          }
       {showList && (
         <>
           <View style={{ backgroundColor: "white" }}>
