@@ -1214,6 +1214,7 @@ const styles = StyleSheet.create({
     paddingTop: "1%",
     backgroundColor: "white",
     height: "100%",
+    marginTop: -15,
   },
   errorBorderColor: {
     borderColor: "red",
