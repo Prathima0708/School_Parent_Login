@@ -33,6 +33,7 @@ import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 export var CLASSNAME, SECTION, ID;
 export var idTimeTab = [];
 export var TimeTabID;
+export var FROMTIME, TOTIME;
 
 const TeachersTimetable = () => {
   const scrollY = new Animated.Value(0);
@@ -215,8 +216,8 @@ const TeachersTimetable = () => {
   const [timeData, setTimeData] = useState([]);
   const [inputs, setInputs] = useState([
     {
-      fromTime: new Date().toLocaleTimeString(),
-      toTime: new Date().toLocaleTimeString(),
+      fromTime: FROMTIME,
+      toTime: TOTIME,
       fromTimeText: "",
       toTimeText: "",
       monday: "",
@@ -277,6 +278,7 @@ const TeachersTimetable = () => {
 
   const fromTimeChangeHandler = (event, selectedFromTime) => {
     const currentFromTime = selectedFromTime;
+    FROMTIME = selectedFromTime;
     setFromTimeShow(Platform.OS === "ios");
     setFromTime(currentFromTime);
 
@@ -294,6 +296,7 @@ const TeachersTimetable = () => {
   };
 
   const toTimeChangeHandler = (event, selectedToTime) => {
+    TOTIME = selectedToTime;
     const currentToTime = selectedToTime;
     setToTimeShow(Platform.OS === "ios");
     setToTime(currentToTime);
@@ -400,8 +403,8 @@ const TeachersTimetable = () => {
   function addPeriodsHandler() {
     const _inputs = [...inputs];
     _inputs.push({
-      fromTime: "",
-      toTime: "",
+      fromTime: FROMTIME,
+      toTime: TOTIME,
       monday: "",
       tuesday: "",
       wednesday: "",
@@ -430,7 +433,7 @@ const TeachersTimetable = () => {
 
   function addDailyTimeTableHandler() {
     setBtn(true);
-    console.log(inputs);
+    //  console.log(inputs);
     console.log("-----------------------------------------------");
     let selectedData = selectedTimeTable.split(" - ");
     let class_name = selectedData[0];
@@ -485,7 +488,7 @@ const TeachersTimetable = () => {
     }
     // else {
     async function storeTimeTable() {
-      // console.log(inputs);
+      //  console.log(inputs);
       let headers = {
         "Content-Type": "application/json; charset=utf-8",
       };
@@ -513,8 +516,10 @@ const TeachersTimetable = () => {
         const FormData = {
           timetab: idTimeTab[0],
 
-          from_time: fromTimeText,
-          to_time: toTimeText,
+          // from_time: fromTimeText,
+          // to_time: toTimeText,
+          from_time: inputs[i].fromTime,
+          to_time: inputs[i].toTime,
           monday: inputs[i].monday,
           Tuesday: inputs[i].tuesday,
           wednesday: inputs[i].wednesday,
@@ -1756,7 +1761,7 @@ const styles = StyleSheet.create({
     marginBottom: 69,
   },
   tableRow: {
-    height: "10%",
+    height: "5%",
     borderBottomColor: "black",
     borderBottomWidth: 2,
   },

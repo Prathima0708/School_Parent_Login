@@ -9,6 +9,7 @@ import {
   Dimensions,
   LogBox,
   Pressable,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import FloatLabelTextInput from "react-native-floating-label-text-input";
@@ -32,6 +33,8 @@ import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import { Animated } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import EditCalendar from "./EditCalendar";
+import { HStack } from "native-base";
+import { subURL } from "../../../components/utils/URL's";
 // import { Label } from "react-native-form-component";
 var FloatingLabel = require("react-native-floating-labels");
 export var ID;
@@ -131,6 +134,7 @@ const TeachersCalendarScreenBuild = () => {
   const [showInitialBtn, setShowInitialBtn] = useState(true);
 
   const [isActive, setActive] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   let i = 0;
 
@@ -148,7 +152,7 @@ const TeachersCalendarScreenBuild = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
+        const res = await axios.get(`${subURL}/Calendar/`);
 
         setData(res.data);
         setFilteredData(res.data);
@@ -302,7 +306,7 @@ const TeachersCalendarScreenBuild = () => {
           };
           const dataForm = FormData;
           const resLogin = await axios.put(
-            `http://10.0.2.2:8000/school/Calendar/${ID}/`,
+            `${subURL}/Calendar/${ID}/`,
             dataForm,
             {
               headers: headers,
@@ -344,7 +348,10 @@ const TeachersCalendarScreenBuild = () => {
   }
 
   function buttonPressedHandler() {
-    console.log(fromDate, toDate);
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
     setBtn(true);
     const FormData = {
       description: description,
@@ -421,7 +428,7 @@ const TeachersCalendarScreenBuild = () => {
     }
     async function getData() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
+        const res = await axios.get(`${subURL}/Calendar/`);
 
         let filteredlist = res.data.filter(
           (ele) => ele.description == description
@@ -443,7 +450,7 @@ const TeachersCalendarScreenBuild = () => {
               const dataForm = FormData;
 
               const resLogin = await axios.post(
-                `http://10.0.2.2:8000/school/Calendar/`,
+                `${subURL}/Calendar/`,
                 dataForm,
                 {
                   headers: headers,
@@ -568,7 +575,7 @@ const TeachersCalendarScreenBuild = () => {
   function showCalendar() {
     async function fetchData() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
+        const res = await axios.get(`${subURL}/Calendar/`);
         console.log(res.data);
 
         setData(res.data);
@@ -681,7 +688,7 @@ const TeachersCalendarScreenBuild = () => {
         };
         // const dataForm = FormData;
         const resLogin = await axios.delete(
-          `http://10.0.2.2:8000/school/Calendar/${id}/`,
+          `${subURL}/Calendar/${id}/`,
           // FormData,
           {
             headers: headers,
@@ -694,7 +701,7 @@ const TeachersCalendarScreenBuild = () => {
       }
       async function fetchData() {
         try {
-          const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
+          const res = await axios.get(`${subURL}/Calendar/`);
           // console.log(res.data);
           setFilteredData(res.data);
         } catch (error) {
@@ -984,7 +991,16 @@ const TeachersCalendarScreenBuild = () => {
               )}
             >
               <View style={styles.root}>
-                {filteredData &&
+                {loading ? (
+                  <HStack space={8} justifyContent="center" alignItems="center">
+                    <ActivityIndicator
+                      size={40}
+                      visible={loading}
+                      textContent={"Loading..."}
+                      textStyle={styles.spinnerTextStyle}
+                    />
+                  </HStack>
+                ) : (
                   filteredData.map((filteredData, key) => (
                     <>
                       <View>
@@ -1124,7 +1140,8 @@ const TeachersCalendarScreenBuild = () => {
                         </Card>
                       </View>
                     </>
-                  ))}
+                  ))
+                )}
               </View>
             </ScrollView>
           </View>
@@ -1322,5 +1339,8 @@ const styles = StyleSheet.create({
     fontFamily: "HindRegular",
     fontSize: deviceWidth < 370 ? 16 : 18,
     top: deviceHieght > 800 ? -3 : 1,
+  },
+  spinnerTextStyle: {
+    color: "#FFF",
   },
 });

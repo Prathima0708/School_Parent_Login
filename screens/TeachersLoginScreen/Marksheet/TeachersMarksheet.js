@@ -8,6 +8,7 @@ import {
   Alert,
   Dimensions,
   Animated,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Button from "../../../components/UI/Button";
@@ -25,6 +26,7 @@ import SearchBar from "react-native-dynamic-search-bar";
 import SelectList from "react-native-dropdown-select-list";
 import { Ionicons } from "@expo/vector-icons";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
+import { subURL } from "../../../components/utils/URL's";
 export var ID;
 export var StudentList = [];
 const TeachersMarksheet = () => {
@@ -136,6 +138,8 @@ const TeachersMarksheet = () => {
 
   const [filteredMarks, setFilteredMarks] = useState([]);
   const [searchMarks, setSearchMarks] = useState("");
+
+  const [loading, setLoading] = useState(false);
 
   const [forMarkssheetList, setForMarkssheetList] = useState({
     backgroundColor: "#0C60F4",
@@ -355,7 +359,7 @@ const TeachersMarksheet = () => {
           "Content-Type": "application/json; charset=utf-8",
         };
         const resLogin = await axios.put(
-          `http://10.0.2.2:8000/school/Marksheet/${ID}/`,
+          `${subURL}/Marksheet/${ID}/`,
           FormData,
           {
             headers: headers,
@@ -410,7 +414,6 @@ const TeachersMarksheet = () => {
   }
 
   function buttonPressedHandler() {
-    setBtn(true);
     const FormData = {
       student_name: StudentList.student_name,
       class_name: StudentList.class_name,
@@ -515,13 +518,9 @@ const TeachersMarksheet = () => {
           "Content-Type": "application/json; charset=utf-8",
         };
 
-        const resLogin = await axios.post(
-          `http://10.0.2.2:8000/school/Marksheet/`,
-          FormData,
-          {
-            headers: headers,
-          }
-        );
+        const resLogin = await axios.post(`${subURL}/Marksheet/`, FormData, {
+          headers: headers,
+        });
         // const token = resLogin.data.token;
         // const userId = resLogin.data.user_id;
         //   console.log(resLogin.data);
@@ -617,7 +616,7 @@ const TeachersMarksheet = () => {
 
     async function fetchData() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
+        const res = await axios.get(`${subURL}/Marksheet/`);
         // console.log(res.data);
         setMarksheetData(res.data);
         setFilteredData(res.data);
@@ -631,7 +630,7 @@ const TeachersMarksheet = () => {
 
   useEffect(() => {
     axios
-      .get("http://10.0.2.2:8000/school/Studentclass/")
+      .get(`${subURL}/Studentclass/`)
       .then((response) => {
         let newArray = response.data.map((item) => {
           return {
@@ -655,7 +654,7 @@ const TeachersMarksheet = () => {
       let class_name = selectedData[0];
       let section = selectedData[1];
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Student/`);
+        const res = await axios.get(`${subURL}/Student/`);
         //console.log(class_name, section);
 
         let filteredclass = res.data.filter(
@@ -717,7 +716,7 @@ const TeachersMarksheet = () => {
     console.log(StudentList.reg_number);
     async function getData() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
+        const res = await axios.get(`${subURL}/Marksheet/`);
 
         let filteredlist = res.data.filter(
           (ele) => ele.Roll_no == StudentList.reg_number
@@ -828,7 +827,7 @@ const TeachersMarksheet = () => {
         };
         // const dataForm = FormData;
         const resLogin = await axios.delete(
-          `http://10.0.2.2:8000/school/Marksheet/${id}/`,
+          `${subURL}/Marksheet/${id}/`,
           // FormData,
           {
             headers: headers,
@@ -842,7 +841,7 @@ const TeachersMarksheet = () => {
       }
       async function fetchData() {
         try {
-          const res = await axios.get(`http://10.0.2.2:8000/school/Marksheet/`);
+          const res = await axios.get(`${subURL}/Marksheet/`);
           // console.log(res.data);
           setMarksheetData(res.data);
           setFilteredMarks(res.data);
@@ -1523,7 +1522,14 @@ const TeachersMarksheet = () => {
                 </View>
               </DataTable.Header>
 
-              {filteredMarks &&
+              {loading ? (
+                <ActivityIndicator
+                  size={40}
+                  visible={loading}
+                  textContent={"Loading..."}
+                  textStyle={styles.spinnerTextStyle}
+                />
+              ) : (
                 filteredMarks.map((data, key) => (
                   <DataTable.Row style={styles.tableRow} key={key}>
                     <DataTable.Cell
@@ -1642,7 +1648,8 @@ const TeachersMarksheet = () => {
                       />
                     </DataTable.Cell>
                   </DataTable.Row>
-                ))}
+                ))
+              )}
             </DataTable>
           </ScrollView>
           {keyboardStatus == "Keyboard Hidden" && (
@@ -1777,14 +1784,14 @@ const styles = StyleSheet.create({
   errorLabel: {
     color: "red",
     backgroundColor: "#F2F2F2",
-   // backgroundColor: "#F4F6F7",
+    // backgroundColor: "#F4F6F7",
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
   normalLabel: {
     color: "grey",
     backgroundColor: "#F2F2F2",
-   // backgroundColor: "#F4F6F7",
+    // backgroundColor: "#F4F6F7",
     paddingHorizontal: 7,
     fontSize: deviceWidth < 370 ? 13 : 17,
     fontFamily: "HindRegular",
@@ -1829,5 +1836,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 1,
     left: 15,
+  },
+  spinnerTextStyle: {
+    color: "#FFF",
   },
 });

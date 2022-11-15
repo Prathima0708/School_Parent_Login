@@ -9,6 +9,7 @@ import {
   Dimensions,
   TouchableHighlight,
   Animated,
+  ActivityIndicator,
 } from "react-native";
 import React from "react";
 import { useState } from "react";
@@ -26,6 +27,7 @@ import moment from "moment";
 import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import { Button as NativeBtn, IconButton } from "native-base";
+import { subURL } from "../../../components/utils/URL's";
 export var ID;
 export var FROMDATE, TODATE;
 const TecahersExamTimeTable = () => {
@@ -114,6 +116,7 @@ const TecahersExamTimeTable = () => {
 
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -134,7 +137,7 @@ const TecahersExamTimeTable = () => {
   useEffect(() => {
     async function viewExamList() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Exam/`);
+        const res = await axios.get(`${subURL}/Exam/`);
         console.log(res.data);
 
         setShowExamData(res.data);
@@ -148,7 +151,7 @@ const TecahersExamTimeTable = () => {
 
   useEffect(() => {
     axios
-      .get("http://10.0.2.2:8000/school/Studentclass/")
+      .get(`${subURL}/Studentclass/`)
       .then((response) => {
         let newArray = response.data.map((item) => {
           return {
@@ -183,13 +186,9 @@ const TecahersExamTimeTable = () => {
           "Content-Type": "application/json; charset=utf-8",
         };
         const dataForm = FormData;
-        const resLogin = await axios.put(
-          `http://10.0.2.2:8000/school/Exam/${ID}/`,
-          dataForm,
-          {
-            headers: headers,
-          }
-        );
+        const resLogin = await axios.put(`${subURL}/Exam/${ID}/`, dataForm, {
+          headers: headers,
+        });
         const token = resLogin.data.token;
         const userId = resLogin.data.user_id;
         console.log(token);
@@ -236,7 +235,7 @@ const TecahersExamTimeTable = () => {
 
     async function fetchData() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Exam/`);
+        const res = await axios.get(`${subURL}/Exam/`);
         setShowExamData(res.data);
         setFilteredData(res.data);
       } catch (error) {
@@ -255,6 +254,10 @@ const TecahersExamTimeTable = () => {
     // setShowAddBtn(true)
   }
   function addExamTimeTableHandler() {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
     subBtn(true);
 
     let selectedData = selectedExamTimeTable.split(" - ");
@@ -319,13 +322,9 @@ const TecahersExamTimeTable = () => {
             "Content-Type": "application/json; charset=utf-8",
           };
           const dataForm = FormData;
-          const resLogin = await axios.post(
-            "http://10.0.2.2:8000/school/Exam/",
-            dataForm,
-            {
-              headers: headers,
-            }
-          );
+          const resLogin = await axios.post(`${subURL}/Exam/`, dataForm, {
+            headers: headers,
+          });
           const token = resLogin.data.token;
           const userId = resLogin.data.user_id;
           console.log(token);
@@ -444,7 +443,7 @@ const TecahersExamTimeTable = () => {
   function viewExamList() {
     async function viewExamList() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Exam/`);
+        const res = await axios.get(`${subURL}/Exam/`);
         console.log(res.data);
 
         setShowExamData(res.data);
@@ -549,7 +548,7 @@ const TecahersExamTimeTable = () => {
         };
         // const dataForm = FormData;
         const resLogin = await axios.delete(
-          `http://10.0.2.2:8000/school/Exam/${id}/`,
+          `${subURL}/Exam/${id}/`,
           // FormData,
           {
             headers: headers,
@@ -563,7 +562,7 @@ const TecahersExamTimeTable = () => {
       }
       async function fetchData() {
         try {
-          const res = await axios.get(`http://10.0.2.2:8000/school/Exam/`);
+          const res = await axios.get(`${subURL}/Exam/`);
           // console.log(res.data);
           setShowExamData(res.data);
           setFilteredData(res.data);
@@ -663,7 +662,14 @@ const TecahersExamTimeTable = () => {
                 )}
               >
                 <View style={styles.root}>
-                  {filteredData &&
+                  {loading ? (
+                    <ActivityIndicator
+                      size="large"
+                      visible={loading}
+                      textContent={"Loading..."}
+                      // textStyle={styles.spinnerTextStyle}
+                    />
+                  ) : (
                     filteredData.map((data, key) => (
                       <>
                         <Card
@@ -832,7 +838,8 @@ const TecahersExamTimeTable = () => {
                           </Card.Content>
                         </Card>
                       </>
-                    ))}
+                    ))
+                  )}
                 </View>
               </ScrollView>
             </View>

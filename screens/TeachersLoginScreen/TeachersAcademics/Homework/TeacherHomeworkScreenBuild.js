@@ -7,6 +7,7 @@ import {
   Keyboard,
   Dimensions,
   Animated,
+  ActivityIndicator,
 } from "react-native";
 import { Button as NativeButton, Icon } from "native-base";
 import React, { useState } from "react";
@@ -153,6 +154,8 @@ const TeacherHomeworkScreenBuild = () => {
   const [homeworkData, setHomeworkData] = useState([]);
   const [isSame, SetIsSame] = useState(false);
   const [showInitialBtn, setShowInitialBtn] = useState(true);
+
+  const [loading, setLoading] = useState(false);
 
   let i = 0;
 
@@ -490,6 +493,10 @@ const TeacherHomeworkScreenBuild = () => {
   }
 
   function buttonPressedHandler() {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
     setBtn(true);
     setSubBtn(true);
 
@@ -1193,7 +1200,14 @@ const TeacherHomeworkScreenBuild = () => {
                 )}
               >
                 <View style={styles.root}>
-                  {filteredData &&
+                  {loading ? (
+                    <ActivityIndicator
+                      size={40}
+                      visible={loading}
+                      textContent={"Loading..."}
+                      textStyle={styles.spinnerTextStyle}
+                    />
+                  ) : (
                     filteredData.map((homeworkData, key) => (
                       <>
                         <View>
@@ -1309,7 +1323,8 @@ const TeacherHomeworkScreenBuild = () => {
                           </Card>
                         </View>
                       </>
-                    ))}
+                    ))
+                  )}
                 </View>
               </ScrollView>
             </View>
@@ -1503,5 +1518,8 @@ const styles = StyleSheet.create({
   iconStyle: {
     position: "absolute",
     top: 23,
+  },
+  spinnerTextStyle: {
+    color: "#FFF",
   },
 });

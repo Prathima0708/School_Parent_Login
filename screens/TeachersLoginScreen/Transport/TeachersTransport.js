@@ -6,6 +6,7 @@ import {
   Alert,
   Dimensions,
   Animated,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Button from "../../../components/UI/Button";
@@ -22,6 +23,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import SearchBar from "react-native-dynamic-search-bar";
 import { useNavigation } from "@react-navigation/native";
+import { Spinner } from "native-base";
+import { subURL } from "../../../components/utils/URL's";
 
 export var ID;
 
@@ -136,14 +139,14 @@ const TeachersTransport = () => {
 
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState("");
+
+  const [loading, setLoading] = useState(false);
   let i = 0;
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/Transportreport/`
-        );
+        const res = await axios.get(`${subURL}/Transportreport/`);
         setData(res.data);
         let test = 0;
         const value = await AsyncStorage.getItem("key");
@@ -161,6 +164,7 @@ const TeachersTransport = () => {
       } catch (error) {
         console.log(error);
       }
+      // setLoading(false);
     }
     fetchData();
   }, []);
@@ -231,7 +235,7 @@ const TeachersTransport = () => {
           };
 
           const resLogin = await axios.put(
-            `http://10.0.2.2:8000/school/Transportreport/${ID}/`,
+            `${subURL}/Transportreport/${ID}/`,
             FormData,
             {
               headers: headers,
@@ -260,6 +264,10 @@ const TeachersTransport = () => {
   }
 
   function buttonPressedHandler() {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 4000);
     setBtn(true);
 
     const FormData = {
@@ -315,9 +323,7 @@ const TeachersTransport = () => {
     }
     async function getData() {
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/Transportreport/`
-        );
+        const res = await axios.get(`${subURL}/Transportreport/`);
 
         let filteredlist = res.data.filter((ele) => ele.vehicleno == vehicleno);
         if (filteredlist.length > 0) {
@@ -340,7 +346,7 @@ const TeachersTransport = () => {
               };
 
               const resLogin = await axios.post(
-                "http://10.0.2.2:8000/school/Transportreport/",
+                `${subURL}/Transportreport/`,
                 FormData,
                 {
                   headers: headers,
@@ -522,13 +528,19 @@ const TeachersTransport = () => {
     setEnteredMobile("");
     setEnteredRouteName("");
     setEnteredStopName("");
+
+    setIsFocused(false);
+    setIsVehFocused(false);
+    setIsTypeFocused(false);
+    setIsDriverFocused(false);
+    setIsMobFocused(false);
+    setIsRouteFocused(false);
+    setIsStopFocused(false);
   }
   function showTransport() {
     async function fetchData() {
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/Transportreport/`
-        );
+        const res = await axios.get(`${subURL}/Transportreport/`);
         console.log(res.data);
 
         setFilteredData(res.data);
@@ -647,7 +659,7 @@ const TeachersTransport = () => {
           "Content-Type": "application/json; charset=utf-8",
         };
         const resLogin = await axios.delete(
-          `http://10.0.2.2:8000/school/Transportreport/${busnumber}/`,
+          `${subURL}/Transportreport/${busnumber}/`,
           {
             headers: headers,
           }
@@ -656,11 +668,10 @@ const TeachersTransport = () => {
       } catch (error) {
         console.log(error);
       }
+
       async function fetchData() {
         try {
-          const res = await axios.get(
-            `http://10.0.2.2:8000/school/Transportreport/`
-          );
+          const res = await axios.get(`${subURL}/Transportreport/`);
 
           setFilteredData(res.data);
         } catch (error) {
@@ -1046,7 +1057,14 @@ const TeachersTransport = () => {
                     )}
                   >
                     <View style={[styles.root]}>
-                      {filteredData &&
+                      {loading ? (
+                        <ActivityIndicator
+                          size="large"
+                          visible={loading}
+                          textContent={"Loading..."}
+                          textStyle={styles.spinnerTextStyle}
+                        />
+                      ) : (
                         filteredData.map((data) => (
                           <>
                             <View>
@@ -1125,7 +1143,8 @@ const TeachersTransport = () => {
                               </Card>
                             </View>
                           </>
-                        ))}
+                        ))
+                      )}
                     </View>
                   </ScrollView>
                 </View>
@@ -1214,7 +1233,7 @@ const styles = StyleSheet.create({
     paddingTop: "1%",
     backgroundColor: "white",
     height: "100%",
-    marginTop: -15,
+    //marginTop: -15,
   },
   errorBorderColor: {
     borderColor: "red",
@@ -1398,7 +1417,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
   },
-  // upSearch:{
-  //   top:50
-  // }
+  spinnerTextStyle: {
+    color: "#FFF",
+  },
 });

@@ -10,6 +10,7 @@ import {
   Dimensions,
   LogBox,
   Animated,
+  ActivityIndicator,
 } from "react-native";
 import moment from "moment";
 import { HStack, Spinner } from "native-base";
@@ -30,9 +31,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 export var ID;
+export var FROMDATE, TODATE;
 const TeachersLeaveScreenBuild = () => {
-
-  const [loading,setLoading]=useState(true);
+  const [loading, setLoading] = useState(false);
 
   const scrollY = new Animated.Value(0);
 
@@ -134,7 +135,7 @@ const TeachersLeaveScreenBuild = () => {
   //   async function fetchData() {
   //     try {
   //       const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`)
-        
+
   //       setData(res.data);
   //       setFilteredData(res.data);
   //       setLoading(false);
@@ -194,6 +195,7 @@ const TeachersLeaveScreenBuild = () => {
 
   const fromDateChangeHandler = (event, selectedFromDate) => {
     const currentFromDate = selectedFromDate;
+    FROMDATE = selectedFromDate;
     setFromShow(Platform.OS === "ios");
     // setFromDate(currentFromDate);
 
@@ -219,6 +221,7 @@ const TeachersLeaveScreenBuild = () => {
 
   const toDateChangeHandler = (event, selectedToDate) => {
     const currentToDate = selectedToDate;
+    TODATE = selectedToDate;
     setToShow(Platform.OS === "ios");
     // setToDate(currentToDate);
 
@@ -257,8 +260,8 @@ const TeachersLeaveScreenBuild = () => {
     const FormData = {
       leave_type: leaveType,
       leave_reason: leaveReason,
-      leave_form: fromDate,
-      leave_to: toDate,
+      leave_form: FROMDATE,
+      leave_to: TODATE,
     };
     // console.log(FormData);
 
@@ -360,6 +363,10 @@ const TeachersLeaveScreenBuild = () => {
     }
   }
   function buttonPressedHandler() {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
     setBtn(true);
 
     console.log(UserId);
@@ -370,8 +377,8 @@ const TeachersLeaveScreenBuild = () => {
       username: "prathima",
       email: "priya123@gmail.com",
       leave_type: leaveType,
-      leave_form: fromDate,
-      leave_to: toDate,
+      leave_form: FROMDATE,
+      leave_to: TODATE,
       leave_reason: leaveReason,
       leave_status: "pending",
     };
@@ -384,13 +391,13 @@ const TeachersLeaveScreenBuild = () => {
           text: "OK",
           onPress: () => {
             setShowForm(false);
-            
+            //  setShowList(true);
             showLeave();
           },
         },
       ]);
     }
-    
+
     // console.log(FormData);
 
     // var dateFromValidate = fromText;
@@ -457,7 +464,7 @@ const TeachersLeaveScreenBuild = () => {
             headers: headers,
           }
         );
-  
+
         // const token = resLogin.data.token;
         // const userId = resLogin.data.user_id;
         console.log(resLogin.data);
@@ -466,7 +473,7 @@ const TeachersLeaveScreenBuild = () => {
       }
     }
     storeData();
-  
+
     setEnteredLeaveType("");
     setEnteredLeaveReason("");
     setFromText("");
@@ -542,7 +549,6 @@ const TeachersLeaveScreenBuild = () => {
   }
 
   function showLeaveForm() {
-    
     setEnteredLeaveType("");
     setEnteredLeaveReason("");
     setFromText("");
@@ -569,6 +575,10 @@ const TeachersLeaveScreenBuild = () => {
     setReasonLabel(false);
   }
   function showLeave() {
+    // setLoading(true);
+    // setTimeout(() => {
+    //   setLoading(false);
+    // }, 3000);
     async function fetchData() {
       try {
         const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
@@ -576,7 +586,7 @@ const TeachersLeaveScreenBuild = () => {
 
         setData(res.data);
         setFilteredData(res.data);
-        setLoading(false);
+
         setForLeaveForm({
           color: "white",
           backgroundColor: "#1E8449",
@@ -722,7 +732,6 @@ const TeachersLeaveScreenBuild = () => {
               Show Leave
             </BgButton>
           </View>
-          
         </Animated.View>
       )}
 
@@ -910,7 +919,7 @@ const TeachersLeaveScreenBuild = () => {
                     is24Hour={true}
                     display="default"
                     onChange={toDateChangeHandler}
-                    
+
                     //  minimumDate={fromDate}
                   />
                 )}
@@ -935,11 +944,11 @@ const TeachersLeaveScreenBuild = () => {
         </ScrollView>
       )}
       {/* {!loading && <Text>Testing</Text>} */}
-      {loading && 
-            <HStack space={2} position="absolute" left='45%' top='12%'>
-              <Spinner accessibilityLabel="Loading posts" />
-            </HStack>
-          }
+      {/* {loading && (
+        <HStack space={2} position="absolute" left="45%" top="12%">
+          <Spinner accessibilityLabel="Loading posts" />
+        </HStack>
+      )} */}
       {showList && (
         <>
           <View style={{ backgroundColor: "white" }}>
@@ -968,7 +977,14 @@ const TeachersLeaveScreenBuild = () => {
               >
                 <View style={styles.root}>
                   {/* {!filteredData && <Spinner size="lg" />} */}
-                  {filteredData &&
+                  {loading ? (
+                    <ActivityIndicator
+                      size="large"
+                      visible={loading}
+                      textContent={"Loading..."}
+                      textStyle={styles.spinnerTextStyle}
+                    />
+                  ) : (
                     filteredData.map((data) => (
                       <>
                         <View>
@@ -1117,7 +1133,8 @@ const TeachersLeaveScreenBuild = () => {
                           </Card>
                         </View>
                       </>
-                    ))}
+                    ))
+                  )}
                 </View>
               </ScrollView>
             </View>
@@ -1289,5 +1306,8 @@ const styles = StyleSheet.create({
     left: 20,
     fontFamily: "HindRegular",
     fontSize: 16,
+  },
+  spinnerTextStyle: {
+    color: "#FFF",
   },
 });
