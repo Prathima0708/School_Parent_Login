@@ -1477,7 +1477,7 @@ const styles = StyleSheet.create({
   up: {
     top: deviceWidth < 370 ? 15 : 26,
     left: deviceWidth < 370 ? 20 : 30,
-    width: deviceWidth > 400 ? 70 : 64,
+    width: deviceWidth > 400 ? 70 : 70,
   },
   normalRemark: {
     position: "absolute",
@@ -1486,7 +1486,7 @@ const styles = StyleSheet.create({
   },
   upRemark: {
     top: deviceHieght > 800 ? 30 : 25,
-    width: deviceWidth > 400 ? 70 : 65,
+    width: deviceWidth > 400 ? 70 : 70,
     left: deviceWidth < 370 ? 20 : 30,
     height: deviceHieght > 800 ? 25 : 25,
   },
@@ -1498,7 +1498,7 @@ const styles = StyleSheet.create({
   upHomework: {
     top: deviceWidth < 370 ? 15 : 24,
     left: deviceWidth < 370 ? 20 : 30,
-    width: deviceWidth > 400 ? 100 : 90,
+    width: deviceWidth > 400 ? 100 : 95,
   },
   errorLabel: {
     color: "red",
@@ -1513,6 +1513,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 16,
+    letterSpacing: 0.5,
   },
 
   iconStyle: {

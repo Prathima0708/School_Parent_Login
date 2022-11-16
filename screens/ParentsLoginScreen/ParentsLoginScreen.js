@@ -182,7 +182,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import IconButton from "../../components/UI/IconButton";
 import ImageSlider from "./ImageSlider";
 import Swiper from "react-native-swiper";
-import { Heading } from 'native-base';
+import { Heading } from "native-base";
 export var studentList = [];
 export var value;
 function ParentsLoginScreen() {
@@ -287,17 +287,26 @@ function ParentsLoginScreen() {
           <Text style={styles.btnText}>Chat</Text>
         </Pressable>
       </View> */}
-      <View style={[{flex:1}, {flexDirection: "column",backgroundColor:'white'}]}>
-        <View style={styles.studInfoStyle} >
-          <Heading size="md" style={{textAlign:'center',bottom:7}}>Heading</Heading>
+      <View
+        style={[
+          { flex: 1 },
+          { flexDirection: "column", backgroundColor: "white" },
+        ]}
+      >
+        <View style={styles.studInfoStyle}>
+          <Heading size="md" style={{ textAlign: "center", bottom: 7 }}>
+            Heading
+          </Heading>
           <ScrollView persistentScrollbar={false}>
             <FlatList data={students} renderItem={renderStudentDetails} />
           </ScrollView>
         </View>
-        <View style={{ flex: 2,top:-10 }} >
+        <View style={{ flex: 2, top: -10 }}>
           <ImageSlider />
         </View>
-        <View style={{ flex: 0.5,backgroundColor:'white',right:20,bottom:10 }} >
+        <View
+          style={{ flex: 0.5, backgroundColor: "white", right: 20, bottom: 10 }}
+        >
           <Pressable
             style={styles.btnContainer}
             onPress={() => navigation.navigate("Chat")}
@@ -306,7 +315,7 @@ function ParentsLoginScreen() {
             {/* <Text style={styles.btnText}>Chat</Text> */}
           </Pressable>
         </View>
-    </View>
+      </View>
     </>
   );
 }
@@ -331,11 +340,11 @@ const styles = StyleSheet.create({
     // padding: 10,
     // borderRadius: 20,
     backgroundColor: "#DBDDFC",
-    width:'15.5%',
-    left:'85%',
-    padding:10,
-    borderRadius:100,
-    bottom:3
+    width: "15.5%",
+    left: "85%",
+    padding: 10,
+    borderRadius: 100,
+    bottom: 3,
     // // marginTop: -39,
     // marginLeft: 250,
   },
@@ -346,17 +355,17 @@ const styles = StyleSheet.create({
     marginLeft: 3,
     marginTop: 2,
   },
-  studInfoStyle:{
+  studInfoStyle: {
     flex: 1.4,
-    padding:20,
-    backgroundColor:'white',
-    margin:20,
-    borderRadius:10,
+    padding: 20,
+    backgroundColor: "white",
+    margin: 20,
+    borderRadius: 10,
     shadowColor: "black",
-    elevation:10,
+    elevation: 10,
     shadowOpacity: 0.95,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
     overflow: Platform.OS === "android" ? "hidden" : "visible",
-  }
+  },
 });

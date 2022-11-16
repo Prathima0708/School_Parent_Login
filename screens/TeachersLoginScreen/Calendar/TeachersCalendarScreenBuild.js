@@ -1275,6 +1275,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     // bottom: 0,
     fontSize: deviceWidth < 370 ? 13 : 16,
+    letterSpacing: 0.5,
   },
   submitLabel: {
     color: "grey",

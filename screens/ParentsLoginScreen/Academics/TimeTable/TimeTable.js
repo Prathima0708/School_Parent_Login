@@ -114,123 +114,125 @@ const TimeTable = () => {
       </View>
       {showTable && (
         <>
-          <View style={styles.studentItem}>
+          <View style={{ backgroundColor: "white", height: "100%" }}>
             <View style={styles.studentItem}>
-              <Text style={[styles.textBase, styles.description]}>
-                Class: {className}
-              </Text>
-              <Text style={[styles.textBase, styles.description]}>
-                Section: {Section}
-              </Text>
+              <View style={styles.studentItem}>
+                <Text style={[styles.textBase, styles.description]}>
+                  Class: {className}
+                </Text>
+                <Text style={[styles.textBase, styles.description]}>
+                  Section: {Section}
+                </Text>
+              </View>
             </View>
+            <ScrollView horizontal={true}>
+              <DataTable style={styles.container}>
+                <DataTable.Header style={styles.tableHeader}>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> TIMINGS</Text>
+                  </View>
+
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> MON</Text>
+                  </View>
+
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> TUE</Text>
+                  </View>
+
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> WED</Text>
+                  </View>
+
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}>THUR</Text>
+                  </View>
+
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> FRI</Text>
+                  </View>
+
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> SAT</Text>
+                  </View>
+                </DataTable.Header>
+                {timeTable &&
+                  timeTable.map((data, key) => (
+                    <DataTable.Row style={styles.tableRow} key={key}>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: deviceWidth < 370 ? 16 : 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 10,
+                        }}
+                      >
+                        {moment(data.from_time, "HH:mm").format("hh:mm ")} {"-"}{" "}
+                        {""}
+                        {moment(data.to_time, "HH:mm").format("hh:mm ")}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 5,
+                        }}
+                      >
+                        {data.monday}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 10,
+                        }}
+                      >
+                        {data.Tuesday}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 10,
+                        }}
+                      >
+                        {data.wednesday}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 10,
+                        }}
+                      >
+                        {data.thursday}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 10,
+                        }}
+                      >
+                        {data.friday}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 25,
+                        }}
+                      >
+                        {data.saturday}
+                      </DataTable.Cell>
+                    </DataTable.Row>
+                  ))}
+              </DataTable>
+            </ScrollView>
           </View>
-          <ScrollView horizontal={true}>
-            <DataTable style={styles.container}>
-              <DataTable.Header style={styles.tableHeader}>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> TIMINGS</Text>
-                </View>
-
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> MON</Text>
-                </View>
-
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> TUE</Text>
-                </View>
-
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> WED</Text>
-                </View>
-
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}>THUR</Text>
-                </View>
-
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> FRI</Text>
-                </View>
-
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> SAT</Text>
-                </View>
-              </DataTable.Header>
-              {timeTable &&
-                timeTable.map((data, key) => (
-                  <DataTable.Row style={styles.tableRow} key={key}>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: deviceWidth < 370 ? 16 : 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 10,
-                      }}
-                    >
-                      {moment(data.from_time, "HH:mm").format("hh:mm ")} {"-"}{" "}
-                      {""}
-                      {moment(data.to_time, "HH:mm").format("hh:mm ")}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 5,
-                      }}
-                    >
-                      {data.monday}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 10,
-                      }}
-                    >
-                      {data.Tuesday}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 10,
-                      }}
-                    >
-                      {data.wednesday}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 10,
-                      }}
-                    >
-                      {data.thursday}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 10,
-                      }}
-                    >
-                      {data.friday}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 25,
-                      }}
-                    >
-                      {data.saturday}
-                    </DataTable.Cell>
-                  </DataTable.Row>
-                ))}
-            </DataTable>
-          </ScrollView>
         </>
       )}
       {showForm && (
-        <ScrollView horizontal={true}>
+        <ScrollView horizontal={true} style={{ backgroundColor: "white" }}>
           <DataTable style={styles.container}>
             <DataTable.Header style={styles.tableHeader}>
               <View style={styles.th}>
@@ -328,8 +330,12 @@ const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   BtnContainer: {
+    fontSize: 24,
     flexDirection: "row",
-    width: "50%",
+
+    width: "100%",
+
+    backgroundColor: "white",
   },
   studentItem: {
     width: "90%",
@@ -340,7 +346,7 @@ const styles = StyleSheet.create({
     // paddingTop: 0,
     paddingBottom: 9,
     flexDirection: "row",
-    // backgroundColor: "skyblue",
+    //backgroundColor: "skyblue",
     borderRadius: 10,
     justifyContent: "space-between",
   },
