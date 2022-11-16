@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Test from "../components/UI/LgButton";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import KeyboardAccessory from "react-native-sticky-keyboard-accessory";
@@ -15,6 +15,7 @@ import {
   Keyboard,
   TouchableHighlight,
 } from "react-native";
+import { HStack, VStack,Alert as NativeAlert,Text as NativeText, AlertDialog} from "native-base";
 import Button from "../components/UI/Button";
 import axios from "axios";
 import { Colors } from "../components/constants/styles";
@@ -51,10 +52,17 @@ function Login() {
   //   Roboto: require("../assets/fonts/Roboto-Black.ttf"),
   //   RobotoBold: require("../assets/fonts/Roboto-Bold.ttf"),
   // });
+  const [isOpen, setIsOpen] = useState(false);
+  const cancelRef = useRef(null);
   const navigation = useNavigation();
   const [enteredUser, setEnteredUser] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
   const [enteredPhone, setEnteredPhone] = useState("");
+
+  const [invalidPassword,setInValidPassword]=useState(false);
+  const [invalidUserName,setInValidUserName]=useState(false);
+  const [invalidForm,setInValidForm]=useState(false);
+
   const [students, setStudents] = useState([]);
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [authToken, setAuthToken] = useState();
@@ -89,7 +97,7 @@ function Login() {
   const [expandHight, setExpandHieght] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
-
+  const onClose = () => setIsOpen(false);
   // function login() {
   //   //fun call get stdent  --  [{ctnum},{}]
   //   // filter ctnum -- enteredPhone  ----- fitertedstdData = [{},{}] || []
@@ -112,117 +120,144 @@ function Login() {
   }, []);
 
   async function login() {
-    try {
-      //  const token = "c4e8c2613ea3f60e47de0bd593ec2d71357e934b";
-      let headers = {
-        "Content-Type": "application/json; charset=utf-8",
-      };
-      const user = { username: enteredUser, password: enteredPassword };
-      Teacher = user.username;
-      const resLogin = await axios.post(
-        "http://10.0.2.2:8000/school/api-token-auth/",
-        user,
 
-        {
-          headers: headers,
-        }
-      );
-      // LoginResponse = resLogin;
-      const token = resLogin.data.token;
-      const userId = resLogin.data.user_id;
-      TeacherEmail = resLogin.data.email;
-      Token = token;
-      UserId = userId;
-      TeacherGroup = resLogin.data.groups[0] == "staff";
-      ParentGroup = resLogin.data.groups[0] == "parents";
-      console.log("teacher group is :", TeacherGroup);
-      console.log("parent group is :", ParentGroup);
-
+    if(enteredUser.length<=0){
+      setInValidUserName(true);
+      setInValidPassword(false);
+      setInValidForm(false);
+      setIsOpen(!isOpen);
+    }
+    if(enteredPassword.length <=0 ){
+      setInValidPassword(true);
+      setInValidUserName(false);
+      setInValidForm(false);
+      setIsOpen(!isOpen);
+    }
+    if(enteredUser.length<=0 && enteredPassword.length <= 0){
+      setIsOpen(!isOpen);
+      setInValidUserName(false);
+      setInValidPassword(false);
+      setInValidForm(true);
+    }
+    else{
       try {
-        await AsyncStorage.setItem("datagroup", resLogin.data.groups[0]);
-        // await AsyncStorage.setItem("datagroupParent", resLogin.data.groups[1]);
+        //  const token = "c4e8c2613ea3f60e47de0bd593ec2d71357e934b";
+
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+        };
+  
+        const user = { username: enteredUser, password: enteredPassword };
+        Teacher = user.username;
+        const resLogin = await axios.post(
+          "http://10.0.2.2:8000/school/api-token-auth/",
+          user,
+  
+          {
+            headers: headers,
+          }
+        );
+        // LoginResponse = resLogin;
+        const token = resLogin.data.token;
+        const userId = resLogin.data.user_id;
+        TeacherEmail = resLogin.data.email;
+        Token = token;
+        UserId = userId;
+        TeacherGroup = resLogin.data.groups[0] == "staff";
+        ParentGroup = resLogin.data.groups[0] == "parents";
+        console.log("teacher group is :", TeacherGroup);
+        console.log("parent group is :", ParentGroup);
+  
+        try {
+          await AsyncStorage.setItem("datagroup", resLogin.data.groups[0]);
+          // await AsyncStorage.setItem("datagroupParent", resLogin.data.groups[1]);
+        } catch (error) {
+          // Error saving data
+        }
+  
+        // setStudents(resLogin.data);
+  
+        // let filteredlist = res.data.filter((ele) => ele.username == enteredPhone);
+        // studentList = filteredlist;
+        // console.log(filteredlist);
+        // if (filteredlist.length == 0) {
+        //   Alert.alert("Invalid Input", "Please enter valid credentials");
+        //   setEnteredPhone("");
+        // } else {
+  
+        if (resLogin.data.groups[0] === "parents") {
+          console.log(resLogin.data.groups[0])
+          // <WelcomeScreen />;
+  
+          navigation.navigate("ParentsLoginScreen", {
+            phone: enteredPhone,
+
+          });
+        } else {
+          console.log(resLogin.data.groups[0])
+          // console.log("TEACHERS PAGE");
+          navigation.navigate("TeachersLogin");
+        }
+  
+        setEnteredUser("");
+        setEnteredPassword("");
+        setEnteredPhone("");
+        // }
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        await AsyncStorage.setItem("token", Token);
       } catch (error) {
         // Error saving data
       }
-
-      // setStudents(resLogin.data);
-
-      // let filteredlist = res.data.filter((ele) => ele.username == enteredPhone);
-      // studentList = filteredlist;
-      // console.log(filteredlist);
-      // if (filteredlist.length == 0) {
-      //   Alert.alert("Invalid Input", "Please enter valid credentials");
-      //   setEnteredPhone("");
-      // } else {
-
-      if (resLogin.data.groups[0] === "parents") {
-        // <WelcomeScreen />;
-
-        navigation.navigate("ParentsLoginScreen", {
-          phone: enteredPhone,
-        });
-      } else {
-        // console.log("TEACHERS PAGE");
-        navigation.navigate("TeachersLogin");
+  
+      try {
+        const value = await AsyncStorage.getItem("token");
+  
+        if (value !== null) {
+          console.log("This is the token :" + value);
+        }
+      } catch (error) {
+        // Error retrieving data
       }
-
-      setEnteredUser("");
-      setEnteredPassword("");
-      setEnteredPhone("");
+  
+      // Saves to storage as a JSON-string
+      AsyncStorage.setItem("key", JSON.stringify(UserId));
+  
+      // Retrieves from storage as boolean
+      AsyncStorage.getItem("key", (err, value) => {
+        if (err) {
+          console.log(err);
+        } else {
+          JSON.parse(value); // boolean false
+          console.log("this is the userid:" + value);
+        }
+      });
+  
+      // AsyncStorage.setItem("Phone", enteredPhone);
+      // //  console.log(Group);
+  
+      // let Phone = AsyncStorage.getItem("Phone");
+      // console.log(Phone);
+  
+      try {
+        await AsyncStorage.setItem("Phone", enteredPhone);
+      } catch (error) {
+        // Error saving data
+      }
+  
+      // try {
+      //   const value = await AsyncStorage.getItem("Phone");
+  
+      //   if (value !== null) {
+      //     console.log("This is the Phone of login page:" + value);
+      //   }
+      // } catch (error) {
+      //   // Error retrieving data
       // }
-    } catch (error) {
-      console.log(error);
     }
-    try {
-      await AsyncStorage.setItem("token", Token);
-    } catch (error) {
-      // Error saving data
-    }
-
-    try {
-      const value = await AsyncStorage.getItem("token");
-
-      if (value !== null) {
-        console.log("This is the token :" + value);
-      }
-    } catch (error) {
-      // Error retrieving data
-    }
-
-    // Saves to storage as a JSON-string
-    AsyncStorage.setItem("key", JSON.stringify(UserId));
-
-    // Retrieves from storage as boolean
-    AsyncStorage.getItem("key", (err, value) => {
-      if (err) {
-        console.log(err);
-      } else {
-        JSON.parse(value); // boolean false
-        console.log("this is the userid:" + value);
-      }
-    });
-
-    // AsyncStorage.setItem("Phone", enteredPhone);
-    // //  console.log(Group);
-
-    // let Phone = AsyncStorage.getItem("Phone");
-    // console.log(Phone);
-
-    try {
-      await AsyncStorage.setItem("Phone", enteredPhone);
-    } catch (error) {
-      // Error saving data
-    }
-
-    // try {
-    //   const value = await AsyncStorage.getItem("Phone");
-
-    //   if (value !== null) {
-    //     console.log("This is the Phone of login page:" + value);
-    //   }
-    // } catch (error) {
-    //   // Error retrieving data
-    // }
+    
   }
   function toggleParents() {
     setShow(true);
@@ -494,6 +529,40 @@ function Login() {
           >
             <Text style={[styles.submitText]}>Login</Text>
           </TouchableHighlight>
+          {/* {invalidPassword && <Text>You have to enter at least 6 digit</Text>} */}
+
+          <AlertDialog leastDestructiveRef={cancelRef} isOpen={isOpen} top="5%" onClose={onClose}>
+          <AlertDialog.Content>
+            {invalidUserName && 
+            <>
+              {/* <AlertDialog.Header>Please enter all fields</AlertDialog.Header> */}
+                <AlertDialog.Body>
+                You have to enter all the fields
+                </AlertDialog.Body>
+            </>}
+            {invalidPassword && 
+            <>
+              {/* <AlertDialog.Header>Please enter all fields</AlertDialog.Header> */}
+                <AlertDialog.Body>
+                You have to enter all the fields
+                </AlertDialog.Body>
+            </>}
+            {invalidForm && 
+            <>
+              {/* <AlertDialog.Header>Please enter all fields</AlertDialog.Header> */}
+                <AlertDialog.Body>
+                  You have to enter all the fields
+                </AlertDialog.Body>
+            </>}
+            <AlertDialog.Footer>
+              <NativeButton.Group space={2}>
+                <NativeButton colorScheme="primary" onPress={onClose} size="xs">
+                  Okay
+                </NativeButton>
+              </NativeButton.Group>
+            </AlertDialog.Footer>
+          </AlertDialog.Content>
+          </AlertDialog>
         </View>
       </View>
     </>

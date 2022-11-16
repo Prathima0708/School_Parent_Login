@@ -15,10 +15,26 @@ import {
 } from "../../../../components/StudentItem/StudentItem";
 import ParentsHome from "../../BottomTab/ParentsHome";
 import { ScrollView } from "react-native";
+import { Modal,Button as NativeButton,IconButton, Button } from "native-base";
+import { Ionicons } from "@expo/vector-icons";
+import { Card } from "react-native-paper";
+import moment from "moment";
 
 const HomeworkScreen = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  const [placement, setPlacement] = useState(undefined);
+  const [open, setOpen] = useState(false);
+  const [saveImg,setSaveImg]=useState(``);
+
+  const openModal = (placement,id,img) => {
+    setOpen(true);
+    setSaveImg(img);
+    setPlacement(placement);
+  };
+
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -51,50 +67,106 @@ const HomeworkScreen = () => {
             <View style={styles.root}>
               <FlatList
                 data={data}
+                style={{width:'95%'}}
                 renderItem={({ item }) => {
                   return (
-                    <View style={styles.card}>
-                      <View style={styles.imgContainer}></View>
-                      <View>
-                        <View style={styles.bio}>
-                          <Text style={styles.homewrk}>
-                            <Text style={{ fontFamily: "HindSemiBold" }}>
-                              Remark :
-                            </Text>{" "}
-                            {item.homework}
-                          </Text>
-                          <Text style={styles.homewrk}>
-                            <Text style={{ fontFamily: "HindSemiBold" }}>
-                              Subject :
-                            </Text>{" "}
-                            {item.subject}
-                          </Text>
-                        </View>
-
-                        <View style={styles.main}>
-                          <Image
-                            style={styles.img}
-                            resizeMode="cover"
-                            source={{
-                              uri: `http://10.0.2.2:8000${item.homework_photo}`,
-                            }}
-                          />
-                          <View
-                            style={{
-                              marginLeft: -140,
-                            }}
-                          >
-                            <Text style={styles.remark}>{item.remark}</Text>
+                    <Card style={styles.cardStyle}>
+                      <Card.Content>
+                        <View style={[{flex:1}, {flexDirection: "row"}]}>
+                          <View style={{ flex: 1 }} >
+                            <Text>Subject</Text>
+                          </View>
+                          <View style={{ flex: 3 }} >
+                            <Text>{item.subject}</Text>
                           </View>
                         </View>
-                      </View>
-                    </View>
+                        <View style={[{flex:1}, {flexDirection: "row"}]}>
+                          <View style={{ flex: 2 }} >
+                            <Text>Homework assigned date</Text>
+                          </View>
+                          <View style={{ flex: 1 }} >
+                            <Text>{moment(item.homework_date).format("DD/MM/YYYY")}</Text>
+                          </View>
+                        </View>
+                        <View style={[{flex:1}, {flexDirection: "row"}]}>
+                          <View style={{ flex: 1 }} >
+                            <Text>Homework due date</Text>
+                          </View>
+                          <View style={{ flex: 1 }} >
+                            <Text>{moment(item.due_date).format("DD/MM/YYYY")}</Text>
+                          </View>
+                        </View>
+                        <View style={[{flex:1}, {flexDirection: "row"}]}>
+                          <View style={{ flex: 1 }} >
+                            <Text>Remark</Text>
+                          </View>
+                          <View style={{ flex: 1 }} >
+                            <Text>{item.remark}</Text>
+                          </View>
+                        </View>
+                        <View style={[{flex:1}, {flexDirection: "row"}]}>
+                          <View style={{ flex: 1 }} >
+                            <Text>Remark</Text>
+                          </View>
+                          <View style={{ flex: 1 }} >
+                            <Text>{item.remark}</Text>
+                          </View>
+                        </View>
+                        <View style={[{flex:1}, {flexDirection: "row"}]}>
+                          <View style={{ flex: 8 }} >
+                            {/* <Text>Remark</Text> */}
+                          </View>
+                          <View style={{ flex: 1}} >
+                            <IconButton
+                              colorScheme="primary"
+                              onPress={() => openModal("center",item.id,item.homework_photo)}
+                              variant="outline"
+                              _icon={{
+                                as: Ionicons,
+                                name: "eye",
+                              }}
+                            />
+                          </View>
+                        </View>
+                      </Card.Content>
+                    </Card>
                   );
                 }}
               />
             </View>
           </ScrollView>
         </View>
+        {/* {data && 
+             data.map((data)=>( */}
+              <Modal 
+                isOpen={open} 
+                onClose={() => setOpen(false)} 
+                safeAreaTop={true}
+                size="full">
+                <Modal.Content maxWidth="90%" minHeight='5%'>
+                  {/* <Modal.CloseButton /> */}
+                  <Modal.Header>Homework</Modal.Header>
+                  <Modal.Body>
+                    <Image
+                      style={styles.img}
+                      resizeMode="cover"
+                      source={{
+                        uri: `http://10.0.2.2:8000${saveImg}`,
+                      }}
+                    />
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <NativeButton.Group space={2}>
+                      <NativeButton onPress={() => {
+                      setOpen(false);
+                    }}>
+                        Close
+                      </NativeButton>
+                    </NativeButton.Group>
+                  </Modal.Footer>
+                </Modal.Content>
+              </Modal>
+             {/* ))} */}
         <View style={{ flex: 1 }}>
           <ParentsHome />
         </View>
@@ -165,13 +237,13 @@ const styles = StyleSheet.create({
     marginTop: 620,
   },
   img: {
-    height: 150,
-    width: 200,
+    minHeight: 260,
+    width: 330,
   },
   homewrk: {
     fontFamily: "HindRegular",
-
-    padding: 5,
+    marginHorizontal:10,
+    // padding: 5,
     color: "black",
     fontSize: deviceWidth < 370 ? 16 : 20,
   },
@@ -181,19 +253,19 @@ const styles = StyleSheet.create({
     // backgroundColor: "#b696d7",
     backgroundColor: "lightgrey",
     display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    // justifyContent: "center",
+    // alignItems: "center",
   },
   imgContainer: {
     padding: 10,
   },
   bio: {
-    width: "100%",
+    // width: "100%",
     //display: "flex",
     //flexDirection: "row",
     // alignItems: "center",
     //  justifyContent: "space-between",
-    backgroundColor: "grey",
+    backgroundColor: "purple",
     //  paddingVertical: 10,
   },
   root: {
@@ -205,6 +277,13 @@ const styles = StyleSheet.create({
     fontFamily: "HindRegular",
     marginTop: 10,
   },
+  cardStyle:{
+    marginVertical: 15,
+    marginHorizontal: 20,
+    elevation: 5,
+    borderRadius: 10,
+    paddingBottom: 20,
+  }
 });
 
 // import React, { useEffect, useState } from "react";
