@@ -183,8 +183,10 @@ import IconButton from "../../components/UI/IconButton";
 import ImageSlider from "./ImageSlider";
 import Swiper from "react-native-swiper";
 import { Heading } from "native-base";
+import { PHONENO } from "../Login";
 export var studentList = [];
 export var value;
+export var PHONE;
 function ParentsLoginScreen() {
   const [students, setStudents] = useState([]);
   const route = useRoute();
@@ -213,13 +215,13 @@ function ParentsLoginScreen() {
     }
   }
 
-  useEffect(() => {
-    async function fetchPhone() {
-      value = await AsyncStorage.getItem("Phone");
-      // console.log("this is from parents screen", value);
-    }
-    fetchPhone();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchPhone() {
+  //     value = await AsyncStorage.getItem("Phone");
+  //     console.log("this is from parents screen", value);
+  //   }
+  //   fetchPhone();
+  // }, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -238,13 +240,14 @@ function ParentsLoginScreen() {
 
   useEffect(() => {
     async function login() {
-      //   console.log(route.params.phone);
-      //console.log("this is inside parentsloginscreen", phone);
+      // PHONE = route.params.phone;
+      // console.log(PHONENO);
+      console.log("this is inside parentsloginscreen", PHONENO);
       try {
-        const ph = route.params.phone.toString();
-        console.log(ph);
+        //  const ph = route.params.phone.toString();
+        //   console.log(value);
         const res = await axios.get("http://10.0.2.2:8000/school/Student/");
-        //  console.log(res.data);
+
         let filteredlist = res.data.filter(
           (ele) => ele.contact_num == route.params.phone
         );
@@ -276,17 +279,6 @@ function ParentsLoginScreen() {
   }
   return (
     <>
-      {/* <View style={styles.rootContainer}>
-        <FlatList data={students} renderItem={renderStudentDetails} />
-        <ImageSlider />
-        <Pressable
-          style={styles.btnContainer}
-          onPress={() => navigation.navigate("Chat")}
-        >
-          <Ionicons name="chatbubble" size={28} color="black" />
-          <Text style={styles.btnText}>Chat</Text>
-        </Pressable>
-      </View> */}
       <View
         style={[
           { flex: 1 },
