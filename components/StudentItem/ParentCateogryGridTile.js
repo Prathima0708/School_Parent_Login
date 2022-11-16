@@ -13,7 +13,7 @@ function ParentCateogryGridTile({ title, color, icon, onPress, txtclr }) {
   return (
     <View style={[styles.gridItem, { backgroundColor: color }]}>
       <Pressable
-        android_ripple={{ color: "#ccc" }}
+        // android_ripple={{ color: "#ccc" }}
         style={({ pressed }) => [styles.buttton, pressed && styles.pressed]}
         onPress={onPress}
       >

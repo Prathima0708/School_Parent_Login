@@ -1259,7 +1259,7 @@ const styles = StyleSheet.create({
   },
   up: {
     top: deviceHieght > 800 ? 26 : 21,
-    width: deviceWidth > 400 ? 90 : 95,
+    width: deviceWidth > 400 ? 90 : 85,
     left: deviceWidth < 370 ? 20 : 30,
     fontFamily: "HindRegular",
   },
@@ -1279,7 +1279,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
     fontFamily: "HindRegular",
-    letterSpacing: 0.5,
   },
 
   normalRemark: {
