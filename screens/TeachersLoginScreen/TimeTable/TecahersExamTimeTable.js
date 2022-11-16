@@ -1284,7 +1284,7 @@ const styles = StyleSheet.create({
   },
   up: {
     top: deviceWidth < 370 ? 15 : 25,
-    width: deviceWidth > 400 ? 100 : 90,
+    width: deviceWidth > 400 ? 100 : 100,
     left: deviceWidth < 370 ? 20 : 30,
   },
 
@@ -1295,7 +1295,7 @@ const styles = StyleSheet.create({
   },
   upTotal: {
     top: deviceWidth < 370 ? 15 : 25,
-    width: deviceWidth > 400 ? 110 : 92,
+    width: deviceWidth > 400 ? 110 : 95,
     left: deviceWidth < 370 ? 20 : 30,
   },
 
@@ -1322,8 +1322,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#F2F2F2",
     backgroundColor: "white",
     paddingHorizontal: 5,
-    fontSize: deviceWidth < 370 ? 13 : 15,
+    fontSize: deviceWidth < 370 ? 13 : 16,
     fontFamily: "HindRegular",
+    letterSpacing: 0.5,
   },
   errorText: {
     color: "red",

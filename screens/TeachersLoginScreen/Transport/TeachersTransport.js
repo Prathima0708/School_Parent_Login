@@ -1301,7 +1301,7 @@ const styles = StyleSheet.create({
     //  backgroundColor: "#F2F2F2",
     backgroundColor: "white",
     paddingHorizontal: 5,
-    fontSize: deviceWidth < 370 ? 13 : 16,
+    fontSize: deviceWidth < 370 ? 13 : 17,
     fontFamily: "HindRegular",
   },
   normalLabel: {
@@ -1311,6 +1311,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 16,
+    letterSpacing: 0.5,
   },
 
   normalVeh: {
@@ -1345,7 +1346,7 @@ const styles = StyleSheet.create({
   },
   upType: {
     top: deviceHieght > 800 ? 30 : 27,
-    width: deviceWidth > 400 ? 130 : 120,
+    width: deviceWidth > 400 ? 130 : 130,
     left: deviceWidth < 370 ? 20 : 30,
     fontFamily: "HindRegular",
   },
@@ -1357,8 +1358,8 @@ const styles = StyleSheet.create({
     fontFamily: "HindRegular",
   },
   upDriver: {
-    top: deviceHieght > 800 ? 30 : 27,
-    width: deviceWidth < 370 ? 90 : 108,
+    top: deviceHieght > 800 ? 30 : 25,
+    width: deviceWidth < 370 ? 90 : 110,
     left: deviceWidth < 370 ? 20 : 35,
     fontFamily: "HindRegular",
   },
@@ -1371,7 +1372,7 @@ const styles = StyleSheet.create({
   },
   upMob: {
     top: deviceWidth < 370 ? 15 : 25,
-    width: deviceWidth > 400 ? 130 : 120,
+    width: deviceWidth > 400 ? 130 : 130,
     left: deviceWidth < 370 ? 20 : 30,
     fontFamily: "HindRegular",
   },
@@ -1383,9 +1384,9 @@ const styles = StyleSheet.create({
     fontFamily: "HindRegular",
   },
   upRoot: {
-    top: deviceWidth < 370 ? 15 : 29,
+    top: deviceWidth < 370 ? 15 : 33,
     left: deviceWidth < 370 ? 20 : 30,
-    width: deviceWidth > 400 ? 107 : 105,
+    width: deviceWidth > 400 ? 107 : 100,
     fontFamily: "HindRegular",
   },
 
@@ -1399,7 +1400,7 @@ const styles = StyleSheet.create({
     // position:'absolute',
     top: deviceWidth < 370 ? 15 : 27,
     left: deviceWidth < 370 ? 25 : 37,
-    width: deviceWidth < 370 ? 80 : 100,
+    width: deviceWidth < 370 ? 80 : 95,
     fontFamily: "HindRegular",
   },
 

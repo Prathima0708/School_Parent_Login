@@ -21,6 +21,7 @@ import ParentsHome from "../../BottomTab/ParentsHome";
 import Input from "../../../../components/UI/Input";
 import moment from "moment";
 import { StudentRegNo } from "../../../../components/StudentItem/StudentItem";
+import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 export var statusData = [];
 const LeaveScreen = () => {
   const [isApproved, setIsApproved] = useState(false);
@@ -495,14 +496,20 @@ const LeaveScreen = () => {
       {showList && (
         <View style={styles.root}>
           <View style={{ flex: 8, bottom: 10 }}>
-            <ScrollView>
+            <ScrollView style={{}}>
               {data &&
                 data.map((data, key) => (
                   <>
                     <View style={{ height: "260%" }}>
                       <Card style={styles.cardStyle}>
                         <Card.Content>
-                          <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
+                          <View
+                            style={{
+                              flex: 1,
+                              flexDirection: "row",
+                              backgroundColor: "white",
+                            }}
+                          >
                             <View style={{ flex: 1, top: -15 }} key={key}>
                               <Text
                                 style={[styles.dateStyle, { color: "black" }]}
@@ -630,7 +637,7 @@ const LeaveScreen = () => {
                     />
                   )}
                 </View>
-                <Input
+                <UnderlinedInput
                   value={fromText || fromDate}
                   onSubmitEditing={Keyboard.dismiss}
                   placeholder="Leave from"
@@ -657,7 +664,7 @@ const LeaveScreen = () => {
                     onPress={() => showToMode("date")}
                   />
                 </View>
-                <Input
+                <UnderlinedInput
                   value={toText || toDate}
                   onSubmitEditing={Keyboard.dismiss}
                   placeholder="Leave to"
@@ -716,10 +723,12 @@ const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   BtnContainer: {
+    fontSize: 24,
     flexDirection: "row",
-    width: "48%",
-    left: "2%",
-    top: "1%",
+
+    width: "100%",
+
+    backgroundColor: "white",
   },
   root: {
     flex: 1,
@@ -765,7 +774,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   root: {
-    backgroundColor: "#EBECFO",
+    backgroundColor: "white",
   },
   inputForm: {
     padding: 20,

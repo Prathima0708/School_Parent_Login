@@ -142,78 +142,155 @@ export default function App() {
   function AuthStack() {
     return (
       <Stack.Navigator>
-        <Stack.Screen name="LadingScreen" component={LandingScreen} />
+        <Stack.Screen
+          name="LadingScreen"
+          component={LandingScreen}
+          options={{ title: "Welcome Screen" }}
+        />
         <Stack.Screen
           name="Login"
           component={Login}
           options={{ title: "Kinara" }}
         />
-        <Stack.Screen name="TeachersLogin" component={TeachersLoginScreen} />
+        <Stack.Screen
+          name="TeachersLogin"
+          component={TeachersLoginScreen}
+          options={{ title: "Dashboard" }}
+        />
 
         <Stack.Screen
           name="ParentsLoginScreen"
           component={ParentsLoginScreen}
+          options={{ title: "Dashboard" }}
         />
 
-        <Stack.Screen name="TeachersAcademics" component={TeachersAcademics} />
-        <Stack.Screen name="TeachersTimetable" component={TeachersTimetable} />
+        <Stack.Screen
+          name="TeachersAcademics"
+          component={TeachersAcademics}
+          options={{ title: "Academics" }}
+        />
+        <Stack.Screen
+          name="TeachersTimetable"
+          component={TeachersTimetable}
+          options={{ title: "Timetable" }}
+        />
         {/* <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} /> */}
         <Stack.Screen
           name="TeachersCalendar"
           component={TeachersCalendarScreenBuild}
+          options={{ title: "Calendar" }}
         />
-        <Stack.Screen name="TeachersMarksheet" component={TeachersMarksheet} />
+        <Stack.Screen
+          name="TeachersMarksheet"
+          component={TeachersMarksheet}
+          options={{ title: "Marksheet" }}
+        />
         {/* <Stack.Screen name="TeachersLeave" component={TeachersLeave} /> */}
         <Stack.Screen
           name="TeachersLeave"
           component={TeachersLeaveScreenBuild}
+          options={{ title: "Leave" }}
         />
         <Stack.Screen
           name="TeachersNoticeBoard"
           component={TeachersNoticeboard}
+          options={{ title: "NoticeBoard" }}
         />
 
         <Stack.Screen
           name="TeachersTransport"
           component={TeachersTransport}
-          options={{ title: "" }}
+          options={{ title: "Transport" }}
         />
 
         {/* <Stack.Screen name="TeachersHomework" component={TeachersHomework} /> */}
         <Stack.Screen
           name="TeachersHomework"
           component={TeacherHomeworkScreenBuild}
+          options={{ title: "Homework" }}
         />
-        <Stack.Screen name="TeachersProfile" component={TeachersProfile} />
+        <Stack.Screen
+          name="TeachersProfile"
+          component={TeachersProfile}
+          options={{ title: "Profile" }}
+        />
         {/* <Stack.Screen
           name="ParentsLoginScreen"
           component={ParentsLoginScreen}
         /> */}
-        <Stack.Screen name="Category" component={StudentCategories} />
+        <Stack.Screen
+          name="Category"
+          component={StudentCategories}
+          options={{ title: "Dashboard" }}
+        />
         <Stack.Screen
           name="StudentsOverview"
           component={StudentsOverviewScreen}
         />
-        <Stack.Screen name="Leave" component={LeaveScreen} />
-        <Stack.Screen name="ParentsProfile" component={ParentsProfile} />
-        <Stack.Screen name="Calender" component={CalenderScreen} />
-        <Stack.Screen name="ReportCard" component={ReportCard} />
+        <Stack.Screen
+          name="Leave"
+          component={LeaveScreen}
+          options={{ title: "Leave" }}
+        />
+        <Stack.Screen
+          name="ParentsProfile"
+          component={ParentsProfile}
+          options={{ title: "Profile" }}
+        />
+        <Stack.Screen
+          name="Calender"
+          component={CalenderScreen}
+          options={{ title: "Calendar" }}
+        />
+        <Stack.Screen
+          name="ReportCard"
+          component={ReportCard}
+          options={{ title: "ReportCard" }}
+        />
         {/* <Stack.Screen name="MarksCard" component={Exam} /> */}
-        <Stack.Screen name="NoticeBoard" component={Noticeboard} />
-        <Stack.Screen name="TimeTable" component={TimeTable} />
-        <Stack.Screen name="Attendance" component={Attendance} />
+        <Stack.Screen
+          name="NoticeBoard"
+          component={Noticeboard}
+          options={{ title: "NoticeBoard" }}
+        />
+        <Stack.Screen
+          name="TimeTable"
+          component={TimeTable}
+          options={{ title: "Timetable" }}
+        />
+        <Stack.Screen
+          name="Attendance"
+          component={Attendance}
+          options={{ title: "Attendance" }}
+        />
 
-        <Stack.Screen name="Transport" component={TransportScreen} />
+        <Stack.Screen
+          name="Transport"
+          component={TransportScreen}
+          options={{ title: "Transport" }}
+        />
 
         {/* <Stack.Screen
               name="TeachersOverview"
               component={TeachersOverviewScreen}
             /> */}
-        <Stack.Screen name="Chat" component={Chat} />
+        <Stack.Screen
+          name="Chat"
+          component={Chat}
+          options={{ title: "Chat" }}
+        />
         <Stack.Screen name="ChatScreen" component={ChatScreen} />
         <Stack.Screen name="SingleUser" component={SingleUser} />
-        <Stack.Screen name="Academics" component={Academics} />
-        <Stack.Screen name="Homework" component={HomeworkScreen} />
+        <Stack.Screen
+          name="Academics"
+          component={Academics}
+          options={{ title: "Academics" }}
+        />
+        <Stack.Screen
+          name="Homework"
+          component={HomeworkScreen}
+          options={{ title: "Homework" }}
+        />
       </Stack.Navigator>
     );
   }
@@ -223,6 +300,7 @@ export default function App() {
         <Stack.Screen
           name="ParentsLoginScreen"
           component={ParentsLoginScreen}
+          options={{ title: "Dashboard" }}
         />
 
         <Stack.Screen
@@ -230,27 +308,67 @@ export default function App() {
           component={Login}
           options={{ title: "Kinara" }}
         />
-        <Stack.Screen name="Category" component={StudentCategories} />
+        <Stack.Screen
+          name="Category"
+          component={StudentCategories}
+          options={{ title: "Dashboard" }}
+        />
         <Stack.Screen
           name="StudentsOverview"
           component={StudentsOverviewScreen}
         />
-        <Stack.Screen name="Leave" component={LeaveScreen} />
-        <Stack.Screen name="ParentsProfile" component={ParentsProfile} />
-        <Stack.Screen name="Calender" component={CalenderScreen} />
-        <Stack.Screen name="ReportCard" component={ReportCard} />
+        <Stack.Screen
+          name="Leave"
+          component={LeaveScreen}
+          options={{ title: "Leave" }}
+        />
+        <Stack.Screen
+          name="ParentsProfile"
+          component={ParentsProfile}
+          options={{ title: "Profile" }}
+        />
+        <Stack.Screen
+          name="Calender"
+          component={CalenderScreen}
+          options={{ title: "Calendar" }}
+        />
+        <Stack.Screen
+          name="ReportCard"
+          component={ReportCard}
+          options={{ title: "ReportCard" }}
+        />
         {/* <Stack.Screen name="MarksCard" component={Exam} /> */}
-        <Stack.Screen name="NoticeBoard" component={Noticeboard} />
-        <Stack.Screen name="TimeTable" component={TimeTable} />
-        <Stack.Screen name="Attendance" component={Attendance} />
+        <Stack.Screen
+          name="NoticeBoard"
+          component={Noticeboard}
+          options={{ title: "Noticeboard" }}
+        />
+        <Stack.Screen
+          name="TimeTable"
+          component={TimeTable}
+          options={{ title: "Timetable" }}
+        />
+        <Stack.Screen
+          name="Attendance"
+          component={Attendance}
+          options={{ title: "Attendance" }}
+        />
 
-        <Stack.Screen name="Transport" component={TransportScreen} />
+        <Stack.Screen
+          name="Transport"
+          component={TransportScreen}
+          options={{ title: "Transport" }}
+        />
 
         {/* <Stack.Screen
               name="TeachersOverview"
               component={TeachersOverviewScreen}
             /> */}
-        <Stack.Screen name="Chat" component={Chat} />
+        <Stack.Screen
+          name="Chat"
+          component={Chat}
+          options={{ title: "Chat" }}
+        />
         <Stack.Screen name="ChatScreen" component={ChatScreen} />
         <Stack.Screen name="SingleUser" component={SingleUser} />
         <Stack.Screen name="Academics" component={Academics} />
@@ -261,42 +379,66 @@ export default function App() {
   function AuthenticatedT() {
     return (
       <Stack.Navigator>
-        <Stack.Screen name="TeachersLogin" component={TeachersLoginScreen} />
+        <Stack.Screen
+          name="TeachersLogin"
+          component={TeachersLoginScreen}
+          options={{ title: "Dashboard" }}
+        />
         <Stack.Screen
           name="Login"
           component={Login}
           options={{ title: "Kinara" }}
         />
-        <Stack.Screen name="TeachersAcademics" component={TeachersAcademics} />
-        <Stack.Screen name="TeachersTimetable" component={TeachersTimetable} />
+        <Stack.Screen
+          name="TeachersAcademics"
+          component={TeachersAcademics}
+          options={{ title: "Academics" }}
+        />
+        <Stack.Screen
+          name="TeachersTimetable"
+          component={TeachersTimetable}
+          options={{ title: "Timetable" }}
+        />
         {/* <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} /> */}
         <Stack.Screen
           name="TeachersCalendar"
           component={TeachersCalendarScreenBuild}
+          options={{ title: "Calendar" }}
         />
-        <Stack.Screen name="TeachersMarksheet" component={TeachersMarksheet} />
+        <Stack.Screen
+          name="TeachersMarksheet"
+          component={TeachersMarksheet}
+          options={{ title: "Marksheet" }}
+        />
         {/* <Stack.Screen name="TeachersLeave" component={TeachersLeave} /> */}
         <Stack.Screen
           name="TeachersLeave"
           component={TeachersLeaveScreenBuild}
+          options={{ title: "Leave" }}
         />
         <Stack.Screen
           name="TeachersNoticeBoard"
           component={TeachersNoticeboard}
+          options={{ title: "Noticeboard" }}
         />
 
         <Stack.Screen
           name="TeachersTransport"
           component={TeachersTransport}
-          options={{ title: "" }}
+          options={{ title: "Transport" }}
         />
 
         {/* <Stack.Screen name="TeachersHomework" component={TeachersHomework} /> */}
         <Stack.Screen
           name="TeachersHomework"
           component={TeacherHomeworkScreenBuild}
+          options={{ title: "Homework" }}
         />
-        <Stack.Screen name="TeachersProfile" component={TeachersProfile} />
+        <Stack.Screen
+          name="TeachersProfile"
+          component={TeachersProfile}
+          options={{ title: "Profile" }}
+        />
       </Stack.Navigator>
     );
   }
