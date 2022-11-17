@@ -15,7 +15,7 @@ import {
 } from "../../../../components/StudentItem/StudentItem";
 import ParentsHome from "../../BottomTab/ParentsHome";
 import { ScrollView } from "react-native";
-import { Modal,Button as NativeButton,IconButton, Button } from "native-base";
+import { Modal, Button as NativeButton, IconButton, Button } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { Card } from "react-native-paper";
 import moment from "moment";
@@ -26,14 +26,13 @@ const HomeworkScreen = () => {
 
   const [placement, setPlacement] = useState(undefined);
   const [open, setOpen] = useState(false);
-  const [saveImg,setSaveImg]=useState(``);
+  const [saveImg, setSaveImg] = useState(``);
 
-  const openModal = (placement,id,img) => {
+  const openModal = (placement, id, img) => {
     setOpen(true);
     setSaveImg(img);
     setPlacement(placement);
   };
-
 
   useEffect(() => {
     async function fetchData() {
@@ -61,64 +60,131 @@ const HomeworkScreen = () => {
 
   return (
     <>
-      <View style={[{ flex: 1 }, { flexDirection: "column",backgroundColor:'white' }]}>
+      <View
+        style={[
+          { flex: 1 },
+          { flexDirection: "column", backgroundColor: "white" },
+        ]}
+      >
         <View style={{ flex: 8, bottom: 10 }}>
           <ScrollView>
             <View style={styles.root}>
               <FlatList
                 data={data}
-                style={{width:'95%'}}
+                style={{ width: "95%" }}
                 renderItem={({ item }) => {
                   return (
                     <Card style={styles.cardStyle}>
                       <Card.Content style={styles.cardContentStyle}>
-                        <View style={[{flex:1}, {flexDirection: "row"},styles.subDesign]}>
-                          <View style={{ flex: 5 }} >
+                        <View
+                          style={[
+                            { flex: 1 },
+                            { flexDirection: "row" },
+                            styles.subDesign,
+                          ]}
+                        >
+                          <View style={{ flex: 5 }}>
                             <Text style={styles.labelStyle}>Subject</Text>
                           </View>
-                          <View style={{ flex: 5 }} >
+                          <View style={{ flex: 5 }}>
                             <Text style={styles.textStyle}>{item.subject}</Text>
                           </View>
                         </View>
-                        <View style={[{flex:1}, {flexDirection: "row",marginVertical:10}]}>
-                          <View style={{ flex: 1,alignItems:'center' }} >
-                            <Text style={[styles.textStyle,{color:'black'}]}>{moment(item.homework_date).format("DD/MM/YYYY")}</Text>
+                        <View
+                          style={[
+                            { flex: 1 },
+                            { flexDirection: "row", marginVertical: 10 },
+                          ]}
+                        >
+                          <View style={{ flex: 1, alignItems: "center" }}>
+                            <Text
+                              style={[styles.textStyle, { color: "black" }]}
+                            >
+                              {moment(item.homework_date).format("DD/MM/YYYY")}
+                            </Text>
                           </View>
-                          <View style={{ flex: 0.2,alignItems:'center',top:'1%' }} >
-                            <Text style={[{fontFamily:'HindRegular',color:'black',fontSize:15,fontWeight:'bold'}]}>To</Text>
+                          <View
+                            style={{
+                              flex: 0.2,
+                              alignItems: "center",
+                              top: "1%",
+                            }}
+                          >
+                            <Text
+                              style={[
+                                {
+                                  fontFamily: "HindRegular",
+                                  color: "black",
+                                  fontSize: 15,
+                                  fontWeight: "bold",
+                                },
+                              ]}
+                            >
+                              to
+                            </Text>
                           </View>
-                          <View style={{ flex: 1,alignItems:'center' }} >
-                            <Text style={[styles.textStyle,{color:'black'}]}>{moment(item.due_date).format("DD/MM/YYYY")}</Text>
+                          <View style={{ flex: 1, alignItems: "center" }}>
+                            <Text
+                              style={[styles.textStyle, { color: "black" }]}
+                            >
+                              {moment(item.due_date).format("DD/MM/YYYY")}
+                            </Text>
                           </View>
                         </View>
-                        <View style={[{flex:1}, {flexDirection: "row",marginHorizontal:10}]}>
-                          <View style={{ flex: 1,left:'70%'}} >
-                            <Text style={[styles.textStyle,{color:'black'}]}>Remark :</Text>
+                        <View
+                          style={[
+                            { flex: 1 },
+                            { flexDirection: "row", marginHorizontal: 10 },
+                          ]}
+                        >
+                          <View style={{ flex: 1, left: "70%" }}>
+                            <Text
+                              style={[styles.textStyle, { color: "black" }]}
+                            >
+                              Remark :
+                            </Text>
                           </View>
-                          <View style={{ flex: 2.6 }} >
+                          <View style={{ flex: 2.6 }}>
                             <Text style={[styles.cardText]}>{item.remark}</Text>
                           </View>
                         </View>
-                        <View style={[{flex:1}, {flexDirection: "row",marginVertical:10}]}>
-                          <View style={{ flex: 3}} >
-                            <Text style={[styles.textStyle,{color:'black'}]}>Description :</Text>
+                        <View
+                          style={[
+                            { flex: 1 },
+                            { flexDirection: "row", marginVertical: 10 },
+                          ]}
+                        >
+                          <View style={{ flex: 3 }}>
+                            <Text
+                              style={[styles.textStyle, { color: "black" }]}
+                            >
+                              Description :
+                            </Text>
                           </View>
-                          <View style={{ flex: 2.5,left:-40 }} >
-                            <Text style={[styles.cardText]}>{item.description}</Text>
+                          <View style={{ flex: 2.5, left: -40 }}>
+                            <Text style={[styles.cardText]}>
+                              {item.description}
+                            </Text>
                           </View>
                         </View>
-                        <View style={[{flex:1}, {flexDirection: "row"}]}>
-                          <View style={{ flex: 6 }} >
+                        <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
+                          <View style={{ flex: 6 }}>
                             {/* <Text>Remark</Text> */}
                           </View>
-                          <View style={{ flex: 1,right:'75%'}} >
+                          <View style={{ flex: 1, right: "75%" }}>
                             <IconButton
                               colorScheme="blue"
-                              onPress={() => openModal("center",item.id,item.homework_photo)}
+                              onPress={() =>
+                                openModal(
+                                  "center",
+                                  item.id,
+                                  item.homework_photo
+                                )
+                              }
                               variant="subtle"
                               _icon={{
                                 as: Ionicons,
-                                name: "eye"
+                                name: "eye",
                               }}
                             />
                           </View>
@@ -131,15 +197,17 @@ const HomeworkScreen = () => {
             </View>
           </ScrollView>
         </View>
-        <Modal 
-          isOpen={open} 
-          onClose={() => setOpen(false)} 
+        <Modal
+          isOpen={open}
+          onClose={() => setOpen(false)}
           safeAreaTop={true}
-          size="full">
-          <Modal.Content maxWidth="90%" minHeight='5%'>
-            <Modal.Header 
-              style={{justifyContent:'center',alignItems:'center'}}>
-                Homework
+          size="full"
+        >
+          <Modal.Content maxWidth="90%" minHeight="5%">
+            <Modal.Header
+              style={{ justifyContent: "center", alignItems: "center" }}
+            >
+              Homework
             </Modal.Header>
             <Modal.Body>
               <Image
@@ -152,9 +220,11 @@ const HomeworkScreen = () => {
             </Modal.Body>
             <Modal.Footer>
               <NativeButton.Group space={2}>
-                <NativeButton onPress={() => {
-                setOpen(false);
-              }}>
+                <NativeButton
+                  onPress={() => {
+                    setOpen(false);
+                  }}
+                >
                   Close
                 </NativeButton>
               </NativeButton.Group>
@@ -236,7 +306,7 @@ const styles = StyleSheet.create({
   },
   homewrk: {
     fontFamily: "HindRegular",
-    marginHorizontal:10,
+    marginHorizontal: 10,
     // padding: 5,
     color: "black",
     fontSize: deviceWidth < 370 ? 16 : 20,
@@ -272,41 +342,41 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   // new design
-  cardStyle:{
+  cardStyle: {
     marginVertical: 15,
     marginHorizontal: 20,
     elevation: 5,
     borderRadius: 10,
-    top:10
+    top: 10,
     // paddingBottom: 20,
   },
-  cardContentStyle:{
-    paddingTop:0,
-    paddingHorizontal:0
+  cardContentStyle: {
+    paddingTop: 0,
+    paddingHorizontal: 0,
   },
-  subDesign:{
-    backgroundColor:'darkblue',
-    borderTopLeftRadius:10,
-    borderTopRightRadius:10
+  subDesign: {
+    backgroundColor: "darkblue",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
-  labelStyle:{
-    color:'white',
+  labelStyle: {
+    color: "white",
     fontFamily: "HindBold",
-    fontSize:20,
-    textAlign:'center'
+    fontSize: 20,
+    textAlign: "center",
   },
-  textStyle:{
-    color:'white',
+  textStyle: {
+    color: "white",
     fontFamily: "HindBold",
-    fontSize:20,
-    textAlign:'center'
+    fontSize: 20,
+    textAlign: "center",
   },
-  cardText:{
-    color:'black',
-    fontSize:17,
-    left:'10%',
-    top:'10%'
-  }
+  cardText: {
+    color: "black",
+    fontSize: 17,
+    left: "10%",
+    top: "10%",
+  },
 });
 
 // import React, { useEffect, useState } from "react";

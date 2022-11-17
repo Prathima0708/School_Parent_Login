@@ -185,8 +185,9 @@ import Swiper from "react-native-swiper";
 import { Heading } from "native-base";
 import { PHONENO } from "../Login";
 export var studentList = [];
-export var value;
+export var value, phno;
 export var PHONE;
+export var phonenumber;
 function ParentsLoginScreen() {
   const [students, setStudents] = useState([]);
   const route = useRoute();
@@ -197,6 +198,8 @@ function ParentsLoginScreen() {
     try {
       // const value = await AsyncStorage.getItem('token');
       const value = await AsyncStorage.removeItem("token");
+      const ph = await AsyncStorage.removeItem("Phone");
+      console.log(ph);
       if (value == null) {
         console.log("Data removed");
         navigation.navigate("Login");
@@ -215,13 +218,15 @@ function ParentsLoginScreen() {
     }
   }
 
-  // useEffect(() => {
-  //   async function fetchPhone() {
-  //     value = await AsyncStorage.getItem("Phone");
-  //     console.log("this is from parents screen", value);
-  //   }
-  //   fetchPhone();
-  // }, []);
+  async function fetchPhone() {
+    value = await AsyncStorage.getItem("Phone");
+    if (value == null) {
+      await AsyncStorage.removeItem("Phone");
+    }
+
+    // console.log("this is from parents screen", value);
+  }
+  fetchPhone();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -241,22 +246,29 @@ function ParentsLoginScreen() {
   useEffect(() => {
     async function login() {
       // PHONE = route.params.phone;
-      // console.log(PHONENO);
-      console.log("this is inside parentsloginscreen", PHONENO);
+      // console.log("this is from parents screen", PHONENO);
+
       try {
         //  const ph = route.params.phone.toString();
-        //   console.log(value);
-        const res = await axios.get("http://10.0.2.2:8000/school/Student/");
 
-        let filteredlist = res.data.filter(
-          (ele) => ele.contact_num == route.params.phone
-        );
+        const res = await axios.get("http://10.0.2.2:8000/school/Student/");
+        // if (route.params.phone == undefined) {
+        //   phonenumber = value;
+        // }
+        //  console.log("this is phno value", route.params.phone);
+        // console.log("this is phno", value);
+        // if (route.params.phone == undefined) {
+        //   route.params.phone = value;
+        // }
+        let filteredlist = res.data.filter((ele) => ele.contact_num == value);
         setStudents(filteredlist);
         // if (route.params.phone == null) {
         //   setStudents("");
         // }
+        console.log("**********************");
         console.log(filteredlist);
         studentList = filteredlist;
+
         if (filteredlist.length == 0) {
           Alert.alert("Invalid Input", "Please enter a valid phone number");
           navigation.navigate("Login");
@@ -264,9 +276,6 @@ function ParentsLoginScreen() {
         } else {
           console.log("else part");
         }
-        // else {
-        //   navigation.navigate("ParentsLogin");
-        // }
       } catch (error) {
         console.log(error);
       }
@@ -287,7 +296,7 @@ function ParentsLoginScreen() {
       >
         <View style={styles.studInfoStyle}>
           <Heading size="md" style={{ textAlign: "center", bottom: 7 }}>
-            Heading
+            Student details
           </Heading>
           <ScrollView persistentScrollbar={false}>
             <FlatList data={students} renderItem={renderStudentDetails} />

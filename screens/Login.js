@@ -667,9 +667,7 @@
 //   },
 // });
 
-import { useEffect, useState } from "react";
-
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import Test from "../components/UI/LgButton";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
@@ -717,6 +715,7 @@ import {
   Pressable,
   Button as NativeButton,
 } from "native-base";
+import { value } from "./ParentsLoginScreen/ParentsLoginScreen";
 
 export var Token,
   UserId,
@@ -725,7 +724,9 @@ export var Token,
   TeacherEmail,
   TeacherGroup,
   PHONENO,
+  VALUE,
   ParentGroup;
+export var studentList = [];
 function Login() {
   // const [fontsLoaded] = useFonts({
   //   Roboto: require("../assets/fonts/Roboto-Black.ttf"),
@@ -826,6 +827,10 @@ function Login() {
 
         const user = { username: enteredUser, password: enteredPassword };
         Teacher = user.username;
+        try {
+          await AsyncStorage.setItem("username", Teacher);
+        } catch (error) {}
+
         const resLogin = await axios.post(
           "http://10.0.2.2:8000/school/api-token-auth/",
           user,
@@ -834,7 +839,15 @@ function Login() {
             headers: headers,
           }
         );
-        // LoginResponse = resLogin;
+
+        const res = await axios.get("http://10.0.2.2:8000/school/Student/");
+
+        let filteredlist = res.data.filter(
+          (ele) => ele.contact_num == enteredPhone
+        );
+        console.log("from login page");
+        console.log(filteredlist);
+
         const token = resLogin.data.token;
         const userId = resLogin.data.user_id;
         TeacherEmail = resLogin.data.email;
@@ -851,23 +864,26 @@ function Login() {
         } catch (error) {
           // Error saving data
         }
+        try {
+          await AsyncStorage.setItem("Phone", enteredPhone);
+        } catch (error) {
+          // Error saving data
+        }
 
-        // setStudents(resLogin.data);
+        try {
+          PHONENO = await AsyncStorage.getItem("Phone");
 
-        // let filteredlist = res.data.filter((ele) => ele.username == enteredPhone);
-        // studentList = filteredlist;
-        // console.log(filteredlist);
-        // if (filteredlist.length == 0) {
-        //   Alert.alert("Invalid Input", "Please enter valid credentials");
-        //   setEnteredPhone("");
-        // } else {
+          console.log("this is the ph value from login", PHONENO);
+        } catch (error) {
+          // Error retrieving data
+        }
 
         if (resLogin.data.groups[0] === "parents") {
           console.log(resLogin.data.groups[0]);
           // <WelcomeScreen />;
 
           navigation.navigate("ParentsLoginScreen", {
-            phone: enteredPhone,
+            phone: PHONENO,
           });
         } else {
           console.log(resLogin.data.groups[0]);
@@ -882,6 +898,7 @@ function Login() {
       } catch (error) {
         console.log(error);
       }
+
       try {
         await AsyncStorage.setItem("token", Token);
       } catch (error) {
@@ -890,7 +907,11 @@ function Login() {
 
       try {
         const value = await AsyncStorage.getItem("token");
-
+        VALUE = value;
+        // if (value == null) {
+        //   await AsyncStorage.removeItem("Phone");
+        //   console.log("this is the ph value after logout", PHONENO);
+        // }
         if (value !== null) {
           console.log("This is the token :" + value);
         }
@@ -916,12 +937,6 @@ function Login() {
 
       // let Phone = AsyncStorage.getItem("Phone");
       // console.log(Phone);
-
-      try {
-        await AsyncStorage.setItem("Phone", enteredPhone);
-      } catch (error) {
-        // Error saving data
-      }
 
       // try {
       //   const value = await AsyncStorage.getItem("Phone");
