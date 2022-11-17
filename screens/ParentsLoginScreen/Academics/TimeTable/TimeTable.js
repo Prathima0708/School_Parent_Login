@@ -143,7 +143,7 @@ const TimeTable = () => {
                 <>
                   <View style={styles.root}>
                     <View style={{ flex: 8, bottom: 25 }}>
-                      <ScrollView key={key}>
+                      <ScrollView>
                         <View
                           style={[styles.container, { flexDirection: "column" }]}
                         >
@@ -249,83 +249,71 @@ const TimeTable = () => {
                               </View>
                               <View style={styles.root}>
                                 <View style={styles.colStyle}>
-                                  <Text>{data.maths_min_mark}</Text>
+                                  <Text></Text>
                                 </View>
                                 <View style={styles.colStyle}>
-                                  <Text>{data.english_min_mark}</Text>
+                                  <Text></Text>
                                 </View>
                                 <View style={styles.colStyle}>
-                                  <Text>{data.science_min_mark}</Text>
+                                  <Text></Text>
                                 </View>
                                 <View style={styles.colStyle}>
-                                  <Text>{data.hindi_min_mark}</Text>
+                                  <Text></Text>
                                 </View>
                                 <View style={styles.colStyle}>
-                                  <Text>{data.social_min_mark}</Text>
+                                  <Text></Text>
                                 </View>
                                 <View style={styles.colStyle}>
-                                  <Text>{data.kannada_min_mark}</Text>
+                                  <Text></Text>
                                 </View>
                                 <View style={styles.colStyle}>
-                                  <Text>{data.computer_min_mark}</Text>
+                                  <Text></Text>
                                 </View>
                                 <View style={styles.colStyle}>
                                   <Text>
-                                    {data.maths_min_mark +
-                                      data.english_min_mark +
-                                      data.science_min_mark +
-                                      data.hindi_min_mark +
-                                      data.social_min_mark +
-                                      data.kannada_min_mark +
-                                      data.computer_min_mark}
+                              
                                   </Text>
                                 </View>
                               </View>
                               <View style={styles.root}>
                                 <View style={[styles.colStyle]}>
-                                  <Text style={isFail && styles.textColor}>
-                                    {data.maths_obt_mark}
+                                  <Text style={ styles.textColor}>
+                                    {}
                                   </Text>
                                 </View>
                                 <View style={[styles.colStyle]}>
-                                  <Text style={isFail && styles.textColor}>
-                                    {data.english_obt_mark}
+                                  <Text style={ styles.textColor}>
+                                    {}
                                   </Text>
                                 </View>
                                 <View style={[styles.colStyle]}>
-                                  <Text style={isFail && styles.textColor}>
-                                    {data.science_obt_mark}
+                                  <Text style={ styles.textColor}>
+                                    {}
                                   </Text>
                                 </View>
                                 <View style={[styles.colStyle]}>
-                                  <Text style={isFail && styles.textColor}>
-                                    {data.hindi_obt_mark}
+                                  <Text style={ styles.textColor}>
+                                    {}
                                   </Text>
                                 </View>
                                 <View style={[styles.colStyle]}>
-                                  <Text style={isFail && styles.textColor}>
-                                    {data.social_obt_mark}
+                                  <Text style={ styles.textColor}>
+                                    {}
                                   </Text>
                                 </View>
                                 <View style={[styles.colStyle]}>
-                                  <Text style={isFail && styles.textColor}>
-                                    {data.kannada_obt_mark}
+                                  <Text style={ styles.textColor}>
+                                    {}
                                   </Text>
                                 </View>
                                 <View style={[styles.colStyle]}>
-                                  <Text style={isFail && styles.textColor}>
-                                    {data.computer_obt_mark}
+                                  <Text style={ styles.textColor}>
+                                    {}
                                   </Text>
                                 </View>
                                 <View style={styles.colStyle}>
                                   <Text>
-                                    {data.maths_obt_mark +
-                                      data.english_obt_mark +
-                                      data.science_obt_mark +
-                                      data.hindi_obt_mark +
-                                      data.social_obt_mark +
-                                      data.kannada_obt_mark +
-                                      data.computer_obt_mark}
+                                    {}
                                   </Text>
                                 </View>
                               </View>
@@ -339,23 +327,7 @@ const TimeTable = () => {
                               ]}
                             >
                               Percentage :{" "}
-                              {(
-                                ((data.maths_obt_mark +
-                                  data.english_obt_mark +
-                                  data.science_obt_mark +
-                                  data.hindi_obt_mark +
-                                  data.social_obt_mark +
-                                  data.kannada_obt_mark +
-                                  data.computer_obt_mark) /
-                                  (data.maths_max_marks +
-                                    data.english_max_marks +
-                                    data.science_max_mark +
-                                    data.hindi_max_mark +
-                                    data.social_max_mark +
-                                    data.kannada_max_mark +
-                                    data.computer_max_mark)) *
-                                100
-                              ).toFixed(2)}
+                              
                             </Text>
                             <Text
                               style={[
@@ -365,13 +337,9 @@ const TimeTable = () => {
                             >
                               Result :
                               <Text
-                                style={[
-                                  isFail
-                                    ? styles.textColor
-                                    : styles.textPassColor,
-                                ]}
+                                
                               >
-                                {isFail ? "Fail" : " Pass"}
+                                {/* {isFail ? "Fail" : " Pass"} */}
                               </Text>
                             </Text>
                           </View>
