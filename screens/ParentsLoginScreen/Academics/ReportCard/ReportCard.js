@@ -43,31 +43,31 @@ const ReportCard = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    for (i = 0; i < data.length; i++) {
-      if (data[i].maths_obt_mark < 35) {
-        setIsFail(true);
-      }
-      if (data[i].english_obt_mark < 35) {
-        setIsFail(true);
-      }
-      if (data[i].science_obt_mark < 35) {
-        setIsFail(true);
-      }
-      if (data[i].hindi_obt_mark < 35) {
-        setIsFail(true);
-      }
-      if (data[i].social_obt_mark < 35) {
-        setIsFail(true);
-      }
-      if (data[i].kannada_obt_mark < 35) {
-        setIsFail(true);
-      }
-      if (data[i].computer_obt_mark < 35) {
-        setIsFail(true);
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   for (i = 0; i < data.length; i++) {
+  //     if (data[i].maths_obt_mark < 35) {
+  //       setIsFail(true);
+  //     }
+  //     if (data[i].english_obt_mark < 35) {
+  //       setIsFail(true);
+  //     }
+  //     if (data[i].science_obt_mark < 35) {
+  //       setIsFail(true);
+  //     }
+  //     if (data[i].hindi_obt_mark < 35) {
+  //       setIsFail(true);
+  //     }
+  //     if (data[i].social_obt_mark < 35) {
+  //       setIsFail(true);
+  //     }
+  //     if (data[i].kannada_obt_mark < 35) {
+  //       setIsFail(true);
+  //     }
+  //     if (data[i].computer_obt_mark < 35) {
+  //       setIsFail(true);
+  //     }
+  //   }
+  // }, []);
 
   return (
     <>
