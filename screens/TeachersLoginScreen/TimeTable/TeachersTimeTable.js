@@ -218,8 +218,8 @@ const TeachersTimetable = () => {
     {
       fromTime: FROMTIME,
       toTime: TOTIME,
-      fromTimeText: "",
-      toTimeText: "",
+      // fromTimeText: "",
+      // toTimeText: "",
       monday: "",
       tuesday: "",
       wednesday: "",
@@ -401,10 +401,13 @@ const TeachersTimetable = () => {
   }
 
   function addPeriodsHandler() {
+    console.log("from picker" + fromTime, "from text" + fromTimeText);
+    setFromTimeText("");
+    console.log(fromTimeText);
     const _inputs = [...inputs];
     _inputs.push({
-      fromTime: FROMTIME,
-      toTime: TOTIME,
+      fromTime: "",
+      toTime: "",
       monday: "",
       tuesday: "",
       wednesday: "",

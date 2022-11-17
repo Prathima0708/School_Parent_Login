@@ -1,5 +1,5 @@
 import { StyleSheet, FlatList, View, Dimensions } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 
 import CategoryGridTile from "../../components/StudentItem/CategoryGridTile";
 
@@ -14,11 +14,11 @@ import { Image } from "react-native";
 import TeachersCategoryGridTile from "../../components/StudentItem/TeachersCategoryGridTile";
 
 import { Teacher } from "../Login";
-
+var username, value;
 const TeachersLoginScreen = ({ navigation }) => {
   async function logoutHandler() {
     try {
-      const value = await AsyncStorage.removeItem("token");
+      value = await AsyncStorage.removeItem("token");
       if (value == null) {
         console.log("Data removed");
         navigation.navigate("Login");
@@ -36,7 +36,13 @@ const TeachersLoginScreen = ({ navigation }) => {
       console.log(error);
     }
   }
-
+  useEffect(() => {
+    async function fetchuser() {
+      username = await AsyncStorage.getItem("username");
+      console.log(username);
+    }
+    fetchuser();
+  });
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
@@ -97,7 +103,9 @@ const TeachersLoginScreen = ({ navigation }) => {
               style={styles.image}
             />
 
-            <Text style={[styles.textBase, styles.description]}>{Teacher}</Text>
+            <Text style={[styles.textBase, styles.description]}>
+              {username}
+            </Text>
           </View>
         </View>
         <View style={{ backgroundColor: "white", height: "100%" }}>
