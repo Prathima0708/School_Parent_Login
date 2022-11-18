@@ -29,17 +29,6 @@
 //   const creatorofnoticeInputIsInValid =
 //     !enteredCreatorOfNoticeIsValid && enteredCreatorOfNoticeTouched;
 
-import {
-  Avatar,
-  Box,
-  FlatList,
-  Heading,
-  HStack,
-  Spacer,
-  Text,
-  VStack,
-} from "native-base";
-
 //   const [title, setTitle] = useState("");
 //   const [enteredTitleTouched, setEnteredTitleTouched] = useState(false);
 //   const enteredTitleIsValid = title.trim() !== "";
@@ -342,109 +331,163 @@ import {
 //   },
 // });
 
-const NoticeBoard = () => {
-  const data = [
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-      fullName: "Some Notice",
-      timeStamp: "12:47 PM",
-      recentText: "Good Day!",
-      avatarUrl:
-        "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    },
-    {
-      id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-      fullName: "Some Notice",
-      timeStamp: "11:11 PM",
-      recentText: "Cheer up, there!",
-      avatarUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyEaZqT3fHeNrPGcnjLLX1v_W4mvBlgpwxnA&usqp=CAU",
-    },
-    {
-      id: "58694a0f-3da1-471f-bd96-145571e29d72",
-      fullName: "Some Notice",
-      timeStamp: "6:22 PM",
-      recentText: "Good Day!",
-      avatarUrl: "https://miro.medium.com/max/1400/0*0fClPmIScV5pTLoE.jpg",
-    },
-    {
-      id: "68694a0f-3da1-431f-bd56-142371e29d72",
-      fullName: "Some Notice",
-      timeStamp: "8:56 PM",
-      recentText: "All the best",
-      avatarUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr01zI37DYuR8bMV5exWQBSw28C1v_71CAh8d7GP1mplcmTgQA6Q66Oo--QedAN1B4E1k&usqp=CAU",
-    },
-    {
-      id: "28694a0f-3da1-471f-bd96-142456e29d72",
-      fullName: "Some Notice",
-      timeStamp: "12:47 PM",
-      recentText: "I will call today.",
-      avatarUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU",
-    },
-  ];
+// const NoticeBoard = () => {
+//   const data = [
+//     {
+//       id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
+//       fullName: "Some Notice",
+//       timeStamp: "12:47 PM",
+//       recentText: "Good Day!",
+//       avatarUrl:
+//         "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+//     },
+//     {
+//       id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
+//       fullName: "Some Notice",
+//       timeStamp: "11:11 PM",
+//       recentText: "Cheer up, there!",
+//       avatarUrl:
+//         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyEaZqT3fHeNrPGcnjLLX1v_W4mvBlgpwxnA&usqp=CAU",
+//     },
+//     {
+//       id: "58694a0f-3da1-471f-bd96-145571e29d72",
+//       fullName: "Some Notice",
+//       timeStamp: "6:22 PM",
+//       recentText: "Good Day!",
+//       avatarUrl: "https://miro.medium.com/max/1400/0*0fClPmIScV5pTLoE.jpg",
+//     },
+//     {
+//       id: "68694a0f-3da1-431f-bd56-142371e29d72",
+//       fullName: "Some Notice",
+//       timeStamp: "8:56 PM",
+//       recentText: "All the best",
+//       avatarUrl:
+//         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr01zI37DYuR8bMV5exWQBSw28C1v_71CAh8d7GP1mplcmTgQA6Q66Oo--QedAN1B4E1k&usqp=CAU",
+//     },
+//     {
+//       id: "28694a0f-3da1-471f-bd96-142456e29d72",
+//       fullName: "Some Notice",
+//       timeStamp: "12:47 PM",
+//       recentText: "I will call today.",
+//       avatarUrl:
+//         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU",
+//     },
+//   ];
+//   return (
+//     <Box>
+//       <Heading fontSize="xl" p="4" pb="3">
+//         NoticeBoard
+//       </Heading>
+//       <FlatList
+//         data={data}
+//         renderItem={({ item }) => (
+//           <Box
+//             borderBottomWidth="1"
+//             _dark={{
+//               borderColor: "muted.50",
+//             }}
+//             borderColor="muted.800"
+//             pl={["0", "4"]}
+//             pr={["0", "5"]}
+//             py="2"
+//           >
+//             <HStack space={[2, 3]} justifyContent="space-between">
+//               {/* <Avatar
+//                 size="48px"
+//                 source={{
+//                   uri: item.avatarUrl,
+//                 }}
+//               /> */}
+//               <VStack>
+//                 <Text
+//                   _dark={{
+//                     color: "warmGray.50",
+//                   }}
+//                   color="coolGray.800"
+//                   bold
+//                 >
+//                   {item.fullName}
+//                 </Text>
+//                 <Text
+//                   color="coolGray.600"
+//                   _dark={{
+//                     color: "warmGray.200",
+//                   }}
+//                 >
+//                   {item.recentText}
+//                 </Text>
+//               </VStack>
+//               <Spacer />
+//               {/* <Text
+//                 fontSize="xs"
+//                 _dark={{
+//                   color: "warmGray.50",
+//                 }}
+//                 color="coolGray.800"
+//                 alignSelf="flex-start"
+//               >
+//                 {item.timeStamp}
+//               </Text> */}
+//             </HStack>
+//           </Box>
+//         )}
+//         keyExtractor={(item) => item.id}
+//       />
+//     </Box>
+//   );
+// };
+// export default NoticeBoard;
+
+import { View, Text, Button } from "react-native";
+import React, { useEffect } from "react";
+import * as Notifications from "expo-notifications";
+import * as Permissions from "expo-permissions";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+      shouldShowAlert: true,
+    };
+  },
+});
+
+const Noticeboard = () => {
+  useEffect(() => {
+    const subscription = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        console.log("Notification Received");
+        console.log(notification);
+      }
+    );
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+  function scheduleNotificationHandler() {
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: "My first notification",
+        body: "This is the body of the notification",
+        data: {
+          userName: "Max",
+        },
+        trigger: {
+          seconds: 5,
+        },
+      },
+    });
+  }
   return (
-    <Box>
-      <Heading fontSize="xl" p="4" pb="3">
-        NoticeBoard
-      </Heading>
-      <FlatList
-        data={data}
-        renderItem={({ item }) => (
-          <Box
-            borderBottomWidth="1"
-            _dark={{
-              borderColor: "muted.50",
-            }}
-            borderColor="muted.800"
-            pl={["0", "4"]}
-            pr={["0", "5"]}
-            py="2"
-          >
-            <HStack space={[2, 3]} justifyContent="space-between">
-              {/* <Avatar
-                size="48px"
-                source={{
-                  uri: item.avatarUrl,
-                }}
-              /> */}
-              <VStack>
-                <Text
-                  _dark={{
-                    color: "warmGray.50",
-                  }}
-                  color="coolGray.800"
-                  bold
-                >
-                  {item.fullName}
-                </Text>
-                <Text
-                  color="coolGray.600"
-                  _dark={{
-                    color: "warmGray.200",
-                  }}
-                >
-                  {item.recentText}
-                </Text>
-              </VStack>
-              <Spacer />
-              {/* <Text
-                fontSize="xs"
-                _dark={{
-                  color: "warmGray.50",
-                }}
-                color="coolGray.800"
-                alignSelf="flex-start"
-              >
-                {item.timeStamp}
-              </Text> */}
-            </HStack>
-          </Box>
-        )}
-        keyExtractor={(item) => item.id}
+    <View>
+      <Text>Noticeboard</Text>
+      <Button
+        title="Schedule Notifications"
+        onPress={scheduleNotificationHandler}
       />
-    </Box>
+    </View>
   );
 };
-export default NoticeBoard;
+
+export default Noticeboard;

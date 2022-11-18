@@ -389,6 +389,7 @@ export default function App() {
           component={Login}
           options={{ title: "Kinara" }}
         />
+      
         <Stack.Screen
           name="TeachersAcademics"
           component={TeachersAcademics}

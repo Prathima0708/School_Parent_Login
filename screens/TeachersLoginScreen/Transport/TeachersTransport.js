@@ -1050,7 +1050,7 @@ const TeachersTransport = () => {
                     // onScroll={((e)=>{
                     //   scrollY.setValue(e.nativeEvent.contentOffset.y)
                     // })}
-                    scrollEventThrottle={25}
+                    scrollEventThrottle={35}
                     onScroll={Animated.event(
                       [{ nativeEvent: { contentOffset: { y: scrollY } } }],
                       { useNativeDriver: false }

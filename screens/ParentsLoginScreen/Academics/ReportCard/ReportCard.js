@@ -20,6 +20,7 @@ import {
   StudentName,
   StudentRegNo,
   Section,
+  StudentPhoto,
 } from "../../../../components/StudentItem/StudentItem";
 var obtMarks = [];
 const ReportCard = () => {
@@ -72,7 +73,7 @@ const ReportCard = () => {
   return (
     <>
       <View style={styles.root}>
-        <View style={styles.flex}>
+        {/* <View style={styles.flex}>
           <View style={[styles.studInfo, styles.studInfoTopLeftStyle1]}>
             <View style={styles.flexrow}>
               <View style={{ flex: 0.5 }}>
@@ -108,6 +109,56 @@ const ReportCard = () => {
                     Section: <Text style={styles.textInfo}>{Section}</Text>
                   </Text>
                 </View>
+              </View>
+            </View>
+          </View>
+        </View> */}
+
+        <View style={styles.studentItem}>
+          <View style={styles.studentItem}>
+            <View style={styles.imageContainer}>
+              <Image
+                source={{
+                  uri: `http://10.0.2.2:8000${StudentPhoto}`,
+                }}
+                style={styles.image}
+                width="100px"
+              />
+            </View>
+
+            <View style={[{ flex: 1 }, { flexDirection: "column", left: 30 }]}>
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.textBase, styles.description]}>Name</Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.textBase, styles.description]}>Class</Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.textBase, styles.description]}>
+                  Reg No
+                </Text>
+              </View>
+            </View>
+            <View
+              style={[
+                { flex: 1 },
+                { flexDirection: "column", left: 10, top: 2 },
+              ]}
+            >
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.textBase, styles.textStyleStudInfo]}>
+                  {StudentName}
+                </Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.textBase, styles.textStyleStudInfo]}>
+                  {className} - {Section}
+                </Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.textBase, styles.textStyleStudInfo]}>
+                  {StudentRegNo}
+                </Text>
               </View>
             </View>
           </View>
@@ -165,29 +216,45 @@ const ReportCard = () => {
                           </View>
                           <View style={styles.flexrow}>
                             <View style={styles.root}>
-                              <View style={[styles.colStyle]}>
-                                <Text style={styles.headingFont}>Maths</Text>
+                              <View style={styles.firstCol}>
+                                <Text style={styles.headingFirstCol}>
+                                  Maths
+                                </Text>
                               </View>
-                              <View style={styles.colStyle}>
-                                <Text style={styles.headingFont}>English</Text>
+                              <View style={styles.firstCol}>
+                                <Text style={styles.headingFirstCol}>
+                                  English
+                                </Text>
                               </View>
-                              <View style={styles.colStyle}>
-                                <Text style={styles.headingFont}>Science</Text>
+                              <View style={styles.firstCol}>
+                                <Text style={styles.headingFirstCol}>
+                                  Science
+                                </Text>
                               </View>
-                              <View style={styles.colStyle}>
-                                <Text style={styles.headingFont}>Hindi</Text>
+                              <View style={styles.firstCol}>
+                                <Text style={styles.headingFirstCol}>
+                                  Hindi
+                                </Text>
                               </View>
-                              <View style={styles.colStyle}>
-                                <Text style={styles.headingFont}>Social</Text>
+                              <View style={styles.firstCol}>
+                                <Text style={styles.headingFirstCol}>
+                                  Social
+                                </Text>
                               </View>
-                              <View style={styles.colStyle}>
-                                <Text style={styles.headingFont}>Kannada</Text>
+                              <View style={styles.firstCol}>
+                                <Text style={styles.headingFirstCol}>
+                                  Kannada
+                                </Text>
                               </View>
-                              <View style={styles.colStyle}>
-                                <Text style={styles.headingFont}>Computer</Text>
+                              <View style={styles.firstCol}>
+                                <Text style={styles.headingFirstCol}>
+                                  Computer
+                                </Text>
                               </View>
-                              <View style={styles.colStyle}>
-                                <Text style={styles.headingFont}>Total</Text>
+                              <View style={styles.firstCol}>
+                                <Text style={styles.headingFirstCol}>
+                                  Total
+                                </Text>
                               </View>
                               {/* <View style={styles.colStyle}>
                                   <Text style={styles.headingFont}>Percentage</Text>
@@ -396,10 +463,12 @@ const styles = StyleSheet.create({
   },
   tableHead: {
     flex: 1,
-    borderRightWidth: 1,
+    borderRightColor: "grey",
+    borderRightWidth: 1.5,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#00B8AC",
+    // backgroundColor: "#00B8AC",
+    backgroundColor: "#02196E",
   },
   studInfo: {
     flex: 1,
@@ -415,11 +484,28 @@ const styles = StyleSheet.create({
   },
   colStyle: {
     borderRightWidth: 1,
+    backgroundColor: "#FFFFE4",
     borderLeftWidth: 1,
-    borderBottomWidth: 1,
+    borderBottomWidth: 1.5,
     justifyContent: "center",
     alignItems: "center",
     padding: deviceHieght < 600 ? "5%" : "10%",
+  },
+  firstCol: {
+    borderRightWidth: 1,
+    backgroundColor: "#FFFFE4",
+    //borderRightColor: "white",
+    borderLeftWidth: 1,
+    borderBottomWidth: 1.5,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: deviceHieght < 600 ? "5%" : "10%",
+  },
+  headingFirstCol: {
+    // fontFamily: "Hind-SemiBold",
+    fontWeight: "bold",
+    fontSize: deviceWidth < 370 ? 14 : 14,
+    // color: "white",
   },
   headingFont: {
     // fontFamily: "Hind-SemiBold",
@@ -466,5 +552,50 @@ const styles = StyleSheet.create({
     backgroundColor: "#CEE7FF",
     alignSelf: "center",
     paddingHorizontal: "12%",
+  },
+  studentItem: {
+    width: "90%",
+
+    marginVertical: 20,
+    marginHorizontal: 20,
+    //  backgroundColor: "#3e04c3",
+    backgroundColor: "#02196E",
+    flexDirection: "row",
+    alignItems: "center",
+
+    justifyContent: "space-between",
+    borderRadius: 10,
+  },
+  textBase: {
+    color: "#0D98BA",
+    marginRight: 10,
+  },
+  description: {
+    fontSize: deviceWidth < 370 ? 20 : 17,
+
+    marginBottom: 4,
+    // fontWeight: "bold",
+    fontFamily: "HindSemiBold",
+  },
+  textStyleStudInfo: {
+    fontSize: deviceWidth < 370 ? 20 : 17,
+
+    marginBottom: 4,
+    // fontWeight: "bold",
+    fontFamily: "HindMedium",
+  },
+  imageContainer: {
+    padding: 1,
+    backgroundColor: "white",
+    borderColor: "black",
+    borderWidth: 5,
+    justifyContent: "center",
+    alignItems: "center",
+
+    //minWidth: 80,
+  },
+  image: {
+    height: 85,
+    width: 75,
   },
 });

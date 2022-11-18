@@ -6,7 +6,7 @@ import {
   Dimensions,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import MapView from 'react-native-maps';
+import MapView from "react-native-maps";
 import { DataTable } from "react-native-paper";
 import Button from "../../../components/UI/Button";
 import axios from "axios";
@@ -15,7 +15,7 @@ import { Card } from "react-native-paper";
 import ParentsHome from "../BottomTab/ParentsHome";
 import { Divider, Text } from "native-base";
 import { busNumber } from "../../../components/StudentItem/StudentItem";
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign } from "@expo/vector-icons";
 const TransportScreen = () => {
   // useEffect(()=>{
   //   async function getToken(){
@@ -79,102 +79,183 @@ const TransportScreen = () => {
       </View> */}
       {data &&
         data.map((data) => (
-        <>
-          <View style={styles.itemStyle}>
-            <View style={{ flex: 1,alignItems:'center',top:10}} >
-              <Text fontSize="3xl" style={styles.textStyle}>{data.route_name}</Text>
-            </View>
-            <View style={styles.iconStyle} >
-              <AntDesign name="right" size={25} color="white" />
-            </View>
-            <View style={{ flex: 1,alignItems:'center',top:10 }} >
-              <Text fontSize="3xl" style={styles.textStyle}>{data.stop_name}</Text>
-            </View>
-          </View>
-          <View style={styles.cardStyle}>
-            <View style={{ flex: 1,alignItems:'flex-start',top:10}} >
-              <View style={[{flex:1}, {flexDirection: "row"}]}>
-                <View style={{ flex: 1,}} >
-                  <Text fontSize="2xl" style={[styles.textStyle,{color:'black',left:20}]}>
-                    Driver Name :
-                  </Text>
-                </View>
-                <View style={{ flex: 1 }} >
-                  <Text fontSize="2xl" style={[styles.textStyle,{color:'black',left:1}]}>
-                    {data.driver_name}
-                  </Text>
-                </View>
+          <>
+            <View style={styles.itemStyle}>
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  top: 15,
+                  paddingLeft: 15,
+                }}
+              >
+                <Text fontSize="3xl" style={styles.textStyle}>
+                  {data.route_name}
+                </Text>
+              </View>
+              <View style={styles.iconStyle}>
+                <AntDesign name="right" size={25} color="white" />
+              </View>
+              <View style={{ flex: 1, alignItems: "center", top: 15 }}>
+                <Text fontSize="3xl" style={styles.textStyle}>
+                  {data.stop_name}
+                </Text>
               </View>
             </View>
-            <View style={{ flex: 3,alignItems:'flex-start' }} >
-              <View style={[{flex:1}, {flexDirection: "row"}]}>
-                <View style={{ flex: 1,}} >
-                  <Text fontSize="sm" style={[styles.textStyle,{color:'black',left:20}]}>
-                    Mobile number :
-                  </Text>
-                </View>
-                <View style={{ flex: 1.7 }} >
-                  <Text fontSize="sm" style={[styles.textStyle,{color:'black'}]}>
-                    {data.emp_mobile}
-                  </Text>
-                </View>
-              </View>
-              <View style={[{flex:2}, {flexDirection: "row"}]}>
-                <View style={{ flex: 1,}} >
-                  <Divider bg="#275932" thickness="3" orientation="horizontal" />
-                  <View style={[{flex:1}, {flexDirection: "row",top:10}]}>
-                    <View style={{ flex: 1,alignItems:'center' }} >
-                      <Text fontSize="sm" style={[styles.textStyle,{color:'black'}]}>
-                        Type
-                      </Text>
-                    </View>
-                    <View style={{ flex: 1,alignItems:'center' }} >
-                      <Text fontSize="sm" style={[styles.textStyle,{color:'black'}]}>
-                        Bus Number
-                      </Text>
-                    </View>
-                    <View style={{ flex: 1,alignItems:'center' }} >
-                      <Text fontSize="sm" style={[styles.textStyle,{color:'black'}]}>
-                        Vehicle Number
-                      </Text>
-                    </View>
+            <View style={styles.cardStyle}>
+              <View style={{ flex: 1, alignItems: "flex-start", top: 10 }}>
+                <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
+                  <View style={{ flex: 1 }}>
+                    <Text
+                      fontSize="2xl"
+                      style={[styles.textStyle, { color: "black", left: 20 }]}
+                    >
+                      Driver Name :
+                    </Text>
                   </View>
-                  <View style={[{flex:1}, {flexDirection: "row",top:-8}]}>
-                    <View style={{ flex: 1 }} >
-                      <Divider bg="#275932" thickness="3" orientation="vertical" style={{left:'60%'}} />
-                      <Divider bg="#275932" thickness="3" orientation="vertical" style={{left:'60%'}} />
-                      <Divider bg="#275932" thickness="3" orientation="vertical" style={{left:'60%'}} />
-                    </View>
-                    <View style={{ flex: 1 }} >
-                      <Divider bg="#275932" thickness="3" orientation="vertical" style={{left:'27%'}} />
-                      <Divider bg="#275932" thickness="3" orientation="vertical" style={{left:'27%'}} />
-                      <Divider bg="#275932" thickness="3" orientation="vertical" style={{left:'27%'}} />
-                    </View>
-                  </View>
-                  <View style={[{flex:3}, {flexDirection: "row",top:10}]}>
-                    <View style={{ flex: 1,alignItems:'center' }} >
-                      <Text fontSize="sm" style={[styles.textStyle,{color:'black'}]}>
-                        {data.types}
-                      </Text>
-                    </View>
-                    <View style={{ flex: 1,alignItems:'center' }} >
-                      <Text fontSize="sm" style={[styles.textStyle,{color:'black'}]}>
-                        {data.busnumber}
-                      </Text>
-                    </View>
-                    <View style={{ flex: 1,alignItems:'center' }} >
-                      <Text fontSize="sm" style={[styles.textStyle,{color:'black'}]}>
-                        {data.vehicleno}
-                      </Text>
-                    </View>
+                  <View style={{ flex: 1 }}>
+                    <Text
+                      fontSize="2xl"
+                      style={[styles.textStyle, { color: "black", left: 1 }]}
+                    >
+                      {data.driver_name}
+                    </Text>
                   </View>
                 </View>
               </View>
-            </View> 
-          </View>
-        </>
-      ))}
-      
+              <View style={{ flex: 3, alignItems: "flex-start" }}>
+                <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
+                  <View style={{ flex: 1 }}>
+                    <Text
+                      fontSize="sm"
+                      style={[styles.textStyle, { color: "black", left: 20 }]}
+                    >
+                      Mobile number :
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1.7 }}>
+                    <Text
+                      fontSize="sm"
+                      style={[styles.textStyle, { color: "black" }]}
+                    >
+                      {data.emp_mobile}
+                    </Text>
+                  </View>
+                </View>
+                <View style={[{ flex: 2 }, { flexDirection: "row" }]}>
+                  <View style={{ flex: 1 }}>
+                    <Divider
+                      bg="#275932"
+                      thickness="3"
+                      orientation="horizontal"
+                    />
+                    <View
+                      style={[{ flex: 1 }, { flexDirection: "row", top: 10 }]}
+                    >
+                      <View style={{ flex: 1, alignItems: "center" }}>
+                        <Text
+                          fontSize="sm"
+                          style={[styles.textStyle, { color: "black" }]}
+                        >
+                          Type
+                        </Text>
+                      </View>
+                      <View style={{ flex: 1, alignItems: "center" }}>
+                        <Text
+                          fontSize="sm"
+                          style={[styles.textStyle, { color: "black" }]}
+                        >
+                          Bus Number
+                        </Text>
+                      </View>
+                      <View style={{ flex: 1, alignItems: "center" }}>
+                        <Text
+                          fontSize="sm"
+                          style={[styles.textStyle, { color: "black" }]}
+                        >
+                          Vehicle Number
+                        </Text>
+                      </View>
+                    </View>
+                    <View
+                      style={[{ flex: 1 }, { flexDirection: "row", top: -8 }]}
+                    >
+                      <View style={{ flex: 1 }}>
+                        <Divider
+                          bg="#275932"
+                          thickness="3"
+                          orientation="vertical"
+                          style={{ left: "60%" }}
+                        />
+                        <Divider
+                          bg="#275932"
+                          thickness="3"
+                          orientation="vertical"
+                          style={{ left: "60%" }}
+                        />
+                        <Divider
+                          bg="#275932"
+                          thickness="3"
+                          orientation="vertical"
+                          style={{ left: "60%" }}
+                        />
+                      </View>
+                      <View style={{ flex: 1 }}>
+                        <Divider
+                          bg="#275932"
+                          thickness="3"
+                          orientation="vertical"
+                          style={{ left: "27%" }}
+                        />
+                        <Divider
+                          bg="#275932"
+                          thickness="3"
+                          orientation="vertical"
+                          style={{ left: "27%" }}
+                        />
+                        <Divider
+                          bg="#275932"
+                          thickness="3"
+                          orientation="vertical"
+                          style={{ left: "27%" }}
+                        />
+                      </View>
+                    </View>
+                    <View
+                      style={[{ flex: 3 }, { flexDirection: "row", top: 10 }]}
+                    >
+                      <View style={{ flex: 1, alignItems: "center" }}>
+                        <Text
+                          fontSize="sm"
+                          style={[styles.textStyle, { color: "black" }]}
+                        >
+                          {data.types}
+                        </Text>
+                      </View>
+                      <View style={{ flex: 1, alignItems: "center" }}>
+                        <Text
+                          fontSize="sm"
+                          style={[styles.textStyle, { color: "black" }]}
+                        >
+                          {data.busnumber}
+                        </Text>
+                      </View>
+                      <View style={{ flex: 1, alignItems: "center" }}>
+                        <Text
+                          fontSize="sm"
+                          style={[styles.textStyle, { color: "black" }]}
+                        >
+                          {data.vehicleno}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </>
+        ))}
+
       {/* <View style={[{flex:1}, {flexDirection: "row"}]}>
         <View style={{ flex: 1, backgroundColor: "red" }} >
           <Text>1</Text>
@@ -266,42 +347,42 @@ const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   container: {
     flex: 5,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     // alignItems: 'center',
     // justifyContent: 'center',
   },
   map: {
-    width: Dimensions.get('window').width,
-    height: '40%'
+    width: Dimensions.get("window").width,
+    height: "40%",
   },
-  textStyle:{
-    color:'white',
-    fontFamily:'HindSemiBold'
+  textStyle: {
+    color: "white",
+    fontFamily: "HindSemiBold",
   },
-  iconStyle:{
+  iconStyle: {
     flex: 1,
-    alignItems:'center',
-    top:20
+    alignItems: "center",
+    top: 25,
   },
-  itemStyle:{
-    flex:0.2,
+  itemStyle: {
+    flex: 0.2,
     flexDirection: "row",
-    backgroundColor:'#275932',
-    padding:10,
-    top:20,
-    borderRadius:20,
-    marginHorizontal:20,
+    backgroundColor: "#275932",
+    padding: 5,
+    top: 20,
+    borderRadius: 20,
+    marginHorizontal: 20,
   },
-  cardStyle:{
-    flex:0.5,
+  cardStyle: {
+    flex: 0.5,
     flexDirection: "column",
-    backgroundColor:'white',
-    padding:5,
-    top:35,
-    borderRadius:20,
-    marginHorizontal:20,
-    elevation:5
-  }
+    backgroundColor: "white",
+    padding: 5,
+    top: 35,
+    borderRadius: 20,
+    marginHorizontal: 20,
+    elevation: 5,
+  },
   // BtnContainer: {
   //   flexDirection: "row",
   //   width: 220,

@@ -11,7 +11,13 @@ import {
 } from "react-native";
 import ImageSlider from "../../screens/ParentsLoginScreen/ImageSlider";
 
-export var studentId, className, StudentRegNo, busNumber, Section, StudentName;
+export var studentId,
+  className,
+  StudentRegNo,
+  busNumber,
+  Section,
+  StudentName,
+  StudentPhoto;
 function StudentItem({
   student_name,
   class_name,
@@ -29,6 +35,7 @@ function StudentItem({
     className = class_name;
     busNumber = busnumber;
     Section = section;
+    StudentPhoto = student_photo;
     console.log(id);
     navigation.navigate("Category");
   }
