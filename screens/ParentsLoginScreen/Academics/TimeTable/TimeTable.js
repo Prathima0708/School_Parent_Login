@@ -15,13 +15,19 @@ import {
   Section,
 } from "../../../../components/StudentItem/StudentItem";
 import moment from "moment";
-import { Button, Divider } from "native-base";
+import { Button, Divider, VStack,Text as NativeText } from "native-base";
 
 const TimeTable = () => {
   const [showForm, setShowForm] = useState(false);
   const [showTable, setShowTable] = useState(true);
 
-  const [isActive,setIsActive]=useState(false);
+  const [isMonActive,setIsMonActive]=useState(false);
+  const [isTueActive,setIsTueActive]=useState(false);
+  const [isWedActive,setIsWedActive]=useState(false);
+  const [isThuActive,setIsThuActive]=useState(false);
+  const [isFriActive,setIsFriActive]=useState(false);
+  const [isSatActive,setIsSatActive]=useState(false);
+
   const [mondayTimeTable,setMondayTimeTable]=useState(false);
   const [tuesdayTimeTable,setTuesdayTimeTable]=useState(false);
   const [wednesdayTimeTable,setWednesdayTimeTable]=useState(false);
@@ -111,7 +117,12 @@ const TimeTable = () => {
 
   function mondayPressedHandler(){
     setMondayTimeTable(true);
-    setIsActive(true);
+    setIsMonActive(true);
+    setIsTueActive(false);
+    setIsWedActive(false);
+    setIsThuActive(false);
+    setIsFriActive(false);
+    setIsSatActive(false);
     setTuesdayTimeTable(false);
     setWednesdayTimeTable(false);
     setThursdayTimeTable(false);
@@ -121,6 +132,12 @@ const TimeTable = () => {
 
   function tuesdayPressedHandler(){
     setTuesdayTimeTable(true);
+    setIsTueActive(true);
+    setIsMonActive(false);
+    setIsWedActive(false);
+    setIsThuActive(false);
+    setIsFriActive(false);
+    setIsSatActive(false);
     setMondayTimeTable(false);
     setWednesdayTimeTable(false);
     setThursdayTimeTable(false);
@@ -130,6 +147,12 @@ const TimeTable = () => {
 
   function wednesdayPressedHandler(){
     setWednesdayTimeTable(true);
+    setIsMonActive(false);
+    setIsTueActive(false);
+    setIsWedActive(true);
+    setIsThuActive(false);
+    setIsFriActive(false);
+    setIsSatActive(false);
     setMondayTimeTable(false);
     setTuesdayTimeTable(false);
     setThursdayTimeTable(false);
@@ -139,6 +162,12 @@ const TimeTable = () => {
 
   function thursdayPressedHandler(){
     setThursdayTimeTable(true);
+    setIsMonActive(false);
+    setIsTueActive(false);
+    setIsWedActive(false);
+    setIsThuActive(true);
+    setIsFriActive(false);
+    setIsSatActive(false);
     setMondayTimeTable(false);
     setTuesdayTimeTable(false);
     setWednesdayTimeTable(false);
@@ -148,6 +177,12 @@ const TimeTable = () => {
 
   function fridayPressedHandler(){
     setFridayTimeTable(true);
+    setIsMonActive(false);
+    setIsTueActive(false);
+    setIsWedActive(false);
+    setIsThuActive(false);
+    setIsFriActive(true);
+    setIsSatActive(false);
     setMondayTimeTable(false);
     setTuesdayTimeTable(false);
     setWednesdayTimeTable(false);
@@ -157,6 +192,12 @@ const TimeTable = () => {
 
   function saturdayPressedHandler(){
     setSaturdayTimeTable(true);
+    setIsMonActive(false);
+    setIsTueActive(false);
+    setIsWedActive(false);
+    setIsThuActive(false);
+    setIsFriActive(false);
+    setIsSatActive(true);
     setMondayTimeTable(false);
     setTuesdayTimeTable(false);
     setWednesdayTimeTable(false);
@@ -206,37 +247,37 @@ const TimeTable = () => {
 
             ? styles.buttonGroup : styles.NotButtonGroup]}>
             <View style={{ flex: 1 }} >
-              <Button size="sm" variant={isActive ? "outline" : "solid"} onPress={mondayPressedHandler}>
+              <Button size="sm" variant={isMonActive ? "outline" : "solid"} onPress={mondayPressedHandler}>
                 MON
               </Button>
             </View>
             <View style={styles.space} />
             <View style={{ flex: 1}} >
-              <Button size="sm" variant="solid" onPress={tuesdayPressedHandler}>
+              <Button size="sm" variant={isTueActive ? "outline" : "solid"} onPress={tuesdayPressedHandler}>
                 TUE
               </Button>
             </View>
             <View style={styles.space} />
             <View style={{ flex: 1}} >
-              <Button size="sm" variant="solid"  onPress={wednesdayPressedHandler}>
+              <Button size="sm" variant={isWedActive ? "outline" : "solid"}  onPress={wednesdayPressedHandler}>
                 WED
               </Button>
             </View>
             <View style={styles.space} />
             <View style={{ flex: 1}} >
-              <Button size="sm" variant="solid"  onPress={thursdayPressedHandler}>
+              <Button size="sm" variant={isThuActive ? "outline" : "solid"}  onPress={thursdayPressedHandler}>
                 THU
               </Button>
             </View>
             <View style={styles.space} />
             <View style={{ flex: 1}} >
-              <Button size="sm" variant="solid"  onPress={fridayPressedHandler}>
+              <Button size="sm" variant={isFriActive ? "outline" : "solid"}  onPress={fridayPressedHandler}>
                 FRI
               </Button>
             </View>
             <View style={styles.space} />
             <View style={{ flex: 1}} >
-              <Button size="sm" variant="solid"  onPress={saturdayPressedHandler}>
+              <Button size="sm" variant={isSatActive ? "outline" : "solid"}  onPress={saturdayPressedHandler}>
                 SAT
               </Button>
             </View>
@@ -572,11 +613,12 @@ const TimeTable = () => {
               </>
           </View>}
         </View>
+        <View style={{flex:0.1}}>
+          <ParentsHome />
+        </View>
         </>
       )}
-      <View style={{flex:0.1}}>
-                <ParentsHome />
-                </View>
+      
       {showForm && (
             <>
 

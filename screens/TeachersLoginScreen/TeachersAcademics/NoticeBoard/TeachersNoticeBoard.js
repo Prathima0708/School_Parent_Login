@@ -6,6 +6,7 @@ import {
   ScrollView,
   Alert,
   Animated,
+  Dimensions,
 } from "react-native";
 import React, { useState } from "react";
 import { useFonts } from "expo-font";
@@ -22,7 +23,15 @@ import Input from "../../../../components/UI/Input";
 
 import moment from "moment";
 import { DataTable } from "react-native-paper";
+import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 const TeachersNoticeboard = () => {
+
+  const [userNameLabel, setUserNameLabel] = useState(false);
+  const [titleLabel, setTitleLabel] = useState(false);
+  const [descLabel, setDescLabel] = useState(false);
+
+  const [btn, setBtn] = useState(false);
+
   const scrollY = new Animated.Value(0);
 
   const diffClamp = Animated.diffClamp(scrollY, 0, 100);
@@ -53,11 +62,19 @@ const TeachersNoticeboard = () => {
     color: "white",
     backgroundColor: "#0C60F4",
     borderRadius: 10,
+    borderBottomWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    fontFamily: "HindSemiBold",
   });
   const [forNoticeForm, setForNoticeForm] = useState({
     color: "black",
     backgroundColor: "#F4F6F6",
     borderRadius: 10,
+    borderBottomWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    fontFamily: "HindSemiBold",
   });
 
   const [username, setEnteredUserName] = useState("");
@@ -177,22 +194,23 @@ const TeachersNoticeboard = () => {
   }
 
   function buttonPressedHandler() {
+    setBtn(true);
     var dateFromValidate = fromText;
     var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
-    if (!isValid) {
-      Alert.alert(
-        "Format Error",
-        "It seems to be you entered wrong date format please follow D/M/YYYY format ",
-        [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel",
-          },
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ]
-      );
-    }
+    // if (!isValid) {
+    //   Alert.alert(
+    //     "Format Error",
+    //     "It seems to be you entered wrong date format please follow D/M/YYYY format ",
+    //     [
+    //       {
+    //         text: "Cancel",
+    //         onPress: () => console.log("Cancel Pressed"),
+    //         style: "cancel",
+    //       },
+    //       { text: "OK", onPress: () => console.log("OK Pressed") },
+    //     ]
+    //   );
+    // }
 
     setEnteredUserNameTouched(true);
     setEnteredTitleTouched(true);
@@ -245,7 +263,7 @@ const TeachersNoticeboard = () => {
       });
       setForNoticeForm({
         color: "white",
-        backgroundColor: "#0C60F4",
+        backgroundColor: "#1E8449",
         borderRadius: 10,
       });
     }
@@ -257,6 +275,7 @@ const TeachersNoticeboard = () => {
   function onFocusUserHandler() {
     setIsUserFocused(true);
     setEnteredUserNameTouched(false);
+    setUserNameLabel(true);
   }
 
   function titleInputBlur() {
@@ -266,6 +285,7 @@ const TeachersNoticeboard = () => {
   function onFocusTitleHandler() {
     setIsTitleFocused(true);
     setEnteredTitleTouched(false);
+    setTitleLabel(true);
   }
 
   function descriptionInputBlur() {
@@ -275,6 +295,7 @@ const TeachersNoticeboard = () => {
   function onFocusDescHandler() {
     setIsDescFocused(true);
     setEnteredDescriptionTouched(false);
+    setDescLabel(true);
   }
 
   function datecreationInputBlur() {
@@ -287,29 +308,49 @@ const TeachersNoticeboard = () => {
   }
 
   function showNoticeForm() {
+    setUserNameLabel(false);
+    setTitleLabel(false);
+    setDescLabel(false);
+
     setForNoticeList({
+      backgroundColor: "#0C60F4",
+      color: "white",
+      borderRadius: 10,
+      borderBottomWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 0,
+    });
+
+    setForNoticeForm({
       color: "black",
       backgroundColor: "#F4F6F6",
       borderRadius: 10,
+
+      borderBottomWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 0,
     });
-    setForNoticeForm({
-      color: "white",
-      backgroundColor: "#0C60F4",
-      borderRadius: 10,
-    });
+
     setShowForm(true);
     setShowList(false);
   }
+
   function showNotice() {
     setForNoticeForm({
       color: "white",
-      backgroundColor: "#0C60F4",
+      backgroundColor: "#1E8449",
       borderRadius: 10,
+      borderBottomWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 0,
     });
     setForNoticeList({
-      color: "black",
       backgroundColor: "#F4F6F6",
+      color: "black",
       borderRadius: 10,
+      borderBottomWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 0,
     });
     setShowForm(false);
     setShowList(true);
@@ -339,8 +380,23 @@ const TeachersNoticeboard = () => {
       {showForm && (
         <ScrollView style={styles.root}>
           <View style={styles.inputForm}>
+              <View style={!userNameLabel ? styles.normal : styles.up}>
+                <Text
+                  style={[
+                    btn
+                      ? styles.normalLabel
+                      : usernameInputIsInValid
+                      ? styles.errorLabel
+                      : styles.normalLabel,
+                  ]}
+                  onPress={onFocusUserHandler}
+                  onPressOut={usernameInputBlur}
+                >
+                  Username
+                </Text>
+              </View>
             <Input
-              placeholder="Username"
+              // placeholder="Username"
               onChangeText={userNameChangeHandler}
               blur={usernameInputBlur}
               onFocus={onFocusUserHandler}
@@ -355,10 +411,24 @@ const TeachersNoticeboard = () => {
             {usernameInputIsInValid && (
               <Text style={{ color: "red", left: 20 }}>Enter Username</Text>
             )}
-
+            <View>
+            <View style={!titleLabel ? styles.normalVeh : styles.upVeh}>
+              <Text
+                style={[
+                  btn
+                    ? styles.normalLabel
+                    : titleInputIsInValid
+                    ? styles.vehError
+                    : styles.normalLabel,
+                ]}
+                onPress={onFocusTitleHandler}
+              >
+                Title
+              </Text>
+            </View>
             <Input
               keyboardType="number-pad"
-              placeholder="Title"
+              // placeholder="Title"
               onChangeText={titleChangeHandler}
               blur={titleInputBlur}
               onFocus={onFocusTitleHandler}
@@ -370,12 +440,25 @@ const TeachersNoticeboard = () => {
                   : titleInputIsInValid && styles.errorBorderColor
               }
             />
+            </View>
+            
             {titleInputIsInValid && (
               <Text style={{ color: "red", left: 20 }}>Enter title</Text>
             )}
-
+            <View>
+            <View style={!descLabel ? styles.normalType : styles.upType}>
+                <Text
+                  style={[
+                    btn
+                      ? styles.normalLabel
+                      : descriptionInputIsInValid
+                      ? styles.errorLabel
+                      : styles.normalLabel,
+                  ]}
+                  onPress={onFocusDescHandler}
+                >Description</Text>
+            </View>
             <Input
-              placeholder="Description"
               onChangeText={descriptionChangeHandler}
               blur={descriptionInputBlur}
               onFocus={onFocusDescHandler}
@@ -387,11 +470,54 @@ const TeachersNoticeboard = () => {
                   : descriptionInputIsInValid && styles.errorBorderColor
               }
             />
+            </View>
+            
             {descriptionInputIsInValid && (
               <Text style={{ color: "red", left: 20 }}>Enter description</Text>
             )}
 
-            <View>
+                <View style={{ flex: 1,width:'45%',left:'5%' }}>
+                  <View>
+                    <Ionicons
+                      style={{
+                        position: "absolute",
+                        top: 19,
+                      }}
+                      name="calendar"
+                      size={24}
+                      color="black"
+                      onPress={() => showFromMode("date")}
+                    />
+                  </View>
+                  <UnderlinedInput
+                    value={fromText || fromDate}
+                    placeholder="Start date"
+                    onSubmitEditing={Keyboard.dismiss}
+                    style={
+                      isDOCFocused
+                        ? styles.focusStyle
+                        : fromDateInputIsInValid && styles.errorBorderColorDate
+                    }
+                    blur={datecreationInputBlur}
+                    onFocus={onFocusDOCHandler}
+                    onChangeText={frmDateHandler}
+                    onPressIn={() => showFromMode("date")}
+                  />
+                  {fromDateInputIsInValid && (
+                    <Text style={styles.commonErrorMsg}>Creation Date</Text>
+                  )}
+                  {fromShow && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={fromDate}
+                      mode={frommode}
+                      is24Hour={true}
+                      display="default"
+                      onChange={fromDateChangeHandler}
+                    />
+                  )}
+                </View>
+            {/* <View>
               <Ionicons
                 style={{
                   position: "absolute",
@@ -428,7 +554,7 @@ const TeachersNoticeboard = () => {
             />
             {fromDateInputIsInValid && (
               <Text style={{ color: "red", left: 20 }}>Enter Date</Text>
-            )}
+            )} */}
             <View style={styles.btnSubmit}>
               <Button onPress={buttonPressedHandler}>Add Notice</Button>
             </View>
@@ -508,6 +634,9 @@ const TeachersNoticeboard = () => {
 
 export default TeachersNoticeboard;
 
+const deviceWidth = Dimensions.get("window").width;
+const deviceHieght = Dimensions.get("window").height;
+
 const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
@@ -521,14 +650,14 @@ const styles = StyleSheet.create({
     marginTop: 29,
   },
   root: {
-    backgroundColor: "#EBECFO",
+    backgroundColor: "white",
   },
   inputForm: {
     padding: 20,
     paddingTop: 5,
   },
   errorBorderColor: {
-    borderBottomColor: "red",
+    borderColor: "red",
   },
   labels: {
     margin: 5,
@@ -569,6 +698,79 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   focusStyle: {
-    borderBottomColor: "blue",
+    borderColor: "blue",
+  },
+  normal: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 27 : 30,
+    left: deviceWidth < 370 ? 40 : 50,
+  },
+  up: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 2 : 7,
+    left: deviceWidth < 370 ? 40 : 50,
+    fontFamily: "HindRegular",
+  },
+  normalLabel: {
+    // color: "#A7ADAD",
+    color: "#AEB6BF",
+    // backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
+    paddingHorizontal: 5,
+    fontSize: deviceWidth < 370 ? 13 : 16,
+    letterSpacing: 0.5,
+  },
+  errorLabel: {
+    color: "red",
+    //  backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
+    paddingHorizontal: 5,
+    fontSize: deviceWidth < 370 ? 13 : 17,
+    fontFamily: "HindRegular",
+  },
+  normalVeh: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 23 : 25,
+    left: deviceWidth < 370 ? 20 : 30,
+    fontFamily: "HindRegular",
+  },
+  upVeh: {
+    top: deviceWidth < 370 ? 15 : 25,
+    width: deviceWidth < 370 ? 100 : 50,
+    left: deviceWidth < 370 ? 20 : 30,
+    color: "black",
+    height: 20,
+    fontFamily: "HindRegular",
+  },
+  vehError: {
+    bottom: deviceWidth < 370 ? 15 : 3,
+    color: "red",
+    //  backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
+    paddingHorizontal: 5,
+    fontSize: deviceWidth < 370 ? 13 : 16,
+    fontFamily: "HindRegular",
+  },
+  normalType: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 23 : 25,
+    left: deviceWidth < 370 ? 20 : 30,
+    fontFamily: "HindRegular",
+  },
+  upType: {
+    top: deviceHieght > 800 ? 30 : 27,
+    width: deviceWidth > 400 ? 130 : 100,
+    left: deviceWidth < 370 ? 20 : 30,
+    fontFamily: "HindRegular",
+  },
+  commonErrorMsg: {
+    color: "red",
+    left: 20,
+    fontFamily: "HindRegular",
+    fontSize: deviceWidth < 370 ? 16 : 18,
+    top: deviceHieght > 800 ? -3 : 1,
+  },
+  errorBorderColorDate: {
+    borderBottomColor: "red",
   },
 });
