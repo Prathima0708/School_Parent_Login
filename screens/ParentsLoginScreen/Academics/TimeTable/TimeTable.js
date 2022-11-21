@@ -15,25 +15,25 @@ import {
   Section,
 } from "../../../../components/StudentItem/StudentItem";
 import moment from "moment";
-import { Button, Divider, VStack,Text as NativeText } from "native-base";
+import { Button, Divider, VStack, Text as NativeText } from "native-base";
 
 const TimeTable = () => {
   const [showForm, setShowForm] = useState(false);
   const [showTable, setShowTable] = useState(true);
 
-  const [isMonActive,setIsMonActive]=useState(false);
-  const [isTueActive,setIsTueActive]=useState(false);
-  const [isWedActive,setIsWedActive]=useState(false);
-  const [isThuActive,setIsThuActive]=useState(false);
-  const [isFriActive,setIsFriActive]=useState(false);
-  const [isSatActive,setIsSatActive]=useState(false);
+  const [isMonActive, setIsMonActive] = useState(true);
+  const [isTueActive, setIsTueActive] = useState(false);
+  const [isWedActive, setIsWedActive] = useState(false);
+  const [isThuActive, setIsThuActive] = useState(false);
+  const [isFriActive, setIsFriActive] = useState(false);
+  const [isSatActive, setIsSatActive] = useState(false);
 
-  const [mondayTimeTable,setMondayTimeTable]=useState(false);
-  const [tuesdayTimeTable,setTuesdayTimeTable]=useState(false);
-  const [wednesdayTimeTable,setWednesdayTimeTable]=useState(false);
-  const [thursdayTimeTable,setThursdayTimeTable]=useState(false);
-  const [fridayTimeTable,setFridayTimeTable]=useState(false);
-  const [saturdayTimeTable,setSaturdayTimeTable]=useState(false);
+  const [mondayTimeTable, setMondayTimeTable] = useState(true);
+  const [tuesdayTimeTable, setTuesdayTimeTable] = useState(false);
+  const [wednesdayTimeTable, setWednesdayTimeTable] = useState(false);
+  const [thursdayTimeTable, setThursdayTimeTable] = useState(false);
+  const [fridayTimeTable, setFridayTimeTable] = useState(false);
+  const [saturdayTimeTable, setSaturdayTimeTable] = useState(false);
   // const [data, setData] = useState();
 
   const [examData, setExamData] = useState();
@@ -115,7 +115,7 @@ const TimeTable = () => {
     }
   }
 
-  function mondayPressedHandler(){
+  function mondayPressedHandler() {
     setMondayTimeTable(true);
     setIsMonActive(true);
     setIsTueActive(false);
@@ -130,7 +130,7 @@ const TimeTable = () => {
     setSaturdayTimeTable(false);
   }
 
-  function tuesdayPressedHandler(){
+  function tuesdayPressedHandler() {
     setTuesdayTimeTable(true);
     setIsTueActive(true);
     setIsMonActive(false);
@@ -145,7 +145,7 @@ const TimeTable = () => {
     setSaturdayTimeTable(false);
   }
 
-  function wednesdayPressedHandler(){
+  function wednesdayPressedHandler() {
     setWednesdayTimeTable(true);
     setIsMonActive(false);
     setIsTueActive(false);
@@ -160,7 +160,7 @@ const TimeTable = () => {
     setSaturdayTimeTable(false);
   }
 
-  function thursdayPressedHandler(){
+  function thursdayPressedHandler() {
     setThursdayTimeTable(true);
     setIsMonActive(false);
     setIsTueActive(false);
@@ -175,7 +175,7 @@ const TimeTable = () => {
     setSaturdayTimeTable(false);
   }
 
-  function fridayPressedHandler(){
+  function fridayPressedHandler() {
     setFridayTimeTable(true);
     setIsMonActive(false);
     setIsTueActive(false);
@@ -190,7 +190,7 @@ const TimeTable = () => {
     setSaturdayTimeTable(false);
   }
 
-  function saturdayPressedHandler(){
+  function saturdayPressedHandler() {
     setSaturdayTimeTable(true);
     setIsMonActive(false);
     setIsTueActive(false);
@@ -217,485 +217,766 @@ const TimeTable = () => {
       </View>
       {showTable && (
         <>
-        <View style={styles.root}>
-          <View style={styles.flex}>
-            <View style={[styles.studInfo, styles.studInfoTopLeftStyle1]}>
-              <View style={styles.flexrow}>
-                <View style={{ flex: 0.5 }}>
-                  <Text
-                    style={[
-                      styles.description,
-                      styles.bottomLine,
-                      { justifyContent: "center", alignItems: "center" },
-                    ]}
-                  >
-                    Class:  <Text style={styles.textInfo}>{className}</Text>
-                  </Text>
-                </View>
-                <View style={styles.space} />
-                <View style={{ flex: 0.5, marginRight: "5%" }}>
-                  <Text style={[styles.description, styles.bottomLine]}>
-                    Section: <Text style={styles.textInfo}>{Section}</Text>
-                  </Text>
+          <View style={styles.root}>
+            <View style={styles.flex}>
+              <View style={[styles.studInfo, styles.studInfoTopLeftStyle1]}>
+                <View style={styles.flexrow}>
+                  <View style={{ flex: 0.5 }}>
+                    <Text
+                      style={[
+                        styles.description,
+                        styles.bottomLine,
+                        { justifyContent: "center", alignItems: "center" },
+                      ]}
+                    >
+                      Class: <Text style={styles.textInfo}>{className}</Text>
+                    </Text>
+                  </View>
+                  <View style={styles.space} />
+                  <View style={{ flex: 0.5, marginRight: "5%" }}>
+                    <Text style={[styles.description, styles.bottomLine]}>
+                      Section: <Text style={styles.textInfo}>{Section}</Text>
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
-          <View style={[
-            mondayTimeTable || tuesdayTimeTable || wednesdayTimeTable || thursdayTimeTable
-            || fridayTimeTable || saturdayTimeTable
+            <View
+              style={[
+                mondayTimeTable ||
+                tuesdayTimeTable ||
+                wednesdayTimeTable ||
+                thursdayTimeTable ||
+                fridayTimeTable ||
+                saturdayTimeTable
+                  ? styles.buttonGroup
+                  : styles.NotButtonGroup,
+              ]}
+            >
+              <View style={{ flex: 1 }}>
+                <Button
+                  size="sm"
+                  variant={!isMonActive ? "outline" : "solid"}
+                  onPress={mondayPressedHandler}
+                >
+                  MON
+                </Button>
+              </View>
+              <View style={styles.space} />
+              <View style={{ flex: 1 }}>
+                <Button
+                  size="sm"
+                  variant={!isTueActive ? "outline" : "solid"}
+                  onPress={tuesdayPressedHandler}
+                >
+                  TUE
+                </Button>
+              </View>
+              <View style={styles.space} />
+              <View style={{ flex: 1 }}>
+                <Button
+                  size="sm"
+                  variant={!isWedActive ? "outline" : "solid"}
+                  onPress={wednesdayPressedHandler}
+                >
+                  WED
+                </Button>
+              </View>
+              <View style={styles.space} />
+              <View style={{ flex: 1 }}>
+                <Button
+                  size="sm"
+                  variant={!isThuActive ? "outline" : "solid"}
+                  onPress={thursdayPressedHandler}
+                >
+                  THU
+                </Button>
+              </View>
+              <View style={styles.space} />
+              <View style={{ flex: 1 }}>
+                <Button
+                  size="sm"
+                  variant={!isFriActive ? "outline" : "solid"}
+                  onPress={fridayPressedHandler}
+                >
+                  FRI
+                </Button>
+              </View>
+              <View style={styles.space} />
+              <View style={{ flex: 1 }}>
+                <Button
+                  size="sm"
+                  variant={!isSatActive ? "outline" : "solid"}
+                  onPress={saturdayPressedHandler}
+                >
+                  SAT
+                </Button>
+              </View>
+            </View>
+            {mondayTimeTable && (
+              <View style={[styles.tableTopStyle]}>
+                <>
+                  <View style={[{ flexDirection: "row" }]}>
+                    <View style={styles.tableHead}>
+                      <Text style={styles.headingFont}>Time</Text>
+                    </View>
+                    <View style={styles.tableHead}>
+                      <Text style={styles.headingFont}>Subject</Text>
+                    </View>
+                  </View>
+                  <View
+                    style={[
+                      { flex: 1 },
+                      { flexDirection: "column", backgroundColor: "white" },
+                    ]}
+                  >
+                    <View style={{ flex: 8, bottom: 1 }}>
+                      <ScrollView>
+                        <View style={[styles.flexrow]}>
+                          <View style={[styles.root]}>
+                            {timeTable &&
+                              timeTable.map((data) => (
+                                <>
+                                  <View
+                                    style={[
+                                      styles.container,
+                                      { flexDirection: "row" },
+                                    ]}
+                                  >
+                                    <View style={[styles.colStyle]}>
+                                      <Text
+                                        style={[
+                                          styles.tableTitle,
+                                          { left: "35%" },
+                                        ]}
+                                      >
+                                        {moment(data.from_time, "HH:mm").format(
+                                          "hh:mm "
+                                        )}{" "}
+                                        {"-"} {""}
+                                        {moment(data.to_time, "HH:mm").format(
+                                          "hh:mm "
+                                        )}
+                                      </Text>
+                                    </View>
 
-            ? styles.buttonGroup : styles.NotButtonGroup]}>
-            <View style={{ flex: 1 }} >
-              <Button size="sm" variant={isMonActive ? "outline" : "solid"} onPress={mondayPressedHandler}>
-                MON
-              </Button>
-            </View>
-            <View style={styles.space} />
-            <View style={{ flex: 1}} >
-              <Button size="sm" variant={isTueActive ? "outline" : "solid"} onPress={tuesdayPressedHandler}>
-                TUE
-              </Button>
-            </View>
-            <View style={styles.space} />
-            <View style={{ flex: 1}} >
-              <Button size="sm" variant={isWedActive ? "outline" : "solid"}  onPress={wednesdayPressedHandler}>
-                WED
-              </Button>
-            </View>
-            <View style={styles.space} />
-            <View style={{ flex: 1}} >
-              <Button size="sm" variant={isThuActive ? "outline" : "solid"}  onPress={thursdayPressedHandler}>
-                THU
-              </Button>
-            </View>
-            <View style={styles.space} />
-            <View style={{ flex: 1}} >
-              <Button size="sm" variant={isFriActive ? "outline" : "solid"}  onPress={fridayPressedHandler}>
-                FRI
-              </Button>
-            </View>
-            <View style={styles.space} />
-            <View style={{ flex: 1}} >
-              <Button size="sm" variant={isSatActive ? "outline" : "solid"}  onPress={saturdayPressedHandler}>
-                SAT
-              </Button>
-            </View>
+                                    {/* <View style={[styles.colStyle]}>
+                                <Text style={[styles.tableTitle,{left:'50%'}]}>{data.to_time}</Text>
+                              </View> */}
+                                  </View>
+                                </>
+                              ))}
+                          </View>
+                          <View style={[styles.root, {}]}>
+                            {timeTable &&
+                              timeTable.map((data) => (
+                                <>
+                                  <View
+                                    style={[
+                                      styles.container,
+                                      { flexDirection: "row" },
+                                    ]}
+                                  >
+                                    <View
+                                      style={[
+                                        styles.colStyle,
+                                        { left: "170%" },
+                                      ]}
+                                    >
+                                      <Text style={[styles.tableTitle]}>
+                                        {data.monday}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                </>
+                              ))}
+                          </View>
+                        </View>
+                      </ScrollView>
+                    </View>
+                  </View>
+                </>
+              </View>
+            )}
+            {tuesdayTimeTable && (
+              <View style={[styles.tableTopStyle]}>
+                <>
+                  <View style={[{ flexDirection: "row" }]}>
+                    <View style={styles.tableHead}>
+                      <Text style={styles.headingFont}>Time</Text>
+                    </View>
+                    <View style={styles.tableHead}>
+                      <Text style={styles.headingFont}>Subject</Text>
+                    </View>
+                  </View>
+                  <View
+                    style={[
+                      { flex: 1 },
+                      { flexDirection: "column", backgroundColor: "white" },
+                    ]}
+                  >
+                    <View style={{ flex: 8, bottom: 1 }}>
+                      <ScrollView>
+                        <View style={[styles.flexrow]}>
+                          <View style={[styles.root]}>
+                            {timeTable &&
+                              timeTable.map((data) => (
+                                <>
+                                  <View
+                                    style={[
+                                      styles.container,
+                                      { flexDirection: "row" },
+                                    ]}
+                                  >
+                                    <View style={[styles.colStyle]}>
+                                      <Text
+                                        style={[
+                                          styles.tableTitle,
+                                          { left: "35%" },
+                                        ]}
+                                      >
+                                        {moment(data.from_time, "HH:mm").format(
+                                          "hh:mm "
+                                        )}{" "}
+                                        {"-"} {""}
+                                        {moment(data.to_time, "HH:mm").format(
+                                          "hh:mm "
+                                        )}
+                                      </Text>
+                                    </View>
+
+                                    {/* <View style={[styles.colStyle]}>
+                                <Text style={[styles.tableTitle,{left:'50%'}]}>{data.to_time}</Text>
+                              </View> */}
+                                  </View>
+                                </>
+                              ))}
+                          </View>
+                          <View style={[styles.root, {}]}>
+                            {timeTable &&
+                              timeTable.map((data) => (
+                                <>
+                                  <View
+                                    style={[
+                                      styles.container,
+                                      { flexDirection: "row" },
+                                    ]}
+                                  >
+                                    <View
+                                      style={[
+                                        styles.colStyle,
+                                        { left: "170%" },
+                                      ]}
+                                    >
+                                      <Text style={[styles.tableTitle]}>
+                                        {data.Tuesday}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                </>
+                              ))}
+                          </View>
+                        </View>
+                      </ScrollView>
+                    </View>
+                  </View>
+                </>
+              </View>
+            )}
+            {wednesdayTimeTable && (
+              <View style={[styles.tableTopStyle]}>
+                <>
+                  <View style={[{ flexDirection: "row" }]}>
+                    <View style={styles.tableHead}>
+                      <Text style={styles.headingFont}>Time</Text>
+                    </View>
+                    <View style={styles.tableHead}>
+                      <Text style={styles.headingFont}>Subject</Text>
+                    </View>
+                  </View>
+                  <View
+                    style={[
+                      { flex: 1 },
+                      { flexDirection: "column", backgroundColor: "white" },
+                    ]}
+                  >
+                    <View style={{ flex: 8, bottom: 1 }}>
+                      <ScrollView>
+                        <View style={[styles.flexrow]}>
+                          <View style={[styles.root]}>
+                            {timeTable &&
+                              timeTable.map((data) => (
+                                <>
+                                  <View
+                                    style={[
+                                      styles.container,
+                                      { flexDirection: "row" },
+                                    ]}
+                                  >
+                                    <View style={[styles.colStyle]}>
+                                      <Text
+                                        style={[
+                                          styles.tableTitle,
+                                          { left: "35%" },
+                                        ]}
+                                      >
+                                        {moment(data.from_time, "HH:mm").format(
+                                          "hh:mm "
+                                        )}{" "}
+                                        {"-"} {""}
+                                        {moment(data.to_time, "HH:mm").format(
+                                          "hh:mm "
+                                        )}
+                                      </Text>
+                                    </View>
+
+                                    {/* <View style={[styles.colStyle]}>
+                                <Text style={[styles.tableTitle,{left:'50%'}]}>{data.to_time}</Text>
+                              </View> */}
+                                  </View>
+                                </>
+                              ))}
+                          </View>
+                          <View style={[styles.root, {}]}>
+                            {timeTable &&
+                              timeTable.map((data) => (
+                                <>
+                                  <View
+                                    style={[
+                                      styles.container,
+                                      { flexDirection: "row" },
+                                    ]}
+                                  >
+                                    <View
+                                      style={[
+                                        styles.colStyle,
+                                        { left: "170%" },
+                                      ]}
+                                    >
+                                      <Text style={[styles.tableTitle]}>
+                                        {data.wednesday}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                </>
+                              ))}
+                          </View>
+                        </View>
+                      </ScrollView>
+                    </View>
+                  </View>
+                </>
+              </View>
+            )}
+            {thursdayTimeTable && (
+              <View style={[styles.tableTopStyle]}>
+                <>
+                  <View style={[{ flexDirection: "row" }]}>
+                    <View style={styles.tableHead}>
+                      <Text style={styles.headingFont}>Time</Text>
+                    </View>
+                    <View style={styles.tableHead}>
+                      <Text style={styles.headingFont}>Subject</Text>
+                    </View>
+                  </View>
+                  <View
+                    style={[
+                      { flex: 1 },
+                      { flexDirection: "column", backgroundColor: "white" },
+                    ]}
+                  >
+                    <View style={{ flex: 8, bottom: 1 }}>
+                      <ScrollView>
+                        <View style={[styles.flexrow]}>
+                          <View style={[styles.root]}>
+                            {timeTable &&
+                              timeTable.map((data) => (
+                                <>
+                                  <View
+                                    style={[
+                                      styles.container,
+                                      { flexDirection: "row" },
+                                    ]}
+                                  >
+                                    <View style={[styles.colStyle]}>
+                                      <Text
+                                        style={[
+                                          styles.tableTitle,
+                                          { left: "35%" },
+                                        ]}
+                                      >
+                                        {moment(data.from_time, "HH:mm").format(
+                                          "hh:mm "
+                                        )}{" "}
+                                        {"-"} {""}
+                                        {moment(data.to_time, "HH:mm").format(
+                                          "hh:mm "
+                                        )}
+                                      </Text>
+                                    </View>
+
+                                    {/* <View style={[styles.colStyle]}>
+                                <Text style={[styles.tableTitle,{left:'50%'}]}>{data.to_time}</Text>
+                              </View> */}
+                                  </View>
+                                </>
+                              ))}
+                          </View>
+                          <View style={[styles.root, {}]}>
+                            {timeTable &&
+                              timeTable.map((data) => (
+                                <>
+                                  <View
+                                    style={[
+                                      styles.container,
+                                      { flexDirection: "row" },
+                                    ]}
+                                  >
+                                    <View
+                                      style={[
+                                        styles.colStyle,
+                                        { left: "170%" },
+                                      ]}
+                                    >
+                                      <Text style={[styles.tableTitle]}>
+                                        {data.thursday}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                </>
+                              ))}
+                          </View>
+                        </View>
+                      </ScrollView>
+                    </View>
+                  </View>
+                </>
+              </View>
+            )}
+            {fridayTimeTable && (
+              <View style={[styles.tableTopStyle]}>
+                <>
+                  <View style={[{ flexDirection: "row" }]}>
+                    <View style={styles.tableHead}>
+                      <Text style={styles.headingFont}>Time</Text>
+                    </View>
+                    <View style={styles.tableHead}>
+                      <Text style={styles.headingFont}>Subject</Text>
+                    </View>
+                  </View>
+                  <View
+                    style={[
+                      { flex: 1 },
+                      { flexDirection: "column", backgroundColor: "white" },
+                    ]}
+                  >
+                    <View style={{ flex: 8, bottom: 1 }}>
+                      <ScrollView>
+                        <View style={[styles.flexrow]}>
+                          <View style={[styles.root]}>
+                            {timeTable &&
+                              timeTable.map((data) => (
+                                <>
+                                  <View
+                                    style={[
+                                      styles.container,
+                                      { flexDirection: "row" },
+                                    ]}
+                                  >
+                                    <View style={[styles.colStyle]}>
+                                      <Text
+                                        style={[
+                                          styles.tableTitle,
+                                          { left: "35%" },
+                                        ]}
+                                      >
+                                        {moment(data.from_time, "HH:mm").format(
+                                          "hh:mm "
+                                        )}{" "}
+                                        {"-"} {""}
+                                        {moment(data.to_time, "HH:mm").format(
+                                          "hh:mm "
+                                        )}
+                                      </Text>
+                                    </View>
+
+                                    {/* <View style={[styles.colStyle]}>
+                                <Text style={[styles.tableTitle,{left:'50%'}]}>{data.to_time}</Text>
+                              </View> */}
+                                  </View>
+                                </>
+                              ))}
+                          </View>
+                          <View style={[styles.root, {}]}>
+                            {timeTable &&
+                              timeTable.map((data) => (
+                                <>
+                                  <View
+                                    style={[
+                                      styles.container,
+                                      { flexDirection: "row" },
+                                    ]}
+                                  >
+                                    <View
+                                      style={[
+                                        styles.colStyle,
+                                        { left: "170%" },
+                                      ]}
+                                    >
+                                      <Text style={[styles.tableTitle]}>
+                                        {data.friday}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                </>
+                              ))}
+                          </View>
+                        </View>
+                      </ScrollView>
+                    </View>
+                  </View>
+                </>
+              </View>
+            )}
+            {saturdayTimeTable && (
+              <View style={[styles.tableTopStyle]}>
+                <>
+                  <View style={[{ flexDirection: "row" }]}>
+                    <View style={styles.tableHead}>
+                      <Text style={styles.headingFont}>Time</Text>
+                    </View>
+                    <View style={styles.tableHead}>
+                      <Text style={styles.headingFont}>Subject</Text>
+                    </View>
+                  </View>
+                  <View
+                    style={[
+                      { flex: 1 },
+                      { flexDirection: "column", backgroundColor: "white" },
+                    ]}
+                  >
+                    <View style={{ flex: 8, bottom: 1 }}>
+                      <ScrollView>
+                        <View style={[styles.flexrow]}>
+                          <View style={[styles.root]}>
+                            {timeTable &&
+                              timeTable.map((data) => (
+                                <>
+                                  <View
+                                    style={[
+                                      styles.container,
+                                      { flexDirection: "row" },
+                                    ]}
+                                  >
+                                    <View style={[styles.colStyle]}>
+                                      <Text
+                                        style={[
+                                          styles.tableTitle,
+                                          { left: "35%" },
+                                        ]}
+                                      >
+                                        {moment(data.from_time, "HH:mm").format(
+                                          "hh:mm "
+                                        )}{" "}
+                                        {"-"} {""}
+                                        {moment(data.to_time, "HH:mm").format(
+                                          "hh:mm "
+                                        )}
+                                      </Text>
+                                    </View>
+
+                                    {/* <View style={[styles.colStyle]}>
+                                <Text style={[styles.tableTitle,{left:'50%'}]}>{data.to_time}</Text>
+                              </View> */}
+                                  </View>
+                                </>
+                              ))}
+                          </View>
+                          <View style={[styles.root, {}]}>
+                            {timeTable &&
+                              timeTable.map((data) => (
+                                <>
+                                  <View
+                                    style={[
+                                      styles.container,
+                                      { flexDirection: "row" },
+                                    ]}
+                                  >
+                                    <View
+                                      style={[
+                                        styles.colStyle,
+                                        { left: "170%" },
+                                      ]}
+                                    >
+                                      <Text style={[styles.tableTitle]}>
+                                        {data.saturday}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                </>
+                              ))}
+                          </View>
+                        </View>
+                      </ScrollView>
+                    </View>
+                  </View>
+                </>
+              </View>
+            )}
           </View>
-          {mondayTimeTable && <View style={[styles.tableTopStyle]}>
-              <>
-                <View style={[{flexDirection: "row"}]}>
-                  <View style={styles.tableHead} >
-                    <Text style={styles.headingFont}>Time</Text>
-                  </View>
-                  <View style={styles.tableHead} >
-                    <Text style={styles.headingFont}>Subject</Text>
-                  </View>
-                </View> 
-                <View
-                style={[
-                  { flex: 1 },
-                  { flexDirection: "column", backgroundColor: "white" },
-                ]}
-              >
-                <View style={{ flex: 8, bottom: 1 }}>
-                <ScrollView>
-                  <View style={[styles.flexrow]}>
-                    <View style={[styles.root]}>
-                      {timeTable && 
-                         timeTable.map((data)=>(
-                          <>
-                            <View style={[styles.container, {flexDirection: "row"}]}>
-                              <View style={[styles.colStyle]}>
-                                <Text style={[styles.tableTitle,{left:'35%'}]}>
-                                  {moment(data.from_time, "HH:mm").format("hh:mm ")} {"-"}{" "}{""}
-                                  {moment(data.to_time, "HH:mm").format("hh:mm ")}</Text>
-                              </View>
-                              
-                              {/* <View style={[styles.colStyle]}>
-                                <Text style={[styles.tableTitle,{left:'50%'}]}>{data.to_time}</Text>
-                              </View> */}
-                            </View>
-                          </>
-                        ))}
-                    </View>
-                    <View style={[styles.root,{}]}>
-                      {timeTable && 
-                        timeTable.map((data)=>(
-                          <>
-                            <View style={[styles.container, {flexDirection: "row"}]}>
-                              <View style={[styles.colStyle,{left:'170%'}]}>
-                                <Text style={[styles.tableTitle]}>{data.monday}</Text>
-                              </View>
-                            </View>
-                          </>
-                        ))}
-                    </View>
-                  </View>  
-                </ScrollView>    
-                </View>
-                </View> 
-              </>
-          </View>}
-          {tuesdayTimeTable && <View style={[styles.tableTopStyle]}>
-              <>
-                <View style={[{flexDirection: "row"}]}>
-                  <View style={styles.tableHead} >
-                    <Text style={styles.headingFont}>Time</Text>
-                  </View>
-                  <View style={styles.tableHead} >
-                    <Text style={styles.headingFont}>Subject</Text>
-                  </View>
-                </View> 
-                <View
-                style={[
-                  { flex: 1 },
-                  { flexDirection: "column", backgroundColor: "white" },
-                ]}
-              >
-                <View style={{ flex: 8, bottom: 1 }}>
-                <ScrollView>
-                  <View style={[styles.flexrow]}>
-                    <View style={[styles.root]}>
-                      {timeTable && 
-                        timeTable.map((data)=>(
-                          <>
-                            <View style={[styles.container, {flexDirection: "row"}]}>
-                              <View style={[styles.colStyle]}>
-                                <Text style={[styles.tableTitle,{left:'35%'}]}>
-                                  {moment(data.from_time, "HH:mm").format("hh:mm ")} {"-"}{" "}{""}
-                                  {moment(data.to_time, "HH:mm").format("hh:mm ")}</Text>
-                              </View>
-                              
-                              {/* <View style={[styles.colStyle]}>
-                                <Text style={[styles.tableTitle,{left:'50%'}]}>{data.to_time}</Text>
-                              </View> */}
-                            </View>
-                          </>
-                        ))}
-                    </View>
-                    <View style={[styles.root,{}]}>
-                      {timeTable && 
-                        timeTable.map((data)=>(
-                          <>
-                            <View style={[styles.container, {flexDirection: "row"}]}>
-                              <View style={[styles.colStyle,{left:'170%'}]}>
-                                <Text style={[styles.tableTitle]}>{data.Tuesday}</Text>
-                              </View>
-                            </View>
-                          </>
-                        ))}
-                    </View>
-                  </View>  
-                </ScrollView>    
-                </View>
-                </View> 
-              </>
-          </View>}
-          {wednesdayTimeTable && <View style={[styles.tableTopStyle]}>
-              <>
-                <View style={[{flexDirection: "row"}]}>
-                  <View style={styles.tableHead} >
-                    <Text style={styles.headingFont}>Time</Text>
-                  </View>
-                  <View style={styles.tableHead} >
-                    <Text style={styles.headingFont}>Subject</Text>
-                  </View>
-                </View> 
-                <View
-                style={[
-                  { flex: 1 },
-                  { flexDirection: "column", backgroundColor: "white" },
-                ]}
-              >
-                <View style={{ flex: 8, bottom: 1 }}>
-                <ScrollView>
-                  <View style={[styles.flexrow]}>
-                    <View style={[styles.root]}>
-                      {timeTable && 
-                        timeTable.map((data)=>(
-                          <>
-                            <View style={[styles.container, {flexDirection: "row"}]}>
-                              <View style={[styles.colStyle]}>
-                                <Text style={[styles.tableTitle,{left:'35%'}]}>
-                                  {moment(data.from_time, "HH:mm").format("hh:mm ")} {"-"}{" "}{""}
-                                  {moment(data.to_time, "HH:mm").format("hh:mm ")}</Text>
-                              </View>
-                              
-                              {/* <View style={[styles.colStyle]}>
-                                <Text style={[styles.tableTitle,{left:'50%'}]}>{data.to_time}</Text>
-                              </View> */}
-                            </View>
-                          </>
-                        ))}
-                    </View>
-                    <View style={[styles.root,{}]}>
-                      {timeTable && 
-                        timeTable.map((data)=>(
-                          <>
-                            <View style={[styles.container, {flexDirection: "row"}]}>
-                              <View style={[styles.colStyle,{left:'170%'}]}>
-                                <Text style={[styles.tableTitle]}>{data.wednesday}</Text>
-                              </View>
-                            </View>
-                          </>
-                        ))}
-                    </View>
-                  </View>  
-                </ScrollView>    
-                </View>
-                </View> 
-              </>
-          </View>}
-          {thursdayTimeTable && <View style={[styles.tableTopStyle]}>
-              <>
-                <View style={[{flexDirection: "row"}]}>
-                  <View style={styles.tableHead} >
-                    <Text style={styles.headingFont}>Time</Text>
-                  </View>
-                  <View style={styles.tableHead} >
-                    <Text style={styles.headingFont}>Subject</Text>
-                  </View>
-                </View> 
-                <View
-                style={[
-                  { flex: 1 },
-                  { flexDirection: "column", backgroundColor: "white" },
-                ]}
-              >
-                <View style={{ flex: 8, bottom: 1 }}>
-                <ScrollView>
-                  <View style={[styles.flexrow]}>
-                    <View style={[styles.root]}>
-                      {timeTable && 
-                        timeTable.map((data)=>(
-                          <>
-                            <View style={[styles.container, {flexDirection: "row"}]}>
-                              <View style={[styles.colStyle]}>
-                                <Text style={[styles.tableTitle,{left:'35%'}]}>
-                                  {moment(data.from_time, "HH:mm").format("hh:mm ")} {"-"}{" "}{""}
-                                  {moment(data.to_time, "HH:mm").format("hh:mm ")}</Text>
-                              </View>
-                              
-                              {/* <View style={[styles.colStyle]}>
-                                <Text style={[styles.tableTitle,{left:'50%'}]}>{data.to_time}</Text>
-                              </View> */}
-                            </View>
-                          </>
-                        ))}
-                    </View>
-                    <View style={[styles.root,{}]}>
-                      {timeTable && 
-                        timeTable.map((data)=>(
-                          <>
-                            <View style={[styles.container, {flexDirection: "row"}]}>
-                              <View style={[styles.colStyle,{left:'170%'}]}>
-                                <Text style={[styles.tableTitle]}>{data.thursday}</Text>
-                              </View>
-                            </View>
-                          </>
-                        ))}
-                    </View>
-                  </View>  
-                </ScrollView>    
-                </View>
-                </View> 
-              </>
-          </View>}
-          {fridayTimeTable && <View style={[styles.tableTopStyle]}>
-              <>
-                <View style={[{flexDirection: "row"}]}>
-                  <View style={styles.tableHead} >
-                    <Text style={styles.headingFont}>Time</Text>
-                  </View>
-                  <View style={styles.tableHead} >
-                    <Text style={styles.headingFont}>Subject</Text>
-                  </View>
-                </View> 
-                <View
-                style={[
-                  { flex: 1 },
-                  { flexDirection: "column", backgroundColor: "white" },
-                ]}
-              >
-                <View style={{ flex: 8, bottom: 1 }}>
-                <ScrollView>
-                  <View style={[styles.flexrow]}>
-                    <View style={[styles.root]}>
-                      {timeTable && 
-                        timeTable.map((data)=>(
-                          <>
-                            <View style={[styles.container, {flexDirection: "row"}]}>
-                              <View style={[styles.colStyle]}>
-                                <Text style={[styles.tableTitle,{left:'35%'}]}>
-                                  {moment(data.from_time, "HH:mm").format("hh:mm ")} {"-"}{" "}{""}
-                                  {moment(data.to_time, "HH:mm").format("hh:mm ")}</Text>
-                              </View>
-                              
-                              {/* <View style={[styles.colStyle]}>
-                                <Text style={[styles.tableTitle,{left:'50%'}]}>{data.to_time}</Text>
-                              </View> */}
-                            </View>
-                          </>
-                        ))}
-                    </View>
-                    <View style={[styles.root,{}]}>
-                      {timeTable && 
-                        timeTable.map((data)=>(
-                          <>
-                            <View style={[styles.container, {flexDirection: "row"}]}>
-                              <View style={[styles.colStyle,{left:'170%'}]}>
-                                <Text style={[styles.tableTitle]}>{data.friday}</Text>
-                              </View>
-                            </View>
-                          </>
-                        ))}
-                    </View>
-                  </View>  
-                </ScrollView>    
-                </View>
-                </View> 
-              </>
-          </View>}
-          {saturdayTimeTable && <View style={[styles.tableTopStyle]}>
-              <>
-                <View style={[{flexDirection: "row"}]}>
-                  <View style={styles.tableHead} >
-                    <Text style={styles.headingFont}>Time</Text>
-                  </View>
-                  <View style={styles.tableHead} >
-                    <Text style={styles.headingFont}>Subject</Text>
-                  </View>
-                </View> 
-                <View
-                style={[
-                  { flex: 1 },
-                  { flexDirection: "column", backgroundColor: "white" },
-                ]}
-              >
-                <View style={{ flex: 8, bottom: 1 }}>
-                <ScrollView>
-                  <View style={[styles.flexrow]}>
-                    <View style={[styles.root]}>
-                      {timeTable && 
-                        timeTable.map((data)=>(
-                          <>
-                            <View style={[styles.container, {flexDirection: "row"}]}>
-                              <View style={[styles.colStyle]}>
-                                <Text style={[styles.tableTitle,{left:'35%'}]}>
-                                  {moment(data.from_time, "HH:mm").format("hh:mm ")} {"-"}{" "}{""}
-                                  {moment(data.to_time, "HH:mm").format("hh:mm ")}</Text>
-                              </View>
-                              
-                              {/* <View style={[styles.colStyle]}>
-                                <Text style={[styles.tableTitle,{left:'50%'}]}>{data.to_time}</Text>
-                              </View> */}
-                            </View>
-                          </>
-                        ))}
-                    </View>
-                    <View style={[styles.root,{}]}>
-                      {timeTable && 
-                        timeTable.map((data)=>(
-                          <>
-                            <View style={[styles.container, {flexDirection: "row"}]}>
-                              <View style={[styles.colStyle,{left:'170%'}]}>
-                                <Text style={[styles.tableTitle]}>{data.saturday}</Text>
-                              </View>
-                            </View>
-                          </>
-                        ))}
-                    </View>
-                  </View>  
-                </ScrollView>    
-                </View>
-                </View> 
-              </>
-          </View>}
-        </View>
-        <View style={{flex:0.1}}>
-          <ParentsHome />
-        </View>
+          <View style={{ flex: 0.1 }}>
+            <ParentsHome />
+          </View>
         </>
       )}
-      
-      {showForm && (
-            <>
 
-              <View
-                style={[
-                  { flex: 1 },
-                  { flexDirection: "column", backgroundColor: "white" },
-                ]}
-              >
-                <View style={{ flex: 8, bottom: 10 }}>
-                  <ScrollView style={{backgroundColor:'white'}}>
-                    {examData && 
-                      examData.map((data)=>(
-                        <View style={[styles.mainView]}>
-                          <View style={{ flex: 1}} >
-                            <Divider bg="#04007A" thickness="2" orientation="vertical" style={{left:'40%',borderRadius:10}} />
+      {showForm && (
+        <>
+          <View
+            style={[
+              { flex: 1 },
+              { flexDirection: "column", backgroundColor: "white" },
+            ]}
+          >
+            <View style={{ flex: 8, bottom: 10 }}>
+              <ScrollView style={{ backgroundColor: "white" }}>
+                {examData &&
+                  examData.map((data) => (
+                    <View style={[styles.mainView]}>
+                      <View style={{ flex: 1 }}>
+                        <Divider
+                          bg="#04007A"
+                          thickness="2"
+                          orientation="vertical"
+                          style={{ left: "40%", borderRadius: 10 }}
+                        />
+                      </View>
+                      <View style={styles.cardStyle}>
+                        <View
+                          style={[{ flex: 1 }, { flexDirection: "column" }]}
+                        >
+                          <View
+                            style={[
+                              { flex: 2 },
+                              { flexDirection: "row", padding: 5, top: "2%" },
+                            ]}
+                          >
+                            <View
+                              style={{
+                                flex: 1,
+                                alignItems: "flex-start",
+                                left: "100%",
+                              }}
+                            >
+                              <Text style={[styles.labelStyle]}>Exam Name</Text>
+                            </View>
+                            <View style={{ flex: 1 }}>
+                              <Text style={[styles.cardText]}>
+                                {data.exam_name}
+                              </Text>
+                            </View>
                           </View>
-                          <View style={styles.cardStyle}>
-                            <View style={[{flex:1}, {flexDirection: "column"}]}>
-                              <View style={[{flex:2}, {flexDirection: "row",padding:5,top:'2%'}]}>
-                                <View style={{ flex: 1,alignItems:'flex-start',left:'100%'}}>
-                                  <Text style={[styles.labelStyle]}>Exam Name</Text>
-                                </View>
-                                <View style={{ flex: 1}} >
-                                  <Text style={[styles.cardText]}>{data.exam_name}</Text>
-                                </View>
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              top: "1%",
+                              padding: 10,
+                            }}
+                          >
+                            <View
+                              style={[{ flex: 2 }, { flexDirection: "column" }]}
+                            >
+                              <View
+                                style={{
+                                  flex: 1,
+                                  alignItems: "flex-start",
+                                  left: "10%",
+                                }}
+                              >
+                                <Text style={[styles.labelStyle]}>
+                                  Start Date
+                                </Text>
                               </View>
-                              <View style={{flexDirection:'row',top:'1%',padding:10}}>
-                                <View style={[{flex:2}, {flexDirection: "column"}]}>
-                                  <View style={{ flex: 1,alignItems:'flex-start',left:'10%'}} >
-                                    <Text style={[styles.labelStyle]}>Start Date</Text>
-                                  </View>
-                                  <View style={{ flex: 1 }} >
-                                    <Text style={[styles.cardText,{left:'10%'}]}>{moment(data.startdate).format("DD/MM/YYYY")}</Text>
-                                  </View>
-                                </View>
-                                <View style={[{flex:1}, {flexDirection: "column"}]}>
-                                  <View style={{ flex: 1,alignItems:'flex-start',right:'35%'}} >
-                                    <Text style={[styles.labelStyle]}>End Date</Text>
-                                  </View>
-                                  <View style={{ flex: 1,right:'45%' }} >
-                                    <Text style={[styles.cardText]}>{moment(data.end_date).format("DD/MM/YYYY")}</Text>
-                                  </View>
-                                </View>
+                              <View style={{ flex: 1 }}>
+                                <Text
+                                  style={[styles.cardText, { left: "10%" }]}
+                                >
+                                  {moment(data.startdate).format("DD/MM/YYYY")}
+                                </Text>
                               </View>
-                              <View style={{flexDirection:"row",padding:10}}>
-                                <View style={[{flex:2}, {flexDirection: "row",left:'6%'}]}>
-                                  <View style={{ flex: 1.7}} >
-                                    <Text style={[styles.labelStyle]}>Total marks :</Text>
-                                  </View>
-                                  <View style={{ flex: 1,bottom:'1%',right:'30%' }} >
-                                    <Text style={[styles.cardText]}>{data.Total_marks}</Text>
-                                  </View>
-                                </View>
-                                <View style={[{flex:2}, {flexDirection: "row",left:'5%'}]}>
-                                  <View style={{ flex: 1}} >
-                                    <Text style={[styles.labelStyle]}>Hour :</Text>
-                                  </View>
-                                  <View style={{ flex: 2,bottom:'1%',right:'50%' }} >
-                                    <Text style={[styles.cardText]}>{data.hour}</Text>
-                                  </View>
-                                </View>
+                            </View>
+                            <View
+                              style={[{ flex: 1 }, { flexDirection: "column" }]}
+                            >
+                              <View
+                                style={{
+                                  flex: 1,
+                                  alignItems: "flex-start",
+                                  right: "35%",
+                                }}
+                              >
+                                <Text style={[styles.labelStyle]}>
+                                  End Date
+                                </Text>
+                              </View>
+                              <View style={{ flex: 1, right: "45%" }}>
+                                <Text style={[styles.cardText]}>
+                                  {moment(data.end_date).format("DD/MM/YYYY")}
+                                </Text>
+                              </View>
+                            </View>
+                          </View>
+                          <View style={{ flexDirection: "row", padding: 10 }}>
+                            <View
+                              style={[
+                                { flex: 2 },
+                                { flexDirection: "row", left: "6%" },
+                              ]}
+                            >
+                              <View style={{ flex: 1.7 }}>
+                                <Text style={[styles.labelStyle]}>
+                                  Total marks :
+                                </Text>
+                              </View>
+                              <View
+                                style={{ flex: 1, bottom: "1%", right: "30%" }}
+                              >
+                                <Text style={[styles.cardText]}>
+                                  {data.Total_marks}
+                                </Text>
+                              </View>
+                            </View>
+                            <View
+                              style={[
+                                { flex: 2 },
+                                { flexDirection: "row", left: "5%" },
+                              ]}
+                            >
+                              <View style={{ flex: 1 }}>
+                                <Text style={[styles.labelStyle]}>Hour :</Text>
+                              </View>
+                              <View
+                                style={{ flex: 2, bottom: "1%", right: "50%" }}
+                              >
+                                <Text style={[styles.cardText]}>
+                                  {data.hour}
+                                </Text>
                               </View>
                             </View>
                           </View>
                         </View>
-                      ))}
-                  </ScrollView>
-                  </View>
+                      </View>
+                    </View>
+                  ))}
+              </ScrollView>
+            </View>
 
-                  <View style={{ flex: 1 }}>
-                    <ParentsHome />
-                  </View>
-
-              </View>
-            </>
-          )}
+            <View style={{ flex: 1 }}>
+              <ParentsHome />
+            </View>
+          </View>
+        </>
+      )}
     </>
   );
 };
@@ -751,7 +1032,7 @@ const styles = StyleSheet.create({
   },
   container: {
     padding: 10,
-    borderWidth:1
+    borderWidth: 1,
   },
   type: {
     marginLeft: 10,
@@ -800,8 +1081,8 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor:'white',
-    borderRadius:1
+    backgroundColor: "white",
+    borderRadius: 1,
   },
   flex: {
     flex: 1,
@@ -850,17 +1131,17 @@ const styles = StyleSheet.create({
 
     // left: 10,
   },
-  tableTopStyle:{
+  tableTopStyle: {
     flex: 4,
     padding: 10,
-    bottom:30
+    bottom: 30,
   },
   tableHead: {
     flex: 1,
-    padding:5,
+    padding: 5,
     borderRightWidth: 1,
-    borderLeftWidth:1,
-    borderTopWidth:1,
+    borderLeftWidth: 1,
+    borderTopWidth: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#3F96B8",
@@ -868,47 +1149,47 @@ const styles = StyleSheet.create({
   headingFont: {
     // fontFamily: "Hind-SemiBold",
     fontWeight: "bold",
-    color:'white',
+    color: "white",
     fontSize: deviceWidth < 370 ? 14 : 14,
   },
-  mainView:{
-    flex:1,
+  mainView: {
+    flex: 1,
     flexDirection: "row",
-    marginHorizontal:20,
-    marginVertical:10,
+    marginHorizontal: 20,
+    marginVertical: 10,
   },
-  labelStyle:{
-    color:'black',
+  labelStyle: {
+    color: "black",
     fontFamily: "HindBold",
-    fontSize:16,
-    textAlign:'center'
+    fontSize: 16,
+    textAlign: "center",
   },
-  cardText:{
-    color:'black',
-    fontSize:16,
-    left:'10%',
-    top:'10%'
+  cardText: {
+    color: "black",
+    fontSize: 16,
+    left: "10%",
+    top: "10%",
   },
-  cardStyle:{
+  cardStyle: {
     flex: 20,
-    backgroundColor:'#D6EAFF',
-    elevation:5,
-    paddingTop:10,
-    paddingBottom:10,
-    borderRadius:10
+    backgroundColor: "#D6EAFF",
+    elevation: 5,
+    paddingTop: 10,
+    paddingBottom: 10,
+    borderRadius: 10,
   },
   space: {
     width: 10, // or whatever size you need
     height: 20,
   },
-  buttonGroup:{
-    flex:1,
+  buttonGroup: {
+    flex: 1,
     flexDirection: "row",
-    padding:10
+    padding: 10,
   },
-  NotButtonGroup:{
-    flex:5,
+  NotButtonGroup: {
+    flex: 5,
     flexDirection: "row",
-    padding:10
-  }
+    padding: 10,
+  },
 });

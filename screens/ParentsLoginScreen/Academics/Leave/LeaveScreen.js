@@ -137,9 +137,10 @@ const LeaveScreen = () => {
     async function fetchData() {
       try {
         const res = await axios.get(
-          `http://10.0.2.2:8000/school/Leave/${StudentRegNo}`
+          `http://10.0.2.2:8000/school/LeaveReg/${StudentRegNo}`
         );
-        //  console.log(res.data);
+        console.log("fetching individual student leave ");
+        console.log(res.data);
         setData(res.data);
         for (i = 0; i < res.data.length; i++) {
           statusData[i] = res.data[i].leave_status;
@@ -501,7 +502,23 @@ const LeaveScreen = () => {
                 data.map((data, key) => (
                   <>
                     <View style={{ height: "260%" }}>
-                      <Card style={styles.cardStyle}>
+                      <Card
+                        style={{
+                          padding: 5,
+                          margin: 10,
+                          backgroundColor: "#E5E8E8",
+                          elevation: 5,
+                          shadowColor: "black",
+                          backgroundColor: "#E5E8E8",
+                          shadowOpacity: 0.75,
+                          shadowOffset: { width: 0, height: 2 },
+                          shadowRadius: 8,
+                          marginRight: "7%",
+                          marginLeft: "7%",
+                          marginTop: "10%",
+                          borderRadius: 5,
+                        }}
+                      >
                         <Card.Content>
                           <View
                             style={{
