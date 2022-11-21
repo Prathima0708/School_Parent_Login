@@ -33,21 +33,13 @@ import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import { Animated } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import EditCalendar from "./EditCalendar";
-import { HStack,Button as NativeButton } from "native-base";
+import { HStack } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
-
-
-
 // import { Label } from "react-native-form-component";
 var FloatingLabel = require("react-native-floating-labels");
 export var ID;
 export var FROMDATE, TODATE;
 const TeachersCalendarScreenBuild = () => {
-
-  
-  const [isApproved,setIsApproved]=useState(false);
-  const [isDenied,setIsDenied]=useState(false);
-
   const navigation = useNavigation();
   const scrollY = new Animated.Value(0);
 
@@ -743,110 +735,6 @@ const TeachersCalendarScreenBuild = () => {
     setShowList(true);
     setShowForm(false);
   }
-
-   function approveButtonHanlder(id){
-    console.log(id)
-
-      // setIsApproved(true);
-      // setIsDenied(false);
-
-    const FormData = {
-      description: 'Approved'
-    };
-   
-
-    async function updateData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
-        const dataForm = FormData;
-        const resLogin = await axios.put(
-          `${subURL}/Calendar/${id}/`,
-          dataForm,
-          {
-            headers: headers,
-          }
-        );
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
-       // console.log(resLogin.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    console.log('before updating',FormData)
-    updateData();
-    console.log('after updating')
-     showCalendar();
-    // Alert.alert("Successfully updated", "", [
-    //   { text: "OK", onPress: () => fetchData },
-    // ]);
-
-    // async function fetchData() {
-    //   try {
-    //     const res = await axios.get(`${subURL}/Calendar/`);
-    //     setData(res.data);
-    //     setFilteredData(res.data);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
-    // fetchData();
-  }
-
-  function denyButtonHandler(id){
-    console.log(id)
-
-    // setIsDenied(true);
-    // setIsApproved(false);
-
-    const FormData = {
-      description: 'Denied'
-    };
-
-    async function updateData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
-        const dataForm = FormData;
-        const resLogin = await axios.put(
-          `${subURL}/Calendar/${id}/`,
-          dataForm,
-          {
-            headers: headers,
-          }
-        );
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
-        console.log(resLogin.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    // console.log('before updating',FormData)
-    updateData();
-
-    // console.log('after updating')
-    showCalendar();
- 
-    // Alert.alert("Successfully updated", "", [
-    //   { text: "OK", onPress: () => fetchData },
-    // ]);
-
-    // async function fetchData() {
-    //   try {
-    //     const res = await axios.get(`${subURL}/Calendar/`);
-    //     setData(res.data);
-    //     setFilteredData(res.data);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
-    // fetchData();
-  }
-
   return (
     <>
       {showInitialBtn && (
@@ -1248,23 +1136,6 @@ const TeachersCalendarScreenBuild = () => {
                                 </Text>
                               </View>
                             </View>
-                            <View style={[{flex:1}, {flexDirection: "row",top:'5%',padding:'5%'}]}>
-                                <View style={{ flex: 1}} >
-                                  <NativeButton 
-                                    //variant={isApproved ? 'solid' : 'outline'}
-                                    colorScheme='green' 
-                                   onPress={()=> approveButtonHanlder(filteredData.id)}
-                                    >Approve</NativeButton>
-                                </View>
-                                <View style={styles.space} />
-                                <View style={{ flex: 1}} >
-                                  <NativeButton 
-                                    //variant={isDenied ? 'solid' : 'outline'}
-                                    colorScheme='red' 
-                                    onPress={()=> denyButtonHandler(filteredData.id)}
-                                    >Deny</NativeButton>
-                                </View>
-                              </View>
                           </Card.Content>
                         </Card>
                       </View>
