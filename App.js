@@ -142,6 +142,11 @@ export default function App() {
   function AuthStack() {
     return (
       <Stack.Navigator>
+         <Stack.Screen
+          name="TeachersTimetable"
+          component={TeachersTimetable}
+          options={{ title: "Timetable" }}
+        />
         <Stack.Screen
           name="LadingScreen"
           component={LandingScreen}
@@ -169,11 +174,7 @@ export default function App() {
           component={TeachersAcademics}
           options={{ title: "Academics" }}
         />
-        <Stack.Screen
-          name="TeachersTimetable"
-          component={TeachersTimetable}
-          options={{ title: "Timetable" }}
-        />
+       
         {/* <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} /> */}
         <Stack.Screen
           name="TeachersCalendar"
@@ -302,6 +303,11 @@ export default function App() {
           component={ParentsLoginScreen}
           options={{ title: "Dahboard" }}
         />
+        <Stack.Screen
+          name="LadingScreen"
+          component={LandingScreen}
+          options={{ title: "Welcome Screen" }}
+        />
 
         <Stack.Screen
           name="Login"
@@ -379,27 +385,33 @@ export default function App() {
   function AuthenticatedT() {
     return (
       <Stack.Navigator>
+         <Stack.Screen
+          name="TeachersTimetable"
+          component={TeachersTimetable}
+          options={{ title: "Timetable" }}
+        />
         <Stack.Screen
           name="TeachersLogin"
           component={TeachersLoginScreen}
           options={{ title: "Dashboard" }}
         />
         <Stack.Screen
+          name="LadingScreen"
+          component={LandingScreen}
+          options={{ title: "Welcome Screen" }}
+        />
+        <Stack.Screen
           name="Login"
           component={Login}
           options={{ title: "Kinara" }}
         />
-      
+
         <Stack.Screen
           name="TeachersAcademics"
           component={TeachersAcademics}
           options={{ title: "Academics" }}
         />
-        <Stack.Screen
-          name="TeachersTimetable"
-          component={TeachersTimetable}
-          options={{ title: "Timetable" }}
-        />
+       
         {/* <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} /> */}
         <Stack.Screen
           name="TeachersCalendar"

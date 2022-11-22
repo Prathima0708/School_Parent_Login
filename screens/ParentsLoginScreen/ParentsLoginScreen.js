@@ -202,7 +202,7 @@ function ParentsLoginScreen() {
       console.log(ph);
       if (value == null) {
         console.log("Data removed");
-        navigation.navigate("Login");
+        navigation.navigate("LadingScreen");
       } else {
         console.log("Data not removed");
       }

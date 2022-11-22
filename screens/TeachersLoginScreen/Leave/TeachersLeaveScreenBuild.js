@@ -969,7 +969,7 @@ const TeachersLeaveScreenBuild = () => {
           >
             <View style={{ flex: 8, bottom: 10 }}>
               <ScrollView
-                scrollEventThrottle={25}
+                scrollEventThrottle={15}
                 onScroll={Animated.event(
                   [{ nativeEvent: { contentOffset: { y: scrollY } } }],
                   { useNativeDriver: false }
@@ -979,7 +979,7 @@ const TeachersLeaveScreenBuild = () => {
                   {/* {!filteredData && <Spinner size="lg" />} */}
                   {loading ? (
                     <ActivityIndicator
-                      size="large"
+                      size={40}
                       visible={loading}
                       textContent={"Loading..."}
                       textStyle={styles.spinnerTextStyle}

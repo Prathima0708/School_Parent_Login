@@ -137,7 +137,7 @@ const LeaveScreen = () => {
     async function fetchData() {
       try {
         const res = await axios.get(
-          `http://10.0.2.2:8000/school/Leave/${StudentRegNo}`
+          `http://10.0.2.2:8000/school/LeaveReg/${StudentRegNo}`
         );
        
         setData(res.data);
