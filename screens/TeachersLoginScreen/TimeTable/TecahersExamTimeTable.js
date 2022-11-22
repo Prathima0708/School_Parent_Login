@@ -118,6 +118,12 @@ const TecahersExamTimeTable = () => {
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [showBtn, setShowBtn] = useState(true);
+  const [selected, setSelected] = useState("");
+  const [studData, setStudData] = useState([]);
+
+  const [studList, setStudList] = useState([]);
+
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -132,6 +138,23 @@ const TecahersExamTimeTable = () => {
       showSubscription.remove();
       hideSubscription.remove();
     };
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`${subURL}/Studentclass/`)
+      .then((response) => {
+        let newArray = response.data.map((item) => {
+          return {
+            value: item.class_name,
+          };
+        });
+
+        setStudData(newArray);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }, []);
 
   useEffect(() => {
@@ -420,6 +443,7 @@ const TecahersExamTimeTable = () => {
   };
 
   function viewExam() {
+    setShowBtn(false);
     setExamLabel(false);
     setTotalLabel(false);
     setHourLabel(false);
@@ -578,6 +602,7 @@ const TecahersExamTimeTable = () => {
     setShowAddBtn(true);
     setShowExamList(true);
     setShowForm(false);
+    setShowBtn(true);
   }
 
   const searchFilter = (text) => {
@@ -597,6 +622,50 @@ const TecahersExamTimeTable = () => {
       setSearchText(text);
     }
   };
+
+  function viewExamList() {
+    async function login() {
+      let selectedData = selected.split(" - ");
+      let class_name = selectedData[0];
+      let section = selectedData[1];
+      try {
+        const res = await axios.get(`${subURL}/Exam/`);
+        //console.log(class_name, section);
+
+        let filteredclass = res.data.filter(
+          (ele) => ele.class_name == class_name
+        );
+
+        let filteredsection = res.data.filter((ele) => ele.section == section);
+
+        const filteredList = filteredclass;
+
+        let filteredc = filteredList.filter(
+          (ele) => ele.class_name == class_name
+        );
+
+        // const id = filteredc.map((id) => id.reg_number);
+        // console.log(id);
+
+        // console.log(filteredc);
+        // StudentList = filteredc;
+        // console.log(StudentList);
+
+        if (filteredc) {
+          //console.log(studList);
+          setStudList(filteredc);
+          setFilteredData(filteredc);
+        }
+
+        if (filteredc.length == 0) {
+          Alert.alert("No data found", "No data found for respective search");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    login();
+  }
   return (
     <>
       {showaddBtn && (
@@ -609,17 +678,6 @@ const TecahersExamTimeTable = () => {
           ]}
         >
           <View style={styles.timetablebtn}>
-            {/* <NativeBtn
-              size="lg"
-              variant="subtle"
-              colorScheme="darkBlue"
-              // style={styles.timetablebtn}
-              onPress={viewExam}
-            >
-              Add new
-            </NativeBtn> */}
-            {/* <NativeBtn onPress={viewExam}>Add new</NativeBtn> */}
-
             <IconButton
               colorScheme="blue"
               onPress={viewExam}
@@ -631,6 +689,40 @@ const TecahersExamTimeTable = () => {
             />
           </View>
         </Animated.View>
+      )}
+
+      {showBtn && (
+        <>
+          <View
+            style={{
+              width: 170,
+              fontSize: 20,
+              marginTop: 13,
+              margin: 10,
+            }}
+          >
+            <SelectList
+              //  defaultOption={{ key: "1", value: "Second-A" }}
+              setSelected={setSelected}
+              data={studData}
+              placeholder="Select class"
+              boxStyles={{ borderRadius: 0 }}
+              dropdownTextStyles={{ fontSize: 18, fontFamily: "HindRegular" }}
+              inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+            />
+          </View>
+          <View
+            style={{
+              width: "50%",
+              marginTop: -93,
+              marginLeft: 200,
+              position: "absolute",
+              top: 230,
+            }}
+          >
+            <Button onPress={viewExamList}>View List</Button>
+          </View>
+        </>
       )}
       {showExamList && (
         <>
@@ -653,7 +745,7 @@ const TecahersExamTimeTable = () => {
               { flexDirection: "column", backgroundColor: "white" },
             ]}
           >
-            <View style={{ flex: 8, bottom: 10 }}>
+            <View style={{ flex: 8, bottom: 20 }}>
               <ScrollView
                 scrollEventThrottle={15}
                 onScroll={Animated.event(
