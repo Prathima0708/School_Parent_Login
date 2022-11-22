@@ -6,15 +6,15 @@ import {
   ScrollView,
   Button as Btn,
   Dimensions,
+  FlatList,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-
+import { Badge } from 'native-base';
 import { Card, DataTable } from "react-native-paper";
 import Button from "../../../../components/UI/Button";
 import axios from "axios";
 import { Keyboard } from "react-native";
 import BgButton from "../../../../components/UI/BgButton";
-
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import ParentsHome from "../../BottomTab/ParentsHome";
@@ -139,8 +139,9 @@ const LeaveScreen = () => {
         const res = await axios.get(
           `http://10.0.2.2:8000/school/Leave/${StudentRegNo}`
         );
-        //  console.log(res.data);
+       
         setData(res.data);
+          console.log(res.data);
         for (i = 0; i < res.data.length; i++) {
           statusData[i] = res.data[i].leave_status;
         }
@@ -493,90 +494,143 @@ const LeaveScreen = () => {
           Apply Leave
         </BgButton>
       </View>
-      {showList && (
-        <View style={styles.root}>
-          <View style={{ flex: 8, bottom: 10 }}>
-            <ScrollView style={{}}>
-              {data &&
-                data.map((data, key) => (
-                  <>
-                    <View style={{ height: "260%" }}>
-                      <Card style={styles.cardStyle}>
-                        <Card.Content>
+      {showList && 
+      <View
+        style={[
+          { flex: 1 },
+          { flexDirection: "column", backgroundColor: "white" },
+        ]}
+      >
+        <View style={{ flex: 8, bottom: 10 }}>
+          <ScrollView>
+            <View style={styles.root}>
+              <FlatList
+                data={data}
+                style={{ width: "95%" }}
+                renderItem={({ item }) => {
+                  return (
+                    <Card style={styles.cardStyle}>
+                      <Card.Content style={styles.cardContentStyle}>
+                        <View
+                          style={[
+                            { flex: 1 },
+                            { flexDirection: "row" },
+                            styles.subDesign,
+                          ]}
+                        >
+                          <View style={{ flex: 5 }}>
+                            <Text style={styles.labelStyle}>Leave from</Text>
+                          </View>
+                          <View style={{ flex: 5 }}>
+                            <Text style={styles.textStyle}>Leave to</Text>
+                          </View>
+                        </View>
+                        <View
+                          style={[
+                            { flex: 1 },
+                            { flexDirection: "row", marginVertical: 10 },
+                          ]}
+                        >
+                          <View style={{ flex: 1, alignItems: "center" }}>
+                            <Text
+                              style={[styles.textStyle, { color: "black" }]}
+                            >
+                              {moment(item.leave_form).format("DD/MM/YYYY")}
+                            </Text>
+                          </View>
                           <View
                             style={{
-                              flex: 1,
-                              flexDirection: "row",
-                              backgroundColor: "white",
+                              flex: 0.2,
+                              alignItems: "center",
+                              top: "1%",
                             }}
                           >
-                            <View style={{ flex: 1, top: -15 }} key={key}>
-                              <Text
-                                style={[styles.dateStyle, { color: "black" }]}
-                              >
-                                {moment(data.leave_from).format("DD/MM/YYYY")}
-                                <Text
-                                  style={{
-                                    fontWeight: "normal",
-                                    fontSize: deviceWidth < 370 ? 12 : 14,
-                                  }}
-                                >
-                                  {" "}
-                                  to{" "}
-                                </Text>
-                                {moment(data.leave_to).format("DD/MM/YYYY")}
-                              </Text>
-                              <Text
-                                style={[
-                                  styles.dateStyle,
-                                  { color: "black", top: "20%" },
-                                ]}
-                              >
-                                Leave type:{" "}
-                                <Text style={styles.dateStyle}>
-                                  {data.leave_type}
-                                </Text>
-                              </Text>
-                              <Text
-                                style={[
-                                  styles.dateStyle,
-                                  { color: "black", top: "33%" },
-                                ]}
-                              >
-                                Leave reason:{" "}
-                                <Text style={[styles.dateStyle]}>
-                                  {data.leave_reason}
-                                </Text>
-                              </Text>
-                            </View>
-                            <View style={{ top: "2%" }}>
-                              <Text
-                                style={[
-                                  styles.status,
-                                  !isApproved
-                                    ? {
-                                        backgroundColor: "#FECED1",
-                                        color: "red",
-                                      }
-                                    : {
-                                        backgroundColor: "#EFFFFD",
-                                        color: "#00B8AC",
-                                      },
-                                ]}
-                              >
-                                {data.leave_status}
-                              </Text>
-                            </View>
+                            <Text
+                              style={[
+                                {
+                                  fontFamily: "HindRegular",
+                                  color: "black",
+                                  fontSize: 15,
+                                  fontWeight: "bold",
+                                },
+                              ]}
+                            >
+                              to
+                            </Text>
                           </View>
-                        </Card.Content>
-                      </Card>
-                    </View>
-                  </>
-                ))}
-            </ScrollView>
-          </View>
+                          <View style={{ flex: 1, alignItems: "center" }}>
+                            <Text
+                              style={[styles.textStyle, { color: "black" }]}
+                            >
+                              {moment(item.leave_to).format("DD/MM/YYYY")}
+                            </Text>
+                          </View>
+                        </View>
+                        <View
+                          style={[
+                            { flex: 1 },
+                            { flexDirection: "row", marginHorizontal: 10 },
+                          ]}
+                        >
+                          <View style={{ flex: 2, left: "70%" }}>
+                            <Text
+                              style={[styles.textStyle, { color: "black" }]}
+                            >
+                              Leave type :
+                            </Text>
+                          </View>
+                          <View style={{ flex: 2.6 }}>
+                            <Text style={[styles.cardText]}>{item.leave_type}</Text>
+                          </View>
+                        </View>
+                        <View
+                          style={[
+                            { flex: 1 },
+                            { flexDirection: "row", marginVertical: 10 },
+                          ]}
+                        >
+                          <View style={{ flex: 3.5 }}>
+                            <Text
+                              style={[styles.textStyle, { color: "black" }]}
+                            >
+                              Leave reason :
+                            </Text>
+                          </View>
+                          <View style={{ flex: 2.5, left: -40 }}>
+                            <Text style={[styles.cardText]}>
+                              {item.leave_reason}
+                            </Text>
+                          </View>
+                        </View>
+                        <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
+                          <View style={{ flex: 3 }}>
+                            {/* <Text>Remark</Text> */}
+                          </View>
+                          <View style={{ flex: 1, right: "100%" }}>
+                          <Badge 
+                            colorScheme="success" 
+                            variant='solid'
+                          >
+                            Approved
+                          </Badge>
+                          </View>
+                        </View>
+                      </Card.Content>
+                    </Card>
+                  );
+                }}
+              />
+            </View>
+          </ScrollView>
         </View>
-      )}
+      </View>}
+      {/* {showList && data && 
+        data.map((data)=>(
+          <>
+            
+          </>
+        ))
+      } */}
       {showForm && (
         <ScrollView style={styles.root}>
           <View style={styles.inputForm}>
@@ -844,6 +898,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   //new one
+  mainContainer:{
+    flex:1,
+    marginHorizontal:25,
+    top:'5%',
+    borderRadius:10
+  },
   status: {
     left: "15%",
     fontSize: deviceWidth < 370 ? 16 : 18,
@@ -862,19 +922,67 @@ const styles = StyleSheet.create({
     top: "5%",
     left: -13,
   },
-  cardStyle: {
-    padding: 5,
-    margin: 10,
-    backgroundColor: "#E5E8E8",
-    elevation: 5,
-    shadowColor: "black",
-    backgroundColor: "#E5E8E8",
-    shadowOpacity: 0.75,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-    marginRight: "7%",
-    marginLeft: "7%",
-    marginTop: "10%",
-    borderRadius: 5,
-  },
+  // cardStyle: {
+  //   padding: 5,
+  //   margin: 10,
+  //   backgroundColor: "#E5E8E8",
+  //   elevation: 5,
+  //   shadowColor: "black",
+  //   backgroundColor: "#E5E8E8",
+  //   shadowOpacity: 0.75,
+  //   shadowOffset: { width: 0, height: 2 },
+  //   shadowRadius: 8,
+  //   marginRight: "7%",
+  //   marginLeft: "7%",
+  //   marginTop: "10%",
+  //   borderRadius: 5,
+  // },
+    // new design
+    cardStyle: {
+      marginVertical: 25,
+      marginHorizontal: 20,
+      elevation: 5,
+      borderRadius: 10,
+      left:'2%'
+      // paddingBottom: 20,
+    },
+    cardContentStyle: {
+      paddingTop: 0,
+      paddingHorizontal: 0,
+    },
+    subDesign: {
+      backgroundColor: "darkblue",
+      borderTopLeftRadius: 10,
+      borderTopRightRadius: 10,
+      flexDirection:'row'
+    },
+    labelStyle: {
+      color: "white",
+      fontFamily: "HindBold",
+      fontSize: 20,
+      textAlign: "center",
+    },
+    textStyle: {
+      color: "white",
+      fontFamily: "HindBold",
+      fontSize: 20,
+      textAlign: "center",
+    },
+    cardText: {
+      color: "black",
+      fontSize: 17,
+      left: "10%",
+      top: "10%",
+    },
+    cardTextStyle:{
+      flex:1,
+      flexDirection: "row",
+      marginVertical:5
+    },
+    badgeStyle:{
+      right:'160%'
+    },
+    colorBlack:{
+      color:"black"
+    }
 });
