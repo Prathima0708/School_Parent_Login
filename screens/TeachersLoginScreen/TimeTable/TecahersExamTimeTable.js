@@ -713,11 +713,11 @@ const TecahersExamTimeTable = () => {
           </View>
           <View
             style={{
-              width: "50%",
-              marginTop: -93,
+              width: "45%",
+              //  marginTop: -93,
               marginLeft: 200,
               position: "absolute",
-              top: 230,
+              top: 150,
             }}
           >
             <Button onPress={viewExamList}>View List</Button>

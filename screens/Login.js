@@ -725,7 +725,8 @@ export var Token,
   TeacherGroup,
   PHONENO,
   VALUE,
-  ParentGroup;
+  ParentGroup,
+  UserName;
 export var studentList = [];
 function Login() {
   // const [fontsLoaded] = useFonts({
@@ -827,9 +828,8 @@ function Login() {
 
         const user = { username: enteredUser, password: enteredPassword };
         Teacher = user.username;
-        try {
-          await AsyncStorage.setItem("username", Teacher);
-        } catch (error) {}
+
+        console.log("this is the username", Teacher);
 
         const resLogin = await axios.post(
           "http://10.0.2.2:8000/school/api-token-auth/",
@@ -866,20 +866,31 @@ function Login() {
         }
         try {
           await AsyncStorage.setItem("Phone", enteredPhone);
-        } catch (error) {
-          // Error saving data
-        }
+        } catch (error) {}
 
         try {
           PHONENO = await AsyncStorage.getItem("Phone");
 
           console.log("this is the ph value from login", PHONENO);
-        } catch (error) {
-          // Error retrieving data
-        }
+        } catch (error) {}
 
+        // if (PHONENO !== enteredPhone) {
+        //   Alert.alert("Invalid no");
+        // }
+        // if (filteredlist.length == 0) {
+        //   Alert.alert("Invalid Input", "Please enter a valid phone number");
+        //   navigation.navigate("Login");
+        // }
         if (resLogin.data.groups[0] === "parents") {
+          if (filteredlist.length == 0) {
+            Alert.alert("Invalid Input", "Please enter a valid phone number");
+            setEnteredUser("");
+            setEnteredPassword("");
+            setEnteredPhone("");
+            return;
+          }
           console.log(resLogin.data.groups[0]);
+          console.log(PHONENO);
           // <WelcomeScreen />;
 
           navigation.navigate("ParentsLoginScreen", {
@@ -888,7 +899,9 @@ function Login() {
         } else {
           console.log(resLogin.data.groups[0]);
           // console.log("TEACHERS PAGE");
-          navigation.navigate("TeachersLogin");
+          navigation.navigate("TeachersLogin", {
+            //   username: UserName,
+          });
         }
 
         setEnteredUser("");

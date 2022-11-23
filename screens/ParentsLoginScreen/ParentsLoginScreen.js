@@ -199,10 +199,17 @@ function ParentsLoginScreen() {
       // const value = await AsyncStorage.getItem('token');
       const value = await AsyncStorage.removeItem("token");
       const ph = await AsyncStorage.removeItem("Phone");
-      console.log(ph);
+      console.log("ph", ph);
+      // const studlist = await AsyncStorage.removeItem("studentlist");
+      // console.log("studentlist", studlist);
+      // if (ph == undefined) {
+      //   const newph = await AsyncStorage.setItem("value");
+      // }
+
+      //    console.log("newph", newph);
       if (value == null) {
         console.log("Data removed");
-        navigation.navigate("LadingScreen");
+        navigation.navigate("Login");
       } else {
         console.log("Data not removed");
       }
