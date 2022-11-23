@@ -29,7 +29,7 @@ import Input from "../../../components/UI/Input";
 import moment from "moment";
 import TimeSlots from "./TimeSlots";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
-import { IconButton } from "native-base";
+import { IconButton,Button as NativeButton } from "native-base";
 
 export var CLASSNAME, SECTION, ID;
 export var idTimeTab = [];
@@ -37,6 +37,21 @@ export var TimeTabID;
 export var FROMTIME, TOTIME;
 
 const TeachersTimetable = () => {
+
+  const [isMonActive, setIsMonActive] = useState(true);
+  const [isTueActive, setIsTueActive] = useState(false);
+  const [isWedActive, setIsWedActive] = useState(false);
+  const [isThuActive, setIsThuActive] = useState(false);
+  const [isFriActive, setIsFriActive] = useState(false);
+  const [isSatActive, setIsSatActive] = useState(false);
+
+  const [mondayTimeTable, setMondayTimeTable] = useState(true);
+  const [tuesdayTimeTable, setTuesdayTimeTable] = useState(false);
+  const [wednesdayTimeTable, setWednesdayTimeTable] = useState(false);
+  const [thursdayTimeTable, setThursdayTimeTable] = useState(false);
+  const [fridayTimeTable, setFridayTimeTable] = useState(false);
+  const [saturdayTimeTable, setSaturdayTimeTable] = useState(false);
+
   const scrollY = new Animated.Value(0);
 
   const headermax = 80;
@@ -953,6 +968,96 @@ const TeachersTimetable = () => {
     setShowTable(false);
   }
 
+  function mondayPressedHandler() {
+    setMondayTimeTable(true);
+    setIsMonActive(true);
+    setIsTueActive(false);
+    setIsWedActive(false);
+    setIsThuActive(false);
+    setIsFriActive(false);
+    setIsSatActive(false);
+    setTuesdayTimeTable(false);
+    setWednesdayTimeTable(false);
+    setThursdayTimeTable(false);
+    setFridayTimeTable(false);
+    setSaturdayTimeTable(false);
+  }
+
+  function tuesdayPressedHandler() {
+    setTuesdayTimeTable(true);
+    setIsTueActive(true);
+    setIsMonActive(false);
+    setIsWedActive(false);
+    setIsThuActive(false);
+    setIsFriActive(false);
+    setIsSatActive(false);
+    setMondayTimeTable(false);
+    setWednesdayTimeTable(false);
+    setThursdayTimeTable(false);
+    setFridayTimeTable(false);
+    setSaturdayTimeTable(false);
+  }
+
+  function wednesdayPressedHandler() {
+    setWednesdayTimeTable(true);
+    setIsMonActive(false);
+    setIsTueActive(false);
+    setIsWedActive(true);
+    setIsThuActive(false);
+    setIsFriActive(false);
+    setIsSatActive(false);
+    setMondayTimeTable(false);
+    setTuesdayTimeTable(false);
+    setThursdayTimeTable(false);
+    setFridayTimeTable(false);
+    setSaturdayTimeTable(false);
+  }
+
+  function thursdayPressedHandler() {
+    setThursdayTimeTable(true);
+    setIsMonActive(false);
+    setIsTueActive(false);
+    setIsWedActive(false);
+    setIsThuActive(true);
+    setIsFriActive(false);
+    setIsSatActive(false);
+    setMondayTimeTable(false);
+    setTuesdayTimeTable(false);
+    setWednesdayTimeTable(false);
+    setFridayTimeTable(false);
+    setSaturdayTimeTable(false);
+  }
+
+  function fridayPressedHandler() {
+    setFridayTimeTable(true);
+    setIsMonActive(false);
+    setIsTueActive(false);
+    setIsWedActive(false);
+    setIsThuActive(false);
+    setIsFriActive(true);
+    setIsSatActive(false);
+    setMondayTimeTable(false);
+    setTuesdayTimeTable(false);
+    setWednesdayTimeTable(false);
+    setThursdayTimeTable(false);
+    setSaturdayTimeTable(false);
+  }
+
+  function saturdayPressedHandler() {
+    setSaturdayTimeTable(true);
+    setIsMonActive(false);
+    setIsTueActive(false);
+    setIsWedActive(false);
+    setIsThuActive(false);
+    setIsFriActive(false);
+    setIsSatActive(true);
+    setMondayTimeTable(false);
+    setTuesdayTimeTable(false);
+    setWednesdayTimeTable(false);
+    setThursdayTimeTable(false);
+    setFridayTimeTable(false);
+  }
+
   return (
     <>
       <View style={{ height: "100%", backgroundColor: "white" }}>
@@ -1024,8 +1129,39 @@ const TeachersTimetable = () => {
         )} */}
         {showTimeTableList && (
           <>
-            <View style={styles.timetablebtn}>
-              <Button>
+          <View
+            style={{
+              width: 170,
+              fontSize: 20,
+              marginTop: 13,
+              margin: 10,
+            }}
+          >
+            <SelectList
+                setSelected={setSelectedClass}
+                data={studClassData}
+                placeholder="Select class"
+                boxStyles={{ borderRadius: 0 }}
+                dropdownTextStyles={{
+                  fontSize: deviceWidth < 370 ? 16 : 18,
+                  fontFamily: "HindRegular",
+                }}
+                inputStyles={{
+                  fontSize: deviceWidth < 370 ? 16 : 18,
+                  fontFamily: "HindRegular",
+                }}   
+              />
+          </View>
+          <View
+            style={{
+              width: "50%",
+              marginTop: -93,
+              marginLeft: 200,
+              position: "absolute",
+              top: 230,
+            }}
+          >
+            <Button>
                 {/* <Ionicons
                   name="add"
                   size={deviceWidth < 370 ? 35 : 38}
@@ -1033,34 +1169,15 @@ const TeachersTimetable = () => {
                 /> */}
                 View List
               </Button>
+          </View>
+            {/* <View style={{width:'50%',top:'12%',left:'3%'}}>
+              
             </View>
-            <View>
-              <View
-                style={{
-                  width: 210,
-                  fontSize: deviceWidth < 370 ? 16 : 18,
-                  margin: 20,
-                  position: "absolute",
-                  top: -110,
-                  // marginTop: -80,
-                }}
-              >
-                <SelectList
-                  setSelected={setSelectedClass}
-                  data={studClassData}
-                  placeholder="Select class"
-                  boxStyles={{ borderRadius: 0 }}
-                  dropdownTextStyles={{
-                    fontSize: deviceWidth < 370 ? 16 : 18,
-                    fontFamily: "HindRegular",
-                  }}
-                  inputStyles={{
-                    fontSize: deviceWidth < 370 ? 16 : 18,
-                    fontFamily: "HindRegular",
-                  }}
-                />
-              </View>
-            </View>
+
+            <View style={styles.timetablebtn}>
+              
+            </View> */}
+
             <View
               style={{
                 flexDirection: "row",
@@ -1077,177 +1194,266 @@ const TeachersTimetable = () => {
                 {selectedClass}
               </Text>
             </View>
-
-            <View style={{ flex: 1, height: " 100%" }}>
-              <>
-                <View
-                  style={[
-                    { flex: 1 },
-                    { flexDirection: "column", backgroundColor: "white" },
-                  ]}
-                >
-                  <View style={{ flex: 8, bottom: 10 }}>
-                    {/* <ScrollView style={{ flex: 1 }}> */}
-                    <ScrollView horizontal={true} style={{}}>
-                      <DataTable style={styles.container}>
-                        <DataTable.Header style={styles.tableHeader}>
-                          <View style={styles.th}>
-                            <Text style={styles.tableTitle}> TIMINGS</Text>
+            {/* <View style={styles.root}> */}
+              <ScrollView>
+                <ScrollView horizontal={true}>
+                <View style={styles.flex}>
+                          <View
+                            style={[
+                              { flex: 0.2 },
+                              {
+                                flexDirection: "row",
+                                borderWidth: 1,
+                                backgroundColor: "#EFFFFD",
+                              },
+                            ]}
+                          >
+                            <View style={styles.tableHead}>
+                              <Text
+                                style={[styles.headingFont, { color: "white" }]}
+                              >
+                                Timing
+                              </Text>
+                            </View>
+                            <View style={styles.tableHead}>
+                              <Text
+                                style={[styles.headingFont, { color: "white" }]}
+                              >
+                                MON
+                              </Text>
+                            </View>
+                            <View style={styles.tableHead}>
+                              <Text
+                                style={[styles.headingFont, { color: "white" }]}
+                              >
+                                TUE
+                              </Text>
+                            </View>
+                            <View style={styles.tableHead}>
+                              <Text
+                                style={[styles.headingFont, { color: "white"}]}
+                              >
+                                WED
+                              </Text>
+                            </View>
+                            <View style={styles.tableHead}>
+                              <Text
+                                style={[styles.headingFont, { color: "white" }]}
+                              >
+                                THU
+                              </Text>
+                            </View>
+                            <View style={styles.tableHead}>
+                              <Text
+                                style={[styles.headingFont, { color: "white" }]}
+                              >
+                                FRI
+                              </Text>
+                            </View>
+                            <View style={styles.tableHead}>
+                              <Text
+                                style={[styles.headingFont, { color: "white" }]}
+                              >
+                                SAT
+                              </Text>
+                            </View>
+                            <View style={styles.tableHead}>
+                              <Text
+                                style={[styles.headingFont, { color: "white" }]}
+                              >
+                                ACTIONS
+                              </Text>
+                            </View>
                           </View>
-
-                          <View style={styles.th}>
-                            <Text style={styles.tableTitle}> MON</Text>
+                          <View style={[styles.flexrow,{borderWidth:1}]}>
+                            <View style={[{flex:1}, {flexDirection: "row"}]}>
+                              <View style={{ flex: 1,marginHorizontal:10}} >
+                                {showTimeTableData &&
+                                  showTimeTableData.map((data)=>(
+                                    <View style={[styles.root]}>
+                                      <View style={styles.firstCol}>
+                                        <Text style={styles.headingFirstCol}>
+                                          {moment(data.from_time, "HH:mm").format(
+                                            "hh:mm "
+                                          )}{" "}
+                                          {"-"} {""}
+                                          {moment(data.to_time, "HH:mm").format(
+                                            "hh:mm "
+                                          )}
+                                        </Text>
+                                      </View>
+                                    </View>
+                                  ))}
+                              </View>
+                              <View style={{ flex: 1,marginHorizontal:10,left:'6%' }} >
+                              {showTimeTableData &&
+                                showTimeTableData.map((data)=>(
+                                  <View style={styles.root}>
+                                    <View style={[styles.firstCol,{alignItems:'center'}]}>
+                                      <Text style={styles.headingFirstCol}>
+                                        {data.monday}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                ))}
+                              </View>
+                              <View style={{ flex: 1 ,marginHorizontal:10,left:'5%'}} >
+                              {showTimeTableData &&
+                                showTimeTableData.map((data)=>(
+                                  <View style={styles.root}>
+                                    <View style={[styles.firstCol,{alignItems:'center'}]}>
+                                      <Text style={styles.headingFirstCol}>
+                                        {data.Tuesday}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                ))}
+                              </View>
+                              <View style={{ flex: 1,marginHorizontal:10,left:'4%' }} >
+                              {showTimeTableData &&
+                                showTimeTableData.map((data)=>(
+                                  <View style={styles.root}>
+                                    <View style={[styles.firstCol,{alignItems:'center'}]}>
+                                      <Text style={styles.headingFirstCol}>
+                                        {data.wednesday}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                ))}
+                              </View>
+                              <View style={{ flex: 1,marginHorizontal:10,left:'1%' }} >
+                              {showTimeTableData &&
+                                showTimeTableData.map((data)=>(
+                                  <View style={styles.root}>
+                                    <View style={[styles.firstCol,{alignItems:'center'}]}>
+                                      <Text style={styles.headingFirstCol} textBreakStrategy="simple">
+                                        {/* {data.thursday} */}
+                                       
+                                        {data.thursday}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                ))}
+                              </View>
+                              <View style={{ flex: 1,marginHorizontal:10,right:'14%' }} >
+                              {showTimeTableData &&
+                                showTimeTableData.map((data)=>(
+                                  <View style={styles.root}>
+                                    <View style={[styles.firstCol,{alignItems:'center'}]}>
+                                      <Text style={styles.headingFirstCol}>
+                                        {data.friday}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                ))}
+                              </View>
+                              <View style={{ flex: 1,marginHorizontal:10,right:'20%' }} >
+                              {showTimeTableData &&
+                                showTimeTableData.map((data)=>(
+                                  <View style={styles.root}>
+                                    <View style={[styles.firstCol,{alignItems:'center'}]}>
+                                      <Text style={styles.headingFirstCol}>
+                                        {data.saturday}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                ))}
+                              </View>
+                              <View style={{ flex: 1,marginHorizontal:10,right:'5%' }} >
+                              {showTimeTableData &&
+                                showTimeTableData.map((data)=>(
+                                  <View style={styles.root}>
+                                    <View style={[styles.firstCol,{alignItems:'center'}]}>
+                                      {/* 
+                                        */}
+                                      <View style={[{flex:1}, {flexDirection: "row"}]}>
+                                        <View style={{ flex: 1 }} >
+                                          <Ionicons
+                                            name="md-pencil-sharp"
+                                            size={24}
+                                            color="green"
+                                            onPress={() => editItem(data.id)}
+                                          />
+                                        </View>
+                                        <View style={styles.space} />
+                                        <View style={styles.space} />
+                                        <View style={{ flex: 1 }} >
+                                          <Ionicons
+                                            name="trash"
+                                            size={24}
+                                            color="red"
+                                            onPress={() => deleteItem(data.id)}
+                                          />
+                                        </View>
+                                      </View>
+                                    </View>
+                                  </View>
+                                ))}
+                              </View>
+                            </View>
+                            
+                            
+                            {/* <View style={styles.root}>
+                              <View style={styles.colStyle}>
+                                <Text>1</Text>
+                              </View>          
+                            </View> */}
+                            {/* <View style={styles.root}>
+                              <View style={[styles.colStyle]}>
+                                <Text style={isFail && styles.textColor}>
+                                  {data.maths_obt_mark}
+                                </Text>
+                              </View>
+                              <View style={[styles.colStyle]}>
+                                <Text style={isFail && styles.textColor}>
+                                  {data.english_obt_mark}
+                                </Text>
+                              </View>
+                              <View style={[styles.colStyle]}>
+                                <Text style={isFail && styles.textColor}>
+                                  {data.science_obt_mark}
+                                </Text>
+                              </View>
+                              <View style={[styles.colStyle]}>
+                                <Text style={isFail && styles.textColor}>
+                                  {data.hindi_obt_mark}
+                                </Text>
+                              </View>
+                              <View style={[styles.colStyle]}>
+                                <Text style={isFail && styles.textColor}>
+                                  {data.social_obt_mark}
+                                </Text>
+                              </View>
+                              <View style={[styles.colStyle]}>
+                                <Text style={isFail && styles.textColor}>
+                                  {data.kannada_obt_mark}
+                                </Text>
+                              </View>
+                              <View style={[styles.colStyle]}>
+                                <Text style={isFail && styles.textColor}>
+                                  {data.computer_obt_mark}
+                                </Text>
+                              </View>
+                              <View style={styles.colStyle}>
+                                <Text>
+                                  {data.maths_obt_mark +
+                                    data.english_obt_mark +
+                                    data.science_obt_mark +
+                                    data.hindi_obt_mark +
+                                    data.social_obt_mark +
+                                    data.kannada_obt_mark +
+                                    data.computer_obt_mark}
+                                </Text>
+                              </View>
+                            </View> */}
                           </View>
-                          <View style={styles.th}>
-                            <Text style={styles.tableTitle}> TUE</Text>
-                          </View>
-                          <View style={styles.th}>
-                            <Text style={styles.tableTitle}> WED</Text>
-                          </View>
-
-                          <View style={styles.th}>
-                            <Text style={styles.tableTitle}>THUR</Text>
-                          </View>
-
-                          <View style={styles.th}>
-                            <Text style={styles.tableTitle}>FRI</Text>
-                          </View>
-
-                          <View style={styles.th}>
-                            <Text style={styles.tableTitle}> SAT</Text>
-                          </View>
-                          <View style={styles.th}>
-                            <Text
-                              style={{
-                                margin: 7,
-                                marginLeft: 50,
-                                fontFamily: "MonsterratBold",
-                                fontSize: 16,
-                              }}
-                            >
-                              ACTIONS
-                            </Text>
-                          </View>
-                        </DataTable.Header>
-                        <ScrollView>
-                          {showTimeTableData.map((data, key) => (
-                            <>
-                              <DataTable.Row style={styles.tableRow} key={key}>
-                                <DataTable.Cell
-                                  textStyle={{
-                                    fontSize: 18,
-                                    fontFamily: "HindRegular",
-                                    marginLeft: 10,
-                                  }}
-                                >
-                                  {moment(data.from_time, "HH:mm").format(
-                                    "hh:mm "
-                                  )}{" "}
-                                  {"-"} {""}
-                                  {moment(data.to_time, "HH:mm").format(
-                                    "hh:mm "
-                                  )}
-                                </DataTable.Cell>
-
-                                <DataTable.Cell
-                                  textStyle={{
-                                    fontSize: 18,
-                                    fontFamily: "HindRegular",
-                                    marginLeft: 20,
-                                  }}
-                                >
-                                  {data.monday}
-                                </DataTable.Cell>
-                                <DataTable.Cell
-                                  textStyle={{
-                                    fontSize: 18,
-                                    fontFamily: "HindRegular",
-                                    marginLeft: 40,
-                                  }}
-                                >
-                                  {data.Tuesday}
-                                </DataTable.Cell>
-                                <DataTable.Cell
-                                  textStyle={{
-                                    fontSize: 18,
-                                    fontFamily: "HindRegular",
-                                    marginLeft: 30,
-                                  }}
-                                >
-                                  {data.wednesday}
-                                </DataTable.Cell>
-                                <DataTable.Cell
-                                  textStyle={{
-                                    fontSize: 18,
-                                    fontFamily: "HindRegular",
-                                    marginLeft: 20,
-                                  }}
-                                >
-                                  {data.thursday}
-                                </DataTable.Cell>
-                                <DataTable.Cell
-                                  textStyle={{
-                                    fontSize: 18,
-                                    fontFamily: "HindRegular",
-                                    marginLeft: 40,
-                                  }}
-                                >
-                                  {data.friday}
-                                </DataTable.Cell>
-                                <DataTable.Cell
-                                  textStyle={{
-                                    fontSize: 18,
-                                    fontFamily: "HindRegular",
-                                    marginLeft: 30,
-                                  }}
-                                >
-                                  {data.saturday}
-                                </DataTable.Cell>
-
-                                <DataTable.Cell
-                                  textStyle={{
-                                    fontSize: 18,
-                                    fontFamily: "HindRegular",
-                                    marginLeft: 50,
-                                  }}
-                                >
-                                  <Ionicons
-                                    name="md-pencil-sharp"
-                                    size={24}
-                                    color="green"
-                                    onPress={() => editItem(data.id)}
-                                  />
-                                </DataTable.Cell>
-                                <DataTable.Cell
-                                  textStyle={{
-                                    fontSize: 18,
-                                    fontFamily: "HindRegular",
-                                    //marginLeft: 15,
-                                  }}
-                                >
-                                  <Ionicons
-                                    name="trash"
-                                    size={24}
-                                    color="red"
-                                    onPress={() => deleteItem(data.id)}
-                                  />
-                                </DataTable.Cell>
-                              </DataTable.Row>
-                            </>
-                          ))}
-                        </ScrollView>
-                      </DataTable>
-                    </ScrollView>
-                    {/* </ScrollView> */}
-                  </View>
-                  {keyboardStatus == "Keyboard Hidden" && (
-                    <View style={{ flex: 1 }}>
-                      <TeachersHome />
-                    </View>
-                  )}
-                </View>
-              </>
-            </View>
+                        </View>
+                </ScrollView>
+              </ScrollView>
+            {/* </View> */}
+          <View style={{ flex: 0.1 }}>
+            <TeachersHome />
+          </View>
           </>
         )}
         {showTable && (
@@ -1751,9 +1957,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginLeft: -10,
   },
-  root: {
-    backgroundColor: "#EBECFO",
-  },
+  // root: {
+  //   backgroundColor: "#EBECFO",
+  // },
+  
   inputForm: {
     padding: 20,
     paddingTop: 5,
@@ -1798,45 +2005,10 @@ const styles = StyleSheet.create({
     marginBottom: 69,
   },
   space: {
-    width: 20, // or whatever size you need
+    width: 10, // or whatever size you need
     height: 20,
   },
-  timetablebtn: {
-    width: "45%",
-    paddingVertical: 20,
-    paddingHorizontal: 0,
-    marginLeft: deviceWidth < 370 ? "70%" : "60%",
-    // deviceWidth < 370 ? 210 : 290
-  },
 
-  container: {
-    padding: 10,
-  },
-  type: {
-    marginLeft: 10,
-  },
-  th: {
-    padding: 5,
-    marginRight: 13,
-    //fontSize: 24,
-  },
-  tableHeader: {
-    backgroundColor: "skyblue",
-
-    height: 50,
-    fontWeight: "bold",
-  },
-  tableTitle: {
-    //padding: 5,
-    margin: 10,
-    fontFamily: "MonsterratBold",
-    fontSize: 16,
-  },
-  tableCell: {
-    width: 50,
-    //  fontFamily: "Montserrat_600SemiBold",
-    marginLeft: 35,
-  },
   edit: {
     flexDirection: "row",
     marginTop: 27,
@@ -1894,4 +2066,33 @@ const styles = StyleSheet.create({
     fontFamily: "HindRegular",
     fontSize: deviceWidth < 370 ? 16 : 18,
   },
+  
+  //new design table
+  root: {
+    flex: 1,
+    flexDirection: "column",
+    marginVertical:10
+    // backgroundColor: "red",
+    // borderRadius: 1,
+  },
+  tableHead: {
+    flex: 1,
+    borderRightColor: "grey",
+    borderRightWidth: 1.5,
+    justifyContent: "center",
+    alignItems: "center",
+    // backgroundColor: "#00B8AC",
+    backgroundColor: "#02196E",
+    marginHorizontal:20
+  },
+  headingFont: {
+    // fontFamily: "Hind-SemiBold",
+    fontWeight: "bold",
+    fontSize: deviceWidth < 370 ? 14 : 14,
+  },
+  flex: {
+    flex: 1,
+    padding:10
+  },
 });
+
