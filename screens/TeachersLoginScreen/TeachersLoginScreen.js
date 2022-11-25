@@ -14,19 +14,17 @@ import { Image } from "react-native";
 import TeachersCategoryGridTile from "../../components/StudentItem/TeachersCategoryGridTile";
 
 import { Teacher } from "../Login";
-import { useRoute } from "@react-navigation/native";
-var value;
-export var USERNAME;
+var username, value,removedGrp;
 const TeachersLoginScreen = ({ navigation }) => {
   const [user, setUser] = useState("");
   const route = useRoute();
   async function logoutHandler() {
     try {
       value = await AsyncStorage.removeItem("token");
-
+      removedGrp = await AsyncStorage.removeItem("datagroup");
       if (value == null) {
         console.log("Data removed");
-        navigation.navigate("Login");
+        navigation.navigate("LadingScreen");
       } else {
         console.log("Data not removed");
       }
