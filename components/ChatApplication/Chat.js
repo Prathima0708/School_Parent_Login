@@ -15,6 +15,7 @@ import {
   Heading,
   HStack,
   Pressable,
+  ScrollView,
   Spacer,
   Text,
   VStack,
@@ -91,7 +92,7 @@ const Chat = () => {
 
         // const res = await axios.get("http://10.0.2.2:8000/school/users/", {
         const users = await axios.get("http://10.0.2.2:8000/chat/list/", {
-          headers: headers,
+          //headers: headers,
         });
         // console.log(users.data);
         setUsers(users.data);
@@ -148,12 +149,14 @@ const Chat = () => {
     return <ChatList {...itemData.item} />;
   }
   return (
-    <Box>
-      <Heading fontSize="xl" p="4" pb="3">
-        Inbox
-      </Heading>
-      <FlatList data={users} renderItem={renderChatList} />
-    </Box>
+    <ScrollView>
+      <Box>
+        <Heading fontSize="xl" p="4" pb="3">
+          Inbox
+        </Heading>
+        <FlatList data={users} renderItem={renderChatList} />
+      </Box>
+    </ScrollView>
   );
 };
 export default Chat;

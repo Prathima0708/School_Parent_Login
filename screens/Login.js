@@ -827,9 +827,6 @@ function Login() {
         };
 
         const user = { username: enteredUser, password: enteredPassword };
-        Teacher = user.username;
-
-        console.log("this is the username", Teacher);
 
         const resLogin = await axios.post(
           "http://10.0.2.2:8000/school/api-token-auth/",
@@ -857,6 +854,16 @@ function Login() {
         ParentGroup = resLogin.data.groups[0] == "parents";
         console.log("teacher group is :", TeacherGroup);
         console.log("parent group is :", ParentGroup);
+        Teacher = user.username;
+
+        console.log("this is the username from console log", Teacher);
+
+        try {
+          await AsyncStorage.setItem("UserName", Teacher);
+          // await AsyncStorage.setItem("datagroupParent", resLogin.data.groups[1]);
+        } catch (error) {
+          // Error saving data
+        }
 
         try {
           await AsyncStorage.setItem("datagroup", resLogin.data.groups[0]);

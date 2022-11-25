@@ -7,6 +7,7 @@ import { GiftedChat } from "react-native-gifted-chat";
 import { useRef } from "react";
 import { useCallback } from "react";
 import { SELECTEDUSER } from "./Chat";
+import ChatHeader from "./ChatUI/ChatHeader";
 
 export var chatUuid;
 const SingleUser = () => {

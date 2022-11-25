@@ -1,5 +1,5 @@
 import { StyleSheet, FlatList, View, Dimensions } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import CategoryGridTile from "../../components/StudentItem/CategoryGridTile";
 
@@ -18,6 +18,7 @@ import { useRoute } from "@react-navigation/native";
 var value;
 export var USERNAME;
 const TeachersLoginScreen = ({ navigation }) => {
+  const [user, setUser] = useState("");
   const route = useRoute();
   async function logoutHandler() {
     try {
@@ -40,6 +41,20 @@ const TeachersLoginScreen = ({ navigation }) => {
       console.log(error);
     }
   }
+
+  async function fetchUser() {
+    USERNAME = await AsyncStorage.getItem("UserName");
+    console.log("this is the username from aysnc", USERNAME);
+    if (USERNAME !== null) {
+      setUser(USERNAME);
+    }
+  }
+
+  fetchUser();
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -91,7 +106,7 @@ const TeachersLoginScreen = ({ navigation }) => {
   return (
     <>
       <View style={{ backgroundColor: "#ffff", height: "100%" }}>
-        <Text style={styles.heading}>Teachers Dashboard</Text>
+        <Text style={styles.heading}>{USERNAME} Dashboard</Text>
         <View style={styles.studentItem}>
           <View style={styles.studentItem}>
             <Image
@@ -101,7 +116,7 @@ const TeachersLoginScreen = ({ navigation }) => {
               style={styles.image}
             />
 
-            <Text style={[styles.textBase, styles.description]}>{Teacher}</Text>
+            <Text style={[styles.textBase, styles.description]}>{user}</Text>
           </View>
         </View>
         <View style={{ backgroundColor: "white", height: "100%" }}>
