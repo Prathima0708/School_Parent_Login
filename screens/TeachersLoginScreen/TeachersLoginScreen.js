@@ -14,16 +14,14 @@ import { Image } from "react-native";
 import TeachersCategoryGridTile from "../../components/StudentItem/TeachersCategoryGridTile";
 
 import { Teacher } from "../Login";
-var username, value,removedGrp;
+var username, value;
 const TeachersLoginScreen = ({ navigation }) => {
-  const route = useRoute();
   async function logoutHandler() {
     try {
       value = await AsyncStorage.removeItem("token");
-      removedGrp = await AsyncStorage.removeItem("datagroup");
       if (value == null) {
         console.log("Data removed");
-        navigation.navigate("LadingScreen");
+        navigation.navigate("Login");
       } else {
         console.log("Data not removed");
       }
@@ -38,7 +36,13 @@ const TeachersLoginScreen = ({ navigation }) => {
       console.log(error);
     }
   }
-
+  useEffect(() => {
+    async function fetchuser() {
+      username = await AsyncStorage.getItem("username");
+      console.log(username);
+    }
+    fetchuser();
+  });
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
@@ -99,7 +103,9 @@ const TeachersLoginScreen = ({ navigation }) => {
               style={styles.image}
             />
 
-            <Text style={[styles.textBase, styles.description]}>{Teacher}</Text>
+            <Text style={[styles.textBase, styles.description]}>
+              {username}
+            </Text>
           </View>
         </View>
         <View style={{ backgroundColor: "white", height: "100%" }}>

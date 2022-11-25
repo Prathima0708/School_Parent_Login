@@ -145,7 +145,7 @@ export default function App() {
         <Stack.Screen
           name="LadingScreen"
           component={LandingScreen}
-          options={{ title: "Welcome Screen",headerBackVisible:false }}
+          options={{ title: "Welcome Screen" }}
         />
         <Stack.Screen
           name="Login"
@@ -155,13 +155,13 @@ export default function App() {
         <Stack.Screen
           name="TeachersLogin"
           component={TeachersLoginScreen}
-          options={{ title: "Dashboard",headerBackVisible:false }}
+          options={{ title: "Dashboard" }}
         />
 
         <Stack.Screen
           name="ParentsLoginScreen"
           component={ParentsLoginScreen}
-          options={{ title: "Dashboard",headerBackVisible:false }}
+          options={{ title: "Dashboard" }}
         />
 
         <Stack.Screen
@@ -169,11 +169,11 @@ export default function App() {
           component={TeachersAcademics}
           options={{ title: "Academics" }}
         />
-        {/* <Stack.Screen
+        <Stack.Screen
           name="TeachersTimetable"
           component={TeachersTimetable}
           options={{ title: "Timetable" }}
-        /> */}
+        />
         {/* <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} /> */}
         <Stack.Screen
           name="TeachersCalendar"
@@ -201,11 +201,6 @@ export default function App() {
           name="TeachersTransport"
           component={TeachersTransport}
           options={{ title: "Transport" }}
-        />
-        <Stack.Screen
-          name="TeachersTimetable"
-          component={TeachersTimetable}
-          options={{ title: "Timetable" }}
         />
 
         {/* <Stack.Screen name="TeachersHomework" component={TeachersHomework} /> */}
@@ -305,13 +300,12 @@ export default function App() {
         <Stack.Screen
           name="ParentsLoginScreen"
           component={ParentsLoginScreen}
-          options={{ title: "Dashboard",headerBackVisible:false }}
+          options={{ title: "Dahboard" }}
         />
-        {/* 
         <Stack.Screen
           name="LadingScreen"
           component={LandingScreen}
-          options={{ title: "Welcome Screen",headerBackVisible:false }}
+          options={{ title: "Welcome Screen" }}
         />
 
         <Stack.Screen
@@ -322,7 +316,7 @@ export default function App() {
         <Stack.Screen
           name="Category"
           component={StudentCategories}
-          options={{ title: "Dashboard",headerBackVisible:false }}
+          options={{ title: "Dashboard" }}
         />
         <Stack.Screen
           name="StudentsOverview"
@@ -393,13 +387,12 @@ export default function App() {
         <Stack.Screen
           name="TeachersLogin"
           component={TeachersLoginScreen}
-          options={{ title: "Dashboard",headerBackVisible:false }}
+          options={{ title: "Dashboard" }}
         />
         <Stack.Screen
           name="LadingScreen"
           component={LandingScreen}
-          options={{ title: "Welcome Screen",headerBackVisible:false}}
-        
+          options={{ title: "Welcome Screen" }}
         />
         <Stack.Screen
           name="Login"
