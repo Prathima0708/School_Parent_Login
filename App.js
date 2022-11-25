@@ -169,11 +169,11 @@ export default function App() {
           component={TeachersAcademics}
           options={{ title: "Academics" }}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="TeachersTimetable"
           component={TeachersTimetable}
           options={{ title: "Timetable" }}
-        />
+        /> */}
         {/* <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} /> */}
         <Stack.Screen
           name="TeachersCalendar"
@@ -201,6 +201,11 @@ export default function App() {
           name="TeachersTransport"
           component={TeachersTransport}
           options={{ title: "Transport" }}
+        />
+        <Stack.Screen
+          name="TeachersTimetable"
+          component={TeachersTimetable}
+          options={{ title: "Timetable" }}
         />
 
         {/* <Stack.Screen name="TeachersHomework" component={TeachersHomework} /> */}
@@ -302,6 +307,7 @@ export default function App() {
           component={ParentsLoginScreen}
           options={{ title: "Dashboard",headerBackVisible:false }}
         />
+        {/* 
         <Stack.Screen
           name="LadingScreen"
           component={LandingScreen}

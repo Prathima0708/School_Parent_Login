@@ -567,7 +567,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   textBase: {
-    color: "#0D98BA",
+    color: "white",
+    // color: "#0D98BA",
     marginRight: 10,
   },
   description: {
