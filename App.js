@@ -145,7 +145,7 @@ export default function App() {
         <Stack.Screen
           name="LadingScreen"
           component={LandingScreen}
-          options={{ title: "Welcome Screen" }}
+          options={{ title: "Welcome Screen",headerBackVisible:false }}
         />
         <Stack.Screen
           name="Login"
@@ -155,13 +155,13 @@ export default function App() {
         <Stack.Screen
           name="TeachersLogin"
           component={TeachersLoginScreen}
-          options={{ title: "Dashboard" }}
+          options={{ title: "Dashboard",headerBackVisible:false }}
         />
 
         <Stack.Screen
           name="ParentsLoginScreen"
           component={ParentsLoginScreen}
-          options={{ title: "Dashboard" }}
+          options={{ title: "Dashboard",headerBackVisible:false }}
         />
 
         <Stack.Screen
@@ -300,12 +300,12 @@ export default function App() {
         <Stack.Screen
           name="ParentsLoginScreen"
           component={ParentsLoginScreen}
-          options={{ title: "Dahboard" }}
+          options={{ title: "Dashboard",headerBackVisible:false }}
         />
         <Stack.Screen
           name="LadingScreen"
           component={LandingScreen}
-          options={{ title: "Welcome Screen" }}
+          options={{ title: "Welcome Screen",headerBackVisible:false }}
         />
 
         <Stack.Screen
@@ -316,7 +316,7 @@ export default function App() {
         <Stack.Screen
           name="Category"
           component={StudentCategories}
-          options={{ title: "Dashboard" }}
+          options={{ title: "Dashboard",headerBackVisible:false }}
         />
         <Stack.Screen
           name="StudentsOverview"
@@ -387,12 +387,13 @@ export default function App() {
         <Stack.Screen
           name="TeachersLogin"
           component={TeachersLoginScreen}
-          options={{ title: "Dashboard" }}
+          options={{ title: "Dashboard",headerBackVisible:false }}
         />
         <Stack.Screen
           name="LadingScreen"
           component={LandingScreen}
-          options={{ title: "Welcome Screen" }}
+          options={{ title: "Welcome Screen",headerBackVisible:false}}
+        
         />
         <Stack.Screen
           name="Login"

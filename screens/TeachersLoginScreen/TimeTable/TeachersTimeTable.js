@@ -1127,9 +1127,13 @@ const TeachersTimetable = () => {
             </View>
           </>
         )} */}
-        {showTimeTableList && (
-          <>
-          <View
+         {showTimeTableList && (
+            <>
+              {/* <Animated.View style={{transform:[
+              {translateY:translateY}
+            ]}}> */}
+
+              <View
             style={{
               width: 170,
               fontSize: 20,
@@ -1194,72 +1198,81 @@ const TeachersTimetable = () => {
                 {selectedClass}
               </Text>
             </View>
-            {/* <View style={styles.root}> */}
-              <ScrollView>
-                <ScrollView horizontal={true}>
-                <View style={styles.flex}>
-                          <View
-                            style={[
-                              { flex: 0.2 },
-                              {
-                                flexDirection: "row",
-                                borderWidth: 1,
-                                backgroundColor: "#EFFFFD",
-                              },
-                            ]}
-                          >
+
+              <View
+                style={[
+                  { flex: 1 },
+                  { flexDirection: "column", backgroundColor: "white" },
+                ]}
+              >
+                <View style={{ flex: 8, bottom: 10 }}>
+                 
+                    <View style={[styles.root]}>
+                       <ScrollView>
+                        <ScrollView horizontal={true}>
+                          <View style={styles.flex}>
+                            <View
+                              style={[
+                                { flex: 0.2 },
+                                {
+                                  flexDirection: "row",
+                                  borderWidth: 1,
+                                  backgroundColor: "#EFFFFD",
+                                },
+                              ]}
+                            >
                             <View style={styles.tableHead}>
                               <Text
-                                style={[styles.headingFont, { color: "white" }]}
+                                style={[styles.headingFont, { color: "black" }]}
                               >
                                 Timing
                               </Text>
                             </View>
                             <View style={styles.tableHead}>
                               <Text
-                                style={[styles.headingFont, { color: "white" }]}
+                                style={[styles.headingFont, { color: "black" }]}
                               >
                                 MON
                               </Text>
                             </View>
                             <View style={styles.tableHead}>
                               <Text
-                                style={[styles.headingFont, { color: "white" }]}
+                                style={[styles.headingFont, { color: "black" }]}
                               >
                                 TUE
                               </Text>
                             </View>
                             <View style={styles.tableHead}>
                               <Text
-                                style={[styles.headingFont, { color: "white"}]}
+                                style={[styles.headingFont, { color: "black"}]}
                               >
                                 WED
                               </Text>
                             </View>
                             <View style={styles.tableHead}>
                               <Text
-                                style={[styles.headingFont, { color: "white" }]}
+                                style={[styles.headingFont, { color: "black" }]}
                               >
                                 THU
                               </Text>
                             </View>
                             <View style={styles.tableHead}>
                               <Text
-                                style={[styles.headingFont, { color: "white" }]}
+                                style={[styles.headingFont, { color: "black" }]}
                               >
                                 FRI
                               </Text>
                             </View>
                             <View style={styles.tableHead}>
                               <Text
-                                style={[styles.headingFont, { color: "white" }]}
+                                style={[styles.headingFont, { color: "black" }]}
                               >
                                 SAT
                               </Text>
                             </View>
                             <View style={styles.tableHead}>
                               <Text
-                                style={[styles.headingFont, { color: "white" }]}
+                                style={[styles.headingFont, { color: "black" }]}
                               >
                                 ACTIONS
                               </Text>
@@ -1302,7 +1315,7 @@ const TeachersTimetable = () => {
                                 showTimeTableData.map((data)=>(
                                   <View style={styles.root}>
                                     <View style={[styles.firstCol,{alignItems:'center'}]}>
-                                      <Text style={styles.headingFirstCol}>
+                                      <Text style={[styles.headingFirstCol]}>
                                         {data.Tuesday}
                                       </Text>
                                     </View>
@@ -1335,7 +1348,7 @@ const TeachersTimetable = () => {
                                   </View>
                                 ))}
                               </View>
-                              <View style={{ flex: 1,marginHorizontal:10,right:'14%' }} >
+                              <View style={{ flex: 1,marginHorizontal:10,right:'12%' }} >
                               {showTimeTableData &&
                                 showTimeTableData.map((data)=>(
                                   <View style={styles.root}>
@@ -1347,7 +1360,7 @@ const TeachersTimetable = () => {
                                   </View>
                                 ))}
                               </View>
-                              <View style={{ flex: 1,marginHorizontal:10,right:'20%' }} >
+                              <View style={{ flex: 1,marginHorizontal:10,right:'16%' }} >
                               {showTimeTableData &&
                                 showTimeTableData.map((data)=>(
                                   <View style={styles.root}>
@@ -1391,71 +1404,20 @@ const TeachersTimetable = () => {
                                 ))}
                               </View>
                             </View>
-                            
-                            
-                            {/* <View style={styles.root}>
-                              <View style={styles.colStyle}>
-                                <Text>1</Text>
-                              </View>          
-                            </View> */}
-                            {/* <View style={styles.root}>
-                              <View style={[styles.colStyle]}>
-                                <Text style={isFail && styles.textColor}>
-                                  {data.maths_obt_mark}
-                                </Text>
-                              </View>
-                              <View style={[styles.colStyle]}>
-                                <Text style={isFail && styles.textColor}>
-                                  {data.english_obt_mark}
-                                </Text>
-                              </View>
-                              <View style={[styles.colStyle]}>
-                                <Text style={isFail && styles.textColor}>
-                                  {data.science_obt_mark}
-                                </Text>
-                              </View>
-                              <View style={[styles.colStyle]}>
-                                <Text style={isFail && styles.textColor}>
-                                  {data.hindi_obt_mark}
-                                </Text>
-                              </View>
-                              <View style={[styles.colStyle]}>
-                                <Text style={isFail && styles.textColor}>
-                                  {data.social_obt_mark}
-                                </Text>
-                              </View>
-                              <View style={[styles.colStyle]}>
-                                <Text style={isFail && styles.textColor}>
-                                  {data.kannada_obt_mark}
-                                </Text>
-                              </View>
-                              <View style={[styles.colStyle]}>
-                                <Text style={isFail && styles.textColor}>
-                                  {data.computer_obt_mark}
-                                </Text>
-                              </View>
-                              <View style={styles.colStyle}>
-                                <Text>
-                                  {data.maths_obt_mark +
-                                    data.english_obt_mark +
-                                    data.science_obt_mark +
-                                    data.hindi_obt_mark +
-                                    data.social_obt_mark +
-                                    data.kannada_obt_mark +
-                                    data.computer_obt_mark}
-                                </Text>
-                              </View>
-                            </View> */}
                           </View>
                         </View>
-                </ScrollView>
-              </ScrollView>
-            {/* </View> */}
-          <View style={{ flex: 0.1 }}>
-            <TeachersHome />
-          </View>
-          </>
-        )}
+                      </ScrollView>
+                    </ScrollView>
+                  </View>
+                </View>
+                {keyboardStatus == "Keyboard Hidden" && (
+                  <View style={{ flex: 1 }}>
+                    <TeachersHome />
+                  </View>
+                )}
+              </View>
+            </>
+          )}
         {showTable && (
           <>
             <ScrollView style={styles.root}>
@@ -2077,13 +2039,13 @@ const styles = StyleSheet.create({
   },
   tableHead: {
     flex: 1,
-    borderRightColor: "grey",
+    // borderRightColor: "grey",
     borderRightWidth: 1.5,
     justifyContent: "center",
     alignItems: "center",
     // backgroundColor: "#00B8AC",
-    backgroundColor: "#02196E",
-    marginHorizontal:20
+    // backgroundColor: "#02196E",
+    // marginHorizontal:10
   },
   headingFont: {
     // fontFamily: "Hind-SemiBold",
