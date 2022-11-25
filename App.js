@@ -142,11 +142,6 @@ export default function App() {
   function AuthStack() {
     return (
       <Stack.Navigator>
-         <Stack.Screen
-          name="TeachersTimetable"
-          component={TeachersTimetable}
-          options={{ title: "Timetable" }}
-        />
         <Stack.Screen
           name="LadingScreen"
           component={LandingScreen}
@@ -174,7 +169,11 @@ export default function App() {
           component={TeachersAcademics}
           options={{ title: "Academics" }}
         />
-       
+        <Stack.Screen
+          name="TeachersTimetable"
+          component={TeachersTimetable}
+          options={{ title: "Timetable" }}
+        />
         {/* <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} /> */}
         <Stack.Screen
           name="TeachersCalendar"
@@ -385,11 +384,6 @@ export default function App() {
   function AuthenticatedT() {
     return (
       <Stack.Navigator>
-         <Stack.Screen
-          name="TeachersTimetable"
-          component={TeachersTimetable}
-          options={{ title: "Timetable" }}
-        />
         <Stack.Screen
           name="TeachersLogin"
           component={TeachersLoginScreen}
@@ -411,7 +405,11 @@ export default function App() {
           component={TeachersAcademics}
           options={{ title: "Academics" }}
         />
-       
+        <Stack.Screen
+          name="TeachersTimetable"
+          component={TeachersTimetable}
+          options={{ title: "Timetable" }}
+        />
         {/* <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} /> */}
         <Stack.Screen
           name="TeachersCalendar"

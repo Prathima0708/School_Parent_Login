@@ -1326,7 +1326,7 @@ const TeachersTimetable = () => {
                                 showTimeTableData.map((data)=>(
                                   <View style={styles.root}>
                                     <View style={[styles.firstCol,{alignItems:'center'}]}>
-                                      <Text style={styles.headingFirstCol} textBreakStrategy="simple">
+                                      <Text style={[styles.headingFirstCol]}>
                                         {/* {data.thursday} */}
                                        
                                         {data.thursday}
