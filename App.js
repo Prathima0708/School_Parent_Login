@@ -169,7 +169,11 @@ export default function App() {
           component={TeachersAcademics}
           options={{ title: "Academics" }}
         />
-
+        {/* <Stack.Screen
+          name="TeachersTimetable"
+          component={TeachersTimetable}
+          options={{ title: "Timetable" }}
+        /> */}
         {/* <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} /> */}
         <Stack.Screen
           name="TeachersCalendar"
@@ -387,11 +391,6 @@ export default function App() {
     return (
       <Stack.Navigator>
         <Stack.Screen
-          name="TeachersTimetable"
-          component={TeachersTimetable}
-          options={{ title: "Timetable" }}
-        />
-        <Stack.Screen
           name="TeachersLogin"
           component={TeachersLoginScreen}
           options={{ title: "Dashboard" }}
@@ -408,7 +407,11 @@ export default function App() {
           component={TeachersAcademics}
           options={{ title: "Academics" }}
         />
-
+        <Stack.Screen
+          name="TeachersTimetable"
+          component={TeachersTimetable}
+          options={{ title: "Timetable" }}
+        />
         {/* <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} /> */}
         <Stack.Screen
           name="TeachersCalendar"
