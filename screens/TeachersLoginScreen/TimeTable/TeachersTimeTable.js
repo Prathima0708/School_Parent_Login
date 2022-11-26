@@ -1284,7 +1284,7 @@ const TeachersTimetable = () => {
                                 {showTimeTableData &&
                                   showTimeTableData.map((data)=>(
                                     <View style={[styles.root]}>
-                                      <View style={styles.firstCol}>
+                                      <View style={[styles.firstCol]}>
                                         <Text style={styles.headingFirstCol}>
                                           {moment(data.from_time, "HH:mm").format(
                                             "hh:mm "
@@ -1298,11 +1298,11 @@ const TeachersTimetable = () => {
                                     </View>
                                   ))}
                               </View>
-                              <View style={{ flex: 1,marginHorizontal:10,left:'6%' }} >
+                              <View style={{ flex: 1,marginHorizontal:10,left:'4%' }} >
                               {showTimeTableData &&
                                 showTimeTableData.map((data)=>(
                                   <View style={styles.root}>
-                                    <View style={[styles.firstCol,{alignItems:'center'}]}>
+                                    <View style={[styles.firstCol,{alignItems:'center',width:100}]}>
                                       <Text style={styles.headingFirstCol}>
                                         {data.monday}
                                       </Text>
@@ -1310,11 +1310,11 @@ const TeachersTimetable = () => {
                                   </View>
                                 ))}
                               </View>
-                              <View style={{ flex: 1 ,marginHorizontal:10,left:'5%'}} >
+                              <View style={{ flex: 1 ,marginHorizontal:10,left:'1%'}} >
                               {showTimeTableData &&
                                 showTimeTableData.map((data)=>(
                                   <View style={styles.root}>
-                                    <View style={[styles.firstCol,{alignItems:'center'}]}>
+                                    <View style={[styles.firstCol,{alignItems:'center',width:100}]}>
                                       <Text style={[styles.headingFirstCol]}>
                                         {data.Tuesday}
                                       </Text>
@@ -1322,11 +1322,11 @@ const TeachersTimetable = () => {
                                   </View>
                                 ))}
                               </View>
-                              <View style={{ flex: 1,marginHorizontal:10,left:'4%' }} >
+                              <View style={{ flex: 1,marginHorizontal:10,right:'2%' }} >
                               {showTimeTableData &&
                                 showTimeTableData.map((data)=>(
                                   <View style={styles.root}>
-                                    <View style={[styles.firstCol,{alignItems:'center'}]}>
+                                    <View style={[styles.firstCol,{alignItems:'center',width:100}]}>
                                       <Text style={styles.headingFirstCol}>
                                         {data.wednesday}
                                       </Text>
@@ -1334,11 +1334,11 @@ const TeachersTimetable = () => {
                                   </View>
                                 ))}
                               </View>
-                              <View style={{ flex: 1,marginHorizontal:10,left:'1%' }} >
+                              <View style={{ flex: 1,marginHorizontal:10,right:'4%' }} >
                               {showTimeTableData &&
                                 showTimeTableData.map((data)=>(
                                   <View style={styles.root}>
-                                    <View style={[styles.firstCol,{alignItems:'center'}]}>
+                                    <View style={[styles.firstCol,{alignItems:'center',width:100}]}>
                                       <Text style={[styles.headingFirstCol]}>
                                         {/* {data.thursday} */}
                                        
@@ -1348,11 +1348,11 @@ const TeachersTimetable = () => {
                                   </View>
                                 ))}
                               </View>
-                              <View style={{ flex: 1,marginHorizontal:10,right:'12%' }} >
+                              <View style={{ flex: 1,marginHorizontal:10,right:'10%' }} >
                               {showTimeTableData &&
                                 showTimeTableData.map((data)=>(
                                   <View style={styles.root}>
-                                    <View style={[styles.firstCol,{alignItems:'center'}]}>
+                                    <View style={[styles.firstCol,{alignItems:'center',width:100}]}>
                                       <Text style={styles.headingFirstCol}>
                                         {data.friday}
                                       </Text>
@@ -1360,11 +1360,11 @@ const TeachersTimetable = () => {
                                   </View>
                                 ))}
                               </View>
-                              <View style={{ flex: 1,marginHorizontal:10,right:'16%' }} >
+                              <View style={{ flex: 1,marginHorizontal:10,right:'14%' }} >
                               {showTimeTableData &&
                                 showTimeTableData.map((data)=>(
                                   <View style={styles.root}>
-                                    <View style={[styles.firstCol,{alignItems:'center'}]}>
+                                    <View style={[styles.firstCol,{alignItems:'center',width:100}]}>
                                       <Text style={styles.headingFirstCol}>
                                         {data.saturday}
                                       </Text>

@@ -27,6 +27,13 @@ const LeaveScreen = () => {
   const [isApproved, setIsApproved] = useState(false);
   let i = 0;
   // const [statusData,setStatusData]=useState([]);
+  const [label, setLabel] = useState(false);
+  const [descriptionLabel, setDescriptionLabel] = useState(false);
+  const [leaveReasonLabel, setLeaveReasonLabel] = useState(false);
+  
+  const [isDescFocused, setIsDescFocused] = useState(false);
+  const [isLeaveReasonFocused, setIsLeaveReasonFocused] = useState(false);
+
   const [regno, setEnteredRegno] = useState("");
   const [enteredRegNoTouched, setEnteredRegNoTouched] = useState(false);
   const enteredRegNoIsValid = regno.trim() !== "";
@@ -76,6 +83,8 @@ const LeaveScreen = () => {
   const [enteredtoDateTouched, setEnteredtoDateTouched] = useState(false);
   const enteredtoDateIsValid = toText.trim() !== "";
   const toDateInputIsInValid = !enteredtoDateIsValid && enteredtoDateTouched;
+
+  const [btn, setBtn] = useState(false);
 
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [data, setData] = useState([]);
@@ -196,6 +205,7 @@ const LeaveScreen = () => {
   }
 
   function LeaveList() {
+
     setForLeaveList({
       backgroundColor: "#0C60F4",
       color: "white",
@@ -208,6 +218,12 @@ const LeaveScreen = () => {
     });
     setShowForm(false);
     setShowList(true);
+    setLeaveReasonLabel(false);
+    setDescriptionLabel(false);
+    setEnteredLeaveTypeTouched(false);
+    setEnteredLeaveReasonTouched(false);
+    setEnteredFromDateTouched(false);
+    setEnteredtoDateTouched(false);
   }
   function addLeave() {
     setForLeaveForm({
@@ -324,6 +340,7 @@ const LeaveScreen = () => {
     }
   }
   function buttonPressedHandler() {
+    setBtn(true);
     const FormData = {
       student_reg_number: regno || StudentRegNo,
       user_num: 0,
@@ -371,27 +388,27 @@ const LeaveScreen = () => {
     //     ]
     //   );
     // }
-    setEnteredRegNoTouched(true);
+    setEnteredRegNoTouched(false);
     setEnteredLeaveTypeTouched(true);
     setEnteredFromDateTouched(true);
     setEnteredtoDateTouched(true);
     setEnteredLeaveReasonTouched(true);
 
-    // if (!enteredRegNoIsValid) {
-    //   return;
-    // }
-    // if (!enteredLeaveTypeIsValid) {
-    //   return;
-    // }
-    // if (!enteredFromDateIsValid) {
-    //   return;
-    // }
-    // if (!enteredtoDateIsValid) {
-    //   return;
-    // }
-    // if (!enteredLeaveReasonIsValid) {
-    //   return;
-    // } else {
+    if (!enteredRegNoIsValid) {
+      return;
+    }
+    if (!enteredLeaveTypeIsValid) {
+      return;
+    }
+    if (!enteredFromDateIsValid) {
+      return;
+    }
+    if (!enteredtoDateIsValid) {
+      return;
+    }
+    if (!enteredLeaveReasonIsValid) {
+      return;
+    } else {
     async function storeData() {
       console.log(FormData);
       try {
@@ -426,16 +443,31 @@ const LeaveScreen = () => {
     setEnteredFromDateTouched(false);
     setEnteredtoDateTouched(false);
     setEnteredLeaveReasonTouched(false);
-    //  }
+     }
   }
   function stdregnoBlurHandler() {
     setEnteredRegNoTouched(true);
   }
   function leavetypeBlurHandler() {
     setEnteredLeaveTypeTouched(true);
+    setIsDescFocused(false);
   }
+
+  function onFocusLeaveTypeHandler() {
+    setIsDescFocused(true);
+    setEnteredLeaveTypeTouched(false);
+    setDescriptionLabel(true);
+  }
+
+  function onFocusLeaveReasonHandler() {
+    setIsLeaveReasonFocused(true);
+    setEnteredLeaveReasonTouched(false);
+    setLeaveReasonLabel(true);
+  }
+
   function leavereasonBlurHandler() {
     setEnteredLeaveReasonTouched(true);
+    setIsLeaveReasonFocused(false);
   }
   function fromDateBlurHandler() {
     setEnteredFromDateTouched(true);
@@ -443,6 +475,7 @@ const LeaveScreen = () => {
   function toDateBlurHandler() {
     setEnteredtoDateTouched(true);
   }
+
   function editItem(id) {
     const filteredDummuyData = data.find((data) => data.id == id);
     // console.log(filteredDummuyData);
@@ -634,9 +667,22 @@ const LeaveScreen = () => {
       {showForm && (
         <ScrollView style={styles.root}>
           <View style={styles.inputForm}>
+            <View style={!label ? styles.test : styles.testSuccess}>
+              <Text
+                style={[
+                  btn
+                    ? styles.submitLabel
+                    : regnoInputIsInValid
+                    ? styles.errorLabel
+                    : styles.normalLabel,
+                ]}
+              >
+                StudentRegNo
+              </Text>
+            </View>
             <Input
               keyboardType="number-pad"
-              placeholder="Student reg no"
+              // placeholder="Student reg no"
               onChangeText={regnoChangeHandler}
               blur={stdregnoBlurHandler}
               value={StudentRegNo.toString() || regno}
@@ -655,17 +701,75 @@ const LeaveScreen = () => {
                 Enter student registration number
               </Text>
             )} */}
-
+            <View
+                style={[
+                  !regnoInputIsInValid
+                    ? descriptionLabel
+                      ? styles.descriptionUp
+                      : styles.descriptionDown
+                    : descriptionLabel
+                    ? styles.descriptionUpExtra
+                    : styles.descriptionDownExtra,
+                ]}
+              >
+                <Text
+                  style={[
+                    btn
+                      ? styles.normalLabel
+                      : leavetypeInputIsInValid
+                      ? styles.errorLabel
+                      : styles.normalLabel,
+                  ]}
+                >
+                  Leave Type
+                </Text>
+              </View>
             <Input
-              placeholder="Leave Type"
+              // placeholder="Leave Type"
               onChangeText={leaveTypeChangeHandler}
               blur={leavetypeBlurHandler}
+              onFocus={onFocusLeaveTypeHandler}
               value={leaveType}
               onSubmitEditing={Keyboard.dismiss}
-              style={leavetypeInputIsInValid && styles.errorBorderColor}
+              style={isDescFocused ? styles.focusStyle : leavetypeInputIsInValid && styles.errorBorderColor}
             />
             {leavetypeInputIsInValid && (
               <Text style={styles.errStyle}>Enter leave type</Text>
+            )}
+            <View
+                style={[
+                  !leavetypeInputIsInValid
+                    ? leaveReasonLabel
+                      ? styles.leaveReasonUp
+                      : styles.leaveReasonDown
+                    : leaveReasonLabel
+                    ? styles.leaveReasonUpExtra
+                    : styles.leaveReasonDownExtra,
+                ]}
+              >
+                <Text
+                  style={[
+                    btn
+                      ? styles.normalLabel
+                      : leavereasonInputIsInValid
+                      ? styles.errorLabel
+                      : styles.normalLabel,
+                  ]}
+                >
+                  Leave reason
+                </Text>
+              </View>
+            <Input
+              onChangeText={leaveReasonChangeHandler}
+              blur={leavereasonBlurHandler}
+              onFocus={onFocusLeaveReasonHandler}
+              value={leaveReason}
+              // placeholder="Leave reason"
+              onSubmitEditing={Keyboard.dismiss}
+              style={isLeaveReasonFocused ? styles.focusStyle : leavereasonInputIsInValid && styles.errorBorderColor}
+            />
+            {leavereasonInputIsInValid && (
+              <Text style={styles.errStyle}>Enter leave reason</Text>
             )}
             <View style={[{ flexDirection: "row" }]}>
               <View style={{ flex: 1 }}>
@@ -743,17 +847,7 @@ const LeaveScreen = () => {
                 )}
               </View>
             </View>
-            <Input
-              onChangeText={leaveReasonChangeHandler}
-              blur={leavereasonBlurHandler}
-              value={leaveReason}
-              placeholder="Leave reason"
-              onSubmitEditing={Keyboard.dismiss}
-              style={leavereasonInputIsInValid && styles.errorBorderColor}
-            />
-            {leavereasonInputIsInValid && (
-              <Text style={styles.errStyle}>Enter leave reason</Text>
-            )}
+            
             {!isEdit && (
               <View style={styles.btnSubmit}>
                 <Button onPress={buttonPressedHandler}>Add Leave</Button>
@@ -853,14 +947,7 @@ const styles = StyleSheet.create({
   //   // marginTop: 17,
   // },
   errorBorderColor: {
-    color: "black",
-    borderBottomWidth: 1,
     borderColor: "red",
-    padding: 10,
-    margin: 15,
-    paddingVertical: 5,
-    borderRadius: 5,
-    fontSize: 18,
   },
   btnSubmit: {
     top: deviceHieght < 600 ? -25 : "7%",
@@ -984,5 +1071,94 @@ const styles = StyleSheet.create({
     },
     colorBlack:{
       color:"black"
-    }
+    },
+    test: {
+      position: "absolute",
+      top: deviceWidth < 370 ? 2 : 10,
+      left: deviceWidth < 370 ? 40 : 50,
+    },
+    testSuccess: {
+      position: "absolute",
+      top: deviceWidth < 370 ? 28 : 32,
+      left: 50,
+    },
+    normalLabel: {
+      // color: "#A7ADAD",
+      color: "#AEB6BF",
+      // backgroundColor: "#F2F2F2",
+      backgroundColor: "white",
+      paddingHorizontal: 5,
+      // bottom: 0,
+      fontSize: deviceWidth < 370 ? 13 : 16,
+      letterSpacing: 0.5,
+    },
+    normalLeaveReasonLabel: {
+      // color: "#A7ADAD",
+      color: "#AEB6BF",
+      // backgroundColor: "#F2F2F2",
+      backgroundColor: "white",
+      paddingHorizontal: 5,
+      // bottom: 0,
+      fontSize: deviceWidth < 370 ? 13 : 16,
+      letterSpacing: 0.5,
+    },
+    submitLabel: {
+      color: "grey",
+      color: "#AEB6BF",
+      backgroundColor: "#F2F2F2",
+      backgroundColor: "white",
+      paddingHorizontal: 5,
+      fontSize: deviceWidth < 370 ? 13 : 15,
+    },
+    errorLabel: {
+      color: "red",
+      backgroundColor: "#F2F2F2",
+      backgroundColor: "white",
+      paddingHorizontal: 5,
+      fontSize: deviceWidth < 370 ? 13 : 15,
+    },
+    descriptionUp: {
+      position: "absolute",
+      top: deviceWidth < 370 ? 68 : 87,
+      left: deviceWidth < 370 ? 40 : 50,
+    },
+    descriptionDown: {
+      position: "absolute",
+      top: deviceWidth < 370 ? 93 : 107,
+      left: 50,
+    },
+    descriptionUpExtra: {
+      position: "absolute",
+      top: deviceWidth < 370 ? 90 : 80,
+      left: deviceWidth < 370 ? 40 : 50,
+    },
+    descriptionDownExtra: {
+      position: "absolute",
+      top: deviceWidth < 370 ? 115 : 97,
+      left: 50,
+    },
+
+    leaveReasonUp: {
+      position: "absolute",
+      top: deviceWidth < 370 ? 68 : 160,
+      left: deviceWidth < 370 ? 40 : 50,
+    },
+    leaveReasonDown: {
+      position: "absolute",
+      top: deviceWidth < 370 ? 93 : 185,
+      left: 50,
+    },
+    leaveReasonUpExtra: {
+      position: "absolute",
+      top: deviceWidth < 370 ? 90 : 185,
+      left: deviceWidth < 370 ? 40 : 50,
+    },
+    leaveReasonDownExtra: {
+      position: "absolute",
+      top: deviceWidth < 370 ? 115 : 210,
+      left: 50,
+    },
+    focusStyle: {
+    borderColor: "blue",
+  },
 });
