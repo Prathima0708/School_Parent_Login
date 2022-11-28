@@ -113,7 +113,7 @@ export var filteredDataVar;
 const CalenderScreen = () => {
   const [calendarData, setCalendarData] = useState([]);
   const [eventDisplay, setEventDisplay] = useState(false);
-  const [dataIsPresent, setDataIsPresent] = useState(false);
+  const [dataIsPresent, setDataIsPresent] = useState(true);
   const [color, setColor] = useState("");
   let dates = {};
   let i;
@@ -157,7 +157,6 @@ const CalenderScreen = () => {
   // });
 
   function showEvent(day) {
-    setEventDisplay(true);
     const filteredData = calendarData.filter(
       (data) => moment(data.startdate).format("YYYY-MM-DD") == day.dateString
     );
@@ -166,6 +165,7 @@ const CalenderScreen = () => {
       setDataIsPresent(true);
       filteredDataVar = filteredData;
     }else{
+      setDataIsPresent(false)
       Alert.alert("Data not found!", "No events are found for this date", [
         {
           text: "OK",
@@ -203,58 +203,58 @@ const CalenderScreen = () => {
           textDayHeaderFontSize: 16,
         }}
       />
-      <ScrollView>
-      {filteredDataVar && 
-        filteredDataVar.map((data,key)=>(
-        <>
-          <View style={[{flex:1}, {flexDirection: "row",top:10,borderWidth:1,borderRadius:10,padding:10,marginHorizontal:10}]}>
-            <View style={{ flex: 0.7}} >
-              <View style={[styles.container, {flexDirection: "column",borderRightWidth:1}]}>
-                <View style={{ flex: 1, backgroundColor: "#00B8AC",alignItems:'center',marginHorizontal:10,borderRadius:10,width:'70%'}} >
-                  {/* <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
-                    {moment(data.startdate).format("MMM")}
-                  </Text>
-                  <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
-                    {moment(data.startdate).format("D")}
-                  </Text>
-                  <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
-                    {moment(data.startdate).format("YYYY")}
-                  </Text> */}
-                  <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
-                    {moment(data.startdate).format("DD/MM/YYYY")}
-                  </Text> 
-                </View>
-                <View style={{ flex: 2,top:3,left:'30%' }} >
-                  <Text style={{fontSize:16,fontFamily: "HindBold",color:'black'}}>
-                    To
-                  </Text>
-                </View>
-                <View style={{ flex: 3, backgroundColor: "#00B8AC",alignItems:'center',marginHorizontal:10,borderRadius:10,width:'70%'}} >
-                  {/* <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
-                    {moment(data.enddate).format("MMM")}
-                  </Text>
-                  <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
-                    {moment(data.enddate).format("D")}
-                  </Text>
-                  <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
-                    {moment(data.enddate).format("YYYY")}
-                  </Text> */}
-                  <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
-                    {moment(data.enddate).format("DD/MM/YYYY")}
-                  </Text>
-                </View>
+    {dataIsPresent && <ScrollView>
+    {filteredDataVar && 
+      filteredDataVar.map((data,key)=>(
+      <>
+        <View style={[{flex:1}, {flexDirection: "row",top:10,borderWidth:1,borderRadius:10,padding:10,marginHorizontal:10}]}>
+          <View style={{ flex: 0.7}} >
+            <View style={[styles.container, {flexDirection: "column",borderRightWidth:1}]}>
+              <View style={{ flex: 1, backgroundColor: "#00B8AC",alignItems:'center',marginHorizontal:10,borderRadius:10,width:'70%'}} >
+                {/* <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
+                  {moment(data.startdate).format("MMM")}
+                </Text>
+                <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
+                  {moment(data.startdate).format("D")}
+                </Text>
+                <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
+                  {moment(data.startdate).format("YYYY")}
+                </Text> */}
+                <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
+                  {moment(data.startdate).format("DD/MM/YYYY")}
+                </Text> 
+              </View>
+              <View style={{ flex: 2,top:3,left:'30%' }} >
+                <Text style={{fontSize:16,fontFamily: "HindBold",color:'black'}}>
+                  To
+                </Text>
+              </View>
+              <View style={{ flex: 3, backgroundColor: "#00B8AC",alignItems:'center',marginHorizontal:10,borderRadius:10,width:'70%'}} >
+                {/* <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
+                  {moment(data.enddate).format("MMM")}
+                </Text>
+                <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
+                  {moment(data.enddate).format("D")}
+                </Text>
+                <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
+                  {moment(data.enddate).format("YYYY")}
+                </Text> */}
+                <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
+                  {moment(data.enddate).format("DD/MM/YYYY")}
+                </Text>
               </View>
             </View>
-            <View style={{ flex: 1,left:'10%'}} >
-              <Text style={{fontSize:20,color:'black',fontFamily: "HindBold"}}>
-                {data.description}
-              </Text>
-            </View>
           </View>
-          <View style={styles.space} />
-        </>
-        ))}
-      </ScrollView>
+          <View style={{ flex: 1,left:'10%'}} >
+            <Text style={{fontSize:20,color:'black',fontFamily: "HindBold"}}>
+              {data.description}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.space} />
+      </>
+      ))}
+    </ScrollView>}
 
       
     </>
