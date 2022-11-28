@@ -2,15 +2,19 @@ import { View, Text, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Token, UserId } from "../../screens/Login";
 import axios from "axios";
-import { selectedUserId } from "./ChatList";
+import { selectedUserId, selectedUserName } from "./ChatList";
 import { GiftedChat } from "react-native-gifted-chat";
 import { useRef } from "react";
 import { useCallback } from "react";
 import { SELECTEDUSER } from "./Chat";
-// import ChatHeader from "./ChatUI/ChatHeader";
+import ChatHeader from "./ChatUI/ChatHeader";
+import ChatInput from "./ChatUI/ChatInput";
+import MessageList from "./ChatUI/MessageList";
 
 export var chatUuid;
-const SingleUser = () => {
+const SingleUser = ({ navigation, route }) => {
+  //const { username, bio, picture, isBlocked, isMuted } = route.params;
+
   const [user, setUser] = useState([]);
   const [chat, setChat] = useState([]);
   const [messages, setMessages] = useState([]);
@@ -42,7 +46,7 @@ const SingleUser = () => {
             headers: headers,
           }
         );
-
+        console.log(getChat.data);
         setChat(getChat.data.chatroom_data);
       } catch (error) {
         console.log(error);
@@ -114,16 +118,20 @@ const SingleUser = () => {
   // }, []);
   return (
     <View>
-      <Text>Logged in UserID :{chat.user1}</Text>
-      <Text>Selected teacher ID:{chat.user2}</Text>
-      {/* <GiftedChat messages={chat} onSend={(messages) => onSend(messages)} /> */}
-      {/* <GiftedChat
-        messages={messages}
-        onSend={(messages) => onSend(messages)}
-        user={{
-          _id: senderId,
-        }}
-      /> */}
+      <View>
+        {/* <Text>Logged in UserID :{chat.user1}</Text>
+        <Text>Selected teacher ID:{chat.user2}</Text> */}
+      </View>
+      <View>
+        <ChatHeader
+          username={selectedUserName}
+          picture="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU"
+          onlineStatus="Online"
+          //  onPress={() => {}}
+        />
+        <MessageList />
+        <ChatInput />
+      </View>
     </View>
   );
 };

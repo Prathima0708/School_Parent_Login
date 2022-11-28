@@ -6,6 +6,7 @@
 // import { useNavigation } from "@react-navigation/native";
 // import ChatList from "./ChatList";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import {
@@ -23,7 +24,7 @@ import {
 import { useEffect, useState } from "react";
 import { Token } from "../../screens/Login";
 import ChatList from "./ChatList";
-export var SELECTEDUSER;
+export var SELECTEDUSER, USERNAME;
 
 // const Chat = () => {
 //   const [users, setUsers] = useState([]);
@@ -81,6 +82,7 @@ export var SELECTEDUSER;
 
 const Chat = () => {
   const [users, setUsers] = useState([]);
+  const [user, setUser] = useState("");
   const navigation = useNavigation();
   useEffect(() => {
     async function getAllUsers() {
@@ -92,10 +94,29 @@ const Chat = () => {
 
         // const res = await axios.get("http://10.0.2.2:8000/school/users/", {
         const users = await axios.get("http://10.0.2.2:8000/chat/list/", {
-          //headers: headers,
+          headers: headers,
         });
-        // console.log(users.data);
+        // async function fetchUser() {
+        //   USERNAME = await AsyncStorage.getItem("UserName");
+        //   console.log(
+        //     "this is the username from aysnc in chat screen",
+        //     USERNAME
+        //   );
+        //   if (USERNAME !== null) {
+        //     setUser(USERNAME);
+        //   }
+        // }
+        // fetchUser();
+        // console.log(users.data[0].username);
+        // async function fetchUser() {
+        //   USERNAME = await AsyncStorage.getItem("UserName");
+        //   console.log("this is the username from chat", USERNAME);
+        // }
+        // fetchUser();
+        // if (USERNAME !== null) {
+        // }
         setUsers(users.data);
+        // console.log(users.data);
       } catch (error) {
         console.log(error);
       }
