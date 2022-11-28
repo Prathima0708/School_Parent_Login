@@ -14,7 +14,8 @@ import { Image } from "react-native";
 import TeachersCategoryGridTile from "../../components/StudentItem/TeachersCategoryGridTile";
 
 import { Teacher } from "../Login";
-var username, value;
+import { useRoute } from "@react-navigation/native";
+var USERNAME, value;
 const TeachersLoginScreen = ({ navigation }) => {
   const [user, setUser] = useState("");
   const route = useRoute();
