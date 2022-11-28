@@ -775,44 +775,180 @@
 //   },
 // });
 
-import { View, Text, Alert, Platform } from "react-native";
-import React, { useEffect } from "react";
-import * as Notifications from "expo-notifications";
+// import { View, Text, Alert, Platform } from "react-native";
+// import React, { useEffect } from "react";
+// import * as Notifications from "expo-notifications";
 
-const TeachersNoticeBoard = () => {
-  useEffect(() => {
-    async function configurePushNotifications() {
-      const { status } = await Notifications.getPermissionsAsync();
-      let finalStatus = status;
-      if (finalStatus !== "granted") {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
+// const TeachersNoticeBoard = () => {
+//   useEffect(() => {
+//     async function configurePushNotifications() {
+//       const { status } = await Notifications.getPermissionsAsync();
+//       let finalStatus = status;
+//       if (finalStatus !== "granted") {
+//         const { status } = await Notifications.requestPermissionsAsync();
+//         finalStatus = status;
+//       }
+//       if (finalStatus !== "granted") {
+//         Alert.alert(
+//           "Permission required",
+//           "push notifications need appropriate permission"
+//         );
+//         return;
+//       }
+//       const pushTokenData = await Notifications.getExpoPushTokenAsync();
+
+//       console.log(pushTokenData);
+
+//       if (Platform.OS === "android") {
+//         Notifications.setNotificationChannelAsync("default", {
+//           name: "default",
+//           importance: Notifications.AndroidImportance.DEFAULT,
+//         });
+//       }
+//     }
+//     configurePushNotifications();
+//   }, []);
+//   return (
+//     <View>
+//       <Text>TeachersNoticeBoard</Text>
+//     </View>
+//   );
+// };
+
+// export default TeachersNoticeBoard;
+
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View ,Dimensions, Button, Alert, Platform} from 'react-native';
+import MapView from 'react-native-maps';
+import * as Notifications from 'expo-notifications'
+import { useEffect, useState } from 'react';
+
+Notifications.setNotificationHandler({
+  handleNotification: async ()=>{
+    return {
+      shouldPlaySound: false,
+      shouldSetBadge:false,
+      shouldShowAlert:true
+    }
+  }
+});
+
+export default function TeachersNoticeBoard() {
+
+  const [pushTkn,setPushTkn]=useState()
+  useEffect(()=>{
+
+    async function configurePushNotifications(){
+      const {status}=await Notifications.getPermissionsAsync();
+      let finalStatus=status;
+
+      if(finalStatus!=='granted'){
+        const {status}=await Notifications.requestPermissionsAsync();
+        finalStatus=status;
       }
-      if (finalStatus !== "granted") {
-        Alert.alert(
-          "Permission required",
-          "push notifications need appropriate permission"
-        );
+
+      if(finalStatus!=='granted'){
+        Alert.alert('permission required',
+        'Push notifications need the appropriate permissions.');
         return;
       }
-      const pushTokenData = await Notifications.getExpoPushTokenAsync();
 
-      console.log(pushTokenData);
+        const pushTokenData=await Notifications.getExpoPushTokenAsync().then((pushToken)=>{
+        console.log(pushToken);
+        setPushTkn(pushToken)
 
-      if (Platform.OS === "android") {
-        Notifications.setNotificationChannelAsync("default", {
-          name: "default",
-          importance: Notifications.AndroidImportance.DEFAULT,
-        });
-      }
+        if(Platform.OS==='android'){
+          Notifications.setNotificationChannelAsync("default",{
+            name:'default',
+            importance:Notifications.AndroidImportance.DEFAULT
+          });
+        }
+      });
     }
-    configurePushNotifications();
-  }, []);
-  return (
-    <View>
-      <Text>TeachersNoticeBoard</Text>
-    </View>
-  );
-};
 
-export default TeachersNoticeBoard;
+    configurePushNotifications();
+    
+  },[]);
+
+  useEffect(()=>{
+   const subscription1= Notifications.addNotificationReceivedListener(
+      (notification)=>{
+        console.log('Notification received')
+        // console.log("token",notification)
+      });
+
+      const subscription2=Notifications.addNotificationResponseReceivedListener((response)=>{
+        console.log('Notification response received')
+        //console.log(response)
+      });
+      return()=>{
+        subscription1.remove();
+        subscription2.remove();
+      };
+
+  },[]);
+
+  function scheduleNotificationsHanlder(){
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title:'First local notification',
+        body:'This is the body of the notification.',
+        data:{
+          userName:'Max'
+        }},
+        trigger:{
+          seconds:5
+        }
+      });
+    }
+
+    function sendPushNotificationHanlder(){
+      fetch('https://exp.host/--/api/v2/push/send',{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json'
+        },
+        body: JSON.stringify({
+          to:'ExponentPushToken[iWXLqlFo1CWm6tGpnc4KBa]',
+          title:'Push notification',
+          body:'This is a Push notification'
+        })
+      })
+    }
+
+  return (
+    <>
+      <View style={styles.container}>
+      <View style={{flexDirection:'row',top:'10%',left:'4%'}}>
+        <Button 
+          title='Locale Notification'
+          onPress={scheduleNotificationsHanlder}/>
+        <View style={styles.space} />
+        <Button 
+          title='Push Notification'
+          onPress={sendPushNotificationHanlder}/>
+      </View>
+      </View>
+    </>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    // marginHorizontal:10
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    // top:100
+  },
+  space: {
+    width: 20,
+    height: 20,
+  },
+  map: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+  },
+});
+
