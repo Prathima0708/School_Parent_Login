@@ -359,10 +359,6 @@ const TimeTable = () => {
                                         )}
                                       </Text>
                                     </View>
-
-                                    {/* <View style={[styles.colStyle]}>
-                                <Text style={[styles.tableTitle,{left:'50%'}]}>{data.to_time}</Text>
-                              </View> */}
                                   </View>
                                 </>
                               ))}
@@ -380,7 +376,7 @@ const TimeTable = () => {
                                     <View
                                       style={[
                                         styles.colStyle,
-                                        { left: "170%" },
+                                        { left: "80%" },
                                       ]}
                                     >
                                       <Text style={[styles.tableTitle]}>
@@ -444,10 +440,6 @@ const TimeTable = () => {
                                         )}
                                       </Text>
                                     </View>
-
-                                    {/* <View style={[styles.colStyle]}>
-                                <Text style={[styles.tableTitle,{left:'50%'}]}>{data.to_time}</Text>
-                              </View> */}
                                   </View>
                                 </>
                               ))}
@@ -465,7 +457,7 @@ const TimeTable = () => {
                                     <View
                                       style={[
                                         styles.colStyle,
-                                        { left: "170%" },
+                                        { left: "80%" },
                                       ]}
                                     >
                                       <Text style={[styles.tableTitle]}>
@@ -529,10 +521,6 @@ const TimeTable = () => {
                                         )}
                                       </Text>
                                     </View>
-
-                                    {/* <View style={[styles.colStyle]}>
-                                <Text style={[styles.tableTitle,{left:'50%'}]}>{data.to_time}</Text>
-                              </View> */}
                                   </View>
                                 </>
                               ))}
@@ -550,7 +538,7 @@ const TimeTable = () => {
                                     <View
                                       style={[
                                         styles.colStyle,
-                                        { left: "170%" },
+                                        { left: "80%" },
                                       ]}
                                     >
                                       <Text style={[styles.tableTitle]}>
@@ -614,10 +602,6 @@ const TimeTable = () => {
                                         )}
                                       </Text>
                                     </View>
-
-                                    {/* <View style={[styles.colStyle]}>
-                                <Text style={[styles.tableTitle,{left:'50%'}]}>{data.to_time}</Text>
-                              </View> */}
                                   </View>
                                 </>
                               ))}
@@ -635,7 +619,7 @@ const TimeTable = () => {
                                     <View
                                       style={[
                                         styles.colStyle,
-                                        { left: "170%" },
+                                        { left: "80%" },
                                       ]}
                                     >
                                       <Text style={[styles.tableTitle]}>
@@ -699,10 +683,6 @@ const TimeTable = () => {
                                         )}
                                       </Text>
                                     </View>
-
-                                    {/* <View style={[styles.colStyle]}>
-                                <Text style={[styles.tableTitle,{left:'50%'}]}>{data.to_time}</Text>
-                              </View> */}
                                   </View>
                                 </>
                               ))}
@@ -720,7 +700,7 @@ const TimeTable = () => {
                                     <View
                                       style={[
                                         styles.colStyle,
-                                        { left: "170%" },
+                                        { left: "80%" },
                                       ]}
                                     >
                                       <Text style={[styles.tableTitle]}>
@@ -784,10 +764,6 @@ const TimeTable = () => {
                                         )}
                                       </Text>
                                     </View>
-
-                                    {/* <View style={[styles.colStyle]}>
-                                <Text style={[styles.tableTitle,{left:'50%'}]}>{data.to_time}</Text>
-                              </View> */}
                                   </View>
                                 </>
                               ))}
@@ -805,7 +781,7 @@ const TimeTable = () => {
                                     <View
                                       style={[
                                         styles.colStyle,
-                                        { left: "170%" },
+                                        { left: "80%" },
                                       ]}
                                     >
                                       <Text style={[styles.tableTitle]}>
@@ -1149,6 +1125,7 @@ const styles = StyleSheet.create({
   headingFont: {
     // fontFamily: "Hind-SemiBold",
     fontWeight: "bold",
+    right:'15%',
     color: "white",
     fontSize: deviceWidth < 370 ? 14 : 14,
   },
