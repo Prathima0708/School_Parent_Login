@@ -45,7 +45,7 @@
 // });
 
 import { View } from "react-native";
-export var selectedUserId;
+export var selectedUserId, selectedUserName;
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -61,6 +61,7 @@ import {
 const ChatList = ({ username, id }) => {
   const navigation = useNavigation();
   function navigateHandler() {
+    selectedUserName = username;
     console.log(id);
     selectedUserId = id;
     navigation.navigate("SingleUser");

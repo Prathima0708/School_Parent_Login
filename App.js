@@ -51,6 +51,7 @@ import { NativeBaseProvider } from "native-base";
 import StudentDetails from "./components/StudentItem/StudentDetails";
 import EditTransport from "./screens/TeachersLoginScreen/Transport/EditTransport";
 import EditCalendar from "./screens/TeachersLoginScreen/Calendar/EditCalendar";
+import ChatHeader from "./components/ChatApplication/ChatUI/ChatHeader";
 var value, Group, GroupP, GroupT;
 // function Bottom() {
 //   return (
@@ -280,7 +281,12 @@ export default function App() {
           options={{ title: "Chat" }}
         />
         <Stack.Screen name="ChatScreen" component={ChatScreen} />
-        <Stack.Screen name="SingleUser" component={SingleUser} />
+        <Stack.Screen
+          name="SingleUser"
+          component={SingleUser}
+          options={{ title: "" }}
+        />
+        <Stack.Screen name="ChatHeader" component={ChatHeader} />
         <Stack.Screen
           name="Academics"
           component={Academics}
@@ -375,7 +381,11 @@ export default function App() {
           options={{ title: "Chat" }}
         />
         <Stack.Screen name="ChatScreen" component={ChatScreen} />
-        <Stack.Screen name="SingleUser" component={SingleUser} />
+        <Stack.Screen
+          name="SingleUser"
+          component={SingleUser}
+          options={{ title: "" }}
+        />
         <Stack.Screen name="Academics" component={Academics} />
         <Stack.Screen name="Homework" component={HomeworkScreen} />
       </Stack.Navigator>

@@ -187,13 +187,22 @@ import { PHONENO } from "../Login";
 export var studentList = [];
 export var value, phno;
 export var PHONE;
-export var phonenumber;
+export var phonenumber, USERNAME;
 function ParentsLoginScreen() {
   const [students, setStudents] = useState([]);
+  const [user, setUser] = useState("");
   const route = useRoute();
   const navigation = useNavigation();
   //const phone = navigation.getParent("phone");
+  async function fetchUser() {
+    USERNAME = await AsyncStorage.getItem("UserName");
+    console.log("this is the username from aysnc", USERNAME);
+    if (USERNAME !== null) {
+      setUser(USERNAME);
+    }
+  }
 
+  fetchUser();
   async function logoutHandler() {
     try {
       // const value = await AsyncStorage.getItem('token');
