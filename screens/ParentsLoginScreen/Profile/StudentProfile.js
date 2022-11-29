@@ -9,9 +9,15 @@ import {
   Text,
   View,
 } from "react-native";
-import ImageSlider from "../../screens/ParentsLoginScreen/ImageSlider";
+import ImageSlider from "../ImageSlider";
 
-export var studentId, className, StudentRegNo, busNumber, Section, StudentName;
+export var studentId,
+  className,
+  StudentRegNo,
+  busNumber,
+  Section,
+  StudentName,
+  FatherName;
 function StudentProfile({
   student_name,
   class_name,
@@ -20,6 +26,7 @@ function StudentProfile({
   reg_number,
   busnumber,
   section,
+  father_name,
 }) {
   const navigation = useNavigation();
   function navigateHandler() {
@@ -29,12 +36,14 @@ function StudentProfile({
     className = class_name;
     busNumber = busnumber;
     Section = section;
+
     // console.log(id);
     navigation.navigate("StudentDetails", {
       stdreg: reg_number,
       stdname: student_name,
       stdclass: class_name,
       stdsection: section,
+      fathername: father_name,
     });
   }
   return (
