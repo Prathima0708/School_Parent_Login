@@ -48,7 +48,7 @@ import TeachersCalendarScreenBuild from "./screens/TeachersLoginScreen/Calendar/
 import { LogBox } from "react-native";
 import TeachersAttendance from "./screens/TeachersLoginScreen/TeachersAcademics/Attendance/TeachersAttendance";
 import { NativeBaseProvider } from "native-base";
-import StudentDetails from "./components/StudentItem/StudentDetails";
+import StudentDetails from "./screens/ParentsLoginScreen/Profile/StudentDetails";
 import EditTransport from "./screens/TeachersLoginScreen/Transport/EditTransport";
 import EditCalendar from "./screens/TeachersLoginScreen/Calendar/EditCalendar";
 import ChatHeader from "./components/ChatApplication/ChatUI/ChatHeader";
@@ -292,6 +292,7 @@ export default function App() {
           component={Academics}
           options={{ title: "Academics" }}
         />
+        <Stack.Screen name="StudentDetails" component={StudentDetails} />
         <Stack.Screen
           name="Homework"
           component={HomeworkScreen}
@@ -387,6 +388,7 @@ export default function App() {
           options={{ title: "" }}
         />
         <Stack.Screen name="Academics" component={Academics} />
+        <Stack.Screen name="StudentDetails" component={StudentDetails} />
         <Stack.Screen name="Homework" component={HomeworkScreen} />
       </Stack.Navigator>
     );
