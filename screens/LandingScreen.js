@@ -153,7 +153,14 @@ import { Button } from "react-native";
 import { useFonts, Inter_900Black } from "@expo-google-fonts/inter";
 import { Ionicons } from "@expo/vector-icons";
 import { Dimensions } from "react-native";
+import { useEffect, useState } from "react";
+import { mainURL, subURL } from "../components/utils/URL's";
+import axios from "axios";
+import {Button as NativeButton, Icon,Text as NativeText}from 'native-base'
 function LandingScreen() {
+
+  const [saveImg, setSaveImg] = useState(``);
+
   useFonts({
     Inter_900Black,
   });
@@ -163,16 +170,30 @@ function LandingScreen() {
     navigation.navigate("Login");
   }
 
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        // http://10.0.2.2:8000/school/Calendar/
+        const res = await axios.get(`${subURL}/Institute/`);
+        setSaveImg(res.data[0].instituteLogo)
+      } catch (error) {
+        console.log(error);
+      }
+      // setLoading(false);
+    }
+    fetchData();
+  }, []);
+
   return (
-    <View style={styles.inner}>
-      <View style={styles.mainContainer}>
-        <Image
-          style={styles.bannerImage}
-          source={require("../assets/kinarabg2.png")}
-        />
-        {/* <Image style={styles.logo} source={require("../assets/Asset2.png")} /> */}
-        <View style={styles.textContainer}>
-          <Text
+    <>
+      <View style={[{flex:1}, {flexDirection: "column"}]}>
+        <View style={{ flex: 35, backgroundColor: "white" }} >
+          <Image
+           style={styles.bannerImage}
+          //  source={require("../assets/kinarabg2.png")
+           source={{ uri: `http://10.0.2.2:8000${saveImg}`}} 
+         />
+         <Text
             style={{
               left: 30,
               color: "grey",
@@ -186,54 +207,126 @@ function LandingScreen() {
           <Text
             style={{
               left: 30,
-
               fontSize: deviceWidth < 370 ? 24 : 32,
               fontWeight: "900",
-              // top: 10,
               fontFamily: "HindBold",
-            }}
-          >
-            KINARA SCHOOL
-          </Text>
+              top:'1%'
+             }}
+           >
+             KINARA SCHOOL
+           </Text>
 
-          <View style={styles.typeText}>
-            <Text
-              style={{
-                fontSize: deviceWidth < 370 ? 16 : 18,
-                margin: 10,
-                fontFamily: "HindRegular",
-              }}
-            >
-              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
-              nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
-              erat volutpat.
-            </Text>
-          </View>
+           <View style={styles.typeText}>
+             <Text
+               style={{
+                 fontSize: deviceWidth < 370 ? 16 : 18,
+                 margin: 10,
+                 fontFamily: "HindRegular",
+                 top:'3%'
+               }}
+             >
+               Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+               nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
+               erat volutpat.
+             </Text>
+           </View>
+        </View>
+        <View style={{ flex: 5,backgroundColor:'white'}} >
+          <View style={[{flex:1}, {flexDirection: "row"}]}>
+            <View style={{ flex: 2.5 }} >
 
-          <TouchableHighlight
-            style={styles.submit}
-            onPress={signInBtnHandler}
-            underlayColor="#002D62"
-          >
-            <View>
-              <Text style={styles.submitText}>Login </Text>
-
-              <Ionicons
-                name="log-in"
-                size={28}
-                color="white"
-                style={{
-                  position: "absolute",
-                  top: deviceHieght < 600 ? "17%" : "20%",
-                  left: 79,
-                  bottom: -60,
-                }}
-              />
             </View>
-          </TouchableHighlight>
+            <View style={{ flex: 0.8,right:'40%',bottom:'12%' }} >
+            <NativeButton 
+              size='md'
+              onPress={signInBtnHandler}
+              
+              style={{backgroundColor:'#002D62',borderRadius:7}}
+              rightIcon={<Icon as={Ionicons} name="log-in-outline" size="md" />}
+              ><NativeText 
+                fontSize='18' 
+                color='white' 
+                fontFamily='HindBold'
+                top='0.5'
+                left='1'
+                >Login</NativeText>
+            </NativeButton>
+            </View>
+          </View>
         </View>
       </View>
-    </View>
+    </>
+    // <View style={styles.inner}>
+    //   <View style={styles.mainContainer}>
+    //     <Image
+    //       style={styles.bannerImage}
+    //       //source={require("../assets/kinarabg2.png")
+    //       source={{ uri: `http://10.0.2.2:8000${saveImg}` }} 
+    //     />
+    //     {/* <Image style={styles.logo} source={require("../assets/Asset2.png")} /> */}
+    //     <View style={styles.textContainer}>
+    //       <Text
+    //         style={{
+    //           left: 30,
+    //           color: "grey",
+    //           fontSize: deviceWidth < 370 ? 18 : 22,
+    //           top: 5,
+    //           fontFamily: "HindLight",
+    //         }}
+    //       >
+    //         Welcome to
+    //       </Text>
+    //       <Text
+    //         style={{
+    //           left: 30,
+
+    //           fontSize: deviceWidth < 370 ? 24 : 32,
+    //           fontWeight: "900",
+    //           // top: 10,
+    //           fontFamily: "HindBold",
+    //         }}
+    //       >
+    //         KINARA SCHOOL
+    //       </Text>
+
+    //       <View style={styles.typeText}>
+    //         <Text
+    //           style={{
+    //             fontSize: deviceWidth < 370 ? 16 : 18,
+    //             margin: 10,
+    //             fontFamily: "HindRegular",
+    //           }}
+    //         >
+    //           Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+    //           nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
+    //           erat volutpat.
+    //         </Text>
+    //       </View>
+
+    //       <TouchableHighlight
+    //         style={styles.submit}
+    //         onPress={signInBtnHandler}
+    //         underlayColor="#002D62"
+    //       >
+    //         <View>
+    //           <Text style={styles.submitText}>Login </Text>
+
+    //           <Ionicons
+    //             name="log-in"
+    //             size={28}
+    //             color="white"
+    //             style={{
+    //               position: "absolute",
+    //               top: deviceHieght < 600 ? "17%" : "20%",
+    //               left: 79,
+    //               bottom: -60,
+    //             }}
+    //           />
+    //         </View>
+    //       </TouchableHighlight>
+    //     </View>
+    //   </View>
+    // </View>
   );
 }
 

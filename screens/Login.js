@@ -716,6 +716,7 @@ import {
   Button as NativeButton,
 } from "native-base";
 import { value } from "./ParentsLoginScreen/ParentsLoginScreen";
+import { subURL } from "../components/utils/URL's";
 
 export var Token,
   UserId,
@@ -786,6 +787,8 @@ function Login() {
   //   // if fitertedstdData.length == 0 ? errMsg : Dashboard redirection (  window.localstorage.getItem(stdentList) )
   // }
 
+  const [saveImg, setSaveImg] = useState(``);
+  
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -798,6 +801,21 @@ function Login() {
       showSubscription.remove();
       hideSubscription.remove();
     };
+  }, []);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        // http://10.0.2.2:8000/school/Calendar/
+        const res = await axios.get(`${subURL}/Institute/`);
+        console.log(res.data[0].instituteLogo)
+        setSaveImg(res.data[0].instituteLogo)
+      } catch (error) {
+        console.log(error);
+      }
+      // setLoading(false);
+    }
+    fetchData();
   }, []);
 
   async function login() {
@@ -1072,9 +1090,10 @@ function Login() {
             <Image
               style={styles.bannerImage}
               source={
-                deviceWidth < 370
-                  ? require("../assets/kinaraui4.png")
-                  : require("../assets/kinarabg2.png")
+                // deviceWidth < 370
+                //   ? require("../assets/kinaraui4.png")
+                //   : require("../assets/kinarabg2.png")
+                { uri: `http://10.0.2.2:8000${saveImg}` }
               }
             />
           )}
