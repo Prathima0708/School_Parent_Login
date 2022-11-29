@@ -26,7 +26,7 @@ import {
   Divider,
 } from "native-base";
 import TeachersHome from "../BottomTab/TeachersHome";
-const TeachersProfile = () => {
+const TeacherStudentDetails = () => {
   const [showForm, setShowForm] = useState(false);
   const [showList, setShowList] = useState(true);
   const navigation = useNavigation();
@@ -394,7 +394,7 @@ const TeachersProfile = () => {
   );
 };
 
-export default TeachersProfile;
+export default TeacherStudentDetails;
 const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   cardStyle: {
