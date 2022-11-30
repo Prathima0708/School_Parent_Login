@@ -11,6 +11,7 @@ import {
   Dimensions,
   LogBox,
   Animated,
+  ActivityIndicator,
 } from "react-native";
 import React, { useRef, useState } from "react";
 import axios from "axios";
@@ -29,7 +30,7 @@ import Input from "../../../components/UI/Input";
 import moment from "moment";
 import TimeSlots from "./TimeSlots";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
-import { IconButton,Button as NativeButton } from "native-base";
+import { IconButton, Button as NativeButton } from "native-base";
 
 export var CLASSNAME, SECTION, ID;
 export var idTimeTab = [];
@@ -37,7 +38,6 @@ export var TimeTabID;
 export var FROMTIME, TOTIME;
 
 const TeachersTimetable = () => {
-
   const [isMonActive, setIsMonActive] = useState(true);
   const [isTueActive, setIsTueActive] = useState(false);
   const [isWedActive, setIsWedActive] = useState(false);
@@ -51,6 +51,8 @@ const TeachersTimetable = () => {
   const [thursdayTimeTable, setThursdayTimeTable] = useState(false);
   const [fridayTimeTable, setFridayTimeTable] = useState(false);
   const [saturdayTimeTable, setSaturdayTimeTable] = useState(false);
+
+  const [loading, setLoading] = useState(false);
 
   const scrollY = new Animated.Value(0);
 
@@ -289,6 +291,13 @@ const TeachersTimetable = () => {
       }
     }
     fetchTimeTable();
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   }, []);
 
   function createdDateChangeHandler(enteredValue) {
@@ -1127,21 +1136,21 @@ const TeachersTimetable = () => {
             </View>
           </>
         )} */}
-         {showTimeTableList && (
-            <>
-              {/* <Animated.View style={{transform:[
+        {showTimeTableList && (
+          <>
+            {/* <Animated.View style={{transform:[
               {translateY:translateY}
             ]}}> */}
 
-              <View
-            style={{
-              width: 170,
-              fontSize: 20,
-              marginTop: 13,
-              margin: 10,
-            }}
-          >
-            <SelectList
+            <View
+              style={{
+                width: 170,
+                fontSize: 20,
+                marginTop: 13,
+                margin: 10,
+              }}
+            >
+              <SelectList
                 setSelected={setSelectedClass}
                 data={studClassData}
                 placeholder="Select class"
@@ -1153,19 +1162,19 @@ const TeachersTimetable = () => {
                 inputStyles={{
                   fontSize: deviceWidth < 370 ? 16 : 18,
                   fontFamily: "HindRegular",
-                }}   
+                }}
               />
-          </View>
-          <View
-            style={{
-              width: "50%",
-              marginTop: -93,
-              marginLeft: 200,
-              position: "absolute",
-              top: 230,
-            }}
-          >
-            <Button>
+            </View>
+            <View
+              style={{
+                width: "50%",
+                marginTop: -93,
+                marginLeft: 200,
+                position: "absolute",
+                top: 230,
+              }}
+            >
+              <Button>
                 {/* <Ionicons
                   name="add"
                   size={deviceWidth < 370 ? 35 : 38}
@@ -1173,7 +1182,7 @@ const TeachersTimetable = () => {
                 /> */}
                 View List
               </Button>
-          </View>
+            </View>
             {/* <View style={{width:'50%',top:'12%',left:'3%'}}>
               
             </View>
@@ -1199,28 +1208,35 @@ const TeachersTimetable = () => {
               </Text>
             </View>
 
-              <View
-                style={[
-                  { flex: 1 },
-                  { flexDirection: "column", backgroundColor: "white" },
-                ]}
-              >
+            <View
+              style={[
+                { flex: 1 },
+                { flexDirection: "column", backgroundColor: "white" },
+              ]}
+            >
+              {loading ? (
+                <ActivityIndicator
+                  size={40}
+                  visible={loading}
+                  textContent={"Loading..."}
+                  // textStyle={styles.spinnerTextStyle}
+                />
+              ) : (
                 <View style={{ flex: 8, bottom: 10 }}>
-                 
-                    <View style={[styles.root]}>
-                       <ScrollView>
-                        <ScrollView horizontal={true}>
-                          <View style={styles.flex}>
-                            <View
-                              style={[
-                                { flex: 0.2 },
-                                {
-                                  flexDirection: "row",
-                                  borderWidth: 1,
-                                  backgroundColor: "#EFFFFD",
-                                },
-                              ]}
-                            >
+                  <View style={[styles.root]}>
+                    <ScrollView>
+                      <ScrollView horizontal={true}>
+                        <View style={styles.flex}>
+                          <View
+                            style={[
+                              { flex: 0.2 },
+                              {
+                                flexDirection: "row",
+                                borderWidth: 1,
+                                backgroundColor: "#EFFFFD",
+                              },
+                            ]}
+                          >
                             <View style={styles.tableHead}>
                               <Text
                                 style={[styles.headingFont, { color: "black" }]}
@@ -1244,7 +1260,7 @@ const TeachersTimetable = () => {
                             </View>
                             <View style={styles.tableHead}>
                               <Text
-                                style={[styles.headingFont, { color: "black"}]}
+                                style={[styles.headingFont, { color: "black" }]}
                               >
                                 WED
                               </Text>
@@ -1278,17 +1294,21 @@ const TeachersTimetable = () => {
                               </Text>
                             </View>
                           </View>
-                          <View style={[styles.flexrow,{borderWidth:1}]}>
-                            <View style={[{flex:1}, {flexDirection: "row"}]}>
-                              <View style={{ flex: 1,marginHorizontal:10}} >
+
+                          <View style={[styles.flexrow, { borderWidth: 1 }]}>
+                            <View
+                              style={[{ flex: 1 }, { flexDirection: "row" }]}
+                            >
+                              <View style={{ flex: 1, marginHorizontal: 10 }}>
                                 {showTimeTableData &&
-                                  showTimeTableData.map((data)=>(
+                                  showTimeTableData.map((data) => (
                                     <View style={[styles.root]}>
                                       <View style={[styles.firstCol]}>
                                         <Text style={styles.headingFirstCol}>
-                                          {moment(data.from_time, "HH:mm").format(
-                                            "hh:mm "
-                                          )}{" "}
+                                          {moment(
+                                            data.from_time,
+                                            "HH:mm"
+                                          ).format("hh:mm ")}{" "}
                                           {"-"} {""}
                                           {moment(data.to_time, "HH:mm").format(
                                             "hh:mm "
@@ -1298,110 +1318,194 @@ const TeachersTimetable = () => {
                                     </View>
                                   ))}
                               </View>
-                              <View style={{ flex: 1,marginHorizontal:10,left:'4%' }} >
-                              {showTimeTableData &&
-                                showTimeTableData.map((data)=>(
-                                  <View style={styles.root}>
-                                    <View style={[styles.firstCol,{alignItems:'center',width:100}]}>
-                                      <Text style={styles.headingFirstCol}>
-                                        {data.monday}
-                                      </Text>
+                              <View
+                                style={{
+                                  flex: 1,
+                                  marginHorizontal: 10,
+                                  left: "4%",
+                                }}
+                              >
+                                {showTimeTableData &&
+                                  showTimeTableData.map((data) => (
+                                    <View style={styles.root}>
+                                      <View
+                                        style={[
+                                          styles.firstCol,
+                                          { alignItems: "center", width: 100 },
+                                        ]}
+                                      >
+                                        <Text style={styles.headingFirstCol}>
+                                          {data.monday}
+                                        </Text>
+                                      </View>
                                     </View>
-                                  </View>
-                                ))}
+                                  ))}
                               </View>
-                              <View style={{ flex: 1 ,marginHorizontal:10,left:'1%'}} >
-                              {showTimeTableData &&
-                                showTimeTableData.map((data)=>(
-                                  <View style={styles.root}>
-                                    <View style={[styles.firstCol,{alignItems:'center',width:100}]}>
-                                      <Text style={[styles.headingFirstCol]}>
-                                        {data.Tuesday}
-                                      </Text>
+                              <View
+                                style={{
+                                  flex: 1,
+                                  marginHorizontal: 10,
+                                  left: "1%",
+                                }}
+                              >
+                                {showTimeTableData &&
+                                  showTimeTableData.map((data) => (
+                                    <View style={styles.root}>
+                                      <View
+                                        style={[
+                                          styles.firstCol,
+                                          { alignItems: "center", width: 100 },
+                                        ]}
+                                      >
+                                        <Text style={[styles.headingFirstCol]}>
+                                          {data.Tuesday}
+                                        </Text>
+                                      </View>
                                     </View>
-                                  </View>
-                                ))}
+                                  ))}
                               </View>
-                              <View style={{ flex: 1,marginHorizontal:10,right:'2%' }} >
-                              {showTimeTableData &&
-                                showTimeTableData.map((data)=>(
-                                  <View style={styles.root}>
-                                    <View style={[styles.firstCol,{alignItems:'center',width:100}]}>
-                                      <Text style={styles.headingFirstCol}>
-                                        {data.wednesday}
-                                      </Text>
+                              <View
+                                style={{
+                                  flex: 1,
+                                  marginHorizontal: 10,
+                                  right: "2%",
+                                }}
+                              >
+                                {showTimeTableData &&
+                                  showTimeTableData.map((data) => (
+                                    <View style={styles.root}>
+                                      <View
+                                        style={[
+                                          styles.firstCol,
+                                          { alignItems: "center", width: 100 },
+                                        ]}
+                                      >
+                                        <Text style={styles.headingFirstCol}>
+                                          {data.wednesday}
+                                        </Text>
+                                      </View>
                                     </View>
-                                  </View>
-                                ))}
+                                  ))}
                               </View>
-                              <View style={{ flex: 1,marginHorizontal:10,right:'4%' }} >
-                              {showTimeTableData &&
-                                showTimeTableData.map((data)=>(
-                                  <View style={styles.root}>
-                                    <View style={[styles.firstCol,{alignItems:'center',width:100}]}>
-                                      <Text style={[styles.headingFirstCol]}>
-                                        {/* {data.thursday} */}
-                                       
-                                        {data.thursday}
-                                      </Text>
+                              <View
+                                style={{
+                                  flex: 1,
+                                  marginHorizontal: 10,
+                                  right: "4%",
+                                }}
+                              >
+                                {showTimeTableData &&
+                                  showTimeTableData.map((data) => (
+                                    <View style={styles.root}>
+                                      <View
+                                        style={[
+                                          styles.firstCol,
+                                          { alignItems: "center", width: 100 },
+                                        ]}
+                                      >
+                                        <Text style={[styles.headingFirstCol]}>
+                                          {/* {data.thursday} */}
+
+                                          {data.thursday}
+                                        </Text>
+                                      </View>
                                     </View>
-                                  </View>
-                                ))}
+                                  ))}
                               </View>
-                              <View style={{ flex: 1,marginHorizontal:10,right:'10%' }} >
-                              {showTimeTableData &&
-                                showTimeTableData.map((data)=>(
-                                  <View style={styles.root}>
-                                    <View style={[styles.firstCol,{alignItems:'center',width:100}]}>
-                                      <Text style={styles.headingFirstCol}>
-                                        {data.friday}
-                                      </Text>
+                              <View
+                                style={{
+                                  flex: 1,
+                                  marginHorizontal: 10,
+                                  right: "10%",
+                                }}
+                              >
+                                {showTimeTableData &&
+                                  showTimeTableData.map((data) => (
+                                    <View style={styles.root}>
+                                      <View
+                                        style={[
+                                          styles.firstCol,
+                                          { alignItems: "center", width: 100 },
+                                        ]}
+                                      >
+                                        <Text style={styles.headingFirstCol}>
+                                          {data.friday}
+                                        </Text>
+                                      </View>
                                     </View>
-                                  </View>
-                                ))}
+                                  ))}
                               </View>
-                              <View style={{ flex: 1,marginHorizontal:10,right:'14%' }} >
-                              {showTimeTableData &&
-                                showTimeTableData.map((data)=>(
-                                  <View style={styles.root}>
-                                    <View style={[styles.firstCol,{alignItems:'center',width:100}]}>
-                                      <Text style={styles.headingFirstCol}>
-                                        {data.saturday}
-                                      </Text>
+                              <View
+                                style={{
+                                  flex: 1,
+                                  marginHorizontal: 10,
+                                  right: "14%",
+                                }}
+                              >
+                                {showTimeTableData &&
+                                  showTimeTableData.map((data) => (
+                                    <View style={styles.root}>
+                                      <View
+                                        style={[
+                                          styles.firstCol,
+                                          { alignItems: "center", width: 100 },
+                                        ]}
+                                      >
+                                        <Text style={styles.headingFirstCol}>
+                                          {data.saturday}
+                                        </Text>
+                                      </View>
                                     </View>
-                                  </View>
-                                ))}
+                                  ))}
                               </View>
-                              <View style={{ flex: 1,marginHorizontal:10,right:'5%' }} >
-                              {showTimeTableData &&
-                                showTimeTableData.map((data)=>(
-                                  <View style={styles.root}>
-                                    <View style={[styles.firstCol,{alignItems:'center'}]}>
-                                      {/* 
-                                        */}
-                                      <View style={[{flex:1}, {flexDirection: "row"}]}>
-                                        <View style={{ flex: 1 }} >
-                                          <Ionicons
-                                            name="md-pencil-sharp"
-                                            size={24}
-                                            color="green"
-                                            onPress={() => editItem(data.id)}
-                                          />
-                                        </View>
-                                        <View style={styles.space} />
-                                        <View style={styles.space} />
-                                        <View style={{ flex: 1 }} >
-                                          <Ionicons
-                                            name="trash"
-                                            size={24}
-                                            color="red"
-                                            onPress={() => deleteItem(data.id)}
-                                          />
+                              <View
+                                style={{
+                                  flex: 1,
+                                  marginHorizontal: 10,
+                                  right: "5%",
+                                }}
+                              >
+                                {showTimeTableData &&
+                                  showTimeTableData.map((data) => (
+                                    <View style={styles.root}>
+                                      <View
+                                        style={[
+                                          styles.firstCol,
+                                          { alignItems: "center" },
+                                        ]}
+                                      >
+                                        {/*
+                                         */}
+                                        <View
+                                          style={[
+                                            { flex: 1 },
+                                            { flexDirection: "row" },
+                                          ]}
+                                        >
+                                          <View style={{ flex: 1 }}>
+                                            <Ionicons
+                                              name="md-pencil-sharp"
+                                              size={24}
+                                              color="green"
+                                              onPress={() => editItem(data.id)}
+                                            />
+                                          </View>
+                                          <View style={styles.space} />
+                                          <View style={styles.space} />
+                                          <View style={{ flex: 1 }}>
+                                            <Ionicons
+                                              name="trash"
+                                              size={24}
+                                              color="red"
+                                              onPress={() =>
+                                                deleteItem(data.id)
+                                              }
+                                            />
+                                          </View>
                                         </View>
                                       </View>
                                     </View>
-                                  </View>
-                                ))}
+                                  ))}
                               </View>
                             </View>
                           </View>
@@ -1410,14 +1514,15 @@ const TeachersTimetable = () => {
                     </ScrollView>
                   </View>
                 </View>
-                {keyboardStatus == "Keyboard Hidden" && (
-                  <View style={{ flex: 1 }}>
-                    <TeachersHome />
-                  </View>
-                )}
-              </View>
-            </>
-          )}
+              )}
+              {keyboardStatus == "Keyboard Hidden" && (
+                <View style={{ flex: 1 }}>
+                  <TeachersHome />
+                </View>
+              )}
+            </View>
+          </>
+        )}
         {showTable && (
           <>
             <ScrollView style={styles.root}>
@@ -1922,7 +2027,7 @@ const styles = StyleSheet.create({
   // root: {
   //   backgroundColor: "#EBECFO",
   // },
-  
+
   inputForm: {
     padding: 20,
     paddingTop: 5,
@@ -2028,12 +2133,12 @@ const styles = StyleSheet.create({
     fontFamily: "HindRegular",
     fontSize: deviceWidth < 370 ? 16 : 18,
   },
-  
+
   //new design table
   root: {
     flex: 1,
     flexDirection: "column",
-    marginVertical:10
+    marginVertical: 10,
     // backgroundColor: "red",
     // borderRadius: 1,
   },
@@ -2054,7 +2159,6 @@ const styles = StyleSheet.create({
   },
   flex: {
     flex: 1,
-    padding:10
+    padding: 10,
   },
 });
-

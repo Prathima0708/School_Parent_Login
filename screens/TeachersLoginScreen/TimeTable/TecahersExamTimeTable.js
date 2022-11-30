@@ -694,12 +694,14 @@ const TecahersExamTimeTable = () => {
       {showBtn && (
         <>
           <View
-            style={{
-              width: 170,
-              fontSize: 20,
-              marginTop: 13,
-              margin: 10,
-            }}
+            style={[
+              {
+                width: 170,
+                fontSize: 20,
+                // marginTop: 13,
+                margin: 10,
+              },
+            ]}
           >
             <SelectList
               //  defaultOption={{ key: "1", value: "Second-A" }}
