@@ -12,11 +12,13 @@ import {
 import { useState } from "react";
 
 export var STUDENTNAME, CLASSNAME, SECTION, STATUS, ID;
+
 function TeacherAttendance({
   teachers,
   class_name,
   section,
   id,
+  onPresent,
   // student_photo,
   // mother_name,
   // busnumber,
@@ -30,29 +32,52 @@ function TeacherAttendance({
   const [changeAbsentColor, setChangeAbsentColor] = useState();
   const [changeHolidayColor, setChangeHolidayColor] = useState();
 
+  const [status, setStatus] = useState([]);
+
   STUDENTNAME = teachers;
   CLASSNAME = class_name;
   SECTION = section;
-  STATUS = selectedStatus;
+  // STATUS = selectedStatus || onPresent;
+  STATUS = status;
+
   ID = id;
+
+  console.log(onPresent);
+  console.log(STATUS);
+
   function presentBtnHandler() {
     setPresent(true);
-
     setSelectedStatus("Present");
-    setStatusBackground("green");
+
+    //setStatus((data) => [...data, "Present"]);
+    // setStatusBackground("green");
+    // setOverAllPresent(overAllPresent);
+    //setStatus("Present");
+   // setStatus((oldArray) => [...oldArray, "Present"]);
   }
   function absentBtnHandler() {
     setAbsent(true);
 
     setSelectedStatus("Absent");
-    setStatusBackground("red");
+    // setStatusBackground("red");
+    // setStatus((oldArray) => [...oldArray, "Absent"]);
   }
   function holidatBtnGHandler() {
     setHoliday(true);
 
     setSelectedStatus("Holiday");
-    setStatusBackground("darkblue");
+    // setStatusBackground("darkblue");
+    // // setStatus((data) => [...data, "Holiday"]);
+    // setStatus((oldArray) => [...oldArray, "Holiday"]);
   }
+  //how to add elements to array?
+
+  // let arr = [1,2]
+  // let foo={bar:true}
+  // arr=[foo].concat(arr)
+
+  // arr=[foo, ...arr]
+
   return (
     <>
       <ScrollView horizontal={false}>
@@ -68,7 +93,7 @@ function TeacherAttendance({
           </View>
           <View style={{ color: statusBackground, padding: 10 }}>
             <Text style={{ color: "black", fontWeight: "bold" }}>
-              {selectedStatus}
+              {selectedStatus || onPresent}
             </Text>
           </View>
           <View style={styles.checkBoxContainer}>
