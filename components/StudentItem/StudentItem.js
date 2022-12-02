@@ -17,15 +17,37 @@ export var studentId,
   busNumber,
   Section,
   StudentName,
-  StudentPhoto;
+  FatherName,
+  MotherName,
+  DOB,
+  Gendar,
+  DateOfAddmission,
+  StudentAddress,
+  City,
+  State,
+  Country,
+  Pincode,
+  AcademicYear,
+  StudentPhoto
 function StudentItem({
   student_name,
   class_name,
   id,
-  student_photo,
   reg_number,
   busnumber,
   section,
+  father_name,
+  mother_name,
+  Dob,
+  gender,
+  date_of_admission,
+  student_address,
+  city,
+  state,
+  country,
+  pincode,
+  academic_year,
+  student_photo,
 }) {
   const navigation = useNavigation();
   function navigateHandler() {
@@ -35,7 +57,19 @@ function StudentItem({
     className = class_name;
     busNumber = busnumber;
     Section = section;
-    StudentPhoto = student_photo;
+   // StudentPhoto = student_photo;
+    FatherName=father_name
+    MotherName=mother_name
+    DOB=Dob
+    Gendar=gender
+    DateOfAddmission=date_of_admission
+    StudentAddress=student_address
+    City=city
+    State=state
+    Country=country
+    Pincode=pincode
+    AcademicYear=academic_year
+    StudentPhoto=student_photo
     console.log(id);
     navigation.navigate("Category");
   }
@@ -75,7 +109,11 @@ function StudentItem({
             <View
               style={[
                 { flex: 1 },
-                { flexDirection: "column", left: 10, top: 2 },
+                { 
+                  flexDirection: "column", 
+                  left: 10, 
+                  top: deviceWidth < 370 ? '0%' : '1%', 
+                },
               ]}
             >
               <View style={{ flex: 1 }}>
@@ -120,17 +158,16 @@ const styles = StyleSheet.create({
   },
   textBase: {
     color: "#0D98BA",
-    marginRight: 10,
+   // marginRight: 10,
   },
   description: {
-    fontSize: deviceWidth < 370 ? 20 : 17,
-
+    fontSize: deviceWidth < 370 ? 15 : 17,
     marginBottom: 4,
     // fontWeight: "bold",
     fontFamily: "HindSemiBold",
   },
   textStyleStudInfo: {
-    fontSize: deviceWidth < 370 ? 20 : 17,
+    fontSize: deviceWidth < 370 ? 15 : 17,
 
     marginBottom: 4,
     // fontWeight: "bold",
@@ -145,10 +182,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 4,
+   // bottom:deviceWidth < 370 ? '15%' : '1%',
     //minWidth: 80,
   },
   image: {
     height: 70,
+   // bottom:deviceWidth < 370 ? '2%' : '1%',
     width: 75,
   },
 });

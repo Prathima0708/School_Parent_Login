@@ -89,15 +89,15 @@ const TransportScreen = () => {
                   paddingLeft: 15,
                 }}
               >
-                <Text fontSize="3xl" style={styles.textStyle}>
+                <Text fontSize={deviceWidth < 370 ? 'xl' : '3xl'} style={styles.textStyle}>
                   {data.route_name}
                 </Text>
               </View>
               <View style={styles.iconStyle}>
-                <AntDesign name="right" size={25} color="white" />
+                <AntDesign name="right" size={deviceWidth < 370 ? 20 : 25} color="white" />
               </View>
               <View style={{ flex: 1, alignItems: "center", top: 15 }}>
-                <Text fontSize="3xl" style={styles.textStyle}>
+                <Text fontSize={deviceWidth < 370 ? 'xl' : '3xl'} style={styles.textStyle}>
                   {data.stop_name}
                 </Text>
               </View>
@@ -107,15 +107,18 @@ const TransportScreen = () => {
                 <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
                   <View style={{ flex: 1 }}>
                     <Text
-                      fontSize="2xl"
+                      fontSize={deviceWidth < 370 ? 'md' : '2xl'}
                       style={[styles.textStyle, { color: "black", left: 20 }]}
                     >
                       Driver Name :
                     </Text>
                   </View>
-                  <View style={{ flex: 1 }}>
+                  <View 
+                    style={{ 
+                      flex: deviceWidth < 370 ? 1.5 : 1,
+                    }}>
                     <Text
-                      fontSize="2xl"
+                      fontSize={deviceWidth < 370 ? 'md' : '2xl'}
                       style={[styles.textStyle, { color: "black", left: 1 }]}
                     >
                       {data.driver_name}
@@ -123,7 +126,7 @@ const TransportScreen = () => {
                   </View>
                 </View>
               </View>
-              <View style={{ flex: 3, alignItems: "flex-start" }}>
+              <View style={{ flex: 2.5, alignItems: "flex-start" }}>
                 <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
                   <View style={{ flex: 1 }}>
                     <Text
@@ -133,7 +136,10 @@ const TransportScreen = () => {
                       Mobile number :
                     </Text>
                   </View>
-                  <View style={{ flex: 1.7 }}>
+                  <View style=
+                    {{ 
+                      flex: deviceWidth < 370 ? 1.4 : 1.7,
+                    }}>
                     <Text
                       fontSize="sm"
                       style={[styles.textStyle, { color: "black" }]}
@@ -142,11 +148,11 @@ const TransportScreen = () => {
                     </Text>
                   </View>
                 </View>
-                <View style={[{ flex: 2 }, { flexDirection: "row" }]}>
+                <View style={[{ flex: 3 }, { flexDirection: "row" }]}>
                   <View style={{ flex: 1 }}>
                     <Divider
                       bg="#275932"
-                      thickness="3"
+                      thickness={deviceWidth < 370 ? 1.4 : 1.7}
                       orientation="horizontal"
                     />
                     <View
@@ -183,19 +189,18 @@ const TransportScreen = () => {
                       <View style={{ flex: 1 }}>
                         <Divider
                           bg="#275932"
-                          thickness="3"
+                          thickness={deviceWidth < 370 ? 1.4 : 1.7}                     orientation="vertical"
+                          style={{ left: "60%" }}
+                        />
+                        <Divider
+                          bg="#275932"
+                          thickness={deviceWidth < 370 ? 1.4 : 1.7}
                           orientation="vertical"
                           style={{ left: "60%" }}
                         />
                         <Divider
                           bg="#275932"
-                          thickness="3"
-                          orientation="vertical"
-                          style={{ left: "60%" }}
-                        />
-                        <Divider
-                          bg="#275932"
-                          thickness="3"
+                          thickness={deviceWidth < 370 ? 1.4 : 1.7}
                           orientation="vertical"
                           style={{ left: "60%" }}
                         />
@@ -203,19 +208,19 @@ const TransportScreen = () => {
                       <View style={{ flex: 1 }}>
                         <Divider
                           bg="#275932"
-                          thickness="3"
+                          thickness={deviceWidth < 370 ? 1.4 : 1.7}
                           orientation="vertical"
                           style={{ left: "27%" }}
                         />
                         <Divider
                           bg="#275932"
-                          thickness="3"
+                          thickness={deviceWidth < 370 ? 1.4 : 1.7}
                           orientation="vertical"
                           style={{ left: "27%" }}
                         />
                         <Divider
                           bg="#275932"
-                          thickness="3"
+                          thickness={deviceWidth < 370 ? 1.4 : 1.7}
                           orientation="vertical"
                           style={{ left: "27%" }}
                         />
@@ -255,85 +260,6 @@ const TransportScreen = () => {
             </View>
           </>
         ))}
-
-      {/* <View style={[{flex:1}, {flexDirection: "row"}]}>
-        <View style={{ flex: 1, backgroundColor: "red" }} >
-          <Text>1</Text>
-        </View>
-        <View style={{ flex: 1, backgroundColor: "darkorange" }} >
-          <Text>1</Text>
-        </View>
-        <View style={{ flex: 1, backgroundColor: "green" }} >
-          <Text>1</Text>
-        </View>
-      </View> */}
-      {/* <View style={styles.BtnContainer}>
-        <BgButton onPress={transportList} style={forTransportList}>
-          Transport List
-        </BgButton>
-      </View> */}
-      {/* {showTable && (
-        <ScrollView horizontal={true}>
-          <DataTable style={styles.container}>
-            <DataTable.Header style={styles.tableHeader}>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> BUS NUMBER</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> TYPES</Text>
-              </View>
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> VEHICLENO</Text>
-              </View>
-
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> DRIVER NAME</Text>
-              </View>
-
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> EMP MOBILE</Text>
-              </View>
-
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> ROUTE NAME</Text>
-              </View>
-
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}> STOP NAME</Text>
-              </View>
-            </DataTable.Header>
-
-            {data &&
-              data.map((data, key) => (
-                <DataTable.Row style={styles.tableRow} key={key}>
-                  <DataTable.Cell style={styles.tableCell}>
-                    {data.busnumber}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.type}>
-                    {data.types}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
-                    {data.vehicleno}
-                  </DataTable.Cell>
-
-                  <DataTable.Cell style={styles.tableCell}>
-                    {data.driver_name}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
-                    {data.emp_mobile}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
-                    {data.route_name}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableCell}>
-                    {data.stop_name}
-                  </DataTable.Cell>
-                </DataTable.Row>
-              ))}
-          </DataTable>
-        </ScrollView>
-      )} */}
-
       <ParentsHome />
     </>
   );
@@ -362,23 +288,24 @@ const styles = StyleSheet.create({
   iconStyle: {
     flex: 1,
     alignItems: "center",
-    top: 25,
+    top: deviceWidth < 370 ? 20 : 25,
   },
   itemStyle: {
     flex: 0.2,
     flexDirection: "row",
     backgroundColor: "#275932",
-    padding: 5,
-    top: 20,
+   // padding: 5,
+    top: 10,
     borderRadius: 20,
     marginHorizontal: 20,
+    //paddingBottom:deviceWidth < 370 ? 20 : 1,
   },
   cardStyle: {
     flex: 0.5,
     flexDirection: "column",
     backgroundColor: "white",
     padding: 5,
-    top: 35,
+    top: deviceWidth < 370 ? 20 : 25,
     borderRadius: 20,
     marginHorizontal: 20,
     elevation: 5,

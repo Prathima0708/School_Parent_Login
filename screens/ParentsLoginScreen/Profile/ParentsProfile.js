@@ -6,9 +6,21 @@ import {
   StudentName,
   StudentPhoto,
   StudentRegNo,
+  FatherName,
+  MotherName,
+  DOB,
+  Gendar,
+  DateOfAddmission,
+  StudentAddress,
+  City,
+  State,
+  Country,
+  Pincode,
+  AcademicYear
 } from "../../../components/StudentItem/StudentItem";
 import { Button as NativeButton, Divider,Avatar as NativeAvatar, } from "native-base";
 import ParentsHome from "../BottomTab/ParentsHome";
+import moment from "moment";
 
 const ParentsProfile = () => {
 
@@ -37,6 +49,7 @@ const ParentsProfile = () => {
         {
           // Try setting `flexDirection` to `"row"`.
           flexDirection: "column",
+          backgroundColor:'white'
         },
       ]}
     >
@@ -107,15 +120,15 @@ const ParentsProfile = () => {
 
       {studentInfoClicked && 
         <View
-          style={[styles.flexStyle]}>
-          <View style={{ flex: 1}}>
+          style={[styles.flexStyle,]}>
+          <View style={[{paddingHorizontal:10,left:'5%'},{ flex: 1}]}>
             <ScrollView>
               <View style={[styles.viewStyle]}>
                 <View style={{ flex: 1}} >
                   <Text style={styles.labelStyle}>Date Of Birth</Text>
                 </View>
                 <View style={{ flex: 1 }} >
-                  <Text style={styles.labelStyle}>12/10/1999</Text>
+                  <Text style={styles.labelStyle}>{moment(DOB).format("DD/MM/YYYY")}</Text>
                 </View>
               </View>
               <View style={[styles.viewStyle]}>
@@ -123,7 +136,7 @@ const ParentsProfile = () => {
                   <Text style={styles.labelStyle}>Gendar</Text>
                 </View>
                 <View style={{ flex: 1 }} >
-                  <Text style={styles.labelStyle}>male</Text>
+                  <Text style={styles.labelStyle}>{Gendar}</Text>
                 </View>
               </View>
               <View style={[styles.viewStyle]}>
@@ -131,7 +144,7 @@ const ParentsProfile = () => {
                   <Text style={styles.labelStyle}>Admission Date</Text>
                 </View>
                 <View style={{ flex: 1 }} >
-                  <Text style={styles.labelStyle}>01/02/2006</Text>
+                  <Text style={styles.labelStyle}>{moment(DateOfAddmission).format("DD/MM/YYYY")}</Text>
                 </View>
               </View>
               <View style={[styles.viewStyle]}>
@@ -139,7 +152,7 @@ const ParentsProfile = () => {
                   <Text style={styles.labelStyle}>Student Address</Text>
                 </View>
                 <View style={{ flex: 1 }} >
-                  <Text style={styles.labelStyle}>123 block,street ABC,NH-66</Text>
+                  <Text style={styles.labelStyle}>{StudentAddress}</Text>
                 </View>
               </View>
               <View style={[styles.viewStyle]}>
@@ -147,7 +160,7 @@ const ParentsProfile = () => {
                   <Text style={styles.labelStyle}>City</Text>
                 </View>
                 <View style={{ flex: 1 }} >
-                  <Text style={styles.labelStyle}>Udupi</Text>
+                  <Text style={styles.labelStyle}>{City}</Text>
                 </View>
               </View>
 
@@ -156,7 +169,7 @@ const ParentsProfile = () => {
                   <Text style={styles.labelStyle}>State</Text>
                 </View>
                 <View style={{ flex: 1 }} >
-                  <Text style={styles.labelStyle}>Karnataka</Text>
+                  <Text style={styles.labelStyle}>{State}</Text>
                 </View>
               </View>
 
@@ -165,7 +178,7 @@ const ParentsProfile = () => {
                   <Text style={styles.labelStyle}>Country</Text>
                 </View>
                 <View style={{ flex: 1 }} >
-                  <Text style={styles.labelStyle}>India</Text>
+                  <Text style={styles.labelStyle}>{Country}</Text>
                 </View>
               </View>
               <View style={[styles.viewStyle]}>
@@ -173,7 +186,7 @@ const ParentsProfile = () => {
                   <Text style={styles.labelStyle}>Pincode</Text>
                 </View>
                 <View style={{ flex: 1 }} >
-                  <Text style={styles.labelStyle}>5722887</Text>
+                  <Text style={styles.labelStyle}>{Pincode}</Text>
                 </View>
               </View>
               <View style={[styles.viewStyle]}>
@@ -181,7 +194,7 @@ const ParentsProfile = () => {
                   <Text style={styles.labelStyle}>Academic Year</Text>
                 </View>
                 <View style={{ flex: 1 }} >
-                  <Text style={styles.labelStyle}>2006</Text>
+                  <Text style={styles.labelStyle}>{AcademicYear}</Text>
                 </View>
               </View>
             </ScrollView>
@@ -191,11 +204,11 @@ const ParentsProfile = () => {
       {parentInfoClicked && 
         <View
           style={styles.flexStyle}>
-          <View style={{ flex: 8, top:'1%' }}>
+          <View style={{ flex: 8,}}>
             <ScrollView>
               <View style={[{flex:1}, {
                 flexDirection: "column",
-                top:'2%'
+                top:'1%'
               }]}>
                 <View style={{ flex: 1 }} >
                   <View style={[{flex:1}, {flexDirection: "row"}]}>
@@ -212,7 +225,7 @@ const ParentsProfile = () => {
                           </NativeAvatar>
                         </View>
                         <View style={{ flex: 1,alignItems:'center' }} >
-                          <Text style={[styles.labelStyle]}>Father</Text>
+                          <Text style={[styles.labelStyle]}>{FatherName}</Text>
                         </View>
                       </View>
                     </View>
@@ -232,6 +245,13 @@ const ParentsProfile = () => {
                   </View>
                 </View>
                 <View style={styles.space} />
+                <Divider
+                  bg="#275932"
+                  thickness="3"
+                  orientation="horizontal"
+                  style={{  }}
+                />
+                <View style={styles.space} />
                 <View style={{ flex: 1,}} >
                  <View style={[{flex:1}, {flexDirection: "row"}]}>
                     <View style={{ flex: 1 }} >
@@ -247,7 +267,7 @@ const ParentsProfile = () => {
                             </NativeAvatar>
                           </View>
                           <View style={{ flex: 1,alignItems:'center' }} >
-                            <Text style={[styles.labelStyle]}>Mother</Text>
+                            <Text style={[styles.labelStyle]}>{MotherName}</Text>
                           </View>
                         </View>
                     </View>
@@ -266,6 +286,13 @@ const ParentsProfile = () => {
                     </View>
                   </View>
                 </View>
+                <View style={styles.space} />
+                <Divider
+                  bg="#275932"
+                  thickness="3"
+                  orientation="horizontal"
+                  style={{  }}
+                />
                 <View style={styles.space} />
                 <View style={{ flex: 1 }} >
                   <View style={[{flex:1}, {flexDirection: "row"}]}>

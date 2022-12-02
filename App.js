@@ -203,6 +203,11 @@ export default function App() {
           component={TeachersTransport}
           options={{ title: "Transport" }}
         />
+        <Stack.Screen
+          name="TeachersAttendance"
+          component={TeachersAttendance}
+          options={{ title: "Attendance" }}
+        />
 
         {/* <Stack.Screen name="TeachersHomework" component={TeachersHomework} /> */}
         <Stack.Screen
@@ -456,6 +461,11 @@ export default function App() {
           name="TeachersHomework"
           component={TeacherHomeworkScreenBuild}
           options={{ title: "Homework" }}
+        />
+        <Stack.Screen
+          name="TeachersAttendance"
+          component={TeachersAttendance}
+          options={{ title: "Attendance" }}
         />
         <Stack.Screen
           name="TeachersProfile"
