@@ -10,9 +10,10 @@ import {
   View,
 } from "react-native";
 import { useState } from "react";
+import { finalList } from "./TeachersAttendance";
 
 export var STUDENTNAME, CLASSNAME, SECTION, STATUS, ID;
-
+let newTester = []; // <-- Important!
 function TeacherAttendance({
   teachers,
   class_name,
@@ -32,35 +33,42 @@ function TeacherAttendance({
   const [changeAbsentColor, setChangeAbsentColor] = useState();
   const [changeHolidayColor, setChangeHolidayColor] = useState();
 
-  const [status, setStatus] = useState([]);
+  const [status, setStatus] = useState([
+    {
+      studentname: "",
+      present: "",
+      absent: "",
+      holiday: "",
+    },
+  ]);
+  const [finalStatus, setFinalStatus] = useState([...selectedStatus]);
 
   STUDENTNAME = teachers;
+
   CLASSNAME = class_name;
   SECTION = section;
   // STATUS = selectedStatus || onPresent;
-  STATUS = status;
+  STATUS = finalList;
 
   ID = id;
 
-  console.log(onPresent);
-
-//how to add elements to array?
-
-let arr = [1,2]
-let foo={bar:true}
-arr=[foo].concat(arr)
-
-
-arr=[foo, ...arr]
-
-
-
-
+  console.log("***************");
+  console.log(finalList);
 
   function presentBtnHandler() {
     setPresent(true);
-    setSelectedStatus("Present");
-   
+    // const _inputs = [...test];
+
+    // test.present = "Present";
+
+    // setTest(_inputs);
+
+    setSelectedStatus("present");
+    setFinalStatus([...finalStatus, "present"]);
+    newTester.push([...selectedStatus, "present"]);
+
+    finalList.concat(newTester);
+
     //setStatus((data) => [...data, "Present"]);
     // setStatusBackground("green");
     // setOverAllPresent(overAllPresent);
@@ -70,25 +78,19 @@ arr=[foo, ...arr]
   function absentBtnHandler() {
     setAbsent(true);
 
-    setSelectedStatus("Absent");
-    // setStatusBackground("red");
-    // setStatus((oldArray) => [...oldArray, "Absent"]);
+    setSelectedStatus("absent");
+    setFinalStatus([...finalStatus, "absent"]);
+    newTester.push([...selectedStatus, "absent"]);
+    finalList.concat(newTester);
   }
   function holidatBtnGHandler() {
     setHoliday(true);
 
-    setSelectedStatus("Holiday");
-    // setStatusBackground("darkblue");
-    // // setStatus((data) => [...data, "Holiday"]);
-    // setStatus((oldArray) => [...oldArray, "Holiday"]);
+    setSelectedStatus("holiday");
+    setFinalStatus([...finalStatus, "holiday"]);
+    newTester.push([...selectedStatus, "holiday"]);
+    finalList.concat(newTester);
   }
-  //how to add elements to array?
-
-  // let arr = [1,2]
-  // let foo={bar:true}
-  // arr=[foo].concat(arr)
-
-  // arr=[foo, ...arr]
 
   return (
     <>
