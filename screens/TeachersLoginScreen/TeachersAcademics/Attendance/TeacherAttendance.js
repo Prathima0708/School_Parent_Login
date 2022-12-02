@@ -43,17 +43,29 @@ function TeacherAttendance({
   ID = id;
 
   console.log(onPresent);
-  console.log(STATUS);
+
+//how to add elements to array?
+
+let arr = [1,2]
+let foo={bar:true}
+arr=[foo].concat(arr)
+
+
+arr=[foo, ...arr]
+
+
+
+
 
   function presentBtnHandler() {
     setPresent(true);
     setSelectedStatus("Present");
-
+   
     //setStatus((data) => [...data, "Present"]);
     // setStatusBackground("green");
     // setOverAllPresent(overAllPresent);
     //setStatus("Present");
-   // setStatus((oldArray) => [...oldArray, "Present"]);
+    // setStatus((oldArray) => [...oldArray, "Present"]);
   }
   function absentBtnHandler() {
     setAbsent(true);
