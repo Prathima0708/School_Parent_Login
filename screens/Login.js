@@ -808,7 +808,7 @@ function Login() {
       try {
         // http://10.0.2.2:8000/school/Calendar/
         const res = await axios.get(`${subURL}/Institute/`);
-        console.log(res.data[0].instituteLogo)
+       // console.log(res.data[0].instituteLogo)
         setSaveImg(res.data[0].instituteLogo)
       } catch (error) {
         console.log(error);
@@ -1145,6 +1145,7 @@ function Login() {
             w="80%"
             left="11%"
             top="6"
+            height={deviceHieght < 800 ? "16%" : "13%"}
             borderWidth={2}
             onChangeText={userInputHandler}
             value={enteredUser}
@@ -1177,6 +1178,7 @@ function Login() {
             w="80%"
             left="11%"
             top="9"
+            height={deviceHieght < 800 ? "16%" : "13%"}
             borderWidth={1}
             onChangeText={passwordInputHandler}
             value={enteredPassword}
@@ -1243,6 +1245,7 @@ function Login() {
                 left="11%"
                 borderWidth={1}
                 top="12"
+                height={deviceHieght < 800 ? "14%" : "13%"}
                 onChangeText={phoneInputHandler}
                 value={enteredPhone}
                 style={styles.inputStyle}
@@ -1411,7 +1414,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#59b8dd",
     borderRadius: 10,
     borderWidth: 1,
-    top: "15%",
+    top: deviceWidth < 370 ? "18%" : "15%",
     borderColor: "#fff",
     left: deviceWidth < 370 ? "10%" : "10%",
     width: deviceWidth < 370 ? "80%" : "80%",
