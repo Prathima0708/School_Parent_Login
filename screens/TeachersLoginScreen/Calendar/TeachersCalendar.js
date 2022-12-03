@@ -6,13 +6,19 @@ import {
   ScrollView,
   Alert,
   Button as Btn,
+  Dimensions,
+  LogBox,
+  Pressable,
+  ActivityIndicator,
 } from "react-native";
+import SelectList from "react-native-dropdown-select-list";
 import React, { useEffect, useState } from "react";
+import FloatLabelTextInput from "react-native-floating-label-text-input";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../../components/UI/Button";
 import axios from "axios";
 import { Keyboard } from "react-native";
-import { UserId } from "../../Login";
+
 import BgButton from "../../../components/UI/BgButton";
 import SearchBar from "react-native-dynamic-search-bar";
 import { Ionicons } from "@expo/vector-icons";
@@ -20,16 +26,64 @@ import TeachersHome from "../BottomTab/TeachersHome";
 import Input from "../../../components/UI/Input";
 import { getMomentsAsync } from "expo-media-library";
 import moment from "moment";
-import VerticalLine from "../../../components/UI/VerticalLine";
-import { DataTable } from "react-native-paper";
-import FeedBackDialog from "../../../components/UI/FeedBackDialog";
+
+import { Card, DataTable } from "react-native-paper";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import UnderlinedInput from "../../../components/UI/UnderlinedInput";
+import { Animated } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import EditCalendar from "./EditCalendar";
+import { HStack, Radio } from "native-base";
+import { subURL } from "../../../components/utils/URL's";
+
+// import { Label } from "react-native-form-component";
+var FloatingLabel = require("react-native-floating-labels");
 export var ID;
+export var FROMDATE, TODATE;
 const TeachersCalendar = () => {
+
+  const [selected, setSelected] = useState("");
+  const [value, setValue] =useState('');
+
+  const [listData, setListData] = useState([
+    'all','present','absent'
+  ]);
+  const navigation = useNavigation();
+  const scrollY = new Animated.Value(0);
+
+  const diffClamp = Animated.diffClamp(scrollY, 0, 100);
+
+  const headermax = 100;
+  const headermin = 10;
+
+  const animateHeaderBackGround = scrollY.interpolate({
+    inputRange: [0, headermax - headermin],
+    outputRange: ["white", "white"],
+    extrapolate: "clamp",
+  });
+
+  const animateHeaderHeight = diffClamp.interpolate({
+    inputRange: [0, headermax - headermin],
+    outputRange: [headermax, headermin],
+    extrapolate: "clamp",
+  });
   const br = "\n";
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
+
+  const [label, setLabel] = useState(false);
+  const [descriptionLabel, setDescriptionLabel] = useState(false);
+  const [startDateLabel, setstartDateLabel] = useState(false);
+  const [endDateLabel, setendDateLabel] = useState(false);
+
+  const [isTitleFocused, setIsTitleFocused] = useState(false);
+  const [isDescFocused, setIsDescFocused] = useState(false);
+  const [isFromDateFocused, setIsFromDateFocused] = useState(false);
+  const [isToDateFocused, setIsToDateFocused] = useState(false);
+
+  const [btn, setBtn] = useState(false);
+
   const [forCalendarList, setForCalendarList] = useState({
     backgroundColor: "#0C60F4",
     color: "white",
@@ -52,11 +106,6 @@ const TeachersCalendar = () => {
   const enteredDescriptionIsValid = description.trim() !== "";
   const descriptionInputIsInValid =
     !enteredDescriptionIsValid && enteredDescriptionTouched;
-
-  // const [createdby, setEnteredcreatedby] = useState("");
-  // const [enteredCreatedByTouched,setEnteredCreatedbyTouched]=useState(false)
-  // const enteredCreatedByIsValid=createdby.trim()!=='';
-  // const createdByInputIsInValid=!enteredCreatedByIsValid && enteredCreatedByTouched;
 
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
@@ -87,10 +136,14 @@ const TeachersCalendar = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [isSame, SetIsSame] = useState(false);
-  const [showInitialBtn, setShowInitialBtn] = useState(true);
 
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState("");
+
+  const [showInitialBtn, setShowInitialBtn] = useState(true);
+
+  const [isActive, setActive] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   let i = 0;
 
@@ -108,7 +161,7 @@ const TeachersCalendar = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
+        const res = await axios.get(`${subURL}/Calendar/`);
 
         setData(res.data);
         setFilteredData(res.data);
@@ -173,7 +226,9 @@ const TeachersCalendar = () => {
   };
 
   const fromDateChangeHandler = (event, selectedFromDate) => {
-    const currentFromDate = selectedFromDate || fromDate;
+    const currentFromDate = selectedFromDate;
+    FROMDATE = selectedFromDate;
+
     setFromShow(Platform.OS === "ios");
     setFromDate(currentFromDate);
 
@@ -195,11 +250,13 @@ const TeachersCalendar = () => {
   };
 
   const toDateChangeHandler = (event, selectedToDate) => {
-    const currentToDate = selectedToDate || toDate;
+    const currentToDate = selectedToDate;
+    TODATE = selectedToDate;
     setToShow(Platform.OS === "ios");
     setToDate(currentToDate);
 
     let tempToDate = new Date(currentToDate);
+    console.log(tempToDate);
     let tDate =
       tempToDate.getDate() +
       "/" +
@@ -238,74 +295,87 @@ const TeachersCalendar = () => {
   }
 
   function updateHandler() {
+    setShowInitialBtn(true);
     const FormData = {
       description: description,
       // created_by:createdby,
-      startdate: fromDate,
-      enddate: toDate,
+      startdate: FROMDATE,
+      enddate: TODATE,
       titlee: title,
     };
-    async function updateData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
-        const dataForm = FormData;
-        const resLogin = await axios.put(
-          `http://10.0.2.2:8000/school/Calendar/${ID}/`,
-          dataForm,
-          {
-            headers: headers,
-          }
-        );
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    updateData();
-    Alert.alert("Successfully updated", "", [
-      { text: "OK", onPress: () => fetchData() },
-    ]);
+    //console.log(FormData);
 
-    async function fetchData() {
-      try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
-        setFilteredData(res.data);
-      } catch (error) {
-        console.log(error);
+    if (!enteredTitleIsValid || !enteredDescriptionIsValid) {
+      Alert.alert("Please enter all fields");
+    } else {
+      async function updateData() {
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+          };
+          const dataForm = FormData;
+          const resLogin = await axios.put(
+            `${subURL}/Calendar/${ID}/`,
+            dataForm,
+            {
+              headers: headers,
+            }
+          );
+          // const token = resLogin.data.token;
+          // const userId = resLogin.data.user_id;
+        } catch (error) {
+          console.log(error);
+        }
       }
-    }
-    fetchData();
+      updateData();
+      Alert.alert("Successfully updated", "", [
+        {
+          text: "OK",
+          onPress: () => {
+            showCalendar();
+          },
+        },
+      ]);
 
-    setEnteredDescription("");
-    setEnteredTitle("");
-    setFromText("");
-    setToText("");
-    setShowForm(false);
-    setShowList(true);
-    setForCalendarList({
-      backgroundColor: "#F4F6F6",
-      color: "black",
-      borderRadius: 10,
-    });
-    setForCalendarForm({
-      color: "white",
-      backgroundColor: "#1E8449",
-      borderRadius: 10,
-    });
+      setEnteredDescription("");
+      setEnteredTitle("");
+      setFromText("");
+      setToText("");
+      setShowForm(false);
+      setShowList(true);
+      setForCalendarList({
+        backgroundColor: "#F4F6F6",
+        color: "black",
+        borderRadius: 10,
+      });
+      setForCalendarForm({
+        color: "white",
+        backgroundColor: "#1E8449",
+        borderRadius: 10,
+      });
+    }
   }
 
   function buttonPressedHandler() {
+    console.log(selected)
+    console.log(value)
+
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+    setBtn(true);
+    
     const FormData = {
       description: description,
       // created_by:createdby,
-      startdate: fromDate,
-      enddate: toDate,
+      startdate: FROMDATE,
+      enddate: TODATE,
       titlee: title,
+      selected:selected
     };
 
+    console.log(FormData)
     // var dateFromValidate = fromText || frmdate;
     // var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
     // if (!isValid) {
@@ -346,15 +416,6 @@ const TeachersCalendar = () => {
       enteredFromDateIsValid &&
       enteredtoDateIsValid;
     if (formIsValid) {
-      Alert.alert("Saved Data", "Saved Data successfully", [
-        {
-          text: "OK",
-          onPress: () => {
-            setShowForm(false);
-            showCalendar();
-          },
-        },
-      ]);
     }
 
     setEnteredTitleTouched(true);
@@ -373,16 +434,16 @@ const TeachersCalendar = () => {
     // if(!enteredCreatedByIsValid){
     //   return;
     // }
-    // if (!enteredFromDateIsValid) {
-    //   return;
-    // }
+    if (!enteredFromDateIsValid) {
+      return;
+    }
 
-    // if (!enteredtoDateIsValid) {
-    //   return;
-    // }
+    if (!enteredtoDateIsValid) {
+      return;
+    }
     async function getData() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
+        const res = await axios.get(`${subURL}/Calendar/`);
 
         let filteredlist = res.data.filter(
           (ele) => ele.description == description
@@ -404,7 +465,7 @@ const TeachersCalendar = () => {
               const dataForm = FormData;
 
               const resLogin = await axios.post(
-                `http://10.0.2.2:8000/school/Calendar/`,
+                `${subURL}/Calendar/`,
                 dataForm,
                 {
                   headers: headers,
@@ -412,12 +473,21 @@ const TeachersCalendar = () => {
               );
               // const token = resLogin.data.token;
               // const userId = resLogin.data.user_id;
-              console.log(resLogin.data);
+              // console.log(resLogin.data);
             } catch (error) {
               console.log(error);
             }
           }
           storeData();
+          Alert.alert("Saved Data", "Saved Data successfully", [
+            {
+              text: "OK",
+              onPress: () => {
+                setShowForm(false);
+                showCalendar();
+              },
+            },
+          ]);
           setEnteredDescription("");
           setEnteredTitle("");
           setFromText("");
@@ -449,18 +519,43 @@ const TeachersCalendar = () => {
   }
   function titleBlurHandler() {
     setEnteredTitleTouched(true);
+    setIsTitleFocused(false);
+    // setLabel(false);
   }
+  function onFocusTitleHandler() {
+    setIsTitleFocused(true);
+    setEnteredTitleTouched(false);
+    setLabel(true);
+  }
+
   function descriptionBlurHandler() {
     setEnteredDescriptionTouched(true);
+    setIsDescFocused(false);
   }
-  // function createdbyBlurHandler(){
-  //   setEnteredCreatedbyTouched(true);
-  // }
+  function onFocusDescHandler() {
+    setIsDescFocused(true);
+    setEnteredDescriptionTouched(false);
+    setDescriptionLabel(true);
+  }
+
   function fromDateBlurHandler() {
     setEnteredFromDateTouched(true);
+    setIsFromDateFocused(false);
   }
+  function onFocusFromHandler() {
+    setIsFromDateFocused(true);
+    setEnteredFromDateTouched(false);
+    setstartDateLabel(true);
+  }
+
   function toDateBlurHandler() {
     setEnteredtoDateTouched(true);
+    setIsToDateFocused(false);
+  }
+  function onFocusToHandler() {
+    setIsToDateFocused(true);
+    setEnteredtoDateTouched(false);
+    setendDateLabel(true);
   }
 
   function showCalendarForm() {
@@ -486,11 +581,16 @@ const TeachersCalendar = () => {
     setEnteredTitle("");
     setFromText("");
     setToText("");
+
+    setLabel(false);
+    setDescriptionLabel(false);
+    setIsTitleFocused(false);
+    setIsDescFocused(false);
   }
   function showCalendar() {
     async function fetchData() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
+        const res = await axios.get(`${subURL}/Calendar/`);
         console.log(res.data);
 
         setData(res.data);
@@ -515,8 +615,50 @@ const TeachersCalendar = () => {
     fetchData();
   }
 
+  // function editItem(id) {
+  //   // setShowInitialBtn(false);
+
+  //   setLabel(true);
+  //   setDescriptionLabel(true);
+  //   ID = id;
+  //   // console.log(id);
+  //   const filteredDummuyData = data.find((data) => data.id == id);
+  //   navigation.navigate("EditCalendar", {
+  //     id: id,
+  //     title: filteredDummuyData.titlee,
+  //     desc: filteredDummuyData.description,
+  //     fromtext: moment(filteredDummuyData.startdate).format("DD/MM/YYYY"),
+  //     totext: moment(filteredDummuyData.enddate).format("DD/MM/YYYY"),
+  //     cancel: cancelHandler.bind(this),
+  //   });
+
+  //   setEnteredDescription(filteredDummuyData.description);
+  //   //  setEnteredcreatedby(filteredDummuyData.created_by);
+  //   setFromText(moment(filteredDummuyData.startdate).format("DD/MM/YYYY"));
+  //   setToText(moment(filteredDummuyData.enddate).format("DD/MM/YYYY"));
+  //   setEnteredTitle(filteredDummuyData.titlee);
+  //   //  setEnteredMobile(filteredDummuyData.exam_name);
+  //   //  setEnteredRouteName(filteredDummuyData.hour);
+
+  //   setForCalendarList({
+  //     backgroundColor: "#F4F6F6",
+  //     color: "black",
+  //     borderRadius: 10,
+  //   });
+  //   setForCalendarForm({
+  //     color: "white",
+  //     backgroundColor: "#1E8449",
+  //     borderRadius: 10,
+  //   });
+  //   // setShowForm(true);
+  //   // setShowList(false);
+  //   setIsEdit(true);
+  // }
+
   function editItem(id) {
     setShowInitialBtn(false);
+    setLabel(true);
+    setDescriptionLabel(true);
     ID = id;
     console.log(id);
     const filteredDummuyData = data.find((data) => data.id == id);
@@ -542,7 +684,6 @@ const TeachersCalendar = () => {
     setShowList(false);
     setIsEdit(true);
   }
-
   function deleteItem(id) {
     Alert.alert("Confirm Deletion", "You are about to delete this row!", [
       {
@@ -562,7 +703,7 @@ const TeachersCalendar = () => {
         };
         // const dataForm = FormData;
         const resLogin = await axios.delete(
-          `http://10.0.2.2:8000/school/Calendar/${id}/`,
+          `${subURL}/Calendar/${id}/`,
           // FormData,
           {
             headers: headers,
@@ -575,7 +716,7 @@ const TeachersCalendar = () => {
       }
       async function fetchData() {
         try {
-          const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
+          const res = await axios.get(`${subURL}/Calendar/`);
           // console.log(res.data);
           setFilteredData(res.data);
         } catch (error) {
@@ -610,354 +751,524 @@ const TeachersCalendar = () => {
     setShowForm(false);
   }
 
+  function radioBtnHandler(nextValue){
+    setValue(nextValue)
+    console.log(value)
+  }
+  function onePressed(){
+    console.log('one')
+  }
+
+  function twoPressed(){
+    console.log('two')
+  }
   return (
     <>
       {showInitialBtn && (
-        <View style={styles.BtnContainer}>
-          <BgButton onPress={showCalendarForm} style={forCalendarList}>
-            Add Event
-          </BgButton>
+        <Animated.View
+          style={[
+            {
+              height: animateHeaderHeight,
+              backgroundColor: animateHeaderBackGround,
+            },
+          ]}
+        >
+          <View style={styles.BtnContainer}>
+            <BgButton onPress={showCalendarForm} style={forCalendarList}>
+              Add Event
+            </BgButton>
 
-          <BgButton onPress={showCalendar} style={forCalendarForm}>
-            Show Event
-          </BgButton>
-        </View>
+            <BgButton onPress={showCalendar} style={forCalendarForm}>
+              Show Event
+            </BgButton>
+          </View>
+        </Animated.View>
       )}
       {showForm && (
-        <ScrollView>
-          <View style={styles.inputForm}>
-            <Input
-              // keyboardType="number-pad"
-              placeholder="Title"
-              onChangeText={titleChangeHandler}
-              blur={titleBlurHandler}
-              value={title}
-              onSubmitEditing={Keyboard.dismiss}
-              style={titleInputIsInValid && styles.errorBorderColor}
-            />
-            {titleInputIsInValid && (
-              <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: 18,
-                }}
-              >
-                Enter the title
-              </Text>
-            )}
-            <Input
-              placeholder="Description"
-              onChangeText={descriptionChangeHandler}
-              blur={descriptionBlurHandler}
-              value={description}
-              onSubmitEditing={Keyboard.dismiss}
-              style={descriptionInputIsInValid && styles.errorBorderColor}
-            />
-            {descriptionInputIsInValid && (
-              <Text
-                style={{
-                  color: "red",
-                  left: 20,
-                  fontFamily: "HindRegular",
-                  fontSize: 18,
-                }}
-              >
-                Enter description
-              </Text>
-            )}
-            {/* <Input 
-            // keyboardType="number-pad"
-            placeholder="created by"
-            onChangeText={createdByChangeHandler}
-            blur={createdbyBlurHandler}
-            value={createdby}
-            onSubmitEditing={Keyboard.dismiss}
-            style={createdByInputIsInValid && styles.errorBorderColor}
-          />
-          {createdByInputIsInValid && (
-              <Text style={{ color: "red",left:20 }}>Created by</Text>
-            )} */}
-            <View style={[{ flexDirection: "row" }]}>
-              <View style={{ flex: 1 }}>
-                <View>
-                  <Ionicons
-                    style={{
-                      position: "absolute",
-                      top: 22,
-                    }}
-                    name="calendar"
-                    size={24}
-                    color="black"
-                    onPress={() => showFromMode("date")}
-                  />
-                </View>
-                <Input
-                  value={fromText || frmdate}
-                  // value={
-                  //   moment(fromText).format("DD/MM/YYYY") ||
-                  //   moment(frmdate).format("DD/MM/YYYY")
-                  // }
-                  placeholder="Start date"
-                  onSubmitEditing={Keyboard.dismiss}
-                  style={fromDateInputIsInValid && styles.errorBorderColor}
-                  blur={fromDateBlurHandler}
-                  onChangeText={frmDateHandler}
-                  onPressIn={() => showFromMode("date")}
-                />
-                {fromDateInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      left: 20,
-                      fontFamily: "HindRegular",
-                      fontSize: 18,
-                    }}
-                  >
-                    Select from date
-                  </Text>
-                )}
-                {fromShow && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={fromDate}
-                    mode={frommode}
-                    is24Hour={true}
-                    display="default"
-                    onChange={fromDateChangeHandler}
-                  />
-                )}
-              </View>
-              <View style={styles.space} />
-              <View style={{ flex: 1 }}>
-                <View>
-                  <Ionicons
-                    style={{
-                      position: "absolute",
-                      top: 22,
-                    }}
-                    name="calendar"
-                    size={24}
-                    color="black"
-                    onPress={() => showToMode("date")}
-                  />
-                </View>
-                <Input
-                  // value={moment(toText).format('DD/MM/YYYY') || moment(toDate).format('DD/MM/YYYY')}
-                  value={toText || todate}
-                  // value={
-                  //   moment(toText).format("DD/MM/YYYY") ||
-                  //   moment(todate).format("DD/MM/YYYY")
-                  // }
-                  placeholder="End date"
-                  onSubmitEditing={Keyboard.dismiss}
-                  style={toDateInputIsInValid && styles.errorBorderColor}
-                  blur={toDateBlurHandler}
-                  onChangeText={toDateHandler}
-                  onPressIn={() => showToMode("date")}
-                />
-                {toDateInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      left: 20,
-                      fontFamily: "HindRegular",
-                      fontSize: 18,
-                    }}
-                  >
-                    Select to date
-                  </Text>
-                )}
-                {toShow && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={toDate}
-                    mode={tomode}
-                    is24Hour={true}
-                    display="default"
-                    onChange={toDateChangeHandler}
-                    //  minimumDate={fromDate}
-                  />
-                )}
-              </View>
-            </View>
-            {!isEdit && (
-              <View style={styles.add}>
-                <Button onPress={buttonPressedHandler}>Add Event</Button>
-              </View>
-            )}
-            {/* {!isEdit && (
-              <View style={styles.cancel}>
-                <Button>Cancel</Button>
-              </View>
-            )} */}
-            {isEdit && (
-              <View style={styles.btnSubmit1}>
-                <Button onPress={updateHandler}>Update</Button>
-              </View>
-            )}
-            {isEdit && (
-              <View style={styles.cancel}>
-                <Button onPress={cancelHandler}>Cancel</Button>
-              </View>
-            )}
-          </View>
-        </ScrollView>
-      )}
-      {showList && (
         <>
+          <ScrollView style={{ backgroundColor: "white" }}>
+            <View style={styles.inputForm}>
+              <View style={label ? styles.test : styles.testSuccess}>
+                <Text
+                  style={[
+                    btn
+                      ? styles.submitLabel
+                      : titleInputIsInValid
+                      ? styles.errorLabel
+                      : styles.normalLabel,
+                  ]}
+                >
+                  Title
+                </Text>
+              </View>
+              <Input
+                // keyboardType="number-pad"
+                // placeholder="Title"
+                onChangeText={titleChangeHandler}
+                blur={titleBlurHandler}
+                onFocus={onFocusTitleHandler}
+                value={title}
+                onSubmitEditing={Keyboard.dismiss}
+                style={
+                  isTitleFocused
+                    ? styles.focusStyle
+                    : titleInputIsInValid && styles.errorBorderColor
+                }
+              />
+              {titleInputIsInValid && (
+                <Text style={styles.commonErrorMsg}>Enter the title</Text>
+              )}
+              <View
+                style={[
+                  !titleInputIsInValid
+                    ? descriptionLabel
+                      ? styles.descriptionUp
+                      : styles.descriptionDown
+                    : descriptionLabel
+                    ? styles.descriptionUpExtra
+                    : styles.descriptionDownExtra,
+                ]}
+              >
+                <Text
+                  style={[
+                    btn
+                      ? styles.normalLabel
+                      : descriptionInputIsInValid
+                      ? styles.errorLabel
+                      : styles.normalLabel,
+                  ]}
+                >
+                  Description
+                </Text>
+              </View>
+              <Input
+                // placeholder="Description"
+                onChangeText={descriptionChangeHandler}
+                blur={descriptionBlurHandler}
+                onFocus={onFocusDescHandler}
+                value={description}
+                onSubmitEditing={Keyboard.dismiss}
+                style={
+                  isDescFocused
+                    ? styles.focusStyle
+                    : descriptionInputIsInValid && styles.errorBorderColor
+                }
+              />
+              {descriptionInputIsInValid && (
+                <Text style={styles.commonErrorMsg}>Enter description</Text>
+              )}
+
+              <View style={[{ flexDirection: "row" }]}>
+                <View style={{ flex: 1 }}>
+                  <View>
+                    <Ionicons
+                      style={{
+                        position: "absolute",
+                        top: 22,
+                      }}
+                      name="calendar"
+                      size={24}
+                      color="black"
+                      onPress={() => showFromMode("date")}
+                    />
+                  </View>
+                  <UnderlinedInput
+                    value={fromText || frmdate}
+                    placeholder="   Start date"
+                    onSubmitEditing={Keyboard.dismiss}
+                    style={
+                      isFromDateFocused
+                        ? styles.focusStyle
+                        : fromDateInputIsInValid && styles.errorBorderColorDate
+                    }
+                    blur={fromDateBlurHandler}
+                    onFocus={onFocusFromHandler}
+                    onChangeText={frmDateHandler}
+                    onPressIn={() => showFromMode("date")}
+                  />
+                  {fromDateInputIsInValid && (
+                    <Text style={styles.commonErrorMsg}>Select from date</Text>
+                  )}
+                  {fromShow && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={fromDate}
+                      mode={frommode}
+                      is24Hour={true}
+                      display="default"
+                      onChange={fromDateChangeHandler}
+                    />
+                  )}
+                </View>
+                <View style={styles.space} />
+                <View style={{ flex: 1 }}>
+                  <View>
+                    <Ionicons
+                      style={{
+                        position: "absolute",
+                        top: 22,
+                      }}
+                      name="calendar"
+                      size={24}
+                      color="black"
+                      onPress={() => showToMode("date")}
+                    />
+                  </View>
+                  <UnderlinedInput
+                    // value={moment(toText).format('DD/MM/YYYY') || moment(toDate).format('DD/MM/YYYY')}
+                    value={toText || todate}
+                    // value={
+                    //   moment(toText).format("DD/MM/YYYY") ||
+                    //   moment(todate).format("DD/MM/YYYY")
+                    // }
+                    placeholder="   End date"
+                    onSubmitEditing={Keyboard.dismiss}
+                    style={
+                      isToDateFocused
+                        ? styles.focusStyle
+                        : toDateInputIsInValid && styles.errorBorderColorDate
+                    }
+                    blur={toDateBlurHandler}
+                    onFocus={onFocusToHandler}
+                    onChangeText={toDateHandler}
+                    onPressIn={() => showToMode("date")}
+                  />
+                  {toDateInputIsInValid && (
+                    <Text style={styles.commonErrorMsg}>Select to date</Text>
+                  )}
+                  {toShow && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={toDate}
+                      mode={tomode}
+                      is24Hour={true}
+                      display="default"
+                      onChange={toDateChangeHandler}
+                      //  minimumDate={fromDate}
+                    />
+                  )}
+                </View>
+              </View>
+              {/* <Radio.Group
+                name="myRadioGroup"
+                value={value}
+                onChange={(nextValue) => {
+                  setValue(nextValue);
+                  console.log(value)
+                }}
+              >
+                <Radio value="all" my="1" >
+                  All
+                </Radio>
+                <Radio value="absent" my="1">
+                  Absent
+                </Radio>
+                <Radio value="present" my="1">
+                  Present
+                </Radio>
+              </Radio.Group> */}
+              <SelectList
+                  setSelected={setSelected}
+                  data={listData}
+                  placeholder="Select class"
+                 // boxStyles={selectInputIsInValid && styles.errorSelectedColor}
+                  // boxStyles={{ borderRadius: 0 }}
+                  dropdownTextStyles={{
+                    fontSize: 18,
+                    fontFamily: "HindRegular",
+                  }}
+                  inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                />
+              {!isEdit && (
+                <View style={styles.btnSubmit}>
+                  <Button onPress={buttonPressedHandler}>Add Event</Button>
+                </View>
+              )}
+              {isEdit && (
+                <View style={styles.btnSubmit1}>
+                  <Button onPress={updateHandler}>Update</Button>
+                </View>
+              )}
+              {isEdit && (
+                <View style={styles.cancel}>
+                  <Button onPress={cancelHandler}>Cancel</Button>
+                </View>
+              )}
+            </View>
+          </ScrollView>
+          {keyboardStatus == "Keyboard Hidden" && (
+            <View style={{ flex: 1 }}>
+              <TeachersHome />
+            </View>
+          )}
+        </>
+      )}
+
+      {showList && (
+        <View
+          style={[
+            { backgroundColor: "white" },
+            //    { transform: [{ translateY: translateY }] },
+            // { elevation: 4, zIndex: 100 },
+          ]}
+        >
           <SearchBar
+            // style={
+            //   keyboardStatus == "Keyboard Shown"
+            //     ? styles.upSearch
+            //     : styles.searchBar
+            // }
             style={styles.searchBar}
-            textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
+            textInputStyle={{
+              fontFamily: "HindRegular",
+              fontSize: 18,
+            }}
             placeholder="Search here"
             onChangeText={(text) => searchFilter(text)}
             value={searchText}
           />
-          <ScrollView horizontal={true}>
-            <DataTable>
-              <DataTable.Header style={styles.tableHeader}>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}>TITLE</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}>DESCRIPTION</Text>
-                </View>
-                {/* <View style={styles.th}>
-              <Text style={styles.tableTitle}>created by</Text>
-            </View> */}
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}>START DATE </Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}>END DATE</Text>
-                </View>
-
-                <View style={styles.th}>
-                  <Text
-                    style={{
-                      margin: 7,
-                      marginLeft: 50,
-                      fontFamily: "MonsterratBold",
-                      fontSize: 16,
-                    }}
-                  >
-                    ACTIONS
-                  </Text>
-                </View>
-              </DataTable.Header>
-              {filteredData &&
-                filteredData.map((data, key) => (
-                  <DataTable.Row style={styles.tableRow} key={key}>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 20,
-                      }}
-                    >
-                      {data.titlee}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 50,
-                      }}
-                    >
-                      {data.description}
-                    </DataTable.Cell>
-
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 50,
-                      }}
-                    >
-                      {moment(data.startdate).format("DD/MM/YYYY")}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 50,
-                      }}
-                    >
-                      {moment(data.enddate).format("DD/MM/YYYY")}
-                    </DataTable.Cell>
-
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 120,
-                      }}
-                    >
-                      <Ionicons
-                        name="md-pencil-sharp"
-                        size={24}
-                        color="green"
-                        onPress={() => editItem(data.id)}
-                      />
-                    </DataTable.Cell>
-
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 10,
-                      }}
-                    >
-                      <Ionicons
-                        name="trash"
-                        size={24}
-                        color="red"
-                        onPress={() => deleteItem(data.id)}
-                      />
-                    </DataTable.Cell>
-                  </DataTable.Row>
-                ))}
-            </DataTable>
-          </ScrollView>
-        </>
+        </View>
       )}
-      {keyboardStatus == "Keyboard Hidden" && <TeachersHome />}
+      {showList && (
+        <View
+          style={[
+            { flex: 1 },
+            { flexDirection: "column", backgroundColor: "white" },
+          ]}
+        >
+          <View style={{ flex: 8, bottom: 10 }}>
+            <ScrollView
+              // onScroll={(e) => {
+              //   scrollY.setValue(e.nativeEvent.contentOffset.y);
+              // }}
+              scrollEventThrottle={25}
+              onScroll={Animated.event(
+                [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                { useNativeDriver: false }
+              )}
+            >
+              <View style={styles.root}>
+                {loading ? (
+                  <HStack space={8} justifyContent="center" alignItems="center">
+                    <ActivityIndicator
+                      size={40}
+                      visible={loading}
+                      textContent={"Loading..."}
+                      textStyle={styles.spinnerTextStyle}
+                    />
+                  </HStack>
+                ) : (
+                  filteredData.map((filteredData, key) => (
+                    <>
+                      <View>
+                        <Card
+                          // key={key}
+                          style={{
+                            marginVertical: 15,
+                            marginHorizontal: 20,
+                            elevation: 5,
+                            borderRadius: 10,
+                            paddingBottom: 20,
+                          }}
+                        >
+                          <Card.Content style={{ margin: 5, marginTop: 0 }}>
+                            <Text style={styles.eventName}>
+                              {filteredData.titlee}
+                            </Text>
+
+                            <View style={[{ flexDirection: "row" }]}>
+                              <View style={{ flex: 2, marginLeft: 5 }}>
+                                <Ionicons
+                                  name="calendar"
+                                  size={25}
+                                  color="#D4AC0D"
+                                  style={{
+                                    position: "absolute",
+                                    left: 5,
+                                  }}
+                                />
+                                <Text style={styles.cardTextStyle}>
+                                  Start Date
+                                </Text>
+                              </View>
+                              <View style={{ flex: 2 }}>
+                                <View style={{ flex: 2 }}>
+                                  <Ionicons
+                                    name="calendar"
+                                    size={25}
+                                    color="#D4AC0D"
+                                    style={{
+                                      position: "absolute",
+                                      left: 5,
+                                    }}
+                                  />
+                                  <Text style={styles.cardTextStyle}>
+                                    End Date
+                                  </Text>
+                                </View>
+                              </View>
+                            </View>
+                            <View style={[{ flexDirection: "row" }]}>
+                              <View style={{ flex: 2, left: 45 }}>
+                                <Text
+                                  style={{
+                                    fontSize: deviceWidth < 370 ? 13 : 15,
+                                    fontFamily: "HindSemiBold",
+                                    color: "grey",
+                                  }}
+                                >
+                                  {moment(filteredData.startdate).format(
+                                    "DD/MM/YYYY"
+                                  )}
+                                </Text>
+                              </View>
+                              <View style={{ flex: 2, left: 120 }}>
+                                <Text
+                                  style={{
+                                    fontSize: deviceWidth < 370 ? 13 : 15,
+                                    fontFamily: "HindSemiBold",
+                                    color: "grey",
+                                  }}
+                                >
+                                  {moment(filteredData.enddate).format(
+                                    "DD/MM/YYYY"
+                                  )}
+                                </Text>
+                              </View>
+                              <View
+                                style={{
+                                  flex: 2,
+                                  left: deviceWidth < 370 ? 100 : 110,
+                                  bottom: -50,
+                                }}
+                              >
+                                <Ionicons
+                                  name="md-pencil-sharp"
+                                  size={24}
+                                  color="green"
+                                  onPress={() => editItem(filteredData.id)}
+                                />
+                              </View>
+                              <View
+                                style={{
+                                  flex: 2,
+                                  left: 60,
+                                  bottom: -50,
+                                }}
+                              >
+                                <Ionicons
+                                  name="trash"
+                                  size={24}
+                                  color="red"
+                                  onPress={() => deleteItem(filteredData.id)}
+                                />
+                              </View>
+                            </View>
+                            <View style={[{ flexDirection: "row", flex: 1 }]}>
+                              <View style={{ flex: 2, left: -20, top: 5 }}>
+                                <Text
+                                  style={[
+                                    styles.cardTextStyle,
+                                    { fontWeight: "bold" },
+                                  ]}
+                                >
+                                  Description:
+                                </Text>
+                              </View>
+                              <View
+                                style={{
+                                  flex: 2,
+                                  left: deviceWidth < 370 ? -20 : -40,
+                                  top: 5,
+                                }}
+                              >
+                                <Text
+                                  style={{
+                                    fontSize: 16,
+                                    fontFamily: "HindSemiBold",
+                                    color: "grey",
+                                  }}
+                                >
+                                  {filteredData.description}
+                                </Text>
+                              </View>
+                            </View>
+                          </Card.Content>
+                        </Card>
+                      </View>
+                    </>
+                  ))
+                )}
+              </View>
+            </ScrollView>
+          </View>
+          {keyboardStatus == "Keyboard Hidden" && (
+            <View style={{ flex: 1 }}>
+              <TeachersHome />
+            </View>
+          )}
+        </View>
+      )}
     </>
   );
 };
 
 export default TeachersCalendar;
+const deviceWidth = Dimensions.get("window").width;
+const deviceHieght = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   BtnContainer: {
     fontSize: 24,
     flexDirection: "row",
-    width: "50%",
+
+    width: "100%",
+
+    backgroundColor: "white",
+  },
+  labelInput: {
+    color: "#673AB7",
+    fontSize: 20,
+  },
+  formInput: {
+    borderBottomWidth: 1.5,
+    marginLeft: 20,
+    borderColor: "#333",
+  },
+  input: {
+    borderWidth: 0,
+  },
+  eventName: {
+    fontFamily: "HindSemiBold",
+    fontSize: 18,
+    margin: 10,
+    marginTop: 0,
   },
   home: {
     marginTop: 29,
   },
   root: {
-    backgroundColor: "#EBECFO",
+    // backgroundColor: "#EBECFO",
+    backgroundColor: "white",
+    height: "100%",
   },
   inputForm: {
     padding: 20,
     paddingTop: 5,
+    backgroundColor: "white",
+    height: "200%",
   },
   errorBorderColor: {
-    color: "black",
-    borderBottomWidth: 1,
     borderColor: "red",
-    padding: 10,
-    margin: 15,
-    paddingVertical: 5,
-    borderRadius: 5,
-    fontSize: 18,
+  },
+  errorBorderColorDate: {
+    borderBottomColor: "red",
   },
 
   btnSubmit: {
-    marginTop: 107,
+    marginTop: deviceHieght < 600 ? "5%" : "30%",
+    width: "50%",
+    marginLeft: 180,
   },
   space: {
     width: 20,
@@ -980,6 +1291,10 @@ const styles = StyleSheet.create({
     fontFamily: "MonsterratBold",
     fontSize: 16,
   },
+  flexStyleCol: {
+    flex: 1,
+    flexDirection: "column",
+  },
   tableCell: {
     width: 50,
     //  fontFamily: "Montserrat_600SemiBold",
@@ -995,10 +1310,37 @@ const styles = StyleSheet.create({
     whiteSpace: "pre-line",
   },
   searchBar: {
-    //top: 10,
-
     marginTop: 10,
     marginBottom: 20,
+    // backgroundColor: "white",
+    backgroundColor: "#F0F3F4",
+
+    // height:deviceWidth < 370 ? "6%" : "6%",
+  },
+  errorLabel: {
+    color: "red",
+    backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
+    paddingHorizontal: 5,
+    fontSize: deviceWidth < 370 ? 13 : 15,
+  },
+  normalLabel: {
+    // color: "#A7ADAD",
+    color: "#AEB6BF",
+    // backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
+    paddingHorizontal: 5,
+    // bottom: 0,
+    fontSize: deviceWidth < 370 ? 13 : 16,
+    letterSpacing: 0.5,
+  },
+  submitLabel: {
+    color: "grey",
+    color: "#AEB6BF",
+    backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
+    paddingHorizontal: 5,
+    fontSize: deviceWidth < 370 ? 13 : 15,
   },
   btnSubmit1: {
     marginTop: 90,
@@ -1006,15 +1348,57 @@ const styles = StyleSheet.create({
     marginLeft: 190,
     width: "50%",
   },
-  add: {
-    marginTop: 150,
-    marginBottom: 30,
-    marginLeft: 160,
-    width: "60%",
-  },
   cancel: {
     marginTop: -140,
     marginLeft: -15,
     width: "50%",
+  },
+  cardTextStyle: {
+    fontFamily: "HindSemiBold",
+    fontSize: 16,
+    left: 35,
+  },
+  focusStyle: {
+    borderColor: "blue",
+  },
+  test: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 2 : 10,
+    left: deviceWidth < 370 ? 40 : 50,
+  },
+  testSuccess: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 28 : 32,
+    left: 50,
+  },
+  descriptionUp: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 68 : 87,
+    left: deviceWidth < 370 ? 40 : 50,
+  },
+  descriptionDown: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 93 : 107,
+    left: 50,
+  },
+  descriptionUpExtra: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 90 : 115,
+    left: deviceWidth < 370 ? 40 : 50,
+  },
+  descriptionDownExtra: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 115 : 137,
+    left: 50,
+  },
+  commonErrorMsg: {
+    color: "red",
+    left: 20,
+    fontFamily: "HindRegular",
+    fontSize: deviceWidth < 370 ? 16 : 18,
+    top: deviceHieght > 800 ? -3 : 1,
+  },
+  spinnerTextStyle: {
+    color: "#FFF",
   },
 });
