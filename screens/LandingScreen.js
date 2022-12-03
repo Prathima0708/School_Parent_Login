@@ -202,7 +202,7 @@ function LandingScreen() {
               fontFamily: "HindLight",
             }}
           >
-            Welcome to
+            Welcome to1
           </Text>
           <Text
             style={{
