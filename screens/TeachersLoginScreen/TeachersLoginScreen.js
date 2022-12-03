@@ -84,7 +84,7 @@ const TeachersLoginScreen = ({ navigation }) => {
         navigation.navigate("TeachersAcademics");
       }
       if (itemData.item.id === "c5") {
-        navigation.navigate("TeachersProfile");
+        navigation.navigate("MyClasses");
       }
     }
     return (

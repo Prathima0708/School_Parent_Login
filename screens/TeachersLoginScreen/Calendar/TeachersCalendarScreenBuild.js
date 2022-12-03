@@ -36,7 +36,7 @@ import EditCalendar from "./EditCalendar";
 import { HStack } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
 // import { Label } from "react-native-form-component";
-var FloatingLabel = require("react-native-floating-labels");
+
 export var ID;
 export var FROMDATE, TODATE;
 const TeachersCalendarScreenBuild = () => {
@@ -86,6 +86,9 @@ const TeachersCalendarScreenBuild = () => {
     borderRadius: 10,
   });
 
+
+//maintianing states for all the fields to accept form values and form validation 
+
   const [title, setEnteredTitle] = useState("");
   const [enteredTitleTouched, setEnteredTitleTouched] = useState(false);
   const enteredTitleIsValid = title.trim() !== "";
@@ -128,7 +131,8 @@ const TeachersCalendarScreenBuild = () => {
   const [isDelete, setIsDelete] = useState(false);
   const [isSame, SetIsSame] = useState(false);
 
-  const [filteredData, setFilteredData] = useState([]);
+  //states for search functionality
+  const [filteredData, setFilteredData] = useState([]); 
   const [searchText, setSearchText] = useState("");
 
   const [showInitialBtn, setShowInitialBtn] = useState(true);
@@ -138,17 +142,8 @@ const TeachersCalendarScreenBuild = () => {
 
   let i = 0;
 
-  // async function logoutHandler() {
-  //   try {
-  //     const value = await AsyncStorage.getItem("key");
-  //     if (value == null) {
-
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
+ 
+//to fetch data on page load
   useEffect(() => {
     async function fetchData() {
       try {
@@ -189,6 +184,8 @@ const TeachersCalendarScreenBuild = () => {
   //   // Error retrieving data
   // }
 
+
+  
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -216,6 +213,8 @@ const TeachersCalendarScreenBuild = () => {
     setToMode(currentToMode);
   };
 
+
+  //function for datetimepicker
   const fromDateChangeHandler = (event, selectedFromDate) => {
     const currentFromDate = selectedFromDate;
     FROMDATE = selectedFromDate;
@@ -263,6 +262,8 @@ const TeachersCalendarScreenBuild = () => {
     // console.log(fDate);
   };
 
+
+
   function titleChangeHandler(enteredValue) {
     setEnteredTitle(enteredValue);
   }
@@ -274,17 +275,17 @@ const TeachersCalendarScreenBuild = () => {
     setEnteredcreatedby(enteredValue);
   }
   function frmDateHandler(enteredValue) {
-    // setFromText(enteredValue);
-    // setEnteredFromDate(enteredValue);
+  
     setFromDate(enteredValue);
     setenteredfrmdate(enteredValue);
   }
   function toDateHandler(enteredValue) {
-    // setToText(enteredValue);
+   
     setToDate(enteredValue);
     setenteredtodate(enteredValue);
   }
 
+//update function
   function updateHandler() {
     setShowInitialBtn(true);
     const FormData = {
@@ -347,6 +348,7 @@ const TeachersCalendarScreenBuild = () => {
     }
   }
 
+  //posting data to backend
   function buttonPressedHandler() {
     setLoading(true);
     setTimeout(() => {
@@ -405,20 +407,17 @@ const TeachersCalendarScreenBuild = () => {
 
     setEnteredTitleTouched(true);
     setEnteredDescriptionTouched(true);
-    // setEnteredCreatedbyTouched(true);
+    
     setEnteredFromDateTouched(true);
     setEnteredtoDateTouched(true);
-    // setCheckFromDateTouched(true);
-    // setCheckToDateTouched(true);
+
     if (!enteredTitleIsValid) {
       return;
     }
     if (!enteredDescriptionIsValid) {
       return;
     }
-    // if(!enteredCreatedByIsValid){
-    //   return;
-    // }
+    
     if (!enteredFromDateIsValid) {
       return;
     }
@@ -456,9 +455,7 @@ const TeachersCalendarScreenBuild = () => {
                   headers: headers,
                 }
               );
-              // const token = resLogin.data.token;
-              // const userId = resLogin.data.user_id;
-              // console.log(resLogin.data);
+          
             } catch (error) {
               console.log(error);
             }
@@ -479,7 +476,7 @@ const TeachersCalendarScreenBuild = () => {
           setToText("");
           setEnteredTitleTouched(false);
           setEnteredDescriptionTouched(false);
-          // setEnteredCreatedbyTouched(false);
+
           setEnteredFromDateTouched(false);
           setEnteredtoDateTouched(false);
           setForCalendarList({
@@ -502,10 +499,12 @@ const TeachersCalendarScreenBuild = () => {
     }
     getData();
   }
+
+  //functions for form validation
   function titleBlurHandler() {
     setEnteredTitleTouched(true);
     setIsTitleFocused(false);
-    // setLabel(false);
+  
   }
   function onFocusTitleHandler() {
     setIsTitleFocused(true);
@@ -543,6 +542,7 @@ const TeachersCalendarScreenBuild = () => {
     setendDateLabel(true);
   }
 
+
   function showCalendarForm() {
     setForCalendarList({
       backgroundColor: "#0C60F4",
@@ -572,6 +572,8 @@ const TeachersCalendarScreenBuild = () => {
     setIsTitleFocused(false);
     setIsDescFocused(false);
   }
+
+
   function showCalendar() {
     async function fetchData() {
       try {
@@ -640,6 +642,8 @@ const TeachersCalendarScreenBuild = () => {
   //   setIsEdit(true);
   // }
 
+
+  //edit function
   function editItem(id) {
     setShowInitialBtn(false);
     setLabel(true);
@@ -649,12 +653,11 @@ const TeachersCalendarScreenBuild = () => {
     const filteredDummuyData = data.find((data) => data.id == id);
 
     setEnteredDescription(filteredDummuyData.description);
-    //  setEnteredcreatedby(filteredDummuyData.created_by);
+   
     setFromText(moment(filteredDummuyData.startdate).format("DD/MM/YYYY"));
     setToText(moment(filteredDummuyData.enddate).format("DD/MM/YYYY"));
     setEnteredTitle(filteredDummuyData.titlee);
-    //  setEnteredMobile(filteredDummuyData.exam_name);
-    //  setEnteredRouteName(filteredDummuyData.hour);
+
     setForCalendarList({
       backgroundColor: "#F4F6F6",
       color: "black",
@@ -669,6 +672,8 @@ const TeachersCalendarScreenBuild = () => {
     setShowList(false);
     setIsEdit(true);
   }
+
+  //delete function
   function deleteItem(id) {
     Alert.alert("Confirm Deletion", "You are about to delete this row!", [
       {
@@ -686,23 +691,22 @@ const TeachersCalendarScreenBuild = () => {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
         };
-        // const dataForm = FormData;
+
         const resLogin = await axios.delete(
           `${subURL}/Calendar/${id}/`,
-          // FormData,
+         
           {
             headers: headers,
           }
         );
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
+
       } catch (error) {
         console.log(error);
       }
       async function fetchData() {
         try {
           const res = await axios.get(`${subURL}/Calendar/`);
-          // console.log(res.data);
+
           setFilteredData(res.data);
         } catch (error) {
           console.log(error);
@@ -712,6 +716,7 @@ const TeachersCalendarScreenBuild = () => {
     }
   }
 
+  //search function
   const searchFilter = (text) => {
     console.log("search function");
     if (text) {
@@ -730,6 +735,7 @@ const TeachersCalendarScreenBuild = () => {
     }
   };
 
+  //cancel button function
   function cancelHandler() {
     setShowInitialBtn(true);
     setShowList(true);

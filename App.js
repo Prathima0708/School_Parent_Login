@@ -52,6 +52,8 @@ import StudentDetails from "./screens/ParentsLoginScreen/Profile/StudentDetails"
 import EditTransport from "./screens/TeachersLoginScreen/Transport/EditTransport";
 import EditCalendar from "./screens/TeachersLoginScreen/Calendar/EditCalendar";
 import ChatHeader from "./components/ChatApplication/ChatUI/ChatHeader";
+import MyClasses from "./screens/TeachersLoginScreen/Profile/MyClasses/MyClasses";
+import StudentList from "./screens/TeachersLoginScreen/Profile/MyClasses/StudentList";
 var value, Group, GroupP, GroupT;
 // function Bottom() {
 //   return (
@@ -259,6 +261,7 @@ export default function App() {
           component={Noticeboard}
           options={{ title: "NoticeBoard" }}
         />
+        
         <Stack.Screen
           name="TimeTable"
           component={TimeTable}
@@ -302,6 +305,16 @@ export default function App() {
           name="Homework"
           component={HomeworkScreen}
           options={{ title: "Homework" }}
+        />
+          <Stack.Screen
+          name="MyClasses"
+          component={MyClasses}
+          options={{ title: "" }}
+        />
+          <Stack.Screen
+          name="StudentList"
+          component={StudentList}
+          options={{ title: "" }}
         />
       </Stack.Navigator>
     );
@@ -471,6 +484,16 @@ export default function App() {
           name="TeachersProfile"
           component={TeachersProfile}
           options={{ title: "Profile" }}
+        />
+           <Stack.Screen
+          name="MyClasses"
+          component={MyClasses}
+          options={{ title: "" }}
+        />
+          <Stack.Screen
+          name="StudentList"
+          component={StudentList}
+          options={{ title: "" }}
         />
       </Stack.Navigator>
     );
