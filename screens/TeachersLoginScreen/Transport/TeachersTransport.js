@@ -23,7 +23,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import SearchBar from "react-native-dynamic-search-bar";
 import { useNavigation } from "@react-navigation/native";
-import { Spinner } from "native-base";
+import { Spinner,Text as NativeText } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
 
 export var ID;
@@ -148,6 +148,7 @@ const TeachersTransport = () => {
       try {
         const res = await axios.get(`${subURL}/Transportreport/`);
         setData(res.data);
+        setFilteredData(res.data)
         let test = 0;
         const value = await AsyncStorage.getItem("key");
         for (i = 0; i < res.data.length; i++) {
@@ -719,7 +720,7 @@ const TeachersTransport = () => {
     <>
       <View style={styles.flexStyleCol}>
         <View style={{ flex: 8 }}>
-          {showInitialBtn && (
+          {/* {showInitialBtn && (
             <Animated.View
               style={[
                 {
@@ -738,8 +739,8 @@ const TeachersTransport = () => {
                 </BgButton>
               </View>
             </Animated.View>
-          )}
-          {showForm && (
+          )} */}
+          {/* {showForm && (
             <>
               <ScrollView style={styles.root}>
                 <View style={styles.inputForm}>
@@ -1012,19 +1013,20 @@ const TeachersTransport = () => {
                 </View>
               )}
             </>
-          )}
+          )} */}
           {/* {isSame && <View style={styles.th}>
                 <Text style={styles.tableTitle}> Update</Text>
               </View>}
               {isSame && <View style={styles.th}>
                 <Text style={styles.tableTitle}> Delete</Text>
               </View>} */}
-          {showList && (
+              
+          {/* {showList && ( */}
             <>
               {/* <Animated.View style={{transform:[
               {translateY:translateY}
             ]}}> */}
-
+              <NativeText fontSize="3xl">6xl</NativeText>
               <View style={{ backgroundColor: "white" }}>
                 <SearchBar
                   style={styles.searchBar}
@@ -1119,7 +1121,7 @@ const TeachersTransport = () => {
                                       </Text>
                                     </View>
                                   </View>
-                                  <View style={styles.flexStyleRow}>
+                                  {/* <View style={styles.flexStyleRow}>
                                     <View style={styles.edititem}>
                                       <Ionicons
                                         name="md-pencil-sharp"
@@ -1138,7 +1140,7 @@ const TeachersTransport = () => {
                                         onPress={() => deleteItem(data.id)}
                                       />
                                     </View>
-                                  </View>
+                                  </View> */}
                                 </Card.Content>
                               </Card>
                             </View>
@@ -1155,7 +1157,7 @@ const TeachersTransport = () => {
                 )}
               </View>
             </>
-          )}
+          {/* )} */}
         </View>
       </View>
     </>

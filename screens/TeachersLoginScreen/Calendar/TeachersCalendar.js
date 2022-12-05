@@ -12,7 +12,9 @@ import {
   ActivityIndicator,
 } from "react-native";
 import SelectList from "react-native-dropdown-select-list";
+import CheckBox from 'react-native-check-box'
 import React, { useEffect, useState } from "react";
+import { Checkbox } from 'react-native-paper';
 import FloatLabelTextInput from "react-native-floating-label-text-input";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../../components/UI/Button";
@@ -36,6 +38,9 @@ import { useNavigation } from "@react-navigation/native";
 import EditCalendar from "./EditCalendar";
 import { HStack, Radio } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
+import { style } from "@mui/system";
+import { Token } from "../../Login";
+
 
 // import { Label } from "react-native-form-component";
 var FloatingLabel = require("react-native-floating-labels");
@@ -43,11 +48,17 @@ export var ID;
 export var FROMDATE, TODATE;
 const TeachersCalendar = () => {
 
-  const [selected, setSelected] = useState("");
+
+  const [checked, setChecked] = useState(false);
+  const [adminChecked, setAdminChecked] = useState(false);
+  const [teacherChecked, setTeacherChecked] = useState(false);
+  const [parentChecked, setParentChecked] = useState(false);
+
   const [value, setValue] =useState('');
+  const [isSelected, setSelection] = useState(false);
 
   const [listData, setListData] = useState([
-    'all','present','absent'
+    'All','Teacher','Parent'
   ]);
   const navigation = useNavigation();
   const scrollY = new Animated.Value(0);
@@ -94,6 +105,11 @@ const TeachersCalendar = () => {
     backgroundColor: "#F4F6F6",
     borderRadius: 10,
   });
+
+  const [selected, setSelected] = useState("");
+  const [enteredSelectedTouched, setEnteredSelectedTouched] = useState(false);
+  const enteredSelcetdIsValid = selected.trim() !== "";
+  const selectInputIsInValid = !enteredSelcetdIsValid && enteredSelectedTouched;
 
   const [title, setEnteredTitle] = useState("");
   const [enteredTitleTouched, setEnteredTitleTouched] = useState(false);
@@ -144,6 +160,11 @@ const TeachersCalendar = () => {
 
   const [isActive, setActive] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const [all,setAll]=useState(false);
+  const [admin,setAdmin]=useState(false);
+  const [teacher,setTeacher]=useState(false);
+  const [parent,setParent]=useState(false);
 
   let i = 0;
 
@@ -357,6 +378,7 @@ const TeachersCalendar = () => {
   }
 
   function buttonPressedHandler() {
+    console.log(Token)
     console.log(selected)
     console.log(value)
 
@@ -372,7 +394,10 @@ const TeachersCalendar = () => {
       startdate: FROMDATE,
       enddate: TODATE,
       titlee: title,
-      selected:selected
+      viewOnly:`{[${checked ? 'all' :''},
+                  ${adminChecked ? 'admin' :''},
+                  ${teacherChecked ? 'teacher' :''},
+                  ${parentChecked ? 'parentt' :''} ]}`
     };
 
     console.log(FormData)
@@ -414,10 +439,12 @@ const TeachersCalendar = () => {
       enteredTitleIsValid &&
       enteredDescriptionIsValid &&
       enteredFromDateIsValid &&
-      enteredtoDateIsValid;
+      enteredtoDateIsValid 
+    //  enteredSelcetdIsValid
     if (formIsValid) {
     }
 
+    //setEnteredSelectedTouched(true)
     setEnteredTitleTouched(true);
     setEnteredDescriptionTouched(true);
     // setEnteredCreatedbyTouched(true);
@@ -425,6 +452,9 @@ const TeachersCalendar = () => {
     setEnteredtoDateTouched(true);
     // setCheckFromDateTouched(true);
     // setCheckToDateTouched(true);
+    // if(!enteredSelcetdIsValid){
+    //   return;
+    // }
     if (!enteredTitleIsValid) {
       return;
     }
@@ -461,6 +491,7 @@ const TeachersCalendar = () => {
             try {
               let headers = {
                 "Content-Type": "application/json; charset=utf-8",
+                Authorization: "Token " + `${Token}`,
               };
               const dataForm = FormData;
 
@@ -497,6 +528,7 @@ const TeachersCalendar = () => {
           // setEnteredCreatedbyTouched(false);
           setEnteredFromDateTouched(false);
           setEnteredtoDateTouched(false);
+         // setEnteredSelectedTouched(false);
           setForCalendarList({
             backgroundColor: "#F4F6F6",
             color: "black",
@@ -517,6 +549,10 @@ const TeachersCalendar = () => {
     }
     getData();
   }
+  function selectedInputBlur() {
+    setEnteredSelectedTouched(true);
+  }
+
   function titleBlurHandler() {
     setEnteredTitleTouched(true);
     setIsTitleFocused(false);
@@ -575,6 +611,7 @@ const TeachersCalendar = () => {
     setEnteredTitleTouched(false);
     setEnteredtoDateTouched(false);
     setEnteredFromDateTouched(false);
+   // setEnteredSelectedTouched(false);
     setIsEdit(false);
 
     setEnteredDescription("");
@@ -668,8 +705,8 @@ const TeachersCalendar = () => {
     setFromText(moment(filteredDummuyData.startdate).format("DD/MM/YYYY"));
     setToText(moment(filteredDummuyData.enddate).format("DD/MM/YYYY"));
     setEnteredTitle(filteredDummuyData.titlee);
-    //  setEnteredMobile(filteredDummuyData.exam_name);
-    //  setEnteredRouteName(filteredDummuyData.hour);
+   // setSelected(filteredDummuyData.)
+
     setForCalendarList({
       backgroundColor: "#F4F6F6",
       color: "black",
@@ -761,6 +798,28 @@ const TeachersCalendar = () => {
 
   function twoPressed(){
     console.log('two')
+  }
+
+  function allCheckedHanlder(){
+    //setAll(isChecked:)
+    setAll(true)
+
+  }
+
+  function adminCheckedHanlder(event){
+    if(event.target.checked){
+      console.log('checked')
+    }else{
+      console.log('unchecked')
+    }
+  }
+
+  function teacherCheckedHanlder(){
+    setTeacher(true);
+  }
+
+  function parentCheckedHanlder(){
+    setParent(true);
   }
   return (
     <>
@@ -949,36 +1008,69 @@ const TeachersCalendar = () => {
                   )}
                 </View>
               </View>
-              {/* <Radio.Group
-                name="myRadioGroup"
-                value={value}
-                onChange={(nextValue) => {
-                  setValue(nextValue);
-                  console.log(value)
-                }}
-              >
-                <Radio value="all" my="1" >
-                  All
-                </Radio>
-                <Radio value="absent" my="1">
-                  Absent
-                </Radio>
-                <Radio value="present" my="1">
-                  Present
-                </Radio>
-              </Radio.Group> */}
-              <SelectList
-                  setSelected={setSelected}
-                  data={listData}
-                  placeholder="Select class"
-                 // boxStyles={selectInputIsInValid && styles.errorSelectedColor}
-                  // boxStyles={{ borderRadius: 0 }}
-                  dropdownTextStyles={{
-                    fontSize: 18,
-                    fontFamily: "HindRegular",
-                  }}
-                  inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-                />
+              <View style={styles.selectDropDownStyle}>
+                <View style={{flex:0.5}}>
+                  <Text style={styles.labelStyle}>Send to</Text>
+                </View>
+                <View style={{flex:1}}>
+                  <View style={{flexDirection:'row'}}>
+                    <Text style={styles.labelStyle}>All</Text>
+                    <Checkbox
+                        status={checked ? 'checked' : 'unchecked'}
+                        onPress={() => {
+                          setChecked(!checked);
+                          if(!checked){
+                            console.log('check')
+                          }else{
+                            console.log('uncheck')
+                          }
+                        }}
+                        color={'green'}
+                        uncheckColor={'red'}/>
+                    <Text style={styles.labelStyle}>Admin</Text>
+                    <Checkbox
+                        status={adminChecked ? 'checked' : 'unchecked'}
+                        onPress={() => {
+                          setAdminChecked(!adminChecked);
+                          if(!adminChecked){
+                            console.log('check')
+                          }else{
+                            console.log('uncheck')
+                          }
+                        }}
+                        color={'green'}
+                        uncheckColor={'red'}/>
+                  </View>
+                  <View style={{flexDirection:'row'}}>
+                  <Text style={styles.labelStyle}>Teacher</Text>
+                    <Checkbox
+                        status={teacherChecked ? 'checked' : 'unchecked'}
+                        onPress={() => {
+                          setTeacherChecked(!teacherChecked);
+                          if(!teacherChecked){
+                            console.log('check')
+                          }else{
+                            console.log('uncheck')
+                          }
+                        }}
+                        color={'green'}
+                        uncheckColor={'red'}/>
+                    <Text style={styles.labelStyle}>Parent</Text>
+                    <Checkbox
+                        status={parentChecked ? 'checked' : 'unchecked'}
+                        onPress={() => {
+                          setParentChecked(!parentChecked);
+                          if(!parentChecked){
+                            console.log('check')
+                          }else{
+                            console.log('uncheck')
+                          }
+                        }}
+                        color={'green'}
+                        uncheckColor={'red'}/>
+                  </View>
+                </View>
+              </View>
               {!isEdit && (
                 <View style={styles.btnSubmit}>
                   <Button onPress={buttonPressedHandler}>Add Event</Button>
@@ -1266,7 +1358,7 @@ const styles = StyleSheet.create({
   },
 
   btnSubmit: {
-    marginTop: deviceHieght < 600 ? "5%" : "30%",
+    marginTop: deviceHieght < 600 ? "5%" : "10%",
     width: "50%",
     marginLeft: 180,
   },
@@ -1400,5 +1492,19 @@ const styles = StyleSheet.create({
   },
   spinnerTextStyle: {
     color: "#FFF",
+  },
+  selectDropDownStyle:{
+    width:'100%',
+    top:'5%',
+    left:'2%',
+    flexDirection:'row'
+  },
+  labelStyle:{
+    fontFamily:'HindBold',
+    fontSize:18,
+    marginTop:10
+  },
+  errorSelectedColor: {
+    borderColor: "red",
   },
 });
