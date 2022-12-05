@@ -180,7 +180,7 @@ export default function App() {
         {/* <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} /> */}
         <Stack.Screen
           name="TeachersCalendar"
-          component={TeachersCalendar}
+          component={TeachersCalendarScreenBuild}
           options={{ title: "Calendar" }}
         />
         <Stack.Screen
@@ -443,7 +443,7 @@ export default function App() {
         {/* <Stack.Screen name="TeachersCalendar" component={TeachersCalendar} /> */}
         <Stack.Screen
           name="TeachersCalendar"
-          component={TeachersCalendar}
+          component={TeachersCalendarScreenBuild}
           options={{ title: "Calendar" }}
         />
         <Stack.Screen
