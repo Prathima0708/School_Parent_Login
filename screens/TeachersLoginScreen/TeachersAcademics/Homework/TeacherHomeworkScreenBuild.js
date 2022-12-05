@@ -771,7 +771,11 @@ const TeacherHomeworkScreenBuild = () => {
   }
 
   function editItem(id) {
+    console.log("edit button clicked");
+    ID = id;
+
     console.log(id);
+
     // setSubLabel(true);
     setRemarkLabel(true);
     setHomeworkLabel(true);
@@ -779,14 +783,13 @@ const TeacherHomeworkScreenBuild = () => {
     let selectedData = selected.split(" - ");
     let class_name = selectedData[0];
     let section = selectedData[1];
-    ID = id;
 
     const filteredDummuyData = homeworkData.find((data) => data.id == id);
     // console.log(filteredDummuyData);
 
     // setData(filteredDummuyData.selectedData[class_name]);
     // setEnteredSection(filteredDummuyData.section);
-    //  setEnteredSubject(filteredDummuyData.subject);
+    setEnteredSubject(filteredDummuyData.subject);
     setFromText(moment(filteredDummuyData.homework_date).format("DD/MM/YYYY"));
     setToText(moment(filteredDummuyData.due_date).format("DD/MM/YYYY"));
     // moment(filteredDummuyData.due_date).format('DD/MM/YYYY')
@@ -1299,6 +1302,24 @@ const TeacherHomeworkScreenBuild = () => {
                                     color="red"
                                     onPress={() => deleteItem(homeworkData.id)}
                                   />
+                                </View>
+                              </View>
+                              <View style={[{ flexDirection: "row", flex: 1 }]}>
+                                <View style={{ flex: 2, left: -15, top: 5 }}>
+                                  <Text style={styles.cardTextStyle}>
+                                    Subject:
+                                  </Text>
+                                </View>
+                                <View
+                                  style={{
+                                    flex: 2,
+                                    left: deviceWidth < 370 ? -30 : -40,
+                                    top: 6,
+                                  }}
+                                >
+                                  <Text style={styles.textInfo}>
+                                    {homeworkData.subject}
+                                  </Text>
                                 </View>
                               </View>
                               <View style={[{ flexDirection: "row", flex: 1 }]}>

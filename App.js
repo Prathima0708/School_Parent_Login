@@ -54,6 +54,7 @@ import EditCalendar from "./screens/TeachersLoginScreen/Calendar/EditCalendar";
 import ChatHeader from "./components/ChatApplication/ChatUI/ChatHeader";
 import MyClasses from "./screens/TeachersLoginScreen/Profile/MyClasses/MyClasses";
 import StudentList from "./screens/TeachersLoginScreen/Profile/MyClasses/StudentList";
+import ExamTimeTableSubjects from "./screens/TeachersLoginScreen/TimeTable/ExamTimeTableSubjects";
 var value, Group, GroupP, GroupT;
 // function Bottom() {
 //   return (
@@ -261,7 +262,7 @@ export default function App() {
           component={Noticeboard}
           options={{ title: "NoticeBoard" }}
         />
-        
+
         <Stack.Screen
           name="TimeTable"
           component={TimeTable}
@@ -306,14 +307,19 @@ export default function App() {
           component={HomeworkScreen}
           options={{ title: "Homework" }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="MyClasses"
           component={MyClasses}
           options={{ title: "" }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="StudentList"
           component={StudentList}
+          options={{ title: "" }}
+        />
+        <Stack.Screen
+          name="ExamSubjects"
+          component={ExamTimeTableSubjects}
           options={{ title: "" }}
         />
       </Stack.Navigator>
@@ -485,12 +491,17 @@ export default function App() {
           component={TeachersProfile}
           options={{ title: "Profile" }}
         />
-           <Stack.Screen
+        <Stack.Screen
           name="MyClasses"
           component={MyClasses}
           options={{ title: "" }}
         />
-          <Stack.Screen
+        <Stack.Screen
+          name="ExamSubjects"
+          component={ExamTimeTableSubjects}
+          options={{ title: "" }}
+        />
+        <Stack.Screen
           name="StudentList"
           component={StudentList}
           options={{ title: "" }}

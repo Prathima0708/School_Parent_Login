@@ -692,67 +692,44 @@ const TeachersMarksheet = () => {
     login();
   }
   function addForm(id) {
-    setMathsMarks("");
-    setEngMarks("");
-    setSciMarks("");
-    setSocMarks("");
-    setKanMarks("");
-    setHindiMarks("");
-    setCompMarks("");
-    setEnteredOverallPerct("");
-    setEnteredRemark("");
-
-    setMathsLabel(false);
-    setEngLabel(false);
-    setSciLabel(false);
-    setSocLabel(false);
-    setKanLabel(false);
-    setHindiLabel(false);
-    setCompLabel(false);
-
+    console.log("i am pressed");
+    setShowAddForm(true);
+    setShowForm(false);
+    setShowBtn(false);
+    setIsEdit(false);
+    setShowMarksheet(true);
     const filteredDummuyData = studList.find((data) => data.id == id);
     // console.log(filteredDummuyData.student_name);
     StudentList = filteredDummuyData;
+    const studentregno = StudentList.reg_number;
     console.log(StudentList.reg_number);
     async function getData() {
       try {
-        const res = await axios.get(`${subURL}/Marksheet/`);
+        const res = await axios.get(`${subURL}/MarksheetReg/${studentregno}`);
 
         let filteredlist = res.data.filter(
           (ele) => ele.Roll_no == StudentList.reg_number
         );
-        // console.log(filteredlist);
-        if (filteredlist.length > 0) {
-          Alert.alert("reg number already exists", "please enter a new one", [
-            {
-              text: "OK",
-              onPress: () => {
-                setShowAddForm(false);
-                showMarksheetList(true);
-              },
+        console.log(res.data);
+        setFilteredMarks(res.data);
+        // if (filteredlist.length > 0) {
+        //   Alert.alert("reg number already exists", "please enter a new one", [
+        //     {
+        //       text: "OK",
+        //       onPress: () => {
+        //         setShowAddForm(false);
+        //         showMarksheetList(true);
+        //       },
 
-              style: "cancel",
-            },
-          ]);
-        }
+        //       style: "cancel",
+        //     },
+        //   ]);
+        // }
       } catch (error) {
         console.log(error);
       }
     }
     getData();
-
-    setShowAddForm(true);
-    setShowForm(false);
-    setShowBtn(false);
-    setIsEdit(false);
-    setEnteredMathsMarksTouched(false);
-    setEnteredMathsMarksTouched(false);
-    setEnteredEngMarksTouched(false);
-    setEnteredSciMarksTouched(false);
-    setEnteredSocMarksTouched(false);
-    setEnteredHindiMarksTouched(false);
-    setEnteredKanMarksTouched(false);
-    setEnteredCompMarksTouched(false);
   }
 
   function cancelPressHandler() {
@@ -767,6 +744,7 @@ const TeachersMarksheet = () => {
     setSocLabel(false);
     setKanLabel(false);
     setCompLabel(false);
+    setShowMarksheet(false);
     {
       isEdit && showMarksheetList(true);
     }
@@ -901,15 +879,7 @@ const TeachersMarksheet = () => {
             },
           ]}
         >
-          <View style={styles.BtnContainer}>
-            <BgButton onPress={showMarkssheetForm} style={forMarkssheetList}>
-              Add Marksheet
-            </BgButton>
-
-            <BgButton onPress={showMarksheetList} style={forMarkssheetForm}>
-              Show List
-            </BgButton>
-          </View>
+          <Text>View List</Text>
         </Animated.View>
       )}
 
@@ -1031,7 +1001,10 @@ const TeachersMarksheet = () => {
                         marginLeft: 70,
                       }}
                     >
-                      <Btn title="Add" onPress={() => addForm(data.id)} />
+                      <Btn
+                        title="view marks"
+                        onPress={() => addForm(data.id)}
+                      />
                     </DataTable.Cell>
                   </DataTable.Row>
                 ))}
@@ -1117,7 +1090,10 @@ const TeachersMarksheet = () => {
                         marginLeft: 70,
                       }}
                     >
-                      <Btn title="Add" onPress={() => addForm(data.id)} />
+                      <Btn
+                        title="view marks"
+                        onPress={() => addForm(data.id)}
+                      />
                     </DataTable.Cell>
                   </DataTable.Row>
                 ))}
@@ -1126,350 +1102,8 @@ const TeachersMarksheet = () => {
         </>
       )}
 
-      {showAddForm && (
-        <>
-          <View style={styles.inputForm}>
-            <View
-              style={{
-                flexDirection: "row",
-                marginHorizontal: 10,
-                marginVertical: 5,
-              }}
-            >
-              <View style={{ flex: 1.5, right: 10 }}>
-                <View style={!mathsLabel ? styles.normal : styles.up}>
-                  <Text
-                    style={[
-                      btn
-                        ? styles.normalLabel
-                        : mathsMarksInputIsInValid
-                        ? styles.errorLabel
-                        : styles.normalLabel,
-                    ]}
-                  >
-                    Maths
-                  </Text>
-                </View>
-                <Input
-                  // placeholder="maths"
-                  maxLength={3}
-                  onChangeText={mathsMarksChangeHandler}
-                  blur={mathsMarksBlurHandler}
-                  onFocus={onFocusMathHandler}
-                  value={mathsMarks.toString()}
-                  onSubmitEditing={Keyboard.dismiss}
-                  style={
-                    isMathFocused
-                      ? styles.focusStyle
-                      : mathsMarksInputIsInValid && styles.errorBorderColor
-                  }
-                />
-                {mathsMarksInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      fontFamily: "HindRegular",
-                      fontSize: deviceWidth < 370 ? 14 : 16,
-                      left: deviceWidth < 370 ? 10 : 10,
-                    }}
-                  >
-                    Enter maths marks
-                  </Text>
-                )}
-              </View>
-
-              <View style={styles.space} />
-
-              <View style={{ flex: 1.5, right: 10 }}>
-                <View style={!engLabel ? styles.normal : styles.up}>
-                  <Text
-                    style={[
-                      btn
-                        ? styles.normalLabel
-                        : engMarksInputIsInValid
-                        ? styles.errorLabel
-                        : styles.normalLabel,
-                    ]}
-                  >
-                    English
-                  </Text>
-                </View>
-                <Input
-                  //   placeholder="English"
-                  maxLength={3}
-                  onChangeText={engMarksChangeHandler}
-                  blur={engMarksBlurHandler}
-                  onFocus={onFocusEngHandler}
-                  value={engMarks.toString()}
-                  onSubmitEditing={Keyboard.dismiss}
-                  style={
-                    isEngFocused
-                      ? styles.focusStyle
-                      : engMarksInputIsInValid && styles.errorBorderColor
-                  }
-                />
-                {engMarksInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      fontFamily: "HindRegular",
-                      fontSize: deviceWidth < 370 ? 14 : 16,
-                      left: deviceWidth < 370 ? 2 : 2,
-                    }}
-                  >
-                    Enter eng marks
-                  </Text>
-                )}
-              </View>
-
-              <View style={{ flex: 1.5 }}>
-                <View style={!sciLabel ? styles.normal : styles.up}>
-                  <Text
-                    style={[
-                      btn
-                        ? styles.normalLabel
-                        : sciMarksInputIsInValid
-                        ? styles.errorLabel
-                        : styles.normalLabel,
-                    ]}
-                  >
-                    Science
-                  </Text>
-                </View>
-                <Input
-                  //  placeholder="Science"
-                  maxLength={2}
-                  onChangeText={sciMarksChangeHandler}
-                  blur={sciMarksBlurHandler}
-                  onFocus={onFocusSciHandler}
-                  value={sciMarks.toString()}
-                  onSubmitEditing={Keyboard.dismiss}
-                  style={
-                    isSciFocused
-                      ? styles.focusStyle
-                      : sciMarksInputIsInValid && styles.errorBorderColor
-                  }
-                />
-                {sciMarksInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      fontFamily: "HindRegular",
-                      fontSize: deviceWidth < 370 ? 14 : 16,
-                      left: deviceWidth < 370 ? 10 : 10,
-                    }}
-                  >
-                    Enter sci marks
-                  </Text>
-                )}
-              </View>
-            </View>
-
-            <View style={{ flexDirection: "row" }}>
-              <View style={{ flex: 1.5 }}>
-                <View style={!hindiLabel ? styles.normal : styles.up}>
-                  <Text
-                    style={[
-                      btn
-                        ? styles.normalLabel
-                        : hindiMarksInputIsInValid
-                        ? styles.errorLabel
-                        : styles.normalLabel,
-                    ]}
-                  >
-                    Hindi
-                  </Text>
-                </View>
-                <Input
-                  // placeholder="Hindi"
-                  maxLength={3}
-                  onChangeText={hindiMarksChangeHandler}
-                  blur={hindiMarksBlurHandler}
-                  onFocus={onFocusHindiHandler}
-                  value={hindiMarks.toString()}
-                  onSubmitEditing={Keyboard.dismiss}
-                  style={
-                    isHindiFocused
-                      ? styles.focusStyle
-                      : hindiMarksInputIsInValid && styles.errorBorderColor
-                  }
-                />
-                {hindiMarksInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      fontFamily: "HindRegular",
-                      fontSize: deviceWidth < 370 ? 14 : 16,
-                      left: deviceWidth < 370 ? 10 : 10,
-                    }}
-                  >
-                    Enter hindi marks
-                  </Text>
-                )}
-              </View>
-
-              <View style={styles.space} />
-
-              <View style={{ flex: 1.5, right: 10 }}>
-                <View style={!socLabel ? styles.normal : styles.up}>
-                  <Text
-                    style={[
-                      btn
-                        ? styles.normalLabel
-                        : socMarksInputIsInValid
-                        ? styles.errorLabel
-                        : styles.normalLabel,
-                    ]}
-                  >
-                    Social
-                  </Text>
-                </View>
-                <Input
-                  // placeholder="Social"
-                  maxLength={3}
-                  onChangeText={socMarksChangeHandler}
-                  blur={socMarksBlurHandler}
-                  onFocus={onFocusSocHandler}
-                  value={socMarks.toString()}
-                  onSubmitEditing={Keyboard.dismiss}
-                  style={
-                    isSocFocused
-                      ? styles.focusStyle
-                      : socMarksInputIsInValid && styles.errorBorderColor
-                  }
-                  keyboardType="number-pad"
-                />
-                {socMarksInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      fontFamily: "HindRegular",
-                      fontSize: deviceWidth < 370 ? 14 : 16,
-                      left: deviceWidth < 370 ? 10 : 10,
-                    }}
-                  >
-                    Enter social marks
-                  </Text>
-                )}
-              </View>
-
-              <View style={{ flex: 1.5 }}>
-                <View style={!kanLabel ? styles.normal : styles.up}>
-                  <Text
-                    style={[
-                      btn
-                        ? styles.normalLabel
-                        : kanMarksInputIsInValid
-                        ? styles.errorLabel
-                        : styles.normalLabel,
-                    ]}
-                  >
-                    Kannada
-                  </Text>
-                </View>
-                <Input
-                  //  placeholder="Kannada"
-                  maxLength={3}
-                  onChangeText={kanMarksChangeHandler}
-                  blur={kanMarksBlurHandler}
-                  onFocus={onFocusKanHandler}
-                  value={kanMarks.toString()}
-                  onSubmitEditing={Keyboard.dismiss}
-                  style={
-                    isKanFocused
-                      ? styles.focusStyle
-                      : kanMarksInputIsInValid && styles.errorBorderColor
-                  }
-                />
-                {kanMarksInputIsInValid && (
-                  <Text
-                    style={{
-                      color: "red",
-                      fontFamily: "HindRegular",
-                      fontSize: deviceWidth < 370 ? 14 : 16,
-                      left: deviceWidth < 370 ? 10 : 10,
-                    }}
-                  >
-                    Enter kannada marks
-                  </Text>
-                )}
-              </View>
-            </View>
-
-            <View style={{ width: "30%", marginTop: 5 }}>
-              <View style={!compLabel ? styles.normal : styles.up}>
-                <Text
-                  style={[
-                    btn
-                      ? styles.normalLabel
-                      : compMarksInputIsInValid
-                      ? styles.errorLabel
-                      : styles.normalLabel,
-                  ]}
-                >
-                  Computer
-                </Text>
-              </View>
-              <Input
-                // placeholder="Computer"
-                onChangeText={compMarksChangeHandler}
-                blur={compMarksBlurHandler}
-                onFocus={onFocusComHandler}
-                value={compMarks.toString()}
-                onSubmitEditing={Keyboard.dismiss}
-                style={
-                  isComFocused
-                    ? styles.focusStyle
-                    : compMarksInputIsInValid && styles.errorBorderColor
-                }
-              />
-              {compMarksInputIsInValid && (
-                <Text
-                  style={{
-                    color: "red",
-                    fontFamily: "HindRegular",
-                    fontSize: deviceWidth < 370 ? 14 : 16,
-                    left: deviceWidth < 370 ? 10 : 10,
-                  }}
-                >
-                  Enter comp marks
-                </Text>
-              )}
-            </View>
-          </View>
-          {isEdit && (
-            <>
-              <View style={styles.btnSubmit}>
-                <Button onPress={updateHandler}>Update</Button>
-              </View>
-            </>
-          )}
-          {!isEdit && (
-            <View style={styles.btnSubmit}>
-              <Button onPress={buttonPressedHandler}>Add </Button>
-            </View>
-          )}
-          <View style={styles.btnCancel}>
-            <Button onPress={cancelPressHandler}> Cancel</Button>
-          </View>
-          {keyboardStatus == "Keyboard Hidden" && (
-            <View style={{ flex: 1 }}>
-              <TeachersHome />
-            </View>
-          )}
-        </>
-      )}
-
       {showMarksheet && (
         <>
-          <SearchBar
-            style={styles.searchBar}
-            textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
-            placeholder="Search here..."
-            onChangeText={(text) => search(text)}
-            value={searchMarks}
-            //  onClearPress={() => setMarksheetData("")}
-          />
           <ScrollView
             horizontal={true}
             scrollEventThrottle={25}
@@ -1507,18 +1141,6 @@ const TeachersMarksheet = () => {
                 </View>
                 <View style={styles.th}>
                   <Text style={styles.tableTitle}>COMP</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text
-                    style={{
-                      margin: 7,
-                      marginLeft: 50,
-                      fontFamily: "MonsterratBold",
-                      fontSize: 16,
-                    }}
-                  >
-                    ACTIONS
-                  </Text>
                 </View>
               </DataTable.Header>
 
@@ -1617,41 +1239,14 @@ const TeachersMarksheet = () => {
                     >
                       {data.computer_obt_mark}
                     </DataTable.Cell>
-
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: deviceWidth < 370 ? 16 : 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 100,
-                      }}
-                    >
-                      <Ionicons
-                        name="md-pencil-sharp"
-                        size={24}
-                        color="green"
-                        onPress={() => editItem(data.id)}
-                      />
-                    </DataTable.Cell>
-
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: deviceWidth < 370 ? 16 : 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 10,
-                      }}
-                    >
-                      <Ionicons
-                        name="trash"
-                        size={24}
-                        color="red"
-                        onPress={() => deleteItem(data.id)}
-                      />
-                    </DataTable.Cell>
                   </DataTable.Row>
                 ))
               )}
             </DataTable>
           </ScrollView>
+          <View style={styles.btnCancel}>
+            <Button onPress={cancelPressHandler}> Cancel</Button>
+          </View>
           {keyboardStatus == "Keyboard Hidden" && (
             <View style={{ flex: 1 }}>
               <TeachersHome />

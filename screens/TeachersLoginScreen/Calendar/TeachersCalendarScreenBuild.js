@@ -86,8 +86,7 @@ const TeachersCalendarScreenBuild = () => {
     borderRadius: 10,
   });
 
-
-//maintianing states for all the fields to accept form values and form validation 
+  //maintianing states for all the fields to accept form values and form validation
 
   const [title, setEnteredTitle] = useState("");
   const [enteredTitleTouched, setEnteredTitleTouched] = useState(false);
@@ -132,7 +131,7 @@ const TeachersCalendarScreenBuild = () => {
   const [isSame, SetIsSame] = useState(false);
 
   //states for search functionality
-  const [filteredData, setFilteredData] = useState([]); 
+  const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState("");
 
   const [showInitialBtn, setShowInitialBtn] = useState(true);
@@ -142,13 +141,12 @@ const TeachersCalendarScreenBuild = () => {
 
   let i = 0;
 
- 
-//to fetch data on page load
+  //to fetch data on page load
   useEffect(() => {
     async function fetchData() {
       try {
         const res = await axios.get(`${subURL}/Calendar/`);
-
+        console.log("created by-", res.data.created_by);
         setData(res.data);
         setFilteredData(res.data);
         let test = 0;
@@ -158,11 +156,11 @@ const TeachersCalendarScreenBuild = () => {
           if (value == res.data[i].created_by) {
             test = res.data[i].created_by;
           } else {
-            // console.log('false')
+            console.log("false");
           }
         }
         if (test == value) {
-          // console.log("is same")
+          console.log("is same");
           SetIsSame(true);
         }
       } catch (error) {
@@ -184,8 +182,6 @@ const TeachersCalendarScreenBuild = () => {
   //   // Error retrieving data
   // }
 
-
-  
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -212,7 +208,6 @@ const TeachersCalendarScreenBuild = () => {
 
     setToMode(currentToMode);
   };
-
 
   //function for datetimepicker
   const fromDateChangeHandler = (event, selectedFromDate) => {
@@ -262,8 +257,6 @@ const TeachersCalendarScreenBuild = () => {
     // console.log(fDate);
   };
 
-
-
   function titleChangeHandler(enteredValue) {
     setEnteredTitle(enteredValue);
   }
@@ -275,17 +268,15 @@ const TeachersCalendarScreenBuild = () => {
     setEnteredcreatedby(enteredValue);
   }
   function frmDateHandler(enteredValue) {
-  
     setFromDate(enteredValue);
     setenteredfrmdate(enteredValue);
   }
   function toDateHandler(enteredValue) {
-   
     setToDate(enteredValue);
     setenteredtodate(enteredValue);
   }
 
-//update function
+  //update function
   function updateHandler() {
     setShowInitialBtn(true);
     const FormData = {
@@ -407,7 +398,7 @@ const TeachersCalendarScreenBuild = () => {
 
     setEnteredTitleTouched(true);
     setEnteredDescriptionTouched(true);
-    
+
     setEnteredFromDateTouched(true);
     setEnteredtoDateTouched(true);
 
@@ -417,7 +408,7 @@ const TeachersCalendarScreenBuild = () => {
     if (!enteredDescriptionIsValid) {
       return;
     }
-    
+
     if (!enteredFromDateIsValid) {
       return;
     }
@@ -455,7 +446,6 @@ const TeachersCalendarScreenBuild = () => {
                   headers: headers,
                 }
               );
-          
             } catch (error) {
               console.log(error);
             }
@@ -504,7 +494,6 @@ const TeachersCalendarScreenBuild = () => {
   function titleBlurHandler() {
     setEnteredTitleTouched(true);
     setIsTitleFocused(false);
-  
   }
   function onFocusTitleHandler() {
     setIsTitleFocused(true);
@@ -542,7 +531,6 @@ const TeachersCalendarScreenBuild = () => {
     setendDateLabel(true);
   }
 
-
   function showCalendarForm() {
     setForCalendarList({
       backgroundColor: "#0C60F4",
@@ -573,13 +561,12 @@ const TeachersCalendarScreenBuild = () => {
     setIsDescFocused(false);
   }
 
-
   function showCalendar() {
     async function fetchData() {
       try {
         const res = await axios.get(`${subURL}/Calendar/`);
         console.log(res.data);
-
+        console.log("created by-", res.data.created_by);
         setData(res.data);
         setFilteredData(res.data);
 
@@ -642,7 +629,6 @@ const TeachersCalendarScreenBuild = () => {
   //   setIsEdit(true);
   // }
 
-
   //edit function
   function editItem(id) {
     setShowInitialBtn(false);
@@ -653,7 +639,7 @@ const TeachersCalendarScreenBuild = () => {
     const filteredDummuyData = data.find((data) => data.id == id);
 
     setEnteredDescription(filteredDummuyData.description);
-   
+
     setFromText(moment(filteredDummuyData.startdate).format("DD/MM/YYYY"));
     setToText(moment(filteredDummuyData.enddate).format("DD/MM/YYYY"));
     setEnteredTitle(filteredDummuyData.titlee);
@@ -694,12 +680,11 @@ const TeachersCalendarScreenBuild = () => {
 
         const resLogin = await axios.delete(
           `${subURL}/Calendar/${id}/`,
-         
+
           {
             headers: headers,
           }
         );
-
       } catch (error) {
         console.log(error);
       }
@@ -1084,6 +1069,7 @@ const TeachersCalendarScreenBuild = () => {
                                   )}
                                 </Text>
                               </View>
+
                               <View
                                 style={{
                                   flex: 2,
@@ -1098,6 +1084,7 @@ const TeachersCalendarScreenBuild = () => {
                                   onPress={() => editItem(filteredData.id)}
                                 />
                               </View>
+
                               <View
                                 style={{
                                   flex: 2,
