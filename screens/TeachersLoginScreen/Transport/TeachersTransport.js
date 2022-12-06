@@ -23,7 +23,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import SearchBar from "react-native-dynamic-search-bar";
 import { useNavigation } from "@react-navigation/native";
-import { Spinner,Text as NativeText } from "native-base";
+import { Spinner, Text as NativeText } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
 
 export var ID;
@@ -148,7 +148,7 @@ const TeachersTransport = () => {
       try {
         const res = await axios.get(`${subURL}/Transportreport/`);
         setData(res.data);
-        setFilteredData(res.data)
+        setFilteredData(res.data);
         let test = 0;
         const value = await AsyncStorage.getItem("key");
         for (i = 0; i < res.data.length; i++) {
@@ -1020,108 +1020,108 @@ const TeachersTransport = () => {
               {isSame && <View style={styles.th}>
                 <Text style={styles.tableTitle}> Delete</Text>
               </View>} */}
-              
+
           {/* {showList && ( */}
-            <>
-              {/* <Animated.View style={{transform:[
+          <>
+            {/* <Animated.View style={{transform:[
               {translateY:translateY}
             ]}}> */}
-              <NativeText fontSize="3xl">6xl</NativeText>
-              <View style={{ backgroundColor: "white" }}>
-                <SearchBar
-                  style={styles.searchBar}
-                  textInputStyle={{
-                    fontFamily: "HindRegular",
-                    fontSize: 18,
-                  }}
-                  placeholder="Search here"
-                  onChangeText={(text) => searchFilter(text)}
-                  value={searchText}
-                />
-              </View>
+            {/* <NativeText fontSize="3xl">Transport List</NativeText> */}
+            <View style={{ backgroundColor: "white" }}>
+              <SearchBar
+                style={styles.searchBar}
+                textInputStyle={{
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+                placeholder="Search here"
+                onChangeText={(text) => searchFilter(text)}
+                value={searchText}
+              />
+            </View>
 
-              <View
-                style={[
-                  { flex: 1 },
-                  { flexDirection: "column", backgroundColor: "white" },
-                ]}
-              >
-                <View style={{ flex: 8, bottom: 10 }}>
-                  <ScrollView
-                    //  onScroll={scrollHanlder}
-                    // onScroll={((e)=>{
-                    //   scrollY.setValue(e.nativeEvent.contentOffset.y)
-                    // })}
-                    scrollEventThrottle={35}
-                    onScroll={Animated.event(
-                      [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-                      { useNativeDriver: false }
-                    )}
-                  >
-                    <View style={[styles.root]}>
-                      {loading ? (
-                        <ActivityIndicator
-                          size="large"
-                          visible={loading}
-                          textContent={"Loading..."}
-                          textStyle={styles.spinnerTextStyle}
-                        />
-                      ) : (
-                        filteredData.map((data) => (
-                          <>
-                            <View>
-                              <Card style={[styles.card]}>
-                                <Card.Content style={{ marginTop: 0 }}>
-                                  <View style={styles.flexStyleRow}>
-                                    <View style={styles.flexData1}>
-                                      <Text style={[styles.cardTextStyle]}>
-                                        Driver Name
-                                      </Text>
-                                    </View>
-                                    <View style={styles.flexData}>
-                                      <Text style={styles.cardData}>
-                                        {data.driver_name}
-                                      </Text>
-                                    </View>
+            <View
+              style={[
+                { flex: 1 },
+                { flexDirection: "column", backgroundColor: "white" },
+              ]}
+            >
+              <View style={{ flex: 8, bottom: 10 }}>
+                <ScrollView
+                  //  onScroll={scrollHanlder}
+                  // onScroll={((e)=>{
+                  //   scrollY.setValue(e.nativeEvent.contentOffset.y)
+                  // })}
+                  scrollEventThrottle={35}
+                  onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                    { useNativeDriver: false }
+                  )}
+                >
+                  <View style={[styles.root]}>
+                    {loading ? (
+                      <ActivityIndicator
+                        size="large"
+                        visible={loading}
+                        textContent={"Loading..."}
+                        textStyle={styles.spinnerTextStyle}
+                      />
+                    ) : (
+                      filteredData.map((data) => (
+                        <>
+                          <View>
+                            <Card style={[styles.card]}>
+                              <Card.Content style={{ marginTop: 0 }}>
+                                <View style={styles.flexStyleRow}>
+                                  <View style={styles.flexData1}>
+                                    <Text style={[styles.cardTextStyle]}>
+                                      Driver Name
+                                    </Text>
                                   </View>
-                                  <View style={styles.flexStyleRow}>
-                                    <View style={styles.flexData1}>
-                                      <Text style={[styles.cardTextStyle]}>
-                                        Bus Number
-                                      </Text>
-                                    </View>
-                                    <View style={styles.flexData}>
-                                      <Text style={styles.cardData}>
-                                        {data.busnumber}
-                                      </Text>
-                                    </View>
+                                  <View style={styles.flexData}>
+                                    <Text style={styles.cardData}>
+                                      {data.driver_name}
+                                    </Text>
                                   </View>
-                                  <View style={styles.flexStyleRow}>
-                                    <View style={styles.flexData1}>
-                                      <Text style={[styles.cardTextStyle]}>
-                                        Vehicle Number
-                                      </Text>
-                                    </View>
-                                    <View style={styles.flexData}>
-                                      <Text style={styles.cardData}>
-                                        {data.vehicleno}
-                                      </Text>
-                                    </View>
+                                </View>
+                                <View style={styles.flexStyleRow}>
+                                  <View style={styles.flexData1}>
+                                    <Text style={[styles.cardTextStyle]}>
+                                      Bus Number
+                                    </Text>
                                   </View>
+                                  <View style={styles.flexData}>
+                                    <Text style={styles.cardData}>
+                                      {data.busnumber}
+                                    </Text>
+                                  </View>
+                                </View>
+                                <View style={styles.flexStyleRow}>
+                                  <View style={styles.flexData1}>
+                                    <Text style={[styles.cardTextStyle]}>
+                                      Vehicle Number
+                                    </Text>
+                                  </View>
+                                  <View style={styles.flexData}>
+                                    <Text style={styles.cardData}>
+                                      {data.vehicleno}
+                                    </Text>
+                                  </View>
+                                </View>
 
-                                  <View style={styles.flexStyleRow}>
-                                    <View style={styles.flexData1}>
-                                      <Text style={[styles.cardTextStyle]}>
-                                        Contact Number
-                                      </Text>
-                                    </View>
-                                    <View style={styles.flexData}>
-                                      <Text style={styles.cardData}>
-                                        {data.emp_mobile}
-                                      </Text>
-                                    </View>
+                                <View style={styles.flexStyleRow}>
+                                  <View style={styles.flexData1}>
+                                    <Text style={[styles.cardTextStyle]}>
+                                      Contact Number
+                                    </Text>
                                   </View>
-                                  {/* <View style={styles.flexStyleRow}>
+                                  <View style={styles.flexData}>
+                                    <Text style={styles.cardData}>
+                                      {data.emp_mobile}
+                                    </Text>
+                                  </View>
+                                </View>
+                                {/* <View style={styles.flexStyleRow}>
                                     <View style={styles.edititem}>
                                       <Ionicons
                                         name="md-pencil-sharp"
@@ -1141,22 +1141,22 @@ const TeachersTransport = () => {
                                       />
                                     </View>
                                   </View> */}
-                                </Card.Content>
-                              </Card>
-                            </View>
-                          </>
-                        ))
-                      )}
-                    </View>
-                  </ScrollView>
-                </View>
-                {keyboardStatus == "Keyboard Hidden" && (
-                  <View style={{ flex: 1 }}>
-                    <TeachersHome />
+                              </Card.Content>
+                            </Card>
+                          </View>
+                        </>
+                      ))
+                    )}
                   </View>
-                )}
+                </ScrollView>
               </View>
-            </>
+              {keyboardStatus == "Keyboard Hidden" && (
+                <View style={{ flex: 1 }}>
+                  <TeachersHome />
+                </View>
+              )}
+            </View>
+          </>
           {/* )} */}
         </View>
       </View>

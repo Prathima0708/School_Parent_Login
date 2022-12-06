@@ -671,6 +671,7 @@ const TecahersExamTimeTable = () => {
   }
 
   function navigateHandler(id) {
+    ID = id;
     console.log(id);
     navigation.navigate("ExamSubjects");
   }

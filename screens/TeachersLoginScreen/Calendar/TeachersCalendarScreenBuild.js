@@ -146,7 +146,7 @@ const TeachersCalendarScreenBuild = () => {
     async function fetchData() {
       try {
         const res = await axios.get(`${subURL}/Calendar/`);
-        console.log("created by-", res.data.created_by);
+        console.log("created by-", res.data[0].created_by);
         setData(res.data);
         setFilteredData(res.data);
         let test = 0;
