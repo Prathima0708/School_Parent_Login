@@ -27,6 +27,7 @@ import SelectList from "react-native-dropdown-select-list";
 import { Ionicons } from "@expo/vector-icons";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import { subURL } from "../../../components/utils/URL's";
+import { style } from "@mui/system";
 export var ID;
 export var StudentList = [];
 const TeachersMarksheet = () => {
@@ -870,7 +871,7 @@ const TeachersMarksheet = () => {
 
   return (
     <>
-      {showInitialBtn && (
+      {/* {showInitialBtn && (
         <Animated.View
           style={[
             {
@@ -881,16 +882,18 @@ const TeachersMarksheet = () => {
         >
           <Text>View List</Text>
         </Animated.View>
-      )}
+      )} */}
 
       {showBtn && (
         <>
           <View
             style={{
               width: 170,
-              fontSize: 20,
-              marginTop: 13,
-              margin: 10,
+              top:'4%',
+              left:'6%'
+              // fontSize: 20,
+              // marginTop: 13,
+              // margin: 10,
             }}
           >
             <SelectList
@@ -898,7 +901,7 @@ const TeachersMarksheet = () => {
               setSelected={setSelected}
               data={studData}
               placeholder="Select class"
-              boxStyles={{ borderRadius: 0 }}
+              boxStyles={{ borderRadius: 10 }}
               dropdownTextStyles={{ fontSize: 18, fontFamily: "HindRegular" }}
               inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
             />
@@ -906,10 +909,10 @@ const TeachersMarksheet = () => {
           <View
             style={{
               width: "50%",
-              marginTop: -93,
+              // bottom:'2%',
               marginLeft: 200,
               position: "absolute",
-              top: 160,
+              // top: 160,
             }}
           >
             <Button onPress={viewStudentList}>View List</Button>
@@ -1001,10 +1004,13 @@ const TeachersMarksheet = () => {
                         marginLeft: 70,
                       }}
                     >
-                      <Btn
-                        title="view marks"
+                      <Ionicons
+                        name="eye"
+                        //size={deviceWidth < 370 ? 35 : 38}
+                        color="black"
+                        size={24}
                         onPress={() => addForm(data.id)}
-                      />
+                      /> 
                     </DataTable.Cell>
                   </DataTable.Row>
                 ))}
@@ -1090,10 +1096,17 @@ const TeachersMarksheet = () => {
                         marginLeft: 70,
                       }}
                     >
-                      <Btn
+                      {/* <Btn
                         title="view marks"
                         onPress={() => addForm(data.id)}
-                      />
+                      /> */}
+                      <Ionicons
+                        name="eye"
+                        //size={deviceWidth < 370 ? 35 : 38}
+                        color="black"
+                        size={24}
+                        onPress={() => addForm(data.id)}
+                      /> 
                     </DataTable.Cell>
                   </DataTable.Row>
                 ))}
@@ -1101,149 +1114,81 @@ const TeachersMarksheet = () => {
           </ScrollView>
         </>
       )}
-
       {showMarksheet && (
         <>
-          <ScrollView
-            horizontal={true}
-            scrollEventThrottle={25}
-            onScroll={Animated.event(
-              [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-              { useNativeDriver: false }
-            )}
-          >
-            <DataTable style={styles.container}>
-              <DataTable.Header style={styles.tableHeader}>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}>REG NO</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}>NAME</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}>MATHS</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}>ENG</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}>SCI</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}>HIN</Text>
-                </View>
+          <View style={[{flex:1}, {flexDirection: "row",alignItems:'center'}]}>
+            <View style={{ flex: 1 ,alignItems:'center',backgroundColor:'darkblue',marginHorizontal:20}} >
+              
+                <Text style={[styles.headingFont,{fontSize:18,color:'white'}]}>Roll no</Text>
+              
+            </View>
+            <View style={{ flex: 1,alignItems:'center',backgroundColor:'darkblue',marginHorizontal:20 }} >
+              
+                <Text style={[styles.headingFont,{fontSize:18,color:'white'}]}>Student name</Text>
+              
+            </View>
+          </View>
+          <View style={[{flex:1}, {flexDirection: "row",alignItems:'center',bottom:'22%'}]}>
+            <View style={{ flex: 1 ,alignItems:'center',backgroundColor:'darkblue',marginHorizontal:20}} >
+              {filteredMarks.map((data,key)=>(
+                <Text style={[styles.headingFont,{fontSize:18,color:'white'}]}>{data.Roll_no}</Text>
+              ))}
+            </View>
+            <View style={{ flex: 1,alignItems:'center',backgroundColor:'darkblue',marginHorizontal:20 }} >
+              {filteredMarks.map((data,key)=>(
+                <Text style={[styles.headingFont,{fontSize:18,color:'white'}]}> {data.student_name}</Text>
+              ))}
+            </View>
+          </View>
+          <View style={[{flex:0.34}, {
+            flexDirection: "row",marginHorizontal:20,bottom:'15%'
+          }]}>
+            <View style={{ flex: 1,alignItems:'center',borderRightWidth:1,borderLeftWidth:1,borderTopWidth:1,backgroundColor:"#59b8dd" }} >
+              <Text style={[styles.headingFont,{color:'white'}]}>Subject</Text>
+            </View>
+            <View style={{ flex: 1,alignItems:'center',borderRightWidth:1,borderLeftWidth:1,borderTopWidth:1,backgroundColor:"#59b8dd"  }} >
+            <Text style={[styles.headingFont,{color:'white'}]}>Obtained marks</Text>
+            </View>
+          </View>
+          <View style={[{flex:2.3}, {flexDirection: "row",borderWidth:1,marginHorizontal:20,bottom:'15%'}]}>
+            <View style={{ flex: 1,borderRightWidth:1,alignItems:'center' }} >
+              <View>
+              <Text style={styles.headingFont}>MATHS</Text>
+              </View>
+              <View>
+              <Text style={styles.headingFont}>ENG</Text>
+              </View>
+              <View>
+              <Text style={styles.headingFont}>SCI</Text>
+              </View>
+              <View>
+              <Text style={styles.headingFont}>HIN</Text>
+              </View>
+              <View>
+              <Text style={styles.headingFont}>SOC</Text>
+              </View>
+              <View>
+              <Text style={styles.headingFont}>KAN</Text>
+              </View>
+              <View>
+              <Text style={styles.headingFont}>COMP</Text>
+              </View>
+            </View>
+            <View style={{ flex: 1,alignItems:'center'}} >
+              {filteredMarks.map((data,key)=>(
+                <>
+                  <Text style={styles.headingFont}>{data.maths_obt_mark}</Text>
+                  <Text style={styles.headingFont}>{data.english_obt_mark}</Text>
+                  <Text style={styles.headingFont}>{data.science_obt_mark}</Text>
+                  <Text style={styles.headingFont}>{data.hindi_obt_mark}</Text>
+                  <Text style={styles.headingFont}>{data.social_obt_mark}</Text>
+                  <Text style={styles.headingFont}>{data.kannada_obt_mark}</Text>
+                  <Text style={styles.headingFont}>{data.computer_obt_mark}</Text>
+                </> 
+              ))}
+            </View>
+          </View>
 
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}>SOC</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}>KAN</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}>COMP</Text>
-                </View>
-              </DataTable.Header>
-
-              {loading ? (
-                <ActivityIndicator
-                  size={40}
-                  visible={loading}
-                  textContent={"Loading..."}
-                  textStyle={styles.spinnerTextStyle}
-                />
-              ) : (
-                filteredMarks.map((data, key) => (
-                  <DataTable.Row style={styles.tableRow} key={key}>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: deviceWidth < 370 ? 16 : 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 40,
-                      }}
-                    >
-                      {data.Roll_no}
-                    </DataTable.Cell>
-
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: deviceWidth < 370 ? 16 : 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 40,
-                        width: "60%",
-                      }}
-                    >
-                      {data.student_name}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: deviceWidth < 370 ? 16 : 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 40,
-                        width: "60%",
-                      }}
-                    >
-                      {data.maths_obt_mark}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: deviceWidth < 370 ? 16 : 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 40,
-                      }}
-                    >
-                      {data.english_obt_mark}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: deviceWidth < 370 ? 16 : 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 40,
-                      }}
-                    >
-                      {data.science_obt_mark}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: deviceWidth < 370 ? 16 : 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 40,
-                      }}
-                    >
-                      {data.hindi_obt_mark}
-                    </DataTable.Cell>
-
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: deviceWidth < 370 ? 16 : 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 40,
-                      }}
-                    >
-                      {data.social_obt_mark}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: deviceWidth < 370 ? 16 : 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 40,
-                      }}
-                    >
-                      {data.kannada_obt_mark}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: deviceWidth < 370 ? 16 : 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 50,
-                      }}
-                    >
-                      {data.computer_obt_mark}
-                    </DataTable.Cell>
-                  </DataTable.Row>
-                ))
-              )}
-            </DataTable>
-          </ScrollView>
           <View style={styles.btnCancel}>
             <Button onPress={cancelPressHandler}> Cancel</Button>
           </View>
@@ -1254,6 +1199,7 @@ const TeachersMarksheet = () => {
           )}
         </>
       )}
+ 
     </>
   );
 };
@@ -1262,6 +1208,13 @@ export default TeachersMarksheet;
 const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
+
+    headingFont: {
+      // fontFamily: "Hind-SemiBold",
+      fontWeight: "bold",
+      fontSize: deviceWidth < 370 ? 14 : 14,
+      paddingVertical:10,
+    },
   BtnContainer: {
     fontSize: 24,
     flexDirection: "row",
@@ -1278,6 +1231,7 @@ const styles = StyleSheet.create({
   },
   container: {
     padding: 10,
+    top:'15%'
   },
   home: {
     marginTop: 29,
@@ -1314,9 +1268,11 @@ const styles = StyleSheet.create({
     marginLeft: deviceWidth < 370 ? 170 : 180,
   },
   btnCancel: {
-    marginTop: -110,
-    marginLeft: 10,
+    //marginTop: -110,
+
     width: "50%",
+    position:'absolute',
+    top:'75%'
   },
   th: {
     padding: 5,
@@ -1358,9 +1314,9 @@ const styles = StyleSheet.create({
   },
   searchBar: {
     //top: 10,
-
-    marginTop: 10,
-    marginBottom: 20,
+    top:'20%'
+    // marginTop: 10,
+    // marginBottom: 20,
   },
 
   focusStyle: {
@@ -1434,5 +1390,37 @@ const styles = StyleSheet.create({
   },
   spinnerTextStyle: {
     color: "#FFF",
+  },
+  description: {
+    fontSize: deviceWidth < 370 ? 18 : 20,
+    fontFamily: "HindRegular",
+    marginBottom: 4,
+    fontWeight: "bold",
+    // fontWeight: "bold",
+  },
+  textBase: {
+    color: "white",
+    // color: "#0D98BA",
+    marginRight: 10,
+  },
+  studentItem: {
+    width: "90%",
+
+    marginVertical: 20,
+    marginHorizontal: 20,
+    //  backgroundColor: "#3e04c3",
+    backgroundColor: "#02196E",
+    flexDirection: "row",
+    alignItems: "center",
+
+    justifyContent: "space-between",
+    borderRadius: 10,
+  },
+  textStyleStudInfo: {
+    fontSize: deviceWidth < 370 ? 20 : 17,
+
+    marginBottom: 4,
+    // fontWeight: "bold",
+    fontFamily: "HindMedium",
   },
 });
