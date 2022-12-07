@@ -23,7 +23,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import SearchBar from "react-native-dynamic-search-bar";
 import { useNavigation } from "@react-navigation/native";
-import { Spinner, Text as NativeText } from "native-base";
+import { Heading, Spinner, Text as NativeText } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
 
 export var ID;
@@ -716,10 +716,90 @@ const TeachersTransport = () => {
       setShowInitialBtn(true);
     }
   }
+
   return (
     <>
-      <View style={styles.flexStyleCol}>
-        <View style={{ flex: 8 }}>
+      <View style={[{flex:1}, {flexDirection: "column"}]}>
+        <View style={{ flex: 0.1, backgroundColor: "white",alignItems:'center',paddingVertical:15 }} >
+          <NativeText bold style={{fontSize:20}}>Bus and Driver Details</NativeText>
+        </View>
+        <View style={{ flex: 2, backgroundColor: "white" }} >
+          <SearchBar
+            style={styles.searchBar}
+            textInputStyle={{
+              fontFamily: "HindRegular",
+              fontSize: 18,
+            }}
+            placeholder="Search here"
+            onChangeText={(text) => searchFilter(text)}
+            value={searchText}
+          />
+          <ScrollView>
+            {filteredData &&
+              filteredData.map((data,key)=>(
+                <Card style={[styles.card]}>
+                  <Card.Content style={{ marginTop: 0 }}>
+                    <View style={styles.flexStyleRow}>
+                      <View style={styles.flexData1}>
+                        <Text style={[styles.cardTextStyle]}>
+                          Driver Name
+                        </Text>
+                      </View>
+                      <View style={styles.flexData}>
+                        <Text style={styles.cardData}>
+                          {data.driver_name}
+                        </Text>
+                      </View>
+                    </View>
+                    <View style={styles.flexStyleRow}>
+                      <View style={styles.flexData1}>
+                        <Text style={[styles.cardTextStyle]}>
+                          Bus Number
+                        </Text>
+                      </View>
+                      <View style={styles.flexData}>
+                        <Text style={styles.cardData}>
+                          {data.busnumber}
+                        </Text>
+                      </View>
+                    </View>
+                    <View style={styles.flexStyleRow}>
+                      <View style={styles.flexData1}>
+                        <Text style={[styles.cardTextStyle]}>
+                          Vehicle Number
+                        </Text>
+                      </View>
+                      <View style={styles.flexData}>
+                        <Text style={styles.cardData}>
+                          {data.vehicleno}
+                        </Text>
+                      </View>
+                    </View>
+
+                    <View style={styles.flexStyleRow}>
+                      <View style={styles.flexData1}>
+                        <Text style={[styles.cardTextStyle]}>
+                          Contact Number
+                        </Text>
+                      </View>
+                      <View style={styles.flexData}>
+                        <Text style={styles.cardData}>
+                          {data.emp_mobile}
+                        </Text>
+                      </View>
+                    </View>
+                  </Card.Content>
+                </Card>
+              ))}
+          </ScrollView>
+        </View>
+        {keyboardStatus == "Keyboard Hidden" &&
+        (<View style={{ flex: 0.2, backgroundColor: "white" }} >
+          <TeachersHome />
+        </View>)}
+      </View>
+    </>
+  );
           {/* {showInitialBtn && (
             <Animated.View
               style={[
@@ -1027,141 +1107,10 @@ const TeachersTransport = () => {
               {translateY:translateY}
             ]}}> */}
             {/* <NativeText fontSize="3xl">Transport List</NativeText> */}
-            <View style={{ backgroundColor: "white" }}>
-              <SearchBar
-                style={styles.searchBar}
-                textInputStyle={{
-                  fontFamily: "HindRegular",
-                  fontSize: 18,
-                }}
-                placeholder="Search here"
-                onChangeText={(text) => searchFilter(text)}
-                value={searchText}
-              />
-            </View>
-
-            <View
-              style={[
-                { flex: 1 },
-                { flexDirection: "column", backgroundColor: "white" },
-              ]}
-            >
-              <View style={{ flex: 8, bottom: 10 }}>
-                <ScrollView
-                  //  onScroll={scrollHanlder}
-                  // onScroll={((e)=>{
-                  //   scrollY.setValue(e.nativeEvent.contentOffset.y)
-                  // })}
-                  scrollEventThrottle={35}
-                  onScroll={Animated.event(
-                    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-                    { useNativeDriver: false }
-                  )}
-                >
-                  <View style={[styles.root]}>
-                    {loading ? (
-                      <ActivityIndicator
-                        size="large"
-                        visible={loading}
-                        textContent={"Loading..."}
-                        textStyle={styles.spinnerTextStyle}
-                      />
-                    ) : (
-                      filteredData.map((data) => (
-                        <>
-                          <View>
-                            <Card style={[styles.card]}>
-                              <Card.Content style={{ marginTop: 0 }}>
-                                <View style={styles.flexStyleRow}>
-                                  <View style={styles.flexData1}>
-                                    <Text style={[styles.cardTextStyle]}>
-                                      Driver Name
-                                    </Text>
-                                  </View>
-                                  <View style={styles.flexData}>
-                                    <Text style={styles.cardData}>
-                                      {data.driver_name}
-                                    </Text>
-                                  </View>
-                                </View>
-                                <View style={styles.flexStyleRow}>
-                                  <View style={styles.flexData1}>
-                                    <Text style={[styles.cardTextStyle]}>
-                                      Bus Number
-                                    </Text>
-                                  </View>
-                                  <View style={styles.flexData}>
-                                    <Text style={styles.cardData}>
-                                      {data.busnumber}
-                                    </Text>
-                                  </View>
-                                </View>
-                                <View style={styles.flexStyleRow}>
-                                  <View style={styles.flexData1}>
-                                    <Text style={[styles.cardTextStyle]}>
-                                      Vehicle Number
-                                    </Text>
-                                  </View>
-                                  <View style={styles.flexData}>
-                                    <Text style={styles.cardData}>
-                                      {data.vehicleno}
-                                    </Text>
-                                  </View>
-                                </View>
-
-                                <View style={styles.flexStyleRow}>
-                                  <View style={styles.flexData1}>
-                                    <Text style={[styles.cardTextStyle]}>
-                                      Contact Number
-                                    </Text>
-                                  </View>
-                                  <View style={styles.flexData}>
-                                    <Text style={styles.cardData}>
-                                      {data.emp_mobile}
-                                    </Text>
-                                  </View>
-                                </View>
-                                {/* <View style={styles.flexStyleRow}>
-                                    <View style={styles.edititem}>
-                                      <Ionicons
-                                        name="md-pencil-sharp"
-                                        size={24}
-                                        color="green"
-                                        style={{ left: "30%" }}
-                                        onPress={() => editItem(data.id)}
-                                      />
-                                    </View>
-                                    <View style={{ flex: 1, left: 40, top: 5 }}>
-                                      <Ionicons
-                                        name="trash"
-                                        size={24}
-                                        color="red"
-                                        style={{ left: "60%" }}
-                                        onPress={() => deleteItem(data.id)}
-                                      />
-                                    </View>
-                                  </View> */}
-                              </Card.Content>
-                            </Card>
-                          </View>
-                        </>
-                      ))
-                    )}
-                  </View>
-                </ScrollView>
-              </View>
-              {keyboardStatus == "Keyboard Hidden" && (
-                <View style={{ flex: 1 }}>
-                  <TeachersHome />
-                </View>
-              )}
-            </View>
+            
           </>
           {/* )} */}
-        </View>
-      </View>
-    </>
-  );
+ 
 };
 
 export default TeachersTransport;
