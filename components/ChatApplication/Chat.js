@@ -22,9 +22,9 @@ import {
   VStack,
 } from "native-base";
 import { useEffect, useState } from "react";
-import { Token } from "../../screens/Login";
+
 import ChatList from "./ChatList";
-export var SELECTEDUSER, USERNAME;
+export var SELECTEDUSER, USERNAME, TOKEN;
 
 // const Chat = () => {
 //   const [users, setUsers] = useState([]);
@@ -83,13 +83,22 @@ export var SELECTEDUSER, USERNAME;
 const Chat = () => {
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState("");
+  const [token, setToken] = useState("");
   const navigation = useNavigation();
+  async function fetchToken() {
+    TOKEN = await AsyncStorage.getItem("token");
+    // console.log("this is the token in chat", TOKEN);
+    if (TOKEN !== null) {
+      setToken(TOKEN);
+    }
+  }
+  fetchToken();
   useEffect(() => {
     async function getAllUsers() {
       try {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
-          Authorization: "Token " + `${Token}`,
+          Authorization: "Token " + `${TOKEN}`,
         };
 
         // const res = await axios.get("http://10.0.2.2:8000/school/users/", {
