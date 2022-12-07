@@ -3,13 +3,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { subURL } from "../../../components/utils/URL's";
 import { Card } from "react-native-paper";
+import { ID } from "./TecahersExamTimeTable";
 
 const ExamTimeTableSubjects = () => {
   const [data, setData] = useState([]);
+  console.log("id -", ID);
   useEffect(() => {
     async function viewExamList() {
       try {
-        const res = await axios.get(`${subURL}/AddmoreExam_list/`);
+        const res = await axios.get(`${subURL}/AddmoreExam_list_by_exam/${ID}`);
         console.log(res.data);
 
         setData(res.data);
@@ -48,7 +50,7 @@ const ExamTimeTableSubjects = () => {
                     },
                   ]}
                 >
-                  {data.value}ds
+                  {data.name}ds
                 </Text>
                 <Text
                   style={[
@@ -60,7 +62,7 @@ const ExamTimeTableSubjects = () => {
                     },
                   ]}
                 >
-                  {data.name}df
+                  {data.value}df
                 </Text>
               </View>
             </View>
