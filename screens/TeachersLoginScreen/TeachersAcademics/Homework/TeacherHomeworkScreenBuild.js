@@ -37,6 +37,8 @@ import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 export var ID;
 export var FROMDATE, TODATE;
+export var SubjectID;
+var newArray;
 const TeacherHomeworkScreenBuild = () => {
   const scrollY = new Animated.Value(0);
 
@@ -85,14 +87,21 @@ const TeacherHomeworkScreenBuild = () => {
 
   const [selected, setSelected] = useState("");
   const [enteredSelectedTouched, setEnteredSelectedTouched] = useState(false);
-  const enteredSelcetdIsValid = selected.trim() !== "";
-  const selectInputIsInValid = !enteredSelcetdIsValid && enteredSelectedTouched;
+  // const enteredSelcetdIsValid = selected.trim() !== "";
+  // const selectInputIsInValid = !enteredSelcetdIsValid && enteredSelectedTouched;
 
   const [data, setData] = useState([]);
-  const [selectedsection, setSelectedsection] = useState("");
-  const [sectiondata, setSectionData] = useState([]);
 
   // const [formIsValid,setFormIsValid]=useState(false);
+
+  const [selectedSubject, setSelectedSubject] = useState("");
+  const [enteredSelectedSubTouched, setEnteredSelectedSubTouched] =
+    useState(false);
+  const enteredSelcetdSubIsValid = selectedSubject.trim() !== "";
+  const selectSubInputIsInValid =
+    !enteredSelcetdSubIsValid && enteredSelectedSubTouched;
+
+  const [subjectData, setSubjectData] = useState([]);
 
   const [subject, setEnteredSubject] = useState("");
   const [enteredSubjectTouched, setEnteredSubjectTouched] = useState(false);
@@ -257,13 +266,23 @@ const TeacherHomeworkScreenBuild = () => {
       axios
         .get("http://10.0.2.2:8000/school/Studentclass/")
         .then((response) => {
-          let newArray = response.data.map((item) => {
+          newArray = response.data.map((item) => {
             return {
+              key: item.id,
+
               value: item.class_name + " - " + item.section,
+              classname: item.class_name,
+              section: item.section,
+              // SubjectID: item.id,
             };
           });
 
+          console.log("studentclass", response.data);
+
+          //setSubjectData(newSubjects);
           setData(newArray);
+
+          console.log(newArray);
         })
         .catch((e) => {
           console.log(e);
@@ -271,6 +290,26 @@ const TeacherHomeworkScreenBuild = () => {
     }
     fetchStudentClass();
   }, []);
+
+  function fetchSubjects() {
+    console.log(selected);
+    async function fetchSubjects() {
+      axios
+        .get(
+          `http://10.0.2.2:8000/school/StudentclassSubjectDetail/${selected}`
+        )
+        .then((response) => {
+          console.log("subjects", response.data);
+
+          //setSubjectData(newSubjects);
+          setSubjectData(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    fetchSubjects();
+  }
 
   const showFromMode = (currentFromMode) => {
     setFromShow(true);
@@ -493,6 +532,9 @@ const TeacherHomeworkScreenBuild = () => {
   }
 
   function buttonPressedHandler() {
+    console.log(selectedSubject);
+    console.log("selected value -", newArray);
+
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -562,12 +604,12 @@ const TeacherHomeworkScreenBuild = () => {
     setEnteredHomeWorkTouched(true);
     setEnteredImageTouched(true);
 
-    if (!enteredSelcetdIsValid) {
-      return;
-    }
-    if (!enteredSubjectIsValid) {
-      return;
-    }
+    // if (!enteredSelcetdIsValid) {
+    //   return;
+    // }
+    // if (!enteredSubjectIsValid) {
+    //   return;
+    // }
 
     if (!enteredFromDateIsValid) {
       return;
@@ -589,18 +631,21 @@ const TeacherHomeworkScreenBuild = () => {
     //   return;
     // }
     else {
-      let selectedData = selected.split(" - ");
-      let class_name = selectedData[0];
-      let section = selectedData[1];
+      console.log(newArray);
+      let filteredlist = newArray.filter((ele) => ele.key == selected);
+      console.log(filteredlist);
+      // let selectedData = selected.split(" - ");
+      // let class_name = selectedData[0];
+      // let section = selectedData[1];
       // let uploaduri = image;
       // let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
       let uploadedImg = test;
       const formdata = {
         // from_time:fromText,
         // to_time:toText,
-        class_name: class_name,
-        section: section,
-        subject: subject,
+        class_name: filteredlist[0].classname,
+        section: filteredlist[0].section,
+        subject: selectedSubject,
         homework_date: FROMDATE,
         due_date: TODATE,
         // homework_photo: `/assets/images/${filename}`,
@@ -915,19 +960,40 @@ const TeacherHomeworkScreenBuild = () => {
                   <SelectList
                     setSelected={setSelected}
                     data={data}
+                    save="key"
                     placeholder="Select class"
+                    // boxStyles={
+                    //   selectInputIsInValid && styles.errorSelectedColor
+                    // }
+                    dropdownTextStyles={styles.dropText}
+                    inputStyles={styles.dropText}
+                    onSelect={fetchSubjects}
+                  />
+                  {/* {selectInputIsInValid && (
+                    <Text style={[styles.errorText]}>Enter class</Text>
+                  )} */}
+                </View>
+              )}
+
+              {!isEdit && (
+                <View style={styles.selectStyleSub}>
+                  <SelectList
+                    setSelected={setSelectedSubject}
+                    data={subjectData}
+                    placeholder="Select subject"
                     boxStyles={
-                      selectInputIsInValid && styles.errorSelectedColor
+                      selectSubInputIsInValid && styles.errorSelectedColor
                     }
                     dropdownTextStyles={styles.dropText}
                     inputStyles={styles.dropText}
                   />
-                  {selectInputIsInValid && (
-                    <Text style={[styles.errorText]}>Enter class</Text>
+                  {selectSubInputIsInValid && (
+                    <Text style={[styles.errorText]}>Enter subject</Text>
                   )}
                 </View>
               )}
-              <View>
+
+              {/* <View>
                 <View style={!subLabel ? styles.normal : styles.up}>
                   <Text
                     onPress={onSubjectFocusHandler}
@@ -957,7 +1023,7 @@ const TeacherHomeworkScreenBuild = () => {
                 {subjectInputIsInValid && (
                   <Text style={styles.errorText}>Enter subject</Text>
                 )}
-              </View>
+              </View> */}
 
               <View style={{ flexDirection: "row" }}>
                 <View style={{ flex: 1 }}>
@@ -1409,6 +1475,11 @@ const styles = StyleSheet.create({
   selectStyle: {
     marginRight: deviceWidth < 370 ? "2%" : "5%",
     marginLeft: deviceWidth < 370 ? "2%" : "4%",
+  },
+  selectStyleSub: {
+    marginRight: deviceWidth < 370 ? "2%" : "5%",
+    marginLeft: deviceWidth < 370 ? "2%" : "4%",
+    marginTop: 11,
   },
 
   space: {

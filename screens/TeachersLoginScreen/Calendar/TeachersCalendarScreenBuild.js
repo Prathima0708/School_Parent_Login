@@ -146,6 +146,12 @@ const TeachersCalendarScreenBuild = () => {
     async function fetchData() {
       try {
         const res = await axios.get(`${subURL}/Calendar/`);
+        console.log(res.data);
+        // var mapped = res.data.map((item) => ({ [item.key]: item.value }));
+        // var newObj = Object.assign({}, ...mapped);
+        // console.log(newObj);
+        const keys = Object.keys(res.data);
+        console.log("keys -", keys);
         console.log("created by-", res.data[0].created_by);
         setData(res.data);
         setFilteredData(res.data);
