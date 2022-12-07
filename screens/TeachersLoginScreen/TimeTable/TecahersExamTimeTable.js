@@ -709,6 +709,7 @@ const TecahersExamTimeTable = () => {
                 fontSize: 20,
                 // marginTop: 13,
                 margin: 10,
+                left:17
               },
             ]}
           >
@@ -728,7 +729,7 @@ const TecahersExamTimeTable = () => {
               //  marginTop: -93,
               marginLeft: 200,
               position: "absolute",
-              top: 50,
+              top: 65,
             }}
           >
             <Button onPress={viewExamList}>View List</Button>

@@ -2194,7 +2194,7 @@ import Input from "../../../components/UI/Input";
 import moment from "moment";
 import TimeSlots from "./TimeSlots";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
-import { IconButton, Button as NativeButton } from "native-base";
+import { IconButton, Button as NativeButton,Text as NativeText } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
 
 export var CLASSNAME, SECTION, ID;
@@ -2217,6 +2217,7 @@ const TeachersTimetable = () => {
   const [showTimeTableList, setShowTimeTableList] = useState(true);
   const [showTimeTableData, setShowTimeTableData] = useState([]);
 
+  const [isUndefined,setIsUndefined]=useState(false)
   const [showTable, setShowTable] = useState(false);
   const [forTimeTableList, setForTimeTableList] = useState({
     // color: "#3d4590",
@@ -2410,24 +2411,32 @@ const TeachersTimetable = () => {
           `${subURL}/Timetable_by_sec/${class_name}/${section}`
         );
         console.log("*****");
-        console.log(res.data[0].id);
-        TimeTabID = res.data[0].id;
+        //console.log(res.data[0].id);
+        console.log(res.data[0])
+
+        if(res.data[0]==undefined){
+          setIsUndefined(true);
+        }else{
+          TimeTabID = res.data[0].id;
+          setIsUndefined(false)
+        }
 
         const timetableres = await axios.get(
           `${subURL}/AddmoreTimetable_list_by_timetab/${TimeTabID}`
         );
         arr = timetableres.data;
         console.log("before sorting");
-        console.log(arr);
+       // console.log(arr);
 
         console.log("after sorting");
         arr.reverse();
-        console.log(arr);
+       // console.log(arr);
         //  console.log(timetableres.data);
         setFilteredTimeTable(arr);
-        if (TimeTabID == undefined) {
-          Alert.alert("No data found", "No data found for respective search");
-        }
+
+        // if (isUndefined) {
+        //   Alert.alert("No data found", "No data found for respective search");
+        // }
       } catch (error) {
         console.log(error);
       }
@@ -2609,7 +2618,13 @@ const TeachersTimetable = () => {
                     </>
                   )}
 
-                  {showSelected && (
+                  {showSelected && isUndefined && (
+                    <View style={{alignItems:'center',top:'2%'}}>
+                       <NativeText fontSize="xl" bold color='error.900'>No Data Found</NativeText>
+                    </View>
+                  )}
+
+                  {showSelected && !isUndefined && (
                     <>
 
 
