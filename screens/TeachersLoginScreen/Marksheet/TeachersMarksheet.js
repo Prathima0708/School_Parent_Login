@@ -713,19 +713,9 @@ const TeachersMarksheet = () => {
         );
         console.log(res.data);
         setFilteredMarks(res.data);
-        // if (filteredlist.length > 0) {
-        //   Alert.alert("reg number already exists", "please enter a new one", [
-        //     {
-        //       text: "OK",
-        //       onPress: () => {
-        //         setShowAddForm(false);
-        //         showMarksheetList(true);
-        //       },
-
-        //       style: "cancel",
-        //     },
-        //   ]);
-        // }
+        if (filteredlist.length === 0) {
+          console.log("empty");
+        }
       } catch (error) {
         console.log(error);
       }
@@ -889,8 +879,8 @@ const TeachersMarksheet = () => {
           <View
             style={{
               width: 170,
-              top:'4%',
-              left:'6%'
+              top: "4%",
+              left: "6%",
               // fontSize: 20,
               // marginTop: 13,
               // margin: 10,
@@ -1010,7 +1000,7 @@ const TeachersMarksheet = () => {
                         color="black"
                         size={24}
                         onPress={() => addForm(data.id)}
-                      /> 
+                      />
                     </DataTable.Cell>
                   </DataTable.Row>
                 ))}
@@ -1106,7 +1096,7 @@ const TeachersMarksheet = () => {
                         color="black"
                         size={24}
                         onPress={() => addForm(data.id)}
-                      /> 
+                      />
                     </DataTable.Cell>
                   </DataTable.Row>
                 ))}
@@ -1116,75 +1106,175 @@ const TeachersMarksheet = () => {
       )}
       {showMarksheet && (
         <>
-          <View style={[{flex:1}, {flexDirection: "row",alignItems:'center'}]}>
-            <View style={{ flex: 1 ,alignItems:'center',backgroundColor:'darkblue',marginHorizontal:20}} >
-              
-                <Text style={[styles.headingFont,{fontSize:18,color:'white'}]}>Roll no</Text>
-              
+          <View
+            style={[
+              { flex: 1 },
+              { flexDirection: "row", alignItems: "center" },
+            ]}
+          >
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                backgroundColor: "darkblue",
+                marginHorizontal: 20,
+              }}
+            >
+              <Text
+                style={[styles.headingFont, { fontSize: 18, color: "white" }]}
+              >
+                Roll no
+              </Text>
             </View>
-            <View style={{ flex: 1,alignItems:'center',backgroundColor:'darkblue',marginHorizontal:20 }} >
-              
-                <Text style={[styles.headingFont,{fontSize:18,color:'white'}]}>Student name</Text>
-              
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                backgroundColor: "darkblue",
+                marginHorizontal: 20,
+              }}
+            >
+              <Text
+                style={[styles.headingFont, { fontSize: 18, color: "white" }]}
+              >
+                Student name
+              </Text>
             </View>
           </View>
-          <View style={[{flex:1}, {flexDirection: "row",alignItems:'center',bottom:'22%'}]}>
-            <View style={{ flex: 1 ,alignItems:'center',backgroundColor:'darkblue',marginHorizontal:20}} >
-              {filteredMarks.map((data,key)=>(
-                <Text style={[styles.headingFont,{fontSize:18,color:'white'}]}>{data.Roll_no}</Text>
+          <View
+            style={[
+              { flex: 1 },
+              { flexDirection: "row", alignItems: "center", bottom: "22%" },
+            ]}
+          >
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                backgroundColor: "darkblue",
+                marginHorizontal: 20,
+              }}
+            >
+              {filteredMarks.map((data, key) => (
+                <Text
+                  style={[styles.headingFont, { fontSize: 18, color: "white" }]}
+                >
+                  {StudentList.reg_number}
+                </Text>
               ))}
             </View>
-            <View style={{ flex: 1,alignItems:'center',backgroundColor:'darkblue',marginHorizontal:20 }} >
-              {filteredMarks.map((data,key)=>(
-                <Text style={[styles.headingFont,{fontSize:18,color:'white'}]}> {data.student_name}</Text>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                backgroundColor: "darkblue",
+                marginHorizontal: 20,
+              }}
+            >
+              {filteredMarks.map((data, key) => (
+                <Text
+                  style={[styles.headingFont, { fontSize: 18, color: "white" }]}
+                >
+                  {" "}
+                  {data.student_name}
+                </Text>
               ))}
             </View>
           </View>
-          <View style={[{flex:0.34}, {
-            flexDirection: "row",marginHorizontal:20,bottom:'15%'
-          }]}>
-            <View style={{ flex: 1,alignItems:'center',borderRightWidth:1,borderLeftWidth:1,borderTopWidth:1,backgroundColor:"#59b8dd" }} >
-              <Text style={[styles.headingFont,{color:'white'}]}>Subject</Text>
+          <View
+            style={[
+              { flex: 0.34 },
+              {
+                flexDirection: "row",
+                marginHorizontal: 20,
+                bottom: "15%",
+              },
+            ]}
+          >
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                borderRightWidth: 1,
+                borderLeftWidth: 1,
+                borderTopWidth: 1,
+                backgroundColor: "#59b8dd",
+              }}
+            >
+              <Text style={[styles.headingFont, { color: "white" }]}>
+                Subject
+              </Text>
             </View>
-            <View style={{ flex: 1,alignItems:'center',borderRightWidth:1,borderLeftWidth:1,borderTopWidth:1,backgroundColor:"#59b8dd"  }} >
-            <Text style={[styles.headingFont,{color:'white'}]}>Obtained marks</Text>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                borderRightWidth: 1,
+                borderLeftWidth: 1,
+                borderTopWidth: 1,
+                backgroundColor: "#59b8dd",
+              }}
+            >
+              <Text style={[styles.headingFont, { color: "white" }]}>
+                Obtained marks
+              </Text>
             </View>
           </View>
-          <View style={[{flex:2.3}, {flexDirection: "row",borderWidth:1,marginHorizontal:20,bottom:'15%'}]}>
-            <View style={{ flex: 1,borderRightWidth:1,alignItems:'center' }} >
+          <View
+            style={[
+              { flex: 2.3 },
+              {
+                flexDirection: "row",
+                borderWidth: 1,
+                marginHorizontal: 20,
+                bottom: "15%",
+              },
+            ]}
+          >
+            <View
+              style={{ flex: 1, borderRightWidth: 1, alignItems: "center" }}
+            >
               <View>
-              <Text style={styles.headingFont}>MATHS</Text>
+                <Text style={styles.headingFont}>MATHS</Text>
               </View>
               <View>
-              <Text style={styles.headingFont}>ENG</Text>
+                <Text style={styles.headingFont}>ENG</Text>
               </View>
               <View>
-              <Text style={styles.headingFont}>SCI</Text>
+                <Text style={styles.headingFont}>SCI</Text>
               </View>
               <View>
-              <Text style={styles.headingFont}>HIN</Text>
+                <Text style={styles.headingFont}>HIN</Text>
               </View>
               <View>
-              <Text style={styles.headingFont}>SOC</Text>
+                <Text style={styles.headingFont}>SOC</Text>
               </View>
               <View>
-              <Text style={styles.headingFont}>KAN</Text>
+                <Text style={styles.headingFont}>KAN</Text>
               </View>
               <View>
-              <Text style={styles.headingFont}>COMP</Text>
+                <Text style={styles.headingFont}>COMP</Text>
               </View>
             </View>
-            <View style={{ flex: 1,alignItems:'center'}} >
-              {filteredMarks.map((data,key)=>(
+            <View style={{ flex: 1, alignItems: "center" }}>
+              {filteredMarks.map((data, key) => (
                 <>
                   <Text style={styles.headingFont}>{data.maths_obt_mark}</Text>
-                  <Text style={styles.headingFont}>{data.english_obt_mark}</Text>
-                  <Text style={styles.headingFont}>{data.science_obt_mark}</Text>
+                  <Text style={styles.headingFont}>
+                    {data.english_obt_mark}
+                  </Text>
+                  <Text style={styles.headingFont}>
+                    {data.science_obt_mark}
+                  </Text>
                   <Text style={styles.headingFont}>{data.hindi_obt_mark}</Text>
                   <Text style={styles.headingFont}>{data.social_obt_mark}</Text>
-                  <Text style={styles.headingFont}>{data.kannada_obt_mark}</Text>
-                  <Text style={styles.headingFont}>{data.computer_obt_mark}</Text>
-                </> 
+                  <Text style={styles.headingFont}>
+                    {data.kannada_obt_mark}
+                  </Text>
+                  <Text style={styles.headingFont}>
+                    {data.computer_obt_mark}
+                  </Text>
+                </>
               ))}
             </View>
           </View>
@@ -1199,7 +1289,6 @@ const TeachersMarksheet = () => {
           )}
         </>
       )}
- 
     </>
   );
 };
@@ -1208,13 +1297,12 @@ export default TeachersMarksheet;
 const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
-
-    headingFont: {
-      // fontFamily: "Hind-SemiBold",
-      fontWeight: "bold",
-      fontSize: deviceWidth < 370 ? 14 : 14,
-      paddingVertical:10,
-    },
+  headingFont: {
+    // fontFamily: "Hind-SemiBold",
+    fontWeight: "bold",
+    fontSize: deviceWidth < 370 ? 14 : 14,
+    paddingVertical: 10,
+  },
   BtnContainer: {
     fontSize: 24,
     flexDirection: "row",
@@ -1231,7 +1319,7 @@ const styles = StyleSheet.create({
   },
   container: {
     padding: 10,
-    top:'15%'
+    top: "15%",
   },
   home: {
     marginTop: 29,
@@ -1271,8 +1359,8 @@ const styles = StyleSheet.create({
     //marginTop: -110,
 
     width: "50%",
-    position:'absolute',
-    top:'75%'
+    position: "absolute",
+    top: "75%",
   },
   th: {
     padding: 5,
@@ -1314,7 +1402,7 @@ const styles = StyleSheet.create({
   },
   searchBar: {
     //top: 10,
-    top:'20%'
+    top: "20%",
     // marginTop: 10,
     // marginBottom: 20,
   },

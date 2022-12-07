@@ -45,13 +45,14 @@ import { Token } from "../../Login";
 var FloatingLabel = require("react-native-floating-labels");
 export var ID;
 export var FROMDATE, TODATE;
-var USERNAME;
+var USERNAME, TOKEN;
 const TeachersCalendar = () => {
   const [checked, setChecked] = useState(false);
   const [adminChecked, setAdminChecked] = useState(false);
   const [teacherChecked, setTeacherChecked] = useState(false);
   const [parentChecked, setParentChecked] = useState(false);
   const [user, setUser] = useState("");
+  const [token, setToken] = useState("");
 
   const [value, setValue] = useState("");
   const [isSelected, setSelection] = useState(false);
@@ -180,7 +181,12 @@ const TeachersCalendar = () => {
     async function fetchData() {
       try {
         const res = await axios.get(`${subURL}/Calendar/`);
-
+        // console.log(res.data);
+        // var mapped = res.data.map((item) => ({ [item.key]: item.value }));
+        // var newObj = Object.assign({}, ...mapped);
+        // console.log(newObj);
+        const keys = Object.keys(res.data[0]);
+        console.log("keys -", keys);
         setData(res.data);
         setFilteredData(res.data);
 
@@ -189,10 +195,10 @@ const TeachersCalendar = () => {
         for (i = 0; i < res.data.length; i++) {
           // console.log(res.data[i].created_by);
           if (USERNAME == res.data[i].created_by) {
-            console.log("is same");
+            //  console.log("is same");
             SetIsSame(true);
           } else {
-            console.log("not same");
+            //  console.log("not same");
           }
         }
 
@@ -398,7 +404,7 @@ const TeachersCalendar = () => {
 
     const FormData = {
       description: description,
-      // created_by:createdby,
+      created_by: user,
       startdate: FROMDATE,
       enddate: TODATE,
       titlee: title,
@@ -499,7 +505,7 @@ const TeachersCalendar = () => {
             try {
               let headers = {
                 "Content-Type": "application/json; charset=utf-8",
-                Authorization: "Token " + `${Token}`,
+                Authorization: "Token " + `${token}`,
               };
               const dataForm = FormData;
 
@@ -836,6 +842,16 @@ const TeachersCalendar = () => {
     }
   }
   fetchUser();
+
+  async function fetchToken() {
+    TOKEN = await AsyncStorage.getItem("token");
+    console.log("this is the token in calendar", TOKEN);
+    if (TOKEN !== null) {
+      setToken(TOKEN);
+    }
+  }
+  fetchToken();
+
   return (
     <>
       {showInitialBtn && (
