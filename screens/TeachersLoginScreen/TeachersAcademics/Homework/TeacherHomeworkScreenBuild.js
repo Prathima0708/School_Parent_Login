@@ -38,6 +38,7 @@ import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 export var ID;
 export var FROMDATE, TODATE;
 export var SubjectID;
+import * as FileSystem from "expo-file-system";
 var newArray;
 const TeacherHomeworkScreenBuild = () => {
   const scrollY = new Animated.Value(0);
@@ -248,12 +249,30 @@ const TeacherHomeworkScreenBuild = () => {
 
     //   console.log("Image successfully saved");
     // }
+    console.log("------");
     console.log(result);
 
     // location = result.uri;
     if (!result.cancelled) {
       setImage(result.uri);
     }
+    const fileReader = new FileReader();
+    fileReader.onload = (fileLoadedEvent) => {
+      const base64Image = fileLoadedEvent.target.result;
+    };
+    const i = fileReader.readAsDataURL(result.uri);
+    console.log(i);
+
+    // RNFS.readFile(result.uri, "base64").then((res) => {
+    //   console.log(res);
+    // });
+    const base64 = await FileSystem.readAsStringAsync(
+      "0b6a53ce-3172-49cd-bcac-36eb1a83e136.jpg",
+      {
+        encoding: "base64",
+      }
+    );
+    console.log(base64);
   };
   let imagePreView;
 
@@ -278,7 +297,10 @@ const TeacherHomeworkScreenBuild = () => {
           });
 
           console.log("studentclass", response.data);
-
+          const details = newArray.sort(function (obj1, obj2) {
+            return obj1.value.localeCompare(obj2.value);
+          });
+          console.log(details);
           //setSubjectData(newSubjects);
           setData(newArray);
 
@@ -300,10 +322,16 @@ const TeacherHomeworkScreenBuild = () => {
         )
         .then((response) => {
           console.log("subjects", response.data);
-
+          for (var i = 0; i < response.data.length; i++) {
+            response.data[i] =
+              response.data[i].charAt(0).toUpperCase() +
+              response.data[i].substr(1);
+          }
+          console.log(response.data);
           //setSubjectData(newSubjects);
           setSubjectData(response.data);
         })
+
         .catch((e) => {
           console.log(e);
         });
@@ -649,6 +677,7 @@ const TeacherHomeworkScreenBuild = () => {
         homework_date: FROMDATE,
         due_date: TODATE,
         // homework_photo: `/assets/images/${filename}`,
+        //  homework_photo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAC00lEQVRoge2ZPUwUQRiGn29utcI/CEcM0mklCYUcmmANUtlyEFs10dJEaQxaoTHSWdCp/EiI0cZACIkNag4ojFETgpV/CWdAgUbgdj8LuHP5OeB2b7kj7JNcMvPNzM377nezuzMHISEh+wJxV2LNM1WI3Qk0AIcKI2lbFoARjUjbRHf5ZDqYMbJiIvUepLQg8nJGZ42xahI9Zd8BTCYudufeMQEgpY5jP0zXjKuloQBq/NKYLliu4No1oVo//qzi7W4p2gm1rdP14sioK3Q4XTCb9Aeg2EwATPRUvMnWZmVrSBOLJzW/crwx3heVrdqzZmSvERopNkIjxUZoZHt0SdCbKZXKlEqlCLdAl4KabdvniFdE5PZYb/S+K3SvriWJKh1BzBdYRmwjT9bHdJnHQc0XmBEnxYYnsYWJBDWfLyMKr6yUOWFMpAph0N12wOil9f1TlrMmttX4XPG1RiImcvXdQNkPgFjzzBXE/poRqXq3riXJsiNPYcWYqt5xb0q3Gp8rgS12kIOqdFiiHQCqwMZfW97wZcRRu+ts68xlx0YQu2u3x7vxlxGlyVH7m+cL7Xe8i0DuWoIkQK+BXb1oOSWLllMCdrUq1xU+BDGn3zXyE+QzaAq4AGAcbUz0R4c36ftp5aOP6uLJi4q8WI0PgVigp4HjXoV4NfJRRG+M9UaHQRT+7yQT/RWbmXAhOtbHy1g8CcB4X7QJgHY1sclfDSAPVk3lhCcjv//M1X4ZPLXoZWxW2sUZh6GTTVOvjx098jfX4Z7WSN5N5OG7PWVkqwOJXA8r8nW4Ee5Hio3QSLER4EtjdrY7NYTcbwL7JyM7uXpBkOu8WTNS2zpd719OfjkTT57P1ubOyAKu/0jEkdH0+1ARM5cuuDMyUgAhfslozhjRiLSBzhZGjxd01ght6VrGyER3+aQxVg0wAMwXQtoOmQeeG5Fzid7oVKHFhISE7DL/AK3T8tbn0kEnAAAAAElFTkSuQmCC",
         // homework_photo:uploadedImg,
         remark: remark,
         description: hw,
