@@ -166,6 +166,8 @@ const TeachersMarksheet = () => {
   const [btn, setBtn] = useState(false);
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
+  const [empty, setEmpty] = useState(false);
+
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -695,13 +697,11 @@ const TeachersMarksheet = () => {
   function addForm(id) {
     console.log("i am pressed");
     setShowAddForm(true);
-    setShowForm(false);
-    setShowBtn(false);
-    setIsEdit(false);
-    setShowMarksheet(true);
+
     const filteredDummuyData = studList.find((data) => data.id == id);
     // console.log(filteredDummuyData.student_name);
     StudentList = filteredDummuyData;
+   // console.log(filteredDummuyData);
     const studentregno = StudentList.reg_number;
     console.log(StudentList.reg_number);
     async function getData() {
@@ -715,6 +715,24 @@ const TeachersMarksheet = () => {
         setFilteredMarks(res.data);
         if (filteredlist.length === 0) {
           console.log("empty");
+          // setEmpty(true);
+          // setShowForm(true);
+          // setShowBtn(true);
+          // setIsEdit(true);
+         // setShowMarksheet(false);
+          Alert.alert(
+            "Data not found",
+            "There is no marks added for this student",
+            [
+              { text: "OK" }
+            ]
+          );
+        }else{
+          setEmpty(false)
+          setShowForm(false);
+          setShowBtn(false);
+          setIsEdit(false);
+          setShowMarksheet(true);
         }
       } catch (error) {
         console.log(error);
@@ -873,7 +891,7 @@ const TeachersMarksheet = () => {
           <Text>View List</Text>
         </Animated.View>
       )} */}
-
+      <View style={{flex:1}}>
       {showBtn && (
         <>
           <View
@@ -1104,7 +1122,7 @@ const TeachersMarksheet = () => {
           </ScrollView>
         </>
       )}
-      {showMarksheet && (
+      {showMarksheet && !empty &&(
         <>
           <View
             style={[
@@ -1289,6 +1307,8 @@ const TeachersMarksheet = () => {
           )}
         </>
       )}
+      </View>
+      
     </>
   );
 };

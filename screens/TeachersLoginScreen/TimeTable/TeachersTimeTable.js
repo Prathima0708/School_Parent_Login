@@ -2218,6 +2218,7 @@ const TeachersTimetable = () => {
   const [showTimeTableData, setShowTimeTableData] = useState([]);
 
   const [isUndefined,setIsUndefined]=useState(false)
+  const [isIdThere,setIsIdThere]=useState(false);
   const [showTable, setShowTable] = useState(false);
   const [forTimeTableList, setForTimeTableList] = useState({
     // color: "#3d4590",
@@ -2419,20 +2420,28 @@ const TeachersTimetable = () => {
         }else{
           TimeTabID = res.data[0].id;
           setIsUndefined(false)
+          const timetableres = await axios.get(
+            `${subURL}/AddmoreTimetable_list_by_timetab/${TimeTabID}`
+          );
+          arr = timetableres.data;
+          console.log( timetableres.data[0])
+          console.log("before sorting");
+         // console.log(arr);
+  
+          console.log("after sorting");
+          arr.reverse();
+         // console.log(arr);
+          //  console.log(timetableres.data);
+          if(timetableres.data[0]==undefined){
+            setIsIdThere(false);
+            
+          }else{
+            setFilteredTimeTable(arr);
+            setIsIdThere(true);
+          }
         }
 
-        const timetableres = await axios.get(
-          `${subURL}/AddmoreTimetable_list_by_timetab/${TimeTabID}`
-        );
-        arr = timetableres.data;
-        console.log("before sorting");
-       // console.log(arr);
-
-        console.log("after sorting");
-        arr.reverse();
-       // console.log(arr);
-        //  console.log(timetableres.data);
-        setFilteredTimeTable(arr);
+        
 
         // if (isUndefined) {
         //   Alert.alert("No data found", "No data found for respective search");
@@ -2618,13 +2627,20 @@ const TeachersTimetable = () => {
                     </>
                   )}
 
-                  {showSelected && isUndefined && (
+                  {showSelected && (isUndefined || !isIdThere) &&(
                     <View style={{alignItems:'center',top:'2%'}}>
                        <NativeText fontSize="xl" bold color='error.900'>No Data Found</NativeText>
                     </View>
                   )}
 
-                  {showSelected && !isUndefined && (
+                  {/* {showSelected &&  (
+                    <View style={{alignItems:'center',top:'2%'}}>
+                       <NativeText fontSize="xl" bold color='error.900'>No Data Found</NativeText>
+                    </View>
+                  )} */}
+
+
+                  {showSelected && !isUndefined && isIdThere && (
                     <>
 
 

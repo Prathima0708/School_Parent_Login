@@ -402,16 +402,31 @@ const TeachersCalendar = () => {
     }, 3000);
     setBtn(true);
 
+    var viewOnlyData = [];
+    // if (checked) {
+    //   viewOnlyData.push("all");
+    // }
+    if (adminChecked) {
+      viewOnlyData.push("admin");
+    }
+    if (teacherChecked) {
+      viewOnlyData.push("teacher");
+    }
+    if (parentChecked) {
+      viewOnlyData.push("parent");
+    }
+    // `{[${checked ? "all" : ""},
+    // ${adminChecked ? "admin" : ""},
+    // ${teacherChecked ? "teacher" : ""},
+    // ${parentChecked ? "parentt" : ""} ]}`
+
     const FormData = {
       description: description,
       created_by: user,
       startdate: FROMDATE,
       enddate: TODATE,
       titlee: title,
-      viewOnly: `{[${checked ? "all" : ""},
-                  ${adminChecked ? "admin" : ""},
-                  ${teacherChecked ? "teacher" : ""},
-                  ${parentChecked ? "parentt" : ""} ]}`,
+      viewOnly: viewOnlyData.toString(),
     };
 
     console.log(FormData);
@@ -852,6 +867,17 @@ const TeachersCalendar = () => {
   }
   fetchToken();
 
+  function allCheckHandler(){
+      setChecked(!checked);
+      setTeacherChecked(!teacherChecked);
+      setAdminChecked(!adminChecked);
+      setParentChecked(!parentChecked);
+      if (!checked) {
+        console.log("check");
+      } else {
+        console.log("uncheck");
+      }
+  }
   return (
     <>
       {showInitialBtn && (
@@ -1056,14 +1082,7 @@ const TeachersCalendar = () => {
                   <View style={{ flex: 0.1 }} >
                     <Checkbox
                         status={checked ? "checked" : "unchecked"}
-                        onPress={() => {
-                          setChecked(!checked);
-                          if (!checked) {
-                            console.log("check");
-                          } else {
-                            console.log("uncheck");
-                          }
-                        }}
+                        onPress={allCheckHandler}
                         
                         color={"green"}
                         uncheckColor={"red"}
@@ -1584,7 +1603,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   labelStyle: {
-    fontFamily: "HindBold",
+    fontFamily: "HindRegular",
     fontSize: 18,
     // marginTop: 10,
   },

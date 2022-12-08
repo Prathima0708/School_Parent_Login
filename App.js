@@ -55,6 +55,7 @@ import ChatHeader from "./components/ChatApplication/ChatUI/ChatHeader";
 import MyClasses from "./screens/TeachersLoginScreen/Profile/MyClasses/MyClasses";
 import StudentList from "./screens/TeachersLoginScreen/Profile/MyClasses/StudentList";
 import ExamTimeTableSubjects from "./screens/TeachersLoginScreen/TimeTable/ExamTimeTableSubjects";
+import TeachersLeave from "./screens/TeachersLoginScreen/Leave/TeachersLeave";
 var value, Group, GroupP, GroupT;
 // function Bottom() {
 //   return (
@@ -192,7 +193,7 @@ export default function App() {
         {/* <Stack.Screen name="TeachersLeave" component={TeachersLeave} /> */}
         <Stack.Screen
           name="TeachersLeave"
-          component={TeachersLeaveScreenBuild}
+          component={TeachersLeave}
           options={{ title: "Leave" }}
         />
         <Stack.Screen
@@ -460,7 +461,7 @@ export default function App() {
         {/* <Stack.Screen name="TeachersLeave" component={TeachersLeave} /> */}
         <Stack.Screen
           name="TeachersLeave"
-          component={TeachersLeaveScreenBuild}
+          component={TeachersLeave}
           options={{ title: "Leave" }}
         />
         <Stack.Screen
