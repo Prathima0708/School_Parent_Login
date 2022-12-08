@@ -85,6 +85,7 @@
     "react-native-floating-label-text-input": "^0.1.5",
     "react-native-floating-labels": "^1.1.9",
     "react-native-form-component": "^2.4.0",
+    "react-native-fs": "^2.20.0",
     "react-native-gifted-chat": "^1.0.4",
     "react-native-hr": "^1.1.4",
     "react-native-image-picker": "^4.10.0",

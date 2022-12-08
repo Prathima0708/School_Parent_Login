@@ -2194,7 +2194,11 @@ import Input from "../../../components/UI/Input";
 import moment from "moment";
 import TimeSlots from "./TimeSlots";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
-import { IconButton, Button as NativeButton,Text as NativeText } from "native-base";
+import {
+  IconButton,
+  Button as NativeButton,
+  Text as NativeText,
+} from "native-base";
 import { subURL } from "../../../components/utils/URL's";
 
 export var CLASSNAME, SECTION, ID;
@@ -2202,6 +2206,7 @@ export var idTimeTab = [];
 export var TimeTabID;
 export var FROMTIME, TOTIME;
 export var arr = [];
+var newArray, firstData;
 
 const TeachersTimetable = () => {
   const [loading, setLoading] = useState(false);
@@ -2212,7 +2217,7 @@ const TeachersTimetable = () => {
   const [studClassData, setStudentClassData] = useState([]);
   const [tdata, settdata] = useState([]);
 
-  const [selectedClass, setSelectedClass] = useState("");
+  const [selected, setSelected] = useState("");
 
   const [showTimeTableList, setShowTimeTableList] = useState(true);
   const [showTimeTableData, setShowTimeTableData] = useState([]);
@@ -2281,22 +2286,33 @@ const TeachersTimetable = () => {
         const res = await axios.get(
           `http://10.0.2.2:8000/school/Studentclass/`
         );
-        let newArray = res.data.map((item) => {
+        newArray = res.data.map((item) => {
           return {
+            key: item.id,
             value: item.class_name + " - " + item.section,
+            classname: item.class_name,
+            section: item.section,
           };
         });
-        setTimeTableData(newArray);
 
+        // setTimeTableData(newArray);
+
+        newArray.sort(function (obj1, obj2) {
+          return obj1.value.localeCompare(obj2.value);
+        });
+        // console.log(details);
+
+        console.log(newArray[0]);
+        firstData = newArray[0];
         setStudentClassData(newArray);
-        let selectedData = selectedClass.split(" - ");
+        //let selectedData = selectedClass.split(" - ");
         // console.log(selectedData);
       } catch (error) {
         console.log(error);
       }
     }
     fetchClass();
-  }, [selectedClass]);
+  }, [selected]);
 
   useEffect(() => {
     async function fetchTimeTable() {
@@ -2304,13 +2320,13 @@ const TeachersTimetable = () => {
         const res = await axios.get(
           `http://10.0.2.2:8000/school/AddmoreTimetable_list/`
         );
-        let newArray = res.data.map((item) => {
+        let newArray1 = res.data.map((item) => {
           return {
             value: item.from_time + " - " + item.to_time,
           };
         });
 
-        settdata(newArray);
+        settdata(newArray1);
       } catch (error) {
         console.log(error);
       }
@@ -2400,24 +2416,32 @@ const TeachersTimetable = () => {
   }, []);
 
   function viewTimeTableList() {
+    // console.log(newArray[0][1]);
+    //  console.log(selected);
     setShowDefaultList(false);
     setShowSelected(true);
     async function login() {
-      let selectedData = selectedClass.split(" - ");
-      let class_name = selectedData[0];
-      let section = selectedData[1];
-      console.log(class_name);
+      console.log("***********");
+      console.log(selected);
+      console.log(newArray);
+      let filteredlist = newArray.filter((ele) => ele.key == selected);
+      console.log("filteredlist", filteredlist);
+      // let selectedData = selected.split(" - ");
+      // console.log(selectedData);
+      let class_name = filteredlist[0].classname;
+      let section = filteredlist[0].section;
+
       try {
         const res = await axios.get(
           `${subURL}/Timetable_by_sec/${class_name}/${section}`
         );
         console.log("*****");
         //console.log(res.data[0].id);
-        console.log(res.data[0])
+        console.log(res.data[0]);
 
-        if(res.data[0]==undefined){
+        if (res.data[0] == undefined) {
           setIsUndefined(true);
-        }else{
+        } else {
           TimeTabID = res.data[0].id;
           setIsUndefined(false)
           const timetableres = await axios.get(
@@ -2482,7 +2506,7 @@ const TeachersTimetable = () => {
               }}
             >
               <SelectList
-                setSelected={setSelectedClass}
+                setSelected={setSelected}
                 data={studClassData}
                 placeholder="Select class."
                 boxStyles={{ borderRadius: 0 }}
@@ -2495,6 +2519,8 @@ const TeachersTimetable = () => {
                   fontFamily: "HindRegular",
                 }}
                 onSelect={viewTimeTableList}
+                save="key"
+                defaultOption={firstData}
               />
             </View>
             {/* <View
@@ -2579,7 +2605,7 @@ const TeachersTimetable = () => {
                                   textStyle={{
                                     fontSize: 18,
                                     fontFamily: "HindRegular",
-                                    marginLeft: 80,
+                                    
                                   }}
                                 >
                                   {data.Tuesday}
@@ -2642,254 +2668,310 @@ const TeachersTimetable = () => {
 
                   {showSelected && !isUndefined && isIdThere && (
                     <>
-
-
-                <View style={{ flex: 8, bottom: 10 }}>
-                  <View style={[styles.root]}>
-                    <ScrollView>
-                      <ScrollView horizontal={true}>
-                        <View style={styles.flex}>
-                          <View
-                            style={[
-                              { flex: 0.2 },
-                              {
-                                flexDirection: "row",
-                                borderWidth: 1,
-                                backgroundColor: "#EFFFFD",
-                              },
-                            ]}
-                          >
-                            <View style={styles.tableHead}>
-                              <Text
-                                style={[styles.headingFont, { color: "black" }]}
-                              >
-                                Timing
-                              </Text>
-                            </View>
-                            <View style={styles.tableHead}>
-                              <Text
-                                style={[styles.headingFont, { color: "black" }]}
-                              >
-                                MON
-                              </Text>
-                            </View>
-                            <View style={styles.tableHead}>
-                              <Text
-                                style={[styles.headingFont, { color: "black" }]}
-                              >
-                                TUE
-                              </Text>
-                            </View>
-                            <View style={styles.tableHead}>
-                              <Text
-                                style={[styles.headingFont, { color: "black" }]}
-                              >
-                                WED
-                              </Text>
-                            </View>
-                            <View style={styles.tableHead}>
-                              <Text
-                                style={[styles.headingFont, { color: "black" }]}
-                              >
-                                THU
-                              </Text>
-                            </View>
-                            <View style={styles.tableHead}>
-                              <Text
-                                style={[styles.headingFont, { color: "black" }]}
-                              >
-                                FRI
-                              </Text>
-                            </View>
-                            <View style={styles.tableHead}>
-                              <Text
-                                style={[styles.headingFont, { color: "black" }]}
-                              >
-                                SAT
-                              </Text>
-                            </View>
-                            {/* <View style={styles.tableHead}>
+                      <View style={{ flex: 8, bottom: 10 }}>
+                        <View style={[styles.root]}>
+                          <ScrollView>
+                            <ScrollView horizontal={true}>
+                              <View style={styles.flex}>
+                                <View
+                                  style={[
+                                    { flex: 0.2 },
+                                    {
+                                      flexDirection: "row",
+                                      borderWidth: 1,
+                                      backgroundColor: "#EFFFFD",
+                                    },
+                                  ]}
+                                >
+                                  <View style={styles.tableHead}>
+                                    <Text
+                                      style={[
+                                        styles.headingFont,
+                                        { color: "black" },
+                                      ]}
+                                    >
+                                      Timing
+                                    </Text>
+                                  </View>
+                                  <View style={styles.tableHead}>
+                                    <Text
+                                      style={[
+                                        styles.headingFont,
+                                        { color: "black" },
+                                      ]}
+                                    >
+                                      MON
+                                    </Text>
+                                  </View>
+                                  <View style={styles.tableHead}>
+                                    <Text
+                                      style={[
+                                        styles.headingFont,
+                                        { color: "black" },
+                                      ]}
+                                    >
+                                      TUE
+                                    </Text>
+                                  </View>
+                                  <View style={styles.tableHead}>
+                                    <Text
+                                      style={[
+                                        styles.headingFont,
+                                        { color: "black" },
+                                      ]}
+                                    >
+                                      WED
+                                    </Text>
+                                  </View>
+                                  <View style={styles.tableHead}>
+                                    <Text
+                                      style={[
+                                        styles.headingFont,
+                                        { color: "black" },
+                                      ]}
+                                    >
+                                      THU
+                                    </Text>
+                                  </View>
+                                  <View style={styles.tableHead}>
+                                    <Text
+                                      style={[
+                                        styles.headingFont,
+                                        { color: "black" },
+                                      ]}
+                                    >
+                                      FRI
+                                    </Text>
+                                  </View>
+                                  <View style={styles.tableHead}>
+                                    <Text
+                                      style={[
+                                        styles.headingFont,
+                                        { color: "black" },
+                                      ]}
+                                    >
+                                      SAT
+                                    </Text>
+                                  </View>
+                                  {/* <View style={styles.tableHead}>
                               <Text
                                 style={[styles.headingFont, { color: "black" }]}
                               >
                                 ACTIONS
                               </Text>
                             </View> */}
-                          </View>
+                                </View>
 
-                          <View style={[styles.flexrow, { borderWidth: 1 }]}>
-                            <View
-                              style={[{ flex: 1 }, { flexDirection: "row" }]}
-                            >
-                              <View style={{ flex: 1, marginHorizontal: 10 }}>
-                                {filteredTimeTable &&
-                                  filteredTimeTable.map((data) => (
-                                    <View style={[styles.root]}>
-                                      <View style={[styles.firstCol]}>
-                                        <Text style={styles.headingFirstCol}>
-                                          {moment(
-                                            data.from_time,
-                                            "HH:mm"
-                                          ).format("hh:mm ")}{" "}
-                                          {"-"} {""}
-                                          {moment(data.to_time, "HH:mm").format(
-                                            "hh:mm "
-                                          )}
-                                        </Text>
-                                      </View>
+                                <View
+                                  style={[styles.flexrow, { borderWidth: 1 }]}
+                                >
+                                  <View
+                                    style={[
+                                      { flex: 1 },
+                                      { flexDirection: "row" },
+                                    ]}
+                                  >
+                                    <View
+                                      style={{ flex: 1, marginHorizontal: 10 }}
+                                    >
+                                      {filteredTimeTable &&
+                                        filteredTimeTable.map((data) => (
+                                          <View style={[styles.root]}>
+                                            <View style={[styles.firstCol]}>
+                                              <Text
+                                                style={styles.headingFirstCol}
+                                              >
+                                                {moment(
+                                                  data.from_time,
+                                                  "HH:mm"
+                                                ).format("hh:mm ")}{" "}
+                                                {"-"} {""}
+                                                {moment(
+                                                  data.to_time,
+                                                  "HH:mm"
+                                                ).format("hh:mm ")}
+                                              </Text>
+                                            </View>
+                                          </View>
+                                        ))}
                                     </View>
-                                  ))}
-                              </View>
-                              <View
-                                style={{
-                                  flex: 1,
-                                  marginHorizontal: 10,
-                                  left: "5%",
-                                }}
-                              >
-                                {filteredTimeTable &&
-                                  filteredTimeTable.map((data) => (
-                                    <View style={styles.root}>
-                                      <View
-                                        style={[
-                                          styles.firstCol,
-                                          { alignItems: "center", width: 100 },
-                                        ]}
-                                      >
-                                        <Text style={styles.headingFirstCol}>
-                                          {data.monday}
-                                        </Text>
-                                      </View>
+                                    <View
+                                      style={{
+                                        flex: 1,
+                                        marginHorizontal: 10,
+                                        left: "5%",
+                                      }}
+                                    >
+                                      {filteredTimeTable &&
+                                        filteredTimeTable.map((data) => (
+                                          <View style={styles.root}>
+                                            <View
+                                              style={[
+                                                styles.firstCol,
+                                                {
+                                                  alignItems: "center",
+                                                  width: 100,
+                                                },
+                                              ]}
+                                            >
+                                              <Text
+                                                style={styles.headingFirstCol}
+                                              >
+                                                {data.monday}
+                                              </Text>
+                                            </View>
+                                          </View>
+                                        ))}
                                     </View>
-                                  ))}
-                              </View>
-                              <View
-                                style={{
-                                  flex: 1,
-                                  marginHorizontal: 10,
-                                  left: "3%",
-                                }}
-                              >
-                                {filteredTimeTable &&
-                                  filteredTimeTable.map((data) => (
-                                    <View style={styles.root}>
-                                      <View
-                                        style={[
-                                          styles.firstCol,
-                                          { alignItems: "center", width: 100 },
-                                        ]}
-                                      >
-                                        <Text style={[styles.headingFirstCol]}>
-                                          {data.Tuesday}
-                                        </Text>
-                                      </View>
+                                    <View
+                                      style={{
+                                        flex: 1,
+                                        marginHorizontal: 10,
+                                        left: "3%",
+                                      }}
+                                    >
+                                      {filteredTimeTable &&
+                                        filteredTimeTable.map((data) => (
+                                          <View style={styles.root}>
+                                            <View
+                                              style={[
+                                                styles.firstCol,
+                                                {
+                                                  alignItems: "center",
+                                                  width: 100,
+                                                },
+                                              ]}
+                                            >
+                                              <Text
+                                                style={[styles.headingFirstCol]}
+                                              >
+                                                {data.Tuesday}
+                                              </Text>
+                                            </View>
+                                          </View>
+                                        ))}
                                     </View>
-                                  ))}
-                              </View>
-                              <View
-                                style={{
-                                  flex: 1,
-                                  marginHorizontal: 10,
-                                  right: "1%",
-                                }}
-                              >
-                                {filteredTimeTable &&
-                                  filteredTimeTable.map((data) => (
-                                    <View style={styles.root}>
-                                      <View
-                                        style={[
-                                          styles.firstCol,
-                                          { alignItems: "center", width: 100 },
-                                        ]}
-                                      >
-                                        <Text style={styles.headingFirstCol}>
-                                          {data.wednesday}
-                                        </Text>
-                                      </View>
+                                    <View
+                                      style={{
+                                        flex: 1,
+                                        marginHorizontal: 10,
+                                        right: "1%",
+                                      }}
+                                    >
+                                      {filteredTimeTable &&
+                                        filteredTimeTable.map((data) => (
+                                          <View style={styles.root}>
+                                            <View
+                                              style={[
+                                                styles.firstCol,
+                                                {
+                                                  alignItems: "center",
+                                                  width: 100,
+                                                },
+                                              ]}
+                                            >
+                                              <Text
+                                                style={styles.headingFirstCol}
+                                              >
+                                                {data.wednesday}
+                                              </Text>
+                                            </View>
+                                          </View>
+                                        ))}
                                     </View>
-                                  ))}
-                              </View>
-                              <View
-                                style={{
-                                  flex: 1,
-                                  marginHorizontal: 10,
-                                  right: "5%",
-                                }}
-                              >
-                                {filteredTimeTable &&
-                                  filteredTimeTable.map((data) => (
-                                    <View style={styles.root}>
-                                      <View
-                                        style={[
-                                          styles.firstCol,
-                                          { alignItems: "center", width: 100 },
-                                        ]}
-                                      >
-                                        <Text style={[styles.headingFirstCol]}>
-                                          {/* {data.thursday} */}
+                                    <View
+                                      style={{
+                                        flex: 1,
+                                        marginHorizontal: 10,
+                                        right: "5%",
+                                      }}
+                                    >
+                                      {filteredTimeTable &&
+                                        filteredTimeTable.map((data) => (
+                                          <View style={styles.root}>
+                                            <View
+                                              style={[
+                                                styles.firstCol,
+                                                {
+                                                  alignItems: "center",
+                                                  width: 100,
+                                                },
+                                              ]}
+                                            >
+                                              <Text
+                                                style={[styles.headingFirstCol]}
+                                              >
+                                                {/* {data.thursday} */}
 
-                                          {data.thursday}
-                                        </Text>
-                                      </View>
+                                                {data.thursday}
+                                              </Text>
+                                            </View>
+                                          </View>
+                                        ))}
                                     </View>
-                                  ))}
-                              </View>
-                              <View
-                                style={{
-                                  flex: 1,
-                                  marginHorizontal: 10,
-                                  right: "8%",
-                                }}
-                              >
-                                {filteredTimeTable &&
-                                  filteredTimeTable.map((data) => (
-                                    <View style={styles.root}>
-                                      <View
-                                        style={[
-                                          styles.firstCol,
-                                          { alignItems: "center", width: 100 },
-                                        ]}
-                                      >
-                                        <Text style={styles.headingFirstCol}>
-                                          {data.friday}
-                                        </Text>
-                                      </View>
+                                    <View
+                                      style={{
+                                        flex: 1,
+                                        marginHorizontal: 10,
+                                        right: "8%",
+                                      }}
+                                    >
+                                      {filteredTimeTable &&
+                                        filteredTimeTable.map((data) => (
+                                          <View style={styles.root}>
+                                            <View
+                                              style={[
+                                                styles.firstCol,
+                                                {
+                                                  alignItems: "center",
+                                                  width: 100,
+                                                },
+                                              ]}
+                                            >
+                                              <Text
+                                                style={styles.headingFirstCol}
+                                              >
+                                                {data.friday}
+                                              </Text>
+                                            </View>
+                                          </View>
+                                        ))}
                                     </View>
-                                  ))}
-                              </View>
-                              <View
-                                style={{
-                                  flex: 1,
-                                  marginHorizontal: 10,
-                                  right: "12%",
-                                }}
-                              >
-                                {filteredTimeTable &&
-                                  filteredTimeTable.map((data) => (
-                                    <View style={styles.root}>
-                                      <View
-                                        style={[
-                                          styles.firstCol,
-                                          { alignItems: "center", width: 100 },
-                                        ]}
-                                      >
-                                        <Text style={styles.headingFirstCol}>
-                                          {data.saturday}
-                                        </Text>
-                                      </View>
+                                    <View
+                                      style={{
+                                        flex: 1,
+                                        marginHorizontal: 10,
+                                        right: "12%",
+                                      }}
+                                    >
+                                      {filteredTimeTable &&
+                                        filteredTimeTable.map((data) => (
+                                          <View style={styles.root}>
+                                            <View
+                                              style={[
+                                                styles.firstCol,
+                                                {
+                                                  alignItems: "center",
+                                                  width: 100,
+                                                },
+                                              ]}
+                                            >
+                                              <Text
+                                                style={styles.headingFirstCol}
+                                              >
+                                                {data.saturday}
+                                              </Text>
+                                            </View>
+                                          </View>
+                                        ))}
                                     </View>
-                                  ))}
+                                  </View>
+                                </View>
                               </View>
-                             
-                            </View>
-                          </View>
+                            </ScrollView>
+                          </ScrollView>
                         </View>
-                      </ScrollView>
-                    </ScrollView>
-                  </View>
-                </View>
-
-
+                      </View>
                     </>
                   )}
                 </>
@@ -2925,9 +3007,9 @@ const styles = StyleSheet.create({
     marginHorizontal: deviceWidth > 400 ? -5 : -5,
     backgroundColor: "#FDFEFE",
   },
-  container:{
-    marginHorizontal:10,
-    top:'3%'
+  container: {
+    marginHorizontal: 10,
+    top: "3%",
   },
   deleteBtn: {
     width: deviceWidth < 370 ? "20%" : "22%",
