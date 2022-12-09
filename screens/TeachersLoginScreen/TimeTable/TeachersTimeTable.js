@@ -2207,11 +2207,10 @@ export var idTimeTab = [];
 export var TimeTabID;
 export var FROMTIME, TOTIME;
 export var arr = [];
-var newArray, firstData, DISPLAYFIRST;
+var newArray, firstData, DISPLAYFIRST, KEY, VALUE;
 
 const TeachersTimetable = () => {
   const [loading, setLoading] = useState(false);
-  const [defaultClass, setDefaultClass] = useState("");
 
   const [showForm, setShowForm] = useState(false);
   const [showExamList, setShowExamList] = useState(false);
@@ -2262,6 +2261,7 @@ const TeachersTimetable = () => {
   const [filteredTimeTable, setFilteredTimeTable] = useState([]);
   const [showDefaultList, setShowDefaultList] = useState(true);
   const [showSelected, setShowSelected] = useState(false);
+  const [defaultClass, setDefaultClass] = useState(true);
   useEffect(() => {
     LogBox.ignoreLogs(["Each child in a list should have a unique "]);
   }, []);
@@ -2306,8 +2306,16 @@ const TeachersTimetable = () => {
 
         //console.log(newArray[0]);
 
-        setStudentClassData(newArray);
         firstData = newArray[0];
+        console.log("key -", firstData.key);
+        KEY = firstData.key;
+        VALUE = firstData.value;
+        // if (firstData == undefined) {
+        //   setDefaultClass(false);
+        // } else {
+        //   setDefaultClass(true);
+        //   firstData = newArray[0];
+        // }
 
         //let selectedData = selectedClass.split(" - ");
         // console.log(selectedData);
@@ -2317,6 +2325,7 @@ const TeachersTimetable = () => {
         // } catch (error) {
         //   // Error saving data
         // }
+        setStudentClassData(newArray);
       } catch (error) {
         console.log(error);
       }
@@ -2324,6 +2333,9 @@ const TeachersTimetable = () => {
     fetchClass();
   }, []);
 
+  console.log("default option -", firstData);
+  console.log("KEY -", KEY);
+  console.log("VALUE -", VALUE);
   // async function fetchDefaultOption() {
   //   DISPLAYFIRST = await AsyncStorage.getItem("defaultoption");
   //   console.log("this is the default option from aysnc", DISPLAYFIRST);
@@ -2333,8 +2345,6 @@ const TeachersTimetable = () => {
   // }
 
   // fetchDefaultOption();
-
-  console.log("default option -", firstData);
 
   useEffect(() => {
     async function fetchTimeTable() {
@@ -2525,11 +2535,12 @@ const TeachersTimetable = () => {
               }}
             >
               <SelectList
-                defaultOption={firstData}
-                // defaultOption={{
-                //   key: firstData.key,
-                //   value: firstData.classname,
-                // }}
+                //defaultOption={firstData}
+                defaultOption={{
+                  key: KEY,
+                  value: VALUE,
+                }}
+                //  defaultOption={{ key: "1", value: "abc" }}
                 setSelected={setSelected}
                 data={studClassData}
                 // placeholder="Select class."
