@@ -15,7 +15,7 @@ import {
 } from "react-native";
 import moment from "moment";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { HStack, Spinner,Text as NativeText } from "native-base";
+import { HStack, Spinner,Text as NativeText,Badge } from "native-base";
 import { Keyboard } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -35,6 +35,7 @@ import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import BackButton from "../../../components/BackButton/BackButton";
 export var ID;
 export var FROMDATE, TODATE;
+export var BADGE;
 const TeachersLeave = () => {
   const [loading, setLoading] = useState(false);
 
@@ -129,6 +130,11 @@ const TeachersLeave = () => {
 
   const [showInitialBtn, setShowInitialBtn] = useState(true);
   const navigation = useNavigation();
+
+  const [approvePressed,setApprovePressed]=useState(false);
+  const [denyPressed,setDenyPressed]=useState(false);
+
+  const [showBadge,setShowBadge]=useState(false);
   let i = 0;
 
   useEffect(() => {
@@ -139,17 +145,21 @@ const TeachersLeave = () => {
 
   useLayoutEffect(() => {
     if(showForm){
+      setShowForm(true)
       console.log('form screen')
+      navigation.setOptions({headerShown: false});
     }
     if(showChoice){
       console.log('choice screen')
+      navigation.setOptions({headerShown: true});
     }
     if(showList){
       console.log('list screen')
+      navigation.setOptions({headerShown: false});
     }
 
-    navigation.setOptions({headerShown: false});
-  }, [navigation]);
+   
+  }, [showForm,showChoice,showList]);
 
   // useEffect(() => {
   //   async function fetchData() {
@@ -625,77 +635,53 @@ const TeachersLeave = () => {
     }
     fetchData();
   }
-  function editItem(id) {
-    setShowInitialBtn(false);
-    setReasonLabel(true);
-    setTypeLabel(true);
+  function approveHandler(id) {
+
+    setApprovePressed(true);
+    setDenyPressed(false);
     ID = id;
-    const filteredDummuyData = data.find((data) => data.id == id);
-    // console.log(filteredDummuyData);
-    setEnteredLeaveType(filteredDummuyData.leave_type);
-    setEnteredLeaveReason(filteredDummuyData.leave_type);
-    moment(filteredDummuyData.leave_form).format("DD/MM/YYYY");
-    setFromText(moment(filteredDummuyData.leave_form).format("DD/MM/YYYY"));
-    setToText(moment(filteredDummuyData.leave_to).format("DD/MM/YYYY"));
-    setForLeaveList({
-      backgroundColor: "#F4F6F6",
-      color: "black",
-      borderRadius: 10,
-    });
-    setForLeaveForm({
-      color: "white",
-      backgroundColor: "#1E8449",
-      borderRadius: 10,
-    });
-    setShowForm(true);
-    setShowList(false);
-    setIsEdit(true);
-  }
 
-  function deleteItem(id) {
-    // console.log(id);
-    // const newFilteredData=data.filter((data)=>data.id != id);
-    Alert.alert("Confirm Deleteion", "Are you sure you want to delete this", [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel",
-      },
-      { text: "Yes", onPress: () => deleteData() },
-    ]);
+    const fetchedData= data.find((data) => data.id == id);
+    
+    const FormData = {
+      leave_form: fetchedData.leave_form,
+      leave_to: fetchedData.leave_to,
+      leave_type: fetchedData.leave_type,
+      leave_reason: fetchedData.leave_reason,
+      leave_status: "approved",
+    };
 
-    async function deleteData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
-        // const dataForm = FormData;
-        const resLogin = await axios.delete(
-          `http://10.0.2.2:8000/school/Leave/${id}/`,
-          // FormData,
-          {
-            headers: headers,
-          }
-        );
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
-        console.log(resLogin.data);
-      } catch (error) {
-        console.log(error);
-      }
-      async function fetchData() {
-        try {
-          const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
-          // console.log(res.data);
-          setData(res.data);
-          setFilteredData(res.data);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-      fetchData();
+    console.log(FormData);
+
+    if(data.find((data) => data.id == id)){
+      console.log("1")
+      setShowBadge(true);
+    }else{
+      setShowBadge(false);
+      console.log("2")
     }
+
   }
+
+  function denyHanlder(id) {
+    setDenyPressed(true);
+    setApprovePressed(false);
+
+    ID = id;
+
+    const fetchedData= data.find((data) => data.id == id);
+    
+    const FormData = {
+      leave_form: fetchedData.leave_form,
+      leave_to: fetchedData.leave_to,
+      leave_type: fetchedData.leave_type,
+      leave_reason: fetchedData.leave_reason,
+      leave_status: "deny",
+    };
+
+    console.log(FormData)
+  }
+
   const searchFilter = (text) => {
     console.log("search function");
     if (text) {
@@ -765,7 +751,7 @@ const TeachersLeave = () => {
     <View style={[{flex:1}, {
       flexDirection: "row",backgroundColor:'white'
     }]}>
-      <View style={{ flex: 1,top:'75%' }} >
+      <View style={{ flex: 1,top:'50%' }} >
       <Pressable onPress={applyLeave}>
       <Card
     // key={key}
@@ -797,7 +783,7 @@ const TeachersLeave = () => {
     </Card>
     </Pressable>
       </View>
-    <View style={{ flex: 1,top:'75%'}} >
+    <View style={{ flex: 1,top:'50%'}} >
       <Pressable onPress={showLeaveList}>
       <Card
     // key={key}
@@ -1059,13 +1045,17 @@ const TeachersLeave = () => {
       )}
 
       {showList &&
-      <View style={[{flex:1}, {flexDirection: "column",backgroundColor:'white'}]}>
-        <View style={[{flex:0.2}, {flexDirection: "row",top:'20%'}]}>
-              <BackButton onPress={leaveBackHandler}/>
-            </View>
-            <NativeText bold style={{fontSize:20,left:'40%',top:'10%'}}>Leave List</NativeText>
+      <View style={[{flex:1}, {flexDirection: "column"}]}>
+
         <View style={{ flex: 2, backgroundColor: "white" }} >
-          
+          <Ionicons
+          name="chevron-back"
+          size={25}
+          color="black"
+          onPress={leaveBackHandler}
+          style={{ left: 15,top:'13%' }}/>
+          <NativeText bold fontSize={16} style={{top:'9.1%',left:'12%'}}>Back</NativeText>
+          <NativeText bold style={{fontSize:20,left:'40%',top:'10%'}}>Leave List</NativeText>
           <SearchBar
               onSubmitEditing={Keyboard.dismiss}
               style={styles.searchBar}
@@ -1162,12 +1152,12 @@ const TeachersLeave = () => {
                                     bottom: -65,
                                   }}
                                 >
-                                  <Ionicons
+                                   <Ionicons
                                     name="md-checkmark-sharp"
                                     size={24}
                                     color="green"
-                                    onPress={() => editItem(data.id)}
-                                  />
+                                    onPress={() => approveHandler(data.id)}
+                                  /> 
                                 </View>
                                 <View
                                   style={{ flex: 2, left: 50, bottom: -65 }}
@@ -1176,7 +1166,7 @@ const TeachersLeave = () => {
                                     name="close"
                                     size={24}
                                     color="red"
-                                    onPress={() => deleteItem(data.id)}
+                                    onPress={() => denyHanlder(data.id)}
                                   />
                                 </View>
                               </View>

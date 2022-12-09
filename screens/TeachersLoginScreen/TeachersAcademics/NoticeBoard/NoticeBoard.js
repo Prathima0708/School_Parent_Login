@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 export var selectedUserId, selectedUserName;
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -17,55 +17,106 @@ const NoticeBoard = ({ startdate, titlee, description }) => {
   const navigation = useNavigation();
 
   return (
-    <Pressable>
-      <Box
-        borderBottomWidth="1"
-        _dark={{
-          borderColor: "muted.50",
-        }}
-        borderColor="muted.800"
-        pl={["3", "4"]}
-        pr={["5", "5"]}
-        py="2"
-      >
-        <HStack space={[2, 3]} justifyContent="space-between">
-          <VStack>
-            <Text
-              _dark={{
-                color: "warmGray.50",
-              }}
-              color="coolGray.800"
-              fontFamily="HindSemiBold"
-              fontSize={16}
-            >
-              {titlee}
-            </Text>
-            <Text
-              color="coolGray.600"
-              _dark={{
-                color: "warmGray.200",
-              }}
-            >
-              {description}
-              {/* {item.recentText} */}
-            </Text>
-          </VStack>
-          <Spacer />
-          <Text
-            fontSize="sm"
-            _dark={{
-              color: "warmGray.50",
-            }}
-            color="coolGray.800"
-            alignSelf="flex-start"
-            fontFamily="HindSemiBold"
-          >
-            {moment(startdate).format("DD/MM/YYYY")}
-          </Text>
-        </HStack>
-      </Box>
-    </Pressable>
+
+    <View style={[styles.listStyle]}>
+      <View style={{ flex: 3}} >
+        <View style={[{flex:1}, {flexDirection: "column"}]}>
+          <View style={[{ flex: 1,borderTopLeftRadius:10 },styles.colorPadding,]} >
+            <Text style={styles.titleStyle}>{titlee}</Text>
+          </View>
+          <View style={[{ flex: 1 },styles.colorPadding]} >
+            <Text style={styles.descStyle}>{description}</Text>
+          </View>
+        </View>
+      </View>
+      <View style={[styles.dateViewStyle]} >
+        <Text style={[styles.descStyle,{fontWeight:'bold'}]}>{moment(startdate).format("DD/MM/YYYY")}</Text>
+      </View>
+    </View>
+    // <Pressable>
+    //   <Box
+    //     borderBottomWidth="1"
+    //     _dark={{
+    //       borderColor: "muted.50",
+    //     }}
+    //     borderColor="muted.800"
+    //     pl={["3", "4"]}
+    //     pr={["5", "5"]}
+    //     py="2"
+    //   >
+    //     <HStack 
+    //       space={[2, 3]} 
+    //       justifyContent="space-between" 
+    //       left={'3%'}
+    //       padding={'2'}
+    //       backgroundColor={'blue.200'}>
+    //       <VStack>
+    //         <Text
+    //           _dark={{
+    //             color: "warmGray.50",
+    //           }}
+    //           color="coolGray.800"
+    //           fontFamily="HindSemiBold"
+    //           fontSize={16}
+    //         >
+    //           {titlee}
+    //         </Text>
+    //         <Text
+    //           color="coolGray.600"
+    //           _dark={{
+    //             color: "warmGray.200",
+    //           }}
+    //         >
+    //           {description}
+    //           {/* {item.recentText} */}
+    //         </Text>
+    //       </VStack>
+    //       <Spacer />
+    //       <Text
+    //         fontSize="sm"
+    //         _dark={{
+    //           color: "warmGray.50",
+    //         }}
+    //         color="coolGray.800"
+    //         alignSelf="flex-start"
+    //         fontFamily="HindSemiBold"
+    //       >
+    //         {moment(startdate).format("DD/MM/YYYY")}
+    //       </Text>
+    //     </HStack>
+    //   </Box>
+
+    // </Pressable>
   );
 };
 
 export default NoticeBoard;
+
+const styles = StyleSheet.create({
+  listStyle:{
+    flex:1, 
+    flexDirection: "row",
+    padding:10,
+    borderBottomWidth:1,
+  },
+  titleStyle:{
+    fontSize:17,
+
+    fontFamily:'HindSemiBold',
+  },
+  descStyle:{
+    fontFamily:'HindRegular',
+    fontSize:16,
+  },
+  colorPadding:{
+    backgroundColor:'#DEE4FF',
+    padding:15,
+  },
+  dateViewStyle:{
+    flex: 1,
+    paddingTop:15,
+    paddingRight:15,
+    backgroundColor:'#DEE4FF',
+    borderBottomRightRadius:10
+  }
+})

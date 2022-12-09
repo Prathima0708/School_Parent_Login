@@ -1,11 +1,12 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { Box, FlatList, Heading, ScrollView } from "native-base";
+import { Box, FlatList, Heading, ScrollView,Text as NativeText } from "native-base";
 import axios from "axios";
 import NoticeBoard from "./NoticeBoard";
+import TeachersHome from "../../BottomTab/TeachersHome";
 export var arr = [];
 var sortedArr = [];
 const TeachersNoticeBoard = () => {
@@ -61,15 +62,41 @@ const TeachersNoticeBoard = () => {
     return <NoticeBoard {...itemData.item} />;
   }
   return (
-    <ScrollView>
-      <Box>
-        <Heading fontSize="xl" p="4" pb="3">
-          Upcoming Events
-        </Heading>
-        <FlatList data={data} renderItem={renderNotice} />
-      </Box>
-    </ScrollView>
+
+    <View style={[{flex:1}, {flexDirection: "column"}]}>
+        <View style={styles.headingView} >
+          <NativeText bold style={styles.textStyle}>Upcoming Events</NativeText>
+        </View>
+        <View style={{ flex: 2, backgroundColor: "white" }} >
+          <ScrollView>
+            <Box>
+              <FlatList data={data} padding={2} renderItem={renderNotice} />
+            </Box>
+          </ScrollView>
+        </View>
+        <View style={{ flex: 0.2, backgroundColor: "white" }} >
+          <TeachersHome />
+        </View>
+      </View>
+
   );
 };
 
 export default TeachersNoticeBoard;
+
+const styles = StyleSheet.create({
+  headingView:{
+    flex: 0.2, 
+    backgroundColor: "white",
+    alignItems:'center',
+    paddingVertical:15,
+  },
+  textStyle:{
+    fontSize:20,
+    color:'white',
+    marginTop:'2%',
+    backgroundColor:'#364585',
+    padding:10,
+    borderRadius:10
+  }
+})
