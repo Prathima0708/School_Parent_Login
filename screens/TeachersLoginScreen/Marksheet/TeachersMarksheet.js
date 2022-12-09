@@ -30,7 +30,9 @@ import { subURL } from "../../../components/utils/URL's";
 import { style } from "@mui/system";
 export var ID;
 export var StudentList = [];
+var newArray, firstData;
 const TeachersMarksheet = () => {
+  const [defaultClass, setDefaultClass] = useState();
   const [mathsLabel, setMathsLabel] = useState(true);
   const [engLabel, setEngLabel] = useState(true);
   const [sciLabel, setSciLabel] = useState(true);
@@ -635,17 +637,32 @@ const TeachersMarksheet = () => {
     axios
       .get(`${subURL}/Studentclass/`)
       .then((response) => {
-        let newArray = response.data.map((item) => {
+        newArray = response.data.map((item) => {
           return {
+            key: item.id,
+
+            classname: item.class_name,
+            section: item.section,
             value: item.class_name + " - " + item.section,
           };
         });
+        newArray.sort(function (obj1, obj2) {
+          return obj1.value.localeCompare(obj2.value);
+        });
+        console.log(newArray[0]);
 
         setStudData(newArray);
+
+        firstData = newArray[0];
       })
       .catch((e) => {
         console.log(e);
       });
+  }, []);
+
+  useEffect(() => {
+    setDefaultClass(firstData);
+    console.log(defaultClass);
   }, []);
 
   function viewStudentList() {
@@ -653,9 +670,17 @@ const TeachersMarksheet = () => {
     setShowForm(true);
 
     async function login() {
-      let selectedData = selected.split(" - ");
-      let class_name = selectedData[0];
-      let section = selectedData[1];
+      console.log(selected);
+      console.log(newArray);
+      let filteredlist = newArray.filter((ele) => ele.key == selected);
+      console.log("filteredlist", filteredlist);
+      // let selectedData = selected.split(" - ");
+      // console.log(selectedData);
+      let class_name = filteredlist[0].classname;
+      let section = filteredlist[0].section;
+      // let selectedData = selected.split(" - ");
+      // let class_name = selectedData[0];
+      // let section = selectedData[1];
       try {
         const res = await axios.get(`${subURL}/Student/`);
         //console.log(class_name, section);
@@ -701,7 +726,7 @@ const TeachersMarksheet = () => {
     const filteredDummuyData = studList.find((data) => data.id == id);
     // console.log(filteredDummuyData.student_name);
     StudentList = filteredDummuyData;
-   // console.log(filteredDummuyData);
+    // console.log(filteredDummuyData);
     const studentregno = StudentList.reg_number;
     console.log(StudentList.reg_number);
     async function getData() {
@@ -719,16 +744,14 @@ const TeachersMarksheet = () => {
           // setShowForm(true);
           // setShowBtn(true);
           // setIsEdit(true);
-         // setShowMarksheet(false);
+          // setShowMarksheet(false);
           Alert.alert(
             "Data not found",
-            "There is no marks added for this student",
-            [
-              { text: "OK" }
-            ]
+            `No marks added for the student ${StudentList.student_name}`,
+            [{ text: "OK" }]
           );
-        }else{
-          setEmpty(false)
+        } else {
+          setEmpty(false);
           setShowForm(false);
           setShowBtn(false);
           setIsEdit(false);
@@ -891,424 +914,436 @@ const TeachersMarksheet = () => {
           <Text>View List</Text>
         </Animated.View>
       )} */}
-      <View style={{flex:1}}>
-      {showBtn && (
-        <>
-          <View
-            style={{
-              width: 170,
-              top: "4%",
-              left: "6%",
-              // fontSize: 20,
-              // marginTop: 13,
-              // margin: 10,
-            }}
-          >
-            <SelectList
-              //  defaultOption={{ key: "1", value: "Second-A" }}
-              setSelected={setSelected}
-              data={studData}
-              placeholder="Select class"
-              boxStyles={{ borderRadius: 10 }}
-              dropdownTextStyles={{ fontSize: 18, fontFamily: "HindRegular" }}
-              inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+      <View style={{ flex: 1 }}>
+        {showBtn && (
+          <>
+            <View
+              style={{
+                width: 170,
+                top: "4%",
+                left: "6%",
+                // fontSize: 20,
+                // marginTop: 13,
+                // margin: 10,
+              }}
+            >
+              <SelectList
+                defaultOption={firstData}
+                setSelected={setSelected}
+                data={studData}
+                placeholder="Select class"
+                boxStyles={{ borderRadius: 10 }}
+                dropdownTextStyles={{ fontSize: 18, fontFamily: "HindRegular" }}
+                inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                onSelect={viewStudentList}
+              />
+            </View>
+            {/* <View
+              style={{
+                width: "50%",
+                // bottom:'2%',
+                marginLeft: 200,
+                position: "absolute",
+                // top: 160,
+              }}
+            >
+              <Button onPress={viewStudentList}>View List</Button>
+            </View> */}
+          </>
+        )}
+
+        {/* {showDefaultList && (
+          <>
+            <SearchBar
+              style={styles.searchBar}
+              textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
+              placeholder="Search here"
+              onChangeText={(text) => searchFilter(text)}
+              value={searchText}
             />
-          </View>
-          <View
-            style={{
-              width: "50%",
-              // bottom:'2%',
-              marginLeft: 200,
-              position: "absolute",
-              // top: 160,
-            }}
-          >
-            <Button onPress={viewStudentList}>View List</Button>
-          </View>
-        </>
-      )}
+            <ScrollView horizontal={true}>
+              <DataTable style={styles.container}>
+                <DataTable.Header style={styles.tableHeader}>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> REG NUMBER</Text>
+                  </View>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> STUDENT NAME</Text>
+                  </View>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> CLASS NAME</Text>
+                  </View>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> SECTION</Text>
+                  </View>
 
-      {showDefaultList && (
-        <>
-          <SearchBar
-            style={styles.searchBar}
-            textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
-            placeholder="Search here"
-            onChangeText={(text) => searchFilter(text)}
-            value={searchText}
-          />
-          <ScrollView horizontal={true}>
-            <DataTable style={styles.container}>
-              <DataTable.Header style={styles.tableHeader}>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> REG NUMBER</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> STUDENT NAME</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> CLASS NAME</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> SECTION</Text>
-                </View>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> ACTION</Text>
+                  </View>
+                </DataTable.Header>
 
                 <View style={styles.th}>
-                  <Text style={styles.tableTitle}> ACTION</Text>
-                </View>
-              </DataTable.Header>
-
-              <View style={styles.th}>
-                <Text style={styles.tableTitle}>
-                  {" "}
-                  Default student list goes here...
-                </Text>
-              </View>
-
-              {filteredData &&
-                filteredData.map((data, key) => (
-                  <DataTable.Row style={styles.tableRow} key={key}>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 50,
-                      }}
-                    >
-                      {data.reg_number}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 80,
-                      }}
-                    >
-                      {data.student_name}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 90,
-                      }}
-                    >
-                      {data.class_name}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 70,
-                      }}
-                    >
-                      {data.section}
-                    </DataTable.Cell>
-
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 70,
-                      }}
-                    >
-                      <Ionicons
-                        name="eye"
-                        //size={deviceWidth < 370 ? 35 : 38}
-                        color="black"
-                        size={24}
-                        onPress={() => addForm(data.id)}
-                      />
-                    </DataTable.Cell>
-                  </DataTable.Row>
-                ))}
-            </DataTable>
-          </ScrollView>
-        </>
-      )}
-
-      {showForm && (
-        <>
-          <SearchBar
-            style={styles.searchBar}
-            textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
-            placeholder="Search here"
-            onChangeText={(text) => searchFilter(text)}
-            value={searchText}
-          />
-          <ScrollView horizontal={true}>
-            <DataTable style={styles.container}>
-              <DataTable.Header style={styles.tableHeader}>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> REG NUMBER</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> STUDENT NAME</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> CLASS NAME</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> SECTION</Text>
+                  <Text style={styles.tableTitle}>
+                    {" "}
+                    Default student list goes here...
+                  </Text>
                 </View>
 
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> ACTION</Text>
-                </View>
-              </DataTable.Header>
+                {filteredData &&
+                  filteredData.map((data, key) => (
+                    <DataTable.Row style={styles.tableRow} key={key}>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 50,
+                        }}
+                      >
+                        {data.reg_number}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 80,
+                        }}
+                      >
+                        {data.student_name}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 90,
+                        }}
+                      >
+                        {data.class_name}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 70,
+                        }}
+                      >
+                        {data.section}
+                      </DataTable.Cell>
 
-              {filteredData &&
-                filteredData.map((data, key) => (
-                  <DataTable.Row style={styles.tableRow} key={key}>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: deviceWidth < 370 ? 16 : 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 50,
-                      }}
-                    >
-                      {data.reg_number}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: deviceWidth < 370 ? 16 : 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 80,
-                      }}
-                    >
-                      {data.student_name}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: deviceWidth < 370 ? 16 : 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 90,
-                      }}
-                    >
-                      {data.class_name}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: deviceWidth < 370 ? 16 : 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 70,
-                      }}
-                    >
-                      {data.section}
-                    </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 70,
+                        }}
+                      >
+                        <Ionicons
+                          name="eye"
+                          //size={deviceWidth < 370 ? 35 : 38}
+                          color="black"
+                          size={24}
+                          onPress={() => addForm(data.id)}
+                        />
+                      </DataTable.Cell>
+                    </DataTable.Row>
+                  ))}
+              </DataTable>
+            </ScrollView>
+          </>
+        )} */}
 
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: deviceWidth < 370 ? 16 : 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 70,
-                      }}
-                    >
-                      {/* <Btn
+        {showForm && (
+          <>
+            <SearchBar
+              style={styles.searchBar}
+              textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
+              placeholder="Search here"
+              onChangeText={(text) => searchFilter(text)}
+              value={searchText}
+            />
+            <ScrollView horizontal={true}>
+              <DataTable style={styles.container}>
+                <DataTable.Header style={styles.tableHeader}>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> REG NUMBER</Text>
+                  </View>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> STUDENT NAME</Text>
+                  </View>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> CLASS NAME</Text>
+                  </View>
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> SECTION</Text>
+                  </View>
+
+                  <View style={styles.th}>
+                    <Text style={styles.tableTitle}> ACTION</Text>
+                  </View>
+                </DataTable.Header>
+
+                {filteredData &&
+                  filteredData.map((data, key) => (
+                    <DataTable.Row style={styles.tableRow} key={key}>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: deviceWidth < 370 ? 16 : 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 50,
+                        }}
+                      >
+                        {data.reg_number}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: deviceWidth < 370 ? 16 : 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 80,
+                        }}
+                      >
+                        {data.student_name}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: deviceWidth < 370 ? 16 : 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 90,
+                        }}
+                      >
+                        {data.class_name}
+                      </DataTable.Cell>
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: deviceWidth < 370 ? 16 : 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 70,
+                        }}
+                      >
+                        {data.section}
+                      </DataTable.Cell>
+
+                      <DataTable.Cell
+                        textStyle={{
+                          fontSize: deviceWidth < 370 ? 16 : 18,
+                          fontFamily: "HindRegular",
+                          marginLeft: 70,
+                        }}
+                      >
+                        {/* <Btn
                         title="view marks"
                         onPress={() => addForm(data.id)}
                       /> */}
-                      <Ionicons
-                        name="eye"
-                        //size={deviceWidth < 370 ? 35 : 38}
-                        color="black"
-                        size={24}
-                        onPress={() => addForm(data.id)}
-                      />
-                    </DataTable.Cell>
-                  </DataTable.Row>
+                        <Ionicons
+                          name="eye"
+                          //size={deviceWidth < 370 ? 35 : 38}
+                          color="black"
+                          size={24}
+                          onPress={() => addForm(data.id)}
+                        />
+                      </DataTable.Cell>
+                    </DataTable.Row>
+                  ))}
+              </DataTable>
+            </ScrollView>
+          </>
+        )}
+        {showMarksheet && !empty && (
+          <>
+            <View
+              style={[
+                { flex: 1 },
+                { flexDirection: "row", alignItems: "center" },
+              ]}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  backgroundColor: "darkblue",
+                  marginHorizontal: 20,
+                }}
+              >
+                <Text
+                  style={[styles.headingFont, { fontSize: 18, color: "white" }]}
+                >
+                  Roll no
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  backgroundColor: "darkblue",
+                  marginHorizontal: 20,
+                }}
+              >
+                <Text
+                  style={[styles.headingFont, { fontSize: 18, color: "white" }]}
+                >
+                  Student name
+                </Text>
+              </View>
+            </View>
+            <View
+              style={[
+                { flex: 1 },
+                { flexDirection: "row", alignItems: "center", bottom: "22%" },
+              ]}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  backgroundColor: "darkblue",
+                  marginHorizontal: 20,
+                }}
+              >
+                {filteredMarks.map((data, key) => (
+                  <Text
+                    style={[
+                      styles.headingFont,
+                      { fontSize: 18, color: "white" },
+                    ]}
+                  >
+                    {StudentList.reg_number}
+                  </Text>
                 ))}
-            </DataTable>
-          </ScrollView>
-        </>
-      )}
-      {showMarksheet && !empty &&(
-        <>
-          <View
-            style={[
-              { flex: 1 },
-              { flexDirection: "row", alignItems: "center" },
-            ]}
-          >
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                backgroundColor: "darkblue",
-                marginHorizontal: 20,
-              }}
-            >
-              <Text
-                style={[styles.headingFont, { fontSize: 18, color: "white" }]}
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  backgroundColor: "darkblue",
+                  marginHorizontal: 20,
+                }}
               >
-                Roll no
-              </Text>
+                {filteredMarks.map((data, key) => (
+                  <Text
+                    style={[
+                      styles.headingFont,
+                      { fontSize: 18, color: "white" },
+                    ]}
+                  >
+                    {" "}
+                    {data.student_name}
+                  </Text>
+                ))}
+              </View>
             </View>
             <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                backgroundColor: "darkblue",
-                marginHorizontal: 20,
-              }}
+              style={[
+                { flex: 0.34 },
+                {
+                  flexDirection: "row",
+                  marginHorizontal: 20,
+                  bottom: "15%",
+                },
+              ]}
             >
-              <Text
-                style={[styles.headingFont, { fontSize: 18, color: "white" }]}
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  borderRightWidth: 1,
+                  borderLeftWidth: 1,
+                  borderTopWidth: 1,
+                  backgroundColor: "#59b8dd",
+                }}
               >
-                Student name
-              </Text>
-            </View>
-          </View>
-          <View
-            style={[
-              { flex: 1 },
-              { flexDirection: "row", alignItems: "center", bottom: "22%" },
-            ]}
-          >
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                backgroundColor: "darkblue",
-                marginHorizontal: 20,
-              }}
-            >
-              {filteredMarks.map((data, key) => (
-                <Text
-                  style={[styles.headingFont, { fontSize: 18, color: "white" }]}
-                >
-                  {StudentList.reg_number}
+                <Text style={[styles.headingFont, { color: "white" }]}>
+                  Subject
                 </Text>
-              ))}
-            </View>
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                backgroundColor: "darkblue",
-                marginHorizontal: 20,
-              }}
-            >
-              {filteredMarks.map((data, key) => (
-                <Text
-                  style={[styles.headingFont, { fontSize: 18, color: "white" }]}
-                >
-                  {" "}
-                  {data.student_name}
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  borderRightWidth: 1,
+                  borderLeftWidth: 1,
+                  borderTopWidth: 1,
+                  backgroundColor: "#59b8dd",
+                }}
+              >
+                <Text style={[styles.headingFont, { color: "white" }]}>
+                  Obtained marks
                 </Text>
-              ))}
-            </View>
-          </View>
-          <View
-            style={[
-              { flex: 0.34 },
-              {
-                flexDirection: "row",
-                marginHorizontal: 20,
-                bottom: "15%",
-              },
-            ]}
-          >
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                borderRightWidth: 1,
-                borderLeftWidth: 1,
-                borderTopWidth: 1,
-                backgroundColor: "#59b8dd",
-              }}
-            >
-              <Text style={[styles.headingFont, { color: "white" }]}>
-                Subject
-              </Text>
+              </View>
             </View>
             <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                borderRightWidth: 1,
-                borderLeftWidth: 1,
-                borderTopWidth: 1,
-                backgroundColor: "#59b8dd",
-              }}
+              style={[
+                { flex: 2.3 },
+                {
+                  flexDirection: "row",
+                  borderWidth: 1,
+                  marginHorizontal: 20,
+                  bottom: "15%",
+                },
+              ]}
             >
-              <Text style={[styles.headingFont, { color: "white" }]}>
-                Obtained marks
-              </Text>
+              <View
+                style={{ flex: 1, borderRightWidth: 1, alignItems: "center" }}
+              >
+                <View>
+                  <Text style={styles.headingFont}>MATHS</Text>
+                </View>
+                <View>
+                  <Text style={styles.headingFont}>ENG</Text>
+                </View>
+                <View>
+                  <Text style={styles.headingFont}>SCI</Text>
+                </View>
+                <View>
+                  <Text style={styles.headingFont}>HIN</Text>
+                </View>
+                <View>
+                  <Text style={styles.headingFont}>SOC</Text>
+                </View>
+                <View>
+                  <Text style={styles.headingFont}>KAN</Text>
+                </View>
+                <View>
+                  <Text style={styles.headingFont}>COMP</Text>
+                </View>
+              </View>
+              <View style={{ flex: 1, alignItems: "center" }}>
+                {filteredMarks.map((data, key) => (
+                  <>
+                    <Text style={styles.headingFont}>
+                      {data.maths_obt_mark}
+                    </Text>
+                    <Text style={styles.headingFont}>
+                      {data.english_obt_mark}
+                    </Text>
+                    <Text style={styles.headingFont}>
+                      {data.science_obt_mark}
+                    </Text>
+                    <Text style={styles.headingFont}>
+                      {data.hindi_obt_mark}
+                    </Text>
+                    <Text style={styles.headingFont}>
+                      {data.social_obt_mark}
+                    </Text>
+                    <Text style={styles.headingFont}>
+                      {data.kannada_obt_mark}
+                    </Text>
+                    <Text style={styles.headingFont}>
+                      {data.computer_obt_mark}
+                    </Text>
+                  </>
+                ))}
+              </View>
             </View>
-          </View>
-          <View
-            style={[
-              { flex: 2.3 },
-              {
-                flexDirection: "row",
-                borderWidth: 1,
-                marginHorizontal: 20,
-                bottom: "15%",
-              },
-            ]}
-          >
-            <View
-              style={{ flex: 1, borderRightWidth: 1, alignItems: "center" }}
-            >
-              <View>
-                <Text style={styles.headingFont}>MATHS</Text>
-              </View>
-              <View>
-                <Text style={styles.headingFont}>ENG</Text>
-              </View>
-              <View>
-                <Text style={styles.headingFont}>SCI</Text>
-              </View>
-              <View>
-                <Text style={styles.headingFont}>HIN</Text>
-              </View>
-              <View>
-                <Text style={styles.headingFont}>SOC</Text>
-              </View>
-              <View>
-                <Text style={styles.headingFont}>KAN</Text>
-              </View>
-              <View>
-                <Text style={styles.headingFont}>COMP</Text>
-              </View>
-            </View>
-            <View style={{ flex: 1, alignItems: "center" }}>
-              {filteredMarks.map((data, key) => (
-                <>
-                  <Text style={styles.headingFont}>{data.maths_obt_mark}</Text>
-                  <Text style={styles.headingFont}>
-                    {data.english_obt_mark}
-                  </Text>
-                  <Text style={styles.headingFont}>
-                    {data.science_obt_mark}
-                  </Text>
-                  <Text style={styles.headingFont}>{data.hindi_obt_mark}</Text>
-                  <Text style={styles.headingFont}>{data.social_obt_mark}</Text>
-                  <Text style={styles.headingFont}>
-                    {data.kannada_obt_mark}
-                  </Text>
-                  <Text style={styles.headingFont}>
-                    {data.computer_obt_mark}
-                  </Text>
-                </>
-              ))}
-            </View>
-          </View>
 
-          <View style={styles.btnCancel}>
-            <Button onPress={cancelPressHandler}> Cancel</Button>
-          </View>
-          {keyboardStatus == "Keyboard Hidden" && (
-            <View style={{ flex: 1 }}>
-              <TeachersHome />
+            <View style={styles.btnCancel}>
+              <Button onPress={cancelPressHandler}> Cancel</Button>
             </View>
-          )}
-        </>
-      )}
+            {keyboardStatus == "Keyboard Hidden" && (
+              <View style={{ flex: 1 }}>
+                <TeachersHome />
+              </View>
+            )}
+          </>
+        )}
       </View>
-      
     </>
   );
 };

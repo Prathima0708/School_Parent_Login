@@ -32,7 +32,7 @@ import { Card, DataTable } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
-import BackButton from "../../../components/BackButton/BackButton";
+import BackButton from "../../../components/UI/BackButton";
 export var ID;
 export var FROMDATE, TODATE;
 export var BADGE;
