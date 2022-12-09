@@ -788,7 +788,7 @@ function Login() {
   // }
 
   const [saveImg, setSaveImg] = useState(``);
-  
+
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -808,8 +808,8 @@ function Login() {
       try {
         // http://10.0.2.2:8000/school/Calendar/
         const res = await axios.get(`${subURL}/Institute/`);
-       // console.log(res.data[0].instituteLogo)
-        setSaveImg(res.data[0].instituteLogo)
+        // console.log(res.data[0].instituteLogo)
+        setSaveImg(res.data[0].instituteLogo);
       } catch (error) {
         console.log(error);
       }
@@ -906,7 +906,8 @@ function Login() {
         //   Alert.alert("Invalid Input", "Please enter a valid phone number");
         //   navigation.navigate("Login");
         // }
-        if (resLogin.data.groups[0] === "parents") {
+        // if (resLogin.data.groups[0] === "parents") {
+        if (resLogin.data.groups.includes("parents")) {
           if (filteredlist.length == 0) {
             Alert.alert("Invalid Input", "Please enter a valid phone number");
             setEnteredUser("");
@@ -921,7 +922,7 @@ function Login() {
           navigation.navigate("ParentsLoginScreen", {
             phone: PHONENO,
           });
-        } else {
+        } else if (resLogin.data.groups.includes("staff")) {
           console.log(resLogin.data.groups[0]);
           // console.log("TEACHERS PAGE");
           navigation.navigate("TeachersLogin", {
@@ -966,7 +967,7 @@ function Login() {
           console.log(err);
         } else {
           JSON.parse(value); // boolean false
-          console.log("this is the userid:" + value);
+          //  console.log("this is the userid:" + value);
         }
       });
 

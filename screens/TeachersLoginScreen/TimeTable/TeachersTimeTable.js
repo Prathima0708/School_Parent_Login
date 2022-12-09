@@ -2200,16 +2200,18 @@ import {
   Text as NativeText,
 } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export var CLASSNAME, SECTION, ID;
 export var idTimeTab = [];
 export var TimeTabID;
 export var FROMTIME, TOTIME;
 export var arr = [];
-var newArray, firstData;
+var newArray, firstData, DISPLAYFIRST;
 
 const TeachersTimetable = () => {
   const [loading, setLoading] = useState(false);
+  const [defaultClass, setDefaultClass] = useState("");
 
   const [showForm, setShowForm] = useState(false);
   const [showExamList, setShowExamList] = useState(false);
@@ -2222,8 +2224,8 @@ const TeachersTimetable = () => {
   const [showTimeTableList, setShowTimeTableList] = useState(true);
   const [showTimeTableData, setShowTimeTableData] = useState([]);
 
-  const [isUndefined,setIsUndefined]=useState(false)
-  const [isIdThere,setIsIdThere]=useState(false);
+  const [isUndefined, setIsUndefined] = useState(false);
+  const [isIdThere, setIsIdThere] = useState(false);
   const [showTable, setShowTable] = useState(false);
   const [forTimeTableList, setForTimeTableList] = useState({
     // color: "#3d4590",
@@ -2302,17 +2304,37 @@ const TeachersTimetable = () => {
         });
         // console.log(details);
 
-        console.log(newArray[0]);
-        firstData = newArray[0];
+        //console.log(newArray[0]);
+
         setStudentClassData(newArray);
+        firstData = newArray[0];
+
         //let selectedData = selectedClass.split(" - ");
         // console.log(selectedData);
+
+        // try {
+        //   await AsyncStorage.setItem("defaultoption", firstData);
+        // } catch (error) {
+        //   // Error saving data
+        // }
       } catch (error) {
         console.log(error);
       }
     }
     fetchClass();
-  }, [selected]);
+  }, []);
+
+  // async function fetchDefaultOption() {
+  //   DISPLAYFIRST = await AsyncStorage.getItem("defaultoption");
+  //   console.log("this is the default option from aysnc", DISPLAYFIRST);
+  //   if (DISPLAYFIRST !== null) {
+  //     setDefaultClass(DISPLAYFIRST);
+  //   }
+  // }
+
+  // fetchDefaultOption();
+
+  console.log("default option -", firstData);
 
   useEffect(() => {
     async function fetchTimeTable() {
@@ -2443,29 +2465,26 @@ const TeachersTimetable = () => {
           setIsUndefined(true);
         } else {
           TimeTabID = res.data[0].id;
-          setIsUndefined(false)
+          setIsUndefined(false);
           const timetableres = await axios.get(
             `${subURL}/AddmoreTimetable_list_by_timetab/${TimeTabID}`
           );
           arr = timetableres.data;
-          console.log( timetableres.data[0])
+          console.log(timetableres.data[0]);
           console.log("before sorting");
-         // console.log(arr);
-  
+          // console.log(arr);
+
           console.log("after sorting");
           arr.reverse();
-         // console.log(arr);
+          // console.log(arr);
           //  console.log(timetableres.data);
-          if(timetableres.data[0]==undefined){
+          if (timetableres.data[0] == undefined) {
             setIsIdThere(false);
-            
-          }else{
+          } else {
             setFilteredTimeTable(arr);
             setIsIdThere(true);
           }
         }
-
-        
 
         // if (isUndefined) {
         //   Alert.alert("No data found", "No data found for respective search");
@@ -2506,9 +2525,14 @@ const TeachersTimetable = () => {
               }}
             >
               <SelectList
+                defaultOption={firstData}
+                // defaultOption={{
+                //   key: firstData.key,
+                //   value: firstData.classname,
+                // }}
                 setSelected={setSelected}
                 data={studClassData}
-                placeholder="Select class."
+                // placeholder="Select class."
                 boxStyles={{ borderRadius: 0 }}
                 dropdownTextStyles={{
                   fontSize: deviceWidth < 370 ? 16 : 18,
@@ -2520,7 +2544,6 @@ const TeachersTimetable = () => {
                 }}
                 onSelect={viewTimeTableList}
                 save="key"
-                defaultOption={firstData}
               />
             </View>
             {/* <View
@@ -2556,7 +2579,7 @@ const TeachersTimetable = () => {
                 />
               ) : (
                 <>
-                  {showDefaultList && (
+                  {/* {showDefaultList && (
                     <>
                       <ScrollView horizontal={true}>
                         <DataTable style={styles.container}>
@@ -2605,7 +2628,6 @@ const TeachersTimetable = () => {
                                   textStyle={{
                                     fontSize: 18,
                                     fontFamily: "HindRegular",
-                                    
                                   }}
                                 >
                                   {data.Tuesday}
@@ -2651,11 +2673,13 @@ const TeachersTimetable = () => {
                         </DataTable>
                       </ScrollView>
                     </>
-                  )}
+                  )} */}
 
-                  {showSelected && (isUndefined || !isIdThere) &&(
-                    <View style={{alignItems:'center',top:'2%'}}>
-                       <NativeText fontSize="xl" bold color='error.900'>No Data Found</NativeText>
+                  {showSelected && (isUndefined || !isIdThere) && (
+                    <View style={{ alignItems: "center", top: "2%" }}>
+                      <NativeText fontSize="xl" bold color="error.900">
+                        No Data Found
+                      </NativeText>
                     </View>
                   )}
 
@@ -2664,7 +2688,6 @@ const TeachersTimetable = () => {
                        <NativeText fontSize="xl" bold color='error.900'>No Data Found</NativeText>
                     </View>
                   )} */}
-
 
                   {showSelected && !isUndefined && isIdThere && (
                     <>

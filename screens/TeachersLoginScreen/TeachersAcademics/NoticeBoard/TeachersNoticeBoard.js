@@ -41,7 +41,7 @@ const TeachersNoticeBoard = () => {
           const date1 = new Date(a.startdate);
           const date2 = new Date(b.startdate);
 
-          return date1 - date2;
+          return date2 - date1;
         }
 
         arr.sort(dateComparison);

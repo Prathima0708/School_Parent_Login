@@ -392,7 +392,6 @@ const TeachersCalendar = () => {
   }
 
   function buttonPressedHandler() {
-    console.log(Token);
     console.log(selected);
     console.log(value);
 
@@ -860,23 +859,23 @@ const TeachersCalendar = () => {
 
   async function fetchToken() {
     TOKEN = await AsyncStorage.getItem("token");
-    console.log("this is the token in calendar", TOKEN);
+
     if (TOKEN !== null) {
       setToken(TOKEN);
     }
   }
   fetchToken();
 
-  function allCheckHandler(){
-      setChecked(!checked);
-      setTeacherChecked(!teacherChecked);
-      setAdminChecked(!adminChecked);
-      setParentChecked(!parentChecked);
-      if (!checked) {
-        console.log("check");
-      } else {
-        console.log("uncheck");
-      }
+  function allCheckHandler() {
+    setChecked(!checked);
+    setTeacherChecked(!teacherChecked);
+    setAdminChecked(!adminChecked);
+    setParentChecked(!parentChecked);
+    if (!checked) {
+      console.log("check");
+    } else {
+      console.log("uncheck");
+    }
   }
   return (
     <>
@@ -1066,103 +1065,135 @@ const TeachersCalendar = () => {
                 </View>
               </View>
               <View style={styles.selectDropDownStyle}>
-                <View style={{ flex: 0.5,left:'3%'}}>
-                  <Text style={[styles.labelStyle]}>Send Notification to</Text>
+                <View style={{ flex: 0.5, left: "3%" }}>
+                  <Text style={[styles.labelStyle]}>Send Notification to :</Text>
                 </View>
-                <View style={[{flex:1}, {
-                  flexDirection: "row"
-                }]}>
-                  <View style={{ flex:1 }} >
-                  <View style={[{flex:1}, {
-                  flexDirection: "row",marginLeft:'10%',marginTop:'3%'
-                }]}>
-                  <View style={{ flex: 0.3,alignItems:'center' }} >
-                    <Text style={[styles.labelStyle,{marginTop:5}]}>All</Text>
-                  </View>
-                  <View style={{ flex: 0.1 }} >
-                    <Checkbox
-                        status={checked ? "checked" : "unchecked"}
-                        onPress={allCheckHandler}
-                        
-                        color={"green"}
-                        uncheckColor={"red"}
-                      />
-                  </View>
-                </View>
+                <View
+                  style={[
+                    { flex: 1 },
+                    {
+                      flexDirection: "row",
+                    },
+                  ]}
+                >
+                  <View style={{ flex: 1 }}>
+                    <View
+                      style={[
+                        { flex: 1 },
+                        {
+                          flexDirection: "row",
+                          marginLeft: "10%",
+                          marginTop: "3%",
+                        },
+                      ]}
+                    >
+                      <View style={{ flex: 0.3, alignItems: "center" }}>
+                        <Text style={[styles.labelStyle, { marginTop: 5 }]}>
+                          All
+                        </Text>
+                      </View>
+                      <View style={{ flex: 0.1 }}>
+                        <Checkbox
+                          status={checked ? "checked" : "unchecked"}
+                          onPress={allCheckHandler}
+                          color={"green"}
+                          uncheckColor={"red"}
+                        />
+                      </View>
+                    </View>
 
-                <View style={[{flex:1}, {
-                  flexDirection: "row",marginLeft:'10%',marginTop:'3%'
-                }]}>
-                  <View style={{ flex: 0.5,alignItems:'center' }} >
-                    <Text style={styles.labelStyle}>Admin</Text>
+                    <View
+                      style={[
+                        { flex: 1 },
+                        {
+                          flexDirection: "row",
+                          marginLeft: "10%",
+                          marginTop: "3%",
+                        },
+                      ]}
+                    >
+                      <View style={{ flex: 0.5, alignItems: "center" }}>
+                        <Text style={styles.labelStyle}>Admin</Text>
+                      </View>
+                      <View style={{ flex: 0.1, bottom: "2.3%" }}>
+                        <Checkbox
+                          status={adminChecked ? "checked" : "unchecked"}
+                          onPress={() => {
+                            setAdminChecked(!adminChecked);
+                            if (!adminChecked) {
+                              console.log("check");
+                            } else {
+                              console.log("uncheck");
+                            }
+                          }}
+                          color={"green"}
+                          uncheckColor={"red"}
+                        />
+                      </View>
+                    </View>
                   </View>
-                  <View style={{ flex: 0.1,bottom:'2.3%' }} >
-                    <Checkbox
-                      status={adminChecked ? "checked" : "unchecked"}
-                      onPress={() => {
-                        setAdminChecked(!adminChecked);
-                        if (!adminChecked) {
-                          console.log("check");
-                        } else {
-                          console.log("uncheck");
-                        }
-                      }}
-                      color={"green"}
-                      uncheckColor={"red"}
-                    />
-                  </View>
-                </View>
-                  </View>
-                  <View style={{ flex: 1 ,marginRight:'30%'}} >
-                  <View style={[{flex:1}, {
-                  flexDirection: "row",marginTop:'3%'
-                }]}>
-                  <View style={{ flex: 0.6,alignItems:'center' }} >
-                    <Text style={[styles.labelStyle,{marginTop:5}]}>Teacher</Text>
-                  </View>
-                  <View style={{ flex: 0.1 }} >
-                    <Checkbox
-                      status={teacherChecked ? "checked" : "unchecked"}
-                      onPress={() => {
-                        setTeacherChecked(!teacherChecked);
-                        if (!teacherChecked) {
-                          console.log("check");
-                        } else {
-                          console.log("uncheck");
-                        }
-                      }}
-                      color={"green"}
-                      uncheckColor={"red"}
-                    />
-                  </View>
-                </View>
+                  <View style={{ flex: 1, marginRight: "30%" }}>
+                    <View
+                      style={[
+                        { flex: 1 },
+                        {
+                          flexDirection: "row",
+                          marginTop: "3%",
+                        },
+                      ]}
+                    >
+                      <View style={{ flex: 0.6, alignItems: "center" }}>
+                        <Text style={[styles.labelStyle, { marginTop: 5 }]}>
+                          Teacher
+                        </Text>
+                      </View>
+                      <View style={{ flex: 0.1 }}>
+                        <Checkbox
+                          status={teacherChecked ? "checked" : "unchecked"}
+                          onPress={() => {
+                            setTeacherChecked(!teacherChecked);
+                            if (!teacherChecked) {
+                              console.log("check");
+                            } else {
+                              console.log("uncheck");
+                            }
+                          }}
+                          color={"green"}
+                          uncheckColor={"red"}
+                        />
+                      </View>
+                    </View>
 
-                <View style={[{flex:1}, {
-                  flexDirection: "row",marginTop:'3%'
-                }]}>
-                  <View style={{ flex: 0.6,alignItems:'center' }} >
-                    <Text style={styles.labelStyle}>Parent</Text>
-                  </View>
-                  <View style={{ flex: 0.1,bottom:'2.3%' }} >
-                    <Checkbox
-                      status={parentChecked ? "checked" : "unchecked"}
-                      onPress={() => {
-                        setParentChecked(!parentChecked);
-                        if (!parentChecked) {
-                          console.log("check");
-                        } else {
-                          console.log("uncheck");
-                        }
-                      }}
-                      color={"green"}
-                      uncheckColor={"red"}
-                    />
+                    <View
+                      style={[
+                        { flex: 1 },
+                        {
+                          flexDirection: "row",
+                          marginTop: "3%",
+                        },
+                      ]}
+                    >
+                      <View style={{ flex: 0.6, alignItems: "center" }}>
+                        <Text style={styles.labelStyle}>Parent</Text>
+                      </View>
+                      <View style={{ flex: 0.1, bottom: "2.3%" }}>
+                        <Checkbox
+                          status={parentChecked ? "checked" : "unchecked"}
+                          onPress={() => {
+                            setParentChecked(!parentChecked);
+                            if (!parentChecked) {
+                              console.log("check");
+                            } else {
+                              console.log("uncheck");
+                            }
+                          }}
+                          color={"green"}
+                          uncheckColor={"red"}
+                        />
+                      </View>
+                    </View>
                   </View>
                 </View>
-                  </View>
-                </View>
-                
-                
               </View>
               {!isEdit && (
                 <View style={styles.btnSubmit}>
@@ -1307,11 +1338,15 @@ const TeachersCalendar = () => {
                                   )}
                                 </Text>
                               </View>
-                              <View 
+                              <View
                                 style={{
-                                   flex: 2, 
-                                   left: filteredData.created_by == USERNAME ? 120 : 36
-                                  }}>
+                                  flex: 2,
+                                  left:
+                                    filteredData.created_by == USERNAME
+                                      ? 120
+                                      : 36,
+                                }}
+                              >
                                 <Text
                                   style={{
                                     fontSize: deviceWidth < 370 ? 13 : 15,
