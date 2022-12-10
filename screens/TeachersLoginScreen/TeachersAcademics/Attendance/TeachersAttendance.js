@@ -181,6 +181,7 @@ const TeachersAttendance = () => {
   function saveAttendance() {
     // console.log("inside button");
 
+    console.log(filteredData)
     for (let i = 0; i < filteredData.length; i++) {
       //console.log(filteredData[i]?.class_name);
       const formData = {

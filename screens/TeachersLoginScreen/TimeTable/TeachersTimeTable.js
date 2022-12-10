@@ -2530,8 +2530,10 @@ const TeachersTimetable = () => {
               style={{
                 width: 170,
                 fontSize: 20,
-                marginTop: 13,
+                marginTop: 15,
                 margin: 10,
+                left:'4%'
+
               }}
             >
               <SelectList
@@ -3038,7 +3040,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
 
     width: "100%",
-    marginHorizontal: deviceWidth > 400 ? -5 : -5,
+    marginHorizontal: deviceWidth > 400 ? -5 : -10,
     backgroundColor: "#FDFEFE",
   },
   container: {

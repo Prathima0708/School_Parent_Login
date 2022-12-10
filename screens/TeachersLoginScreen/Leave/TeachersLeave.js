@@ -15,7 +15,7 @@ import {
 } from "react-native";
 import moment from "moment";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { HStack, Spinner,Text as NativeText,Badge } from "native-base";
+import { HStack, Spinner,Text as NativeText,Badge, Box } from "native-base";
 import { Keyboard } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -36,7 +36,10 @@ import BackButton from "../../../components/UI/BackButton";
 export var ID;
 export var FROMDATE, TODATE;
 export var BADGE;
+var USERNAME, value;
 const TeachersLeave = () => {
+
+  const [user, setUser] = useState("");
   const [loading, setLoading] = useState(false);
 
   const scrollY = new Animated.Value(0);
@@ -70,6 +73,8 @@ const TeachersLeave = () => {
   const [btn, setBtn] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [showList, setShowList] = useState(false);
+  const [showTeachersList,setShowTeachersList]=useState(false);
+
   const [forLeaveList, setForLeaveList] = useState({
     color: "white",
     backgroundColor: "#0C60F4",
@@ -146,15 +151,19 @@ const TeachersLeave = () => {
   useLayoutEffect(() => {
     if(showForm){
       setShowForm(true)
-      console.log('form screen')
+
       navigation.setOptions({headerShown: false});
     }
     if(showChoice){
-      console.log('choice screen')
+
       navigation.setOptions({headerShown: true});
     }
     if(showList){
-      console.log('list screen')
+
+      navigation.setOptions({headerShown: false});
+    }
+    if(showTeachersList){
+
       navigation.setOptions({headerShown: false});
     }
 
@@ -203,6 +212,15 @@ const TeachersLeave = () => {
       hideSubscription.remove();
     };
   }, []);
+
+  async function fetchUser() {
+    USERNAME = await AsyncStorage.getItem("UserName");
+    console.log("this is the username from aysnc", USERNAME);
+    if (USERNAME !== null) {
+      setUser(USERNAME);
+    }
+  }
+  fetchUser();
 
   function frmDateHandler(enteredValue) {
     setFromDate(enteredValue);
@@ -723,6 +741,12 @@ const TeachersLeave = () => {
     setShowChoice(false)
   }
 
+  function myLeaveList(){
+    setShowTeachersList(true);
+    setShowForm(false);
+    setShowChoice(false)
+  }
+
   function showLeaveList(){
     setShowList(true);
     setShowForm(false);
@@ -738,6 +762,14 @@ const TeachersLeave = () => {
   function backHandler(){
     setShowChoice(true);
     setShowForm(false)
+    setTypeLabel(false);
+    setEnteredLeaveTypeTouched(false);
+    setReasonLabel(false);
+    setEnteredLeaveReasonTouched(false);
+    setIsLeavereasonFocused(false);
+    setEnteredFromDateTouched(false);
+    setEnteredtoDateTouched(false);
+    
   }
 
   function leaveBackHandler(){
@@ -745,78 +777,77 @@ const TeachersLeave = () => {
     setShowList(false);
   }
 
+  function teacherLeaveBackHandler(){
+    setShowChoice(true);
+    setShowTeachersList(false);
+  }
+
   return (
     <>
-  {showChoice && 
-    <View style={[{flex:1}, {
-      flexDirection: "row",backgroundColor:'white'
-    }]}>
-      <View style={{ flex: 1,top:'50%' }} >
-      <Pressable onPress={applyLeave}>
-      <Card
-    // key={key}
-    style={{
-      marginVertical: 15,
-      marginHorizontal: 15,
-      
-      elevation: 5,
-      borderRadius: 10,
-      paddingBottom: 20,
-      backgroundColor:'darkblue',
-      width:'80%',
-      
-    }}
-  >
-    <Card.Content style={{ margin: 5, marginTop: 0 }}>
-        <View style={{  top:10,alignItems:'center' }}>
-          <Text
-            style={{
-              fontSize:  15,
-              fontFamily: "HindSemiBold",
-              color: "white",
-            }}
-          >
-            Apply Leave
-          </Text>
-        </View>
-      </Card.Content>
-    </Card>
-    </Pressable>
-      </View>
-    <View style={{ flex: 1,top:'50%'}} >
-      <Pressable onPress={showLeaveList}>
-      <Card
-    // key={key}
-    style={{
-      marginVertical: 15,
-      marginHorizontal: 27,
-      
-      elevation: 5,
-      borderRadius: 10,
-     // paddingBottom: 10,
-      backgroundColor:'darkblue',
-      width:'80%',
-      
-    }}
-  >
-    <Card.Content style={{ margin: 1, marginTop: 0 }}>
-        <View style={{ alignItems:'center' }}>
-          <Text
-            style={{
-              fontSize:  15,
-              fontFamily: "HindSemiBold",
-              color: "white",
-            }}
-          >
-            View Student Leave
-          </Text>
-        </View>
-      </Card.Content>
-    </Card>
-    </Pressable>
-      </View>
-    <TeachersHome />
-    </View>}
+      {showChoice && 
+        <View style={[{flex:1}, {flexDirection: "column",backgroundColor:'white'}]}>
+          <View style={{ flex: 1,marginHorizontal:'20%',top:'10%' }} >
+            <Pressable onPress={applyLeave}>
+              <Card style={styles.cardStyle}>
+                <Card.Content style={{ margin: 1, marginTop: 0 }}>
+                  <View style={{ alignItems:'center' }}>
+                    <Text
+                      style={{
+                        fontSize:  15,
+                        fontFamily: "HindSemiBold",
+                        color: "white",
+                      }}
+                    >
+                      Apply Leave
+                    </Text>
+                  </View>
+                </Card.Content>
+              </Card>
+            </Pressable>
+          </View>
+          <View style={{ flex: 1,marginHorizontal:'20%' }} >
+            <Pressable onPress={myLeaveList}>
+              <Card style={styles.cardStyle}>
+                <Card.Content style={{ margin: 1, marginTop: 0 }}>
+                  <View style={{ alignItems:'center' }}>
+                    <Text
+                      style={{
+                        fontSize:  15,
+                        fontFamily: "HindSemiBold",
+                        color: "white",
+                      }}
+                    >
+                      My Leave
+                    </Text>
+                  </View>
+                </Card.Content>
+              </Card>
+            </Pressable>
+          </View>
+          <View style={{ flex: 1,marginHorizontal:'20%',bottom:'10%' }} >
+            <Pressable onPress={showLeaveList}>
+                <Card style={styles.cardStyle}>
+                  <Card.Content style={{ margin: 1, marginTop: 0 }}>
+                    <View style={{ alignItems:'center' }}>
+                      <Text
+                        style={{
+                          fontSize:  15,
+                          fontFamily: "HindSemiBold",
+                          color: "white",
+                        }}
+                      >
+                        View Student Leave
+                      </Text>
+                    </View>
+                  </Card.Content>
+                </Card>
+            </Pressable>
+          </View>
+          <View style={{ flex: 0.2}} >
+            <TeachersHome />
+          </View>
+        </View>        
+      }
       
       {showForm && (
           <View style={[{flex:1}, {flexDirection: "column", backgroundColor: "white"}]}>
@@ -826,11 +857,49 @@ const TeachersLeave = () => {
           {/* <View style={{ flex: 0.1, backgroundColor: "white",alignItems:'center',paddingVertical:15,top:'10%' }} >
            
           </View> */}
+           <View style={styles.headingStyle} >
+              <NativeText bold style={{fontSize:20}}>Leave Form</NativeText>
+            </View>
           <View style={[styles.inputForm]} >
-            <View style={{ flex: 0.7,alignItems:'center'}} >
-                <NativeText bold style={{fontSize:20}}>Leave Form</NativeText>
-              </View>
             <ScrollView>
+            <View style={[{flex:1}, {
+              flexDirection: "column",paddingVertical:10
+            }]}>
+              <View style={{ flex: 1,marginHorizontal:20 }} >
+
+                <View style={[{flex:1}, {
+                    flexDirection: "row",marginRight:50
+                  }]}>
+                    <View style={{ flex: 1,alignItems:'center' }} >
+                      <Text style={styles.labelStyle}>user name</Text>
+                    </View>
+                    <View style={{ flex: 1 }} >
+                      <TextInput 
+                        style={[styles.labelStyle,{borderWidth:1,paddingLeft:7}]}
+                        editable={false} 
+                        selectTextOnFocus={false} 
+                        value={user}/>
+                    </View>
+                </View>
+              </View>
+              <View style={styles.space}/>
+              <View style={{ flex: 1}} >
+              <View style={[{flex:1}, {
+                  flexDirection: "row",marginHorizontal:20,marginRight:70
+                }]}>
+                  <View style={{ flex: 1,alignItems:'center'}} >
+                    <Text style={styles.labelStyle}>user role</Text>
+                  </View>
+                  <View style={{ flex: 1}} >
+                    <TextInput 
+                      style={[styles.labelStyle,{borderWidth:1,paddingLeft:7}]}
+                      editable={false} 
+                      selectTextOnFocus={false} 
+                      value='user role'/>
+                  </View>
+                </View>
+              </View>
+            </View>
                     {/* <View style={styles.inputForm}> */}
                     <View>
                         <View style={!typeLabel ? styles.normal : styles.up}>
@@ -1043,6 +1112,54 @@ const TeachersLeave = () => {
           </View>)}
           </View>
       )}
+
+    {showTeachersList &&
+      <View style={[{flex:1}, {flexDirection: "column"}]}>
+
+        <View style={{ flex: 2, backgroundColor: "white" }} >
+          <Ionicons
+          name="chevron-back"
+          size={25}
+          color="black"
+          onPress={teacherLeaveBackHandler}
+          style={{ left: 15,top:'13%' }}/>
+          <NativeText bold fontSize={16} style={{top:'9.1%',left:'12%'}}>Back</NativeText>
+          <NativeText bold style={{fontSize:20,left:'35%',top:'10%'}}>Teachers Leave</NativeText>
+          <SearchBar
+              onSubmitEditing={Keyboard.dismiss}
+              style={styles.searchBar}
+              textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
+              placeholder="Search here by leave type"
+              onChangeText={(text) => searchFilter(text)}
+              value={searchText}
+            />
+          <ScrollView  
+            scrollEventThrottle={15}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                { useNativeDriver: false }
+              )}>
+              <View>
+              {loading ? (
+                    <ActivityIndicator
+                      size={40}
+                      visible={loading}
+                      textContent={"Loading..."}
+                      textStyle={styles.spinnerTextStyle}
+                    />
+                  ) : (
+                    <View>
+                      <Text>Teachers List goes here...</Text>
+                    </View>
+                  )}
+              </View>
+          </ScrollView>
+        </View>
+        {keyboardStatus == "Keyboard Hidden" &&
+        (<View style={{ flex: 0.2, backgroundColor: "white" }} >
+          <TeachersHome />
+        </View>)}
+      </View>}
 
       {showList &&
       <View style={[{flex:1}, {flexDirection: "column"}]}>
@@ -1260,6 +1377,13 @@ const styles = StyleSheet.create({
 
     backgroundColor: "#FDFEFE",
   },
+  headingStyle:{
+    flex: 0.2,
+    alignItems:'center',
+    backgroundColor:'white',
+    marginTop:65,
+    justifyContent:'center'
+  },
   searchBar: {
     marginTop: 100,
     marginBottom: 20,
@@ -1285,9 +1409,9 @@ const styles = StyleSheet.create({
   },
   inputForm: {
     flex:2,
-    padding: 20,
-    marginTop:'15%',
-    paddingTop: '10%',
+    paddingHorizontal:20,
+    //marginTop:'2%',
+    //paddingTop: '5%',
     backgroundColor: "white",
    // height: "100%",
   },
@@ -1410,4 +1534,17 @@ const styles = StyleSheet.create({
   spinnerTextStyle: {
     color: "#FFF",
   },
+  cardStyle:{
+    marginVertical: 15,
+    marginHorizontal: 27,        
+    elevation: 5,
+    borderRadius: 10,
+    padding: 10,
+    backgroundColor:'darkblue',
+    width:'80%',
+  },
+  labelStyle:{
+    fontFamily:'HindRegular',
+    fontSize:18,
+  }
 });
