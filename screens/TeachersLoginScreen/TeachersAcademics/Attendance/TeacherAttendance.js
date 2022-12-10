@@ -9,7 +9,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { finalList } from "./TeachersAttendance";
 
 export var STUDENTNAME, CLASSNAME, SECTION, STATUS, ID;
@@ -24,6 +24,8 @@ function TeacherAttendance({
   // mother_name,
   // busnumber,
 }) {
+  const navigation = useNavigation();
+
   const [present, setPresent] = useState(false);
   const [absent, setAbsent] = useState(false);
   const [holiday, setHoliday] = useState(false);
@@ -94,7 +96,11 @@ function TeacherAttendance({
 
   return (
     <>
-      <ScrollView horizontal={false}>
+      <View
+        style={[styles.mainContainer]}
+      >
+        <View style={{ flex: 8, bottom: 10 }}>
+        <ScrollView horizontal={false}>
         <View style={styles.studentItem}>
           <View style={styles.studentItem}>
             <Text style={[styles.textBase, styles.description]}>
@@ -131,6 +137,8 @@ function TeacherAttendance({
           </View>
         </View>
       </ScrollView>
+        </View>
+      </View>
     </>
   );
 }
@@ -138,9 +146,16 @@ export default TeacherAttendance;
 
 const styles = StyleSheet.create({
   statusContainer: {},
+  mainContainer:{
+    flex:1,
+    flexDirection: "column",
+     backgroundColor: "white",
+     paddingHorizontal:10,
+     paddingVertical:10
+  },
+
   studentItem: {
     // width: "90%",
-
     padding: 11,
     marginVertical: 8,
     // //  backgroundColor: "#3e04c3",

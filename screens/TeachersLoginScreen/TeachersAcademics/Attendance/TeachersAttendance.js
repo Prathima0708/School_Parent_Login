@@ -107,16 +107,22 @@
 // //   },
 // // });
 
-import { View, Text, Platform, ScrollView, FlatList } from "react-native";
-import React, { useEffect, useState } from "react";
+import { View, Text, Platform, ScrollView, FlatList, StyleSheet } from "react-native";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Button } from "native-base";
 import TeacherAttendance, { STATUS, STUDENTNAME } from "./TeacherAttendance";
 import axios from "axios";
+import TeachersHome from "../../BottomTab/TeachersHome";
+import BackButton from "../../../../components/UI/BackButton";
+import { useNavigation } from "@react-navigation/native";
 export var finalList = [];
+
 const TeachersAttendance = () => {
+  const navigation = useNavigation();
+
   const [frommode, setFromMode] = useState("date");
   const [fromDate, setFromDate] = useState(new Date());
   const [fromShow, setFromShow] = useState(false);
@@ -140,7 +146,16 @@ const TeachersAttendance = () => {
 
 
   //how to add elements on loop to array in react?
+  useLayoutEffect(() => {
 
+    if(showCalendar){
+      navigation.setOptions({headerShown: true});
+    }
+    if(showStudList){
+      navigation.setOptions({headerShown: false});
+    }
+
+  }, [showCalendar,showStudList]);
 
   useEffect(() => {
     async function fetchData() {
@@ -220,93 +235,175 @@ const TeachersAttendance = () => {
     setPresent("present");
     // setPresent(!present);
   }
+
+  function backHandler(){
+    setShowStudList(false);
+    setShowCalendar(true);
+  }
   return (
-    <View>
+    // <View style={{backgroundColor:'white',flex:1}}>
+    <>
       {showCalendar && (
-        <View style={{}}>
-          <View>
-            <Ionicons
-              style={{
-                position: "absolute",
-                top: 95,
-                left: 60,
-              }}
-              name="calendar"
-              size={24}
-              color="black"
-              onPress={() => showFromMode("date")}
-            />
-          </View>
+        <>
+          <View style={[{flex:1}, {
+           flexDirection: "column",
+           backgroundColor:'white'
+         }]}>
+           <View style={{ flex: 1,}} >
+              <View style={[styles.overallContainer]}>
+                <View style={styles.iconContainer} >
+                <Ionicons
+                  style={{
 
-          <View style={{ margin: 70, width: "50%" }}>
-            <UnderlinedInput
-              value={fromText}
-              placeholder="Select Date"
-              // onSubmitEditing={Keyboard.dismiss}
-              // style={
-              //   isFromFocused
-              //     ? styles.focusStyle
-              //     : fromDateInputIsInValid && styles.errorBorderColorDate
-              // }
-              // blur={fromDateBlurHandler}
-              // onFocus={onFromFocusHandler}
-              onChangeText={frmDateHandler}
-              onPressIn={() => showFromMode("date")}
-            />
-          </View>
-
-          {/* {fromDateInputIsInValid && (
-        <Text
-          style={{
-            color: "red",
-            left: 20,
-            fontFamily: "HindRegular",
-            fontSize: 18,
-          }}
-        >
-          select from date
-        </Text>
-      )} */}
-          {fromShow && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={fromDate}
-              mode={frommode}
-              is24Hour={true}
-              display="default"
-              onChange={fromDateChangeHandler}
-            />
-          )}
-          <View style={{ width: "65%", margin: 20, paddingLeft: 110 }}>
-            <Button size="md" onPress={buttonPressedHandler}>
-              Start Attendance
-            </Button>
-          </View>
-        </View>
-      )}
+                  }}
+                  name="calendar"
+                  size={24}
+                  color="black"
+                  onPress={() => showFromMode("date")}
+                />
+                </View>
+                <View style={styles.dateContainer} >
+                  <UnderlinedInput
+                    value={fromText}
+                    placeholder="Select Date"
+                    // onSubmitEditing={Keyboard.dismiss}
+                    // style={
+                    //   isFromFocused
+                    //     ? styles.focusStyle
+                    //     : fromDateInputIsInValid && styles.errorBorderColorDate
+                    // }
+                    // blur={fromDateBlurHandler}
+                    // onFocus={onFromFocusHandler}
+                    onChangeText={frmDateHandler}
+                    onPressIn={() => showFromMode("date")}
+                  />
+                   {fromShow && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={fromDate}
+                      mode={frommode}
+                      is24Hour={true}
+                      display="default"
+                      onChange={fromDateChangeHandler}
+                    />
+                  )}
+                </View>
+              </View>
+              <View style={{ flex: 1.5,paddingHorizontal:100 }} >
+                <Button size="md" onPress={buttonPressedHandler}>
+                  Start Attendance
+                </Button>
+              </View>
+           </View>
+         </View>
+         <TeachersHome />
+        </>
+       )} 
 
       {showStudList && (
-        <View>
-          <ScrollView>
-            <View style={{ backgroundColor: "red" }}>
-              <Button onPress={presentHandler}>Present</Button>
-              <Button>Absent</Button>
-              <Button>Holiday</Button>
+        <>
+          <View style={[{flex:1}, {
+            flexDirection: "column"
+          }]}>
+            <View style={styles.btnContainer} >
+              <View style={[{flex:1,top:'17%'}, {
+                flexDirection: "row"
+              }]}>
+                <View style={[{flex:1}]} >
+                  <BackButton onPress={backHandler}/>
+                </View>
+              </View>
             </View>
-            <FlatList
-              data={filteredData}
-              renderItem={renderStudentDetails}
-              keyExtractor={(item, index) => index.toString()}
-            />
-            <Button onPress={saveAttendance}>Save</Button>
-          </ScrollView>
-        </View>
+            <View style={styles.btnContainer} >
+              <View style={[{flex:1}, {
+                flexDirection: "row",paddingVertical:16
+              }]}>
+                <View style={styles.buttonPadding} >
+                  <Button onPress={presentHandler}>Present</Button>
+                </View>
+                <View style={styles.buttonPadding} >
+                  <Button>Absent</Button>
+                </View>
+                <View style={styles.buttonPadding} >
+                  <Button>Holiday</Button>
+                </View>
+              </View>
+            </View>
+            <View style={{ flex: 2 }} >
+              <ScrollView>
+                <FlatList
+                  data={filteredData}
+                  renderItem={renderStudentDetails}
+                  keyExtractor={(item, index) => index.toString()}
+                />
+              </ScrollView>
+            </View>
+            <View style={styles.saveView} >
+              <Button onPress={saveAttendance}>Save</Button>
+            </View>
+            <View style={{ flex: 0.1 }} >
+              <TeachersHome />
+            </View>
+          </View>
+        </>
+        // <View>
+        //   <View style={{ backgroundColor: "red" }}>
+        //       <Button onPress={presentHandler}>Present</Button>
+        //       <Button>Absent</Button>
+        //       <Button>Holiday</Button>
+        //     </View>
+        //   <ScrollView>
+        //     <FlatList
+        //       data={filteredData}
+        //       renderItem={renderStudentDetails}
+        //       keyExtractor={(item, index) => index.toString()}
+        //     />
+        //     <Button onPress={saveAttendance}>Save</Button>
+        //   </ScrollView>
+        // </View>
       )}
-    </View>
+    </>
+    // </View>
   );
 };
 
 export default TeachersAttendance;
+
+const styles=StyleSheet.create({
+  dateContainer:{
+    flex: 2,
+    justifyContent:'center',
+    alignItems:'flex-start',
+    right:'5%' 
+  },
+  iconContainer:{
+    flex: 1 ,
+    justifyContent:'center',
+    alignItems:'flex-end'
+  },
+  overallContainer:{
+    flex:1, 
+    flexDirection: "row",
+    top:'10%',
+  },
+  buttonPadding:{
+    flex: 1,
+    paddingHorizontal:10
+  },
+  btnContainer:{
+    flex: 0.4,
+    paddingHorizontal:10,
+    paddingVertical:10,
+    backgroundColor:'white',
+  },
+  saveView:{
+    flex: 0.3,
+    paddingHorizontal:100,
+    paddingVertical:20,
+    bottom:5,
+    backgroundColor:'white'
+  }
+})
 
 // import {
 //   View,
