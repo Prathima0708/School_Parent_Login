@@ -1379,29 +1379,35 @@ const TeacherHomeworkScreenBuild = () => {
                                   </Text>
                                 </View>
 
-                                <View
-                                  style={{
-                                    flex: 2,
-                                    left: deviceWidth < 370 ? 90 : 100,
-                                    top: 70,
-                                  }}
-                                >
-                                  <Ionicons
-                                    name="md-pencil-sharp"
-                                    size={24}
-                                    color="green"
-                                    onPress={() => editItem(homeworkData.id)}
-                                  />
-                                </View>
+                                {homeworkData.created_by == USERNAME && (
+                                  <View
+                                    style={{
+                                      flex: 2,
+                                      left: deviceWidth < 370 ? 90 : 100,
+                                      top: 70,
+                                    }}
+                                  >
+                                    <Ionicons
+                                      name="md-pencil-sharp"
+                                      size={24}
+                                      color="green"
+                                      onPress={() => editItem(homeworkData.id)}
+                                    />
+                                  </View>
+                                )}
 
-                                <View style={{ flex: 2, left: 50, top: 70 }}>
-                                  <Ionicons
-                                    name="trash"
-                                    size={24}
-                                    color="red"
-                                    onPress={() => deleteItem(homeworkData.id)}
-                                  />
-                                </View>
+                                {homeworkData.created_by == USERNAME && (
+                                  <View style={{ flex: 2, left: 50, top: 70 }}>
+                                    <Ionicons
+                                      name="trash"
+                                      size={24}
+                                      color="red"
+                                      onPress={() =>
+                                        deleteItem(homeworkData.id)
+                                      }
+                                    />
+                                  </View>
+                                )}
                               </View>
                               <View style={[{ flexDirection: "row", flex: 1 }]}>
                                 <View style={{ flex: 2, left: -15, top: 5 }}>
