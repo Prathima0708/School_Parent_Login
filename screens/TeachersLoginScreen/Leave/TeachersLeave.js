@@ -1421,32 +1421,32 @@ const TeachersLeave = () => {
 
                                   <View style={[{flex:1,top:'4%'}, {
                                     
-                                    flexDirection: "column"
+                                    flexDirection: "row"
                                   }]}>
                                     <View style={{ flex: 1 }} >
                                       <View style={[{flex:1}, {
                                         
                                         flexDirection: "row"
                                       }]}>
-                                        <View style={{ flex:0.2 }} >
+                                        <View style={{ flex:0.5 }} >
                                           <Text style={styles.cardTextStyle}>Status:</Text>
                                         </View>
                                         <View style={{ flex: 1 }} >
                                           {data.leave_status=='approved' ? 
-                                            <Badge colorScheme="success" style={{width:'30%'}}>{data.leave_status}</Badge>:
+                                            <Badge colorScheme="success" style={{width:'65%'}}>{data.leave_status}</Badge>:
                                             data.leave_status=='Pending' ?
 
-                                            <Badge colorScheme="warning" style={{width:'30%'}}>{data.leave_status}</Badge> :
-                                            <Badge colorScheme="danger" style={{width:'30%'}}>{data.leave_status}</Badge>}
+                                            <Badge colorScheme="warning" style={{width:'65%'}}>{data.leave_status}</Badge> :
+                                            <Badge colorScheme="danger" style={{width:'65%'}}>{data.leave_status}</Badge>}
                                         </View>
                                       </View>
                                     </View>
-                                    <View style={{ flex: 1,top:'15%',left:'5%' }} >
+                                    <View style={{ flex: 1,left:'7%',bottom:'2%' }} >
                                       <View style={[{flex:1}, {
                                           
                                           flexDirection: "row"
                                         }]}>
-                                          <View style={{ flex: 0.2 }} >
+                                          <View style={{ flex: 0.3 }} >
                                             <IconButton
                                               colorScheme="blue"
                                               onPress={() => approveHandler(data.id)}
@@ -1458,7 +1458,7 @@ const TeachersLeave = () => {
                                             />
                                           </View>
                                           <View style={styles.space}/>
-                                          <View style={{ flex: 0.2 }} >
+                                          <View style={{ flex: 0.3 }} >
                                             <IconButton
                                               colorScheme="blue"
                                               onPress={() => denyHanlder(data.id)}
