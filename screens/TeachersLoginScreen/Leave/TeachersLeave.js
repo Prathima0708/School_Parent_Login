@@ -15,13 +15,13 @@ import {
 } from "react-native";
 import moment from "moment";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { HStack, Spinner,Text as NativeText,Badge, Box } from "native-base";
+import { HStack, Spinner,Text as NativeText,Badge, Box, IconButton } from "native-base";
 import { Keyboard } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../../components/UI/Button";
 import axios from "axios";
-import { UserId } from "../../Login";
+import { Token, UserId } from "../../Login";
 import BgButton from "../../../components/UI/BgButton";
 
 import { Ionicons } from "@expo/vector-icons";
@@ -36,7 +36,7 @@ import BackButton from "../../../components/UI/BackButton";
 export var ID;
 export var FROMDATE, TODATE;
 export var BADGE;
-var USERNAME, value;
+var USERNAME, value,TOKEN;
 const TeachersLeave = () => {
 
   const [user, setUser] = useState("");
@@ -139,7 +139,10 @@ const TeachersLeave = () => {
   const [approvePressed,setApprovePressed]=useState(false);
   const [denyPressed,setDenyPressed]=useState(false);
 
+  const [leaveStatusData,setLeaveStatusData]=useState([]);
+
   const [showBadge,setShowBadge]=useState(false);
+  const [token, setToken] = useState("");
   let i = 0;
 
   useEffect(() => {
@@ -169,6 +172,15 @@ const TeachersLeave = () => {
 
    
   }, [showForm,showChoice,showList]);
+
+  async function fetchToken() {
+    TOKEN = await AsyncStorage.getItem("token");
+
+    if (TOKEN !== null) {
+      setToken(TOKEN);
+    }
+  }
+  fetchToken();
 
   // useEffect(() => {
   //   async function fetchData() {
@@ -428,7 +440,7 @@ const TeachersLeave = () => {
       leave_form: FROMDATE,
       leave_to: TODATE,
       leave_reason: leaveReason,
-      leave_status: "pending",
+      leave_status: "Pending",
     };
 
     const formIsValid = enteredLeaveTypeIsValid && enteredLeaveReasonIsValid;
@@ -503,6 +515,7 @@ const TeachersLeave = () => {
       try {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
+          Authorization: "Token " + `${token}`,
         };
         const dataForm = FormData;
         const resLogin = await axios.post(
@@ -654,30 +667,71 @@ const TeachersLeave = () => {
     fetchData();
   }
   function approveHandler(id) {
-
+    console.log("pressed")
     setApprovePressed(true);
     setDenyPressed(false);
     ID = id;
 
     const fetchedData= data.find((data) => data.id == id);
+    //console.log(fetchedData.leave_form)
     
     const FormData = {
-      leave_form: fetchedData.leave_form,
-      leave_to: fetchedData.leave_to,
-      leave_type: fetchedData.leave_type,
-      leave_reason: fetchedData.leave_reason,
+      
+      // leave_form: fetchedData.leave_form,
+      // leave_to: fetchedData.leave_to,
+      // leave_type: fetchedData.leave_type,
+      // leave_reason: fetchedData.leave_reason,
+      // student_reg_number:11,
       leave_status: "approved",
     };
 
-    console.log(FormData);
+   // console.log(FormData);
 
-    if(data.find((data) => data.id == id)){
-      console.log("1")
-      setShowBadge(true);
-    }else{
-      setShowBadge(false);
-      console.log("2")
+    async function updateData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: "Token " + `${token}`,
+        };
+        const dataForm = FormData;
+        const resLogin = await axios.patch(
+          `http://10.0.2.2:8000/school/Leave/${ID}/`,
+          dataForm,
+          {
+            headers: headers,
+          }
+        );
+        // const token = resLogin.data.token;
+        // const userId = resLogin.data.user_id;
+       // console.log(resLogin.data);
+      } catch (error) {
+        console.log(error);
+      }
     }
+    updateData();
+
+    async function getData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: "Token " + `${token}`,
+        };
+        const resLogin = await axios.get(
+          `http://10.0.2.2:8000/school/Leave/`,
+          
+          {
+            headers: headers,
+          }
+        );
+        setFilteredData(resLogin.data);
+
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
+
+
 
   }
 
@@ -690,14 +744,57 @@ const TeachersLeave = () => {
     const fetchedData= data.find((data) => data.id == id);
     
     const FormData = {
-      leave_form: fetchedData.leave_form,
-      leave_to: fetchedData.leave_to,
-      leave_type: fetchedData.leave_type,
-      leave_reason: fetchedData.leave_reason,
+      // leave_form: fetchedData.leave_form,
+      // leave_to: fetchedData.leave_to,
+      // leave_type: fetchedData.leave_type,
+      // leave_reason: fetchedData.leave_reason,
       leave_status: "deny",
     };
+    async function updateData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: "Token " + `${token}`,
+        };
+        const dataForm = FormData;
+        const resLogin = await axios.patch(
+          `http://10.0.2.2:8000/school/Leave/${ID}/`,
+          dataForm,
+          {
+            headers: headers,
+          }
+        );
+        // const token = resLogin.data.token;
+        // const userId = resLogin.data.user_id;
+        console.log(resLogin.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    updateData();
 
     console.log(FormData)
+
+    async function getData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: "Token " + `${token}`,
+        };
+        const resLogin = await axios.get(
+          `http://10.0.2.2:8000/school/Leave/`,
+          
+          {
+            headers: headers,
+          }
+        );
+        setFilteredData(resLogin.data);
+        
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
   }
 
   const searchFilter = (text) => {
@@ -1211,136 +1308,217 @@ const TeachersLeave = () => {
                             }}
                           >
                             <Card.Content>
-                              <View style={[{ flexDirection: "row" }]}>
-                                <View style={{ flex: 2, marginLeft: 5 }}>
-                                  <Ionicons
-                                    name="calendar"
-                                    size={25}
-                                    color="#D4AC0D"
-                                    style={{ position: "absolute", left: 5 }}
-                                  />
-                                  <Text style={styles.cardTextStyle}>
-                                    Leave from
-                                  </Text>
-                                </View>
-                                <View style={{ flex: 2 }}>
-                                  <View style={{ flex: 2 }}>
-                                    <Ionicons
-                                      name="calendar"
-                                      size={25}
-                                      color="#D4AC0D"
-                                      style={{ position: "absolute", left: 5 }}
-                                    />
-                                    <Text style={styles.cardTextStyle}>
-                                      Leave to
-                                    </Text>
+                              <View style={[{flex:1}, {
+                                flexDirection: "row"
+                              }]}>
+                                <View style={{ flex: 1 }} >
+                                  <View style={[{flex:1}, {
+                                    flexDirection: "row"
+                                  }]}>
+                                    <View style={{ flex: 0.3 }} >
+                                      <Ionicons
+                                        name="calendar"
+                                        size={25}
+                                        color="#D4AC0D"
+                                        style={{  }}
+                                      />
+                                    </View>
+                                    <View style={{ flex: 1,alignItems:'flex-start',left:'1%' }} >
+                                      <Text style={styles.cardTextStyle}>Leave from</Text>
+                                    </View>
                                   </View>
                                 </View>
-                              </View>
-                              <View style={[{ flexDirection: "row" }]}>
-                                <View style={{ flex: 2, left: 45 }}>
-                                  <Text
-                                    style={{
-                                      fontSize: deviceWidth < 370 ? 14 : 16,
-                                      fontFamily: "HindSemiBold",
-                                      color: "grey",
-                                    }}
-                                  >
-                                    {moment(data.leave_form).format(
-                                      "DD/MM/YYYY"
-                                    )}
-                                  </Text>
-                                </View>
-                                <View style={{ flex: 2, left: 120 }}>
-                                  <Text
-                                    style={{
-                                      fontSize: deviceWidth < 370 ? 14 : 16,
-                                      fontFamily: "HindSemiBold",
-                                      color: "grey",
-                                    }}
-                                  >
-                                    {moment(data.leave_to).format("DD/MM/YYYY")}
-                                  </Text>
-                                </View>
-                                <View
-                                  style={{
-                                    flex: 2,
-                                    left: deviceWidth < 370 ? 90 : 100,
-                                    bottom: -65,
-                                  }}
-                                >
-                                   <Ionicons
-                                    name="md-checkmark-sharp"
-                                    size={24}
-                                    color="green"
-                                    onPress={() => approveHandler(data.id)}
-                                  /> 
-                                </View>
-                                <View
-                                  style={{ flex: 2, left: 50, bottom: -65 }}
-                                >
-                                  <Ionicons
-                                    name="close"
-                                    size={24}
-                                    color="red"
-                                    onPress={() => denyHanlder(data.id)}
-                                  />
-                                </View>
-                              </View>
-                              <View style={[{ flexDirection: "row", flex: 1 }]}>
-                                <View style={{ flex: 2, left: -15, top: 5 }}>
-                                  <Text style={styles.cardTextStyle}>
-                                    Leave Reason:
-                                  </Text>
-                                </View>
-                                <View
-                                  style={{
-                                    flex: 2,
-                                    left: deviceWidth < 370 ? -20 : -35,
-                                    top: 5,
-                                  }}
-                                >
-                                  <Text
-                                    style={{
-                                      fontSize: 16,
-                                      fontFamily: "HindSemiBold",
-                                      color: "grey",
-                                    }}
-                                  >
-                                    {data.leave_reason}
-                                  </Text>
-                                </View>
+                                <View style={{ flex: 1 }} >
+                                  <View style={[{flex:1}, {
+                                      flexDirection: "row"
+                                    }]}>
+                                      <View style={{ flex: 0.3 }} >
+                                        <Ionicons
+                                          name="calendar"
+                                          size={25}
+                                          color="#D4AC0D"
+                                          style={{  }}
+                                        />
+                                      </View>
+                                      <View style={{ flex: 1,alignItems:'flex-start',left:'1%' }} >
+                                        <Text style={styles.cardTextStyle}>Leave to</Text>
+                                      </View>
+                                    </View>
+                                  </View>
                               </View>
 
-                              <View style={[{ flexDirection: "row", flex: 1 }]}>
-                                <View
-                                  style={{
-                                    flex: 2,
-                                    left: -15,
-                                    top: 5,
-                                  }}
-                                >
-                                  <Text style={styles.cardTextStyle}>
-                                    Leave Type:
-                                  </Text>
+                              <View style={[{flex:1}, {
+                                flexDirection: "row"
+                              }]}>
+                                <View style={{ flex: 1 }} >
+                                  <View style={[{flex:1}, {
+                                    flexDirection: "row"
+                                  }]}>
+                                    <View style={{ flex: 0.3 }} >
+
+                                    </View>
+                                    <View style={{ flex: 1,alignItems:'flex-start',left:'1%' }} >
+                                      <Text style={styles.textStyle}>{moment(data.leave_form).format(
+                                      "DD/MM/YYYY")}</Text>
+                                    </View>
+                                  </View>
                                 </View>
-                                <View
-                                  style={{
-                                    flex: 2,
-                                    left: deviceWidth < 370 ? -35 : -50,
-                                    top: 5,
-                                  }}
-                                >
-                                  <Text
-                                    style={{
-                                      fontSize: 16,
-                                      fontFamily: "HindSemiBold",
-                                      color: "grey",
-                                    }}
-                                  >
-                                    {data.leave_type}
-                                  </Text>
+                                <View style={{ flex: 1 }} >
+                                  <View style={[{flex:1}, {
+                                      flexDirection: "row"
+                                    }]}>
+                                      <View style={{ flex: 0.3 }} >
+                                        {/* <Ionicons
+                                          name="calendar"
+                                          size={25}
+                                          color="#D4AC0D"
+                                          style={{  }}
+                                        /> */}
+                                      </View>
+                                      <View style={{ flex: 1,alignItems:'flex-start',left:'1%' }} >
+                                        <Text style={styles.textStyle}>{moment(data.leave_to).format("DD/MM/YYYY")}</Text>
+                                      </View>
+                                    </View>
+                                  </View>
+                              </View>
+
+                              <View style={[{flex:1,top:'3%'}, {
+                                flexDirection: "row"
+                              }]}>
+                                <View style={{ flex: 1 }}>
+                                  <View style={[{flex:1}, {
+                                    
+                                    flexDirection: "column"
+                                  }]}>
+                                    <View style={{ flex: 1 }} >
+                                      <View style={[{flex:1}, {
+                                        
+                                        flexDirection: "row"
+                                      }]}>
+                                        <View style={{ flex:0.5 }} >
+                                          <Text style={styles.cardTextStyle}>Leave reason:</Text>
+                                        </View>
+                                        <View style={{ flex: 1 }} >
+                                          <Text style={styles.textStyle}>{data.leave_reason}</Text>
+                                        </View>
+                                      </View>
+                                    </View>
+                                    <View style={{ flex: 1 }} >
+                                      <View style={[{flex:1}, {
+                                          
+                                          flexDirection: "row"
+                                        }]}>
+                                          <View style={{ flex: 0.4 }} >
+                                            <Text style={styles.cardTextStyle}>Leave type:</Text>
+                                          </View>
+                                          <View style={{ flex: 1 }} >
+                                            <Text style={styles.textStyle}>{data.leave_type}</Text>
+                                          </View>
+                                        </View>
+                                      </View>
+                                  </View>
+
+
+                                  <View style={[{flex:1,top:'4%'}, {
+                                    
+                                    flexDirection: "column"
+                                  }]}>
+                                    <View style={{ flex: 1 }} >
+                                      <View style={[{flex:1}, {
+                                        
+                                        flexDirection: "row"
+                                      }]}>
+                                        <View style={{ flex:0.2 }} >
+                                          <Text style={styles.cardTextStyle}>Status:</Text>
+                                        </View>
+                                        <View style={{ flex: 1 }} >
+                                          {data.leave_status=='approved' ? 
+                                            <Badge colorScheme="success" style={{width:'30%'}}>{data.leave_status}</Badge>:
+                                            data.leave_status=='Pending' ?
+
+                                            <Badge colorScheme="warning" style={{width:'30%'}}>{data.leave_status}</Badge> :
+                                            <Badge colorScheme="danger" style={{width:'30%'}}>{data.leave_status}</Badge>}
+                                        </View>
+                                      </View>
+                                    </View>
+                                    <View style={{ flex: 1,top:'15%',left:'5%' }} >
+                                      <View style={[{flex:1}, {
+                                          
+                                          flexDirection: "row"
+                                        }]}>
+                                          <View style={{ flex: 0.2 }} >
+                                            <IconButton
+                                              colorScheme="blue"
+                                              onPress={() => approveHandler(data.id)}
+                                              variant="subtle"
+                                              _icon={{
+                                                as: Ionicons,
+                                                name: "md-checkmark-sharp",
+                                              }}
+                                            />
+                                          </View>
+                                          <View style={styles.space}/>
+                                          <View style={{ flex: 0.2 }} >
+                                            <IconButton
+                                              colorScheme="blue"
+                                              onPress={() => denyHanlder(data.id)}
+                                              variant="subtle"
+                                              _icon={{
+                                                as: Ionicons,
+                                                name: "close",
+                                              }}
+                                            />
+                                          </View>
+                                        </View>
+                                      </View>
+                                  </View>
                                 </View>
+                                {/* <View style={[{flex:0.5}, {
+                                  
+                                  flexDirection: "column"
+                                }]}>
+                                  <View style={{ flex: 0.3,  }}>
+                                    <View style={[{flex:1}, {
+                                      
+                                      flexDirection: "row"
+                                    }]}>
+                                      <View style={{ flex: 1,  }} >
+                                      <IconButton
+                                        colorScheme="blue"
+                                        onPress={() => approveHandler(data.id)}
+                                        variant="subtle"
+                                        _icon={{
+                                          as: Ionicons,
+                                          name: "md-checkmark-sharp",
+                                        }}
+                                      />
+                                      </View>
+                                      <View style={styles.space}/>
+                                      <View style={{ flex: 1, }} >
+                                      <IconButton
+                                        colorScheme="blue"
+                                        onPress={() => denyHanlder(data.id)}
+                                        variant="subtle"
+                                        _icon={{
+                                          as: Ionicons,
+                                          name: "close",
+                                        }}
+                                      />
+                                      </View>
+                                    </View>
+
+                                  </View>
+                                  <View style={styles.space}/>
+                                  <View style={{ flex: 1,alignItems:'center' }}>
+                                    {data.leave_status=='approved' ? 
+                                      <Badge colorScheme="success">{data.leave_status}</Badge>:
+                                      data.leave_status=='Pending' ?
+
+                                      <Badge colorScheme="warning">{data.leave_status}</Badge> :
+                                      <Badge colorScheme="danger">{data.leave_status}</Badge>}
+                                      
+                                  </View>
+                                </View> */}
                               </View>
                             </Card.Content>
                           </Card>
@@ -1470,7 +1648,6 @@ const styles = StyleSheet.create({
   cardTextStyle: {
     fontFamily: "HindSemiBold",
     fontSize: 16,
-    left: 35,
   },
   focusStyle: {
     borderColor: "blue",
@@ -1546,5 +1723,10 @@ const styles = StyleSheet.create({
   labelStyle:{
     fontFamily:'HindRegular',
     fontSize:18,
+  },
+  textStyle:{
+    fontSize: deviceWidth < 370 ? 14 : 16,
+    fontFamily: "HindSemiBold",
+    color: "grey",
   }
 });

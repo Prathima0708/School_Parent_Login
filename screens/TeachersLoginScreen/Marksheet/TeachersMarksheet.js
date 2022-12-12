@@ -914,25 +914,29 @@ const TeachersMarksheet = () => {
           <Text>View List</Text>
         </Animated.View>
       )} */}
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1,backgroundColor:'white' }}>
         {showBtn && (
           <>
             <View
               style={{
-                width: 170,
-                top: "4%",
+                // width: 170,
+                top: "9%",
                 left: "6%",
+                flexDirection:'row'
                 // fontSize: 20,
                 // marginTop: 13,
                 // margin: 10,
               }}
             >
+              <Text style={{fontFamily:'HindBold',fontSize:18,top:'5%',marginLeft:10}}>Select class</Text>
+              <View style={styles.space}/>
+              <View style={styles.space}/>
               <SelectList
                 defaultOption={firstData}
                 setSelected={setSelected}
                 data={studData}
                 placeholder="Select class"
-                boxStyles={{ borderRadius: 10 }}
+                boxStyles={{ borderRadius: 10,top:'4%' }}
                 dropdownTextStyles={{ fontSize: 18, fontFamily: "HindRegular" }}
                 inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
                 onSelect={viewStudentList}

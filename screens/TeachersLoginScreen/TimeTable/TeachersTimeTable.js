@@ -2198,6 +2198,7 @@ import {
   IconButton,
   Button as NativeButton,
   Text as NativeText,
+  Heading,
 } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -2525,17 +2526,59 @@ const TeachersTimetable = () => {
             {/* <Animated.View style={{transform:[
               {translateY:translateY}
             ]}}> */}
+              {/* <View style={[{flex:0.5}, {
+                flexDirection: "row",marginHorizontal:20,top:'10%'
+              }]}>
+                <View style={{ flex: 1 }} >
+                  <Text style={{fontFamily:'HindBold',fontSize:18,marginTop:10}}>
+                    Select Class
+                  </Text>
+                </View>
+                <View style={{ flex: 1,width:'30%',right:'12%' ,backgroundColor:'red'}} >
+                  <SelectList
+                    //defaultOption={firstData}
+                    defaultOption={{
+                      key: KEY,
+                      value: VALUE,
+                    }}
+                    //  defaultOption={{ key: "1", value: "abc" }}
+                    setSelected={setSelected}
+                    data={studClassData}
+                    // placeholder="Select class."
+                    boxStyles={{ borderRadius: 10 }}
+                    dropdownTextStyles={{
+                      fontSize: deviceWidth < 370 ? 16 : 18,
+                      fontFamily: "HindRegular",
+                    
+                    }}
+                    inputStyles={{
+                      fontSize: deviceWidth < 370 ? 16 : 18,
+                      fontFamily: "HindRegular",
+                      
+                    }}
+                    onSelect={viewTimeTableList}
+                    save="key"
+                  />
+                </View>
+              </View> */}
 
             <View
               style={{
                 width: 170,
                 fontSize: 20,
-                marginTop: 15,
+                marginTop: '10%',
                 margin: 10,
-                left:'4%'
-
+                left:'2%',
+                flexDirection:'row'
               }}
             >
+              <Text style={{fontFamily:'HindBold',fontSize:18,top:'5%',marginLeft:10}}>
+                Select class
+              </Text>
+              <View style={styles.space}/>
+              <View style={styles.space}/>
+              <View style={styles.space}/>
+              <View style={styles.space}/>
               <SelectList
                 //defaultOption={firstData}
                 defaultOption={{
@@ -2546,7 +2589,7 @@ const TeachersTimetable = () => {
                 setSelected={setSelected}
                 data={studClassData}
                 // placeholder="Select class."
-                boxStyles={{ borderRadius: 0 }}
+                boxStyles={{ borderRadius: 10 }}
                 dropdownTextStyles={{
                   fontSize: deviceWidth < 370 ? 16 : 18,
                   fontFamily: "HindRegular",
@@ -2572,16 +2615,9 @@ const TeachersTimetable = () => {
             </View> */}
 
             <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-around",
-              }}
-            ></View>
-
-            <View
               style={[
                 { flex: 1 },
-                { flexDirection: "column", backgroundColor: "white" },
+                { flexDirection: "column", backgroundColor: "white",top:'3%' },
               ]}
             >
               {loading ? (
@@ -3012,12 +3048,12 @@ const TeachersTimetable = () => {
                   )}
                 </>
               )}
-              {keyboardStatus == "Keyboard Hidden" && (
+            </View>
+            {keyboardStatus == "Keyboard Hidden" && (
                 <View style={{ flex: 1 }}>
                   <TeachersHome />
                 </View>
               )}
-            </View>
           </>
         )}
 
@@ -3200,8 +3236,8 @@ const styles = StyleSheet.create({
     // marginHorizontal:10
   },
   headingFont: {
-    // fontFamily: "Hind-SemiBold",
-    fontWeight: "bold",
+    fontFamily: "Hind-SemiBold",
+   // fontWeight: "bold",
     fontSize: deviceWidth < 370 ? 14 : 14,
   },
   flex: {

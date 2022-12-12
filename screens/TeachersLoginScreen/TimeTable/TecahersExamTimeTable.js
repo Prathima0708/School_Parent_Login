@@ -709,21 +709,30 @@ const TecahersExamTimeTable = () => {
                 fontSize: 20,
                 // marginTop: 13,
                 margin: 10,
-                left:17
+                left:17,
+                marginTop:'4%',
+                flexDirection:'row'
               },
             ]}
           >
+            <Text style={{fontFamily:'HindBold',fontSize:18,top:'5%',marginLeft:10}}>Select class</Text>
+            <View style={styles.space}/>
+            <View style={styles.space}/>
+            <View style={styles.space}/>
+            <View style={styles.space}/>
             <SelectList
               //  defaultOption={{ key: "1", value: "Second-A" }}
               setSelected={setSelected}
               data={studData}
               placeholder="Select class"
-              boxStyles={{ borderRadius: 0 }}
+              onSelect={viewExamList}
+              boxStyles={{ borderRadius: 10 }}
               dropdownTextStyles={{ fontSize: 18, fontFamily: "HindRegular" }}
               inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+              
             />
           </View>
-          <View
+          {/* <View
             style={{
               width: "45%",
               //  marginTop: -93,
@@ -733,12 +742,12 @@ const TecahersExamTimeTable = () => {
             }}
           >
             <Button onPress={viewExamList}>View List</Button>
-          </View>
+          </View> */}
         </>
       )}
       {showExamList && (
         <>
-          <View style={{ backgroundColor: "white" }}>
+          <View style={{ backgroundColor: "white",marginVertical:10 }}>
             <SearchBar
               onSubmitEditing={Keyboard.dismiss}
               style={styles.searchBar}
@@ -757,7 +766,7 @@ const TecahersExamTimeTable = () => {
               { flexDirection: "column", backgroundColor: "white" },
             ]}
           >
-            <View style={{ flex: 8, bottom: 20 }}>
+            <View style={{ flex: 8, bottom: 10 }}>
               <ScrollView
                 scrollEventThrottle={15}
                 onScroll={Animated.event(
