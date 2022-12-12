@@ -9,7 +9,7 @@ import {
   Animated,
   ActivityIndicator,
 } from "react-native";
-import { Button as NativeButton, Icon } from "native-base";
+import { Button as NativeButton, Icon,IconButton } from "native-base";
 import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../../../components/UI/Button";
@@ -1312,131 +1312,167 @@ const TeacherHomeworkScreenBuild = () => {
                   ) : (
                     filteredData.map((homeworkData, key) => (
                       <>
-                        <View>
+                       <View>
                           <Card
                             style={{
                               marginVertical: 15,
                               marginHorizontal: 20,
                               elevation: 5,
                               borderRadius: 10,
-                              paddingBottom: 30,
+                              paddingBottom: 20,
                             }}
-                            key={key}
                           >
                             <Card.Content>
-                              <Card.Title
-                                title={homeworkData.class_name}
-                                titleStyle={{
-                                  color: "purple",
-                                  fontFamily: "HindSemiBold",
-                                  fontSize: 20,
-                                  marginTop: -20,
-                                }}
-                              />
-
-                              <View style={[{ flexDirection: "row" }]}>
-                                <View
-                                  style={{ flex: 2, marginLeft: 5, top: -10 }}
-                                >
-                                  <Ionicons
-                                    name="calendar"
-                                    size={25}
-                                    color="#D4AC0D"
-                                    style={{ position: "absolute", left: 5 }}
-                                  />
-                                  <Text style={styles.cardTextStyle}>
-                                    Start Date
-                                  </Text>
-                                </View>
-                                <View style={{ flex: 2 }}>
-                                  <View style={{ flex: 2, top: -10 }}>
-                                    <Ionicons
-                                      name="calendar"
-                                      size={25}
-                                      color="#D4AC0D"
-                                      style={{ position: "absolute", left: 5 }}
-                                    />
-                                    <Text style={styles.cardTextStyle}>
-                                      End Date
-                                    </Text>
+                              <View style={[{flex:1}, {
+                                flexDirection: "row"
+                              }]}>
+                                <View style={{ flex: 1 }} >
+                                  <View style={[{flex:1}, {
+                                    flexDirection: "row"
+                                  }]}>
+                                    <View style={{ flex: 0.2 }} >
+                                      <Ionicons
+                                        name="calendar"
+                                        size={25}
+                                        color="#D4AC0D"
+                                        style={{  }}
+                                      />
+                                    </View>
+                                    <View style={{ flex: 1 }} >
+                                      <Text style={[styles.cardTextStyle,{left:5}]}>Start Date</Text>
+                                    </View>
                                   </View>
                                 </View>
+                                <View style={{ flex: 1 }} >
+                                  <View style={[{flex:1}, {
+                                      flexDirection: "row"
+                                    }]}>
+                                      <View style={{ flex: 0.3 }} >
+                                        <Ionicons
+                                          name="calendar"
+                                          size={25}
+                                          color="#D4AC0D"
+                                          style={{  }}
+                                        />
+                                      </View>
+                                      <View style={{ flex: 1,alignItems:'flex-start',left:'1%' }} >
+                                        <Text style={[styles.cardTextStyle,{left:5}]}>End Date</Text>
+                                      </View>
+                                    </View>
+                                  </View>
                               </View>
 
-                              <View style={[{ flexDirection: "row" }]}>
-                                <View style={{ flex: 2, left: 40, top: -5 }}>
-                                  <Text style={styles.textInfo}>
-                                    {moment(homeworkData.homework_date).format(
+                              <View style={[{flex:1}, {
+                                flexDirection: "row"
+                              }]}>
+                                <View style={{ flex: 1 }} >
+                                  <View style={[{flex:1}, {
+                                    flexDirection: "row"
+                                  }]}>
+                                    <View style={{ flex: 0.3 }} >
+
+                                    </View>
+                                    <View style={{ flex: 1,alignItems:'flex-start',left:'1%' }} >
+                                      <Text style={styles.textStyle}>{moment(homeworkData.homework_date).format(
                                       "DD/MM/YYYY"
-                                    )}
-                                  </Text>
+                                    )}</Text>
+                                    </View>
+                                  </View>
                                 </View>
-                                <View style={{ flex: 2, left: 110, top: -5 }}>
-                                  <Text style={styles.textInfo}>
-                                    {moment(homeworkData.due_date).format(
+                                <View style={{ flex: 1 }} >
+                                  <View style={[{flex:1}, {
+                                      flexDirection: "row"
+                                    }]}>
+                                      <View style={{ flex: 0.3 }} >
+                                        {/* <Ionicons
+                                          name="calendar"
+                                          size={25}
+                                          color="#D4AC0D"
+                                          style={{  }}
+                                        /> */}
+                                      </View>
+                                      <View style={{ flex: 1,alignItems:'flex-start',left:'1%' }} >
+                                        <Text style={styles.textStyle}>{moment(homeworkData.due_date).format(
                                       "DD/MM/YYYY"
-                                    )}
-                                  </Text>
-                                </View>
-
-                                <View
-                                  style={{
-                                    flex: 2,
-                                    left: deviceWidth < 370 ? 90 : 100,
-                                    top: 70,
-                                  }}
-                                >
-                                  <Ionicons
-                                    name="md-pencil-sharp"
-                                    size={24}
-                                    color="green"
-                                    onPress={() => editItem(homeworkData.id)}
-                                  />
-                                </View>
-
-                                <View style={{ flex: 2, left: 50, top: 70 }}>
-                                  <Ionicons
-                                    name="trash"
-                                    size={24}
-                                    color="red"
-                                    onPress={() => deleteItem(homeworkData.id)}
-                                  />
-                                </View>
+                                    )}</Text>
+                                      </View>
+                                    </View>
+                                  </View>
                               </View>
-                              <View style={[{ flexDirection: "row", flex: 1 }]}>
-                                <View style={{ flex: 2, left: -15, top: 5 }}>
-                                  <Text style={styles.cardTextStyle}>
-                                    Subject:
-                                  </Text>
-                                </View>
-                                <View
-                                  style={{
-                                    flex: 2,
-                                    left: deviceWidth < 370 ? -30 : -40,
-                                    top: 6,
-                                  }}
-                                >
-                                  <Text style={styles.textInfo}>
-                                    {homeworkData.subject}
-                                  </Text>
-                                </View>
-                              </View>
-                              <View style={[{ flexDirection: "row", flex: 1 }]}>
-                                <View style={{ flex: 2, left: -15, top: 5 }}>
-                                  <Text style={styles.cardTextStyle}>
-                                    Description:
-                                  </Text>
-                                </View>
-                                <View
-                                  style={{
-                                    flex: 2,
-                                    left: deviceWidth < 370 ? -30 : -40,
-                                    top: 6,
-                                  }}
-                                >
-                                  <Text style={styles.textInfo}>
-                                    {homeworkData.remark}
-                                  </Text>
+
+                              <View style={[{flex:1,top:'3%'}, {
+                                flexDirection: "row"
+                              }]}>
+                                <View style={{ flex: 1 }}>
+                                  <View style={[{flex:1}, {
+                                    
+                                    flexDirection: "column"
+                                  }]}>
+                                    <View style={{ flex: 1 }} >
+                                      <View style={[{flex:1}, {
+                                        
+                                        flexDirection: "row"
+                                      }]}>
+                                        <View style={{ flex:0.5 }} >
+                                          <Text style={styles.cardTextStyle}>Subject:</Text>
+                                        </View>
+                                        <View style={{ flex: 1 }} >
+                                          <Text style={styles.textStyle}>{homeworkData.subject}</Text>
+                                        </View>
+                                      </View>
+                                    </View>
+                                    <View style={{ flex: 1 }} >
+                                      <View style={[{flex:1}, {
+                                          
+                                          flexDirection: "row"
+                                        }]}>
+                                          <View style={{ flex: 0.7 }} >
+                                            <Text style={styles.cardTextStyle}>Description:</Text>
+                                          </View>
+                                          <View style={{ flex: 1 }} >
+                                            <Text style={styles.textStyle}>{homeworkData.remark}</Text>
+                                          </View>
+                                        </View>
+                                      </View>
+                                  </View>
+
+
+                                  <View style={[{flex:1,top:'4%',marginLeft:'70%'}, {
+                                    
+                                    flexDirection: "row"
+                                  }]}>
+                                    
+                                    <View style={{ flex: 1,bottom:'1%' }} >
+                                      <View style={[{flex:1}, {
+                                          
+                                          flexDirection: "row"
+                                        }]}>
+                                          <View style={{ flex: 0.4 }} >
+                                            <IconButton
+                                              colorScheme="success"
+                                               onPress={() => editItem(homeworkData.id)}
+                                              variant="subtle"
+                                              _icon={{
+                                                as: Ionicons,
+                                                name: "md-pencil-sharp",
+                                              }}
+                                            />
+                                          </View>
+                                          <View style={styles.space}/>
+                                          <View style={{ flex: 0.4 }} >
+                                            <IconButton
+                                              colorScheme="danger"
+                                              onPress={() => deleteItem(homeworkData.id)}
+                                              variant="subtle"
+                                              _icon={{
+                                                as: Ionicons,
+                                                name: "trash",
+                                              }}
+                                            />
+                                          </View>
+                                        </View>
+                                      </View>
+                                  </View>
                                 </View>
                               </View>
                             </Card.Content>
@@ -1648,4 +1684,9 @@ const styles = StyleSheet.create({
   spinnerTextStyle: {
     color: "#FFF",
   },
+  textStyle:{
+    fontSize: deviceWidth < 370 ? 14 : 16,
+    fontFamily: "HindSemiBold",
+    color: "grey",
+  }
 });

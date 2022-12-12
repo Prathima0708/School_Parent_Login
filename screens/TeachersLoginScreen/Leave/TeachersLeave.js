@@ -951,7 +951,7 @@ const TeachersLeave = () => {
             <View style={[{flex:0.2}, {flexDirection: "row",top:'20%'}]}>
               <BackButton onPress={backHandler}/>
             </View>
-          {/* <View style={{ flex: 0.1, backgroundColor: "white",alignItems:'center',paddingVertical:15,top:'10%' }} >
+          {/* <View style={{ flex: 0.1, backgroundColor: "white",paddingVertical:15,top:'10%' }} >
            
           </View> */}
            <View style={styles.headingStyle} >
@@ -965,9 +965,9 @@ const TeachersLeave = () => {
               <View style={{ flex: 1,marginHorizontal:20 }} >
 
                 <View style={[{flex:1}, {
-                    flexDirection: "row",marginRight:50
+                    flexDirection: "row",marginRight:30
                   }]}>
-                    <View style={{ flex: 1,alignItems:'center' }} >
+                    <View style={{ flex: 1 }} >
                       <Text style={styles.labelStyle}>user name</Text>
                     </View>
                     <View style={{ flex: 1 }} >
@@ -982,9 +982,9 @@ const TeachersLeave = () => {
               <View style={styles.space}/>
               <View style={{ flex: 1}} >
               <View style={[{flex:1}, {
-                  flexDirection: "row",marginHorizontal:20,marginRight:70
+                  flexDirection: "row",marginHorizontal:20,marginRight:46
                 }]}>
-                  <View style={{ flex: 1,alignItems:'center'}} >
+                  <View style={{ flex: 1}} >
                     <Text style={styles.labelStyle}>user role</Text>
                   </View>
                   <View style={{ flex: 1}} >
@@ -1509,7 +1509,7 @@ const TeachersLeave = () => {
 
                                   </View>
                                   <View style={styles.space}/>
-                                  <View style={{ flex: 1,alignItems:'center' }}>
+                                  <View style={{ flex: 1 }}>
                                     {data.leave_status=='approved' ? 
                                       <Badge colorScheme="success">{data.leave_status}</Badge>:
                                       data.leave_status=='Pending' ?

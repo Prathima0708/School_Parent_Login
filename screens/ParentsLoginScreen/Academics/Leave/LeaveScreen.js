@@ -707,7 +707,52 @@ const LeaveScreen = () => {
         ))
       } */}
       {showForm && (
-        <ScrollView style={styles.root}>
+         <View
+         style={[
+           { flex: 1 },
+           { flexDirection: "column", backgroundColor: "white" },
+         ]}
+       >
+         <View style={{ flex: 8, bottom: 15 }}>
+         <ScrollView style={styles.root}>
+          <View style={[{flex:1}, {
+              flexDirection: "column",paddingVertical:25,marginRight:'15%'
+            }]}>
+              <View style={{ flex: 1,marginHorizontal:20 }} >
+
+                <View style={[{flex:1}, {
+                    flexDirection: "row",marginRight:50
+                  }]}>
+                    <View style={{ flex: 1,alignItems:'center' }} >
+                      <Text style={styles.newLabel}>user name</Text>
+                    </View>
+                    <View style={{ flex: 1 }} >
+                      <TextInput 
+                        style={[styles.newLabel,{borderWidth:1,paddingLeft:7}]}
+                        editable={false} 
+                        selectTextOnFocus={false} 
+                        value={user}/>
+                    </View>
+                </View>
+              </View>
+              <View style={styles.space}/>
+              <View style={{ flex: 1}} >
+              <View style={[{flex:1}, {
+                  flexDirection: "row",marginHorizontal:20,marginRight:70
+                }]}>
+                  <View style={{ flex: 1,alignItems:'center'}} >
+                    <Text style={styles.newLabel}>user role</Text>
+                  </View>
+                  <View style={{ flex: 1}} >
+                    <TextInput 
+                      style={[styles.newLabel,{borderWidth:1,paddingLeft:7}]}
+                      editable={false} 
+                      selectTextOnFocus={false} 
+                      value={group}/>
+                  </View>
+                </View>
+              </View>
+            </View>
           <View style={styles.inputForm}>
             <View style={!label ? styles.test : styles.testSuccess}>
               <Text
@@ -900,56 +945,7 @@ const LeaveScreen = () => {
               </View>
             </View>
 
-            <View
-              style={[
-                { flex: 1 },
-                {
-                  flexDirection: "row",
-                  marginRight: 50,
-                },
-              ]}
-            >
-              <View style={{ flex: 1, alignItems: "center" }}>
-                <Text style={styles.username}>user name</Text>
-              </View>
-              <View style={{ flex: 1 }}>
-                <TextInput
-                  style={[styles.username, { borderWidth: 1, paddingLeft: 5 }]}
-                  editable={false}
-                  selectTextOnFocus={false}
-                  value={user}
-                />
-              </View>
-            </View>
-            <View style={styles.space} />
 
-            <View style={{ flex: 1 }}>
-              <View
-                style={[
-                  { flex: 1 },
-                  {
-                    flexDirection: "row",
-                    marginHorizontal: 20,
-                    marginRight: 70,
-                  },
-                ]}
-              >
-                <View style={{ flex: 1, alignItems: "center" }}>
-                  <Text style={styles.username}>user role</Text>
-                </View>
-                <View style={{ flex: 1 }}>
-                  <TextInput
-                    style={[
-                      styles.username,
-                      { borderWidth: 1, paddingLeft: 7 },
-                    ]}
-                    editable={false}
-                    selectTextOnFocus={false}
-                    value={group}
-                  />
-                </View>
-              </View>
-            </View>
 
             {!isEdit && (
               <View style={styles.btnSubmit}>
@@ -963,6 +959,10 @@ const LeaveScreen = () => {
             )}
           </View>
         </ScrollView>
+         </View>
+
+        </View>
+        
       )}
       {keyboardStatus == "Keyboard Hidden" && <ParentsHome />}
     </>
@@ -1053,7 +1053,7 @@ const styles = StyleSheet.create({
     borderColor: "red",
   },
   btnSubmit: {
-    top: deviceHieght < 600 ? -25 : "7%",
+   // top: deviceHieght < 600 ? -25 : "7%",
   },
   space: {
     width: 20, // or whatever size you need
@@ -1147,7 +1147,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   labelStyle: {
-    color: "white",
+    color: "black",
     fontFamily: "HindBold",
     fontSize: 20,
     textAlign: "center",
@@ -1267,5 +1267,9 @@ const styles = StyleSheet.create({
   username: {
     fontFamily: "HindRegular",
     fontSize: 18,
+  },
+  newLabel:{
+    fontFamily:'HindRegular',
+    fontSize:18,
   },
 });
