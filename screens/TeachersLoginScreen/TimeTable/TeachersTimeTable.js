@@ -2308,7 +2308,7 @@ const TeachersTimetable = () => {
         //console.log(newArray[0]);
 
         firstData = newArray[0];
-        console.log("key -", firstData.key);
+        //console.log("key -", firstData.key);
         KEY = firstData.key;
         VALUE = firstData.value;
         // if (firstData == undefined) {
@@ -2334,9 +2334,16 @@ const TeachersTimetable = () => {
     fetchClass();
   }, []);
 
-  console.log("default option -", firstData);
+  console.log("default option outside -", firstData);
   console.log("KEY -", KEY);
   console.log("VALUE -", VALUE);
+
+  // if (KEY == undefined) {
+  //   console.log("undefined key");
+  // }
+  // if (VALUE == undefined) {
+  //   console.log("undefined value");
+  // }
   // async function fetchDefaultOption() {
   //   DISPLAYFIRST = await AsyncStorage.getItem("defaultoption");
   //   console.log("this is the default option from aysnc", DISPLAYFIRST);
@@ -2455,9 +2462,9 @@ const TeachersTimetable = () => {
     setShowSelected(true);
     async function login() {
       console.log("***********");
-      console.log(selected);
-      console.log(newArray);
-      let filteredlist = newArray.filter((ele) => ele.key == selected);
+      // console.log(selected);
+      console.log("new array is -", newArray);
+      let filteredlist = newArray?.filter((ele) => ele.key == selected);
       console.log("filteredlist", filteredlist);
       // let selectedData = selected.split(" - ");
       // console.log(selectedData);
@@ -2526,7 +2533,7 @@ const TeachersTimetable = () => {
             {/* <Animated.View style={{transform:[
               {translateY:translateY}
             ]}}> */}
-              {/* <View style={[{flex:0.5}, {
+            {/* <View style={[{flex:0.5}, {
                 flexDirection: "row",marginHorizontal:20,top:'10%'
               }]}>
                 <View style={{ flex: 1 }} >
@@ -2564,26 +2571,33 @@ const TeachersTimetable = () => {
 
             <View
               style={{
-                width: 170,
+               // width: 170,
                 fontSize: 20,
-                marginTop: '10%',
+                marginTop: "10%",
                 margin: 10,
-                left:'2%',
-                flexDirection:'row'
+                left: "2%",
+                flexDirection: "row",
               }}
             >
-              <Text style={{fontFamily:'HindBold',fontSize:18,top:'5%',marginLeft:10}}>
+              <Text
+                style={{
+                  fontFamily: "HindBold",
+                  fontSize: 18,
+                  top: "5%",
+                  marginLeft: 10,
+                }}
+              >
                 Select class
               </Text>
-              <View style={styles.space}/>
-              <View style={styles.space}/>
-              <View style={styles.space}/>
-              <View style={styles.space}/>
+              <View style={styles.space} />
+              <View style={styles.space} />
+              <View style={styles.space} />
+              <View style={styles.space} />
               <SelectList
                 //defaultOption={firstData}
                 defaultOption={{
-                  key: KEY,
-                  value: VALUE,
+                  key: String(KEY),
+                  value: String(VALUE),
                 }}
                 //  defaultOption={{ key: "1", value: "abc" }}
                 setSelected={setSelected}
@@ -2617,7 +2631,11 @@ const TeachersTimetable = () => {
             <View
               style={[
                 { flex: 1 },
-                { flexDirection: "column", backgroundColor: "white",top:'3%' },
+                {
+                  flexDirection: "column",
+                  backgroundColor: "white",
+                  top: "3%",
+                },
               ]}
             >
               {loading ? (
@@ -3050,10 +3068,10 @@ const TeachersTimetable = () => {
               )}
             </View>
             {keyboardStatus == "Keyboard Hidden" && (
-                <View style={{ flex: 1 }}>
-                  <TeachersHome />
-                </View>
-              )}
+              <View style={{ flex: 1 }}>
+                <TeachersHome />
+              </View>
+            )}
           </>
         )}
 
@@ -3237,7 +3255,7 @@ const styles = StyleSheet.create({
   },
   headingFont: {
     fontFamily: "Hind-SemiBold",
-   // fontWeight: "bold",
+    // fontWeight: "bold",
     fontSize: deviceWidth < 370 ? 14 : 14,
   },
   flex: {

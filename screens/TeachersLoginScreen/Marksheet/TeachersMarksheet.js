@@ -30,7 +30,7 @@ import { subURL } from "../../../components/utils/URL's";
 import { style } from "@mui/system";
 export var ID;
 export var StudentList = [];
-var newArray, firstData;
+var newArray, firstData, KEY, VALUE;
 const TeachersMarksheet = () => {
   const [defaultClass, setDefaultClass] = useState();
   const [mathsLabel, setMathsLabel] = useState(true);
@@ -651,9 +651,10 @@ const TeachersMarksheet = () => {
         });
         console.log(newArray[0]);
 
-        setStudData(newArray);
-
         firstData = newArray[0];
+        KEY = firstData.key;
+        VALUE = firstData.value;
+        setStudData(newArray);
       })
       .catch((e) => {
         console.log(e);
@@ -914,7 +915,7 @@ const TeachersMarksheet = () => {
           <Text>View List</Text>
         </Animated.View>
       )} */}
-      <View style={{ flex: 1,backgroundColor:'white' }}>
+      <View style={{ flex: 1, backgroundColor: "white" }}>
         {showBtn && (
           <>
             <View
@@ -922,21 +923,33 @@ const TeachersMarksheet = () => {
                 // width: 170,
                 top: "9%",
                 left: "6%",
-                flexDirection:'row'
+                flexDirection: "row",
                 // fontSize: 20,
                 // marginTop: 13,
                 // margin: 10,
               }}
             >
-              <Text style={{fontFamily:'HindBold',fontSize:18,top:'5%',marginLeft:10}}>Select class</Text>
-              <View style={styles.space}/>
-              <View style={styles.space}/>
+              <Text
+                style={{
+                  fontFamily: "HindBold",
+                  fontSize: 18,
+                  top: "5%",
+                  marginLeft: 10,
+                }}
+              >
+                Select class
+              </Text>
+              <View style={styles.space} />
+              <View style={styles.space} />
               <SelectList
-                defaultOption={firstData}
+                defaultOption={{
+                  key: String(KEY),
+                  value: String(VALUE),
+                }}
                 setSelected={setSelected}
                 data={studData}
                 placeholder="Select class"
-                boxStyles={{ borderRadius: 10,top:'4%' }}
+                boxStyles={{ borderRadius: 10, top: "4%" }}
                 dropdownTextStyles={{ fontSize: 18, fontFamily: "HindRegular" }}
                 inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
                 onSelect={viewStudentList}
@@ -1462,6 +1475,7 @@ const styles = StyleSheet.create({
   searchBar: {
     //top: 10,
     top: "20%",
+    backgroundColor: "#EAEDED",
     // marginTop: 10,
     // marginBottom: 20,
   },
