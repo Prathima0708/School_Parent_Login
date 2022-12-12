@@ -36,10 +36,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 export var ID;
-export var FROMDATE, TODATE;
+var FROMDATE, TODATE;
 export var SubjectID;
 import * as FileSystem from "expo-file-system";
-var newArray;
+var newArray, TOKEN;
 const TeacherHomeworkScreenBuild = () => {
   const scrollY = new Animated.Value(0);
 
@@ -127,6 +127,9 @@ const TeacherHomeworkScreenBuild = () => {
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
 
+  const [frmdate, setenteredfrmdate] = useState("");
+  const [todate, setenteredtodate] = useState("");
+
   const [frommode, setFromMode] = useState("date");
   const [tomode, setToMode] = useState("date");
 
@@ -166,6 +169,9 @@ const TeacherHomeworkScreenBuild = () => {
   const [showInitialBtn, setShowInitialBtn] = useState(true);
 
   const [loading, setLoading] = useState(false);
+
+  const [token, setToken] = useState("");
+  const [user, setUser] = useState("");
 
   let i = 0;
 
@@ -229,12 +235,23 @@ const TeacherHomeworkScreenBuild = () => {
     imageHandler();
   }, []);
 
-  function frmDateHandler(enteredValue) {
-    setFromText(enteredValue);
+  async function fetchToken() {
+    TOKEN = await AsyncStorage.getItem("token");
+
+    if (TOKEN !== null) {
+      setToken(TOKEN);
+    }
   }
-  function toDateHandler(enteredValue) {
-    setToText(enteredValue);
+  fetchToken();
+
+  async function fetchUser() {
+    USERNAME = await AsyncStorage.getItem("UserName");
+    // console.log("this is the username in calendar", USERNAME);
+    if (USERNAME !== null) {
+      setUser(USERNAME);
+    }
   }
+  fetchUser();
 
   const PickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -343,6 +360,7 @@ const TeacherHomeworkScreenBuild = () => {
     setFromShow(true);
 
     setFromMode(currentFromMode);
+    setFromDate;
   };
 
   const showToMode = (currentToMode) => {
@@ -351,26 +369,10 @@ const TeacherHomeworkScreenBuild = () => {
     setToMode(currentToMode);
   };
 
-  function classNameHandler(enteredValue) {
-    setEnteredClassName(enteredValue);
-  }
-  function sectionHandler(enteredValue) {
-    setEnteredSection(enteredValue);
-  }
-  function subjectChangeHandler(enteredValue) {
-    setEnteredSubject(enteredValue);
-  }
-
-  function remarkChangeHandler(enteredValue) {
-    setEnteredRemark(enteredValue);
-  }
-  function hwChangeHandler(enteredValue) {
-    setHW(enteredValue);
-  }
-
   const fromDateChangeHandler = (event, selectedFromDate) => {
-    FROMDATE = selectedFromDate;
     const currentFromDate = selectedFromDate;
+    FROMDATE = selectedFromDate;
+
     setFromShow(Platform.OS === "ios");
     setFromDate(currentFromDate);
 
@@ -387,30 +389,53 @@ const TeacherHomeworkScreenBuild = () => {
     } else {
       //cancel button clicked
     }
+
     //console.log(fDate);
   };
 
   const toDateChangeHandler = (event, selectedToDate) => {
     const currentToDate = selectedToDate;
     TODATE = selectedToDate;
+    console.log("to date inside function:", TODATE);
     setToShow(Platform.OS === "ios");
     setToDate(currentToDate);
 
     let tempToDate = new Date(currentToDate);
+    console.log(tempToDate);
     let tDate =
       tempToDate.getDate() +
       "/" +
       (tempToDate.getMonth() + 1) +
       "/" +
       tempToDate.getFullYear();
+
     if (event.type == "set") {
       setToText(tDate);
     } else {
       //cancel button clicked
     }
-
     // console.log(fDate);
+    TODATE = selectedToDate;
   };
+
+  function frmDateHandler(enteredValue) {
+    // setFromText(enteredValue);
+    // setEnteredFromDate(enteredValue);
+    setFromDate(enteredValue);
+    setenteredfrmdate(enteredValue);
+  }
+  function toDateHandler(enteredValue) {
+    // setToText(enteredValue);
+    setToDate(enteredValue);
+    setenteredtodate(enteredValue);
+  }
+
+  function remarkChangeHandler(enteredValue) {
+    setEnteredRemark(enteredValue);
+  }
+  function hwChangeHandler(enteredValue) {
+    setHW(enteredValue);
+  }
 
   async function verifyPermissions() {
     if (cameraPermissionInformation.status === PermissionStatus.UNDERTERMINED) {
@@ -444,117 +469,84 @@ const TeacherHomeworkScreenBuild = () => {
   }
 
   function updateHandler() {
-    var dateFromValidate = fromText;
-    var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
-    // if (!isValid) {
-    //   Alert.alert(
-    //     "Format Error",
-    //     "It seems to be you entered wrong date format please follow D/M/YYYY format ",
-    //     [
-    //       {
-    //         text: "Cancel",
-    //         onPress: () => console.log("Cancel Pressed"),
-    //         style: "cancel",
-    //       },
-    //       { text: "OK", onPress: () => console.log("OK Pressed") },
-    //     ]
-    //   );
-    // }
-
-    var dateToValidate = toText;
-    var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
-    // if (!isValid) {
-
-    //   Alert.alert(
-    //     "Format Error",
-    //     "It seems to be you entered wrong date format please follow D/M/YYYY format",
-    //     [
-    //       {
-    //         text: "Cancel",
-    //         onPress: () => console.log("Cancel Pressed"),
-    //         style: "cancel",
-    //       },
-    //       { text: "OK", onPress: () => console.log("OK Pressed") },
-    //     ]
-    //   );
-    // }
-    //  else {
-    let selectedData = selected.split(" - ");
-    let class_name = selectedData[0];
-    let section = selectedData[1];
+    // let selectedData = selected.split(" - ");
+    // let class_name = selectedData[0];
+    // let section = selectedData[1];
     let uploaduri = image;
     // let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
     const formdata = {
-      class_name: class_name,
-      section: section,
-      subject: subject,
+      // class_name: class_name,
+      // section: section,
+      //subject: subject,
       homework_date: FROMDATE,
       remark: remark,
-      homework_photo: "",
-      homework: "",
+      //  homework_photo: "",
+      //homework: "",
       due_date: TODATE,
-      description: hw,
+      //    description: hw,
+      created_by: "",
     };
     console.log(formdata);
 
-    if (
-      !enteredSubjectIsValid ||
-      !enteredFromDateIsValid ||
-      !enteredtoDateIsValid ||
-      !enteredRemarkIsValid ||
-      !enteredHomeWorkIsValid
-    ) {
-      Alert.alert("Please enter all fields");
-    } else {
-      async function updateData() {
-        try {
-          let headers = {
-            "Content-Type": "application/json; charset=utf-8",
-          };
+    // if (
+    //   !enteredSubjectIsValid ||
+    //   !enteredFromDateIsValid ||
+    //   !enteredtoDateIsValid ||
+    //   !enteredRemarkIsValid ||
+    //   !enteredHomeWorkIsValid
+    // ) {
+    //   Alert.alert("Please enter all fields");
+    // } else {
 
-          const resLogin = await axios.put(
-            `http://10.0.2.2:8000/school/Homework/${ID}/`,
-            formdata,
-            {
-              headers: headers,
-            }
-          );
+    async function updateData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+        };
 
-          console.log(resLogin.data);
-        } catch (error) {
-          console.log(error);
-        }
+        const resLogin = await axios.put(
+          `http://10.0.2.2:8000/school/Homework/${ID}/`,
+          formdata,
+          {
+            headers: headers,
+          }
+        );
+
+        console.log(resLogin.data);
+      } catch (error) {
+        console.log(error);
       }
-
-      updateData();
-      Alert.alert("Successfully updated", "", [
-        {
-          text: "OK",
-          onPress: () => {},
-        },
-      ]);
-      async function fetchData() {
-        try {
-          const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
-          setHomeworkData(res.data);
-          setFilteredData(res.data);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-      fetchData();
-
-      setEnteredSubject("");
-      setFromText("");
-      setToText("");
-      setPickedImage("");
-      setEnteredRemark("");
-      setHW("");
-      setShowForm(false);
-      setShowList(true);
-
-      setShowInitialBtn(true);
     }
+
+    updateData();
+    Alert.alert("Successfully updated", "", [
+      {
+        text: "OK",
+        onPress: () => {},
+      },
+    ]);
+    async function fetchData() {
+      try {
+        const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
+        setHomeworkData(res.data);
+        setFilteredData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+
+    setEnteredSubject("");
+    setFromText("");
+    setToText("");
+    setPickedImage("");
+    setEnteredRemark("");
+    setHW("");
+    setShowForm(false);
+    setShowList(true);
+
+    setShowInitialBtn(true);
+    //}
 
     // }
   }
@@ -660,6 +652,8 @@ const TeacherHomeworkScreenBuild = () => {
     // }
     else {
       console.log(newArray);
+      console.log("inside post req from date", FROMDATE);
+      console.log("inside post req to date", TODATE);
       let filteredlist = newArray.filter((ele) => ele.key == selected);
       console.log(filteredlist);
       // let selectedData = selected.split(" - ");
@@ -669,18 +663,16 @@ const TeacherHomeworkScreenBuild = () => {
       // let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
       let uploadedImg = test;
       const formdata = {
-        // from_time:fromText,
-        // to_time:toText,
         class_name: filteredlist[0].classname,
         section: filteredlist[0].section,
         subject: selectedSubject,
         homework_date: FROMDATE,
-        due_date: TODATE,
-        // homework_photo: `/assets/images/${filename}`,
-        //  homework_photo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAC00lEQVRoge2ZPUwUQRiGn29utcI/CEcM0mklCYUcmmANUtlyEFs10dJEaQxaoTHSWdCp/EiI0cZACIkNag4ojFETgpV/CWdAgUbgdj8LuHP5OeB2b7kj7JNcMvPNzM377nezuzMHISEh+wJxV2LNM1WI3Qk0AIcKI2lbFoARjUjbRHf5ZDqYMbJiIvUepLQg8nJGZ42xahI9Zd8BTCYudufeMQEgpY5jP0zXjKuloQBq/NKYLliu4No1oVo//qzi7W4p2gm1rdP14sioK3Q4XTCb9Aeg2EwATPRUvMnWZmVrSBOLJzW/crwx3heVrdqzZmSvERopNkIjxUZoZHt0SdCbKZXKlEqlCLdAl4KabdvniFdE5PZYb/S+K3SvriWJKh1BzBdYRmwjT9bHdJnHQc0XmBEnxYYnsYWJBDWfLyMKr6yUOWFMpAph0N12wOil9f1TlrMmttX4XPG1RiImcvXdQNkPgFjzzBXE/poRqXq3riXJsiNPYcWYqt5xb0q3Gp8rgS12kIOqdFiiHQCqwMZfW97wZcRRu+ts68xlx0YQu2u3x7vxlxGlyVH7m+cL7Xe8i0DuWoIkQK+BXb1oOSWLllMCdrUq1xU+BDGn3zXyE+QzaAq4AGAcbUz0R4c36ftp5aOP6uLJi4q8WI0PgVigp4HjXoV4NfJRRG+M9UaHQRT+7yQT/RWbmXAhOtbHy1g8CcB4X7QJgHY1sclfDSAPVk3lhCcjv//M1X4ZPLXoZWxW2sUZh6GTTVOvjx098jfX4Z7WSN5N5OG7PWVkqwOJXA8r8nW4Ee5Hio3QSLER4EtjdrY7NYTcbwL7JyM7uXpBkOu8WTNS2zpd719OfjkTT57P1ubOyAKu/0jEkdH0+1ARM5cuuDMyUgAhfslozhjRiLSBzhZGjxd01ght6VrGyER3+aQxVg0wAMwXQtoOmQeeG5Fzid7oVKHFhISE7DL/AK3T8tbn0kEnAAAAAElFTkSuQmCC",
-        // homework_photo:uploadedImg,
         remark: remark,
+        // homework_photo: "null",
+        homework: "empty",
+        due_date: TODATE,
         description: hw,
+        // created_by: user,
       };
       console.log(formdata);
 
@@ -688,6 +680,7 @@ const TeacherHomeworkScreenBuild = () => {
         try {
           let headers = {
             "Content-Type": "application/json; charset=utf-8;",
+            Authorization: "Token " + `${token}`,
           };
 
           const resLogin = await axios.post(
@@ -697,8 +690,7 @@ const TeacherHomeworkScreenBuild = () => {
               headers: headers,
             }
           );
-
-          console.log(resLogin.data);
+          console.log("response", resLogin.data);
         } catch (error) {
           console.log(error);
         }
@@ -854,21 +846,21 @@ const TeacherHomeworkScreenBuild = () => {
     setRemarkLabel(true);
     setHomeworkLabel(true);
     setShowInitialBtn(false);
-    let selectedData = selected.split(" - ");
-    let class_name = selectedData[0];
-    let section = selectedData[1];
+    // let selectedData = selected.split(" - ");
+    // let class_name = selectedData[0];
+    // let section = selectedData[1];
 
     const filteredDummuyData = homeworkData.find((data) => data.id == id);
     // console.log(filteredDummuyData);
 
     // setData(filteredDummuyData.selectedData[class_name]);
     // setEnteredSection(filteredDummuyData.section);
-    setEnteredSubject(filteredDummuyData.subject);
+    // setEnteredSubject(filteredDummuyData.subject);
     setFromText(moment(filteredDummuyData.homework_date).format("DD/MM/YYYY"));
     setToText(moment(filteredDummuyData.due_date).format("DD/MM/YYYY"));
     // moment(filteredDummuyData.due_date).format('DD/MM/YYYY')
     setEnteredRemark(filteredDummuyData.remark);
-    setHW(filteredDummuyData.homework);
+    setHW(filteredDummuyData.description);
 
     //setImage(filteredDummuyData.homework_photo);
     setForHomeworkList({
@@ -1054,11 +1046,14 @@ const TeacherHomeworkScreenBuild = () => {
                 )}
               </View> */}
 
-              <View style={{ flexDirection: "row" }}>
+              <View style={[{ flexDirection: "row" }]}>
                 <View style={{ flex: 1 }}>
                   <View>
                     <Ionicons
-                      style={styles.iconStyle}
+                      style={{
+                        position: "absolute",
+                        top: 22,
+                      }}
                       name="calendar"
                       size={24}
                       color="black"
@@ -1066,21 +1061,21 @@ const TeacherHomeworkScreenBuild = () => {
                     />
                   </View>
                   <UnderlinedInput
-                    value={fromText}
-                    placeholder="From Date"
+                    value={fromText || frmdate}
+                    placeholder="   Start date"
                     onSubmitEditing={Keyboard.dismiss}
                     style={
                       isFromDateFocused
                         ? styles.focusStyle
                         : fromDateInputIsInValid && styles.errorBorderColorDate
                     }
-                    blur={dateFromHandler}
-                    onFocus={onFocusFromHandler}
+                    //   blur={fromDateBlurHandler}
+                    //  onFocus={onFocusFromHandler}
                     onChangeText={frmDateHandler}
                     onPressIn={() => showFromMode("date")}
                   />
                   {fromDateInputIsInValid && (
-                    <Text style={[styles.errorText]}>Enter from date</Text>
+                    <Text style={styles.commonErrorMsg}>Select from date</Text>
                   )}
                   {fromShow && (
                     <DateTimePicker
@@ -1097,7 +1092,10 @@ const TeacherHomeworkScreenBuild = () => {
                 <View style={{ flex: 1 }}>
                   <View>
                     <Ionicons
-                      style={styles.iconStyle}
+                      style={{
+                        position: "absolute",
+                        top: 22,
+                      }}
                       name="calendar"
                       size={24}
                       color="black"
@@ -1105,20 +1103,26 @@ const TeacherHomeworkScreenBuild = () => {
                     />
                   </View>
                   <UnderlinedInput
-                    value={toText}
-                    placeholder="Due Date"
+                    // value={moment(toText).format('DD/MM/YYYY') || moment(toDate).format('DD/MM/YYYY')}
+                    value={toText || todate}
+                    // value={
+                    //   moment(toText).format("DD/MM/YYYY") ||
+                    //   moment(todate).format("DD/MM/YYYY")
+                    // }
+                    placeholder="   End date"
+                    onSubmitEditing={Keyboard.dismiss}
                     style={
                       isToDateFocused
                         ? styles.focusStyle
                         : toDateInputIsInValid && styles.errorBorderColorDate
                     }
-                    blur={dateToHandler}
-                    onFocus={onFocusToHandler}
+                    // blur={toDateBlurHandler}
+                    //  onFocus={onFocusToHandler}
                     onChangeText={toDateHandler}
                     onPressIn={() => showToMode("date")}
                   />
                   {toDateInputIsInValid && (
-                    <Text style={[styles.errorText]}>Enter to date</Text>
+                    <Text style={styles.commonErrorMsg}>Select to date</Text>
                   )}
                   {toShow && (
                     <DateTimePicker
@@ -1128,7 +1132,7 @@ const TeacherHomeworkScreenBuild = () => {
                       is24Hour={true}
                       display="default"
                       onChange={toDateChangeHandler}
-                      onTouchEnd={dateToHandler}
+                      minimumDate={fromDate}
                     />
                   )}
                 </View>
@@ -1374,11 +1378,12 @@ const TeacherHomeworkScreenBuild = () => {
                                     )}
                                   </Text>
                                 </View>
+
                                 <View
                                   style={{
                                     flex: 2,
                                     left: deviceWidth < 370 ? 90 : 100,
-                                    bottom: -50,
+                                    top: 70,
                                   }}
                                 >
                                   <Ionicons
@@ -1388,9 +1393,8 @@ const TeacherHomeworkScreenBuild = () => {
                                     onPress={() => editItem(homeworkData.id)}
                                   />
                                 </View>
-                                <View
-                                  style={{ flex: 2, left: 50, bottom: -50 }}
-                                >
+
+                                <View style={{ flex: 2, left: 50, top: 70 }}>
                                   <Ionicons
                                     name="trash"
                                     size={24}

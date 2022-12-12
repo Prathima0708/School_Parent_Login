@@ -44,7 +44,7 @@ import { Token } from "../../Login";
 // import { Label } from "react-native-form-component";
 var FloatingLabel = require("react-native-floating-labels");
 export var ID;
-export var FROMDATE, TODATE;
+ var FROMDATE, TODATE;
 var USERNAME, TOKEN;
 const TeachersCalendar = () => {
   const [checked, setChecked] = useState(false);
@@ -1059,14 +1059,16 @@ const TeachersCalendar = () => {
                       is24Hour={true}
                       display="default"
                       onChange={toDateChangeHandler}
-                      //  minimumDate={fromDate}
+                      minimumDate={fromDate}
                     />
                   )}
                 </View>
               </View>
               <View style={styles.selectDropDownStyle}>
                 <View style={{ flex: 0.5, left: "3%" }}>
-                  <Text style={[styles.labelStyle]}>Send Notification to :</Text>
+                  <Text style={[styles.labelStyle]}>
+                    Send Notification to :
+                  </Text>
                 </View>
                 <View
                   style={[

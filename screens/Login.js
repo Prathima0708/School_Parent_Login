@@ -915,7 +915,7 @@ function Login() {
             setEnteredPhone("");
             return;
           }
-          console.log(resLogin.data.groups[0]);
+          console.log("group name -", resLogin.data.groups[0]);
           console.log(PHONENO);
           // <WelcomeScreen />;
 

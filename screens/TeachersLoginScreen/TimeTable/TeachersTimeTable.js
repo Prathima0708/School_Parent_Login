@@ -2207,7 +2207,7 @@ export var idTimeTab = [];
 export var TimeTabID;
 export var FROMTIME, TOTIME;
 export var arr = [];
-var newArray, firstData, DISPLAYFIRST, KEY, VALUE;
+var newArray, firstData, DISPLAYFIRST, KEY, VALUE, USERNAME;
 
 const TeachersTimetable = () => {
   const [loading, setLoading] = useState(false);
@@ -2532,8 +2532,7 @@ const TeachersTimetable = () => {
                 fontSize: 20,
                 marginTop: 15,
                 margin: 10,
-                left:'4%'
-
+                left: "4%",
               }}
             >
               <SelectList

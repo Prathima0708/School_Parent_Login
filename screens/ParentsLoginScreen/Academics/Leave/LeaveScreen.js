@@ -7,9 +7,10 @@ import {
   Button as Btn,
   Dimensions,
   FlatList,
+  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Badge } from 'native-base';
+import { Badge } from "native-base";
 import { Card, DataTable } from "react-native-paper";
 import Button from "../../../../components/UI/Button";
 import axios from "axios";
@@ -20,9 +21,14 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import ParentsHome from "../../BottomTab/ParentsHome";
 import Input from "../../../../components/UI/Input";
 import moment from "moment";
-import { StudentRegNo } from "../../../../components/StudentItem/StudentItem";
+import {
+  StudentName,
+  StudentRegNo,
+} from "../../../../components/StudentItem/StudentItem";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export var statusData = [];
+var USERNAME, GROUP, TOKEN, FROMDATE, TODATE;
 const LeaveScreen = () => {
   const [isApproved, setIsApproved] = useState(false);
   let i = 0;
@@ -30,7 +36,7 @@ const LeaveScreen = () => {
   const [label, setLabel] = useState(false);
   const [descriptionLabel, setDescriptionLabel] = useState(false);
   const [leaveReasonLabel, setLeaveReasonLabel] = useState(false);
-  
+
   const [isDescFocused, setIsDescFocused] = useState(false);
   const [isLeaveReasonFocused, setIsLeaveReasonFocused] = useState(false);
 
@@ -53,17 +59,17 @@ const LeaveScreen = () => {
     !enteredLeaveReasonIsValid && enteredLeaveReasonTouched;
 
   const [forLeaveList, setForLeaveList] = useState({
-    color: "white",
-    backgroundColor: "#0C60F4",
-    borderRadius: 10,
-  });
-  const [forLeaveForm, setForLeaveForm] = useState({
     color: "black",
     backgroundColor: "#F4F6F6",
     borderRadius: 10,
   });
-  const [showForm, setShowForm] = useState(false);
-  const [showList, setShowList] = useState(true);
+  const [forLeaveForm, setForLeaveForm] = useState({
+    color: "white",
+    backgroundColor: "#0C60F4",
+    borderRadius: 10,
+  });
+  const [showForm, setShowForm] = useState(true);
+  const [showList, setShowList] = useState(false);
   // const [data, setData] = useState();
   const [fromShow, setFromShow] = useState(false);
   const [frommode, setFromMode] = useState("date");
@@ -89,6 +95,10 @@ const LeaveScreen = () => {
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [data, setData] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
+
+  const [user, setUser] = useState("");
+  const [group, setGroup] = useState("");
+  const [token, setToken] = useState("");
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -102,6 +112,33 @@ const LeaveScreen = () => {
       hideSubscription.remove();
     };
   }, []);
+
+  async function fetchUser() {
+    USERNAME = await AsyncStorage.getItem("UserName");
+
+    if (USERNAME !== null) {
+      setUser(USERNAME);
+    }
+  }
+  fetchUser();
+
+  async function fetchGroup() {
+    GROUP = await AsyncStorage.getItem("datagroup");
+
+    if (GROUP !== null) {
+      setGroup(GROUP);
+    }
+  }
+  fetchGroup();
+
+  async function fetchToken() {
+    TOKEN = await AsyncStorage.getItem("token");
+
+    if (TOKEN !== null) {
+      setToken(TOKEN);
+    }
+  }
+  fetchToken();
 
   const showFromMode = (currentFromMode) => {
     setFromShow(true);
@@ -124,6 +161,7 @@ const LeaveScreen = () => {
 
   const toDateChangeHandler = (event, selectedToDate) => {
     const currentToDate = selectedToDate || toDate;
+    TODATE = selectedToDate;
     setToShow(Platform.OS === "ios");
     setToDate(currentToDate);
 
@@ -148,9 +186,9 @@ const LeaveScreen = () => {
         const res = await axios.get(
           `http://10.0.2.2:8000/school/LeaveReg/${StudentRegNo}`
         );
-       
+
         setData(res.data);
-          console.log(res.data);
+        console.log(res.data);
         for (i = 0; i < res.data.length; i++) {
           statusData[i] = res.data[i].leave_status;
         }
@@ -170,6 +208,8 @@ const LeaveScreen = () => {
 
   const fromDateChangeHandler = (event, selectedFromDate) => {
     const currentFromDate = selectedFromDate || fromDate;
+    FROMDATE = selectedFromDate;
+
     setFromShow(Platform.OS === "ios");
     setFromDate(currentFromDate);
 
@@ -205,27 +245,43 @@ const LeaveScreen = () => {
   }
 
   function LeaveList() {
+    async function fetchData() {
+      try {
+        const res = await axios.get(
+          `http://10.0.2.2:8000/school/LeaveReg/${StudentRegNo}`
+        );
+        //console.log(res.data);
 
-    setForLeaveList({
-      backgroundColor: "#0C60F4",
-      color: "white",
-      borderRadius: 10,
-    });
-    setForLeaveForm({
-      color: "black",
-      backgroundColor: "#F4F6F6",
-      borderRadius: 10,
-    });
-    setShowForm(false);
-    setShowList(true);
-    setLeaveReasonLabel(false);
-    setDescriptionLabel(false);
-    setEnteredLeaveTypeTouched(false);
-    setEnteredLeaveReasonTouched(false);
-    setEnteredFromDateTouched(false);
-    setEnteredtoDateTouched(false);
+        setData(res.data);
+
+        setForLeaveList({
+          backgroundColor: "#0C60F4",
+          color: "white",
+          borderRadius: 10,
+        });
+        setForLeaveForm({
+          color: "black",
+          backgroundColor: "#F4F6F6",
+          borderRadius: 10,
+        });
+
+        setLeaveReasonLabel(false);
+        setDescriptionLabel(false);
+        setEnteredLeaveTypeTouched(false);
+        setEnteredLeaveReasonTouched(false);
+        setEnteredFromDateTouched(false);
+        setEnteredtoDateTouched(false);
+        setShowForm(false);
+        setShowList(true);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
   }
+
   function addLeave() {
+    console.log("Group is :", GROUP);
     setForLeaveForm({
       color: "white",
       backgroundColor: "#1E8449",
@@ -340,64 +396,43 @@ const LeaveScreen = () => {
     }
   }
   function buttonPressedHandler() {
-    setBtn(true);
     const FormData = {
       student_reg_number: regno || StudentRegNo,
       user_num: 0,
-      user_role: "student",
-      username: "prathima",
+      user_role: group,
+      username: user,
       email: "priya123@gmail.com",
       leave_type: leaveType,
-      leave_form: fromDate,
-      leave_to: toDate,
+      leave_form: FROMDATE,
+      leave_to: TODATE,
       leave_reason: leaveReason,
-      leave_status: "pending",
+      leave_status: "Pending",
     };
-    // console.log(FormData);
 
-    // var dateFromValidate = fromText;
-    // var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
-    // if (!isValid) {
-    //   Alert.alert(
-    //     "Format Error",
-    //     "It seems to be you entered wrong date format please follow D/M/YYYY format ",
-    //     [
-    //       {
-    //         text: "Cancel",
-    //         onPress: () => console.log("Cancel Pressed"),
-    //         style: "cancel",
-    //       },
-    //       { text: "OK", onPress: () => console.log("OK Pressed") },
-    //     ]
-    //   );
-    // }
+    const formIsValid = enteredLeaveTypeIsValid && enteredLeaveReasonIsValid;
 
-    // var dateToValidate = toText;
-    // var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
-    // if (!isValid) {
-    //   Alert.alert(
-    //     "Format Error",
-    //     "It seems to be you entered wrong date format please follow D/M/YYYY format",
-    //     [
-    //       {
-    //         text: "Cancel",
-    //         onPress: () => console.log("Cancel Pressed"),
-    //         style: "cancel",
-    //       },
-    //       { text: "OK", onPress: () => console.log("OK Pressed") },
-    //     ]
-    //   );
-    // }
-    setEnteredRegNoTouched(false);
+    if (formIsValid) {
+      Alert.alert("Saved Data", "Saved Data successfully", [
+        {
+          text: "OK",
+          onPress: () => {
+            setShowForm(false);
+            //  setShowList(true);
+            LeaveList();
+          },
+        },
+      ]);
+    }
+
     setEnteredLeaveTypeTouched(true);
+    setEnteredLeaveReasonTouched(true);
     setEnteredFromDateTouched(true);
     setEnteredtoDateTouched(true);
-    setEnteredLeaveReasonTouched(true);
 
-    if (!enteredRegNoIsValid) {
+    if (!enteredLeaveTypeIsValid) {
       return;
     }
-    if (!enteredLeaveTypeIsValid) {
+    if (!enteredLeaveReasonIsValid) {
       return;
     }
     if (!enteredFromDateIsValid) {
@@ -406,14 +441,13 @@ const LeaveScreen = () => {
     if (!enteredtoDateIsValid) {
       return;
     }
-    if (!enteredLeaveReasonIsValid) {
-      return;
-    } else {
+
     async function storeData() {
-      console.log(FormData);
+      console.log("formdata", FormData);
       try {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
+          Authorization: "Token " + `${token}`,
         };
         const dataForm = FormData;
         const resLogin = await axios.post(
@@ -423,11 +457,10 @@ const LeaveScreen = () => {
             headers: headers,
           }
         );
-        const token = resLogin.data.token;
-        const userId = resLogin.data.user_id;
-        console.log(token);
-        // Token = token;
-        // UserId = userId;
+
+        // const token = resLogin.data.token;
+        // const userId = resLogin.data.user_id;
+        console.log("post re-", resLogin.data);
       } catch (error) {
         console.log(error);
       }
@@ -443,7 +476,17 @@ const LeaveScreen = () => {
     setEnteredFromDateTouched(false);
     setEnteredtoDateTouched(false);
     setEnteredLeaveReasonTouched(false);
-     }
+    setForLeaveList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
+    setForLeaveForm({
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
+    });
+    //}
   }
   function stdregnoBlurHandler() {
     setEnteredRegNoTouched(true);
@@ -519,144 +562,143 @@ const LeaveScreen = () => {
   return (
     <>
       <View style={styles.BtnContainer}>
-        <BgButton onPress={LeaveList} style={forLeaveList}>
-          Leave List
-        </BgButton>
-
         <BgButton onPress={addLeave} style={forLeaveForm}>
           Apply Leave
         </BgButton>
+        <BgButton onPress={LeaveList} style={forLeaveList}>
+          Leave List
+        </BgButton>
       </View>
-      {showList && 
-      <View
-        style={[
-          { flex: 1 },
-          { flexDirection: "column", backgroundColor: "white" },
-        ]}
-      >
-        <View style={{ flex: 8, bottom: 10 }}>
-          <ScrollView>
-            <View style={styles.root}>
-              <FlatList
-                data={data}
-                style={{ width: "95%" }}
-                renderItem={({ item }) => {
-                  return (
-                    <Card style={styles.cardStyle}>
-                      <Card.Content style={styles.cardContentStyle}>
-                        <View
-                          style={[
-                            { flex: 1 },
-                            { flexDirection: "row" },
-                            styles.subDesign,
-                          ]}
-                        >
-                          <View style={{ flex: 5 }}>
-                            <Text style={styles.labelStyle}>Leave from</Text>
-                          </View>
-                          <View style={{ flex: 5 }}>
-                            <Text style={styles.textStyle}>Leave to</Text>
-                          </View>
-                        </View>
-                        <View
-                          style={[
-                            { flex: 1 },
-                            { flexDirection: "row", marginVertical: 10 },
-                          ]}
-                        >
-                          <View style={{ flex: 1, alignItems: "center" }}>
-                            <Text
-                              style={[styles.textStyle, { color: "black" }]}
-                            >
-                              {moment(item.leave_form).format("DD/MM/YYYY")}
-                            </Text>
+      {showList && (
+        <View
+          style={[
+            { flex: 1 },
+            { flexDirection: "column", backgroundColor: "white" },
+          ]}
+        >
+          <View style={{ flex: 8, bottom: 10 }}>
+            <ScrollView>
+              <View style={styles.root}>
+                <FlatList
+                  data={data}
+                  style={{ width: "95%" }}
+                  renderItem={({ item }) => {
+                    return (
+                      <Card style={styles.cardStyle}>
+                        <Card.Content style={styles.cardContentStyle}>
+                          <View
+                            style={[
+                              { flex: 1 },
+                              { flexDirection: "row" },
+                              styles.subDesign,
+                            ]}
+                          >
+                            <View style={{ flex: 5 }}>
+                              <Text style={styles.labelStyle}>Leave from</Text>
+                            </View>
+                            <View style={{ flex: 5 }}>
+                              <Text style={styles.textStyle}>Leave to</Text>
+                            </View>
                           </View>
                           <View
-                            style={{
-                              flex: 0.2,
-                              alignItems: "center",
-                              top: "1%",
-                            }}
+                            style={[
+                              { flex: 1 },
+                              { flexDirection: "row", marginVertical: 10 },
+                            ]}
                           >
-                            <Text
-                              style={[
-                                {
-                                  fontFamily: "HindRegular",
-                                  color: "black",
-                                  fontSize: 15,
-                                  fontWeight: "bold",
-                                },
-                              ]}
+                            <View style={{ flex: 1, alignItems: "center" }}>
+                              <Text
+                                style={[styles.textStyle, { color: "black" }]}
+                              >
+                                {moment(item.leave_form).format("DD/MM/YYYY")}
+                              </Text>
+                            </View>
+                            <View
+                              style={{
+                                flex: 0.2,
+                                alignItems: "center",
+                                top: "1%",
+                              }}
                             >
-                              to
-                            </Text>
+                              <Text
+                                style={[
+                                  {
+                                    fontFamily: "HindRegular",
+                                    color: "black",
+                                    fontSize: 15,
+                                    fontWeight: "bold",
+                                  },
+                                ]}
+                              >
+                                to
+                              </Text>
+                            </View>
+                            <View style={{ flex: 1, alignItems: "center" }}>
+                              <Text
+                                style={[styles.textStyle, { color: "black" }]}
+                              >
+                                {moment(item.leave_to).format("DD/MM/YYYY")}
+                              </Text>
+                            </View>
                           </View>
-                          <View style={{ flex: 1, alignItems: "center" }}>
-                            <Text
-                              style={[styles.textStyle, { color: "black" }]}
-                            >
-                              {moment(item.leave_to).format("DD/MM/YYYY")}
-                            </Text>
-                          </View>
-                        </View>
-                        <View
-                          style={[
-                            { flex: 1 },
-                            { flexDirection: "row", marginHorizontal: 10 },
-                          ]}
-                        >
-                          <View style={{ flex: 2, left: "70%" }}>
-                            <Text
-                              style={[styles.textStyle, { color: "black" }]}
-                            >
-                              Leave type :
-                            </Text>
-                          </View>
-                          <View style={{ flex: 2.6 }}>
-                            <Text style={[styles.cardText]}>{item.leave_type}</Text>
-                          </View>
-                        </View>
-                        <View
-                          style={[
-                            { flex: 1 },
-                            { flexDirection: "row", marginVertical: 10 },
-                          ]}
-                        >
-                          <View style={{ flex: 3.5 }}>
-                            <Text
-                              style={[styles.textStyle, { color: "black" }]}
-                            >
-                              Leave reason :
-                            </Text>
-                          </View>
-                          <View style={{ flex: 2.5, left: -40 }}>
-                            <Text style={[styles.cardText]}>
-                              {item.leave_reason}
-                            </Text>
-                          </View>
-                        </View>
-                        <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
-                          <View style={{ flex: 3 }}>
-                            {/* <Text>Remark</Text> */}
-                          </View>
-                          <View style={{ flex: 1, right: "100%" }}>
-                          <Badge 
-                            colorScheme="success" 
-                            variant='solid'
+                          <View
+                            style={[
+                              { flex: 1 },
+                              { flexDirection: "row", marginHorizontal: 10 },
+                            ]}
                           >
-                            Approved
-                          </Badge>
+                            <View style={{ flex: 2, left: "70%" }}>
+                              <Text
+                                style={[styles.textStyle, { color: "black" }]}
+                              >
+                                Leave type :
+                              </Text>
+                            </View>
+                            <View style={{ flex: 2.6 }}>
+                              <Text style={[styles.cardText]}>
+                                {item.leave_type}
+                              </Text>
+                            </View>
                           </View>
-                        </View>
-                      </Card.Content>
-                    </Card>
-                  );
-                }}
-              />
-            </View>
-          </ScrollView>
+                          <View
+                            style={[
+                              { flex: 1 },
+                              { flexDirection: "row", marginVertical: 10 },
+                            ]}
+                          >
+                            <View style={{ flex: 3.5 }}>
+                              <Text
+                                style={[styles.textStyle, { color: "black" }]}
+                              >
+                                Leave reason :
+                              </Text>
+                            </View>
+                            <View style={{ flex: 2.5, left: -40 }}>
+                              <Text style={[styles.cardText]}>
+                                {item.leave_reason}
+                              </Text>
+                            </View>
+                          </View>
+                          <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
+                            <View style={{ flex: 3 }}>
+                              {/* <Text>Remark</Text> */}
+                            </View>
+                            <View style={{ flex: 1, right: "100%" }}>
+                              <Badge colorScheme="success" variant="solid">
+                                Approved
+                              </Badge>
+                            </View>
+                          </View>
+                        </Card.Content>
+                      </Card>
+                    );
+                  }}
+                />
+              </View>
+            </ScrollView>
+          </View>
         </View>
-      </View>}
+      )}
       {/* {showList && data && 
         data.map((data)=>(
           <>
@@ -688,6 +730,7 @@ const LeaveScreen = () => {
               value={StudentRegNo.toString() || regno}
               onSubmitEditing={Keyboard.dismiss}
               style={regnoInputIsInValid && styles.errorBorderColor}
+              editable={false}
             />
             {/* {regnoInputIsInValid && (
               <Text
@@ -701,29 +744,30 @@ const LeaveScreen = () => {
                 Enter student registration number
               </Text>
             )} */}
+
             <View
+              style={[
+                !regnoInputIsInValid
+                  ? descriptionLabel
+                    ? styles.descriptionUp
+                    : styles.descriptionDown
+                  : descriptionLabel
+                  ? styles.descriptionUpExtra
+                  : styles.descriptionDownExtra,
+              ]}
+            >
+              <Text
                 style={[
-                  !regnoInputIsInValid
-                    ? descriptionLabel
-                      ? styles.descriptionUp
-                      : styles.descriptionDown
-                    : descriptionLabel
-                    ? styles.descriptionUpExtra
-                    : styles.descriptionDownExtra,
+                  btn
+                    ? styles.normalLabel
+                    : leavetypeInputIsInValid
+                    ? styles.errorLabel
+                    : styles.normalLabel,
                 ]}
               >
-                <Text
-                  style={[
-                    btn
-                      ? styles.normalLabel
-                      : leavetypeInputIsInValid
-                      ? styles.errorLabel
-                      : styles.normalLabel,
-                  ]}
-                >
-                  Leave Type
-                </Text>
-              </View>
+                Leave Type
+              </Text>
+            </View>
             <Input
               // placeholder="Leave Type"
               onChangeText={leaveTypeChangeHandler}
@@ -731,34 +775,38 @@ const LeaveScreen = () => {
               onFocus={onFocusLeaveTypeHandler}
               value={leaveType}
               onSubmitEditing={Keyboard.dismiss}
-              style={isDescFocused ? styles.focusStyle : leavetypeInputIsInValid && styles.errorBorderColor}
+              style={
+                isDescFocused
+                  ? styles.focusStyle
+                  : leavetypeInputIsInValid && styles.errorBorderColor
+              }
             />
             {leavetypeInputIsInValid && (
               <Text style={styles.errStyle}>Enter leave type</Text>
             )}
             <View
+              style={[
+                !leavetypeInputIsInValid
+                  ? leaveReasonLabel
+                    ? styles.leaveReasonUp
+                    : styles.leaveReasonDown
+                  : leaveReasonLabel
+                  ? styles.leaveReasonUpExtra
+                  : styles.leaveReasonDownExtra,
+              ]}
+            >
+              <Text
                 style={[
-                  !leavetypeInputIsInValid
-                    ? leaveReasonLabel
-                      ? styles.leaveReasonUp
-                      : styles.leaveReasonDown
-                    : leaveReasonLabel
-                    ? styles.leaveReasonUpExtra
-                    : styles.leaveReasonDownExtra,
+                  btn
+                    ? styles.normalLabel
+                    : leavereasonInputIsInValid
+                    ? styles.errorLabel
+                    : styles.normalLabel,
                 ]}
               >
-                <Text
-                  style={[
-                    btn
-                      ? styles.normalLabel
-                      : leavereasonInputIsInValid
-                      ? styles.errorLabel
-                      : styles.normalLabel,
-                  ]}
-                >
-                  Leave reason
-                </Text>
-              </View>
+                Leave reason
+              </Text>
+            </View>
             <Input
               onChangeText={leaveReasonChangeHandler}
               blur={leavereasonBlurHandler}
@@ -766,7 +814,11 @@ const LeaveScreen = () => {
               value={leaveReason}
               // placeholder="Leave reason"
               onSubmitEditing={Keyboard.dismiss}
-              style={isLeaveReasonFocused ? styles.focusStyle : leavereasonInputIsInValid && styles.errorBorderColor}
+              style={
+                isLeaveReasonFocused
+                  ? styles.focusStyle
+                  : leavereasonInputIsInValid && styles.errorBorderColor
+              }
             />
             {leavereasonInputIsInValid && (
               <Text style={styles.errStyle}>Enter leave reason</Text>
@@ -842,12 +894,63 @@ const LeaveScreen = () => {
                     is24Hour={true}
                     display="default"
                     onChange={toDateChangeHandler}
-                    //  minimumDate={fromDate}
+                    minimumDate={fromDate}
                   />
                 )}
               </View>
             </View>
-            
+
+            <View
+              style={[
+                { flex: 1 },
+                {
+                  flexDirection: "row",
+                  marginRight: 50,
+                },
+              ]}
+            >
+              <View style={{ flex: 1, alignItems: "center" }}>
+                <Text style={styles.username}>user name</Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <TextInput
+                  style={[styles.username, { borderWidth: 1, paddingLeft: 5 }]}
+                  editable={false}
+                  selectTextOnFocus={false}
+                  value={user}
+                />
+              </View>
+            </View>
+            <View style={styles.space} />
+
+            <View style={{ flex: 1 }}>
+              <View
+                style={[
+                  { flex: 1 },
+                  {
+                    flexDirection: "row",
+                    marginHorizontal: 20,
+                    marginRight: 70,
+                  },
+                ]}
+              >
+                <View style={{ flex: 1, alignItems: "center" }}>
+                  <Text style={styles.username}>user role</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <TextInput
+                    style={[
+                      styles.username,
+                      { borderWidth: 1, paddingLeft: 7 },
+                    ]}
+                    editable={false}
+                    selectTextOnFocus={false}
+                    value={group}
+                  />
+                </View>
+              </View>
+            </View>
+
             {!isEdit && (
               <View style={styles.btnSubmit}>
                 <Button onPress={buttonPressedHandler}>Add Leave</Button>
@@ -985,11 +1088,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   //new one
-  mainContainer:{
-    flex:1,
-    marginHorizontal:25,
-    top:'5%',
-    borderRadius:10
+  mainContainer: {
+    flex: 1,
+    marginHorizontal: 25,
+    top: "5%",
+    borderRadius: 10,
   },
   status: {
     left: "15%",
@@ -1024,141 +1127,145 @@ const styles = StyleSheet.create({
   //   marginTop: "10%",
   //   borderRadius: 5,
   // },
-    // new design
-    cardStyle: {
-      marginVertical: 25,
-      marginHorizontal: 20,
-      elevation: 5,
-      borderRadius: 10,
-      left:'2%'
-      // paddingBottom: 20,
-    },
-    cardContentStyle: {
-      paddingTop: 0,
-      paddingHorizontal: 0,
-    },
-    subDesign: {
-      backgroundColor: "darkblue",
-      borderTopLeftRadius: 10,
-      borderTopRightRadius: 10,
-      flexDirection:'row'
-    },
-    labelStyle: {
-      color: "white",
-      fontFamily: "HindBold",
-      fontSize: 20,
-      textAlign: "center",
-    },
-    textStyle: {
-      color: "white",
-      fontFamily: "HindBold",
-      fontSize: 20,
-      textAlign: "center",
-    },
-    cardText: {
-      color: "black",
-      fontSize: 17,
-      left: "10%",
-      top: "10%",
-    },
-    cardTextStyle:{
-      flex:1,
-      flexDirection: "row",
-      marginVertical:5
-    },
-    badgeStyle:{
-      right:'160%'
-    },
-    colorBlack:{
-      color:"black"
-    },
-    test: {
-      position: "absolute",
-      top: deviceWidth < 370 ? 2 : 10,
-      left: deviceWidth < 370 ? 40 : 50,
-    },
-    testSuccess: {
-      position: "absolute",
-      top: deviceWidth < 370 ? 28 : 32,
-      left: 50,
-    },
-    normalLabel: {
-      // color: "#A7ADAD",
-      color: "#AEB6BF",
-      // backgroundColor: "#F2F2F2",
-      backgroundColor: "white",
-      paddingHorizontal: 5,
-      // bottom: 0,
-      fontSize: deviceWidth < 370 ? 13 : 16,
-      letterSpacing: 0.5,
-    },
-    normalLeaveReasonLabel: {
-      // color: "#A7ADAD",
-      color: "#AEB6BF",
-      // backgroundColor: "#F2F2F2",
-      backgroundColor: "white",
-      paddingHorizontal: 5,
-      // bottom: 0,
-      fontSize: deviceWidth < 370 ? 13 : 16,
-      letterSpacing: 0.5,
-    },
-    submitLabel: {
-      color: "grey",
-      color: "#AEB6BF",
-      backgroundColor: "#F2F2F2",
-      backgroundColor: "white",
-      paddingHorizontal: 5,
-      fontSize: deviceWidth < 370 ? 13 : 15,
-    },
-    errorLabel: {
-      color: "red",
-      backgroundColor: "#F2F2F2",
-      backgroundColor: "white",
-      paddingHorizontal: 5,
-      fontSize: deviceWidth < 370 ? 13 : 15,
-    },
-    descriptionUp: {
-      position: "absolute",
-      top: deviceWidth < 370 ? 68 : 87,
-      left: deviceWidth < 370 ? 40 : 50,
-    },
-    descriptionDown: {
-      position: "absolute",
-      top: deviceWidth < 370 ? 93 : 107,
-      left: 50,
-    },
-    descriptionUpExtra: {
-      position: "absolute",
-      top: deviceWidth < 370 ? 90 : 80,
-      left: deviceWidth < 370 ? 40 : 50,
-    },
-    descriptionDownExtra: {
-      position: "absolute",
-      top: deviceWidth < 370 ? 115 : 97,
-      left: 50,
-    },
+  // new design
+  cardStyle: {
+    marginVertical: 25,
+    marginHorizontal: 20,
+    elevation: 5,
+    borderRadius: 10,
+    left: "2%",
+    // paddingBottom: 20,
+  },
+  cardContentStyle: {
+    paddingTop: 0,
+    paddingHorizontal: 0,
+  },
+  subDesign: {
+    backgroundColor: "darkblue",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    flexDirection: "row",
+  },
+  labelStyle: {
+    color: "white",
+    fontFamily: "HindBold",
+    fontSize: 20,
+    textAlign: "center",
+  },
+  textStyle: {
+    color: "white",
+    fontFamily: "HindBold",
+    fontSize: 20,
+    textAlign: "center",
+  },
+  cardText: {
+    color: "black",
+    fontSize: 17,
+    left: "10%",
+    top: "10%",
+  },
+  cardTextStyle: {
+    flex: 1,
+    flexDirection: "row",
+    marginVertical: 5,
+  },
+  badgeStyle: {
+    right: "160%",
+  },
+  colorBlack: {
+    color: "black",
+  },
+  test: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 2 : 10,
+    left: deviceWidth < 370 ? 40 : 50,
+  },
+  testSuccess: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 28 : 32,
+    left: 50,
+  },
+  normalLabel: {
+    // color: "#A7ADAD",
+    color: "#AEB6BF",
+    // backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
+    paddingHorizontal: 5,
+    // bottom: 0,
+    fontSize: deviceWidth < 370 ? 13 : 16,
+    letterSpacing: 0.5,
+  },
+  normalLeaveReasonLabel: {
+    // color: "#A7ADAD",
+    color: "#AEB6BF",
+    // backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
+    paddingHorizontal: 5,
+    // bottom: 0,
+    fontSize: deviceWidth < 370 ? 13 : 16,
+    letterSpacing: 0.5,
+  },
+  submitLabel: {
+    color: "grey",
+    color: "#AEB6BF",
+    backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
+    paddingHorizontal: 5,
+    fontSize: deviceWidth < 370 ? 13 : 15,
+  },
+  errorLabel: {
+    color: "red",
+    backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
+    paddingHorizontal: 5,
+    fontSize: deviceWidth < 370 ? 13 : 15,
+  },
+  descriptionUp: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 68 : 87,
+    left: deviceWidth < 370 ? 40 : 50,
+  },
+  descriptionDown: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 93 : 107,
+    left: 50,
+  },
+  descriptionUpExtra: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 90 : 80,
+    left: deviceWidth < 370 ? 40 : 50,
+  },
+  descriptionDownExtra: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 115 : 97,
+    left: 50,
+  },
 
-    leaveReasonUp: {
-      position: "absolute",
-      top: deviceWidth < 370 ? 68 : 160,
-      left: deviceWidth < 370 ? 40 : 50,
-    },
-    leaveReasonDown: {
-      position: "absolute",
-      top: deviceWidth < 370 ? 93 : 185,
-      left: 50,
-    },
-    leaveReasonUpExtra: {
-      position: "absolute",
-      top: deviceWidth < 370 ? 90 : 185,
-      left: deviceWidth < 370 ? 40 : 50,
-    },
-    leaveReasonDownExtra: {
-      position: "absolute",
-      top: deviceWidth < 370 ? 115 : 210,
-      left: 50,
-    },
-    focusStyle: {
+  leaveReasonUp: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 68 : 160,
+    left: deviceWidth < 370 ? 40 : 50,
+  },
+  leaveReasonDown: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 93 : 185,
+    left: 50,
+  },
+  leaveReasonUpExtra: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 90 : 185,
+    left: deviceWidth < 370 ? 40 : 50,
+  },
+  leaveReasonDownExtra: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 115 : 210,
+    left: 50,
+  },
+  focusStyle: {
     borderColor: "blue",
+  },
+  username: {
+    fontFamily: "HindRegular",
+    fontSize: 18,
   },
 });
