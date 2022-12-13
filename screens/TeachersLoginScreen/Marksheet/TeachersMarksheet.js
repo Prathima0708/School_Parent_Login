@@ -1473,11 +1473,8 @@ const styles = StyleSheet.create({
     height: 20,
   },
   searchBar: {
-    //top: 10,
     top: "20%",
-    backgroundColor: "#EAEDED",
-    // marginTop: 10,
-    // marginBottom: 20,
+    backgroundColor: "#F0F3F4",
   },
 
   focusStyle: {
