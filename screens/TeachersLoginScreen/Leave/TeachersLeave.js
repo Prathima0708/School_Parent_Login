@@ -954,7 +954,7 @@ const TeachersLeave = () => {
           {/* <View style={{ flex: 0.1, backgroundColor: "white",paddingVertical:15,top:'10%' }} >
            
           </View> */}
-           <View style={styles.headingStyle} >
+           <View style={styles.headingStyleNew} >
               <NativeText bold style={{fontSize:20}}>Leave Form</NativeText>
             </View>
           <View style={[styles.inputForm]} >
@@ -1214,14 +1214,19 @@ const TeachersLeave = () => {
       <View style={[{flex:1}, {flexDirection: "column"}]}>
 
         <View style={{ flex: 2, backgroundColor: "white" }} >
-          <Ionicons
+          <View style={[{flex:0.2}, {flexDirection: "row",top:'20%'}]}>
+            <BackButton onPress={teacherLeaveBackHandler}/>
+          </View>
+          <View style={styles.headingStyle} >
+            <NativeText bold style={{fontSize:20,left:'5%',top:'5%'}}>Teachers Leave</NativeText>
+          </View>
+          {/* <Ionicons
           name="chevron-back"
           size={25}
           color="black"
           onPress={teacherLeaveBackHandler}
           style={{ left: 15,top:'13%' }}/>
-          <NativeText bold fontSize={16} style={{top:'9.1%',left:'12%'}}>Back</NativeText>
-          <NativeText bold style={{fontSize:20,left:'35%',top:'10%'}}>Teachers Leave</NativeText>
+          <NativeText bold fontSize={16} style={{top:'9.1%',left:'12%'}}>Back</NativeText> */}
           <SearchBar
               onSubmitEditing={Keyboard.dismiss}
               style={styles.searchBar}
@@ -1268,11 +1273,15 @@ const TeachersLeave = () => {
           color="black"
           onPress={leaveBackHandler}
           style={{ left: 15,top:'13%' }}/>
-          <NativeText bold fontSize={16} style={{top:'9.1%',left:'12%'}}>Back</NativeText>
+          <NativeText 
+            bold 
+            fontSize={16} 
+            style={{top:'9.1%',left:'12%'}} 
+            onPress={leaveBackHandler}>Back</NativeText>
           <NativeText bold style={{fontSize:20,left:'40%',top:'10%'}}>Leave List</NativeText>
           <SearchBar
               onSubmitEditing={Keyboard.dismiss}
-              style={styles.searchBar}
+              style={styles.searchBarNew}
               textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
               placeholder="Search here by leave type"
               onChangeText={(text) => searchFilter(text)}
@@ -1555,14 +1564,26 @@ const styles = StyleSheet.create({
 
     backgroundColor: "#FDFEFE",
   },
-  headingStyle:{
+  headingStyleNew:{
     flex: 0.2,
     alignItems:'center',
     backgroundColor:'white',
     marginTop:65,
     justifyContent:'center'
   },
+  headingStyle:{
+    flex: 0.2,
+    alignItems:'center',
+    backgroundColor:'white',
+    marginTop:30,
+    justifyContent:'center'
+  },
   searchBar: {
+    marginTop: 10,
+    marginBottom: 20,
+    backgroundColor: "#F0F3F4",
+  },
+  searchBarNew: {
     marginTop: 100,
     marginBottom: 20,
     backgroundColor: "#F0F3F4",
