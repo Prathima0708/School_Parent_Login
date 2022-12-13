@@ -719,11 +719,16 @@ const TeachersTransport = () => {
 
   return (
     <>
-      <View style={[{flex:1}, {flexDirection: "column"}]}>
-        <View style={{ flex: 0.1, backgroundColor: "white",alignItems:'center',paddingVertical:15 }} >
+      <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
+        {/* <View style={{ flex: 0.1, backgroundColor: "white",alignItems:'center',paddingVertical:15 }} >
           <NativeText bold style={{fontSize:20}}>Bus and Driver Details</NativeText>
+        </View> */}
+        <View style={styles.headingView}>
+          <NativeText bold style={styles.textStyle}>
+            Bus and Driver Details
+          </NativeText>
         </View>
-        <View style={{ flex: 2, backgroundColor: "white" }} >
+        <View style={{ flex: 2, backgroundColor: "white" }}>
           <SearchBar
             style={styles.searchBar}
             textInputStyle={{
@@ -736,31 +741,23 @@ const TeachersTransport = () => {
           />
           <ScrollView>
             {filteredData &&
-              filteredData.map((data,key)=>(
+              filteredData.map((data, key) => (
                 <Card style={[styles.card]}>
                   <Card.Content style={{ marginTop: 0 }}>
                     <View style={styles.flexStyleRow}>
                       <View style={styles.flexData1}>
-                        <Text style={[styles.cardTextStyle]}>
-                          Driver Name
-                        </Text>
+                        <Text style={[styles.cardTextStyle]}>Driver Name</Text>
                       </View>
                       <View style={styles.flexData}>
-                        <Text style={styles.cardData}>
-                          {data.driver_name}
-                        </Text>
+                        <Text style={styles.cardData}>{data.driver_name}</Text>
                       </View>
                     </View>
                     <View style={styles.flexStyleRow}>
                       <View style={styles.flexData1}>
-                        <Text style={[styles.cardTextStyle]}>
-                          Bus Number
-                        </Text>
+                        <Text style={[styles.cardTextStyle]}>Bus Number</Text>
                       </View>
                       <View style={styles.flexData}>
-                        <Text style={styles.cardData}>
-                          {data.busnumber}
-                        </Text>
+                        <Text style={styles.cardData}>{data.busnumber}</Text>
                       </View>
                     </View>
                     <View style={styles.flexStyleRow}>
@@ -770,9 +767,7 @@ const TeachersTransport = () => {
                         </Text>
                       </View>
                       <View style={styles.flexData}>
-                        <Text style={styles.cardData}>
-                          {data.vehicleno}
-                        </Text>
+                        <Text style={styles.cardData}>{data.vehicleno}</Text>
                       </View>
                     </View>
 
@@ -783,9 +778,7 @@ const TeachersTransport = () => {
                         </Text>
                       </View>
                       <View style={styles.flexData}>
-                        <Text style={styles.cardData}>
-                          {data.emp_mobile}
-                        </Text>
+                        <Text style={styles.cardData}>{data.emp_mobile}</Text>
                       </View>
                     </View>
                   </Card.Content>
@@ -793,14 +786,16 @@ const TeachersTransport = () => {
               ))}
           </ScrollView>
         </View>
-        {keyboardStatus == "Keyboard Hidden" &&
-        (<View style={{ flex: 0.2, backgroundColor: "white" }} >
-          <TeachersHome />
-        </View>)}
+        {keyboardStatus == "Keyboard Hidden" && (
+          <View style={{ flex: 0.2, backgroundColor: "white" }}>
+            <TeachersHome />
+          </View>
+        )}
       </View>
     </>
   );
-          {/* {showInitialBtn && (
+  {
+    /* {showInitialBtn && (
             <Animated.View
               style={[
                 {
@@ -819,8 +814,10 @@ const TeachersTransport = () => {
                 </BgButton>
               </View>
             </Animated.View>
-          )} */}
-          {/* {showForm && (
+          )} */
+  }
+  {
+    /* {showForm && (
             <>
               <ScrollView style={styles.root}>
                 <View style={styles.inputForm}>
@@ -1093,24 +1090,29 @@ const TeachersTransport = () => {
                 </View>
               )}
             </>
-          )} */}
-          {/* {isSame && <View style={styles.th}>
+          )} */
+  }
+  {
+    /* {isSame && <View style={styles.th}>
                 <Text style={styles.tableTitle}> Update</Text>
               </View>}
               {isSame && <View style={styles.th}>
                 <Text style={styles.tableTitle}> Delete</Text>
-              </View>} */}
+              </View>} */
+  }
 
-          {/* {showList && ( */}
-          <>
-            {/* <Animated.View style={{transform:[
+  {
+    /* {showList && ( */
+  }
+  <>
+    {/* <Animated.View style={{transform:[
               {translateY:translateY}
             ]}}> */}
-            {/* <NativeText fontSize="3xl">Transport List</NativeText> */}
-            
-          </>
-          {/* )} */}
- 
+    {/* <NativeText fontSize="3xl">Transport List</NativeText> */}
+  </>;
+  {
+    /* )} */
+  }
 };
 
 export default TeachersTransport;
@@ -1371,5 +1373,20 @@ const styles = StyleSheet.create({
   },
   spinnerTextStyle: {
     color: "#FFF",
+  },
+  headingView: {
+    flex: 0.2,
+    backgroundColor: "white",
+    alignItems: "center",
+    paddingVertical: 17,
+  },
+  textStyle: {
+    fontSize: 18,
+    fontFamily: "HindSemiBold",
+    color: "#F0F3F4",
+
+    backgroundColor: "#566573",
+    padding: 15,
+    borderRadius: 10,
   },
 });
