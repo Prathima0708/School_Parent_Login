@@ -1,16 +1,29 @@
-import { View, Text, ScrollView, StyleSheet, Alert } from 'react-native'
+import { View, Text, ScrollView, StyleSheet, Alert, Pressable, Keyboard } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { selectedData } from './MyClasses'
-import { useRoute } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { MYCLASS, MYSECTION } from './DisplayClass'
 import axios from 'axios'
 import { DataTable } from 'react-native-paper'
 import { subURL } from '../../../../components/utils/URL\'s'
+import TeachersHome from '../../BottomTab/TeachersHome'
+import {Text as NativeText} from 'native-base'
+import { TouchableHighlight } from 'react-native'
+import SearchBar from "react-native-dynamic-search-bar";
+
+export var STD_ID;
 
 const StudentList = () => {
+
+    const navigation = useNavigation();
     const route=useRoute()
     const [filteredData,setFilteredData]=useState([])
+    const [searchText, setSearchText] = useState("");
+    const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
+
     console.log(MYCLASS,MYSECTION)
+
+    
     useEffect(()=>{
    
     
@@ -57,113 +70,158 @@ const StudentList = () => {
       
     },[])
         
-  return (
-    <View>
-      
+    useEffect(()=>{
+      const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+        setKeyboardStatus("Keyboard Shown");
+      });
+      const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+        setKeyboardStatus("Keyboard Hidden");
+      });
+  
+      return () => {
+        showSubscription.remove();
+        hideSubscription.remove();
+      };
+    },[])
+
+    const searchFilter = (text) => {
+      console.log("search function");
+      if (text) {
+        const newData = filteredData.filter((item) => {
+          const itemData = item.student_name
+            ? item.student_name.toUpperCase()
+            : "".toUpperCase();
+          const textData = text.toUpperCase();
+          return itemData.indexOf(textData) > -1;
+        });
+        setFilteredData(newData);
+        setSearchText(text);
+      } else {
+        console.log("else part")
+        setFilteredData(filteredData);
+        setSearchText(text);
+      }
+    };
+
+    function pressHandler(id){
+      STD_ID=id;
+
+      console.log(id);
+
+      navigation.navigate("TeachersProfile");
+    }
+
+  return (    
         <>
-          {/* <SearchBar
-            style={styles.searchBar}
-            textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
-            placeholder="Search here"
-            onChangeText={(text) => searchFilter(text)}
-            value={searchText}
-          /> */}
-          <ScrollView horizontal={true}>
-            <DataTable style={styles.container}>
-              <DataTable.Header style={styles.tableHeader}>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> REG NUMBER</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> STUDENT NAME</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> CLASS NAME</Text>
-                </View>
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> SECTION</Text>
-                </View>
+          <View style={{flex:1,backgroundColor:'white'}}>
+          <View style={styles.title} >
+            <SearchBar
+             // style={styles.searchBar}
+              textInputStyle={{
+                fontFamily: "HindRegular",
+                fontSize: 18,
+              }}
+              placeholder="Search here"
+              onChangeText={(text) => searchFilter(text)}
+              value={searchText}
+            />
+          </View>
+          <View style={styles.tableHeader}>
+            <View style={{ flex: 1,alignItems:'center',justifyContent:'center' }} >
+              <Text style={styles.headerText}>Reg no</Text>
+            </View>
+            <View style={{ flex: 1,alignItems:'center',justifyContent:'center' }} >
+              <Text style={styles.headerText}>Student name</Text>
+            </View>
+            <View style={{ flex: 1,alignItems:'center',justifyContent:'center' }} >
+              <Text style={styles.headerText}>Class name</Text>
+            </View>
+          </View>
 
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}> ACTION</Text>
-                </View>
-              </DataTable.Header>
+        <View
+          style={[
+            { flex: 1 },
+            { 
+              flexDirection: "column",
+              top:keyboardStatus == "Keyboard Hidden" ? '11.5%' : '18%',
+              paddingHorizontal:10,
+              marginHorizontal:10
+            },
+          ]}
+        >
+          <View style={{ flex: 8, bottom: 10 }}>
+            <ScrollView>
+              <View style={styles.root}>
+                  {filteredData && filteredData.map((filteredData, key) => (
+                    <>
+                    <TouchableHighlight 
+                      onPress={pressHandler.bind(this,filteredData.id)}
+                      underlayColor="#D1D4FF">
 
-           
-
-              {filteredData &&
-                filteredData.map((data, key) => (
-                  <DataTable.Row style={styles.tableRow} key={key}>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 50,
-                      }}
-                    >
-                      {data.reg_number}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 80,
-                      }}
-                    >
-                      {data.student_name}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 90,
-                      }}
-                    >
-                      {data.class_name}
-                    </DataTable.Cell>
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 70,
-                      }}
-                    >
-                      {data.section}
-                    </DataTable.Cell>
-
-                    <DataTable.Cell
-                      textStyle={{
-                        fontSize: 18,
-                        fontFamily: "HindRegular",
-                        marginLeft: 70,
-                      }}
-                    >
-                      {/* <Btn title="Add" onPress={() => addForm(data.id)} /> */}
-                    </DataTable.Cell>
-                  </DataTable.Row>
-                ))}
-            </DataTable>
-          </ScrollView>
+                      <View style={styles.tableText}>
+                        <View style={{ flex: 1,alignItems:"center",paddingVertical:20 }} >
+                          <Text style={[styles.headerText,{color:'black'}]}>{filteredData.reg_number}</Text>
+                        </View>
+                        <View style={{ flex: 1,alignItems:"center",paddingVertical:20 }} >
+                          <Text style={[styles.headerText,{color:'black'}]}>{filteredData.student_name}</Text>
+                        </View>
+                        <View style={{ flex: 1,alignItems:"center",paddingVertical:20}} >
+                          <Text style={[styles.headerText,{color:'black'}]}>{filteredData.class_name} - {filteredData.section}</Text>
+                        </View>    
+                      </View>
+                    </TouchableHighlight>
+                    </>
+                  ))}
+              </View>
+            </ScrollView>
+          </View>
+        </View>
+        {keyboardStatus == "Keyboard Hidden" &&
+          <View style={{ flex: 0.4 }}>
+            <TeachersHome />
+          </View>}
+          </View>
         </>
-      
-    </View>
   )
 }
 
 export default StudentList
 
 const styles=StyleSheet.create({
+    title:{
+      flex: 0.1,
+      alignItems:'center',
+      justifyContent:'center',
+      top:'5%'
+    },
+    tableHeader:{
+      flex:0.2,
+      flexDirection: "row",
+      top:'17%',
+      borderWidth:1,
+      marginHorizontal:20,
+      backgroundColor:'darkblue'
+    },
+    tableText:{
+      flex:1,
+      flexDirection: "row",
+      // paddingHorizontal:10,
+      // marginHorizontal:10,
+      borderBottomWidth:1,
+      borderRightWidth:1,
+      borderLeftWidth:1,
+    },
+    headerText:{
+      fontFamily:'HindBold',
+      fontSize:16,
+      color:'white'
+    },
     th: {
         padding: 5,
         marginRight: 13,
         //fontSize: 24,
       },
-      tableHeader: {
-        backgroundColor: "skyblue",
-    
-        height: 50,
-        fontWeight: "bold",
-      },
+
       tableTitle: {
         // padding: 5,
         margin: 7,
@@ -196,6 +254,11 @@ const styles=StyleSheet.create({
     
         marginTop: 10,
         marginBottom: 20,
+      },
+      root: {
+        // backgroundColor: "#EBECFO",
+        backgroundColor: "white",
+        height: "100%",
       },
 })
 
