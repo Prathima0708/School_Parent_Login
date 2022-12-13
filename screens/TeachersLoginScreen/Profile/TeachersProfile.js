@@ -1,7 +1,7 @@
 import { Feather, Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import {
   View,
@@ -26,42 +26,34 @@ import {
   Divider,
 } from "native-base";
 import TeachersHome from "../BottomTab/TeachersHome";
+import { STD_ID } from "./MyClasses/StudentList";
+import { subURL } from "../../../components/utils/URL's";
+import axios from "axios";
+
 const TeachersProfile = () => {
   const [showForm, setShowForm] = useState(false);
   const [showList, setShowList] = useState(true);
+
+  const [data,setData]=useState([]);
+
   const navigation = useNavigation();
-  async function logoutHandler() {
-    try {
-      const value = await AsyncStorage.removeItem("token");
-      if (value == null) {
-        Alert.alert("Confirm Logout", "Are you Sure you want to logout?", [
-          {
-            text: "Cancel",
 
-            style: "cancel",
-            onPress: () => console.log("Data not removed"),
-          },
-          {
-            text: "Yes",
-            onPress: () => {
-              navigation.navigate("Login"), console.log("Data removed");
-            },
-          },
-        ]);
-      } else {
-        console.log("Data not removed");
+
+   //console.log("id -", ID);
+   useEffect(() => {
+    async function displayStudInfo() {
+      try {
+        const res = await axios.get(`${subURL}/Student/${STD_ID}`);
+      //  console.log(res.data);
+
+        setData(res.data);
+        console.log(res.data)
+      } catch (error) {
+        console.log(error);
       }
-
-      // if (value == null) {
-      //   console.log("Token is removed"+value)
-      //   //  AsyncStorage.removeItem("token");
-      //   //  console.log(value)
-      //   //  navigation.navigate("Login");
-      // }
-    } catch (error) {
-      console.log(error);
     }
-  }
+    displayStudInfo();
+  }, []);
 
   function editItem() {
     setShowForm(true);
@@ -90,7 +82,7 @@ const TeachersProfile = () => {
               <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
                 <View style={{ flex: 1, alignItems: "center" }}>
                   <NativeText fontSize="16" style={{ color: "white" }}>
-                    img_lights
+                    {data.student_name}1
                   </NativeText>
                 </View>
               </View>
