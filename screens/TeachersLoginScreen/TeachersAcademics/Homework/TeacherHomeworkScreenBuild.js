@@ -40,6 +40,7 @@ var FROMDATE, TODATE;
 export var SubjectID;
 import * as FileSystem from "expo-file-system";
 let localUri, filename, match, type, base64;
+let ImageResult;
 var newArray, TOKEN, USERNAME;
 const TeacherHomeworkScreenBuild = () => {
   const scrollY = new Animated.Value(0);
@@ -148,13 +149,13 @@ const TeacherHomeworkScreenBuild = () => {
   const enteredtoDateIsValid = toText.trim() !== "";
   const toDateInputIsInValid = !enteredtoDateIsValid && enteredtoDateTouched;
 
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
   const [enteredImageTouched, setEnteredImageTouched] = useState(false);
 
   const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState("");
 
-  const enteredImageIsValid = image.trim() !== "";
+  const enteredImageIsValid = image !== "";
   const imageInputIsInValid = !enteredImageIsValid && enteredImageTouched;
 
   const [pickedImage, setPickedImage] = useState();
@@ -262,25 +263,24 @@ const TeacherHomeworkScreenBuild = () => {
       quality: 1,
       //base64: true,
     });
-    // console.log("base64-", result.base64);
-    // base64 = result.base64;
-    // console.log(
-    //   JSON.stringify({
-    //     imgsource: base64,
-    //   })
-    // );
-    const { status } = await MediaLibrary.requestPermissionsAsync();
+
+    // const { status } = await MediaLibrary.requestPermissionsAsync();
     // if (status === "granted") {
     //   await MediaLibrary.saveToLibraryAsync(result.uri);
 
     //   console.log("Image successfully saved");
     // }
-    // console.log("------");
-    // console.log(result);
+    console.log("------");
+    console.log(result);
+    // ImageResult = result;
+    // const reader = new FileReader();
+
+    // // ImageResult = File(result);
+    // console.log(ImageResult)
 
     // location = result.uri;
-    if (!result.cancelled) {
-      setImage(result.uri);
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
     }
 
     localUri = result.uri;
@@ -674,25 +674,26 @@ const TeacherHomeworkScreenBuild = () => {
       // let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
       let uploadedImg = test;
 
-      let formData = new FormData();
-      formData.append("photo", {
-        // uri: localUri,
-        name: filename,
-        type,
-      });
-      //   console.log("photo-", formData);
-      const formdata = {
+      // let formData = new FormData();
+      // formData.append("homework_photo", {
+      //   uri: localUri,
+      //   name: filename,
+      //   type,
+      // });
+      // console.log("photo-", formData);
+      var formdata = {
         class_name: filteredlist[0].classname,
         section: filteredlist[0].section,
         subject: selectedSubject,
         homework_date: FROMDATE,
         remark: remark,
-        homework_photo: filename,
+        // homework_photo: formata,
         homework: "empty",
         due_date: TODATE,
         description: hw,
         // created_by: user,
       };
+
       console.log(formdata);
 
       async function storeData() {
