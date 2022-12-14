@@ -143,7 +143,7 @@ const TeachersAttendanceBuild = () => {
     async function fetchData() {
       try {
         const res = await axios.get(
-          `http://10.0.2.2:8000/school/Studentclass/`
+          `http://10.0.2.2:8000/school/Calendar/`
         );
         // console.log(res.data);
         setData(res.data);
@@ -166,7 +166,16 @@ const TeachersAttendanceBuild = () => {
 
   }
   function presentButtonPressed(id) {
- 
+
+    console.log(id)
+
+    const formData={
+      id:id,
+      attendance_status:'present'
+    }
+
+    console.log(formData)
+
     setTest(test=>({
         ...test,
         [id]: {'PRESENT': 'present'}
@@ -175,6 +184,14 @@ const TeachersAttendanceBuild = () => {
   }
 
   function absentBtnHandler(id) {
+    console.log(id)
+
+    const formData={
+      id:id,
+      attendance_status:'absent'
+    }
+
+    console.log(formData)
 
     setTest(test=>({
         ...test,
@@ -185,6 +202,14 @@ const TeachersAttendanceBuild = () => {
 
 
   function holidatBtnGHandler(id) {
+    console.log(id)
+
+    const formData={
+      id:id,
+      attendance_status:'holiday'
+    }
+
+    console.log(formData)
 
     setTest(test=>({
         ...test,
