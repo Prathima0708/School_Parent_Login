@@ -36,10 +36,11 @@ import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import { Animated } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import EditCalendar from "./EditCalendar";
-import { HStack, Radio } from "native-base";
+import { HStack, IconButton, Radio } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
 import { style } from "@mui/system";
 import { Token } from "../../Login";
+
 
 // import { Label } from "react-native-form-component";
 var FloatingLabel = require("react-native-floating-labels");
@@ -164,6 +165,7 @@ const TeachersCalendar = () => {
   const [teacher, setTeacher] = useState(false);
   const [parent, setParent] = useState(false);
 
+  const [anyCheck,setAnyChecked]=useState(true);
   let i = 0;
 
   // async function logoutHandler() {
@@ -402,18 +404,24 @@ const TeachersCalendar = () => {
     setBtn(true);
 
     var viewOnlyData = [];
+
     // if (checked) {
     //   viewOnlyData.push("all");
     // }
     if (adminChecked) {
       viewOnlyData.push("admin");
     }
+
     if (teacherChecked) {
       viewOnlyData.push("teacher");
     }
+
     if (parentChecked) {
       viewOnlyData.push("parent");
     }
+
+
+
     // `{[${checked ? "all" : ""},
     // ${adminChecked ? "admin" : ""},
     // ${teacherChecked ? "teacher" : ""},
@@ -483,6 +491,11 @@ const TeachersCalendar = () => {
     // if(!enteredSelcetdIsValid){
     //   return;
     // }
+
+    if(!adminChecked && !teacherChecked && !checked && !parentChecked){
+      setAnyChecked(false);
+      return;
+    }
     if (!enteredTitleIsValid) {
       return;
     }
@@ -499,6 +512,7 @@ const TeachersCalendar = () => {
     if (!enteredtoDateIsValid) {
       return;
     }
+
     async function getData() {
       try {
         const res = await axios.get(`${subURL}/Calendar/`);
@@ -547,6 +561,8 @@ const TeachersCalendar = () => {
               },
             },
           ]);
+
+        
           setEnteredDescription("");
           setEnteredTitle("");
           setFromText("");
@@ -651,6 +667,11 @@ const TeachersCalendar = () => {
     setDescriptionLabel(false);
     setIsTitleFocused(false);
     setIsDescFocused(false);
+
+    setChecked(false);
+    setAdminChecked(false);
+    setTeacherChecked(false);
+    setParentChecked(false);
   }
   function showCalendar() {
     async function fetchData() {
@@ -678,6 +699,7 @@ const TeachersCalendar = () => {
       }
     }
     fetchData();
+
   }
 
   // function editItem(id) {
@@ -1183,6 +1205,7 @@ const TeachersCalendar = () => {
                           status={parentChecked ? "checked" : "unchecked"}
                           onPress={() => {
                             setParentChecked(!parentChecked);
+                            
                             if (!parentChecked) {
                               console.log("check");
                             } else {
@@ -1196,9 +1219,10 @@ const TeachersCalendar = () => {
                     </View>
                   </View>
                 </View>
+                {!anyCheck && <Text style={styles.errorLabel}>Please select atleast one</Text>}
               </View>
               {!isEdit && (
-                <View style={styles.btnSubmit}>
+                <View style={[btn ? styles.btnSubmitNew : styles.btnSubmit]}>
                   <Button onPress={buttonPressedHandler}>Add Event</Button>
                 </View>
               )}
@@ -1286,7 +1310,7 @@ const TeachersCalendar = () => {
                             marginHorizontal: 20,
                             elevation: 5,
                             borderRadius: 10,
-                            paddingBottom: 20,
+                            paddingBottom: 60,
                           }}
                         >
                           <Card.Content style={{ margin: 5, marginTop: 0 }}>
@@ -1365,34 +1389,55 @@ const TeachersCalendar = () => {
                               {filteredData.created_by == USERNAME && (
                                 <View
                                   style={{
-                                    flex: 2,
-                                    left: deviceWidth < 370 ? 100 : 110,
-                                    bottom: -50,
+                                    flex: 0.8,
+                                    // left: deviceWidth < 370 ? 5 : 5,
+                                    // bottom: -50,
+                                    top:'26%',
+                                   
                                   }}
                                 >
-                                  <Ionicons
+                                   <IconButton
+                                    colorScheme="green"
+                                    onPress={() => editItem(filteredData.id)}
+                                    variant="subtle"
+                                    _icon={{
+                                      as: Ionicons,
+                                      name: "md-pencil-sharp",
+                                    }}
+                                  />
+                                  {/* <Ionicons
                                     name="md-pencil-sharp"
                                     size={24}
                                     color="green"
                                     onPress={() => editItem(filteredData.id)}
-                                  />
+                                  /> */}
                                 </View>
                               )}
-
+                              <View style={styles.space}/>
                               {filteredData.created_by == USERNAME && (
                                 <View
                                   style={{
-                                    flex: 2,
-                                    left: 60,
-                                    bottom: -50,
+                                    flex: 0.8,
+                                    top:'26%'
+                                    // left: 10,
+                                    // bottom: -50,
                                   }}
                                 >
-                                  <Ionicons
+                                   <IconButton
+                                    colorScheme="danger"
+                                    onPress={() => deleteItem(filteredData.id)}
+                                    variant="subtle"
+                                    _icon={{
+                                      as: Ionicons,
+                                      name: "trash",
+                                    }}
+                                  />
+                                  {/* <Ionicons
                                     name="trash"
                                     size={24}
                                     color="red"
                                     onPress={() => deleteItem(filteredData.id)}
-                                  />
+                                  /> */}
                                 </View>
                               )}
                             </View>
@@ -1499,6 +1544,12 @@ const styles = StyleSheet.create({
 
   btnSubmit: {
     marginTop: deviceHieght < 600 ? "5%" : "10%",
+    width: "50%",
+    marginLeft: 180,
+  },
+  btnSubmitNew: {
+    marginTop: deviceHieght < 600 ? "5%" : "5%",
+    bottom:'1.5%',
     width: "50%",
     marginLeft: 180,
   },

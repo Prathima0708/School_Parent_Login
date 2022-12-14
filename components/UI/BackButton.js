@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { View } from "react-native";
-import { Text as NativeText } from "native-base";
+import { IconButton, Text as NativeText } from "native-base";
 
 function BackButton({children,onPress}){
 
@@ -14,7 +14,7 @@ function BackButton({children,onPress}){
                   onPress={onPress}
                 />
             </View>
-            <View style={{ flex: 1 }} >
+            <View style={{ flex: 1 }} onTouchStart={onPress}>
                 <NativeText bold fontSize={16}>Back</NativeText>
             </View>
         </View>

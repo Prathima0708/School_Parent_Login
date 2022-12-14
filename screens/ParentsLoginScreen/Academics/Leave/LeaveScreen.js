@@ -802,14 +802,7 @@ const LeaveScreen = () => {
               ]}
             >
               <Text
-                style={[
-                  btn
-                    ? styles.normalLabel
-                    : leavetypeInputIsInValid
-                    ? styles.errorLabel
-                    : styles.normalLabel,
-                ]}
-              >
+                style={[styles.normalLabel,]}>
                 Leave Type
               </Text>
             </View>
@@ -841,14 +834,7 @@ const LeaveScreen = () => {
               ]}
             >
               <Text
-                style={[
-                  btn
-                    ? styles.normalLabel
-                    : leavereasonInputIsInValid
-                    ? styles.errorLabel
-                    : styles.normalLabel,
-                ]}
-              >
+                style={[styles.normalLabel,]}>
                 Leave reason
               </Text>
             </View>
@@ -1187,7 +1173,7 @@ const styles = StyleSheet.create({
   },
   normalLabel: {
     // color: "#A7ADAD",
-    color: "#AEB6BF",
+    color: "grey",
     // backgroundColor: "#F2F2F2",
     backgroundColor: "white",
     paddingHorizontal: 5,
