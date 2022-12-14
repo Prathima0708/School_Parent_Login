@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView, Dimensions } from "react-native";
+import { View, StyleSheet, ScrollView, Dimensions, Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
 
 import { DataTable } from "react-native-paper";
@@ -16,8 +16,11 @@ import {
 } from "../../../../components/StudentItem/StudentItem";
 import moment from "moment";
 import { Button, Divider, VStack, Text as NativeText } from "native-base";
-
+import { useNavigation } from "@react-navigation/native";
+export var ID;
 const TimeTable = () => {
+
+  const navigation = useNavigation();
   const [showForm, setShowForm] = useState(false);
   const [showTable, setShowTable] = useState(true);
 
@@ -203,6 +206,12 @@ const TimeTable = () => {
     setWednesdayTimeTable(false);
     setThursdayTimeTable(false);
     setFridayTimeTable(false);
+  }
+
+  function navigateHandler(id){
+    ID = id;
+    console.log(id);
+    navigation.navigate("ExamSubjects");
   }
   return (
     <>
@@ -818,7 +827,8 @@ const TimeTable = () => {
               <ScrollView style={{ backgroundColor: "white" }}>
                 {examData &&
                   examData.map((data) => (
-                    <View style={[styles.mainView]}>
+                    <Pressable onPress={navigateHandler.bind(this, data.id)}>
+                      <View style={[styles.mainView]}>
                       <View style={{ flex: 1 }}>
                         <Divider
                           bg="#04007A"
@@ -943,6 +953,7 @@ const TimeTable = () => {
                         </View>
                       </View>
                     </View>
+                    </Pressable>
                   ))}
               </ScrollView>
             </View>

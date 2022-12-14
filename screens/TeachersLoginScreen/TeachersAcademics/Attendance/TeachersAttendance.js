@@ -161,7 +161,7 @@ const TeachersAttendance = () => {
     async function fetchData() {
       try {
         const res = await axios.get(
-          `http://10.0.2.2:8000/school/Studentclass/`
+          `http://10.0.2.2:8000/school/Calendar/`
         );
         // console.log(res.data);
         setData(res.data);

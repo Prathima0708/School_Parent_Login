@@ -705,7 +705,7 @@ const TecahersExamTimeTable = () => {
           <View
             style={[
               {
-                width: 170,
+                //width: 170,
                 fontSize: 20,
                 // marginTop: 13,
                 margin: 10,

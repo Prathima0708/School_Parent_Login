@@ -14,6 +14,7 @@ import {
   Pressable,
 } from "react-native";
 import moment from "moment";
+import SelectList from "react-native-dropdown-select-list";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { HStack, Spinner,Text as NativeText,Badge, Box, IconButton } from "native-base";
 import { Keyboard } from "react-native";
@@ -33,6 +34,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import BackButton from "../../../components/UI/BackButton";
+import { subURL } from "../../../components/utils/URL's";
 export var ID;
 export var FROMDATE, TODATE;
 export var BADGE;
@@ -60,6 +62,18 @@ const TeachersLeave = () => {
     outputRange: [headermax, headermin],
     extrapolate: "clamp",
   });
+
+  const [selected,setSelected]=useState('')
+  const [enteredSelectedTouched, setEnteredSelectedTouched] = useState(false);
+  const enteredSelcetdIsValid = selected.trim() !== "";
+  const selectInputIsInValid = !enteredSelcetdIsValid && enteredSelectedTouched;
+  const leaveTypeData = [
+    {key:'Sick Leave', value:'Sick Leave'},
+    {key:'National Holiday', value:'National Holiday'},
+    {key:'Religious Holiday', value:'Religious Holiday'},
+    {key:'Casual Leave', value:'Casual Leave'},
+  ]
+
 
   const [offset, SetOffset] = useState(0);
   const [typeLabel, setTypeLabel] = useState(false);
@@ -143,6 +157,9 @@ const TeachersLeave = () => {
 
   const [showBadge,setShowBadge]=useState(false);
   const [token, setToken] = useState("");
+
+  const [leaveByUsername,setLeaveByUsername]=useState([])
+  
   let i = 0;
 
   useEffect(() => {
@@ -150,6 +167,20 @@ const TeachersLeave = () => {
       "Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false` ",
     ]);
   }, []);
+
+  // useEffect(()=>{
+  //   async function fetchData() {
+  //     try {
+  //       const res = await axios.get(`${subURL}/LeaveByUsername/${USERNAME}/`);
+
+  //       setLeaveByUsername(res.data)
+
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  //   fetchData();
+  // },[])
 
   useLayoutEffect(() => {
     if(showForm){
@@ -431,19 +462,21 @@ const TeachersLeave = () => {
 
     console.log(UserId);
     const FormData = {
-      student_reg_number: 11,
-      user_num: 0,
-      user_role: "student",
-      username: "prathima",
+      student_reg_number: 0,
+      user_num: 0,//should be fetched when user logins
+      user_role: "student", //should be fetched when user logins
+      username: "prathima",//should be fetched when user logins
       email: "priya123@gmail.com",
-      leave_type: leaveType,
+      leave_type: selected,
       leave_form: FROMDATE,
       leave_to: TODATE,
       leave_reason: leaveReason,
       leave_status: "Pending",
     };
 
-    const formIsValid = enteredLeaveTypeIsValid && enteredLeaveReasonIsValid;
+    console.log(FormData)
+
+    const formIsValid = enteredLeaveReasonIsValid;
 
     if (formIsValid) {
       Alert.alert("Saved Data", "Saved Data successfully", [
@@ -493,8 +526,9 @@ const TeachersLeave = () => {
     //     ]
     //   );
     // }
-    setEnteredLeaveTypeTouched(true);
+   setEnteredLeaveTypeTouched(true);
     setEnteredLeaveReasonTouched(true);
+    setEnteredSelectedTouched(true);
     setEnteredFromDateTouched(true);
     setEnteredtoDateTouched(true);
 
@@ -539,7 +573,7 @@ const TeachersLeave = () => {
     setEnteredLeaveReason("");
     setFromText("");
     setToText("");
-    setEnteredLeaveTypeTouched(false);
+   setEnteredLeaveTypeTouched(false);
     setEnteredLeaveReasonTouched(false);
     setEnteredFromDateTouched(false);
     setEnteredtoDateTouched(false);
@@ -555,15 +589,7 @@ const TeachersLeave = () => {
     });
     //}
   }
-  function leavetypeBlurHandler() {
-    setEnteredLeaveTypeTouched(true);
-    setIsLeavetypeFocused(false);
-  }
-  function onLeavetypeFocusHandler() {
-    setIsLeavetypeFocused(true);
-    setEnteredLeaveTypeTouched(false);
-    setTypeLabel(true);
-  }
+ 
 
   function leavereasonBlurHandler() {
     setEnteredLeaveReasonTouched(true);
@@ -626,7 +652,7 @@ const TeachersLeave = () => {
     });
     setShowForm(true);
     setShowList(false);
-    setEnteredLeaveTypeTouched(false);
+  //  setEnteredLeaveTypeTouched(false);
     setEnteredLeaveReasonTouched(false);
     setEnteredFromDateTouched(false);
     setEnteredtoDateTouched(false);
@@ -835,7 +861,7 @@ const TeachersLeave = () => {
 
   function applyLeave(){
     setShowForm(true);
-    setShowChoice(false)
+    setShowChoice(false);
   }
 
   function myLeaveList(){
@@ -860,8 +886,9 @@ const TeachersLeave = () => {
     setShowChoice(true);
     setShowForm(false)
     setTypeLabel(false);
-    setEnteredLeaveTypeTouched(false);
+    //setEnteredLeaveTypeTouched(false);
     setReasonLabel(false);
+  
     setEnteredLeaveReasonTouched(false);
     setIsLeavereasonFocused(false);
     setEnteredFromDateTouched(false);
@@ -879,6 +906,11 @@ const TeachersLeave = () => {
     setShowTeachersList(false);
   }
 
+  function selecteHandler(){
+ 
+  }
+
+  console.log(selected)
   return (
     <>
       {showChoice && 
@@ -948,266 +980,268 @@ const TeachersLeave = () => {
       
       {showForm && (
           <View style={[{flex:1}, {flexDirection: "column", backgroundColor: "white"}]}>
-            <View style={[{flex:0.2}, {flexDirection: "row",top:'20%'}]}>
-              <BackButton onPress={backHandler}/>
-            </View>
-          {/* <View style={{ flex: 0.1, backgroundColor: "white",paddingVertical:15,top:'10%' }} >
-           
-          </View> */}
-           <View style={styles.headingStyleNew} >
-              <NativeText bold style={{fontSize:20}}>Leave Form</NativeText>
-            </View>
-          <View style={[styles.inputForm]} >
-            <ScrollView>
-            <View style={[{flex:1}, {
-              flexDirection: "column",paddingVertical:10
-            }]}>
-              <View style={{ flex: 1,marginHorizontal:20 }} >
+          <View style={[{flex:0.2}, {flexDirection: "row",top:'20%'}]}>
+            <BackButton onPress={backHandler}/>
+          </View>
+        {/* <View style={{ flex: 0.1, backgroundColor: "white",paddingVertical:15,top:'10%' }} >
+         
+        </View> */}
+         <View style={styles.headingStyleNew} >
+            <NativeText bold style={{fontSize:20}}>Leave Form</NativeText>
+          </View>
+        <View style={[styles.inputForm]} >
+          <ScrollView>
+          <View style={[{flex:1}, {
+            flexDirection: "column",paddingVertical:10
+          }]}>
+            <View style={{ flex: 1,marginHorizontal:20 }} >
 
-                <View style={[{flex:1}, {
-                    flexDirection: "row",marginRight:30
-                  }]}>
-                    <View style={{ flex: 1 }} >
-                      <Text style={styles.labelStyle}>user name</Text>
-                    </View>
-                    <View style={{ flex: 1 }} >
-                      <TextInput 
-                        style={[styles.labelStyle,{borderWidth:1,paddingLeft:7}]}
-                        editable={false} 
-                        selectTextOnFocus={false} 
-                        value={user}/>
-                    </View>
-                </View>
-              </View>
-              <View style={styles.space}/>
-              <View style={{ flex: 1}} >
               <View style={[{flex:1}, {
-                  flexDirection: "row",marginHorizontal:20,marginRight:46
+                  flexDirection: "row",marginRight:30
                 }]}>
-                  <View style={{ flex: 1}} >
-                    <Text style={styles.labelStyle}>user role</Text>
+                  <View style={{ flex: 1 }} >
+                    <Text style={styles.labelStyle}>user name</Text>
                   </View>
-                  <View style={{ flex: 1}} >
+                  <View style={{ flex: 1 }} >
                     <TextInput 
                       style={[styles.labelStyle,{borderWidth:1,paddingLeft:7}]}
                       editable={false} 
                       selectTextOnFocus={false} 
-                      value='user role'/>
+                      value={user}/>
                   </View>
+              </View>
+            </View>
+            <View style={styles.space}/>
+            <View style={{ flex: 1}} >
+            <View style={[{flex:1}, {
+                flexDirection: "row",marginHorizontal:20,marginRight:46
+              }]}>
+                <View style={{ flex: 1}} >
+                  <Text style={styles.labelStyle}>user role</Text>
+                </View>
+                <View style={{ flex: 1}} >
+                  <TextInput 
+                    style={[styles.labelStyle,{borderWidth:1,paddingLeft:7}]}
+                    editable={false} 
+                    selectTextOnFocus={false} 
+                    value='user role'/>
                 </View>
               </View>
             </View>
-                    {/* <View style={styles.inputForm}> */}
+          </View>
+                  {/* <View style={styles.inputForm}> */}
                     <View>
-                        <View style={!typeLabel ? styles.normal : styles.up}>
-                          <Text
-                            onPress={onLeavetypeFocusHandler}
-                            style={[
-                              btn
-                                ? styles.normalLabel
-                                : leavetypeInputIsInValid
-                                ? styles.errorLabel
-                                : styles.normalLabel,
-                            ]}
-                          >
-                            Leave type
-                          </Text>
-                        </View>
-                        <Input
-                          // placeholder="leave type"
-                          onChangeText={leaveTypeChangeHandler}
-                          blur={leavetypeBlurHandler}
-                          onFocus={onLeavetypeFocusHandler}
-                          value={leaveType}
-                          onSubmitEditing={Keyboard.dismiss}
-                          style={
-                            isLeavetypeFocused
-                              ? styles.focusStyle
-                              : leavetypeInputIsInValid && styles.errorBorderColor
-                          }
-                        />
-                      </View>
-                      {leavetypeInputIsInValid && (
-                        <Text style={styles.errorText}>Enter the type</Text>
-                      )}
-                      <View>
-                        <View
-                          style={
-                            !leavetypeInputIsInValid
-                              ? !reasonLabel
-                                ? styles.normalRemark
-                                : styles.upRemark
-                              : !reasonLabel
-                              ? styles.normalRemarkExtra
-                              : [styles.upRemarkExtra, { top: 3 }]
-                          }
+                      {/* <View style={!typeLabel ? styles.normal : styles.up}>
+                        <Text
+                          onPress={onLeavetypeFocusHandler}
+                          style={[
+                            btn
+                              ? styles.normalLabel
+                              : leavetypeInputIsInValid
+                              ? styles.errorLabel
+                              : styles.normalLabel,
+                          ]}
                         >
-                          <Text
-                            style={[
-                              btn
-                                ? styles.normalLabel
-                                : leavereasonInputIsInValid
-                                ? [
-                                    styles.errorLabel,
-                                    leavetypeInputIsInValid ? { top: 1 } : { top: 13 },
-                                  ]
-                                : styles.normalLabel,
-                            ]}
-                          >
-                            Leave reason
-                          </Text>
-                        </View>
-
-                        {/* <View style={!reasonLabel ? styles.normalRemark : styles.upRemark}>
-                        <Text style={[leavereasonInputIsInValid ? styles.errorLabel : styles.normalLabel]}>Leave reason</Text>
+                          Leave type
+                        </Text>
                       </View> */}
+                      {/* <Input
+                        // placeholder="leave type"
+                        onChangeText={leaveTypeChangeHandler}
+                        blur={leavetypeBlurHandler}
+                        onFocus={onLeavetypeFocusHandler}
+                        value={leaveType}
+                        onSubmitEditing={Keyboard.dismiss}
+                        style={
+                          isLeavetypeFocused
+                            ? styles.focusStyle
+                            : leavetypeInputIsInValid && styles.errorBorderColor
+                        }
+                      /> */}
 
-                        <Input
-                          onChangeText={leaveReasonChangeHandler}
-                          blur={leavereasonBlurHandler}
-                          onFocus={onLeavereasonFocusHandler}
-                          value={leaveReason}
+                    <SelectList 
+                            setSelected={(val) => setSelected(val)} 
+                            data={leaveTypeData} 
+                            save="value"
+                            boxStyles={[selectInputIsInValid && styles.errorSelectedColor,
+                              {marginHorizontal:15,marginVertical:10}]}
+                            dropdownTextStyles={{
+                              fontSize: 18,
+                              fontFamily: "HindRegular",
+                              marginHorizontal:15
+                            }}
+                            inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                        />
+                    </View>
+                    {/* {leavetypeInputIsInValid && (
+                      <Text style={styles.errorText}>Enter the type</Text>
+                    )} */}
+                    <View>
+                      <View
+                        style={
+                           !reasonLabel
+                            ? styles.normalRemarkExtra
+                            : [styles.upRemarkExtra, { top: 3 }]
+                        }
+                      >
+                        <Text
+                          style={[!isLeavereasonFocused ?
+                            btn ? styles.errorLabel : styles.normalLabel : styles.normalLabel ]}>
+                          Leave reason
+                        </Text>
+                      </View>
+
+                      {/* <View style={!reasonLabel ? styles.normalRemark : styles.upRemark}>
+                      <Text style={[leavereasonInputIsInValid ? styles.errorLabel : styles.normalLabel]}>Leave reason</Text>
+                    </View> */}
+
+                      <Input
+                        onChangeText={leaveReasonChangeHandler}
+                        blur={leavereasonBlurHandler}
+                        onFocus={onLeavereasonFocusHandler}
+                        value={leaveReason}
+                        onSubmitEditing={Keyboard.dismiss}
+                        style={
+                          isLeavereasonFocused
+                          ? styles.focusStyle
+                          : leavereasonInputIsInValid && styles.errorBorderColor
+                          
+                        }
+                      />
+                    </View>
+                    {leavereasonInputIsInValid && (
+                      <Text style={styles.errorText}>Enter leave reason</Text>
+                    )}
+
+                    <View style={[{ flexDirection: "row" }]}>
+                      <View style={{ flex: 1 }}>
+                        <View>
+                          <Ionicons
+                            style={{
+                              position: "absolute",
+                              top: 23,
+                            }}
+                            name="calendar"
+                            size={24}
+                            color="black"
+                            onPress={() => showFromMode("date")}
+                          />
+                        </View>
+                        <UnderlinedInput
+                          value={fromText}
+                          placeholder="Leave from"
                           onSubmitEditing={Keyboard.dismiss}
                           style={
-                            isLeavereasonFocused
+                            isFromFocused
                               ? styles.focusStyle
-                              : leavereasonInputIsInValid && styles.errorBorderColor
+                              : fromDateInputIsInValid && styles.errorBorderColorDate
                           }
+                          blur={fromDateBlurHandler}
+                          onFocus={onFromFocusHandler}
+                          onChangeText={frmDateHandler}
+                          onPressIn={() => showFromMode("date")}
                         />
-                      </View>
-                      {leavereasonInputIsInValid && (
-                        <Text style={styles.errorText}>Enter leave reason</Text>
-                      )}
 
-                      <View style={[{ flexDirection: "row" }]}>
-                        <View style={{ flex: 1 }}>
-                          <View>
-                            <Ionicons
-                              style={{
-                                position: "absolute",
-                                top: 23,
-                              }}
-                              name="calendar"
-                              size={24}
-                              color="black"
-                              onPress={() => showFromMode("date")}
-                            />
-                          </View>
-                          <UnderlinedInput
-                            value={fromText}
-                            placeholder="Leave from"
-                            onSubmitEditing={Keyboard.dismiss}
-                            style={
-                              isFromFocused
-                                ? styles.focusStyle
-                                : fromDateInputIsInValid && styles.errorBorderColorDate
-                            }
-                            blur={fromDateBlurHandler}
-                            onFocus={onFromFocusHandler}
-                            onChangeText={frmDateHandler}
-                            onPressIn={() => showFromMode("date")}
+                        {fromDateInputIsInValid && (
+                          <Text
+                            style={{
+                              color: "red",
+                              left: 20,
+                              fontFamily: "HindRegular",
+                              fontSize: 18,
+                            }}
+                          >
+                            select from date
+                          </Text>
+                        )}
+                        {fromShow && (
+                          <DateTimePicker
+                            testID="dateTimePicker"
+                            value={fromDate}
+                            mode={frommode}
+                            is24Hour={true}
+                            display="default"
+                            onChange={fromDateChangeHandler}
                           />
-
-                          {fromDateInputIsInValid && (
-                            <Text
-                              style={{
-                                color: "red",
-                                left: 20,
-                                fontFamily: "HindRegular",
-                                fontSize: 18,
-                              }}
-                            >
-                              select from date
-                            </Text>
-                          )}
-                          {fromShow && (
-                            <DateTimePicker
-                              testID="dateTimePicker"
-                              value={fromDate}
-                              mode={frommode}
-                              is24Hour={true}
-                              display="default"
-                              onChange={fromDateChangeHandler}
-                            />
-                          )}
-                        </View>
-                        <View style={styles.space} />
-                        <View style={{ flex: 1 }}>
-                          <View>
-                            <Ionicons
-                              style={{
-                                position: "absolute",
-                                top: 23,
-                              }}
-                              name="calendar"
-                              size={24}
-                              color="black"
-                              onPress={() => showToMode("date")}
-                            />
-                          </View>
-                          <UnderlinedInput
-                            value={toText}
-                            placeholder="Leave to:"
-                            onSubmitEditing={Keyboard.dismiss}
-                            style={
-                              isToFocused
-                                ? styles.focusStyle
-                                : toDateInputIsInValid && styles.errorBorderColorDate
-                            }
-                            blur={toDateBlurHandler}
-                            onFocus={onToFocusHandler}
-                            onChangeText={toDateHandler}
-                            onPressIn={() => showToMode("date")}
-                          />
-                          {toDateInputIsInValid && (
-                            <Text
-                              style={{
-                                color: "red",
-                                left: 20,
-                                fontFamily: "HindRegular",
-                                fontSize: 18,
-                              }}
-                            >
-                              select to date
-                            </Text>
-                          )}
-                          {toShow && (
-                            <DateTimePicker
-                              testID="dateTimePicker"
-                              value={toDate}
-                              mode={tomode}
-                              is24Hour={true}
-                              display="default"
-                              onChange={toDateChangeHandler}
-
-                              //  minimumDate={fromDate}
-                            />
-                          )}
-                        </View>
+                        )}
                       </View>
-                      {!isEdit && (
-                        <View style={styles.btnSubmit}>
-                          <Button onPress={buttonPressedHandler}>Add Leave</Button>
+                      <View style={styles.space} />
+                      <View style={{ flex: 1 }}>
+                        <View>
+                          <Ionicons
+                            style={{
+                              position: "absolute",
+                              top: 23,
+                            }}
+                            name="calendar"
+                            size={24}
+                            color="black"
+                            onPress={() => showToMode("date")}
+                          />
                         </View>
-                      )}
-                      {isEdit && (
-                        <View style={styles.btnSubmit1}>
-                          <Button onPress={updateHandler}>Update</Button>
-                        </View>
-                      )}
-                      {isEdit && (
-                        <View style={styles.cancel}>
-                          <Button onPress={cancelHandler}>Cancel</Button>
-                        </View>
-                      )}
-                    {/* </View> */}
-            </ScrollView>
-          </View>
-          {keyboardStatus == "Keyboard Hidden" &&
-          (<View style={{ flex: 0.2, backgroundColor: "white" }} >
-            <TeachersHome />
-          </View>)}
-          </View>
+                        <UnderlinedInput
+                          value={toText}
+                          placeholder="Leave to:"
+                          onSubmitEditing={Keyboard.dismiss}
+                          style={
+                            isToFocused
+                              ? styles.focusStyle
+                              : toDateInputIsInValid && styles.errorBorderColorDate
+                          }
+                          blur={toDateBlurHandler}
+                          onFocus={onToFocusHandler}
+                          onChangeText={toDateHandler}
+                          onPressIn={() => showToMode("date")}
+                        />
+                        {toDateInputIsInValid && (
+                          <Text
+                            style={{
+                              color: "red",
+                              left: 20,
+                              fontFamily: "HindRegular",
+                              fontSize: 18,
+                            }}
+                          >
+                            select to date
+                          </Text>
+                        )}
+                        {toShow && (
+                          <DateTimePicker
+                            testID="dateTimePicker"
+                            value={toDate}
+                            mode={tomode}
+                            is24Hour={true}
+                            display="default"
+                            onChange={toDateChangeHandler}
+
+                            //  minimumDate={fromDate}
+                          />
+                        )}
+                      </View>
+                    </View>
+                    {!isEdit && (
+                      <View style={styles.btnSubmit}>
+                        <Button onPress={buttonPressedHandler}>Add Leave</Button>
+                      </View>
+                    )}
+                    {isEdit && (
+                      <View style={styles.btnSubmit1}>
+                        <Button onPress={updateHandler}>Update</Button>
+                      </View>
+                    )}
+                    {isEdit && (
+                      <View style={styles.cancel}>
+                        <Button onPress={cancelHandler}>Cancel</Button>
+                      </View>
+                    )}
+                  {/* </View> */}
+          </ScrollView>
+        </View>
+        {keyboardStatus == "Keyboard Hidden" &&
+        (<View style={{ flex: 0.2, backgroundColor: "white" }} >
+          <TeachersHome />
+        </View>)}
+        </View>
       )}
 
     {showTeachersList &&
@@ -1568,7 +1602,7 @@ const styles = StyleSheet.create({
     flex: 0.2,
     alignItems:'center',
     backgroundColor:'white',
-    marginTop:65,
+    marginTop:55,
     justifyContent:'center'
   },
   headingStyle:{
@@ -1702,7 +1736,9 @@ const styles = StyleSheet.create({
     fontSize: deviceWidth < 370 ? 13 : 15,
     fontFamily: "HindRegular",
   },
-
+  errorSelectedColor: {
+    borderColor: "red",
+  },
   normalRemark: {
     position: "absolute",
     top: deviceWidth < 370 ? 20 : 25,
