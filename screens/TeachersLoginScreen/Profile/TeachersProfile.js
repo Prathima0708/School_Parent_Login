@@ -1,6 +1,6 @@
 import { Feather, Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import {
@@ -34,20 +34,23 @@ const TeachersProfile = () => {
   const [showForm, setShowForm] = useState(false);
   const [showList, setShowList] = useState(true);
 
-  const [data,setData]=useState([]);
+  const [data, setData] = useState([]);
 
-  const navigation = useNavigation();
+  const route = useRoute();
+  console.log(route.params.studentid);
 
-
-   //console.log("id -", ID);
-   useEffect(() => {
+  //console.log("id -", ID);
+  useEffect(() => {
     async function displayStudInfo() {
       try {
-        const res = await axios.get(`${subURL}/Student/${STD_ID}`);
-      //  console.log(res.data);
+        const res = await axios.get(
+          `${subURL}/Student/${route.params.studentid}`
+        );
+        //  console.log(res.data);
 
-        setData(res.data);
-        console.log(res.data)
+        setData(res.data[0]);
+        console.log(res.data);
+        console.log(res.data[0].student_name);
       } catch (error) {
         console.log(error);
       }
@@ -75,14 +78,14 @@ const TeachersProfile = () => {
                 alignSelf="center"
                 size="xl"
                 top="15%"
-                source={{ uri: "https://www.w3schools.com/css/img_lights.jpg" }}
+                source={{ uri: `http://10.0.2.2:8000${data.student_photo}` }}
               ></NativeAvatar>
             </View>
             <View style={{ flex: 1, backgroundColor: "#00008b" }}>
               <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
                 <View style={{ flex: 1, alignItems: "center" }}>
                   <NativeText fontSize="16" style={{ color: "white" }}>
-                    {data.student_name}1
+                    {data.student_name}
                   </NativeText>
                 </View>
               </View>
@@ -101,7 +104,7 @@ const TeachersProfile = () => {
                 <NativeText fontWeight="bold">Father Name:</NativeText>
               </View>
               <View style={{ flex: 1.6 }}>
-                <NativeText>ABC</NativeText>
+                <NativeText>{data.father_name}</NativeText>
               </View>
             </View>
           </View>
@@ -111,7 +114,7 @@ const TeachersProfile = () => {
                 <NativeText fontWeight="bold">Mother Name:</NativeText>
               </View>
               <View style={{ flex: 1.6 }}>
-                <NativeText>XYZ</NativeText>
+                <NativeText>{data.mother_name}</NativeText>
               </View>
             </View>
           </View>
@@ -121,7 +124,7 @@ const TeachersProfile = () => {
                 <NativeText fontWeight="bold">Date of birth:</NativeText>
               </View>
               <View style={{ flex: 1.6 }}>
-                <NativeText>20/10/1999</NativeText>
+                <NativeText>{data.Dob}</NativeText>
               </View>
             </View>
           </View>
@@ -130,10 +133,10 @@ const TeachersProfile = () => {
               style={[{ flex: 1 }, { flexDirection: "row", bottom: "12%" }]}
             >
               <View style={{ flex: 1 }}>
-                <NativeText fontWeight="bold">Admission Year:</NativeText>
+                <NativeText fontWeight="bold">Date of Admission:</NativeText>
               </View>
               <View style={{ flex: 1.6 }}>
-                <NativeText>10/10/2005</NativeText>
+                <NativeText>{data.date_of_admission}</NativeText>
               </View>
             </View>
           </View>
@@ -189,10 +192,10 @@ const TeachersProfile = () => {
               >
                 <View style={{ flex: 1 }}></View>
                 <View style={{ flex: 1 }}>
-                  <NativeText>8917272712</NativeText>
+                  <NativeText>{data.contact_num}</NativeText>
                 </View>
                 <View style={{ flex: 1 }}>
-                  <NativeText>user@gmail.com</NativeText>
+                  <NativeText>{data.email_address}</NativeText>
                 </View>
               </View>
             </View>
@@ -233,7 +236,7 @@ const TeachersProfile = () => {
                   <NativeText fontWeight="bold">Address</NativeText>
                 </View>
                 <View style={{ flex: 2 }}>
-                  <NativeText>127,Mountain View</NativeText>
+                  <NativeText>{data.student_address}</NativeText>
                 </View>
               </View>
             </View>
