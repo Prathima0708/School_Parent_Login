@@ -52,7 +52,7 @@ export var BADGE;
 var USERNAME, value, TOKEN, USERROLE, USERID;
 var regNumber = [];
 var CLASSNAME, SECTION;
-const TeachersLeave = () => {
+const TeachersLeaveUpdated = () => {
   const [user, setUser] = useState("");
   const [userRole, setUserRole] = useState("");
   const [userID, setUserID] = useState("");
@@ -185,29 +185,31 @@ const TeachersLeave = () => {
     ]);
   }, []);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/LeaveByUsername/${Teacher}/`
-        );
-        //console.log(res.data);
+  //   useEffect(() => {
+  //     async function fetchData() {
+  //       try {
+  //         const res = await axios.get(
+  //           `http://10.0.2.2:8000/school/LeaveByUsername/${Teacher}/`
+  //         );
+  //         //console.log(res.data);
 
-        setLeaveByUsername(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData();
-  }, []);
+  //         setLeaveByUsername(res.data);
+  //       } catch (error) {
+  //         console.log(error);
+  //       }
+  //     }
+  //     fetchData();
+  //   }, []);
 
   // console.log("reg numbers"+StudentRegNo)
 
   useEffect(() => {
+    console.log(userID);
     async function fetchStudentClass() {
       axios
-        .get(`http://10.0.2.2:8000/school/IsClassteacher/${UserId}/`)
+        .get(`http://10.0.2.2:8000/school/IsClassteacher/${userID}/`)
         .then((response) => {
+          console.log(response.data);
           let newArray = response.data.map((item) => {
             return {
               value: item.class_name + " - " + item.section,
@@ -223,7 +225,7 @@ const TeachersLeave = () => {
     fetchStudentClass();
   }, []);
 
-  //console.log(classTeacherData)
+  console.log(classTeacherData);
 
   // classTeacherData &&
   //   classTeacherData.map((data,key)=>(
@@ -310,9 +312,9 @@ const TeachersLeave = () => {
   async function fetchUser() {
     USERNAME = await AsyncStorage.getItem("UserName");
     USERROLE = await AsyncStorage.getItem("datagroup");
-    USERID = await AsyncStorage.getItem("userID");
+    USERID = await AsyncStorage.getItem("key");
     // console.log("this is the username from aysnc", USERNAME);
-    // console.log("this is the username from aysnc", USERROLE);
+
     if (USERNAME !== null) {
       setUser(USERNAME);
     }
@@ -520,19 +522,12 @@ const TeachersLeave = () => {
     }, 5000);
     setBtn(true);
 
-    // let i, storeRole, storeName;
-    // for (i = 0; i < leaveByUsername.length; i++) {
-    //   storeRole = leaveByUsername[i].user_role;
-    //   storeName = leaveByUsername[i].username;
-    // }
-    // console.log("fom user role" + storeRole);
-
     const FormData = {
       student_reg_number: 0,
 
-      user_num: userID, //should be fetched when user logins
-      user_role: userRole, //should be fetched when user logins
-      username: user, //should be fetched when user logins
+      user_num: userID,
+      user_role: userRole,
+      username: user,
       email: "priya123@gmail.com",
       leave_type: selected,
       leave_form: FROMDATE,
@@ -541,51 +536,41 @@ const TeachersLeave = () => {
       leave_status: "Pending",
     };
 
-    console.log(FormData);
-
-    Alert.alert("Saved Data", "Saved Data successfully", [
-      {
-        text: "OK",
-        onPress: () => {
-          setShowForm(false);
-          setShowTeachersList(true);
-        },
-      },
-    ]);
-
     setEnteredLeaveTypeTouched(true);
     setEnteredLeaveReasonTouched(true);
     setEnteredFromDateTouched(true);
     setEnteredtoDateTouched(true);
     setEnteredSelectedTouched(true);
 
-    if (!enteredLeaveTypeIsValid) {
-      return;
-    }
-    if (!enteredLeaveReasonIsValid) {
-      return;
-    }
-    if (!enteredFromDateIsValid) {
-      return;
-    }
-    if (!enteredtoDateIsValid) {
-      return;
-    }
-    if (!enteredSelcetdIsValid) {
-      return;
-    }
+    // if (!enteredLeaveTypeIsValid) {
+    //   return;
+    // }
+    // if (!enteredLeaveReasonIsValid) {
+    //   return;
+    // }
+    // if (!enteredFromDateIsValid) {
+    //   return;
+    // }
+    // if (!enteredtoDateIsValid) {
+    //   return;
+    // }
+    // if (!enteredSelcetdIsValid) {
+    //   return;
+    // }
 
     async function storeData() {
       console.log("post req to /leave");
+      console.log(FormData);
+      console.log(token);
       try {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
           Authorization: "Token " + `${token}`,
         };
-        const dataForm = FormData;
+
         const resLogin = await axios.post(
           `http://10.0.2.2:8000/school/Leave/`,
-          dataForm,
+          FormData,
           {
             headers: headers,
           }
@@ -597,6 +582,14 @@ const TeachersLeave = () => {
       }
     }
     storeData();
+    Alert.alert("Saved Data", "Saved Data successfully", [
+      {
+        text: "OK",
+        onPress: () => {
+          myLeaveList();
+        },
+      },
+    ]);
 
     setEnteredLeaveType("");
     setEnteredLeaveReason("");
@@ -617,7 +610,6 @@ const TeachersLeave = () => {
       backgroundColor: "#1E8449",
       borderRadius: 10,
     });
-    //}
   }
 
   function leavereasonBlurHandler() {
@@ -751,25 +743,7 @@ const TeachersLeave = () => {
     }
     updateData();
 
-    async function getData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-          Authorization: "Token " + `${token}`,
-        };
-        const resLogin = await axios.get(
-          `http://10.0.2.2:8000/school/Leave/`,
-
-          {
-            headers: headers,
-          }
-        );
-        setFilteredData(resLogin.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    getData();
+    classsectionSelectHandler();
   }
 
   function denyHanlder(id) {
@@ -778,13 +752,7 @@ const TeachersLeave = () => {
 
     ID = id;
 
-    const fetchedData = data.find((data) => data.id == id);
-
     const FormData = {
-      // leave_form: fetchedData.leave_form,
-      // leave_to: fetchedData.leave_to,
-      // leave_type: fetchedData.leave_type,
-      // leave_reason: fetchedData.leave_reason,
       leave_status: "deny",
     };
     async function updateData() {
@@ -810,27 +778,7 @@ const TeachersLeave = () => {
     }
     updateData();
 
-    console.log(FormData);
-
-    async function getData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-          Authorization: "Token " + `${token}`,
-        };
-        const resLogin = await axios.get(
-          `http://10.0.2.2:8000/school/Leave/`,
-
-          {
-            headers: headers,
-          }
-        );
-        setFilteredData(resLogin.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    getData();
+    classsectionSelectHandler();
   }
 
   const searchFilter = (text) => {
@@ -907,7 +855,23 @@ const TeachersLeave = () => {
       setLoading(false);
     }, 5000);
     setBtn(true);
-    showLeave();
+    async function fetchStudentClass() {
+      axios
+        .get(`http://10.0.2.2:8000/school/IsClassteacher/${userID}/`)
+        .then((response) => {
+          let newArray = response.data.map((item) => {
+            return {
+              value: item.class_name + " - " + item.section,
+            };
+          });
+
+          setClassTeacherData(newArray);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    fetchStudentClass();
   }
 
   function backHandler() {
@@ -936,12 +900,12 @@ const TeachersLeave = () => {
   function selecteHandler() {}
 
   function classsectionSelectHandler() {
-    // console.log("selected");
+    console.log("selected");
     console.log(selectedClassSection);
-    console.log(selectedClassSection.split(" - "));
+    // console.log(selectedClassSection.split(" - "));
 
     let send = selectedClassSection.split(" - ");
-    console.log(send[0]);
+    // console.log(send[0]);
     async function fetchData() {
       try {
         const res = await axios.get(
@@ -952,6 +916,9 @@ const TeachersLeave = () => {
         console.log(res.data);
 
         setLeaveByClassSection(res.data);
+        if (res.data.length == 0) {
+          Alert.alert("No data found");
+        }
       } catch (error) {
         console.log(error);
       }
@@ -1043,9 +1010,7 @@ const TeachersLeave = () => {
           <View style={[{ flex: 0.2 }, { flexDirection: "row", top: "20%" }]}>
             <BackButton onPress={backHandler} />
           </View>
-          {/* <View style={{ flex: 0.1, backgroundColor: "white",paddingVertical:15,top:'10%' }} >
-         
-        </View> */}
+
           <View
             style={[
               styles.headingStyleNew,
@@ -1145,28 +1110,8 @@ const TeachersLeave = () => {
                   inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
                 />
               </View>
-              {/* {leavetypeInputIsInValid && (
-                      <Text style={styles.errorText}>Enter the type</Text>
-                    )} */}
+
               <View>
-                {/* <View
-                        style={
-                           !reasonLabel
-                            ? styles.normalRemarkExtra
-                            : [styles.upRemarkExtra, { top: 3 }]
-                        }
-                      >
-                        <Text
-                          style={[!isLeavereasonFocused ?
-                            btn ? styles.errorLabel : styles.normalLabel : styles.normalLabel ]}>
-                          Leave reason
-                        </Text>
-                      </View> */}
-
-                {/* <View style={!reasonLabel ? styles.normalRemark : styles.upRemark}>
-                      <Text style={[leavereasonInputIsInValid ? styles.errorLabel : styles.normalLabel]}>Leave reason</Text>
-                    </View> */}
-
                 <Input
                   onChangeText={leaveReasonChangeHandler}
                   blur={leavereasonBlurHandler}
@@ -1486,11 +1431,11 @@ const TeachersLeave = () => {
                                 >
                                   <View style={{ flex: 0.3 }}>
                                     {/* <Ionicons
-                                          name="calendar"
-                                          size={25}
-                                          color="#D4AC0D"
-                                          style={{  }}
-                                        /> */}
+                                            name="calendar"
+                                            size={25}
+                                            color="#D4AC0D"
+                                            style={{  }}
+                                          /> */}
                                   </View>
                                   <View
                                     style={{
@@ -1830,14 +1775,7 @@ const TeachersLeave = () => {
                                     },
                                   ]}
                                 >
-                                  <View style={{ flex: 0.3 }}>
-                                    {/* <Ionicons
-                                          name="calendar"
-                                          size={25}
-                                          color="#D4AC0D"
-                                          style={{  }}
-                                        /> */}
-                                  </View>
+                                  <View style={{ flex: 0.3 }}></View>
                                   <View
                                     style={{
                                       flex: 1,
@@ -2008,52 +1946,6 @@ const TeachersLeave = () => {
                                   </View>
                                 </View>
                               </View>
-                              {/* <View style={[{flex:0.5}, {
-                                  
-                                  flexDirection: "column"
-                                }]}>
-                                  <View style={{ flex: 0.3,  }}>
-                                    <View style={[{flex:1}, {
-                                      
-                                      flexDirection: "row"
-                                    }]}>
-                                      <View style={{ flex: 1,  }} >
-                                      <IconButton
-                                        colorScheme="blue"
-                                        onPress={() => approveHandler(data.id)}
-                                        variant="subtle"
-                                        _icon={{
-                                          as: Ionicons,
-                                          name: "md-checkmark-sharp",
-                                        }}
-                                      />
-                                      </View>
-                                      <View style={styles.space}/>
-                                      <View style={{ flex: 1, }} >
-                                      <IconButton
-                                        colorScheme="blue"
-                                        onPress={() => denyHanlder(data.id)}
-                                        variant="subtle"
-                                        _icon={{
-                                          as: Ionicons,
-                                          name: "close",
-                                        }}
-                                      />
-                                      </View>
-                                    </View>
-
-                                  </View>
-                                  <View style={styles.space}/>
-                                  <View style={{ flex: 1 }}>
-                                    {data.leave_status=='approved' ? 
-                                      <Badge colorScheme="success">{data.leave_status}</Badge>:
-                                      data.leave_status=='Pending' ?
-
-                                      <Badge colorScheme="warning">{data.leave_status}</Badge> :
-                                      <Badge colorScheme="danger">{data.leave_status}</Badge>}
-                                      
-                                  </View>
-                                </View> */}
                             </View>
                           </Card.Content>
                         </Card>
@@ -2075,7 +1967,7 @@ const TeachersLeave = () => {
   );
 };
 
-export default TeachersLeave;
+export default TeachersLeaveUpdated;
 const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 

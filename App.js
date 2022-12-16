@@ -56,6 +56,7 @@ import MyClasses from "./screens/TeachersLoginScreen/Profile/MyClasses/MyClasses
 import StudentList from "./screens/TeachersLoginScreen/Profile/MyClasses/StudentList";
 import ExamTimeTableSubjects from "./screens/TeachersLoginScreen/TimeTable/ExamTimeTableSubjects";
 import TeachersLeave from "./screens/TeachersLoginScreen/Leave/TeachersLeave";
+import TeachersLeaveUpdated from "./screens/TeachersLoginScreen/Leave/TeachersLeaveUpdated";
 var value, Group, GroupP, GroupT;
 // function Bottom() {
 //   return (
@@ -191,9 +192,14 @@ export default function App() {
           options={{ title: "Marksheet" }}
         />
         {/* <Stack.Screen name="TeachersLeave" component={TeachersLeave} /> */}
-        <Stack.Screen
+        {/* <Stack.Screen
           name="TeachersLeave"
           component={TeachersLeave}
+          options={{ title: "Leave" }}
+        /> */}
+        <Stack.Screen
+          name="TeachersLeave"
+          component={TeachersLeaveUpdated}
           options={{ title: "Leave" }}
         />
         <Stack.Screen
@@ -459,9 +465,14 @@ export default function App() {
           options={{ title: "Marksheet" }}
         />
         {/* <Stack.Screen name="TeachersLeave" component={TeachersLeave} /> */}
-        <Stack.Screen
+        {/* <Stack.Screen
           name="TeachersLeave"
           component={TeachersLeave}
+          options={{ title: "Leave" }}
+        /> */}
+        <Stack.Screen
+          name="TeachersLeave"
+          component={TeachersLeaveUpdated}
           options={{ title: "Leave" }}
         />
         <Stack.Screen
