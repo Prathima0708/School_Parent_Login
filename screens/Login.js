@@ -884,6 +884,13 @@ function Login() {
         }
 
         try {
+          await AsyncStorage.setItem("userID", UserId);
+          // await AsyncStorage.setItem("datagroupParent", resLogin.data.groups[1]);
+        } catch (error) {
+          // Error saving data
+        }
+
+        try {
           await AsyncStorage.setItem("datagroup", resLogin.data.groups[0]);
           // await AsyncStorage.setItem("datagroupParent", resLogin.data.groups[1]);
         } catch (error) {

@@ -22,26 +22,32 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../../components/UI/Button";
 import axios from "axios";
-import { Token, UserId } from "../../Login";
+import { TEST, Token } from "../../Login";
 import BgButton from "../../../components/UI/BgButton";
-
+import { Section,className } from "../../../components/StudentItem/StudentItem";
 import { Ionicons } from "@expo/vector-icons";
 import TeachersHome from "../BottomTab/TeachersHome";
 import Input from "../../../components/UI/Input";
-
+import { Teacher,UserId } from "../../Login";
 import { Card, DataTable } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import BackButton from "../../../components/UI/BackButton";
 import { subURL } from "../../../components/utils/URL's";
+import { MYCLASS, MYSECTION } from "../Profile/MyClasses/DisplayClass";
 export var ID;
 export var FROMDATE, TODATE;
 export var BADGE;
-var USERNAME, value,TOKEN;
+var USERNAME, value,TOKEN,USERROLE,USERID;
+var regNumber=[];
+var CLASSNAME,SECTION;
 const TeachersLeave = () => {
 
   const [user, setUser] = useState("");
+  const [userRole, setUserRole] = useState("");
+  const [userID, setUserID] = useState("");
+
   const [loading, setLoading] = useState(false);
 
   const scrollY = new Animated.Value(0);
@@ -62,6 +68,8 @@ const TeachersLeave = () => {
     outputRange: [headermax, headermin],
     extrapolate: "clamp",
   });
+
+  const [selectedClassSection,setSelectedClassSection]=useState('')
 
   const [selected,setSelected]=useState('')
   const [enteredSelectedTouched, setEnteredSelectedTouched] = useState(false);
@@ -153,13 +161,14 @@ const TeachersLeave = () => {
   const [approvePressed,setApprovePressed]=useState(false);
   const [denyPressed,setDenyPressed]=useState(false);
 
-  const [leaveStatusData,setLeaveStatusData]=useState([]);
-
-  const [showBadge,setShowBadge]=useState(false);
   const [token, setToken] = useState("");
 
   const [leaveByUsername,setLeaveByUsername]=useState([])
-  
+
+  const [leaveByClassSection,setLeaveByClassSection]=useState([]);
+
+  const [classTeacherData,setClassTeacherData]=useState([])
+
   let i = 0;
 
   useEffect(() => {
@@ -168,19 +177,63 @@ const TeachersLeave = () => {
     ]);
   }, []);
 
-  // useEffect(()=>{
-  //   async function fetchData() {
-  //     try {
-  //       const res = await axios.get(`${subURL}/LeaveByUsername/${USERNAME}/`);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await axios.get(
+          `http://10.0.2.2:8000/school/LeaveByUsername/${Teacher}/`
+        );
+         //console.log(res.data);
+        
+        setLeaveByUsername(res.data);
 
-  //       setLeaveByUsername(res.data)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, []);
 
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  //   fetchData();
-  // },[])
+ // console.log("reg numbers"+StudentRegNo)
+
+
+useEffect(() => {
+  async function fetchStudentClass() {
+    axios
+      .get(`http://10.0.2.2:8000/school/IsClassteacher/${UserId}/`)
+      .then((response) => {
+        let newArray = response.data.map((item) => {
+          return {
+            value: item.class_name + " - " + item.section,
+          };
+        });
+
+        setClassTeacherData(newArray);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+  fetchStudentClass();
+}, []);
+
+//console.log(classTeacherData)
+
+// classTeacherData &&
+//   classTeacherData.map((data,key)=>(
+//     // CLASSNAME=data.class_name,
+//     // SECTION=data.section
+//     newArray.push({
+//       'CLASSNAME': data.class_name,
+//       'SECTION': data.section
+//     })
+//   )) 
+
+  // newArray - dropdown
+  // selected clas and sec sen in LeaveCS API
+
+ 
+
 
   useLayoutEffect(() => {
     if(showForm){
@@ -258,9 +311,14 @@ const TeachersLeave = () => {
 
   async function fetchUser() {
     USERNAME = await AsyncStorage.getItem("UserName");
+    USERROLE = await AsyncStorage.getItem("datagroup");
+    USERID = await AsyncStorage.getItem("userID");
     console.log("this is the username from aysnc", USERNAME);
+    console.log("this is the username from aysnc", USERROLE);
     if (USERNAME !== null) {
       setUser(USERNAME);
+      setUserRole(USERROLE)
+      setUserID(USERID)
     }
   }
   fetchUser();
@@ -460,12 +518,22 @@ const TeachersLeave = () => {
     }, 5000);
     setBtn(true);
 
-    console.log(UserId);
+    let i,storeRole,storeName;
+    for(i=0;i<leaveByUsername.length;i++){
+      storeRole=leaveByUsername[i].user_role;
+      storeName=leaveByUsername[i].username;
+    }
+    console.log("fom user role"+storeRole);
     const FormData = {
       student_reg_number: 0,
-      user_num: 0,//should be fetched when user logins
-      user_role: "student", //should be fetched when user logins
-      username: "prathima",//should be fetched when user logins
+      // user_num: 0,//should be fetched when user logins
+      // user_role: "student", //should be fetched when user logins
+      // username: "prathima",//should be fetched when user logins
+      // email: "priya123@gmail.com",
+
+      user_num: userID,//should be fetched when user logins
+      user_role: userRole, //should be fetched when user logins
+      username: user,//should be fetched when user logins
       email: "priya123@gmail.com",
       leave_type: selected,
       leave_form: FROMDATE,
@@ -528,10 +596,10 @@ const TeachersLeave = () => {
     // }
    setEnteredLeaveTypeTouched(true);
     setEnteredLeaveReasonTouched(true);
-    setEnteredSelectedTouched(true);
     setEnteredFromDateTouched(true);
     setEnteredtoDateTouched(true);
-
+    setEnteredSelectedTouched(true)
+   // setEnteredSubjectTouched(true);
     if (!enteredLeaveTypeIsValid) {
       return;
     }
@@ -542,6 +610,9 @@ const TeachersLeave = () => {
       return;
     }
     if (!enteredtoDateIsValid) {
+      return;
+    }
+    if (!enteredSelcetdIsValid) {
       return;
     }
 
@@ -573,6 +644,7 @@ const TeachersLeave = () => {
     setEnteredLeaveReason("");
     setFromText("");
     setToText("");
+    setEnteredSelectedTouched(false);
    setEnteredLeaveTypeTouched(false);
     setEnteredLeaveReasonTouched(false);
     setEnteredFromDateTouched(false);
@@ -589,7 +661,7 @@ const TeachersLeave = () => {
     });
     //}
   }
- 
+
 
   function leavereasonBlurHandler() {
     setEnteredLeaveReasonTouched(true);
@@ -666,31 +738,47 @@ const TeachersLeave = () => {
     // setTimeout(() => {
     //   setLoading(false);
     // }, 3000);
+
     async function fetchData() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
-        //console.log(res.data);
-
-        setData(res.data);
-        setFilteredData(res.data);
-
-        setForLeaveForm({
-          color: "white",
-          backgroundColor: "#1E8449",
-          borderRadius: 10,
-        });
-        setForLeaveList({
-          backgroundColor: "#F4F6F6",
-          color: "black",
-          borderRadius: 10,
-        });
-        setShowForm(false);
-        setShowList(true);
+        const res = await axios.get(
+          `http://10.0.2.2:8000/school/LeaveByUsername/${Teacher}/`
+        );
+         //console.log(res.data);
+        
+        setLeaveByUsername(res.data);
+        
       } catch (error) {
         console.log(error);
       }
     }
     fetchData();
+
+    // async function fetchData() {
+    //   try {
+    //     const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
+    //     //console.log(res.data);
+
+    //     setData(res.data);
+    //     setFilteredData(res.data);
+
+    //     setForLeaveForm({
+    //       color: "white",
+    //       backgroundColor: "#1E8449",
+    //       borderRadius: 10,
+    //     });
+    //     setForLeaveList({
+    //       backgroundColor: "#F4F6F6",
+    //       color: "black",
+    //       borderRadius: 10,
+    //     });
+    //     setShowForm(false);
+    //     setShowList(true);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
+    // fetchData();
   }
   function approveHandler(id) {
     console.log("pressed")
@@ -910,6 +998,31 @@ const TeachersLeave = () => {
  
   }
 
+  function classsectionSelectHandler(){
+    console.log("selected")
+    console.log(selectedClassSection)
+    console.log(selectedClassSection.split(' - '))
+
+    let send=selectedClassSection.split(' - ')
+    console.log(send[0])
+    async function fetchData() {
+      try {
+        const res = await axios.get(
+          `http://10.0.2.2:8000/school/LeaveCS/${send[0]}/${send[1]}/`
+        );
+
+        console.log("leave by class section")
+       console.log(res.data);
+        
+        setLeaveByClassSection(res.data);
+
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+
+  }
   console.log(selected)
   return (
     <>
@@ -986,10 +1099,10 @@ const TeachersLeave = () => {
         {/* <View style={{ flex: 0.1, backgroundColor: "white",paddingVertical:15,top:'10%' }} >
          
         </View> */}
-         <View style={styles.headingStyleNew} >
+         <View style={[styles.headingStyleNew,keyboardStatus=='Keyboard Shown' && {top:'5%'}]} >
             <NativeText bold style={{fontSize:20}}>Leave Form</NativeText>
           </View>
-        <View style={[styles.inputForm]} >
+        <View style={[styles.inputForm,keyboardStatus=='Keyboard Shown' && {top:'5%'}]} >
           <ScrollView>
           <View style={[{flex:1}, {
             flexDirection: "column",paddingVertical:10
@@ -1024,41 +1137,14 @@ const TeachersLeave = () => {
                     style={[styles.labelStyle,{borderWidth:1,paddingLeft:7}]}
                     editable={false} 
                     selectTextOnFocus={false} 
-                    value='user role'/>
+                    value={userRole}/>
                 </View>
               </View>
             </View>
           </View>
-                  {/* <View style={styles.inputForm}> */}
+                
                     <View>
-                      {/* <View style={!typeLabel ? styles.normal : styles.up}>
-                        <Text
-                          onPress={onLeavetypeFocusHandler}
-                          style={[
-                            btn
-                              ? styles.normalLabel
-                              : leavetypeInputIsInValid
-                              ? styles.errorLabel
-                              : styles.normalLabel,
-                          ]}
-                        >
-                          Leave type
-                        </Text>
-                      </View> */}
-                      {/* <Input
-                        // placeholder="leave type"
-                        onChangeText={leaveTypeChangeHandler}
-                        blur={leavetypeBlurHandler}
-                        onFocus={onLeavetypeFocusHandler}
-                        value={leaveType}
-                        onSubmitEditing={Keyboard.dismiss}
-                        style={
-                          isLeavetypeFocused
-                            ? styles.focusStyle
-                            : leavetypeInputIsInValid && styles.errorBorderColor
-                        }
-                      /> */}
-
+                     
                     <SelectList 
                             setSelected={(val) => setSelected(val)} 
                             data={leaveTypeData} 
@@ -1077,7 +1163,7 @@ const TeachersLeave = () => {
                       <Text style={styles.errorText}>Enter the type</Text>
                     )} */}
                     <View>
-                      <View
+                      {/* <View
                         style={
                            !reasonLabel
                             ? styles.normalRemarkExtra
@@ -1089,7 +1175,7 @@ const TeachersLeave = () => {
                             btn ? styles.errorLabel : styles.normalLabel : styles.normalLabel ]}>
                           Leave reason
                         </Text>
-                      </View>
+                      </View> */}
 
                       {/* <View style={!reasonLabel ? styles.normalRemark : styles.upRemark}>
                       <Text style={[leavereasonInputIsInValid ? styles.errorLabel : styles.normalLabel]}>Leave reason</Text>
@@ -1099,6 +1185,7 @@ const TeachersLeave = () => {
                         onChangeText={leaveReasonChangeHandler}
                         blur={leavereasonBlurHandler}
                         onFocus={onLeavereasonFocusHandler}
+                        placeholder='Leave reason'
                         value={leaveReason}
                         onSubmitEditing={Keyboard.dismiss}
                         style={
@@ -1244,24 +1331,18 @@ const TeachersLeave = () => {
         </View>
       )}
 
-    {showTeachersList &&
-      <View style={[{flex:1}, {flexDirection: "column"}]}>
-
-        <View style={{ flex: 2, backgroundColor: "white" }} >
-          <View style={[{flex:0.2}, {flexDirection: "row",top:'20%'}]}>
-            <BackButton onPress={teacherLeaveBackHandler}/>
+    {showTeachersList && 
+      <View style={[{flex:1}, {
+        flexDirection: "column",backgroundColor:'white'
+      }]}>
+        <View style={{ flex: 0.2,top:'10%' }} >
+          <BackButton onPress={teacherLeaveBackHandler}/>
+        </View>
+        <View style={styles.headingStyle} >
+            <NativeText bold style={{fontSize:20}}>Teachers Leave</NativeText>
           </View>
-          <View style={styles.headingStyle} >
-            <NativeText bold style={{fontSize:20,left:'5%',top:'5%'}}>Teachers Leave</NativeText>
-          </View>
-          {/* <Ionicons
-          name="chevron-back"
-          size={25}
-          color="black"
-          onPress={teacherLeaveBackHandler}
-          style={{ left: 15,top:'13%' }}/>
-          <NativeText bold fontSize={16} style={{top:'9.1%',left:'12%'}}>Back</NativeText> */}
-          <SearchBar
+        <View style={{ flex: 1,backgroundColor:'white' }} >
+        <SearchBar
               onSubmitEditing={Keyboard.dismiss}
               style={styles.searchBar}
               textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
@@ -1284,18 +1365,171 @@ const TeachersLeave = () => {
                       textStyle={styles.spinnerTextStyle}
                     />
                   ) : (
-                    <View>
-                      <Text>Teachers List goes here...</Text>
-                    </View>
+                    leaveByUsername.map((data) => (
+                      <>
+                        <View>
+                          <Card
+                            style={{
+                              marginVertical: 15,
+                              marginHorizontal: 20,
+                              elevation: 5,
+                              borderRadius: 10,
+                              paddingBottom: 20,
+                            }}
+                          >
+                            <Card.Content>
+                              <View style={[{flex:1}, {
+                                flexDirection: "row"
+                              }]}>
+                                <View style={{ flex: 1 }} >
+                                  <View style={[{flex:1}, {
+                                    flexDirection: "row"
+                                  }]}>
+                                    <View style={{ flex: 0.3 }} >
+                                      <Ionicons
+                                        name="calendar"
+                                        size={25}
+                                        color="#D4AC0D"
+                                        style={{  }}
+                                      />
+                                    </View>
+                                    <View style={{ flex: 1,alignItems:'flex-start',left:'1%' }} >
+                                      <Text style={styles.cardTextStyle}>Leave from</Text>
+                                    </View>
+                                  </View>
+                                </View>
+                                <View style={{ flex: 1 }} >
+                                  <View style={[{flex:1}, {
+                                      flexDirection: "row"
+                                    }]}>
+                                      <View style={{ flex: 0.3 }} >
+                                        <Ionicons
+                                          name="calendar"
+                                          size={25}
+                                          color="#D4AC0D"
+                                          style={{  }}
+                                        />
+                                      </View>
+                                      <View style={{ flex: 1,alignItems:'flex-start',left:'1%' }} >
+                                        <Text style={styles.cardTextStyle}>Leave to</Text>
+                                      </View>
+                                    </View>
+                                  </View>
+                              </View>
+
+                              <View style={[{flex:1}, {
+                                flexDirection: "row"
+                              }]}>
+                                <View style={{ flex: 1 }} >
+                                  <View style={[{flex:1}, {
+                                    flexDirection: "row"
+                                  }]}>
+                                    <View style={{ flex: 0.3 }} >
+
+                                    </View>
+                                    <View style={{ flex: 1,alignItems:'flex-start',left:'1%' }} >
+                                      <Text style={styles.textStyle}>{moment(data.leave_form).format(
+                                      "DD/MM/YYYY")}</Text>
+                                    </View>
+                                  </View>
+                                </View>
+                                <View style={{ flex: 1 }} >
+                                  <View style={[{flex:1}, {
+                                      flexDirection: "row"
+                                    }]}>
+                                      <View style={{ flex: 0.3 }} >
+                                        {/* <Ionicons
+                                          name="calendar"
+                                          size={25}
+                                          color="#D4AC0D"
+                                          style={{  }}
+                                        /> */}
+                                      </View>
+                                      <View style={{ flex: 1,alignItems:'flex-start',left:'1%' }} >
+                                        <Text style={styles.textStyle}>{moment(data.leave_to).format("DD/MM/YYYY")}</Text>
+                                      </View>
+                                    </View>
+                                  </View>
+                              </View>
+
+                              <View style={[{flex:1,top:'3%'}, {
+                                flexDirection: "row"
+                              }]}>
+                                <View style={{ flex: 1 }}>
+                                  <View style={[{flex:1}, {
+                                    
+                                    flexDirection: "column"
+                                  }]}>
+                                    <View style={{ flex: 1 }} >
+                                      <View style={[{flex:1}, {
+                                        
+                                        flexDirection: "row"
+                                      }]}>
+                                        <View style={{ flex:0.5 }} >
+                                          <Text style={styles.cardTextStyle}>Leave reason:</Text>
+                                        </View>
+                                        <View style={{ flex: 1 }} >
+                                          <Text style={styles.textStyle}>{data.leave_reason}</Text>
+                                        </View>
+                                      </View>
+                                    </View>
+                                    <View style={{ flex: 1 }} >
+                                      <View style={[{flex:1}, {
+                                          
+                                          flexDirection: "row"
+                                        }]}>
+                                          <View style={{ flex: 0.4 }} >
+                                            <Text style={styles.cardTextStyle}>Leave type:</Text>
+                                          </View>
+                                          <View style={{ flex: 1 }} >
+                                            <Text style={styles.textStyle}>{data.leave_type}</Text>
+                                          </View>
+                                        </View>
+                                      </View>
+                                  </View>
+
+
+                                  <View style={[{flex:1,top:'4%'}, {
+                                    
+                                    flexDirection: "row"
+                                  }]}>
+                                    <View style={{ flex: 1 }} >
+                                      <View style={[{flex:1}, {
+                                        
+                                        flexDirection: "row"
+                                      }]}>
+                                        <View style={{ flex:0.5 }} >
+                                          <Text style={styles.cardTextStyle}>Status:</Text>
+                                        </View>
+                                        <View style={{ flex: 1 }} >
+                                          {data.leave_status=='approved' ? 
+                                            <Badge colorScheme="success" style={{width:'50%'}}>{data.leave_status}</Badge>:
+                                            data.leave_status=='Pending' ?
+
+                                            <Badge colorScheme="warning" style={{width:'50%'}}>{data.leave_status}</Badge> :
+                                            <Badge colorScheme="danger" style={{width:'50%'}}>{data.leave_status}</Badge>}
+                                        </View>
+                                      </View>
+                                    </View>
+                                    
+                                  </View>
+                                </View>
+                              </View>
+                            </Card.Content>
+                          </Card>
+                        </View>
+                      </>
+                    ))
                   )}
               </View>
           </ScrollView>
         </View>
         {keyboardStatus == "Keyboard Hidden" &&
-        (<View style={{ flex: 0.2, backgroundColor: "white" }} >
+        <View style={{ flex: 0.2 }} >
           <TeachersHome />
-        </View>)}
-      </View>}
+        </View>}
+      </View>
+    }
 
       {showList &&
       <View style={[{flex:1}, {flexDirection: "column"}]}>
@@ -1313,6 +1547,23 @@ const TeachersLeave = () => {
             style={{top:'9.1%',left:'12%'}} 
             onPress={leaveBackHandler}>Back</NativeText>
           <NativeText bold style={{fontSize:20,left:'40%',top:'10%'}}>Leave List</NativeText>
+          <View style={{top:'12%'}}>
+            <SelectList
+              setSelected={setSelectedClassSection}
+              data={classTeacherData}
+              onSelect={classsectionSelectHandler}
+              placeholder="Select class"
+              boxStyles={[selectInputIsInValid && styles.errorSelectedColor,{marginHorizontal:20,marginVertical:10}]}
+              // boxStyles={{ borderRadius: 0 }}
+              dropdownTextStyles={{
+                fontSize: 18,
+                marginHorizontal:20,
+                fontFamily: "HindRegular",
+              }}
+              inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+            />
+          </View>
+          
           <SearchBar
               onSubmitEditing={Keyboard.dismiss}
               style={styles.searchBarNew}
@@ -1330,6 +1581,7 @@ const TeachersLeave = () => {
               >
                 <View style={styles.root}>
                   {/* {!filteredData && <Spinner size="lg" />} */}
+                  {!leaveByClassSection && <Text>no data founds</Text>}
                   {loading ? (
                     <ActivityIndicator
                       size={40}
@@ -1338,7 +1590,7 @@ const TeachersLeave = () => {
                       textStyle={styles.spinnerTextStyle}
                     />
                   ) : (
-                    filteredData.map((data) => (
+                    leaveByClassSection.map((data) => (
                       <>
                         <View>
                           <Card
@@ -1568,6 +1820,8 @@ const TeachersLeave = () => {
                         </View>
                       </>
                     ))
+
+                    
                   )}
                 </View>
               </ScrollView>
