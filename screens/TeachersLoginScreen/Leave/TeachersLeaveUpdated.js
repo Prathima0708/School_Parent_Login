@@ -94,8 +94,9 @@ const TeachersLeaveUpdated = () => {
   const [offset, SetOffset] = useState(0);
   const [typeLabel, setTypeLabel] = useState(false);
   const [reasonLabel, setReasonLabel] = useState(false);
+  const [emailLabel, setEmailLabel] = useState(false);
 
-  const [isLeavetypeFocused, setIsLeavetypeFocused] = useState(false);
+  const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isLeavereasonFocused, setIsLeavereasonFocused] = useState(false);
   const [isFromFocused, setIsFromFocused] = useState(false);
   const [isToFocused, setIsToFocused] = useState(false);
@@ -121,6 +122,12 @@ const TeachersLeaveUpdated = () => {
   const enteredLeaveTypeIsValid = leaveType.trim() !== "";
   const leavetypeInputIsInValid =
     !enteredLeaveTypeIsValid && enteredLeaveTypeTouched;
+
+    const [email, setEnteredEmail] = useState("");
+    const [enteredEmailTouched, setEnteredEmailTouched] = useState(false);
+    const enteredEmailIsValid = email.trim() !== "";
+    const EmailInputIsInValid =
+      !enteredEmailIsValid && enteredEmailTouched;
 
   const [leaveReason, setEnteredLeaveReason] = useState("");
   const [enteredLeaveReasonTouched, setEnteredLeaveReasonTouched] =
@@ -399,6 +406,9 @@ const TeachersLeaveUpdated = () => {
   function leaveTypeChangeHandler(enteredValue) {
     setEnteredLeaveType(enteredValue);
   }
+  function emailChangeHandler(enteredValue){
+    setEnteredEmail(enteredValue);
+  }
   function leaveReasonChangeHandler(enteredValue) {
     setEnteredLeaveReason(enteredValue);
   }
@@ -516,6 +526,7 @@ const TeachersLeaveUpdated = () => {
     }
   }
   function buttonPressedHandler() {
+    console.log(email)
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -528,7 +539,7 @@ const TeachersLeaveUpdated = () => {
       user_num: userID,
       user_role: userRole,
       username: user,
-      email: "priya123@gmail.com",
+      email: email,
       leave_type: selected,
       leave_form: FROMDATE,
       leave_to: TODATE,
@@ -541,81 +552,89 @@ const TeachersLeaveUpdated = () => {
     setEnteredFromDateTouched(true);
     setEnteredtoDateTouched(true);
     setEnteredSelectedTouched(true);
+    setEnteredEmailTouched(true);
 
-    // if (!enteredLeaveTypeIsValid) {
-    //   return;
-    // }
-    // if (!enteredLeaveReasonIsValid) {
-    //   return;
-    // }
-    // if (!enteredFromDateIsValid) {
-    //   return;
-    // }
-    // if (!enteredtoDateIsValid) {
-    //   return;
-    // }
-    // if (!enteredSelcetdIsValid) {
-    //   return;
-    // }
+    if ( 
+     !enteredLeaveReasonIsValid || !enteredFromDateIsValid || !enteredtoDateIsValid ||
+     !enteredSelcetdIsValid||!enteredEmailIsValid ) {
+      console.log("if part")
+      return;
 
-    async function storeData() {
-      console.log("post req to /leave");
-      console.log(FormData);
-      console.log(token);
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-          Authorization: "Token " + `${token}`,
-        };
-
-        const resLogin = await axios.post(
-          `http://10.0.2.2:8000/school/Leave/`,
-          FormData,
-          {
-            headers: headers,
-          }
-        );
-
-        console.log("post req response -", resLogin.data);
-      } catch (error) {
-        console.log(error);
+    }else{
+      console.log("else part")
+      async function storeData() {
+        console.log("post req to /leave");
+        console.log(FormData);
+        console.log(token);
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+            Authorization: "Token " + `${token}`,
+          };
+  
+          const resLogin = await axios.post(
+            `http://10.0.2.2:8000/school/Leave/`,
+            FormData,
+            {
+              headers: headers,
+            }
+          );
+  
+          console.log("post req response -", resLogin.data);
+        } catch (error) {
+          console.log(error);
+        }
       }
-    }
-    storeData();
-    Alert.alert("Saved Data", "Saved Data successfully", [
-      {
-        text: "OK",
-        onPress: () => {
-          myLeaveList();
+      storeData();
+  
+      Alert.alert("Saved Data", "Saved Data successfully", [
+        {
+          text: "OK",
+          onPress: () => {
+            myLeaveList();
+          },
         },
-      },
-    ]);
+      ]);
+  
+      setEnteredLeaveType("");
+      setEnteredLeaveReason("");
+      setFromText("");
+      setToText("");
+      setEnteredSelectedTouched(false);
+      setEnteredLeaveTypeTouched(false);
+      setEnteredLeaveReasonTouched(false);
+      setEnteredFromDateTouched(false);
+      setEnteredtoDateTouched(false);
+      setEnteredEmailTouched(false);
+      setForLeaveList({
+        backgroundColor: "#F4F6F6",
+        color: "black",
+        borderRadius: 10,
+      });
+      setForLeaveForm({
+        color: "white",
+        backgroundColor: "#1E8449",
+        borderRadius: 10,
+      });      
+    }
 
-    setEnteredLeaveType("");
-    setEnteredLeaveReason("");
-    setFromText("");
-    setToText("");
-    setEnteredSelectedTouched(false);
-    setEnteredLeaveTypeTouched(false);
-    setEnteredLeaveReasonTouched(false);
-    setEnteredFromDateTouched(false);
-    setEnteredtoDateTouched(false);
-    setForLeaveList({
-      backgroundColor: "#F4F6F6",
-      color: "black",
-      borderRadius: 10,
-    });
-    setForLeaveForm({
-      color: "white",
-      backgroundColor: "#1E8449",
-      borderRadius: 10,
-    });
   }
 
   function leavereasonBlurHandler() {
     setEnteredLeaveReasonTouched(true);
     setIsLeavereasonFocused(false);
   }
+  function eamilBlurHandler(){
+    setEnteredEmailTouched(true);
+    setIsEmailFocused(false);
+  }
+
+  function onEmailFocusHandler(){
+    setIsEmailFocused(true);
+    setEnteredEmailTouched(false);
+    setEmailLabel(true);
+  }
+
   function onLeavereasonFocusHandler() {
     setIsLeavereasonFocused(true);
     setEnteredLeaveReasonTouched(false);
@@ -880,11 +899,19 @@ const TeachersLeaveUpdated = () => {
     setTypeLabel(false);
     //setEnteredLeaveTypeTouched(false);
     setReasonLabel(false);
-
+    setEmailLabel(false);
+    setEnteredSelectedTouched(false)
     setEnteredLeaveReasonTouched(false);
     setIsLeavereasonFocused(false);
     setEnteredFromDateTouched(false);
     setEnteredtoDateTouched(false);
+
+    setEnteredEmailTouched(false);
+    setEnteredLeaveReason("")
+    setFromText("");
+    setToText("");
+    setEnteredEmail("");
+
   }
 
   function leaveBackHandler() {
@@ -926,6 +953,13 @@ const TeachersLeaveUpdated = () => {
     fetchData();
   }
 
+  function editItem(id){
+
+  }
+
+  function deleteItem(id){
+
+  }
   return (
     <>
       {showChoice && (
@@ -1048,7 +1082,7 @@ const TeachersLeaveUpdated = () => {
                     ]}
                   >
                     <View style={{ flex: 1 }}>
-                      <Text style={styles.labelStyle}>user name</Text>
+                      <Text style={styles.labelStyle}>User name</Text>
                     </View>
                     <View style={{ flex: 1 }}>
                       <TextInput
@@ -1076,7 +1110,7 @@ const TeachersLeaveUpdated = () => {
                     ]}
                   >
                     <View style={{ flex: 1 }}>
-                      <Text style={styles.labelStyle}>user role</Text>
+                      <Text style={styles.labelStyle}>User role</Text>
                     </View>
                     <View style={{ flex: 1 }}>
                       <TextInput
@@ -1093,30 +1127,46 @@ const TeachersLeaveUpdated = () => {
                 </View>
               </View>
 
-              <View>
-                <SelectList
-                  setSelected={(val) => setSelected(val)}
-                  data={leaveTypeData}
-                  save="value"
-                  boxStyles={[
-                    selectInputIsInValid && styles.errorSelectedColor,
-                    { marginHorizontal: 15, marginVertical: 10 },
-                  ]}
-                  dropdownTextStyles={{
-                    fontSize: 18,
-                    fontFamily: "HindRegular",
-                    marginHorizontal: 15,
-                  }}
-                  inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-                />
-              </View>
+              <View style={[{flex:1}, {
+            flexDirection: "column",marginVertical:10
+          }]}>
+            <View style={{ flex: 1}} >
+              <Text style={[styles.labelStyle,{top:'7%',left:'5%'}]}>Select Leave type</Text>
+            </View>
+            <View style={{ flex: 1 }} >
+              <SelectList 
+                setSelected={(val) => setSelected(val)} 
+                data={leaveTypeData} 
+                save="value"
+                boxStyles={[selectInputIsInValid && styles.errorSelectedColor,
+                  {marginHorizontal:25,marginVertical:10}]}
+                dropdownTextStyles={{
+                  fontSize: 18,
+                  fontFamily: "HindRegular",
+                  marginHorizontal:25
+                }}
+                inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}/>
+              {selectInputIsInValid && 
+                <Text style={styles.errorText}>Please select leave type</Text>}
+            </View>
+          </View>
 
               <View>
+              <View style={!btn ? (reasonLabel ? styles.upRemark : styles.normalRemark )
+              :  (reasonLabel ? styles.upRemarkExtra : styles.normalRemark )}>
+                        <Text style={[
+                    btn
+                      ? styles.submitLabel
+                      : leavetypeInputIsInValid
+                      ? styles.errorLabel
+                      : styles.normalLabel,
+                  ]}>Leave reason</Text>
+                      </View>
                 <Input
                   onChangeText={leaveReasonChangeHandler}
                   blur={leavereasonBlurHandler}
                   onFocus={onLeavereasonFocusHandler}
-                  placeholder="Leave reason"
+                 // placeholder="Leave reason"
                   value={leaveReason}
                   onSubmitEditing={Keyboard.dismiss}
                   style={
@@ -1128,6 +1178,34 @@ const TeachersLeaveUpdated = () => {
               </View>
               {leavereasonInputIsInValid && (
                 <Text style={styles.errorText}>Enter leave reason</Text>
+              )}
+              <View>
+              <View style={!btn ? (emailLabel ? styles.upEmail : styles.normalEmail) :
+                 (emailLabel ? styles.upEmailExtra : styles.normalEmail)  }>
+                        <Text style={[
+                    btn
+                      ? styles.submitLabel
+                      : EmailInputIsInValid
+                      ? styles.errorLabel
+                      : styles.normalLabel,
+                  ]}>Email address</Text>
+                      </View>
+                <Input
+                  onChangeText={emailChangeHandler}
+                  blur={eamilBlurHandler}
+                  onFocus={onEmailFocusHandler}
+                 // placeholder="Leave reason"
+                  value={email}
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={
+                    isEmailFocused
+                      ? styles.focusStyle
+                      : EmailInputIsInValid && styles.errorBorderColor
+                  }
+                />
+              </View>
+              {EmailInputIsInValid && (
+                <Text style={styles.errorText}>Enter email address</Text>
               )}
 
               <View style={[{ flexDirection: "row" }]}>
@@ -1235,6 +1313,8 @@ const TeachersLeaveUpdated = () => {
                   )}
                 </View>
               </View>
+
+
               {!isEdit && (
                 <View style={styles.btnSubmit}>
                   <Button onPress={buttonPressedHandler}>Add Leave</Button>
@@ -1532,7 +1612,7 @@ const TeachersLeaveUpdated = () => {
                                         },
                                       ]}
                                     >
-                                      <View style={{ flex: 0.5 }}>
+                                      <View style={{ flex: 0.3 }}>
                                         <Text style={styles.cardTextStyle}>
                                           Status:
                                         </Text>
@@ -1548,7 +1628,7 @@ const TeachersLeaveUpdated = () => {
                                         ) : data.leave_status == "Pending" ? (
                                           <Badge
                                             colorScheme="warning"
-                                            style={{ width: "50%" }}
+                                            style={{ width: "45%" }}
                                           >
                                             {data.leave_status}
                                           </Badge>
@@ -1560,6 +1640,41 @@ const TeachersLeaveUpdated = () => {
                                             {data.leave_status}
                                           </Badge>
                                         )}
+                                      </View>
+                                    </View>
+                                  </View>
+                                </View>
+                                <View style={styles.space}/>
+                                <View style={[{flex:1}, {flexDirection: "row"}]}>
+                                  <View style={{ flex: 0.3, }} >
+                                    <Text style={styles.cardTextStyle}>Actions:</Text>
+                                  </View>
+                                  <View style={{ flex: 1, }} >
+                                    <View style={[{flex:1}, {
+                                      flexDirection: "row"
+                                    }]}>
+                                      <View style={{ flex: 0.2,width:'7%' }} >
+                                        <IconButton
+                                          colorScheme="green"
+                                          onPress={() => editItem(data.id)}
+                                          variant="subtle"
+                                          _icon={{
+                                            as: Ionicons,
+                                            name: "md-pencil-sharp",
+                                          }}
+                                        />
+                                      </View>
+                                      <View style={styles.space}/>
+                                      <View style={{ flex: 0.2,width:'7%' }} >
+                                      <IconButton
+                                          colorScheme="red"
+                                          onPress={() => deletItem(data.id)}
+                                          variant="subtle"
+                                          _icon={{
+                                            as: Ionicons,
+                                            name: "trash",
+                                          }}
+                                        />
                                       </View>
                                     </View>
                                   </View>
@@ -1988,7 +2103,7 @@ const styles = StyleSheet.create({
     flex: 0.2,
     alignItems: "center",
     backgroundColor: "white",
-    marginTop: 55,
+    marginTop: 35,
     justifyContent: "center",
   },
   headingStyle: {
@@ -2046,7 +2161,7 @@ const styles = StyleSheet.create({
   //   // marginTop: 17,
   // },
   btnSubmit: {
-    marginTop: deviceWidth < 370 ? 50 : 70,
+    marginTop: deviceWidth < 370 ? 50 : 30,
     width: "50%",
     marginLeft: 180,
   },
@@ -2134,6 +2249,22 @@ const styles = StyleSheet.create({
     left: deviceWidth < 370 ? 20 : 30,
     width: deviceWidth > 400 ? 110 : 100,
   },
+
+  normalEmail: {
+    position: "absolute",
+    top: deviceWidth < 370 ? 20 : 25,
+    left: deviceWidth < 370 ? 20 : 30,
+  },
+  upEmail: {
+    top: deviceHieght > 800 ? 25 : 28,
+    left: deviceWidth < 370 ? 20 : 30,
+    width: deviceWidth > 400 ? 110 : 115,
+  },
+  upEmailExtra: {
+    top: deviceHieght > 800 ? 25 : 28,
+    left: deviceWidth < 370 ? 20 : 30,
+    width: deviceWidth > 400 ? 110 : 115,
+  },
   normalRemarkExtra: {
     position: "absolute",
     left: deviceWidth < 370 ? 20 : 30,
@@ -2171,4 +2302,12 @@ const styles = StyleSheet.create({
     fontFamily: "HindSemiBold",
     color: "grey",
   },
+    submitLabel: {
+      color: "grey",
+      color: "#AEB6BF",
+      backgroundColor: "#F2F2F2",
+      backgroundColor: "white",
+      paddingHorizontal: 5,
+      fontSize: deviceWidth < 370 ? 13 : 15,
+  }
 });
