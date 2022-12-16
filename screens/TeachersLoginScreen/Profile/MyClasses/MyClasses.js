@@ -1,63 +1,119 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { Card } from "react-native-paper";
+import { subURL } from "../../../../components/utils/URL's";
 import DisplayClass from "./DisplayClass";
 import StudentList from "./StudentList";
-export var selectedData;
+export var selectedData, length;
+var USERID;
+var mainData = [],
+  classData = [];
 const MyClasses = () => {
-    const navigation=useNavigation()
-    const [data, setData] = useState([]);
-const [selected,setSelected]=useState("")
-    const [showClass,setShowClass]=useState(true)
-    const [showStudList,setShowStudList]=useState(false)
+  const navigation = useNavigation();
+  const [data, setData] = useState([]);
+  const [userID, setUserID] = useState("");
+  const [classTeacherData, setClassTeacherData] = useState([]);
+  const [selected, setSelected] = useState("");
+  const [showClass, setShowClass] = useState(true);
+  const [showStudList, setShowStudList] = useState(false);
 
-    useEffect(() => {
-        async function fetchStudentClass() {
-          axios
-            .get("http://10.0.2.2:8000/school/Studentclass/")
-            .then((response) => {
-              let newArray = response.data.map((item) => {
-                return {
-                  value: item.class_name + " - " + item.section,
-                };
-              });
-            
-            
-              
- 
-              setData(response.data);
-              console.log(response.data[0].class_name);
-              console.log(response.data.section);
-            })
-            .catch((e) => {
-              console.log(e);
-            });
-        }
-        fetchStudentClass();
-      }, []);
+  useEffect(() => {
+    async function fetchStudentClass() {
+      axios
+        .get("http://10.0.2.2:8000/school/Studentclass/")
+        .then((response) => {
+          let newArray = response.data.map((item) => {
+            return {
+              value: item.class_name + " - " + item.section,
+            };
+          });
 
-function pressHandler(){
-//setShowClass(false)
-//setShowStudList(true)
-navigation.navigate("StudentList",{
-    //id
-})
-}
+          setData(response.data);
+          mainData = response.data;
+          // console.log(response.data[0].class_name);
+          // console.log(response.data.section);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    fetchStudentClass();
+  }, []);
 
-function renderClass(itemData){
-    return <DisplayClass {...itemData.item}/>
-}
+  async function fetchUserId() {
+    USERID = await AsyncStorage.getItem("key");
+
+    if (USERID !== null) {
+      setUserID(USERID);
+    }
+    console.log(userID);
+  }
+  fetchUserId();
+
+  async function fetchClassTeacher() {
+    try {
+      const res = await axios.get(
+        `http://10.0.2.2:8000/school/IsClassteacher/${userID}`
+      );
+      console.log(res.data);
+
+      classData = res.data;
+      let ids = [];
+      let classIds = [];
+      for (let i = 0; i < mainData.length; i++) {
+        //console.log(mainData[i].id);
+        ids.push(mainData[i].id);
+      }
+      console.log(ids);
+      for (let i = 0; i < classData.length; i++) {
+        classIds.push(classData[i].id);
+      }
+      //console.log(classIds);
+      // console.log(mainData);
+      // console.log("----------------------------------------------------------");
+      // console.log(classData);
+
+      const result = mainData.filter((element) =>
+        classData.filter((ele) => element.id == ele.id)
+      );
+
+      console.log("result is", result);
+      // console.log("length", result.length);
+      length = result.length;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  fetchClassTeacher();
+
+  function pressHandler() {
+    //setShowClass(false)
+    //setShowStudList(true)
+    navigation.navigate("StudentList", {
+      //id
+    });
+  }
+
+  function renderClass(itemData) {
+    return <DisplayClass {...itemData.item} />;
+  }
   return (
     <>
-  { showClass && <ScrollView>
-    <View style={{flexDirection:'column',alignItems:'center'}}>
-
- 
-    <View>
-    
-    {/* {data.map((data,key)=>(
+      {showClass && (
+        <ScrollView>
+          <View style={{ flexDirection: "column", alignItems: "center" }}>
+            <View>
+              {/* {data.map((data,key)=>(
         <Pressable onPress={pressHandler}>
         <Card
       // key={key}
@@ -98,12 +154,12 @@ function renderClass(itemData){
     </Card>
     </Pressable>
     ))} */}
-    <FlatList data={data} renderItem={renderClass}/>
-    </View>
-  </View>
-  </ScrollView>}
-
-  </>
+              <FlatList data={data} renderItem={renderClass} />
+            </View>
+          </View>
+        </ScrollView>
+      )}
+    </>
   );
 };
 
@@ -159,7 +215,6 @@ const styles = StyleSheet.create({
     borderBottomColor: "red",
   },
 
-
   space: {
     width: 20,
     height: 20,
@@ -212,7 +267,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F2F2F2",
     backgroundColor: "white",
     paddingHorizontal: 5,
-  //  fontSize: deviceWidth < 370 ? 13 : 15,
+    //  fontSize: deviceWidth < 370 ? 13 : 15,
   },
   normalLabel: {
     // color: "#A7ADAD",
@@ -230,7 +285,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F2F2F2",
     backgroundColor: "white",
     paddingHorizontal: 5,
-  //  fontSize: deviceWidth < 370 ? 13 : 15,
+    //  fontSize: deviceWidth < 370 ? 13 : 15,
   },
   btnSubmit1: {
     marginTop: 90,
@@ -253,17 +308,17 @@ const styles = StyleSheet.create({
   },
   test: {
     position: "absolute",
-   // top: deviceWidth < 370 ? 2 : 10,
+    // top: deviceWidth < 370 ? 2 : 10,
     //left: deviceWidth < 370 ? 40 : 50,
   },
   testSuccess: {
     position: "absolute",
-  //  top: deviceWidth < 370 ? 28 : 32,
+    //  top: deviceWidth < 370 ? 28 : 32,
     left: 50,
   },
   descriptionUp: {
     position: "absolute",
-   // top: deviceWidth < 370 ? 68 : 87,
+    // top: deviceWidth < 370 ? 68 : 87,
     //left: deviceWidth < 370 ? 40 : 50,
   },
   descriptionDown: {
@@ -273,12 +328,12 @@ const styles = StyleSheet.create({
   },
   descriptionUpExtra: {
     position: "absolute",
- //   top: deviceWidth < 370 ? 90 : 115,
-   // left: deviceWidth < 370 ? 40 : 50,
+    //   top: deviceWidth < 370 ? 90 : 115,
+    // left: deviceWidth < 370 ? 40 : 50,
   },
   descriptionDownExtra: {
     position: "absolute",
-   // top: deviceWidth < 370 ? 115 : 137,
+    // top: deviceWidth < 370 ? 115 : 137,
     left: 50,
   },
 
