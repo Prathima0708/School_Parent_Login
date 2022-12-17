@@ -136,28 +136,34 @@ const TeachersLeaveUpdated = () => {
   const leavereasonInputIsInValid =
     !enteredLeaveReasonIsValid && enteredLeaveReasonTouched;
 
-  const [fromDate, setFromDate] = useState(new Date());
-  const [toDate, setToDate] = useState(new Date());
+    const [fromDate, setFromDate] = useState(new Date());
+    const [toDate, setToDate] = useState(new Date());
+  
+    const [frmdate, setenteredfrmdate] = useState("");
+    const [todate, setenteredtodate] = useState("");
+  
+    const [frommode, setFromMode] = useState("date");
+    const [tomode, setToMode] = useState("date");
+  
+    const [fromShow, setFromShow] = useState(false);
+    const [toShow, setToShow] = useState(false);
+  
+    const [fromText, setFromText] = useState("");
+    const [enteredFromDateTouched, setEnteredFromDateTouched] = useState(false);
+    const enteredFromDateIsValid = fromText.trim() !== "";
+    const fromDateInputIsInValid =
+      !enteredFromDateIsValid && enteredFromDateTouched;
+  
+    const [toText, setToText] = useState("");
+    const [enteredtoDateTouched, setEnteredtoDateTouched] = useState(false);
+    const enteredtoDateIsValid = toText.trim() !== "";
+    const toDateInputIsInValid = !enteredtoDateIsValid && enteredtoDateTouched;
 
-  const [enteredFromDate, setEnteredFromDate] = useState(new Date());
-  const [enteredToDate, setEnteredToDate] = useState(new Date());
+    const [isFromDateFocused, setIsFromDateFocused] = useState(false);
+    const [isToDateFocused, setIsToDateFocused] = useState(false);
 
-  const [frommode, setFromMode] = useState("date");
-  const [tomode, setToMode] = useState("date");
-
-  const [fromShow, setFromShow] = useState(false);
-  const [toShow, setToShow] = useState(false);
-
-  const [fromText, setFromText] = useState("");
-  const [enteredFromDateTouched, setEnteredFromDateTouched] = useState(false);
-  const enteredFromDateIsValid = fromText.trim() !== "";
-  const fromDateInputIsInValid =
-    !enteredFromDateIsValid && enteredFromDateTouched;
-
-  const [toText, setToText] = useState("");
-  const [enteredtoDateTouched, setEnteredtoDateTouched] = useState(false);
-  const enteredtoDateIsValid = toText.trim() !== "";
-  const toDateInputIsInValid = !enteredtoDateIsValid && enteredtoDateTouched;
+    const [startDateLabel, setstartDateLabel] = useState(false);
+  const [endDateLabel, setendDateLabel] = useState(false);
 
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [data, setData] = useState([]);
@@ -334,17 +340,12 @@ const TeachersLeaveUpdated = () => {
   }
   fetchUser();
 
-  function frmDateHandler(enteredValue) {
-    setFromDate(enteredValue);
-  }
-  function toDateHandler(enteredValue) {
-    setToDate(enteredValue);
-  }
 
   const showFromMode = (currentFromMode) => {
     setFromShow(true);
 
     setFromMode(currentFromMode);
+    setFromDate;
   };
 
   const showToMode = (currentToMode) => {
@@ -356,8 +357,9 @@ const TeachersLeaveUpdated = () => {
   const fromDateChangeHandler = (event, selectedFromDate) => {
     const currentFromDate = selectedFromDate;
     FROMDATE = selectedFromDate;
+
     setFromShow(Platform.OS === "ios");
-    // setFromDate(currentFromDate);
+    setFromDate(currentFromDate);
 
     let tempFromDate = new Date(currentFromDate);
     let fDate =
@@ -370,10 +372,7 @@ const TeachersLeaveUpdated = () => {
     if (event.type == "set") {
       setFromText(fDate);
     } else {
-      // if (event?.type === "dismissed") {
-      //   setFromText("");
-      //   return;
-      // }
+      //cancel button clicked
     }
 
     //console.log(fDate);
@@ -383,9 +382,10 @@ const TeachersLeaveUpdated = () => {
     const currentToDate = selectedToDate;
     TODATE = selectedToDate;
     setToShow(Platform.OS === "ios");
-    // setToDate(currentToDate);
+    setToDate(currentToDate);
 
     let tempToDate = new Date(currentToDate);
+    console.log(tempToDate);
     let tDate =
       tempToDate.getDate() +
       "/" +
@@ -396,13 +396,23 @@ const TeachersLeaveUpdated = () => {
     if (event.type == "set") {
       setToText(tDate);
     } else {
-      // if (event?.type === "dismissed") {
-      //   setToText(tDate);
-      //   return;
-      // }
+      //cancel button clicked
     }
     // console.log(fDate);
   };
+
+  function frmDateHandler(enteredValue) {
+    // setFromText(enteredValue);
+    // setEnteredFromDate(enteredValue);
+    setFromDate(enteredValue);
+    setenteredfrmdate(enteredValue);
+  }
+  function toDateHandler(enteredValue) {
+    // setToText(enteredValue);
+    setToDate(enteredValue);
+    setenteredtodate(enteredValue);
+  }
+
   function leaveTypeChangeHandler(enteredValue) {
     setEnteredLeaveType(enteredValue);
   }
@@ -412,12 +422,7 @@ const TeachersLeaveUpdated = () => {
   function leaveReasonChangeHandler(enteredValue) {
     setEnteredLeaveReason(enteredValue);
   }
-  function frmDateHandler(enteredValue) {
-    setFromDate(enteredValue);
-  }
-  function toDateHandler(enteredValue) {
-    setToText(enteredValue);
-  }
+
   function updateHandler() {
     setShowInitialBtn(true);
     const FormData = {
@@ -643,20 +648,22 @@ const TeachersLeaveUpdated = () => {
 
   function fromDateBlurHandler() {
     setEnteredFromDateTouched(true);
-    setIsFromFocused(false);
+    setIsFromDateFocused(false);
   }
-  function onFromFocusHandler() {
-    setIsFromFocused(true);
+  function onFocusFromHandler() {
+    setIsFromDateFocused(true);
     setEnteredFromDateTouched(false);
+    setstartDateLabel(true);
   }
 
   function toDateBlurHandler() {
     setEnteredtoDateTouched(true);
-    setIsToFocused(false);
+    setIsToDateFocused(false);
   }
-  function onToFocusHandler() {
-    setIsToFocused(true);
+  function onFocusToHandler() {
+    setIsToDateFocused(true);
     setEnteredtoDateTouched(false);
+    setendDateLabel(true);
   }
 
   function onScrollHandler(event) {
@@ -1208,13 +1215,13 @@ const TeachersLeaveUpdated = () => {
                 <Text style={styles.errorText}>Enter email address</Text>
               )}
 
-              <View style={[{ flexDirection: "row" }]}>
+<View style={[{ flexDirection: "row" }]}>
                 <View style={{ flex: 1 }}>
                   <View>
                     <Ionicons
                       style={{
                         position: "absolute",
-                        top: 23,
+                        top: 22,
                       }}
                       name="calendar"
                       size={24}
@@ -1223,31 +1230,21 @@ const TeachersLeaveUpdated = () => {
                     />
                   </View>
                   <UnderlinedInput
-                    value={fromText}
-                    placeholder="Leave from"
+                    value={fromText || frmdate}
+                    placeholder="   Start date"
                     onSubmitEditing={Keyboard.dismiss}
                     style={
-                      isFromFocused
+                      isFromDateFocused
                         ? styles.focusStyle
                         : fromDateInputIsInValid && styles.errorBorderColorDate
                     }
                     blur={fromDateBlurHandler}
-                    onFocus={onFromFocusHandler}
+                    onFocus={onFocusFromHandler}
                     onChangeText={frmDateHandler}
                     onPressIn={() => showFromMode("date")}
                   />
-
                   {fromDateInputIsInValid && (
-                    <Text
-                      style={{
-                        color: "red",
-                        left: 20,
-                        fontFamily: "HindRegular",
-                        fontSize: 18,
-                      }}
-                    >
-                      select from date
-                    </Text>
+                    <Text style={styles.commonErrorMsg}>Select from date</Text>
                   )}
                   {fromShow && (
                     <DateTimePicker
@@ -1266,7 +1263,7 @@ const TeachersLeaveUpdated = () => {
                     <Ionicons
                       style={{
                         position: "absolute",
-                        top: 23,
+                        top: 22,
                       }}
                       name="calendar"
                       size={24}
@@ -1275,30 +1272,26 @@ const TeachersLeaveUpdated = () => {
                     />
                   </View>
                   <UnderlinedInput
-                    value={toText}
-                    placeholder="Leave to:"
+                    // value={moment(toText).format('DD/MM/YYYY') || moment(toDate).format('DD/MM/YYYY')}
+                    value={toText || todate}
+                    // value={
+                    //   moment(toText).format("DD/MM/YYYY") ||
+                    //   moment(todate).format("DD/MM/YYYY")
+                    // }
+                    placeholder="   End date"
                     onSubmitEditing={Keyboard.dismiss}
                     style={
-                      isToFocused
+                      isToDateFocused
                         ? styles.focusStyle
                         : toDateInputIsInValid && styles.errorBorderColorDate
                     }
                     blur={toDateBlurHandler}
-                    onFocus={onToFocusHandler}
+                    onFocus={onFocusToHandler}
                     onChangeText={toDateHandler}
                     onPressIn={() => showToMode("date")}
                   />
                   {toDateInputIsInValid && (
-                    <Text
-                      style={{
-                        color: "red",
-                        left: 20,
-                        fontFamily: "HindRegular",
-                        fontSize: 18,
-                      }}
-                    >
-                      select to date
-                    </Text>
+                    <Text style={styles.commonErrorMsg}>Select to date</Text>
                   )}
                   {toShow && (
                     <DateTimePicker
@@ -2153,6 +2146,13 @@ const styles = StyleSheet.create({
   },
   errorBorderColorDate: {
     borderBottomColor: "red",
+  },
+  commonErrorMsg: {
+    color: "red",
+    left: 20,
+    fontFamily: "HindRegular",
+    fontSize: deviceWidth < 370 ? 16 : 18,
+    top: deviceHieght > 800 ? -3 : 1,
   },
   // labels: {
   //   margin: 5,

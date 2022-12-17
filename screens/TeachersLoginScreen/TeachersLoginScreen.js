@@ -15,9 +15,13 @@ import TeachersCategoryGridTile from "../../components/StudentItem/TeachersCateg
 
 import { Teacher } from "../Login";
 import { useRoute } from "@react-navigation/native";
-var USERNAME, value;
+import axios from "axios";
+import { subURL } from "../../components/utils/URL's";
+var USERNAME, value, USERID;
+let i;
 const TeachersLoginScreen = ({ navigation }) => {
   const [user, setUser] = useState("");
+  const [userId, setUserId] = useState("");
   const route = useRoute();
   async function logoutHandler() {
     try {
@@ -50,8 +54,46 @@ const TeachersLoginScreen = ({ navigation }) => {
 
   fetchUser();
 
+  // useEffect(() => {
+  //   fetchUser();
+  // }, []);
+  async function fetchUserId() {
+    USERID = await AsyncStorage.getItem("key");
+
+    if (USERID !== null) {
+      setUserId(USERID);
+    }
+  }
+  fetchUserId();
   useEffect(() => {
-    fetchUser();
+    async function fetchData() {
+      try {
+        const res = await axios.get(`${subURL}/IsClassteacher/${userId}`);
+
+        // console.log(res.data);
+        // var classes = [];
+        // var section = [];
+        // for (i = 0; i < res.data.length; i++) {
+        //   console.log(res.data[i].class_name);
+        //   classes.push(res.data[i].class_name);
+        // }
+        // for (i = 0; i < res.data.length; i++) {
+        //   console.log(res.data[i].section);
+        //   section.push(res.data[i].section);
+        // }
+        // console.log(classes);
+        // console.log(section);
+        let newArray = res.data.map((item) => {
+          return {
+            value: item.class_name + " - " + item.section,
+          };
+        });
+        console.log(newArray);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
   }, []);
 
   useLayoutEffect(() => {
