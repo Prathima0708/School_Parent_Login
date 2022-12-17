@@ -211,7 +211,7 @@ const TimeTable = () => {
   function navigateHandler(id){
     ID = id;
     console.log(id);
-    navigation.navigate("ExamSubjects");
+    navigation.navigate("ExamTimeTable");
   }
   return (
     <>

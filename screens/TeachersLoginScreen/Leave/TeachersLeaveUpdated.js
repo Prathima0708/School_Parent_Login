@@ -1041,7 +1041,7 @@ const TeachersLeaveUpdated = () => {
             { flexDirection: "column", backgroundColor: "white" },
           ]}
         >
-          <View style={[{ flex: 0.2 }, { flexDirection: "row", top: "20%" }]}>
+          <View style={[{ flex: 0.2 }, { flexDirection: "row", top: "16%" }]}>
             <BackButton onPress={backHandler} />
           </View>
 
