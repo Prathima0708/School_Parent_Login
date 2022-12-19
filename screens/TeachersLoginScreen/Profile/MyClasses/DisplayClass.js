@@ -4,24 +4,23 @@ import { Card } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { filteredCT, length } from "./MyClasses";
+import { classData, filteredCT, length } from "./MyClasses";
 
 export var MYCLASS, MYSECTION;
-var USERID
+var USERID, CT, ID;
 
-const DisplayClass = ({ class_name, section }) => {
-  // console.log("array length");
+const DisplayClass = ({ class_name, section, id }) => {
+  ID = id;
   // console.log(length);
   const [userID, setUserID] = useState("");
+  const [ctData, setCTData] = useState([]);
+  const [bgColor, setBgColor] = useState(false);
+  // const [bgColor, setBgColor] = useState({ backgroundColor: "darkblue" });
   const naviagtion = useNavigation();
-//   console.log('**************')
-// console.log(filteredCT)
-// const found=filteredCT.find(element => element == class_name);
-// console.log('found is ',found)
 
-
-
-
+  //  console.log("filtered CT list is", filteredCT);
+  // const found=filteredCT.find(element => element == class_name);
+  // console.log('found is ',found)
 
   // async function fetchClassTeacher() {
   //   console.log("userid is-", userID);
@@ -36,11 +35,46 @@ const DisplayClass = ({ class_name, section }) => {
   //   }
   // }
   // fetchClassTeacher();
+
   function navigateHander() {
     naviagtion.navigate("StudentList");
     MYCLASS = class_name;
     MYSECTION = section;
   }
+  async function fetchCT() {
+    CT = await AsyncStorage.getItem("classteacher");
+
+    if (CT !== null) {
+      setCTData(CT);
+    }
+    // console.log("from display class");
+    // console.log(JSON.parse(CT));
+  }
+  fetchCT();
+  function getBg(ID) {
+    // if (id == classData[0].id) {
+    //   console.log("true");
+    // }
+    let result = classData.filter((ele) => ele.id == ID);
+    console.log(result);
+    // array - check the length
+    // if its zero then false else its true
+    // return "orange"
+    // return "darkblue"
+  }
+  let result = filteredCT?.filter((ele) => ele.id == ID);
+  console.log("length is ", result.length);
+  useEffect(() => {
+    if (result.length == 0) {
+      setBgColor(false);
+      // setBgColor({ backgroundColor: "orange" });
+      console.log("false");
+    } else {
+      setBgColor(true);
+      // setBgColor({ backgroundColor: "darkblue" });
+      console.log("true");
+    }
+  });
   return (
     <View>
       <Pressable onPress={navigateHander}>
@@ -53,8 +87,9 @@ const DisplayClass = ({ class_name, section }) => {
             elevation: 5,
             borderRadius: 10,
             paddingBottom: 20,
-            // backgroundColor: "darkblue",
-            backgroundColor: "darkblue",
+            //  backgroundColor: getBg(ID),
+            backgroundColor: bgColor ? "orange" : "darkblue",
+            // backgroundColor: bgColor,
             width: "80%",
           }}
         >

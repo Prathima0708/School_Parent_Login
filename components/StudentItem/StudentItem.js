@@ -186,8 +186,8 @@ const styles = StyleSheet.create({
     //minWidth: 80,
   },
   image: {
-    height: 70,
+    height: 100,
    // bottom:deviceWidth < 370 ? '2%' : '1%',
-    width: 75,
+    width: 100,
   },
 });
