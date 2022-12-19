@@ -727,8 +727,9 @@ const TecahersExamTimeTable = () => {
               placeholder="Select class"
               onSelect={viewExamList}
               boxStyles={{ borderRadius: 10 }}
-              dropdownTextStyles={{ fontSize: 18, fontFamily: "HindRegular" }}
+              dropdownTextStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
               inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+              dropdownStyles={{width:'120%'}}
               
             />
           </View>

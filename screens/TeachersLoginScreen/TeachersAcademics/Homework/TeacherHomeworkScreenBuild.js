@@ -90,8 +90,8 @@ const TeacherHomeworkScreenBuild = () => {
 
   const [selected, setSelected] = useState("");
   const [enteredSelectedTouched, setEnteredSelectedTouched] = useState(false);
-  // const enteredSelcetdIsValid = selected.trim() !== "";
-  // const selectInputIsInValid = !enteredSelcetdIsValid && enteredSelectedTouched;
+  const enteredSelcetdIsValid = selected.toString().trim() !== "";
+  const selectInputIsInValid = !enteredSelcetdIsValid && enteredSelectedTouched;
 
   const [data, setData] = useState([]);
 
@@ -100,7 +100,7 @@ const TeacherHomeworkScreenBuild = () => {
   const [selectedSubject, setSelectedSubject] = useState("");
   const [enteredSelectedSubTouched, setEnteredSelectedSubTouched] =
     useState(false);
-  const enteredSelcetdSubIsValid = selectedSubject.trim() !== "";
+  const enteredSelcetdSubIsValid = selectedSubject.toString().trim() !== "";
   const selectSubInputIsInValid =
     !enteredSelcetdSubIsValid && enteredSelectedSubTouched;
 
@@ -573,7 +573,7 @@ const TeacherHomeworkScreenBuild = () => {
     setBtn(true);
     setSubBtn(true);
 
-    const test = image.substring(image.lastIndexOf("/") + 1);
+   // const test = image.substring(image.lastIndexOf("/") + 1);
 
     console.log(test);
     var dateFromValidate = fromText;
@@ -628,6 +628,7 @@ const TeacherHomeworkScreenBuild = () => {
     // }
 
     setEnteredSelectedTouched(true);
+    setEnteredSelectedSubTouched(true);
     setEnteredSubjectTouched(true);
     setEnteredFromDateTouched(true);
     setEnteredtoDateTouched(true);
@@ -635,9 +636,9 @@ const TeacherHomeworkScreenBuild = () => {
     setEnteredHomeWorkTouched(true);
     setEnteredImageTouched(true);
 
-    // if (!enteredSelcetdIsValid) {
-    //   return;
-    // }
+    if (!enteredSelcetdIsValid) {
+      return;
+    }
     // if (!enteredSubjectIsValid) {
     //   return;
     // }
@@ -727,7 +728,8 @@ const TeacherHomeworkScreenBuild = () => {
       setEnteredRemark("");
       setHW("");
       setEnteredSelectedTouched(false);
-      setEnteredSelectedTouched(false);
+      setEnteredSelectedSubTouched(false);
+      //setEnteredSelectedTouched(false);
       setEnteredSubjectTouched(false);
       setEnteredFromDateTouched(false);
       setEnteredHomeWorkTouched(false);
@@ -820,7 +822,8 @@ const TeacherHomeworkScreenBuild = () => {
     setShowForm(true);
     setShowList(false);
     setEnteredSelectedTouched(false);
-    setEnteredSelectedTouched(false);
+    setEnteredSelectedSubTouched(false);
+    //setEnteredSelectedTouched(false);
     setEnteredSubjectTouched(false);
     setEnteredFromDateTouched(false);
     setEnteredHomeWorkTouched(false);
@@ -1005,16 +1008,16 @@ const TeacherHomeworkScreenBuild = () => {
                     data={data}
                     save="key"
                     placeholder="Select class"
-                    // boxStyles={
-                    //   selectInputIsInValid && styles.errorSelectedColor
-                    // }
+                    boxStyles={
+                      selectInputIsInValid && styles.errorSelectedColor
+                    }
                     dropdownTextStyles={styles.dropText}
                     inputStyles={styles.dropText}
                     onSelect={fetchSubjects}
                   />
-                  {/* {selectInputIsInValid && (
+                  {selectInputIsInValid && (
                     <Text style={[styles.errorText]}>Enter class</Text>
-                  )} */}
+                  )}
                 </View>
               )}
 

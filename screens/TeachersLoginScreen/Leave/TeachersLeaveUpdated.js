@@ -89,6 +89,7 @@ const TeachersLeaveUpdated = () => {
     { key: "National Holiday", value: "National Holiday" },
     { key: "Religious Holiday", value: "Religious Holiday" },
     { key: "Casual Leave", value: "Casual Leave" },
+    { key: "Maternity Leave", value: "Maternity Leave" },
   ];
 
   const [offset, SetOffset] = useState(0);
@@ -1153,13 +1154,13 @@ const TeachersLeaveUpdated = () => {
                     ]}
                   >
                     <View style={{ flex: 1 }}>
-                      <Text style={styles.labelStyle}>User name</Text>
+                      <Text style={[styles.labelStyle]}>User name</Text>
                     </View>
                     <View style={{ flex: 1 }}>
                       <TextInput
                         style={[
                           styles.labelStyle,
-                          { borderWidth: 1, paddingLeft: 7 },
+                          { borderWidth: 1, padding:7,borderColor: "#A3A5A5", },
                         ]}
                         editable={false}
                         selectTextOnFocus={false}
@@ -1187,7 +1188,7 @@ const TeachersLeaveUpdated = () => {
                       <TextInput
                         style={[
                           styles.labelStyle,
-                          { borderWidth: 1, paddingLeft: 7 },
+                          { borderWidth: 1, padding: 7,borderColor: "#A3A5A5", },
                         ]}
                         editable={false}
                         selectTextOnFocus={false}
@@ -1210,8 +1211,9 @@ const TeachersLeaveUpdated = () => {
                 setSelected={(val) => setSelected(val)} 
                 data={leaveTypeData} 
                 save="value"
+                //placeholder="Select Leave Type"
                 boxStyles={[selectInputIsInValid && styles.errorSelectedColor,
-                  {marginHorizontal:25,marginVertical:10}]}
+                  {marginHorizontal:15,marginVertical:10}]}
                 dropdownTextStyles={{
                   fontSize: 18,
                   fontFamily: "HindRegular",

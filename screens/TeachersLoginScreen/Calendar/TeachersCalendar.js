@@ -55,6 +55,7 @@ const TeachersCalendar = () => {
   const [user, setUser] = useState("");
   const [token, setToken] = useState("");
 
+  const [test,setTest]=useState(false);
   const [value, setValue] = useState("");
   const [isSelected, setSelection] = useState(false);
 
@@ -496,6 +497,9 @@ const TeachersCalendar = () => {
       setAnyChecked(false);
       return;
     }
+    else{
+      setAnyChecked(true);
+    }
     if (!enteredTitleIsValid) {
       return;
     }
@@ -699,7 +703,7 @@ const TeachersCalendar = () => {
       }
     }
     fetchData();
-
+    setAnyChecked(true);
   }
 
   // function editItem(id) {
@@ -889,6 +893,8 @@ const TeachersCalendar = () => {
   fetchToken();
 
   function allCheckHandler() {
+    setTest(true);
+    console.log(test)
     setChecked(!checked);
     setTeacherChecked(!teacherChecked);
     setAdminChecked(!adminChecked);
@@ -1144,6 +1150,7 @@ const TeachersCalendar = () => {
                           status={adminChecked ? "checked" : "unchecked"}
                           onPress={() => {
                             setAdminChecked(!adminChecked);
+                            setTest(true);
                             if (!adminChecked) {
                               console.log("check");
                             } else {
@@ -1176,6 +1183,7 @@ const TeachersCalendar = () => {
                           status={teacherChecked ? "checked" : "unchecked"}
                           onPress={() => {
                             setTeacherChecked(!teacherChecked);
+                            setTest(true);
                             if (!teacherChecked) {
                               console.log("check");
                             } else {
@@ -1205,7 +1213,7 @@ const TeachersCalendar = () => {
                           status={parentChecked ? "checked" : "unchecked"}
                           onPress={() => {
                             setParentChecked(!parentChecked);
-                            
+                            setTest(true);
                             if (!parentChecked) {
                               console.log("check");
                             } else {
@@ -1214,12 +1222,13 @@ const TeachersCalendar = () => {
                           }}
                           color={"green"}
                           uncheckColor={"red"}
+                        
                         />
                       </View>
                     </View>
                   </View>
                 </View>
-                {!anyCheck && <Text style={styles.errorLabel}>Please select atleast one</Text>}
+                {!anyCheck && !test && <Text style={styles.errorLabel}>Please select atleast one</Text>}
               </View>
               {!isEdit && (
                 <View style={[btn ? styles.btnSubmitNew : styles.btnSubmit]}>

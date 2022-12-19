@@ -121,7 +121,7 @@ const ExamTimeTableSubjects = () => {
             <VStack space={1} flexShrink={1} w="100%">
               <HStack flexShrink={1} space={2} alignItems="center" justifyContent="space-between">
                 <HStack flexShrink={1} space={2} alignItems="center">
-                  <Alert.Icon />
+                  {/* <Alert.Icon /> */}
                   <NativeText fontSize="md" fontWeight="medium" _dark={{
                   color: "coolGray.800"
                 }}>
@@ -129,7 +129,7 @@ const ExamTimeTableSubjects = () => {
                   </NativeText>
                 </HStack>
               </HStack>
-              <Box pl="6" _dark={{
+              <Box  _dark={{
               _text: {
                 color: "coolGray.600"
               }

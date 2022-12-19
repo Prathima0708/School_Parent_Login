@@ -1284,7 +1284,7 @@ const TeachersMarksheet = () => {
             <View
               style={[
                 { flex: 1 },
-                { flexDirection: "row", alignItems: "center" },
+                { flexDirection: "row", alignItems: "center",marginHorizontal:20 },
               ]}
             >
               <View
@@ -1292,7 +1292,8 @@ const TeachersMarksheet = () => {
                   flex: 1,
                   alignItems: "center",
                   backgroundColor: "darkblue",
-                  marginHorizontal: 20,
+                  
+                  // marginHorizontal: 20,
                 }}
               >
                 <Text
@@ -1306,7 +1307,7 @@ const TeachersMarksheet = () => {
                   flex: 1,
                   alignItems: "center",
                   backgroundColor: "darkblue",
-                  marginHorizontal: 20,
+                  // marginHorizontal: 20,
                 }}
               >
                 <Text
@@ -1319,7 +1320,7 @@ const TeachersMarksheet = () => {
             <View
               style={[
                 { flex: 1 },
-                { flexDirection: "row", alignItems: "center", bottom: "22%" },
+                { flexDirection: "row", alignItems: "center", bottom: "22%",marginHorizontal:20 },
               ]}
             >
               <View
@@ -1327,7 +1328,7 @@ const TeachersMarksheet = () => {
                   flex: 1,
                   alignItems: "center",
                   backgroundColor: "darkblue",
-                  marginHorizontal: 20,
+                 // marginHorizontal: 20,
                 }}
               >
                 {filteredMarks.map((data, key) => (
@@ -1346,7 +1347,7 @@ const TeachersMarksheet = () => {
                   flex: 1,
                   alignItems: "center",
                   backgroundColor: "darkblue",
-                  marginHorizontal: 20,
+                 // marginHorizontal: 20,
                 }}
               >
                 {filteredMarks.map((data, key) => (
