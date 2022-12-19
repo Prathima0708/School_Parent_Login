@@ -1132,7 +1132,7 @@ const TeachersLeaveUpdated = () => {
                       },
                     ]}
                   >
-                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 1 ,justifyContent:'center'}}>
                       <Text style={[styles.labelStyle]}>User name</Text>
                     </View>
                     <View style={{ flex: 1 }}>
@@ -1164,7 +1164,7 @@ const TeachersLeaveUpdated = () => {
                       },
                     ]}
                   >
-                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 1,justifyContent:'center' }}>
                       <Text style={styles.labelStyle}>User role</Text>
                     </View>
                     <View style={{ flex: 1 }}>
@@ -1232,6 +1232,7 @@ const TeachersLeaveUpdated = () => {
                     top: "3%",
                     left: "3%",
                     flexDirection: "row",
+                    marginVertical:10
                   }}
                 >
                   <Text
