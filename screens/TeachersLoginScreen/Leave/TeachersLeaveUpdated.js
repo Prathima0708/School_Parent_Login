@@ -1122,13 +1122,13 @@ const TeachersLeaveUpdated = () => {
                   },
                 ]}
               >
-                <View style={{ flex: 1, marginHorizontal: 20 }}>
+                <View style={{ flex: 1, marginHorizontal: 16 }}>
                   <View
                     style={[
                       { flex: 1 },
                       {
                         flexDirection: "row",
-                        marginRight: 30,
+                        marginRight: 6,
                       },
                     ]}
                   >
@@ -1159,12 +1159,12 @@ const TeachersLeaveUpdated = () => {
                       { flex: 1 },
                       {
                         flexDirection: "row",
-                        marginHorizontal: 20,
-                        marginRight: 46,
+                        marginHorizontal: 8,
+                        marginRight: 20,
                       },
                     ]}
                   >
-                    <View style={{ flex: 1,justifyContent:'center' }}>
+                    <View style={{ flex: 1,justifyContent:'center',marginLeft:'3%' }}>
                       <Text style={styles.labelStyle}>User role</Text>
                     </View>
                     <View style={{ flex: 1 }}>
@@ -1255,7 +1255,7 @@ const TeachersLeaveUpdated = () => {
                     //placeholder="Select Leave Type"
                     boxStyles={[
                       selectInputIsInValid && styles.errorSelectedColor,
-                      { bottom: "5%" },
+                      { bottom: "5%", },
                       // { marginHorizontal: 15, marginVertical: 10 },
                     ]}
                     dropdownTextStyles={{
@@ -2308,7 +2308,7 @@ const styles = StyleSheet.create({
     height: 20,
   },
   leaveSpace: {
-    width: 30, // or whatever size you need
+    width: 60, // or whatever size you need
     height: 10,
   },
   th: {
