@@ -280,7 +280,7 @@ const TeacherHomeworkScreenBuild = () => {
 
     // location = result.uri;
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setImage(result.uri);
     }
 
     localUri = result.uri;
@@ -563,8 +563,8 @@ const TeacherHomeworkScreenBuild = () => {
   }
 
   function buttonPressedHandler() {
-    console.log(selectedSubject);
-    console.log("selected value -", newArray);
+    // console.log(selectedSubject);
+    // console.log("selected value -", newArray);
 
     setLoading(true);
     setTimeout(() => {
@@ -573,7 +573,7 @@ const TeacherHomeworkScreenBuild = () => {
     setBtn(true);
     setSubBtn(true);
 
-   // const test = image.substring(image.lastIndexOf("/") + 1);
+    // const test = image.substring(image.lastIndexOf("/") + 1);
 
     // console.log(test);
     var dateFromValidate = fromText;
@@ -682,6 +682,8 @@ const TeacherHomeworkScreenBuild = () => {
       //   type,
       // });
       // console.log("photo-", formData);
+      const imageData = new FormData();
+      const image = imageData.append("homework_photo", filename);
       var formdata = {
         class_name: filteredlist[0].classname,
         section: filteredlist[0].section,
@@ -689,6 +691,7 @@ const TeacherHomeworkScreenBuild = () => {
         homework_date: FROMDATE,
         remark: remark,
         // homework_photo: formata,
+        homework_photo: image,
         homework: "empty",
         due_date: TODATE,
         description: hw,
