@@ -38,7 +38,7 @@ const ExamTimeTableSubjects = () => {
 
   return (
     <>
-{dataIsThere ? <View style={styles.root}>
+    {dataIsThere ? <View style={styles.root}>
             <View style={{alignItems:'center',marginVertical:20}}>
                 <Heading fontSize={20}>Exam Time Table</Heading>
             </View>

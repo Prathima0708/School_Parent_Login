@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+import { Heading,Text as NativeText } from "native-base";
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
@@ -12,8 +13,11 @@ import {
 } from "react-native";
 import { Card } from "react-native-paper";
 import { subURL } from "../../../../components/utils/URL's";
+import TeachersHome from "../../BottomTab/TeachersHome";
 import DisplayClass from "./DisplayClass";
 import StudentList from "./StudentList";
+import SearchBar from "react-native-dynamic-search-bar";
+import { Keyboard } from "react-native";
 export var selectedData, length;
 var USERID;
 
@@ -31,6 +35,9 @@ const MyClasses = () => {
   const [showClass, setShowClass] = useState(true);
   const [showStudList, setShowStudList] = useState(false);
 
+  const [searchText, setSearchText] = useState("");
+  const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
+
   useEffect(() => {
     async function fetchStudentClass() {
       axios
@@ -41,6 +48,7 @@ const MyClasses = () => {
               value: item.class_name + " - " + item.section,
             };
           });
+          console.log(response.data);
 
           setData(response.data);
           mainData = response.data;
@@ -70,7 +78,6 @@ const MyClasses = () => {
         `http://10.0.2.2:8000/school/IsClassteacher/${userID}`
       );
       // console.log(res.data);
-
       classData = res.data;
       setClassTeacherData(classTeacherData);
       let ids = [];
@@ -128,57 +135,79 @@ const MyClasses = () => {
   function renderClass(itemData) {
     return <DisplayClass {...itemData.item} />;
   }
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardStatus("Keyboard Shown");
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardStatus("Keyboard Hidden");
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
+  const searchFilter = (text) => {
+    console.log("search function");
+    if (text) {
+      const newData = data.filter((item) => {
+        const itemData = item.class_name
+          ? item.class_name.toUpperCase()
+          : "".toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setData(newData);
+      setSearchText(text);
+    } else {
+      setData(data);
+      setSearchText(text);
+    }
+  };
+
   return (
     <>
       {showClass && (
-        <ScrollView>
-          <View style={{ flexDirection: "column", alignItems: "center" }}>
-            <View>
-              {/* {data.map((data,key)=>(
-        <Pressable onPress={pressHandler}>
-        <Card
-      // key={key}
-      style={{
-        marginVertical: 15,
-        marginHorizontal: 20,
-        
-        elevation: 5,
-        borderRadius: 10,
-        paddingBottom: 20,
-        backgroundColor:'darkblue',
-        width:'80%',
-        
-      }}
-    >
-      <Card.Content style={{ margin: 5, marginTop: 0 }}>
-       
-
-        
-
-          <View style={{  top:10 }}>
-            <Text
-              style={{
-                fontSize:  15,
-                fontFamily: "HindSemiBold",
-                color: "white",
+        <>
+        <View style={[{flex:1}, {
+          flexDirection: "column"
+        }]}>
+          <View style={{ flex: 0.7,alignItems:'center' }} >
+            <Heading style={{marginVertical:15}}>Class List</Heading>
+            <SearchBar
+             // style={styles.searchBar}
+              textInputStyle={{
+                fontFamily: "HindRegular",
+                fontSize: 18,
               }}
-            >
-              {data.class_name} {"-"} {data.section}
-            </Text>
+              placeholder="Search here"
+             onChangeText={(text) => searchFilter(text)}
+             value={searchText}
+            />
+            {keyboardStatus == "Keyboard Hidden" && 
+            <View style={[{flex:1}, {
+              flexDirection: "row",marginVertical:17
+            }]}>
+              <View style={{ flex: 0.2,alignItems:'center',justifyContent:'center' }} >
+                <View style={styles.space}/>
+              </View>
+              <View style={{ flex: 1,alignItems:'flex-start' }} >
+                <Text style={{fontFamily:"HindSemiBold",fontSize:15}}>Class teacher</Text>
+              </View>
+            </View>}
           </View>
-         
-
-          
-        
-      
-      </Card.Content>
-    </Card>
-    </Pressable>
-    ))} */}
-              <FlatList data={data} renderItem={renderClass} />
-            </View>
+          <View style={{ flex: 2}} >
+            <FlatList data={data} renderItem={renderClass} numColumns={2} />
           </View>
-        </ScrollView>
+          {keyboardStatus == "Keyboard Hidden" &&
+          (<View style={{ flex: 0.3 }} >
+            <TeachersHome />
+          </View>)}
+        </View>
+        </>
       )}
     </>
   );
@@ -239,6 +268,7 @@ const styles = StyleSheet.create({
   space: {
     width: 20,
     height: 20,
+    backgroundColor:'orange'
   },
   th: {
     padding: 5,
