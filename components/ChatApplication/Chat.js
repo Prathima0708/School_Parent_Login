@@ -98,7 +98,7 @@ const Chat = () => {
       try {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
-          Authorization: "Token " + `${TOKEN}`,
+          Authorization: "Token " + `${token}`,
         };
 
         // const res = await axios.get("http://10.0.2.2:8000/school/users/", {

@@ -16,8 +16,12 @@ import DisplayClass from "./DisplayClass";
 import StudentList from "./StudentList";
 export var selectedData, length;
 var USERID;
-var mainData = [],
-  classData = [];
+
+export var filteredCT = [],
+  classData = [],
+  mainData = [],
+  classIds = [];
+let i;
 const MyClasses = () => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
@@ -65,31 +69,48 @@ const MyClasses = () => {
       const res = await axios.get(
         `http://10.0.2.2:8000/school/IsClassteacher/${userID}`
       );
-      console.log(res.data);
+      // console.log(res.data);
 
       classData = res.data;
+      setClassTeacherData(classTeacherData);
       let ids = [];
-      let classIds = [];
+
       for (let i = 0; i < mainData.length; i++) {
         //console.log(mainData[i].id);
         ids.push(mainData[i].id);
       }
-      console.log(ids);
+      //  console.log(ids);
       for (let i = 0; i < classData.length; i++) {
         classIds.push(classData[i].id);
       }
-      //console.log(classIds);
-      // console.log(mainData);
-      // console.log("----------------------------------------------------------");
-      // console.log(classData);
+      // console.log(classIds);
+      //  console.log(mainData);
+      console.log("----------------------------------------------------------");
+      //console.log(classData);
 
-      const result = mainData.filter((element) =>
-        classData.filter((ele) => element.id == ele.id)
+      // const result = mainData.filter((element) =>
+      //   classData.filter((ele) => element.id == ele.id)
+      // );
+      let result = mainData.filter((element) =>
+        classData.some((ele) => element.id === ele.id)
       );
 
-      console.log("result is", result);
-      // console.log("length", result.length);
-      length = result.length;
+      // console.log("result is", result.id);
+      filteredCT = result;
+
+      try {
+        await AsyncStorage.setItem("classteacher", JSON.stringify(result));
+      } catch (error) {
+        // Error saving data
+      }
+      // console.log(filteredCT.length);
+
+      //  var filteredClasses =[] ;
+      //     for( i=0;i<result.length;i++){
+
+      //       filteredClasses.push(result[i].class_name + "-"+ result[i].section)
+      //     }
+      //   filteredCT=filteredClasses
     } catch (error) {
       console.log(error);
     }

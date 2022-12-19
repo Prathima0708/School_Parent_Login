@@ -575,7 +575,7 @@ const TeacherHomeworkScreenBuild = () => {
 
    // const test = image.substring(image.lastIndexOf("/") + 1);
 
-    console.log(test);
+    // console.log(test);
     var dateFromValidate = fromText;
     var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
     // if (!isValid) {

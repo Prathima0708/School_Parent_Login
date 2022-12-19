@@ -107,7 +107,14 @@
 // //   },
 // // });
 
-import { View, Text, Platform, ScrollView, FlatList, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Platform,
+  ScrollView,
+  FlatList,
+  StyleSheet,
+} from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
@@ -144,25 +151,20 @@ const TeachersAttendance = () => {
     { present: "", absent: "", holiday: "" },
   ]);
 
-
   //how to add elements on loop to array in react?
   useLayoutEffect(() => {
-
-    if(showCalendar){
-      navigation.setOptions({headerShown: true});
+    if (showCalendar) {
+      navigation.setOptions({ headerShown: true });
     }
-    if(showStudList){
-      navigation.setOptions({headerShown: false});
+    if (showStudList) {
+      navigation.setOptions({ headerShown: false });
     }
-
-  }, [showCalendar,showStudList]);
+  }, [showCalendar, showStudList]);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/Calendar/`
-        );
+        const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
         // console.log(res.data);
         setData(res.data);
         setFilteredData(res.data);
@@ -181,7 +183,7 @@ const TeachersAttendance = () => {
   function saveAttendance() {
     // console.log("inside button");
 
-    console.log(filteredData)
+    console.log(filteredData);
     for (let i = 0; i < filteredData.length; i++) {
       //console.log(filteredData[i]?.class_name);
       const formData = {
@@ -237,7 +239,7 @@ const TeachersAttendance = () => {
     // setPresent(!present);
   }
 
-  function backHandler(){
+  function backHandler() {
     setShowStudList(false);
     setShowCalendar(true);
   }
@@ -246,24 +248,27 @@ const TeachersAttendance = () => {
     <>
       {showCalendar && (
         <>
-          <View style={[{flex:1}, {
-           flexDirection: "column",
-           backgroundColor:'white'
-         }]}>
-           <View style={{ flex: 1,}} >
+          <View
+            style={[
+              { flex: 1 },
+              {
+                flexDirection: "column",
+                backgroundColor: "white",
+              },
+            ]}
+          >
+            <View style={{ flex: 1 }}>
               <View style={[styles.overallContainer]}>
-                <View style={styles.iconContainer} >
-                <Ionicons
-                  style={{
-
-                  }}
-                  name="calendar"
-                  size={24}
-                  color="black"
-                  onPress={() => showFromMode("date")}
-                />
+                <View style={styles.iconContainer}>
+                  <Ionicons
+                    style={{}}
+                    name="calendar"
+                    size={24}
+                    color="black"
+                    onPress={() => showFromMode("date")}
+                  />
                 </View>
-                <View style={styles.dateContainer} >
+                <View style={styles.dateContainer}>
                   <UnderlinedInput
                     value={fromText}
                     placeholder="Select Date"
@@ -278,7 +283,7 @@ const TeachersAttendance = () => {
                     onChangeText={frmDateHandler}
                     onPressIn={() => showFromMode("date")}
                   />
-                   {fromShow && (
+                  {fromShow && (
                     <DateTimePicker
                       testID="dateTimePicker"
                       value={fromDate}
@@ -290,47 +295,63 @@ const TeachersAttendance = () => {
                   )}
                 </View>
               </View>
-              <View style={{ flex: 1.5,paddingHorizontal:100 }} >
+              <View style={{ flex: 1.5, paddingHorizontal: 100 }}>
                 <Button size="md" onPress={buttonPressedHandler}>
                   Start Attendance
                 </Button>
               </View>
-           </View>
-         </View>
-         <TeachersHome />
+            </View>
+          </View>
+          <TeachersHome />
         </>
-       )} 
+      )}
 
       {showStudList && (
         <>
-          <View style={[{flex:1}, {
-            flexDirection: "column"
-          }]}>
-            <View style={styles.btnContainer} >
-              <View style={[{flex:1,top:'17%'}, {
-                flexDirection: "row"
-              }]}>
-                <View style={[{flex:1}]} >
-                  <BackButton onPress={backHandler}/>
+          <View
+            style={[
+              { flex: 1 },
+              {
+                flexDirection: "column",
+              },
+            ]}
+          >
+            <View style={styles.btnContainer}>
+              <View
+                style={[
+                  { flex: 1, top: "17%" },
+                  {
+                    flexDirection: "row",
+                  },
+                ]}
+              >
+                <View style={[{ flex: 1 }]}>
+                  <BackButton onPress={backHandler} />
                 </View>
               </View>
             </View>
-            <View style={styles.btnContainer} >
-              <View style={[{flex:1}, {
-                flexDirection: "row",paddingVertical:16
-              }]}>
-                <View style={styles.buttonPadding} >
-                  <Button onPress={presentHandler}>Present</Button>
+            <View style={styles.btnContainer}>
+              <View
+                style={[
+                  { flex: 1 },
+                  {
+                    flexDirection: "row",
+                    paddingVertical: 16,
+                  },
+                ]}
+              >
+                <View style={styles.buttonPadding}>
+                  <Button onPress={presentHandler}>Present All</Button>
                 </View>
-                <View style={styles.buttonPadding} >
-                  <Button>Absent</Button>
+                <View style={styles.buttonPadding}>
+                  <Button>Absent All</Button>
                 </View>
-                <View style={styles.buttonPadding} >
+                <View style={styles.buttonPadding}>
                   <Button>Holiday</Button>
                 </View>
               </View>
             </View>
-            <View style={{ flex: 2 }} >
+            <View style={{ flex: 2 }}>
               <ScrollView>
                 <FlatList
                   data={filteredData}
@@ -339,10 +360,10 @@ const TeachersAttendance = () => {
                 />
               </ScrollView>
             </View>
-            <View style={styles.saveView} >
+            <View style={styles.saveView}>
               <Button onPress={saveAttendance}>Save</Button>
             </View>
-            <View style={{ flex: 0.1 }} >
+            <View style={{ flex: 0.1 }}>
               <TeachersHome />
             </View>
           </View>
@@ -370,41 +391,41 @@ const TeachersAttendance = () => {
 
 export default TeachersAttendance;
 
-const styles=StyleSheet.create({
-  dateContainer:{
+const styles = StyleSheet.create({
+  dateContainer: {
     flex: 2,
-    justifyContent:'center',
-    alignItems:'flex-start',
-    right:'5%' 
+    justifyContent: "center",
+    alignItems: "flex-start",
+    right: "5%",
   },
-  iconContainer:{
-    flex: 1 ,
-    justifyContent:'center',
-    alignItems:'flex-end'
-  },
-  overallContainer:{
-    flex:1, 
-    flexDirection: "row",
-    top:'10%',
-  },
-  buttonPadding:{
+  iconContainer: {
     flex: 1,
-    paddingHorizontal:10
+    justifyContent: "center",
+    alignItems: "flex-end",
   },
-  btnContainer:{
+  overallContainer: {
+    flex: 1,
+    flexDirection: "row",
+    top: "10%",
+  },
+  buttonPadding: {
+    flex: 1,
+    paddingHorizontal: 10,
+  },
+  btnContainer: {
     flex: 0.4,
-    paddingHorizontal:10,
-    paddingVertical:10,
-    backgroundColor:'white',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    backgroundColor: "white",
   },
-  saveView:{
+  saveView: {
     flex: 0.3,
-    paddingHorizontal:100,
-    paddingVertical:20,
-    bottom:5,
-    backgroundColor:'white'
-  }
-})
+    paddingHorizontal: 100,
+    paddingVertical: 20,
+    bottom: 5,
+    backgroundColor: "white",
+  },
+});
 
 // import {
 //   View,
@@ -687,16 +708,3 @@ const styles=StyleSheet.create({
 //     height: 20,
 //   },
 // });
-
-
-
-
-
-
-
-
-
-
-
-
-
