@@ -4,15 +4,24 @@ import { Card } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { length } from "./MyClasses";
+import { filteredCT, length } from "./MyClasses";
 
 export var MYCLASS, MYSECTION;
+var USERID
 
 const DisplayClass = ({ class_name, section }) => {
   // console.log("array length");
   // console.log(length);
   const [userID, setUserID] = useState("");
   const naviagtion = useNavigation();
+//   console.log('**************')
+// console.log(filteredCT)
+// const found=filteredCT.find(element => element == class_name);
+// console.log('found is ',found)
+
+
+
+
 
   // async function fetchClassTeacher() {
   //   console.log("userid is-", userID);
@@ -45,7 +54,7 @@ const DisplayClass = ({ class_name, section }) => {
             borderRadius: 10,
             paddingBottom: 20,
             // backgroundColor: "darkblue",
-            backgroundColor: length >= 3 ? "yellow" : "darkblue",
+            backgroundColor: "darkblue",
             width: "80%",
           }}
         >

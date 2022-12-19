@@ -28,6 +28,7 @@ import { Ionicons } from "@expo/vector-icons";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import { subURL } from "../../../components/utils/URL's";
 import { style } from "@mui/system";
+import { IconButton,Text as NativeText } from "native-base";
 export var ID;
 export var StudentList = [];
 var newArray, firstData, KEY, VALUE;
@@ -711,9 +712,9 @@ const TeachersMarksheet = () => {
           setFilteredData(filteredc);
         }
 
-        if (filteredc.length == 0) {
-          Alert.alert("No data found", "No data found for respective search");
-        }
+        // if (filteredc.length == 0) {
+        //   Alert.alert("No data found", "No data found for respective search");
+        // }
       } catch (error) {
         console.log(error);
       }
@@ -1077,7 +1078,126 @@ const TeachersMarksheet = () => {
               onChangeText={(text) => searchFilter(text)}
               value={searchText}
             />
-            <ScrollView horizontal={true}>
+          <View style={styles.tableHeader}>
+          <View
+            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          >
+            <Text style={styles.headerText}>Reg no</Text>
+          </View>
+          <View
+            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          >
+            <Text style={styles.headerText}>Student name</Text>
+          </View>
+          <View
+            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          >
+            <Text style={styles.headerText}>Class {"\n"} name</Text>
+          </View>
+          <View
+            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          >
+            <Text style={styles.headerText}>Actions</Text>
+          </View>
+         </View>
+         <View
+          style={[
+            { flex: 1 },
+            {
+              flexDirection: "column",
+              top: keyboardStatus == "Keyboard Hidden" ? "11.5%" : "18%",
+              marginTop:'6%',
+              paddingHorizontal: 10,
+              marginHorizontal: 10,
+            },
+          ]}
+        >
+          <View style={{ flex: 8, bottom: 10 }}>
+            {filteredData.length <=0 ? 
+              (<View style={{ alignItems: "center", top: "5%" }}>
+               <NativeText fontSize="xl" bold color="error.900">
+                 No Data Found
+               </NativeText>
+              </View>) :
+
+              (
+              <ScrollView>
+              <View style={styles.root}>
+                {filteredData &&
+                  filteredData.map((filteredData, key) => (
+                    <>
+                        <View style={styles.tableText}>
+                          <View
+                            style={{
+                              flex: 1,
+                              alignItems: "center",
+                              paddingVertical: 20,
+                            }}
+                          >
+                            <Text
+                              style={[styles.headerText, { color: "black" }]}
+                            >
+                              {filteredData.reg_number}
+                            </Text>
+                          </View>
+                          <View
+                            style={{
+                              flex: 1,
+                              alignItems: "center",
+                              paddingVertical: 20,
+                            }}
+                          >
+                            <Text
+                              style={[styles.headerText, { color: "black" }]}
+                            >
+                              {filteredData.student_name}
+                            </Text>
+                          </View>
+                          <View
+                            style={{
+                              flex: 1,
+                              alignItems: "center",
+                              paddingVertical: 20,
+                            }}
+                          >
+                            <Text
+                              style={[styles.headerText, { color: "black" }]}
+                            >
+                              {filteredData.class_name} - {filteredData.section}
+                            </Text>
+                          </View>
+                          <View
+                            style={{
+                              flex: 1,
+                              alignItems: "center",
+                              paddingVertical: 20,
+                            }}
+                          >
+                            <IconButton
+                              colorScheme="blue"
+                              onPress={() => addForm(filteredData.id)}
+                              variant="subtle"
+                              _icon={{
+                                as: Ionicons,
+                                name: "eye",
+                              }}
+                            />
+                          </View>
+                        </View>
+                    </>
+                  ))}
+              </View>
+            </ScrollView>
+              )}
+            
+          </View>
+        </View>
+        {keyboardStatus == "Keyboard Hidden" && (
+          <View style={{ flex: 0.4 }}>
+            <TeachersHome />
+          </View>
+        )}
+            {/* <ScrollView horizontal={true}>
               <DataTable style={styles.container}>
                 <DataTable.Header style={styles.tableHeader}>
                   <View style={styles.th}>
@@ -1145,10 +1265,6 @@ const TeachersMarksheet = () => {
                           marginLeft: 70,
                         }}
                       >
-                        {/* <Btn
-                        title="view marks"
-                        onPress={() => addForm(data.id)}
-                      /> */}
                         <Ionicons
                           name="eye"
                           //size={deviceWidth < 370 ? 35 : 38}
@@ -1160,7 +1276,7 @@ const TeachersMarksheet = () => {
                     </DataTable.Row>
                   ))}
               </DataTable>
-            </ScrollView>
+            </ScrollView> */}
           </>
         )}
         {showMarksheet && !empty && (
@@ -1403,6 +1519,15 @@ const styles = StyleSheet.create({
     // backgroundColor: "#EBECFO",
     backgroundColor: "white",
   },
+  tableText: {
+    flex: 1,
+    flexDirection: "row",
+    // paddingHorizontal:10,
+    // marginHorizontal:10,
+    borderBottomWidth: 1,
+    borderRightWidth: 1,
+    borderLeftWidth: 1,
+  },
   inputForm: {
     padding: 20,
     paddingTop: 15,
@@ -1440,10 +1565,17 @@ const styles = StyleSheet.create({
     //fontSize: 24,
   },
   tableHeader: {
-    backgroundColor: "skyblue",
-
-    height: 50,
-    fontWeight: "bold",
+    flex: 0.3,
+    flexDirection: "row",
+    top: "25%",
+    borderWidth: 1,
+    marginHorizontal: 20,
+    backgroundColor: "darkblue",
+  },
+  headerText: {
+    fontFamily: "HindBold",
+    fontSize: 16,
+    color: "white",
   },
   tableTitle: {
     // padding: 5,

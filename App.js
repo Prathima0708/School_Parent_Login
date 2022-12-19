@@ -57,6 +57,7 @@ import StudentList from "./screens/TeachersLoginScreen/Profile/MyClasses/Student
 import ExamTimeTableSubjects from "./screens/TeachersLoginScreen/TimeTable/ExamTimeTableSubjects";
 import TeachersLeave from "./screens/TeachersLoginScreen/Leave/TeachersLeave";
 import TeachersLeaveUpdated from "./screens/TeachersLoginScreen/Leave/TeachersLeaveUpdated";
+import ExamTimeTable from "./screens/ParentsLoginScreen/Academics/TimeTable/ExamTimeTable";
 var value, Group, GroupP, GroupT;
 // function Bottom() {
 //   return (
@@ -329,6 +330,11 @@ export default function App() {
           component={ExamTimeTableSubjects}
           options={{ title: "" }}
         />
+        <Stack.Screen
+          name="ExamTimeTable"
+          component={ExamTimeTable}
+          options={{ title: "" }}
+        />
       </Stack.Navigator>
     );
   }
@@ -421,6 +427,11 @@ export default function App() {
         <Stack.Screen name="Academics" component={Academics} />
         <Stack.Screen name="StudentDetails" component={StudentDetails} />
         <Stack.Screen name="Homework" component={HomeworkScreen} />
+        <Stack.Screen
+          name="ExamTimeTable"
+          component={ExamTimeTable}
+          options={{ title: "" }}
+        />
       </Stack.Navigator>
     );
   }
