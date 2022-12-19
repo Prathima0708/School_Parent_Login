@@ -96,61 +96,89 @@ function TeacherAttendance({
 
   return (
     <>
-      <View
-        style={[styles.mainContainer]}
-      >
+      <View style={[styles.mainContainer]}>
         <View style={{ flex: 8, bottom: 10 }}>
-        <ScrollView horizontal={false}>
-          <View style={[{flex:1}, {
-            flexDirection: "row",backgroundColor: "#f0f0fc",
-          }]}>
-            <View style={{ flex: 1.7 ,alignItems:'center',justifyContent:'center'}} >
-              <Text style={[styles.textBase, styles.description]}>
-                {teachers} {id}
-              </Text>
-            </View>
-            <View style={{ flex: 1.4,alignItems:'center',justifyContent:'center' }} >
-              <Text style={[styles.textBase, styles.description]}>
-                {class_name}
-              </Text>
-            </View>
-            <View style={{ flex: 1,alignItems:'center',justifyContent:'center' }} >
-              <Text style={{ color: "black", fontWeight: "bold" }}>
-                {selectedStatus || onPresent}
-              </Text>
-            </View>
-            <View style={{ flex: 0.4 ,padding:10}} >
-              <View style={[{flex:1}, {
-                flexDirection: "column",padding:4
-              }]}>
-                <View style={{ flex: 1}} >
-                  <Button
-                    title="P"
-                    color={changePresentColor}
-                    onPress={presentBtnHandler}
-                  />
-                </View>
-                <View style={styles.space}/>
-                <View style={{ flex: 1 }} >
-                  <Button
-                    title="A"
-                    color={changeAbsentColor}
-                    onPress={absentBtnHandler}
-                  />
-                </View>
-                <View style={styles.space}/>
-                <View style={{ flex: 1, backgroundColor: "green" }} >
-                  <Button
-                    title="H"
-                    color={changeHolidayColor}
-                    onPress={holidatBtnGHandler}
-                  />
+          <ScrollView horizontal={false}>
+            <View
+              style={[
+                { flex: 1 },
+                {
+                  flexDirection: "row",
+                  backgroundColor: "#f0f0fc",
+                },
+              ]}
+            >
+              <View
+                style={{
+                  flex: 1.7,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={[styles.textBase, styles.description]}>
+                  {teachers}  Priya
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 1.4,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={[styles.textBase, styles.description]}>
+                  {class_name} Second 
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={{ color: "black", fontWeight: "bold" }}>
+                  {selectedStatus || onPresent}
+                </Text>
+              </View>
+              <View style={{ flex: 0.4, padding: 10 }}>
+                <View
+                  style={[
+                    { flex: 1 },
+                    {
+                      flexDirection: "column",
+                      padding: 4,
+                    },
+                  ]}
+                >
+                  <View style={{ flex: 1 }}>
+                    <Button
+                      title="P"
+                      color={changePresentColor}
+                      onPress={presentBtnHandler}
+                    />
+                  </View>
+                  <View style={styles.space} />
+                  <View style={{ flex: 1 }}>
+                    <Button
+                      title="A"
+                      color={changeAbsentColor}
+                      onPress={absentBtnHandler}
+                    />
+                  </View>
+                  <View style={styles.space} />
+                  <View style={{ flex: 1, backgroundColor: "green" }}>
+                    <Button
+                      title="H"
+                      color={changeHolidayColor}
+                      onPress={holidatBtnGHandler}
+                    />
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
 
-        {/* <View style={styles.studentItem}>
+            {/* <View style={styles.studentItem}>
           <View style={styles.studentItem}>
             <Text style={[styles.textBase, styles.description]}>
               {teachers} {id}
@@ -185,7 +213,7 @@ function TeacherAttendance({
             />
           </View>
         </View> */}
-      </ScrollView>
+          </ScrollView>
         </View>
       </View>
     </>
@@ -195,12 +223,12 @@ export default TeacherAttendance;
 
 const styles = StyleSheet.create({
   statusContainer: {},
-  mainContainer:{
-    flex:1,
+  mainContainer: {
+    flex: 1,
     flexDirection: "column",
-     backgroundColor: "white",
-     paddingHorizontal:10,
-     paddingVertical:10
+    backgroundColor: "white",
+    paddingHorizontal: 10,
+    paddingVertical: 10,
   },
 
   studentItem: {
