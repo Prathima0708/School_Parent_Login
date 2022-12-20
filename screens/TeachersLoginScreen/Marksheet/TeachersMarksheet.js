@@ -933,7 +933,7 @@ const TeachersMarksheet = () => {
               <Text
                 style={{
                   fontFamily: "HindBold",
-                  fontSize: 18,
+                  fontSize: 20,
                   top: "5%",
                   marginLeft: 10,
                 }}
@@ -941,6 +941,7 @@ const TeachersMarksheet = () => {
                 Select class
               </Text>
               <View style={styles.space} />
+              <Text style={{fontFamily:'HindBold',fontSize:20,top: "5%"}}>-</Text>
               <View style={styles.space} />
               <SelectList
                 defaultOption={{

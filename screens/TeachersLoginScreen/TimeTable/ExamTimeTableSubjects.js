@@ -78,7 +78,7 @@ const ExamTimeTableSubjects = () => {
                                           { left: "35%" },
                                         ]}
                                       >
-                                        {data.name}
+                                        {data.exam_time}
                                       </Text>
                                     </View>
                                   </View>
@@ -102,7 +102,7 @@ const ExamTimeTableSubjects = () => {
                                       ]}
                                     >
                                       <Text style={[styles.tableTitle]}>
-                                        {data.value}
+                                        {data.subject}
                                       </Text>
                                     </View>
                                   </View>
