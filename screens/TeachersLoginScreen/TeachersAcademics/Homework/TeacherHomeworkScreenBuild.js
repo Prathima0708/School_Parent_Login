@@ -263,7 +263,7 @@ const TeacherHomeworkScreenBuild = () => {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-      //base64: true,
+      base64: true,
     });
 
     // const { status } = await MediaLibrary.requestPermissionsAsync();
@@ -273,7 +273,7 @@ const TeacherHomeworkScreenBuild = () => {
     //   console.log("Image successfully saved");
     // }
     console.log("------");
-    console.log(result);
+    // console.log(result.base64);
     // ImageResult = result;
     // const reader = new FileReader();
 
@@ -293,16 +293,16 @@ const TeacherHomeworkScreenBuild = () => {
     type = match ? `image/${match[1]}` : `image`;
     console.log("type-", type);
 
-    // RNFS.readFile(result.uri, "base64").then((res) => {
-    //   console.log(res);
+    // const base64 = await FileSystem.readAsStringAsync(result.uri, {
+    //   encoding: "base64",
     // });
-    // const base64 = await FileSystem.readAsStringAsync(
-    //   "0b6a53ce-3172-49cd-bcac-36eb1a83e136.jpg",
-    //   {
-    //     encoding: "base64",
-    //   }
-    // );
     // console.log(base64);
+
+    // const fileReader = new FileReader();
+    // fileReader.onload = (fileLoadedEvent) => {
+    //   const base64Image = fileLoadedEvent.target.result;
+    // };
+    // console.log(fileReader.readAsDataURL(result.uri));
   };
   let imagePreView;
 
@@ -563,7 +563,7 @@ const TeacherHomeworkScreenBuild = () => {
 
     // }
   }
-
+  let postForm = new FormData();
   function buttonPressedHandler() {
     // console.log(selectedSubject);
     // console.log("selected value -", newArray);
@@ -637,54 +637,88 @@ const TeacherHomeworkScreenBuild = () => {
     //   return;
     // }
     else {
-      console.log(newArray);
-      console.log("inside post req from date", FROMDATE);
-      console.log("inside post req to date", TODATE);
+      // console.log(newArray);
+      // console.log("inside post req from date", FROMDATE);
+      // console.log("inside post req to date", TODATE);
       let filteredlist = newArray.filter((ele) => ele.key == selected);
       // console.log(filteredlist);
 
-      // let formData = new FormData();
-      // formData.append("homework_photo", {
+      // const imageData = new FormData();
+      // let photo = {
       //   uri: localUri,
-      //   name: filename,
-      //   type,
-      // });
-      // console.log("photo-", formData);
-      const imageData = new FormData();
+      //   type: "image/*",
+      // };
+      // imageData.append("homework_photo", photo);
+      // const image = imageData.append("homework_photo", filename);
+      console.log("salvo");
+      console.log(image);
       let photo = {
         uri: localUri,
         type: "image/*",
       };
-      imageData.append("homework_photo", photo);
-      const image = imageData.append("homework_photo", filename);
+      console.log("photo");
+      console.log(photo);
+
+      postForm.append("class_name", filteredlist[0].classname);
+      postForm.append("section", filteredlist[0].section);
+      postForm.append("subject", selectedSubject);
+      postForm.append("homework_date", FROMDATE);
+      postForm.append("remark", remark);
+      postForm.append("homework_photo", photo);
+
+      postForm.append("homework", "empty");
+      postForm.append("due_date", TODATE);
+      postForm.append("description", hw);
+
       var formdata = {
         class_name: filteredlist[0].classname,
         section: filteredlist[0].section,
         subject: selectedSubject,
         homework_date: FROMDATE,
         remark: remark,
-        // homework_photo: formata,
-        homework_photo: imageData,
+        // homework_photo:
+        //  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAC+klEQVRoge2ZT0hUURSHv3Pf02EsC9TEEgNBUCqKygmkaFVtIlrUoAbVqpZGtWhRC6HANoU7oTbRPwshahHUJoRALWsTUViLgizjWYkUmTjvnRaOMgwz4/ic0DfNBwNv7jn3/s6Pc+97bxgoUKDAf4HMXDS2OAdFaAO2AMsWryQAJkA/iMoTsayuZ7fK38w1QQAirU4ncOKfl+cPV1XO17oVF3p6xE2XZBpbnIMsXRMAloi2fywavZwpycS309JHaYu0OM3pwobpMxEMhEsbD39NeX4Ni3+w50N1aErOpApIpNVRgMHuSkmVkMh8cv3kZ5rTeOjrflFzH5iw1F03cGf1x8S4yVZgsXlxu+oB8BgIu8a6mBwPjBEAyzMngSmU5sghZ2diLFBGBu5WvEXoAkDppF1n6w+UEYAQxe3AN2BzZGj06Mz47GEPKJ8Hu1fVgGjgOpJEdVP0+xoI4NZKxrWphzwworgNkAdGEMmPjqB5srVg2og9822pv2sl0xT9FI7ZoV/A2q37vpQEtiP9PTUTgnwCjL3cqgusEQBPdAjAQxoCbcR4vANApD7QRpC4EfWCbUS86a0F0hD0l8YZfga6IwmU5ouRvHiyAwUjS49sjQyrEi0Oy4risKxA9ADw/h/V5Esrm9vvsB0LbervWfkjcbApOl4WsydfAdULKDpnWgYYybSyKieTFwaIj53yWXCutUaMot2ZFg+VyON0MS9mp435wbeWyC17eej32V+TJQjSCqxOzolNmqx/SywUH1ojoLfHxsbP2b3Xav8Ap+OfWba1Ok8Vdnga2wXcS7WKWLHd8cung92VO1PlZEMutNLetTzkJgAqHduODJcnx5ui42UGOuI5N+Zffm610rZy63EtMj9H+4BG4DNwyhjrEYDrunsMdKhQB/p82Ujl9t5eifk1kgutjHsyEnWqKOIhmvZfrRdFtre370aV49dErrTmPFzro1octkaPGZHDim6YniSvFe+6V1p59eUVmVpA/YumVaBAgYDyF2wAQNEGCgG3AAAAAElFTkSuQmCC",
+        // homework_photo: filename,
         homework: "empty",
         due_date: TODATE,
         description: hw,
         // created_by: user,
       };
+      let newObj = Object.assign(formdata, {
+        homework_photo: { name: filename },
+      });
+      console.log(newObj);
 
-      console.log(formdata);
+      // let formData = new FormData();
+      // formData.append("class_name", filteredlist[0].classname);
+      // formData.append("section", filteredlist[0].section);
+      // formData.append("subject", selectedSubject);
+      // formData.append("homework_date", FROMDATE);
+      // formData.append("remark", remark);
+      // // formData.append("homework_photo", {
+      // //   uri: localUri,
+      // //   name: filename,
+      // //   type,
+      // // });
+      // formData.append("homework_photo", filename);
+      // formData.append("homework", "empty");
+      // formData.append("due_date", TODATE);
+      // formData.append("description", hw);
+
+      // console.log(formData);
 
       async function storeData() {
         try {
           let headers = {
             Accept: "application/json",
-            //   "Content-Type": "application/json; charset=utf-8;",
+            //  "Content-Type": "application/json; charset=utf-8;",
             "Content-Type": "multipart/form-data",
             Authorization: "Token " + `${token}`,
           };
 
           const resLogin = await axios.post(
             "http://10.0.2.2:8000/school/Homework/",
-            formdata,
+            newObj,
             {
               headers: headers,
             }
@@ -1650,7 +1684,7 @@ const styles = StyleSheet.create({
   selectStyleSub: {
     marginRight: deviceWidth < 370 ? "2%" : "5%",
     marginLeft: deviceWidth < 370 ? "2%" : "4%",
-    marginTop: 11,
+    marginTop: 20,
   },
 
   space: {

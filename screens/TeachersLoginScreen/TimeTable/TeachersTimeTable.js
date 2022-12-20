@@ -482,102 +482,6 @@ const TeachersTimetable = () => {
                 />
               ) : (
                 <>
-                  {/* {showDefaultList && (
-                    <>
-                      <ScrollView horizontal={true}>
-                        <DataTable style={styles.container}>
-                          <DataTable.Header style={styles.tableHeader}>
-                            <View style={styles.th}>
-                              <Text style={styles.tableTitle}> MON</Text>
-                            </View>
-                            <View style={styles.th}>
-                              <Text style={styles.tableTitle}>TUE</Text>
-                            </View>
-                            <View style={styles.th}>
-                              <Text style={styles.tableTitle}> WED</Text>
-                            </View>
-                            <View style={styles.th}>
-                              <Text style={styles.tableTitle}>THUR</Text>
-                            </View>
-
-                            <View style={styles.th}>
-                              <Text style={styles.tableTitle}> FRI</Text>
-                            </View>
-                            <View style={styles.th}>
-                              <Text style={styles.tableTitle}> SAT</Text>
-                            </View>
-                          </DataTable.Header>
-
-                          <View style={styles.th}>
-                            <Text style={styles.tableTitle}>
-                              {" "}
-                              Default student list goes here...
-                            </Text>
-                          </View>
-
-                          {filteredTimeTable &&
-                            filteredTimeTable.map((data, key) => (
-                              <DataTable.Row style={styles.tableRow} key={key}>
-                                <DataTable.Cell
-                                  textStyle={{
-                                    fontSize: 18,
-                                    fontFamily: "HindRegular",
-                                    marginLeft: 50,
-                                  }}
-                                >
-                                  {data.monday}
-                                </DataTable.Cell>
-                                <DataTable.Cell
-                                  textStyle={{
-                                    fontSize: 18,
-                                    fontFamily: "HindRegular",
-                                  }}
-                                >
-                                  {data.Tuesday}
-                                </DataTable.Cell>
-                                <DataTable.Cell
-                                  textStyle={{
-                                    fontSize: 18,
-                                    fontFamily: "HindRegular",
-                                    marginLeft: 90,
-                                  }}
-                                >
-                                  {data.wednesday}
-                                </DataTable.Cell>
-                                <DataTable.Cell
-                                  textStyle={{
-                                    fontSize: 18,
-                                    fontFamily: "HindRegular",
-                                    marginLeft: 70,
-                                  }}
-                                >
-                                  {data.thursday}
-                                </DataTable.Cell>
-                                <DataTable.Cell
-                                  textStyle={{
-                                    fontSize: 18,
-                                    fontFamily: "HindRegular",
-                                    marginLeft: 70,
-                                  }}
-                                >
-                                  {data.friday}
-                                </DataTable.Cell>
-                                <DataTable.Cell
-                                  textStyle={{
-                                    fontSize: 18,
-                                    fontFamily: "HindRegular",
-                                    marginLeft: 70,
-                                  }}
-                                >
-                                  {data.saturday}
-                                </DataTable.Cell>
-                              </DataTable.Row>
-                            ))}
-                        </DataTable>
-                      </ScrollView>
-                    </>
-                  )} */}
-
                   {showSelected && (isUndefined || !isIdThere) && (
                     <View style={{ alignItems: "center", top: "2%" }}>
                       <NativeText fontSize="xl" bold color="error.900">
@@ -585,12 +489,6 @@ const TeachersTimetable = () => {
                       </NativeText>
                     </View>
                   )}
-
-                  {/* {showSelected &&  (
-                    <View style={{alignItems:'center',top:'2%'}}>
-                       <NativeText fontSize="xl" bold color='error.900'>No Data Found</NativeText>
-                    </View>
-                  )} */}
 
                   {showSelected && !isUndefined && isIdThere && (
                     <>

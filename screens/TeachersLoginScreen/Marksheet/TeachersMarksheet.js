@@ -1281,10 +1281,10 @@ const TeachersMarksheet = () => {
         )}
         {showMarksheet && !empty && (
           <>
-            <View
+            {/* <View
               style={[
                 { flex: 1 },
-                { flexDirection: "row", alignItems: "center",marginHorizontal:20 },
+                { flexDirection: "column", alignItems: "center" },
               ]}
             >
               <View
@@ -1316,53 +1316,58 @@ const TeachersMarksheet = () => {
                   Student name
                 </Text>
               </View>
-            </View>
-            <View
-              style={[
-                { flex: 1 },
-                { flexDirection: "row", alignItems: "center", bottom: "22%",marginHorizontal:20 },
-              ]}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: "center",
-                  backgroundColor: "darkblue",
-                 // marginHorizontal: 20,
-                }}
-              >
-                {filteredMarks.map((data, key) => (
-                  <Text
-                    style={[
-                      styles.headingFont,
-                      { fontSize: 18, color: "white" },
-                    ]}
-                  >
-                    {StudentList.reg_number}
-                  </Text>
-                ))}
+            </View> */}
+              <View style={[{flex:1}, {
+                flexDirection: "column",backgroundColor:'darkblue',marginHorizontal:20,marginVertical:60,bottom:'5%'
+              }]}>
+                <View style={{ flex: 1 }} >
+                  <View style={[{flex:1}, {
+                    flexDirection: "row"
+                  }]}>
+                    <View style={{ flex: 1,marginHorizontal:60,marginVertical:10 }} >
+                      <Text style={[styles.headingFont, { fontSize: 18, color: "white" }]}>Roll no</Text>
+                    </View>
+                    <View style={{ flex: 1,marginVertical:10 }} >
+                      {filteredMarks.map((data, key) => (
+                        <Text
+                          style={[
+                            styles.headingFont,
+                            { fontSize: 18, color: "white" },
+                          ]}
+                        >
+                          {StudentList.reg_number}
+                        </Text>
+                      ))}
+                    </View>
+                  </View>
+                </View>
+                <View style={{ flex: 1, }} >
+                  <View style={[{flex:1}, {
+                      flexDirection: "row"
+                    }]}>
+                      <View style={{ flex: 1,marginHorizontal:60 }} >
+                        <Text
+                          style={[styles.headingFont, { fontSize: 18, color: "white" }]}
+                        >
+                          Student name
+                        </Text>
+                      </View>
+                      <View style={{ flex: 1 }} >
+                        {filteredMarks.map((data, key) => (
+                          <Text
+                            style={[
+                              styles.headingFont,
+                              { fontSize: 18, color: "white" },
+                            ]}
+                          >
+                            {" "}
+                            {data.student_name}
+                          </Text>
+                        ))}
+                      </View>
+                    </View>
+                  </View>
               </View>
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: "center",
-                  backgroundColor: "darkblue",
-                 // marginHorizontal: 20,
-                }}
-              >
-                {filteredMarks.map((data, key) => (
-                  <Text
-                    style={[
-                      styles.headingFont,
-                      { fontSize: 18, color: "white" },
-                    ]}
-                  >
-                    {" "}
-                    {data.student_name}
-                  </Text>
-                ))}
-              </View>
-            </View>
             <View
               style={[
                 { flex: 0.34 },
@@ -1414,7 +1419,7 @@ const TeachersMarksheet = () => {
               ]}
             >
               <View
-                style={{ flex: 1, borderRightWidth: 1, alignItems: "center" }}
+                style={{ flex: 1, borderRightWidth: 1, alignItems: "center",paddingBottom:10 }}
               >
                 <View>
                   <Text style={styles.headingFont}>MATHS</Text>

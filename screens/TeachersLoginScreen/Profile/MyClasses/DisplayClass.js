@@ -1,10 +1,12 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Card } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { classData, filteredCT, length } from "./MyClasses";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { IconButton } from "native-base";
 
 export var MYCLASS, MYSECTION;
 var USERID, CT, ID;
@@ -76,25 +78,27 @@ const DisplayClass = ({ class_name, section, id }) => {
     }
   });
   return (
+    <>
+    <View style={styles.space}/>
     <View>
       <Pressable onPress={navigateHander}>
         <Card
           // key={key}
           style={{
             marginVertical: 15,
-            marginHorizontal: 20,
+            marginHorizontal: 10,
 
             elevation: 5,
             borderRadius: 10,
-            paddingBottom: 20,
+            paddingBottom: 15,
             //  backgroundColor: getBg(ID),
             backgroundColor: bgColor ? "orange" : "darkblue",
             // backgroundColor: bgColor,
-            width: "80%",
+            width: "110%",
           }}
         >
           <Card.Content style={{ margin: 5, marginTop: 0 }}>
-            <View style={{ top: 10 }}>
+            <View style={{ top: 10}}>
               <Text
                 style={{
                   fontSize: 15,
@@ -106,10 +110,21 @@ const DisplayClass = ({ class_name, section, id }) => {
               </Text>
             </View>
           </Card.Content>
+          
         </Card>
       </Pressable>
     </View>
+    </>
+    
   );
 };
 
 export default DisplayClass;
+
+
+const styles=StyleSheet.create({
+  space:{
+    width: 40,
+    height: 40,
+  }
+})

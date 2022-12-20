@@ -1375,10 +1375,10 @@ const styles = StyleSheet.create({
     color: "#FFF",
   },
   headingView: {
-    flex: 0.2,
+    flex: 0.3,
     backgroundColor: "white",
     alignItems: "center",
-    paddingVertical: 17,
+    paddingVertical: 14,
   },
   textStyle: {
     fontSize: 18,

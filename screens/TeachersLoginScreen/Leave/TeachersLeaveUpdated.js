@@ -51,7 +51,7 @@ export var FROMDATE, TODATE;
 export var BADGE;
 var USERNAME, TOKEN, USERROLE, USERID;
 
-var firstData, KEY, VALUE;
+var firstData, KEY, VALUE, newArray;
 const TeachersLeaveUpdated = () => {
   const [user, setUser] = useState("");
   const [userRole, setUserRole] = useState("");
@@ -223,7 +223,7 @@ const TeachersLeaveUpdated = () => {
         .get(`http://10.0.2.2:8000/school/IsClassteacher/${userID}/`)
         .then((response) => {
           console.log(response.data);
-          let newArray = response.data.map((item) => {
+          newArray = response.data.map((item) => {
             return {
               value: item.class_name + " - " + item.section,
             };
@@ -811,7 +811,7 @@ const TeachersLeaveUpdated = () => {
       axios
         .get(`http://10.0.2.2:8000/school/IsClassteacher/${userID}/`)
         .then((response) => {
-          let newArray = response.data.map((item) => {
+          newArray = response.data.map((item) => {
             return {
               key: item.id,
               value: item.class_name + " - " + item.section,
@@ -867,14 +867,21 @@ const TeachersLeaveUpdated = () => {
   function classsectionSelectHandler() {
     console.log("selected");
     console.log(selectedClassSection);
+    console.log("new array-", newArray);
     // console.log(selectedClassSection.split(" - "));
-
-    let send = selectedClassSection.split(" - ");
-    // console.log(send[0]);
+    let filteredlist = newArray?.filter(
+      (ele) => ele.key == selectedClassSection
+    );
+    console.log("filtered list-", filteredlist);
+    //console.log(filteredlist[0].classname);
+    let class_name = filteredlist[0].classname;
+    let section = filteredlist[0].section;
+    // // let send = selectedClassSection.split(" - ");
+    // // console.log(send[0]);
     async function fetchData() {
       try {
         const res = await axios.get(
-          `http://10.0.2.2:8000/school/LeaveCS/${send[0]}/${send[1]}/`
+          `http://10.0.2.2:8000/school/LeaveCS/${class_name}/${section}`
         );
 
         console.log("leave by class section");
@@ -1065,17 +1072,17 @@ const TeachersLeaveUpdated = () => {
                   },
                 ]}
               >
-                <View style={{ flex: 1, marginHorizontal: 20 }}>
+                <View style={{ flex: 1, marginHorizontal: 16 }}>
                   <View
                     style={[
                       { flex: 1 },
                       {
                         flexDirection: "row",
-                        marginRight: 30,
+                        marginRight: 6,
                       },
                     ]}
                   >
-                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 1, justifyContent: "center" }}>
                       <Text style={[styles.labelStyle]}>User name</Text>
                     </View>
                     <View style={{ flex: 1 }}>
@@ -1102,12 +1109,18 @@ const TeachersLeaveUpdated = () => {
                       { flex: 1 },
                       {
                         flexDirection: "row",
-                        marginHorizontal: 20,
-                        marginRight: 46,
+                        marginHorizontal: 8,
+                        marginRight: 20,
                       },
                     ]}
                   >
-                    <View style={{ flex: 1 }}>
+                    <View
+                      style={{
+                        flex: 1,
+                        justifyContent: "center",
+                        marginLeft: "3%",
+                      }}
+                    >
                       <Text style={styles.labelStyle}>User role</Text>
                     </View>
                     <View style={{ flex: 1 }}>
@@ -1175,6 +1188,7 @@ const TeachersLeaveUpdated = () => {
                     top: "3%",
                     left: "3%",
                     flexDirection: "row",
+                    marginVertical: 10,
                   }}
                 >
                   <Text
@@ -1802,6 +1816,7 @@ const TeachersLeaveUpdated = () => {
                   fontFamily: "HindRegular",
                 }}
                 inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                save="key"
               />
             </View>
 
@@ -2254,7 +2269,7 @@ const styles = StyleSheet.create({
     height: 20,
   },
   leaveSpace: {
-    width: 30, // or whatever size you need
+    width: 60, // or whatever size you need
     height: 10,
   },
   th: {
@@ -2332,7 +2347,7 @@ const styles = StyleSheet.create({
   upRemark: {
     top: deviceHieght > 800 ? 25 : 28,
     left: deviceWidth < 370 ? 20 : 30,
-    width: deviceWidth > 400 ? 110 : 100,
+    width: deviceWidth > 400 ? 110 : 120,
   },
 
   normalEmail: {
@@ -2343,7 +2358,7 @@ const styles = StyleSheet.create({
   upEmail: {
     top: deviceHieght > 800 ? 25 : 28,
     left: deviceWidth < 370 ? 20 : 30,
-    width: deviceWidth > 400 ? 110 : 115,
+    width: deviceWidth > 400 ? 110 : 130,
   },
   upEmailExtra: {
     top: deviceHieght > 800 ? 25 : 28,
