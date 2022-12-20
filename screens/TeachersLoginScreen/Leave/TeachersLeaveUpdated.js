@@ -2386,7 +2386,7 @@ const styles = StyleSheet.create({
   upRemark: {
     top: deviceHieght > 800 ? 25 : 28,
     left: deviceWidth < 370 ? 20 : 30,
-    width: deviceWidth > 400 ? 110 : 100,
+    width: deviceWidth > 400 ? 110 : 120,
   },
 
   normalEmail: {
@@ -2397,7 +2397,7 @@ const styles = StyleSheet.create({
   upEmail: {
     top: deviceHieght > 800 ? 25 : 28,
     left: deviceWidth < 370 ? 20 : 30,
-    width: deviceWidth > 400 ? 110 : 115,
+    width: deviceWidth > 400 ? 110 : 130,
   },
   upEmailExtra: {
     top: deviceHieght > 800 ? 25 : 28,

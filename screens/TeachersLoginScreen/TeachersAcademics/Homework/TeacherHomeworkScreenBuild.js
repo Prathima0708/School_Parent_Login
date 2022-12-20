@@ -1677,7 +1677,7 @@ const styles = StyleSheet.create({
   selectStyleSub: {
     marginRight: deviceWidth < 370 ? "2%" : "5%",
     marginLeft: deviceWidth < 370 ? "2%" : "4%",
-    marginTop: 11,
+    marginTop: 20,
   },
 
   space: {

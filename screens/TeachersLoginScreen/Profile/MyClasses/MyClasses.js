@@ -173,7 +173,7 @@ const MyClasses = () => {
       {showClass && (
         <>
         <View style={[{flex:1}, {
-          flexDirection: "column"
+          flexDirection: "column",backgroundColor:'white'
         }]}>
           <View style={{ flex: 0.7,alignItems:'center' }} >
             <Heading style={{marginVertical:15}}>Class List</Heading>
