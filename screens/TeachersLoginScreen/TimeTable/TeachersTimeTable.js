@@ -2582,8 +2582,8 @@ const TeachersTimetable = () => {
               <Text
                 style={{
                   fontFamily: "HindBold",
-                  fontSize: 18,
-                  top: "5%",
+                  fontSize: 20,
+                  top: "3%",
                   marginLeft: 10,
                 }}
               >
@@ -2591,6 +2591,7 @@ const TeachersTimetable = () => {
               </Text>
               <View style={styles.space} />
               <View style={styles.space} />
+              <Text style={{fontFamily:'HindBold',fontSize:20,top: "3%"}}>-</Text>
               <View style={styles.space} />
               <View style={styles.space} />
               <SelectList

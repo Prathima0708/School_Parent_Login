@@ -133,6 +133,12 @@ const CalenderScreen = () => {
     fetchData();
   }, [calendarData]);
 
+  useEffect(()=>{
+    if(dataIsPresent){
+      setDataIsPresent(false);
+    }
+  },[]);
+
   for (i = 0; i < calendarData.length; i++) {
     toDateVar[i] = moment(calendarData[i].enddate).format("YYYY-MM-DD");
   }
@@ -181,6 +187,7 @@ const CalenderScreen = () => {
     <>
       <Calendar
         markedDates={dates}
+        
         style={{
           elevation: 5,
           shadowColor: "black",

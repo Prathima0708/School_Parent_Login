@@ -1019,7 +1019,7 @@ const TeacherHomeworkScreenBuild = () => {
                     onSelect={fetchSubjects}
                   />
                   {selectInputIsInValid && (
-                    <Text style={[styles.errorText]}>Enter class</Text>
+                    <Text style={[styles.errorText,{top:10}]}>Select class</Text>
                   )}
                 </View>
               )}
@@ -1036,8 +1036,9 @@ const TeacherHomeworkScreenBuild = () => {
                     dropdownTextStyles={styles.dropText}
                     inputStyles={styles.dropText}
                   />
-                  {selectSubInputIsInValid && (
-                    <Text style={[styles.errorText]}>Enter subject</Text>
+                  {selectInputIsInValid ?( <Text style={[styles.errorText,{top:10}]}>Please select class first</Text>) :
+                   selectSubInputIsInValid && !selectInputIsInValid && (
+                    <Text style={[styles.errorText,{top:10}]}>Select subject</Text>
                   )}
                 </View>
               )}
@@ -1074,7 +1075,7 @@ const TeacherHomeworkScreenBuild = () => {
                 )}
               </View> */}
 
-              <View style={[{ flexDirection: "row" }]}>
+              <View style={[{ flexDirection: "row",marginVertical:10 }]}>
                 <View style={{ flex: 1 }}>
                   <View>
                     <Ionicons
@@ -1686,8 +1687,8 @@ const styles = StyleSheet.create({
   },
   btnSubmit: {
     width: "70%",
-    marginTop: deviceWidth < 370 ? "3%" : "1%",
-    marginBottom: 59,
+   // marginTop: deviceWidth < 370 ? "3%" : "1%",
+    bottom:'4%',
     marginLeft: deviceWidth < 370 ? "35%" : "35%",
   },
   imagePreView: {

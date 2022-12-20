@@ -27,7 +27,7 @@ import { Card, DataTable } from "react-native-paper";
 import moment from "moment";
 import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
-import { Button as NativeBtn, IconButton } from "native-base";
+import { Badge, Button as NativeBtn, IconButton } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
 import { useNavigation } from "@react-navigation/native";
 export var ID;
@@ -709,16 +709,16 @@ const TecahersExamTimeTable = () => {
                 fontSize: 20,
                 // marginTop: 13,
                 margin: 10,
-                left:17,
+                left:20,
                 marginTop:'4%',
                 flexDirection:'row'
               },
             ]}
           >
-            <Text style={{fontFamily:'HindBold',fontSize:18,top:'5%',marginLeft:10}}>Select class</Text>
+            <Text style={{fontFamily:'HindBold',fontSize:20,top:'3%',marginLeft:10}}>Select class</Text>
             <View style={styles.space}/>
             <View style={styles.space}/>
-            <View style={styles.space}/>
+            <Text style={{fontFamily:'HindBold',fontSize:20,top: "3%",right:'2%'}}>-</Text>
             <View style={styles.space}/>
             <SelectList
               //  defaultOption={{ key: "1", value: "Second-A" }}
@@ -810,12 +810,13 @@ const TecahersExamTimeTable = () => {
                                       { flexDirection: "column", top: "10%" },
                                     ]}
                                   >
-                                    <View style={{ flex: 2 }}>
-                                      <Text
+                                    <View style={{ flex: 2,paddingHorizontal:10,right:'4%' }}>
+                                      {/* <Text
                                         style={[
                                           styles.cardTextStyle,
                                           {
-                                            color: "black",
+                                            color: "#007520",
+                                            fontFamily:"HindBold",
                                             fontSize:
                                               deviceWidth < 370 ? 14 : 16,
                                           },
@@ -824,13 +825,18 @@ const TecahersExamTimeTable = () => {
                                         {moment(data.start_date).format(
                                           "DD/MM/YYYY"
                                         )}
-                                      </Text>
+                                      </Text> */}
+                                      <Badge colorScheme="info" variant='solid'>
+                                      {moment(data.start_date).format(
+                                          "DD/MM/YYYY"
+                                        )}
+                                        </Badge>
                                     </View>
                                     <View
                                       style={{
-                                        left: "30%",
+                                        left: "36%",
                                         position: "absolute",
-                                        top: "25%",
+                                        top: "24%",
                                       }}
                                     >
                                       <Text
@@ -844,8 +850,8 @@ const TecahersExamTimeTable = () => {
                                         to
                                       </Text>
                                     </View>
-                                    <View style={{ flex: 2 }}>
-                                      <Text
+                                    <View style={{ flex: 2,paddingHorizontal:10,right:'4%' }}>
+                                      {/* <Text
                                         style={[
                                           styles.cardTextStyle,
                                           {
@@ -858,26 +864,31 @@ const TecahersExamTimeTable = () => {
                                         {moment(data.end_date).format(
                                           "DD/MM/YYYY"
                                         )}
-                                      </Text>
+                                      </Text> */}
+                                      <Badge colorScheme="info" variant='solid'>
+                                        {moment(data.end_date).format(
+                                          "DD/MM/YYYY"
+                                        )}
+                                      </Badge>
                                     </View>
                                   </View>
                                 </View>
-                                <View style={{ flex: 2 }}>
-                                  <Text style={styles.cardTextStyle}>
+                                <View style={{ flex: 2, }}>
+                                  <Text style={[styles.cardTextStyle,{marginVertical:5}]}>
                                     Class name
                                   </Text>
-                                  <Text style={styles.cardTextStyle}>
+                                  <Text style={[styles.cardTextStyle,{marginVertical:5}]}>
                                     Exam name
                                   </Text>
-                                  <Text style={styles.cardTextStyle}>
+                                  <Text style={[styles.cardTextStyle,{marginVertical:5}]}>
                                     Total marks
                                   </Text>
-                                  <Text style={styles.cardTextStyle}>Hour</Text>
+                                  <Text style={[styles.cardTextStyle,{marginVertical:5}]}>Hour</Text>
                                 </View>
                                 <View style={{ flex: 2 }}>
                                   <Text
                                     style={[
-                                      styles.cardTextStyle,
+                                      [styles.cardTextStyle,{marginVertical:5}],
                                       {
                                         color: "grey",
                                         fontSize: deviceWidth < 370 ? 14 : 16,
@@ -888,7 +899,7 @@ const TecahersExamTimeTable = () => {
                                   </Text>
                                   <Text
                                     style={[
-                                      styles.cardTextStyle,
+                                      [styles.cardTextStyle,{marginVertical:5}],
                                       {
                                         width: "120%",
                                         color: "grey",
@@ -898,9 +909,9 @@ const TecahersExamTimeTable = () => {
                                   >
                                     {data.exam_name}
                                   </Text>
-                                  <Text
+                                  {/* <Text
                                     style={[
-                                      styles.cardTextStyle,
+                                      [styles.cardTextStyle,{marginVertical:5}],
                                       {
                                         color: "grey",
                                         fontSize: deviceWidth < 370 ? 14 : 16,
@@ -908,10 +919,15 @@ const TecahersExamTimeTable = () => {
                                     ]}
                                   >
                                     {data.Total_marks}
-                                  </Text>
-                                  <Text
+                                  </Text> */}
+                                  <Badge 
+                                    colorScheme="info"
+                                    variant='solid'
+                                    style={{marginVertical:7,marginHorizontal:20,right:'12%'}}>
+                                      {data.Total_marks}</Badge>
+                                  {/* <Text
                                     style={[
-                                      styles.cardTextStyle,
+                                      [styles.cardTextStyle,{marginVertical:5}],
                                       {
                                         color: "grey",
                                         fontSize: deviceWidth < 370 ? 14 : 16,
@@ -919,7 +935,11 @@ const TecahersExamTimeTable = () => {
                                     ]}
                                   >
                                     {data.hour}
-                                  </Text>
+                                  </Text> */}
+                                  <Badge 
+                                    colorScheme="info" 
+                                    variant='solid'
+                                    style={{marginHorizontal:20,right:'12%'}}>{data.hour}</Badge>
                                 </View>
                               </View>
                               <View

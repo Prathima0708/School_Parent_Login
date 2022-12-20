@@ -189,7 +189,7 @@ const MyClasses = () => {
             />
             {keyboardStatus == "Keyboard Hidden" && 
             <View style={[{flex:1}, {
-              flexDirection: "row",marginVertical:17
+              flexDirection: "row",marginVertical:17,left:'18%'
             }]}>
               <View style={{ flex: 0.2,alignItems:'center',justifyContent:'center' }} >
                 <View style={styles.space}/>
