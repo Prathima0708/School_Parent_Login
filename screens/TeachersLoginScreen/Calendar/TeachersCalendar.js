@@ -1322,6 +1322,9 @@ const TeachersCalendar = () => {
                             }}
                           >
                             <Card.Content>
+                            <Text style={styles.eventName}>
+                              {filteredData.titlee}
+                            </Text>
                               <View
                                 style={[
                                   { flex: 1 },
