@@ -49,9 +49,9 @@ import { MYCLASS, MYSECTION } from "../Profile/MyClasses/DisplayClass";
 export var ID, EDT_ID;
 export var FROMDATE, TODATE;
 export var BADGE;
-var USERNAME, value, TOKEN, USERROLE, USERID;
-var regNumber = [];
-var CLASSNAME, SECTION;
+var USERNAME, TOKEN, USERROLE, USERID;
+
+var firstData, KEY, VALUE;
 const TeachersLeaveUpdated = () => {
   const [user, setUser] = useState("");
   const [userRole, setUserRole] = useState("");
@@ -279,35 +279,6 @@ const TeachersLeaveUpdated = () => {
   }
   fetchToken();
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`)
-
-  //       setData(res.data);
-  //       setFilteredData(res.data);
-  //       setLoading(false);
-  //       // console.log(data)
-  //       let test = 0;
-  //       const value = await AsyncStorage.getItem("key");
-  //       for (i = 0; i < res.data.length; i++) {
-  //         if (value == res.data[i].created_by) {
-  //           test = res.data[i].created_by;
-  //         } else {
-  //           // console.log('false')
-  //         }
-  //       }
-  //       if (test == value) {
-  //         // console.log("is same")
-  //         SetIsSame(true);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  //   fetchData();
-  // }, []);
-
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -433,40 +404,6 @@ const TeachersLeaveUpdated = () => {
 
     console.log("edited" + FormData);
     // console.log(FormData);
-
-    // var dateFromValidate = fromText;
-    // var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
-    // if (!isValid) {
-    //   Alert.alert(
-    //     "Format Error",
-    //     "It seems to be you entered wrong date format please follow D/M/YYYY format ",
-    //     [
-    //       {
-    //         text: "Cancel",
-    //         onPress: () => console.log("Cancel Pressed"),
-    //         style: "cancel",
-    //       },
-    //       { text: "OK", onPress: () => console.log("OK Pressed") },
-    //     ]
-    //   );
-    // }
-
-    // var dateToValidate = toText;
-    // var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
-    // if (!isValid) {
-    //   Alert.alert(
-    //     "Format Error",
-    //     "It seems to be you entered wrong date format please follow D/M/YYYY format",
-    //     [
-    //       {
-    //         text: "Cancel",
-    //         onPress: () => console.log("Cancel Pressed"),
-    //         style: "cancel",
-    //       },
-    //       { text: "OK", onPress: () => console.log("OK Pressed") },
-    //     ]
-    //   );
-    // }
 
     if (
       !enteredLeaveReasonIsValid ||
@@ -876,10 +813,16 @@ const TeachersLeaveUpdated = () => {
         .then((response) => {
           let newArray = response.data.map((item) => {
             return {
+              key: item.id,
               value: item.class_name + " - " + item.section,
+              classname: item.class_name,
+              section: item.section,
             };
           });
+          firstData = newArray[0];
 
+          KEY = firstData.key;
+          VALUE = firstData.value;
           setClassTeacherData(newArray);
         })
         .catch((e) => {
@@ -1842,6 +1785,10 @@ const TeachersLeaveUpdated = () => {
               <SelectList
                 setSelected={setSelectedClassSection}
                 data={classTeacherData}
+                defaultOption={{
+                  key: String(KEY),
+                  value: String(VALUE),
+                }}
                 onSelect={classsectionSelectHandler}
                 placeholder="Select class"
                 boxStyles={[

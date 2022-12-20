@@ -175,6 +175,8 @@ const TeacherHomeworkScreenBuild = () => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState("");
 
+  const [image1, setImage1] = useState(null);
+
   let i = 0;
 
   useEffect(() => {
@@ -578,20 +580,6 @@ const TeacherHomeworkScreenBuild = () => {
     // console.log(test);
     var dateFromValidate = fromText;
     var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
-    // if (!isValid) {
-    //   Alert.alert(
-    //     "Format Error",
-    //     "It seems to be you entered wrong date format please follow D/M/YYYY format ",
-    //     [
-    //       {
-    //         text: "Cancel",
-    //         onPress: () => console.log("Cancel Pressed"),
-    //         style: "cancel",
-    //       },
-    //       { text: "OK", onPress: () => console.log("OK Pressed") },
-    //     ]
-    //   );
-    // }
 
     if (isValid) {
       Alert.alert("Data saved", "Data saved successfully", [
@@ -612,20 +600,6 @@ const TeacherHomeworkScreenBuild = () => {
 
     var dateToValidate = toText;
     var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
-    // if (!isValid) {
-    //   Alert.alert(
-    //     "Format Error",
-    //     "It seems to be you entered wrong date format please follow D/M/YYYY format",
-    //     [
-    //       {
-    //         text: "Cancel",
-    //         onPress: () => console.log("Cancel Pressed"),
-    //         style: "cancel",
-    //       },
-    //       { text: "OK", onPress: () => console.log("OK Pressed") },
-    //     ]
-    //   );
-    // }
 
     setEnteredSelectedTouched(true);
     setEnteredSelectedSubTouched(true);
@@ -667,13 +641,7 @@ const TeacherHomeworkScreenBuild = () => {
       console.log("inside post req from date", FROMDATE);
       console.log("inside post req to date", TODATE);
       let filteredlist = newArray.filter((ele) => ele.key == selected);
-      console.log(filteredlist);
-      // let selectedData = selected.split(" - ");
-      // let class_name = selectedData[0];
-      // let section = selectedData[1];
-      // let uploaduri = image;
-      // let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
-      let uploadedImg = test;
+      // console.log(filteredlist);
 
       // let formData = new FormData();
       // formData.append("homework_photo", {
@@ -683,6 +651,11 @@ const TeacherHomeworkScreenBuild = () => {
       // });
       // console.log("photo-", formData);
       const imageData = new FormData();
+      let photo = {
+        uri: localUri,
+        type: "image/*",
+      };
+      imageData.append("homework_photo", photo);
       const image = imageData.append("homework_photo", filename);
       var formdata = {
         class_name: filteredlist[0].classname,
@@ -691,7 +664,7 @@ const TeacherHomeworkScreenBuild = () => {
         homework_date: FROMDATE,
         remark: remark,
         // homework_photo: formata,
-        homework_photo: image,
+        homework_photo: imageData,
         homework: "empty",
         due_date: TODATE,
         description: hw,

@@ -41,21 +41,25 @@ import { subURL } from "../../../components/utils/URL's";
 import { style } from "@mui/system";
 import { Token } from "../../Login";
 
-
 // import { Label } from "react-native-form-component";
 var FloatingLabel = require("react-native-floating-labels");
 export var ID;
- var FROMDATE, TODATE;
+var FROMDATE, TODATE;
 var USERNAME, TOKEN;
 const TeachersCalendar = () => {
   const [checked, setChecked] = useState(false);
   const [adminChecked, setAdminChecked] = useState(false);
   const [teacherChecked, setTeacherChecked] = useState(false);
   const [parentChecked, setParentChecked] = useState(false);
+
+  const [selectedTouched, setSelectedTouched] = useState(false);
+  const checkedIsInvalid =
+    !adminChecked && !parentChecked && !teacherChecked && !checked;
+
   const [user, setUser] = useState("");
   const [token, setToken] = useState("");
 
-  const [test,setTest]=useState(false);
+  const [test, setTest] = useState(false);
   const [value, setValue] = useState("");
   const [isSelected, setSelection] = useState(false);
 
@@ -166,7 +170,7 @@ const TeachersCalendar = () => {
   const [teacher, setTeacher] = useState(false);
   const [parent, setParent] = useState(false);
 
-  const [anyCheck,setAnyChecked]=useState(true);
+  const [anyCheck, setAnyChecked] = useState(true);
   let i = 0;
 
   // async function logoutHandler() {
@@ -343,7 +347,11 @@ const TeachersCalendar = () => {
     };
     //console.log(FormData);
 
-    if (!enteredTitleIsValid || !enteredDescriptionIsValid) {
+    if (
+      !enteredTitleIsValid ||
+      !enteredDescriptionIsValid ||
+      checkedIsInvalid
+    ) {
       Alert.alert("Please enter all fields");
     } else {
       async function updateData() {
@@ -395,9 +403,6 @@ const TeachersCalendar = () => {
   }
 
   function buttonPressedHandler() {
-    console.log(selected);
-    console.log(value);
-
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -421,8 +426,6 @@ const TeachersCalendar = () => {
       viewOnlyData.push("parent");
     }
 
-
-
     // `{[${checked ? "all" : ""},
     // ${adminChecked ? "admin" : ""},
     // ${teacherChecked ? "teacher" : ""},
@@ -438,39 +441,6 @@ const TeachersCalendar = () => {
     };
 
     console.log(FormData);
-    // var dateFromValidate = fromText || frmdate;
-    // var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
-    // if (!isValid) {
-    //   Alert.alert(
-    //     "Format Error",
-    //     "It seems to be you entered wrong date format please follow D/M/YYYY format ",
-    //     [
-    //       {
-    //         text: "Cancel",
-    //         onPress: () => console.log("Cancel Pressed"),
-    //         style: "cancel",
-    //       },
-    //       { text: "OK", onPress: () => console.log("OK Pressed") },
-    //     ]
-    //   );
-    // }
-
-    // var dateToValidate = toText || todate;
-    // var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
-    // if (!isValid) {
-    //   Alert.alert(
-    //     "Format Error",
-    //     "It seems to be you entered wrong date format please follow D/M/YYYY format",
-    //     [
-    //       {
-    //         text: "Cancel",
-    //         onPress: () => console.log("Cancel Pressed"),
-    //         style: "cancel",
-    //       },
-    //       { text: "OK", onPress: () => console.log("OK Pressed") },
-    //     ]
-    //   );
-    // }
 
     const formIsValid =
       enteredTitleIsValid &&
@@ -484,7 +454,7 @@ const TeachersCalendar = () => {
     //setEnteredSelectedTouched(true)
     setEnteredTitleTouched(true);
     setEnteredDescriptionTouched(true);
-    // setEnteredCreatedbyTouched(true);
+    setSelectedTouched(true);
     setEnteredFromDateTouched(true);
     setEnteredtoDateTouched(true);
     // setCheckFromDateTouched(true);
@@ -493,14 +463,16 @@ const TeachersCalendar = () => {
     //   return;
     // }
 
-    if(!adminChecked && !teacherChecked && !checked && !parentChecked){
-      setAnyChecked(false);
+    // if (!adminChecked && !teacherChecked && !checked && !parentChecked) {
+    //   return;
+    // }
+    // else{
+    //   setAnyChecked(true);
+    // }
+    if (!enteredTitleIsValid) {
       return;
     }
-    else{
-      setAnyChecked(true);
-    }
-    if (!enteredTitleIsValid) {
+    if (checkedIsInvalid) {
       return;
     }
     if (!enteredDescriptionIsValid) {
@@ -566,7 +538,6 @@ const TeachersCalendar = () => {
             },
           ]);
 
-        
           setEnteredDescription("");
           setEnteredTitle("");
           setFromText("");
@@ -894,7 +865,7 @@ const TeachersCalendar = () => {
 
   function allCheckHandler() {
     setTest(true);
-    console.log(test)
+    console.log(test);
     setChecked(!checked);
     setTeacherChecked(!teacherChecked);
     setAdminChecked(!adminChecked);
@@ -1064,7 +1035,7 @@ const TeachersCalendar = () => {
                     //   moment(toText).format("DD/MM/YYYY") ||
                     //   moment(todate).format("DD/MM/YYYY")
                     // }
-                    placeholder="   End date"
+                    placeholder="End date"
                     onSubmitEditing={Keyboard.dismiss}
                     style={
                       isToDateFocused
@@ -1222,13 +1193,16 @@ const TeachersCalendar = () => {
                           }}
                           color={"green"}
                           uncheckColor={"red"}
-                        
                         />
                       </View>
                     </View>
                   </View>
                 </View>
-                {!anyCheck && !test && <Text style={styles.errorLabel}>Please select atleast one</Text>}
+                {checkedIsInvalid && selectedTouched && (
+                  <Text style={styles.errorLabel}>
+                    Please select atleast one
+                  </Text>
+                )}
               </View>
               {!isEdit && (
                 <View style={[btn ? styles.btnSubmitNew : styles.btnSubmit]}>
@@ -1379,7 +1353,7 @@ const TeachersCalendar = () => {
                                   left:
                                     filteredData.created_by == USERNAME
                                       ? 120
-                                      : 36,
+                                      : 26,
                                 }}
                               >
                                 <Text
@@ -1401,11 +1375,10 @@ const TeachersCalendar = () => {
                                     flex: 0.8,
                                     // left: deviceWidth < 370 ? 5 : 5,
                                     // bottom: -50,
-                                    top:'26%',
-                                   
+                                    top: "26%",
                                   }}
                                 >
-                                   <IconButton
+                                  <IconButton
                                     colorScheme="green"
                                     onPress={() => editItem(filteredData.id)}
                                     variant="subtle"
@@ -1422,17 +1395,17 @@ const TeachersCalendar = () => {
                                   /> */}
                                 </View>
                               )}
-                              <View style={styles.space}/>
+                              <View style={styles.space} />
                               {filteredData.created_by == USERNAME && (
                                 <View
                                   style={{
                                     flex: 0.8,
-                                    top:'26%'
+                                    top: "26%",
                                     // left: 10,
                                     // bottom: -50,
                                   }}
                                 >
-                                   <IconButton
+                                  <IconButton
                                     colorScheme="danger"
                                     onPress={() => deleteItem(filteredData.id)}
                                     variant="subtle"
@@ -1558,7 +1531,7 @@ const styles = StyleSheet.create({
   },
   btnSubmitNew: {
     marginTop: deviceHieght < 600 ? "5%" : "5%",
-    bottom:'1.5%',
+    bottom: "1.5%",
     width: "50%",
     marginLeft: 180,
   },
