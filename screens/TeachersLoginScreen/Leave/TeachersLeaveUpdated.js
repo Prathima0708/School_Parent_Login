@@ -216,29 +216,27 @@ const TeachersLeaveUpdated = () => {
 
   // console.log("reg numbers"+StudentRegNo)
 
-  useEffect(() => {
-    console.log(userID);
-    async function fetchStudentClass() {
-      axios
-        .get(`http://10.0.2.2:8000/school/IsClassteacher/${userID}/`)
-        .then((response) => {
-          console.log(response.data);
-          newArray = response.data.map((item) => {
-            return {
-              value: item.class_name + " - " + item.section,
-            };
-          });
+  // useEffect(() => {
+  //   console.log(userID);
+  //   async function fetchStudentClass() {
+  //     axios
+  //       .get(`http://10.0.2.2:8000/school/IsClassteacher/${userID}/`)
+  //       .then((response) => {
+  //         console.log(response.data);
+  //         newArray = response.data.map((item) => {
+  //           return {
+  //             value: item.class_name + " - " + item.section,
+  //           };
+  //         });
 
-          setClassTeacherData(newArray);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
-    fetchStudentClass();
-  }, []);
-
-  console.log(classTeacherData);
+  //         setClassTeacherData(newArray);
+  //       })
+  //       .catch((e) => {
+  //         console.log(e);
+  //       });
+  //   }
+  //   fetchStudentClass();
+  // }, []);
 
   // classTeacherData &&
   //   classTeacherData.map((data,key)=>(
@@ -819,6 +817,7 @@ const TeachersLeaveUpdated = () => {
               section: item.section,
             };
           });
+         // console.log("new array[0] is -", newArray[0]);
           firstData = newArray[0];
 
           KEY = firstData.key;
@@ -867,35 +866,36 @@ const TeachersLeaveUpdated = () => {
   function classsectionSelectHandler() {
     console.log("selected");
     console.log(selectedClassSection);
-    console.log("new array-", newArray);
+    // console.log("new array-", newArray);
     // console.log(selectedClassSection.split(" - "));
     let filteredlist = newArray?.filter(
       (ele) => ele.key == selectedClassSection
     );
     console.log("filtered list-", filteredlist);
-    //console.log(filteredlist[0].classname);
-    let class_name = filteredlist[0].classname;
-    let section = filteredlist[0].section;
-    // // let send = selectedClassSection.split(" - ");
-    // // console.log(send[0]);
-    async function fetchData() {
-      try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/LeaveCS/${class_name}/${section}`
-        );
+    console.log("--------------------------------");
+    //  console.log(filteredlist[0].classname);
+    // let class_name = filteredlist[0].classname;
+    // let section = filteredlist[0].section;
+    // // // let send = selectedClassSection.split(" - ");
+    // // // console.log(send[0]);
+    // async function fetchData() {
+    //   try {
+    //     const res = await axios.get(
+    //       `http://10.0.2.2:8000/school/LeaveCS/${class_name}/${section}`
+    //     );
 
-        console.log("leave by class section");
-        console.log(res.data);
+    //     console.log("leave by class section");
+    //     console.log(res.data);
 
-        setLeaveByClassSection(res.data);
-        if (res.data.length == 0) {
-          Alert.alert("No data found");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData();
+    //     setLeaveByClassSection(res.data);
+    //     if (res.data.length == 0) {
+    //       Alert.alert("No data found");
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
+    // fetchData();
   }
 
   function editItem(id) {
