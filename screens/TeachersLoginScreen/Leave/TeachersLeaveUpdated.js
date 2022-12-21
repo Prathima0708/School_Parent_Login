@@ -470,6 +470,7 @@ const TeachersLeaveUpdated = () => {
 
     if (
       !enteredLeaveReasonIsValid ||
+      !enteredEmailIsValid ||
       //!enteredLeaveTypeIsValid ||
       !enteredFromDateIsValid ||
       !enteredtoDateIsValid
