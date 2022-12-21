@@ -673,7 +673,14 @@ const TecahersExamTimeTable = () => {
   function navigateHandler(id) {
     ID = id;
     console.log(id);
-    navigation.navigate("ExamSubjects");
+
+    const fetchData = filteredData.find((data) => data.id == id);
+
+    navigation.navigate("ExamSubjects",{
+      className:fetchData.class_name,
+      examName:fetchData.exam_name,
+      hour:fetchData.hour
+    });
   }
   return (
     <>
@@ -787,8 +794,11 @@ const TecahersExamTimeTable = () => {
                     filteredData.map((data, key) => (
                       <>
                         <Pressable
-                          onPress={navigateHandler.bind(this, data.id)}
-                        >
+                          onPress={
+                            navigateHandler.bind(
+                              this, 
+                              data.id,
+                            )}>
                           <Card
                             style={{
                               marginTop: 20,
@@ -811,7 +821,7 @@ const TecahersExamTimeTable = () => {
                                     ]}
                                   >
                                     <View style={{ flex: 2,paddingHorizontal:10,right:'4%' }}>
-                                      {/* <Text
+                                      <Text
                                         style={[
                                           styles.cardTextStyle,
                                           {
@@ -825,12 +835,12 @@ const TecahersExamTimeTable = () => {
                                         {moment(data.start_date).format(
                                           "DD/MM/YYYY"
                                         )}
-                                      </Text> */}
-                                      <Badge colorScheme="info" variant='solid'>
+                                      </Text>
+                                      {/* <Badge colorScheme="info" variant='solid'>
                                       {moment(data.start_date).format(
                                           "DD/MM/YYYY"
                                         )}
-                                        </Badge>
+                                        </Badge> */}
                                     </View>
                                     <View
                                       style={{
@@ -851,7 +861,7 @@ const TecahersExamTimeTable = () => {
                                       </Text>
                                     </View>
                                     <View style={{ flex: 2,paddingHorizontal:10,right:'4%' }}>
-                                      {/* <Text
+                                      <Text
                                         style={[
                                           styles.cardTextStyle,
                                           {
@@ -864,12 +874,12 @@ const TecahersExamTimeTable = () => {
                                         {moment(data.end_date).format(
                                           "DD/MM/YYYY"
                                         )}
-                                      </Text> */}
-                                      <Badge colorScheme="info" variant='solid'>
+                                      </Text>
+                                      {/* <Badge colorScheme="info" variant='solid'>
                                         {moment(data.end_date).format(
                                           "DD/MM/YYYY"
                                         )}
-                                      </Badge>
+                                      </Badge> */}
                                     </View>
                                   </View>
                                 </View>
@@ -909,7 +919,7 @@ const TecahersExamTimeTable = () => {
                                   >
                                     {data.exam_name}
                                   </Text>
-                                  {/* <Text
+                                  <Text
                                     style={[
                                       [styles.cardTextStyle,{marginVertical:5}],
                                       {
@@ -919,13 +929,13 @@ const TecahersExamTimeTable = () => {
                                     ]}
                                   >
                                     {data.Total_marks}
-                                  </Text> */}
-                                  <Badge 
+                                  </Text>
+                                  {/* <Badge 
                                     colorScheme="info"
                                     variant='solid'
                                     style={{marginVertical:7,marginHorizontal:20,right:'12%'}}>
-                                      {data.Total_marks}</Badge>
-                                  {/* <Text
+                                      {data.Total_marks}</Badge> */}
+                                  <Text
                                     style={[
                                       [styles.cardTextStyle,{marginVertical:5}],
                                       {
@@ -935,11 +945,11 @@ const TecahersExamTimeTable = () => {
                                     ]}
                                   >
                                     {data.hour}
-                                  </Text> */}
-                                  <Badge 
+                                  </Text>
+                                  {/* <Badge 
                                     colorScheme="info" 
                                     variant='solid'
-                                    style={{marginHorizontal:20,right:'12%'}}>{data.hour}</Badge>
+                                    style={{marginHorizontal:20,right:'12%'}}>{data.hour}</Badge> */}
                                 </View>
                               </View>
                               <View
