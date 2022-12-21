@@ -49,9 +49,9 @@ import { MYCLASS, MYSECTION } from "../Profile/MyClasses/DisplayClass";
 export var ID, EDT_ID;
 export var FROMDATE, TODATE;
 export var BADGE;
-var USERNAME, value, TOKEN, USERROLE, USERID;
-var regNumber = [];
-var CLASSNAME, SECTION;
+var USERNAME, TOKEN, USERROLE, USERID;
+
+var firstData, KEY, VALUE, newArray;
 const TeachersLeaveUpdated = () => {
   const [user, setUser] = useState("");
   const [userRole, setUserRole] = useState("");
@@ -216,29 +216,27 @@ const TeachersLeaveUpdated = () => {
 
   // console.log("reg numbers"+StudentRegNo)
 
-  useEffect(() => {
-    console.log(userID);
-    async function fetchStudentClass() {
-      axios
-        .get(`http://10.0.2.2:8000/school/IsClassteacher/${userID}/`)
-        .then((response) => {
-          console.log(response.data);
-          let newArray = response.data.map((item) => {
-            return {
-              value: item.class_name + " - " + item.section,
-            };
-          });
+  // useEffect(() => {
+  //   console.log(userID);
+  //   async function fetchStudentClass() {
+  //     axios
+  //       .get(`http://10.0.2.2:8000/school/IsClassteacher/${userID}/`)
+  //       .then((response) => {
+  //         console.log(response.data);
+  //         newArray = response.data.map((item) => {
+  //           return {
+  //             value: item.class_name + " - " + item.section,
+  //           };
+  //         });
 
-          setClassTeacherData(newArray);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
-    fetchStudentClass();
-  }, []);
-
-  console.log(classTeacherData);
+  //         setClassTeacherData(newArray);
+  //       })
+  //       .catch((e) => {
+  //         console.log(e);
+  //       });
+  //   }
+  //   fetchStudentClass();
+  // }, []);
 
   // classTeacherData &&
   //   classTeacherData.map((data,key)=>(
@@ -278,35 +276,6 @@ const TeachersLeaveUpdated = () => {
     }
   }
   fetchToken();
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`)
-
-  //       setData(res.data);
-  //       setFilteredData(res.data);
-  //       setLoading(false);
-  //       // console.log(data)
-  //       let test = 0;
-  //       const value = await AsyncStorage.getItem("key");
-  //       for (i = 0; i < res.data.length; i++) {
-  //         if (value == res.data[i].created_by) {
-  //           test = res.data[i].created_by;
-  //         } else {
-  //           // console.log('false')
-  //         }
-  //       }
-  //       if (test == value) {
-  //         // console.log("is same")
-  //         SetIsSame(true);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  //   fetchData();
-  // }, []);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -433,40 +402,6 @@ const TeachersLeaveUpdated = () => {
 
     console.log("edited" + FormData);
     // console.log(FormData);
-
-    // var dateFromValidate = fromText;
-    // var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
-    // if (!isValid) {
-    //   Alert.alert(
-    //     "Format Error",
-    //     "It seems to be you entered wrong date format please follow D/M/YYYY format ",
-    //     [
-    //       {
-    //         text: "Cancel",
-    //         onPress: () => console.log("Cancel Pressed"),
-    //         style: "cancel",
-    //       },
-    //       { text: "OK", onPress: () => console.log("OK Pressed") },
-    //     ]
-    //   );
-    // }
-
-    // var dateToValidate = toText;
-    // var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
-    // if (!isValid) {
-    //   Alert.alert(
-    //     "Format Error",
-    //     "It seems to be you entered wrong date format please follow D/M/YYYY format",
-    //     [
-    //       {
-    //         text: "Cancel",
-    //         onPress: () => console.log("Cancel Pressed"),
-    //         style: "cancel",
-    //       },
-    //       { text: "OK", onPress: () => console.log("OK Pressed") },
-    //     ]
-    //   );
-    // }
 
     if (
       !enteredLeaveReasonIsValid ||
@@ -874,12 +809,19 @@ const TeachersLeaveUpdated = () => {
       axios
         .get(`http://10.0.2.2:8000/school/IsClassteacher/${userID}/`)
         .then((response) => {
-          let newArray = response.data.map((item) => {
+          newArray = response.data.map((item) => {
             return {
+              key: item.id,
               value: item.class_name + " - " + item.section,
+              classname: item.class_name,
+              section: item.section,
             };
           });
+         // console.log("new array[0] is -", newArray[0]);
+          firstData = newArray[0];
 
+          KEY = firstData.key;
+          VALUE = firstData.value;
           setClassTeacherData(newArray);
         })
         .catch((e) => {
@@ -924,28 +866,36 @@ const TeachersLeaveUpdated = () => {
   function classsectionSelectHandler() {
     console.log("selected");
     console.log(selectedClassSection);
+    // console.log("new array-", newArray);
     // console.log(selectedClassSection.split(" - "));
+    let filteredlist = newArray?.filter(
+      (ele) => ele.key == selectedClassSection
+    );
+    console.log("filtered list-", filteredlist);
+    console.log("--------------------------------");
+    //  console.log(filteredlist[0].classname);
+    // let class_name = filteredlist[0].classname;
+    // let section = filteredlist[0].section;
+    // // // let send = selectedClassSection.split(" - ");
+    // // // console.log(send[0]);
+    // async function fetchData() {
+    //   try {
+    //     const res = await axios.get(
+    //       `http://10.0.2.2:8000/school/LeaveCS/${class_name}/${section}`
+    //     );
 
-    let send = selectedClassSection.split(" - ");
-    // console.log(send[0]);
-    async function fetchData() {
-      try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/LeaveCS/${send[0]}/${send[1]}/`
-        );
+    //     console.log("leave by class section");
+    //     console.log(res.data);
 
-        console.log("leave by class section");
-        console.log(res.data);
-
-        setLeaveByClassSection(res.data);
-        if (res.data.length == 0) {
-          Alert.alert("No data found");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData();
+    //     setLeaveByClassSection(res.data);
+    //     if (res.data.length == 0) {
+    //       Alert.alert("No data found");
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
+    // fetchData();
   }
 
   function editItem(id) {
@@ -1132,7 +1082,7 @@ const TeachersLeaveUpdated = () => {
                       },
                     ]}
                   >
-                    <View style={{ flex: 1 ,justifyContent:'center'}}>
+                    <View style={{ flex: 1, justifyContent: "center" }}>
                       <Text style={[styles.labelStyle]}>User name</Text>
                     </View>
                     <View style={{ flex: 1 }}>
@@ -1164,7 +1114,13 @@ const TeachersLeaveUpdated = () => {
                       },
                     ]}
                   >
-                    <View style={{ flex: 1,justifyContent:'center',marginLeft:'3%' }}>
+                    <View
+                      style={{
+                        flex: 1,
+                        justifyContent: "center",
+                        marginLeft: "3%",
+                      }}
+                    >
                       <Text style={styles.labelStyle}>User role</Text>
                     </View>
                     <View style={{ flex: 1 }}>
@@ -1232,7 +1188,7 @@ const TeachersLeaveUpdated = () => {
                     top: "3%",
                     left: "3%",
                     flexDirection: "row",
-                    marginVertical:10
+                    marginVertical: 10,
                   }}
                 >
                   <Text
@@ -1255,7 +1211,7 @@ const TeachersLeaveUpdated = () => {
                     //placeholder="Select Leave Type"
                     boxStyles={[
                       selectInputIsInValid && styles.errorSelectedColor,
-                      { bottom: "5%", },
+                      { bottom: "5%" },
                       // { marginHorizontal: 15, marginVertical: 10 },
                     ]}
                     dropdownTextStyles={{
@@ -1843,6 +1799,10 @@ const TeachersLeaveUpdated = () => {
               <SelectList
                 setSelected={setSelectedClassSection}
                 data={classTeacherData}
+                defaultOption={{
+                  key: String(KEY),
+                  value: String(VALUE),
+                }}
                 onSelect={classsectionSelectHandler}
                 placeholder="Select class"
                 boxStyles={[
@@ -1856,6 +1816,7 @@ const TeachersLeaveUpdated = () => {
                   fontFamily: "HindRegular",
                 }}
                 inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                save="key"
               />
             </View>
 

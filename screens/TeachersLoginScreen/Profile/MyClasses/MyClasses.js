@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
-import { Heading,Text as NativeText } from "native-base";
+import { Heading, Text as NativeText } from "native-base";
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
@@ -172,41 +172,69 @@ const MyClasses = () => {
     <>
       {showClass && (
         <>
-        <View style={[{flex:1}, {
-          flexDirection: "column",backgroundColor:'white'
-        }]}>
-          <View style={{ flex: 0.7,alignItems:'center' }} >
-            <Heading style={{marginVertical:15}}>Class List</Heading>
-            <SearchBar
-             // style={styles.searchBar}
-              textInputStyle={{
-                fontFamily: "HindRegular",
-                fontSize: 18,
-              }}
-              placeholder="Search here"
-             onChangeText={(text) => searchFilter(text)}
-             value={searchText}
-            />
-            {keyboardStatus == "Keyboard Hidden" && 
-            <View style={[{flex:1}, {
-              flexDirection: "row",marginVertical:17,left:'18%'
-            }]}>
-              <View style={{ flex: 0.2,alignItems:'center',justifyContent:'center' }} >
-                <View style={styles.space}/>
+          <View
+            style={[
+              { flex: 1 },
+              {
+                flexDirection: "column",
+                backgroundColor: "white",
+              },
+            ]}
+          >
+            <View style={{ flex: 0.7, alignItems: "center" }}>
+              <Heading style={{ marginVertical: 15 }}>Class List</Heading>
+              <SearchBar
+                style={styles.searchBar}
+                textInputStyle={{
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+                placeholder="Search here"
+                onChangeText={(text) => searchFilter(text)}
+                value={searchText}
+              />
+              {keyboardStatus == "Keyboard Hidden" && (
+                <View
+                  style={[
+                    { flex: 1 },
+                    {
+                      flexDirection: "row",
+                      marginVertical: 17,
+                    },
+                  ]}
+                >
+                  <View
+                    style={{
+                      flex: 0.2,
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <View style={styles.space} />
+                  </View>
+                  <View style={{ flex: 1, alignItems: "flex-start" }}>
+                    <Text
+                      style={{
+                        fontFamily: "HindSemiBold",
+                        fontSize: 15,
+                        color: "black",
+                      }}
+                    >
+                      Class teacher
+                    </Text>
+                  </View>
+                </View>
+              )}
+            </View>
+            <View style={{ flex: 2 }}>
+              <FlatList data={data} renderItem={renderClass} numColumns={2} />
+            </View>
+            {keyboardStatus == "Keyboard Hidden" && (
+              <View style={{ flex: 0.3 }}>
+                <TeachersHome />
               </View>
-              <View style={{ flex: 1,alignItems:'flex-start' }} >
-                <Text style={{fontFamily:"HindSemiBold",fontSize:15}}>Class teacher</Text>
-              </View>
-            </View>}
+            )}
           </View>
-          <View style={{ flex: 2}} >
-            <FlatList data={data} renderItem={renderClass} numColumns={2} />
-          </View>
-          {keyboardStatus == "Keyboard Hidden" &&
-          (<View style={{ flex: 0.3 }} >
-            <TeachersHome />
-          </View>)}
-        </View>
         </>
       )}
     </>
@@ -268,7 +296,7 @@ const styles = StyleSheet.create({
   space: {
     width: 20,
     height: 20,
-    backgroundColor:'orange'
+    backgroundColor: "orange",
   },
   th: {
     padding: 5,
@@ -306,12 +334,7 @@ const styles = StyleSheet.create({
     whiteSpace: "pre-line",
   },
   searchBar: {
-    marginTop: 10,
-    marginBottom: 20,
-    // backgroundColor: "white",
     backgroundColor: "#F0F3F4",
-
-    // height:deviceWidth < 370 ? "6%" : "6%",
   },
   errorLabel: {
     color: "red",

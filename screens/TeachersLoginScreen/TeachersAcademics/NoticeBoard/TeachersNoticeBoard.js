@@ -3,7 +3,13 @@ import React from "react";
 
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { Box, FlatList, Heading, ScrollView,Text as NativeText } from "native-base";
+import {
+  Box,
+  FlatList,
+  Heading,
+  ScrollView,
+  Text as NativeText,
+} from "native-base";
 import axios from "axios";
 import NoticeBoard from "./NoticeBoard";
 import TeachersHome from "../../BottomTab/TeachersHome";
@@ -48,7 +54,7 @@ const TeachersNoticeBoard = () => {
         arr.sort(dateComparison);
 
         console.log("after sorting");
-        console.log(arr.slice(0, 3));
+        // console.log(arr.slice(0, 3));
 
         setData(res.data.slice(0, 10));
       } catch (error) {
@@ -62,41 +68,41 @@ const TeachersNoticeBoard = () => {
     return <NoticeBoard {...itemData.item} />;
   }
   return (
-
-    <View style={[{flex:1}, {flexDirection: "column"}]}>
-        <View style={styles.headingView} >
-          <NativeText bold style={styles.textStyle}>Upcoming Events</NativeText>
-        </View>
-        <View style={{ flex: 2, backgroundColor: "white" }} >
-          <ScrollView>
-            <Box>
-              <FlatList data={data} padding={2} renderItem={renderNotice} />
-            </Box>
-          </ScrollView>
-        </View>
-        <View style={{ flex: 0.2, backgroundColor: "white" }} >
-          <TeachersHome />
-        </View>
+    <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
+      <View style={styles.headingView}>
+        <NativeText bold style={styles.textStyle}>
+          Upcoming Events
+        </NativeText>
       </View>
-
+      <View style={{ flex: 2, backgroundColor: "white" }}>
+        <ScrollView>
+          <Box>
+            <FlatList data={data} padding={2} renderItem={renderNotice} />
+          </Box>
+        </ScrollView>
+      </View>
+      <View style={{ flex: 0.2, backgroundColor: "white" }}>
+        <TeachersHome />
+      </View>
+    </View>
   );
 };
 
 export default TeachersNoticeBoard;
 
 const styles = StyleSheet.create({
-  headingView:{
-    flex: 0.2, 
+  headingView: {
+    flex: 0.2,
     backgroundColor: "white",
-    alignItems:'center',
-    paddingVertical:15,
+    alignItems: "center",
+    paddingVertical: 15,
   },
-  textStyle:{
-    fontSize:20,
-    color:'white',
-    marginTop:'2%',
-    backgroundColor:'#364585',
-    padding:10,
-    borderRadius:10
-  }
-})
+  textStyle: {
+    fontSize: 20,
+    color: "white",
+    marginTop: "2%",
+    backgroundColor: "#364585",
+    padding: 10,
+    borderRadius: 10,
+  },
+});
