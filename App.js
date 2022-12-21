@@ -344,7 +344,7 @@ export default function App() {
         <Stack.Screen
           name="ParentsLoginScreen"
           component={ParentsLoginScreen}
-          options={{ title: "Dahboard" }}
+          options={{ title: "Dashboard" }}
         />
         <Stack.Screen
           name="LadingScreen"

@@ -22,6 +22,7 @@ import {
   VStack,
 } from "native-base";
 import { useEffect, useState } from "react";
+import { Token } from "../../screens/Login";
 
 import ChatList from "./ChatList";
 export var SELECTEDUSER, USERNAME, TOKEN;
@@ -93,8 +94,10 @@ const Chat = () => {
     }
   }
   fetchToken();
+
   useEffect(() => {
     async function getAllUsers() {
+      //   console.log("this is the token in chat", token);
       try {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
@@ -131,7 +134,7 @@ const Chat = () => {
       }
     }
     getAllUsers();
-  }, []);
+  }, [token]);
 
   const data = [
     {

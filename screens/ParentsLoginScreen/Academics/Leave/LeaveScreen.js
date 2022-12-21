@@ -41,19 +41,17 @@ const LeaveScreen = () => {
   const [isDescFocused, setIsDescFocused] = useState(false);
   const [isLeaveReasonFocused, setIsLeaveReasonFocused] = useState(false);
 
-  const [selected,setSelected]=useState('')
+  const [selected, setSelected] = useState("");
   const [enteredSelectedTouched, setEnteredSelectedTouched] = useState(false);
   const enteredSelcetdIsValid = selected.trim() !== "";
   const selectInputIsInValid = !enteredSelcetdIsValid && enteredSelectedTouched;
 
- 
   const leaveTypeData = [
-    {key:'Sick Leave', value:'Sick Leave'},
-    {key:'National Holiday', value:'National Holiday'},
-    {key:'Religious Holiday', value:'Religious Holiday'},
-    {key:'Casual Leave', value:'Casual Leave'},
-  ]
-
+    { key: "Sick Leave", value: "Sick Leave" },
+    { key: "National Holiday", value: "National Holiday" },
+    { key: "Religious Holiday", value: "Religious Holiday" },
+    { key: "Casual Leave", value: "Casual Leave" },
+  ];
 
   const [regno, setEnteredRegno] = useState("");
   const [enteredRegNoTouched, setEnteredRegNoTouched] = useState(false);
@@ -412,7 +410,7 @@ const LeaveScreen = () => {
     }
   }
   function buttonPressedHandler() {
-    setBtn(true)
+    setBtn(true);
     const FormData = {
       student_reg_number: regno || StudentRegNo,
       user_num: 0,
@@ -462,7 +460,7 @@ const LeaveScreen = () => {
       return;
     }
 
-    if(!selected){
+    if (!selected) {
       return;
     }
 
@@ -705,13 +703,32 @@ const LeaveScreen = () => {
                             </View>
                           </View>
                           <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
-                            <View style={{ flex: 3 }}>
-                              {/* <Text>Remark</Text> */}
+                            <View style={{ flex: 0.7 }}>
+                              <Text style={styles.cardTextStyle}>Status:</Text>
                             </View>
-                            <View style={{ flex: 1, right: "100%" }}>
-                              <Badge colorScheme="success" variant="solid">
-                                Approved
-                              </Badge>
+                            <View style={{ flex: 1.5 }}>
+                              {data.leave_status == "Approved" ? (
+                                <Badge
+                                  colorScheme="success"
+                                  style={{ width: "65%" }}
+                                >
+                                  {data.leave_status}
+                                </Badge>
+                              ) : data.leave_status == "Pending" ? (
+                                <Badge
+                                  colorScheme="warning"
+                                  style={{ width: "65%" }}
+                                >
+                                  {data.leave_status}
+                                </Badge>
+                              ) : (
+                                <Badge
+                                  colorScheme="danger"
+                                  style={{ width: "65%" }}
+                                >
+                                  {data.leave_status}
+                                </Badge>
+                              )}
                             </View>
                           </View>
                         </Card.Content>
@@ -732,214 +749,261 @@ const LeaveScreen = () => {
         ))
       } */}
       {showForm && (
-          <View style={[{flex:1}, {
-            // Try setting `flexDirection` to `"row"`.
-            flexDirection: "column",backgroundColor:'white'
-          }]}>
-            <View style={keyboardStatus=='Keyboard Hidden' ? { flex: 0.5 } : {flex:1}} >
-            <View style={[{flex:1}, {
-              flexDirection: "column",marginHorizontal:25,marginVertical:20
-            }]}>
-              <View style={{ flex: 1}} >
-                <View style={[{flex:1}, {
-                  flexDirection: "row"
-                }]}>
-                  <View style={{ flex: 1}} >
+        <View
+          style={[
+            { flex: 1 },
+            {
+              // Try setting `flexDirection` to `"row"`.
+              flexDirection: "column",
+              backgroundColor: "white",
+            },
+          ]}
+        >
+          <View
+            style={
+              keyboardStatus == "Keyboard Hidden" ? { flex: 0.5 } : { flex: 1 }
+            }
+          >
+            <View
+              style={[
+                { flex: 1 },
+                {
+                  flexDirection: "column",
+                  marginHorizontal: 25,
+                  marginVertical: 20,
+                },
+              ]}
+            >
+              <View style={{ flex: 1 }}>
+                <View
+                  style={[
+                    { flex: 1 },
+                    {
+                      flexDirection: "row",
+                    },
+                  ]}
+                >
+                  <View style={{ flex: 1 }}>
                     <Text style={styles.newLabel}>user name</Text>
                   </View>
-                  <View style={{ flex: 1, }} >
-                    <TextInput 
-                      style={[styles.newLabel,{borderWidth:1,paddingLeft:7}]}
-                      editable={false} 
-                      selectTextOnFocus={false} 
-                      value={user}/>
-                  </View>
-                </View>
-              </View>
-              <View style={styles.space}/>
-              <View style={{ flex: 1, }} >
-                <View style={[{flex:1}, {
-                    flexDirection: "row"
-                  }]}>
-                    <View style={{ flex: 1 }} >
-                      <Text style={styles.newLabel}>user role</Text>
-                    </View>
-                    <View style={{ flex: 1, }} >
-                      <TextInput 
-                        style={[styles.newLabel,{borderWidth:1,paddingLeft:7}]}
-                        editable={false} 
-                        selectTextOnFocus={false} 
-                        value={group}/>
-                    </View>
-                </View>
-              </View>
-            </View>
-            </View>
-            <View style={{ flex: 2 ,marginHorizontal:10}} >
-              <ScrollView>
-                <View style={[{flex:1}, {flexDirection: "column"}]}>
-                  <View style={{ flex: 1 }} >
-                    <View style={!label ? styles.test : styles.testSuccess}>
-                      <Text
-                        style={[
-                          btn
-                            ? styles.submitLabel
-                            : regnoInputIsInValid
-                            ? styles.errorLabel
-                            : styles.normalLabel,]}>StudentRegNo
-                      </Text>
-                    </View>
-                    <Input
-                      keyboardType="number-pad"
-                      // placeholder="Student reg no"
-                      onChangeText={regnoChangeHandler}
-                      blur={stdregnoBlurHandler}
-                      value={StudentRegNo.toString() || regno}
-                      onSubmitEditing={Keyboard.dismiss}
-                      style={regnoInputIsInValid && styles.errorBorderColor}
+                  <View style={{ flex: 1 }}>
+                    <TextInput
+                      style={[
+                        styles.newLabel,
+                        { borderWidth: 1, paddingLeft: 7 },
+                      ]}
                       editable={false}
+                      selectTextOnFocus={false}
+                      value={user}
                     />
                   </View>
-                  <View style={{ flex: 1,marginHorizontal:20,marginVertical:5 }} >
-                    <SelectList 
-                        setSelected={(val) => setSelected(val)} 
-                        data={leaveTypeData} 
-                        save="value"
-                        boxStyles={selectInputIsInValid && styles.errorSelectedColor}
-                        // boxStyles={{ borderRadius: 0 }}
-                        dropdownTextStyles={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginHorizontal:15
-                        }}
-                        inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-                      />
-                    {/* {selectInputIsInValid && <Text style={styles.errStyle}>Please select leave</Text>} */}
-                  </View>
-                  <View style={{ flex: 1}} >
-                    <View
-                      style={[
-                        leaveReasonLabel
-                          ? styles.leaveReasonUp
-                          : styles.leaveReasonDown]}>
-                        <Text
-                          style={[styles.normalLabel]}>
-                          Leave reason
-                        </Text>
-                    </View>
-                      <Input
-                        onChangeText={leaveReasonChangeHandler}
-                        blur={leavereasonBlurHandler}
-                        onFocus={onFocusLeaveReasonHandler}
-                        value={leaveReason}
-                        // placeholder="Leave reason"
-                        onSubmitEditing={Keyboard.dismiss}
-                        style={
-                          isLeaveReasonFocused
-                            ? styles.focusStyle
-                            : leavereasonInputIsInValid && styles.errorBorderColor
-                        }
-                      />
-                      {leavereasonInputIsInValid && (
-                        <Text style={styles.errStyle}>Enter leave reason</Text>
-                      )}
-                    </View>
-
-                    <View style={[{flex:1}, {
-                      flexDirection: "row",marginHorizontal:15
-                    }]}>
-                      <View style={{ flex: 1 }} >
-                        <View>
-                          <Ionicons
-                            style={{
-                              top: 23,
-                              position: "absolute",
-                            }}
-                            name="calendar"
-                            size={24}
-                            color="black"
-                            onPress={() => showFromMode("date")}
-                          />
-                          {fromShow && (
-                            <DateTimePicker
-                              testID="dateTimePicker"
-                              value={fromDate}
-                              mode={frommode}
-                              is24Hour={true}
-                              display="default"
-                              onChange={fromDateChangeHandler}
-                            />
-                          )}
-                        </View>
-                        <UnderlinedInput
-                          value={fromText || fromDate}
-                          onSubmitEditing={Keyboard.dismiss}
-                          placeholder="Leave from"
-                          style={fromDateInputIsInValid && styles.errorBorderColor}
-                          blur={fromDateBlurHandler}
-                          onChangeText={leaveFromChangeHandler}
-                          onPressIn={() => showFromMode("date")}
-                        />
-                        {fromDateInputIsInValid && (
-                          <Text style={styles.errStyle}>Enter leave from</Text>
-                        )}
-                      </View>
-                      <View style={{ flex: 1}} >
-                        <View>
-                          <Ionicons
-                              style={{
-                                top: 23,
-                                position: "absolute",
-                              }}
-                              name="calendar"
-                              size={24}
-                              color="black"
-                              onPress={() => showToMode("date")}
-                            />
-                          </View>
-                          <UnderlinedInput
-                            value={toText || toDate}
-                            onSubmitEditing={Keyboard.dismiss}
-                            placeholder="Leave to"
-                            style={toDateInputIsInValid && styles.errorBorderColor}
-                            blur={toDateBlurHandler}
-                            onChangeText={leaveToChangeHandler}
-                            onPressIn={() => showToMode("date")}
-                          />
-                          {toDateInputIsInValid && (
-                            <Text style={styles.errStyle}>Enter leave to</Text>
-                          )}
-                          {toShow && (
-                            <DateTimePicker
-                              testID="dateTimePicker"
-                              value={toDate}
-                              mode={tomode}
-                              is24Hour={true}
-                              display="default"
-                              onChange={toDateChangeHandler}
-                              minimumDate={fromDate}
-                            />
-                          )}
-                      </View>
-                    </View>
-                    <View style={{ flex: 1}} >
-                      {!isEdit && (
-                        <View style={[btn ? {bottom:12} : styles.btnSubmit]}>
-                          <Button onPress={buttonPressedHandler}>Add Leave</Button>
-                        </View>
-                      )}
-                      {isEdit && (
-                        <View style={styles.btnSubmit}>
-                          <Button onPress={updateHandler}>Update</Button>
-                        </View>
-                      )}
-                      </View>
                 </View>
-              </ScrollView>
+              </View>
+              <View style={styles.space} />
+              <View style={{ flex: 1 }}>
+                <View
+                  style={[
+                    { flex: 1 },
+                    {
+                      flexDirection: "row",
+                    },
+                  ]}
+                >
+                  <View style={{ flex: 1 }}>
+                    <Text style={styles.newLabel}>user role</Text>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <TextInput
+                      style={[
+                        styles.newLabel,
+                        { borderWidth: 1, paddingLeft: 7 },
+                      ]}
+                      editable={false}
+                      selectTextOnFocus={false}
+                      value={group}
+                    />
+                  </View>
+                </View>
+              </View>
             </View>
           </View>
+          <View style={{ flex: 2, marginHorizontal: 10 }}>
+            <ScrollView>
+              <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
+                <View style={{ flex: 1 }}>
+                  <View style={!label ? styles.test : styles.testSuccess}>
+                    <Text
+                      style={[
+                        btn
+                          ? styles.submitLabel
+                          : regnoInputIsInValid
+                          ? styles.errorLabel
+                          : styles.normalLabel,
+                      ]}
+                    >
+                      StudentRegNo
+                    </Text>
+                  </View>
+                  <Input
+                    keyboardType="number-pad"
+                    // placeholder="Student reg no"
+                    onChangeText={regnoChangeHandler}
+                    blur={stdregnoBlurHandler}
+                    value={StudentRegNo.toString() || regno}
+                    onSubmitEditing={Keyboard.dismiss}
+                    style={regnoInputIsInValid && styles.errorBorderColor}
+                    editable={false}
+                  />
+                </View>
+                <View
+                  style={{ flex: 1, marginHorizontal: 20, marginVertical: 5 }}
+                >
+                  <SelectList
+                    setSelected={(val) => setSelected(val)}
+                    data={leaveTypeData}
+                    save="value"
+                    boxStyles={
+                      selectInputIsInValid && styles.errorSelectedColor
+                    }
+                    // boxStyles={{ borderRadius: 0 }}
+                    dropdownTextStyles={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      marginHorizontal: 15,
+                    }}
+                    inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                  />
+                  {/* {selectInputIsInValid && <Text style={styles.errStyle}>Please select leave</Text>} */}
+                </View>
+                <View style={{ flex: 1 }}>
+                  <View
+                    style={[
+                      leaveReasonLabel
+                        ? styles.leaveReasonUp
+                        : styles.leaveReasonDown,
+                    ]}
+                  >
+                    <Text style={[styles.normalLabel]}>Leave reason</Text>
+                  </View>
+                  <Input
+                    onChangeText={leaveReasonChangeHandler}
+                    blur={leavereasonBlurHandler}
+                    onFocus={onFocusLeaveReasonHandler}
+                    value={leaveReason}
+                    // placeholder="Leave reason"
+                    onSubmitEditing={Keyboard.dismiss}
+                    style={
+                      isLeaveReasonFocused
+                        ? styles.focusStyle
+                        : leavereasonInputIsInValid && styles.errorBorderColor
+                    }
+                  />
+                  {leavereasonInputIsInValid && (
+                    <Text style={styles.errStyle}>Enter leave reason</Text>
+                  )}
+                </View>
+
+                <View
+                  style={[
+                    { flex: 1 },
+                    {
+                      flexDirection: "row",
+                      marginHorizontal: 15,
+                    },
+                  ]}
+                >
+                  <View style={{ flex: 1 }}>
+                    <View>
+                      <Ionicons
+                        style={{
+                          top: 23,
+                          position: "absolute",
+                        }}
+                        name="calendar"
+                        size={24}
+                        color="black"
+                        onPress={() => showFromMode("date")}
+                      />
+                      {fromShow && (
+                        <DateTimePicker
+                          testID="dateTimePicker"
+                          value={fromDate}
+                          mode={frommode}
+                          is24Hour={true}
+                          display="default"
+                          onChange={fromDateChangeHandler}
+                        />
+                      )}
+                    </View>
+                    <UnderlinedInput
+                      value={fromText || fromDate}
+                      onSubmitEditing={Keyboard.dismiss}
+                      placeholder="Leave from"
+                      style={fromDateInputIsInValid && styles.errorBorderColor}
+                      blur={fromDateBlurHandler}
+                      onChangeText={leaveFromChangeHandler}
+                      onPressIn={() => showFromMode("date")}
+                    />
+                    {fromDateInputIsInValid && (
+                      <Text style={styles.errStyle}>Enter leave from</Text>
+                    )}
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <View>
+                      <Ionicons
+                        style={{
+                          top: 23,
+                          position: "absolute",
+                        }}
+                        name="calendar"
+                        size={24}
+                        color="black"
+                        onPress={() => showToMode("date")}
+                      />
+                    </View>
+                    <UnderlinedInput
+                      value={toText || toDate}
+                      onSubmitEditing={Keyboard.dismiss}
+                      placeholder="Leave to"
+                      style={toDateInputIsInValid && styles.errorBorderColor}
+                      blur={toDateBlurHandler}
+                      onChangeText={leaveToChangeHandler}
+                      onPressIn={() => showToMode("date")}
+                    />
+                    {toDateInputIsInValid && (
+                      <Text style={styles.errStyle}>Enter leave to</Text>
+                    )}
+                    {toShow && (
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={toDate}
+                        mode={tomode}
+                        is24Hour={true}
+                        display="default"
+                        onChange={toDateChangeHandler}
+                        minimumDate={fromDate}
+                      />
+                    )}
+                  </View>
+                </View>
+                <View style={{ flex: 1 }}>
+                  {!isEdit && (
+                    <View style={[btn ? { bottom: 12 } : styles.btnSubmit]}>
+                      <Button onPress={buttonPressedHandler}>Add Leave</Button>
+                    </View>
+                  )}
+                  {isEdit && (
+                    <View style={styles.btnSubmit}>
+                      <Button onPress={updateHandler}>Update</Button>
+                    </View>
+                  )}
+                </View>
+              </View>
+            </ScrollView>
+          </View>
+        </View>
       )}
-        
+
       {keyboardStatus == "Keyboard Hidden" && <ParentsHome />}
     </>
   );
@@ -1029,7 +1093,7 @@ const styles = StyleSheet.create({
     borderColor: "red",
   },
   btnSubmit: {
-   // top: deviceHieght < 600 ? -25 : "7%",
+    // top: deviceHieght < 600 ? -25 : "7%",
   },
   space: {
     width: 20, // or whatever size you need
@@ -1161,7 +1225,7 @@ const styles = StyleSheet.create({
     top: deviceWidth < 370 ? 28 : 32,
     left: 50,
   },
-    errorSelectedColor: {
+  errorSelectedColor: {
     borderColor: "red",
   },
   normalLabel: {
@@ -1247,8 +1311,8 @@ const styles = StyleSheet.create({
     fontFamily: "HindRegular",
     fontSize: 18,
   },
-  newLabel:{
-    fontFamily:'HindRegular',
-    fontSize:18,
+  newLabel: {
+    fontFamily: "HindRegular",
+    fontSize: 18,
   },
 });

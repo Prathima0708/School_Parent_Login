@@ -86,8 +86,8 @@ const TeachersLeaveUpdated = () => {
   const selectInputIsInValid = !enteredSelcetdIsValid && enteredSelectedTouched;
   const leaveTypeData = [
     { key: "Sick Leave", value: "Sick Leave" },
-    { key: "National Holiday", value: "National Holiday" },
-    { key: "Religious Holiday", value: "Religious Holiday" },
+    { key: "Planned Leave", value: "Planned Leave" },
+
     { key: "Casual Leave", value: "Casual Leave" },
     { key: "Maternity Leave", value: "Maternity Leave" },
   ];
@@ -126,8 +126,11 @@ const TeachersLeaveUpdated = () => {
 
   const [email, setEnteredEmail] = useState("");
   const [enteredEmailTouched, setEnteredEmailTouched] = useState(false);
-  const enteredEmailIsValid = email.includes("@");
-  const EmailInputIsInValid = !enteredEmailIsValid && enteredEmailTouched;
+  const emailRegex =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const [error, setError] = useState(null);
+  // const enteredEmailIsValid = emailRegex.test;
+  // const EmailInputIsInValid = !enteredEmailIsValid && enteredEmailTouched;
 
   const [leaveReason, setEnteredLeaveReason] = useState("");
   const [enteredLeaveReasonTouched, setEnteredLeaveReasonTouched] =
@@ -173,7 +176,6 @@ const TeachersLeaveUpdated = () => {
 
   const [showChoice, setShowChoice] = useState(true);
 
-  const [filteredData, setFilteredData] = useState([]);
   const [searchText, setSearchText] = useState("");
 
   const [showInitialBtn, setShowInitialBtn] = useState(true);
@@ -187,6 +189,7 @@ const TeachersLeaveUpdated = () => {
   const [leaveByUsername, setLeaveByUsername] = useState([]);
 
   const [leaveByClassSection, setLeaveByClassSection] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
 
   const [classTeacherData, setClassTeacherData] = useState([]);
 
@@ -225,7 +228,10 @@ const TeachersLeaveUpdated = () => {
   //         console.log(response.data);
   //         newArray = response.data.map((item) => {
   //           return {
+  //             key: item.id,
   //             value: item.class_name + " - " + item.section,
+  //             classname: item.class_name,
+  //             section: item.section,
   //           };
   //         });
 
@@ -387,6 +393,14 @@ const TeachersLeaveUpdated = () => {
   function emailChangeHandler(enteredValue) {
     setEnteredEmail(enteredValue);
   }
+  function handleChange(e) {
+    if (emailRegex.test(e)) {
+      setError(null);
+    } else {
+      setError("Invalid email");
+    }
+    setEnteredEmail(e);
+  }
   function leaveReasonChangeHandler(enteredValue) {
     setEnteredLeaveReason(enteredValue);
   }
@@ -398,6 +412,7 @@ const TeachersLeaveUpdated = () => {
       leave_reason: leaveReason,
       leave_form: FROMDATE,
       leave_to: TODATE,
+      email: email,
     };
 
     console.log("edited" + FormData);
@@ -552,6 +567,7 @@ const TeachersLeaveUpdated = () => {
       setEnteredLeaveReason("");
       setFromText("");
       setToText("");
+      setEnteredEmail("");
       setEnteredSelectedTouched(false);
       setEnteredLeaveTypeTouched(false);
       setEnteredLeaveReasonTouched(false);
@@ -670,7 +686,7 @@ const TeachersLeaveUpdated = () => {
       // leave_type: fetchedData.leave_type,
       // leave_reason: fetchedData.leave_reason,
       // student_reg_number:11,
-      leave_status: "approved",
+      leave_status: "Approved",
     };
 
     // console.log(FormData);
@@ -708,7 +724,7 @@ const TeachersLeaveUpdated = () => {
     ID = id;
 
     const FormData = {
-      leave_status: "deny",
+      leave_status: "Denied",
     };
     async function updateData() {
       try {
@@ -739,7 +755,7 @@ const TeachersLeaveUpdated = () => {
   const searchFilter = (text) => {
     console.log("search function");
     if (text) {
-      const newData = data.filter((item) => {
+      const newData = leaveByClassSection.filter((item) => {
         const itemData = item.leave_type
           ? item.leave_type.toUpperCase()
           : "".toUpperCase();
@@ -749,7 +765,7 @@ const TeachersLeaveUpdated = () => {
       setFilteredData(newData);
       setSearchText(text);
     } else {
-      setFilteredData(data);
+      setFilteredData(leaveByClassSection);
       setSearchText(text);
     }
   };
@@ -817,7 +833,7 @@ const TeachersLeaveUpdated = () => {
               section: item.section,
             };
           });
-         // console.log("new array[0] is -", newArray[0]);
+
           firstData = newArray[0];
 
           KEY = firstData.key;
@@ -866,36 +882,37 @@ const TeachersLeaveUpdated = () => {
   function classsectionSelectHandler() {
     console.log("selected");
     console.log(selectedClassSection);
-    // console.log("new array-", newArray);
+    //  console.log("new array-", newArray);
     // console.log(selectedClassSection.split(" - "));
     let filteredlist = newArray?.filter(
       (ele) => ele.key == selectedClassSection
     );
     console.log("filtered list-", filteredlist);
     console.log("--------------------------------");
-    //  console.log(filteredlist[0].classname);
-    // let class_name = filteredlist[0].classname;
-    // let section = filteredlist[0].section;
-    // // // let send = selectedClassSection.split(" - ");
+    // console.log(filteredlist[0].classname);
+    let class_name = filteredlist[0].classname;
+    let section = filteredlist[0].section;
+    // let send = selectedClassSection.split(" - ");
     // // // console.log(send[0]);
-    // async function fetchData() {
-    //   try {
-    //     const res = await axios.get(
-    //       `http://10.0.2.2:8000/school/LeaveCS/${class_name}/${section}`
-    //     );
+    async function fetchData() {
+      try {
+        const res = await axios.get(
+          `http://10.0.2.2:8000/school/LeaveCS/${class_name}/${section}`
+        );
 
-    //     console.log("leave by class section");
-    //     console.log(res.data);
+        console.log("leave by class section");
+        //  console.log(res.data);
 
-    //     setLeaveByClassSection(res.data);
-    //     if (res.data.length == 0) {
-    //       Alert.alert("No data found");
-    //     }
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
-    // fetchData();
+        setLeaveByClassSection(res.data);
+        setFilteredData(res.data);
+        if (res.data.length == 0) {
+          Alert.alert("No data found");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
   }
 
   function editItem(id) {
@@ -1056,13 +1073,14 @@ const TeachersLeaveUpdated = () => {
               Leave Form
             </NativeText>
           </View>
+
           <View
             style={[
               styles.inputForm,
               keyboardStatus == "Keyboard Shown" && { top: "5%" },
             ]}
           >
-            <ScrollView>
+            <ScrollView persistentScrollbar={false}>
               <View
                 style={[
                   { flex: 1 },
@@ -1143,46 +1161,6 @@ const TeachersLeaveUpdated = () => {
               </View>
 
               {!isEdit && (
-                // <View
-                //   style={[
-                //     { flex: 1 },
-                //     {
-                //       flexDirection: "column",
-                //       marginVertical: 10,
-                //     },
-                //   ]}
-                // >
-                //   <View style={{ flex: 1 }}>
-                //     <Text
-                //       style={[styles.labelStyle, { top: "7%", left: "5%" }]}
-                //     >
-                //       Select Leave type
-                //     </Text>
-                //   </View>
-                //   <View style={{ flex: 1 }}>
-                //     <SelectList
-                //       setSelected={(val) => setSelected(val)}
-                //       data={leaveTypeData}
-                //       save="value"
-                //       //placeholder="Select Leave Type"
-                //       boxStyles={[
-                //         selectInputIsInValid && styles.errorSelectedColor,
-                //         { marginHorizontal: 15, marginVertical: 10 },
-                //       ]}
-                //       dropdownTextStyles={{
-                //         fontSize: 18,
-                //         fontFamily: "HindRegular",
-                //         marginHorizontal: 25,
-                //       }}
-                //       inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-                //     />
-                //     {selectInputIsInValid && (
-                //       <Text style={styles.errorText}>
-                //         Please select leave type
-                //       </Text>
-                //     )}
-                //   </View>
-                // </View>
                 <View
                   style={{
                     top: "3%",
@@ -1223,90 +1201,6 @@ const TeachersLeaveUpdated = () => {
                   />
                 </View>
               )}
-
-              <View>
-                <View
-                  style={
-                    !btn
-                      ? reasonLabel
-                        ? styles.upRemark
-                        : styles.normalRemark
-                      : reasonLabel
-                      ? styles.upRemarkExtra
-                      : styles.normalRemark
-                  }
-                >
-                  <Text
-                    style={[
-                      btn
-                        ? styles.submitLabel
-                        : leavetypeInputIsInValid
-                        ? styles.errorLabel
-                        : styles.normalLabel,
-                    ]}
-                  >
-                    Leave reason
-                  </Text>
-                </View>
-                <Input
-                  onChangeText={leaveReasonChangeHandler}
-                  blur={leavereasonBlurHandler}
-                  onFocus={onLeavereasonFocusHandler}
-                  // placeholder="Leave reason"
-                  value={leaveReason}
-                  onSubmitEditing={Keyboard.dismiss}
-                  style={
-                    isLeavereasonFocused
-                      ? styles.focusStyle
-                      : leavereasonInputIsInValid && styles.errorBorderColor
-                  }
-                />
-              </View>
-              {leavereasonInputIsInValid && (
-                <Text style={styles.errorText}>Enter leave reason</Text>
-              )}
-              <View>
-                <View
-                  style={
-                    !btn
-                      ? emailLabel
-                        ? styles.upEmail
-                        : styles.normalEmail
-                      : emailLabel
-                      ? styles.upEmailExtra
-                      : styles.normalEmail
-                  }
-                >
-                  <Text
-                    style={[
-                      btn
-                        ? styles.submitLabel
-                        : EmailInputIsInValid
-                        ? styles.errorLabel
-                        : styles.normalLabel,
-                    ]}
-                  >
-                    Email address
-                  </Text>
-                </View>
-                <Input
-                  onChangeText={emailChangeHandler}
-                  blur={eamilBlurHandler}
-                  onFocus={onEmailFocusHandler}
-                  // placeholder="Leave reason"
-                  value={email}
-                  onSubmitEditing={Keyboard.dismiss}
-                  style={
-                    isEmailFocused
-                      ? styles.focusStyle
-                      : EmailInputIsInValid && styles.errorBorderColor
-                  }
-                />
-              </View>
-              {EmailInputIsInValid && (
-                <Text style={styles.errorText}>Enter email address</Text>
-              )}
-
               <View style={[{ flexDirection: "row" }]}>
                 <View style={{ flex: 1 }}>
                   <View>
@@ -1398,6 +1292,90 @@ const TeachersLeaveUpdated = () => {
                   )}
                 </View>
               </View>
+              <View>
+                <View
+                  style={
+                    !btn
+                      ? reasonLabel
+                        ? styles.upRemark
+                        : styles.normalRemark
+                      : reasonLabel
+                      ? styles.upRemarkExtra
+                      : styles.normalRemark
+                  }
+                >
+                  <Text
+                    style={[
+                      btn
+                        ? styles.submitLabel
+                        : leavetypeInputIsInValid
+                        ? styles.errorLabel
+                        : styles.normalLabel,
+                    ]}
+                  >
+                    Leave reason
+                  </Text>
+                </View>
+                <Input
+                  onChangeText={leaveReasonChangeHandler}
+                  blur={leavereasonBlurHandler}
+                  onFocus={onLeavereasonFocusHandler}
+                  // placeholder="Leave reason"
+                  value={leaveReason}
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={
+                    isLeavereasonFocused
+                      ? styles.focusStyle
+                      : leavereasonInputIsInValid && styles.errorBorderColor
+                  }
+                />
+              </View>
+              {leavereasonInputIsInValid && (
+                <Text style={styles.errorText}>Enter leave reason</Text>
+              )}
+              <View>
+                <View
+                  style={
+                    !btn
+                      ? emailLabel
+                        ? styles.upEmail
+                        : styles.normalEmail
+                      : emailLabel
+                      ? styles.upEmailExtra
+                      : styles.normalEmail
+                  }
+                >
+                  <Text
+                    style={[
+                      btn
+                        ? styles.submitLabel
+                        : // : EmailInputIsInValid
+                          // styles.errorLabel
+                          styles.normalLabel,
+                    ]}
+                  >
+                    Email address
+                  </Text>
+                </View>
+                <Input
+                  //  onChangeText={emailChangeHandler}
+                  onChangeText={handleChange}
+                  blur={eamilBlurHandler}
+                  onFocus={onEmailFocusHandler}
+                  // placeholder="Leave reason"
+                  value={email}
+                  onSubmitEditing={Keyboard.dismiss}
+                  // style={
+                  //   isEmailFocused
+                  //     ? styles.focusStyle
+                  //     : EmailInputIsInValid && styles.errorBorderColor
+                  // }
+                />
+              </View>
+              {/* {EmailInputIsInValid && (
+                <Text style={styles.errorText}>Enter email address</Text>
+              )} */}
+              {error && <Text style={styles.errorText}>{error}</Text>}
 
               {!isEdit && (
                 <View style={styles.btnSubmit}>
@@ -1414,9 +1392,10 @@ const TeachersLeaveUpdated = () => {
                   <Button onPress={cancelHandler}>Cancel</Button>
                 </View>
               )}
-              {/* </View> */}
             </ScrollView>
+            {/* </View> */}
           </View>
+
           {keyboardStatus == "Keyboard Hidden" && (
             <View style={{ flex: 0.2, backgroundColor: "white" }}>
               <TeachersHome />
@@ -1712,7 +1691,7 @@ const TeachersLeaveUpdated = () => {
                                           {data.leave_status == "approved" ? (
                                             <Badge
                                               colorScheme="success"
-                                              style={{ width: "50%" }}
+                                              style={{ width: "55%" }}
                                             >
                                               {data.leave_status}
                                             </Badge>
@@ -1795,14 +1774,15 @@ const TeachersLeaveUpdated = () => {
             <NativeText bold style={{ fontSize: 20, left: "40%", top: "10%" }}>
               Leave List
             </NativeText>
+
             <View style={{ top: "12%", marginHorizontal: 30 }}>
               <SelectList
                 setSelected={setSelectedClassSection}
                 data={classTeacherData}
-                defaultOption={{
-                  key: String(KEY),
-                  value: String(VALUE),
-                }}
+                // defaultOption={{
+                //   key: String(KEY),
+                //   value: String(VALUE),
+                // }}
                 onSelect={classsectionSelectHandler}
                 placeholder="Select class"
                 boxStyles={[
@@ -1831,7 +1811,7 @@ const TeachersLeaveUpdated = () => {
             {leaveByClassSection.length <= 0 ? (
               <View style={{ alignItems: "center", top: "2%" }}>
                 <NativeText fontSize="xl" bold color="error.900">
-                  No Data Found
+                  No data found.
                 </NativeText>
               </View>
             ) : (
@@ -1844,7 +1824,7 @@ const TeachersLeaveUpdated = () => {
               >
                 <View style={styles.root}>
                   {/* {!filteredData && <Spinner size="lg" />} */}
-                  {!leaveByClassSection && <Text>no data founds</Text>}
+                  {!filteredData && <Text>no data founds</Text>}
                   {loading ? (
                     <ActivityIndicator
                       size={40}
@@ -1853,7 +1833,7 @@ const TeachersLeaveUpdated = () => {
                       textStyle={styles.spinnerTextStyle}
                     />
                   ) : (
-                    leaveByClassSection.map((data) => (
+                    filteredData.map((data) => (
                       <>
                         <View>
                           <Card
@@ -1866,6 +1846,47 @@ const TeachersLeaveUpdated = () => {
                             }}
                           >
                             <Card.Content>
+                              <View style={{ flex: 1 }}>
+                                <View
+                                  style={[
+                                    { flex: 1 },
+                                    {
+                                      flexDirection: "row",
+                                    },
+                                  ]}
+                                >
+                                  <View style={{ flex: 0.6 }}>
+                                    <Text style={styles.cardTextStyle}>
+                                      Student Name:
+                                    </Text>
+                                  </View>
+                                  <View style={{ flex: 1 }}>
+                                    <Text style={styles.textStyle}>
+                                      {data.student_reg_number.student_name}
+                                    </Text>
+                                  </View>
+                                </View>
+                                <View
+                                  style={[
+                                    { flex: 1 },
+                                    {
+                                      flexDirection: "row",
+                                    },
+                                  ]}
+                                >
+                                  <View style={{ flex: 0.3 }}>
+                                    <Text style={styles.cardTextStyle}>
+                                      Reg No:
+                                    </Text>
+                                  </View>
+                                  <View style={{ flex: 1 }}>
+                                    <Text style={styles.textStyle}>
+                                      {data.student_reg_number.reg_number}
+                                    </Text>
+                                  </View>
+                                </View>
+                              </View>
+
                               <View
                                 style={[
                                   { flex: 1 },
@@ -2074,13 +2095,13 @@ const TeachersLeaveUpdated = () => {
                                           },
                                         ]}
                                       >
-                                        <View style={{ flex: 0.5 }}>
+                                        <View style={{ flex: 0.7 }}>
                                           <Text style={styles.cardTextStyle}>
                                             Status:
                                           </Text>
                                         </View>
-                                        <View style={{ flex: 1 }}>
-                                          {data.leave_status == "approved" ? (
+                                        <View style={{ flex: 1.5 }}>
+                                          {data.leave_status == "Approved" ? (
                                             <Badge
                                               colorScheme="success"
                                               style={{ width: "65%" }}
@@ -2105,6 +2126,7 @@ const TeachersLeaveUpdated = () => {
                                         </View>
                                       </View>
                                     </View>
+
                                     <View
                                       style={{
                                         flex: 1,
@@ -2114,15 +2136,16 @@ const TeachersLeaveUpdated = () => {
                                     >
                                       <View
                                         style={[
-                                          { flex: 1 },
+                                          { flex: 4 },
                                           {
                                             flexDirection: "row",
+                                            left: "12%",
                                           },
                                         ]}
                                       >
                                         <View style={{ flex: 0.3 }}>
                                           <IconButton
-                                            colorScheme="blue"
+                                            colorScheme="success"
                                             onPress={() =>
                                               approveHandler(data.id)
                                             }
@@ -2136,7 +2159,7 @@ const TeachersLeaveUpdated = () => {
                                         <View style={styles.space} />
                                         <View style={{ flex: 0.3 }}>
                                           <IconButton
-                                            colorScheme="blue"
+                                            colorScheme="danger"
                                             onPress={() => denyHanlder(data.id)}
                                             variant="subtle"
                                             _icon={{
@@ -2232,7 +2255,7 @@ const styles = StyleSheet.create({
   inputForm: {
     flex: 2,
     paddingHorizontal: 20,
-    //marginTop:'2%',
+    marginTop: "2%",
     //paddingTop: '5%',
     backgroundColor: "white",
     // height: "100%",
@@ -2257,7 +2280,7 @@ const styles = StyleSheet.create({
   //   // marginTop: 17,
   // },
   btnSubmit: {
-    marginTop: deviceWidth < 370 ? 50 : 30,
+    marginTop: deviceWidth < 370 ? 40 : 10,
     width: "50%",
     marginLeft: 180,
   },

@@ -720,11 +720,15 @@ const TeachersTransport = () => {
   return (
     <>
       <View style={[styles.mainContainer]}>
-        <View style={[styles.headingView,
-          keyboardStatus=='Keyboard Shown'&& styles.headingViewNew]}>
-          <NativeText bold style={styles.textStyle}>
+        <View
+          style={[
+            styles.headingView,
+            keyboardStatus == "Keyboard Shown" && styles.headingViewNew,
+          ]}
+        >
+          <Text bold style={styles.textStyle}>
             Bus and Driver Details
-          </NativeText>
+          </Text>
         </View>
         <View style={{ flex: 2, backgroundColor: "white" }}>
           <SearchBar
@@ -1119,10 +1123,10 @@ const deviceWidth = Dimensions.get("window").width;
 const deviceHieght = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
-  mainContainer:{
+  mainContainer: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor:'white' 
+    backgroundColor: "white",
   },
   input: {
     height: 40,
@@ -1381,21 +1385,21 @@ const styles = StyleSheet.create({
     flex: 0.2,
     backgroundColor: "white",
     alignItems: "center",
-    marginVertical:17
+    marginVertical: 17,
   },
   headingViewNew: {
     flex: 0.5,
     backgroundColor: "white",
     alignItems: "center",
-    marginVertical:27
+    marginVertical: 27,
   },
   textStyle: {
     fontSize: 18,
     fontFamily: "HindSemiBold",
-    color: "#F0F3F4",
+    color: "#34495E",
 
-    backgroundColor: "#566573",
+    backgroundColor: "#E5E7E9",
     padding: 15,
-    borderRadius: 10,
+    borderRadius: 5,
   },
 });

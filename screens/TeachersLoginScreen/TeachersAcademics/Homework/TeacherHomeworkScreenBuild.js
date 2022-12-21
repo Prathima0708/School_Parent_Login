@@ -16,6 +16,7 @@ import Button from "../../../../components/UI/Button";
 import * as MediaLibrary from "expo-media-library";
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
+
 import SelectList from "react-native-dropdown-select-list";
 import { Alert, Button as Btn, Image } from "react-native";
 import moment from "moment";
@@ -37,8 +38,8 @@ import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 export var ID;
 var FROMDATE, TODATE;
+
 export var SubjectID;
-import * as FileSystem from "expo-file-system";
 let localUri, filename, match, type, base64;
 let ImageResult;
 var newArray, TOKEN, USERNAME;
@@ -294,10 +295,10 @@ const TeacherHomeworkScreenBuild = () => {
     type = match ? `image/${match[1]}` : `image`;
     // console.log("type-", type);
 
-    // const base64 = await FileSystem.readAsStringAsync(result.uri, {
-    //   encoding: "base64",
-    // });
-    // console.log(base64);
+    const base64 = await FileSystem.readAsStringAsync(result.uri, {
+      encoding: FileSystem.EncodingType.Base64,
+    });
+    console.log(base64);
 
     // const fileReader = new FileReader();
     // fileReader.onload = (fileLoadedEvent) => {
@@ -1026,7 +1027,9 @@ const TeacherHomeworkScreenBuild = () => {
                     onSelect={fetchSubjects}
                   />
                   {selectInputIsInValid && (
-                    <Text style={[styles.errorText,{top:10}]}>Select class</Text>
+                    <Text style={[styles.errorText, { top: 10 }]}>
+                      Select class
+                    </Text>
                   )}
                 </View>
               )}
@@ -1043,9 +1046,17 @@ const TeacherHomeworkScreenBuild = () => {
                     dropdownTextStyles={styles.dropText}
                     inputStyles={styles.dropText}
                   />
-                  {selectInputIsInValid ?( <Text style={[styles.errorText,{top:10}]}>Please select class first</Text>) :
-                   selectSubInputIsInValid && !selectInputIsInValid && (
-                    <Text style={[styles.errorText,{top:10}]}>Select subject</Text>
+                  {selectInputIsInValid ? (
+                    <Text style={[styles.errorText, { top: 10 }]}>
+                      Please select class first
+                    </Text>
+                  ) : (
+                    selectSubInputIsInValid &&
+                    !selectInputIsInValid && (
+                      <Text style={[styles.errorText, { top: 10 }]}>
+                        Select subject
+                      </Text>
+                    )
                   )}
                 </View>
               )}
@@ -1082,7 +1093,7 @@ const TeacherHomeworkScreenBuild = () => {
                 )}
               </View> */}
 
-              <View style={[{ flexDirection: "row",marginVertical:10 }]}>
+              <View style={[{ flexDirection: "row", marginVertical: 10 }]}>
                 <View style={{ flex: 1 }}>
                   <View>
                     <Ionicons
@@ -1694,8 +1705,8 @@ const styles = StyleSheet.create({
   },
   btnSubmit: {
     width: "70%",
-   // marginTop: deviceWidth < 370 ? "3%" : "1%",
-    bottom:'4%',
+    // marginTop: deviceWidth < 370 ? "3%" : "1%",
+    bottom: "4%",
     marginLeft: deviceWidth < 370 ? "35%" : "35%",
   },
   imagePreView: {

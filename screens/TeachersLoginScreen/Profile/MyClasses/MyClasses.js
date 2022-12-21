@@ -29,6 +29,7 @@ let i;
 const MyClasses = () => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [userID, setUserID] = useState("");
   const [classTeacherData, setClassTeacherData] = useState([]);
   const [selected, setSelected] = useState("");
@@ -51,6 +52,7 @@ const MyClasses = () => {
           console.log(response.data);
 
           setData(response.data);
+          setFilteredData(response.data);
           mainData = response.data;
           // console.log(response.data[0].class_name);
           // console.log(response.data.section);
@@ -160,10 +162,10 @@ const MyClasses = () => {
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       });
-      setData(newData);
+      setFilteredData(newData);
       setSearchText(text);
     } else {
-      setData(data);
+      setFilteredData(data);
       setSearchText(text);
     }
   };
@@ -227,7 +229,11 @@ const MyClasses = () => {
               )}
             </View>
             <View style={{ flex: 2 }}>
-              <FlatList data={data} renderItem={renderClass} numColumns={2} />
+              <FlatList
+                data={filteredData}
+                renderItem={renderClass}
+                numColumns={2}
+              />
             </View>
             {keyboardStatus == "Keyboard Hidden" && (
               <View style={{ flex: 0.3 }}>
