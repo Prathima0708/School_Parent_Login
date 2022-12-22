@@ -28,7 +28,7 @@ export var studentId,
   Country,
   Pincode,
   AcademicYear,
-  StudentPhoto
+  StudentPhoto;
 function StudentItem({
   student_name,
   class_name,
@@ -57,19 +57,19 @@ function StudentItem({
     className = class_name;
     busNumber = busnumber;
     Section = section;
-   // StudentPhoto = student_photo;
-    FatherName=father_name
-    MotherName=mother_name
-    DOB=Dob
-    Gendar=gender
-    DateOfAddmission=date_of_admission
-    StudentAddress=student_address
-    City=city
-    State=state
-    Country=country
-    Pincode=pincode
-    AcademicYear=academic_year
-    StudentPhoto=student_photo
+    // StudentPhoto = student_photo;
+    FatherName = father_name;
+    MotherName = mother_name;
+    DOB = Dob;
+    Gendar = gender;
+    DateOfAddmission = date_of_admission;
+    StudentAddress = student_address;
+    City = city;
+    State = state;
+    Country = country;
+    Pincode = pincode;
+    AcademicYear = academic_year;
+    StudentPhoto = student_photo;
     console.log(id);
     navigation.navigate("Category");
   }
@@ -109,10 +109,10 @@ function StudentItem({
             <View
               style={[
                 { flex: 1 },
-                { 
-                  flexDirection: "column", 
-                  left: 10, 
-                  top: deviceWidth < 370 ? '0%' : '1%', 
+                {
+                  flexDirection: "column",
+                  left: 10,
+                  top: deviceWidth < 370 ? "0%" : "1%",
                 },
               ]}
             >
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   textBase: {
     color: "#0D98BA",
-   // marginRight: 10,
+    // marginRight: 10,
   },
   description: {
     fontSize: deviceWidth < 370 ? 15 : 17,
@@ -182,12 +182,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 4,
-   // bottom:deviceWidth < 370 ? '15%' : '1%',
+    // bottom:deviceWidth < 370 ? '15%' : '1%',
     //minWidth: 80,
   },
   image: {
     height: 100,
-   // bottom:deviceWidth < 370 ? '2%' : '1%',
+    // bottom:deviceWidth < 370 ? '2%' : '1%',
     width: 100,
   },
 });

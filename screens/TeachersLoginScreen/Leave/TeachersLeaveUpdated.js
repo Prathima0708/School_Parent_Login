@@ -1081,6 +1081,8 @@ const TeachersLeaveUpdated = () => {
             ]}
           >
             <ScrollView persistentScrollbar={false}>
+
+
               <View
                 style={[
                   { flex: 1 },
@@ -1292,6 +1294,7 @@ const TeachersLeaveUpdated = () => {
                   )}
                 </View>
               </View>
+              
               <View>
                 <View
                   style={
