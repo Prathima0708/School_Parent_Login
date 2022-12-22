@@ -9,7 +9,9 @@ import {
   Text,
   View,
 } from "react-native";
+import { Image as NativeImage } from "native-base";
 import ImageSlider from "../../screens/ParentsLoginScreen/ImageSlider";
+import { useEffect, useRef } from "react";
 
 export var studentId,
   className,
@@ -73,60 +75,69 @@ function StudentItem({
     console.log(id);
     navigation.navigate("Category");
   }
+  const myRef = useRef(null);
+
+  useEffect(() => {
+    if (myRef.current && myRef.current.setNativeProps) {
+      const styleObj = {
+        borderWidth: 3,
+        //borderRadius: 4,
+        borderColor: "black"
+      };
+      myRef.current.setNativeProps({
+        style: styleObj
+      });
+    }
+  }, [myRef]);
+
   return (
     <>
       <Pressable onPress={navigateHandler.bind(this, id)}>
-        <View style={styles.studentItem}>
-          <View style={styles.studentItem}>
-            <View style={styles.imageContainer}>
-              <Image
-                source={{
-                  uri: `http://10.0.2.2:8000${student_photo}`,
-                }}
-                style={styles.image}
-                width="100px"
-              />
-            </View>
-            {/* <Text style={[styles.textBase, styles.description]}>
-              {student_name}
-            </Text>
-            <Text style={[styles.textBase, styles.description]}>
-              {class_name}
-            </Text> */}
-            <View style={[{ flex: 1 }, { flexDirection: "column", left: 30 }]}>
-              <View style={{ flex: 1 }}>
+        <View style={[styles.container]}>
+          <View style={{ flex: 0.53}} >
+            {/* <Image
+              source={{
+                uri: `http://10.0.2.2:8000${student_photo}`,
+              }}
+              style={styles.image}
+              width="100px"/> */}
+              <NativeImage source={{
+                  uri: `http://10.0.2.2:8000${student_photo}`
+                }} alt="Student Image" size="lg" 
+                resizeMode="contain" ref={myRef}/>
+          </View>
+          <View style={{ flex: 1}} >
+            <View style={[{flex:1}, {
+              flexDirection: "row"
+            }]}>
+              <View style={{ flex: 1,alignItems:'center' }} >
                 <Text style={[styles.textBase, styles.description]}>Name</Text>
               </View>
-              <View style={{ flex: 1 }}>
-                <Text style={[styles.textBase, styles.description]}>Class</Text>
-              </View>
-              <View style={{ flex: 1 }}>
-                <Text style={[styles.textBase, styles.description]}>
-                  Reg No
-                </Text>
-              </View>
-            </View>
-            <View
-              style={[
-                { flex: 1 },
-                { 
-                  flexDirection: "column", 
-                  left: 10, 
-                  top: deviceWidth < 370 ? '0%' : '1%', 
-                },
-              ]}
-            >
-              <View style={{ flex: 1 }}>
+              <View style={{ flex: 1}} >
                 <Text style={[styles.textBase, styles.textStyleStudInfo]}>
                   {student_name}
                 </Text>
               </View>
-              <View style={{ flex: 1 }}>
+            </View>
+            <View style={[{flex:1}, {
+              flexDirection: "row"
+            }]}>
+              <View style={{ flex: 1,alignItems:'center' }} >
+                <Text style={[styles.textBase, styles.description]}>Class</Text>
+              </View>
+              <View style={{ flex: 1}} >
                 <Text style={[styles.textBase, styles.textStyleStudInfo]}>
                   {class_name} - {section}
                 </Text>
               </View>
-              <View style={{ flex: 1 }}>
+            </View>
+            <View style={[{flex:1}, {
+              flexDirection: "row"
+            }]}>
+              <View style={{ flex: 1,alignItems:'center',marginLeft:'5%' }} >
+                <Text style={[styles.textBase, styles.description]}>Reg No</Text>
+              </View>
+              <View style={{ flex: 1}} >
                 <Text style={[styles.textBase, styles.textStyleStudInfo]}>
                   {reg_number}
                 </Text>
@@ -143,6 +154,13 @@ const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
+  container:{
+    flex:1,
+    flexDirection: "row",
+    marginVertical:10, 
+    backgroundColor: "#f0f0fc",
+    padding:10
+  },
   studentItem: {
     width: "100%",
 
@@ -186,7 +204,7 @@ const styles = StyleSheet.create({
     //minWidth: 80,
   },
   image: {
-    height: 100,
+    height: 70,
    // bottom:deviceWidth < 370 ? '2%' : '1%',
     width: 100,
   },

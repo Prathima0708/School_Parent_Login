@@ -905,9 +905,9 @@ const TeachersLeaveUpdated = () => {
 
         setLeaveByClassSection(res.data);
         setFilteredData(res.data);
-        if (res.data.length == 0) {
-          Alert.alert("No data found");
-        }
+        // if (res.data.length == 0) {
+        //   Alert.alert("No data found");
+        // }
       } catch (error) {
         console.log(error);
       }
@@ -1846,21 +1846,22 @@ const TeachersLeaveUpdated = () => {
                             }}
                           >
                             <Card.Content>
-                              <View style={{ flex: 1 }}>
+                              <View style={{ flex: 1,flexDirection:'row',marginVertical:5, }}>
                                 <View
                                   style={[
                                     { flex: 1 },
                                     {
                                       flexDirection: "row",
+                                      marginHorizontal:6,
                                     },
                                   ]}
                                 >
-                                  <View style={{ flex: 0.6 }}>
+                                  <View style={{ flex: 5 }}>
                                     <Text style={styles.cardTextStyle}>
                                       Student Name:
                                     </Text>
                                   </View>
-                                  <View style={{ flex: 1 }}>
+                                  <View style={{ flex: 1.6 }}>
                                     <Text style={styles.textStyle}>
                                       {data.student_reg_number.student_name}
                                     </Text>
@@ -1871,10 +1872,11 @@ const TeachersLeaveUpdated = () => {
                                     { flex: 1 },
                                     {
                                       flexDirection: "row",
+                                      marginLeft:'8%'
                                     },
                                   ]}
                                 >
-                                  <View style={{ flex: 0.3 }}>
+                                  <View style={{ flex: 0.7 }}>
                                     <Text style={styles.cardTextStyle}>
                                       Reg No:
                                     </Text>
@@ -1925,6 +1927,7 @@ const TeachersLeaveUpdated = () => {
                                     </View>
                                   </View>
                                 </View>
+                                <View style={styles.space}/>
                                 <View style={{ flex: 1 }}>
                                   <View
                                     style={[
@@ -2083,6 +2086,7 @@ const TeachersLeaveUpdated = () => {
                                       { flex: 1, top: "4%" },
                                       {
                                         flexDirection: "row",
+                                        
                                       },
                                     ]}
                                   >
@@ -2126,12 +2130,12 @@ const TeachersLeaveUpdated = () => {
                                         </View>
                                       </View>
                                     </View>
-
                                     <View
                                       style={{
                                         flex: 1,
-                                        left: "7%",
+                                        // left: "7%",
                                         bottom: "2%",
+                                        alignItems:'flex-end'
                                       }}
                                     >
                                       <View
@@ -2139,7 +2143,7 @@ const TeachersLeaveUpdated = () => {
                                           { flex: 4 },
                                           {
                                             flexDirection: "row",
-                                            left: "12%",
+                                            // left: "12%",                                           
                                           },
                                         ]}
                                       >

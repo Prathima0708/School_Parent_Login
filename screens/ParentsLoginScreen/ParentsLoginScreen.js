@@ -311,7 +311,7 @@ function ParentsLoginScreen() {
         ]}
       >
         <View style={styles.studInfoStyle}>
-          <Heading size="md" style={{ textAlign: "center", bottom: 7 }}>
+          <Heading size="md" style={{ textAlign: "center", bottom: 7,marginVertical:7 }}>
             Student details
           </Heading>
           <ScrollView persistentScrollbar={false}>
