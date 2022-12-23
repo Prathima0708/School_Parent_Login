@@ -82,10 +82,10 @@ function StudentItem({
       const styleObj = {
         borderWidth: 3,
         //borderRadius: 4,
-        borderColor: "black"
+        borderColor: "black",
       };
       myRef.current.setNativeProps({
-        style: styleObj
+        style: styleObj,
       });
     }
   }, [myRef]);
@@ -94,50 +94,72 @@ function StudentItem({
     <>
       <Pressable onPress={navigateHandler.bind(this, id)}>
         <View style={[styles.container]}>
-          <View style={{ flex: 0.53}} >
+          <View style={{ flex: 0.53 }}>
             {/* <Image
               source={{
                 uri: `http://10.0.2.2:8000${student_photo}`,
               }}
               style={styles.image}
               width="100px"/> */}
-              <NativeImage source={{
-                  uri: `http://10.0.2.2:8000${student_photo}`
-                }} alt="Student Image" size="lg" 
-                resizeMode="contain" ref={myRef}/>
+            <NativeImage
+              source={{
+                uri: `http://10.0.2.2:8000${student_photo}`,
+              }}
+              alt="Student Image"
+              size="lg"
+              resizeMode="contain"
+              ref={myRef}
+            />
           </View>
-          <View style={{ flex: 1}} >
-            <View style={[{flex:1}, {
-              flexDirection: "row"
-            }]}>
-              <View style={{ flex: 1,alignItems:'center' }} >
+          <View style={{ flex: 1 }}>
+            <View
+              style={[
+                { flex: 1 },
+                {
+                  flexDirection: "row",
+                },
+              ]}
+            >
+              <View style={{ flex: 1, alignItems: "center" }}>
                 <Text style={[styles.textBase, styles.description]}>Name</Text>
               </View>
-              <View style={{ flex: 1}} >
+              <View style={{ flex: 1 }}>
                 <Text style={[styles.textBase, styles.textStyleStudInfo]}>
                   {student_name}
                 </Text>
               </View>
             </View>
-            <View style={[{flex:1}, {
-              flexDirection: "row"
-            }]}>
-              <View style={{ flex: 1,alignItems:'center' }} >
+            <View
+              style={[
+                { flex: 1 },
+                {
+                  flexDirection: "row",
+                },
+              ]}
+            >
+              <View style={{ flex: 1, alignItems: "center" }}>
                 <Text style={[styles.textBase, styles.description]}>Class</Text>
               </View>
-              <View style={{ flex: 1}} >
+              <View style={{ flex: 1 }}>
                 <Text style={[styles.textBase, styles.textStyleStudInfo]}>
                   {class_name} - {section}
                 </Text>
               </View>
             </View>
-            <View style={[{flex:1}, {
-              flexDirection: "row"
-            }]}>
-              <View style={{ flex: 1,alignItems:'center',marginLeft:'5%' }} >
-                <Text style={[styles.textBase, styles.description]}>Reg No</Text>
+            <View
+              style={[
+                { flex: 1 },
+                {
+                  flexDirection: "row",
+                },
+              ]}
+            >
+              <View style={{ flex: 1, alignItems: "center", marginLeft: "5%" }}>
+                <Text style={[styles.textBase, styles.description]}>
+                  Reg No
+                </Text>
               </View>
-              <View style={{ flex: 1}} >
+              <View style={{ flex: 1 }}>
                 <Text style={[styles.textBase, styles.textStyleStudInfo]}>
                   {reg_number}
                 </Text>
@@ -154,12 +176,12 @@ const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
+  container: {
+    flex: 1,
     flexDirection: "row",
-    marginVertical:10, 
-    backgroundColor: "#f0f0fc",
-    padding:10
+    marginVertical: 15,
+   backgroundColor: "#f0f0fc",
+    padding: 15,
   },
   studentItem: {
     width: "100%",
@@ -167,7 +189,7 @@ const styles = StyleSheet.create({
     padding: 11,
     marginVertical: 8,
     //  backgroundColor: "#3e04c3",
-    backgroundColor: "#f0f0fc",
+    // backgroundColor: "#f0f0fc",
     flexDirection: "row",
     alignItems: "center",
 
@@ -205,7 +227,7 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 70,
-   // bottom:deviceWidth < 370 ? '2%' : '1%',
+    // bottom:deviceWidth < 370 ? '2%' : '1%',
     width: 100,
   },
 });

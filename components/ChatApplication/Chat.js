@@ -193,3 +193,34 @@ const Chat = () => {
   );
 };
 export default Chat;
+
+
+
+
+// import * as WebSocket from 'expo-websockets';
+
+// const chatUrl = 'ws://YOUR_BACKEND_SERVER_URL';
+
+// const Chat = () => {
+//   const [messages, setMessages] = useState([]);
+
+//   useEffect(() => {
+//     WebSocket.connect(chatUrl).then((socket) => {
+//       socket.onMessage((message) => {
+//         setMessages((prevMessages) => [...prevMessages, message]);
+//       });
+
+//       socket.onClose((reason) => {
+//         console.log('Socket closed', reason);
+//       });
+//     });
+//   }, []);
+
+//   const sendMessage = (text) => {
+//     WebSocket.send(text);
+//   };
+
+//   // Render the chat UI, allowing the user to view and send messages
+//   // ...
+// };
+
