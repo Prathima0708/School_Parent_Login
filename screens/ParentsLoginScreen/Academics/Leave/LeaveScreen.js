@@ -121,9 +121,10 @@ const LeaveScreen = () => {
   const [enteredEmailTouched, setEnteredEmailTouched] = useState(false);
   const emailRegex =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
   const [error, setError] = useState(null);
-  // const enteredEmailIsValid = emailRegex.test;
-  // const EmailInputIsInValid = !enteredEmailIsValid && enteredEmailTouched;
+  const enteredEmailIsValid = email.trim()!=="";
+  const EmailInputIsInValid = !enteredEmailIsValid && enteredEmailTouched;
 
   const [leaveReason, setEnteredLeaveReason] = useState("");
   const [enteredLeaveReasonTouched, setEnteredLeaveReasonTouched] =
@@ -850,6 +851,7 @@ const LeaveScreen = () => {
               </View>
 
               {!isEdit && (
+                <>
                 <View
                   style={{
                     top: "3%",
@@ -869,7 +871,7 @@ const LeaveScreen = () => {
                     Leave Type
                   </Text>
                   <View style={styles.leaveSpace} />
-
+                  <View style={{flex:1,flexDirection:'column'}}>
                   <SelectList
                     //setSelected={(val) => setSelected(val)}
                     setSelected={setSelected}
@@ -878,7 +880,7 @@ const LeaveScreen = () => {
                     //placeholder="Select Leave Type"
                     boxStyles={[
                       selectInputIsInValid && styles.errorSelectedColor,
-                      { bottom: "5%" },
+                      { bottom: "5%",marginHorizontal:10},
                       // { marginHorizontal: 15, marginVertical: 10 },
                     ]}
                     dropdownTextStyles={{
@@ -888,7 +890,13 @@ const LeaveScreen = () => {
                     }}
                     inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
                   />
+                  {selectInputIsInValid && (
+                    <Text style={styles.commonErrorMsg}>Select leave type</Text>
+                  )}
+                  </View>   
+                  
                 </View>
+                </>
               )}
 
               <View style={[{ flexDirection: "row", marginVertical: 10 }]}>
@@ -1056,16 +1064,16 @@ const LeaveScreen = () => {
                   // placeholder="Leave reason"
                   value={email}
                   onSubmitEditing={Keyboard.dismiss}
-                  // style={
-                  //   isEmailFocused
-                  //     ? styles.focusStyle
-                  //     : EmailInputIsInValid && styles.errorBorderColor
-                  // }
+                  style={
+                    isEmailFocused
+                      ? styles.focusStyle
+                      : EmailInputIsInValid && styles.errorBorderColor
+                  }
                 />
               </View>
-              {/* {EmailInputIsInValid && (
+              {EmailInputIsInValid && (
                 <Text style={styles.errorText}>Enter email address</Text>
-              )} */}
+              )}
               {error && <Text style={styles.errorText}>{error}</Text>}
 
               {!isEdit && (
@@ -1085,11 +1093,11 @@ const LeaveScreen = () => {
               )}
             </View>
           </ScrollView>
-          {/* {keyboardStatus == "Keyboard Hidden" && (
+          {keyboardStatus == "Keyboard Hidden" && (
             <View style={{ flex: 1 }}>
               <ParentsHome />
             </View>
-          )} */}
+          )}
         </>
       )}
       {showList && (
@@ -1388,14 +1396,14 @@ const LeaveScreen = () => {
                                         flex: 1,
                                         left: "7%",
                                         bottom: "2%",
+                                        alignItems:"flex-end"
                                       }}
                                     >
                                       <View
                                         style={[
                                           { flex: 4 },
                                           {
-                                            flexDirection: "row",
-                                            left: "12%",
+                                            flexDirection: "row",                                           
                                           },
                                         ]}
                                       >
@@ -1560,7 +1568,7 @@ const styles = StyleSheet.create({
   cardTextStyle: {
     fontFamily: "HindSemiBold",
     fontSize: 16,
-    left: 35,
+    // left: 35,
   },
   searchBar: {
     marginTop: 20,
@@ -1617,7 +1625,7 @@ const styles = StyleSheet.create({
   },
   upRemark: {
     top: deviceHieght > 800 ? 30 : 25,
-    width: deviceWidth > 400 ? 70 : 70,
+    width: deviceWidth > 400 ? 70 : 120,
     left: deviceWidth < 370 ? 20 : 30,
     height: deviceHieght > 800 ? 25 : 25,
   },
@@ -1650,6 +1658,14 @@ const styles = StyleSheet.create({
     fontSize: deviceWidth < 370 ? 13 : 16,
     letterSpacing: 0.5,
   },
+  submitLabel: {
+    color: "grey",
+    color: "#AEB6BF",
+    backgroundColor: "#F2F2F2",
+    backgroundColor: "white",
+    paddingHorizontal: 5,
+    fontSize: deviceWidth < 370 ? 13 : 15,
+  },
 
   iconStyle: {
     position: "absolute",
@@ -1669,5 +1685,10 @@ const styles = StyleSheet.create({
     fontFamily: "HindRegular",
     fontSize: deviceWidth < 370 ? 16 : 18,
     top: deviceHieght > 800 ? -3 : 1,
+  },
+  upRemarkExtra: {
+    position: "absolute",
+    left: deviceWidth < 370 ? 20 : 30,
+    top: 5,
   },
 });

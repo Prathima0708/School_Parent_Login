@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Image, Dimensions, useWindowDimensions, TouchableOpacity, ScrollView } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   className,
   Section,
@@ -18,7 +18,7 @@ import {
   Pincode,
   AcademicYear
 } from "../../../components/StudentItem/StudentItem";
-import { Button as NativeButton, Divider,Avatar as NativeAvatar, } from "native-base";
+import { Button as NativeButton, Divider,Avatar as NativeAvatar, Image as NativeImage} from "native-base";
 import ParentsHome from "../BottomTab/ParentsHome";
 import moment from "moment";
 
@@ -40,6 +40,20 @@ const ParentsProfile = () => {
     setStudentInfoClicked(false);
     setIsActive(true);
   }
+  const myRef = useRef(null);
+
+  useEffect(() => {
+    if (myRef.current && myRef.current.setNativeProps) {
+      const styleObj = {
+        borderWidth: 3,
+        //borderRadius: 4,
+        borderColor: "black"
+      };
+      myRef.current.setNativeProps({
+        style: styleObj
+      });
+    }
+  }, [myRef]);
 
   return (
     <>
@@ -65,13 +79,17 @@ const ParentsProfile = () => {
         >
           <View style={{ flex: 3 }}>
             <View style={styles.imageContainer}>
-              <Image
+              {/* <Image
                 source={{
                   uri: `http://10.0.2.2:8000${StudentPhoto}`,
                 }}
                 style={styles.image}
                 width="100px"
-              />
+              /> */}
+              <NativeImage source={{
+                  uri: `http://10.0.2.2:8000${StudentPhoto}`
+                }} alt="Student Image" size="lg" 
+                resizeMode="contain" ref={myRef}/>
             </View>
           </View>
           <View style={{ flex: 5 }}>
@@ -354,7 +372,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     backgroundColor: "white",
 
-    borderWidth: 5,
+  //  borderWidth: 5,
     justifyContent: "center",
     alignItems: "center",
   },

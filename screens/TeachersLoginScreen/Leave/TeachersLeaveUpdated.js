@@ -129,8 +129,8 @@ const TeachersLeaveUpdated = () => {
   const emailRegex =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const [error, setError] = useState(null);
-  // const enteredEmailIsValid = emailRegex.test;
-  // const EmailInputIsInValid = !enteredEmailIsValid && enteredEmailTouched;
+  const enteredEmailIsValid = email;
+  const EmailInputIsInValid = !enteredEmailIsValid && enteredEmailTouched;
 
   const [leaveReason, setEnteredLeaveReason] = useState("");
   const [enteredLeaveReasonTouched, setEnteredLeaveReasonTouched] =
@@ -791,6 +791,7 @@ const TeachersLeaveUpdated = () => {
   function applyLeave() {
     setShowForm(true);
     setShowChoice(false);
+    setError(null)
   }
 
   function myLeaveList() {
@@ -1368,16 +1369,16 @@ const TeachersLeaveUpdated = () => {
                   // placeholder="Leave reason"
                   value={email}
                   onSubmitEditing={Keyboard.dismiss}
-                  // style={
-                  //   isEmailFocused
-                  //     ? styles.focusStyle
-                  //     : EmailInputIsInValid && styles.errorBorderColor
-                  // }
+                  style={
+                    isEmailFocused
+                      ? styles.focusStyle
+                      : EmailInputIsInValid && styles.errorBorderColor
+                  }
                 />
               </View>
-              {/* {EmailInputIsInValid && (
+              {EmailInputIsInValid && (
                 <Text style={styles.errorText}>Enter email address</Text>
-              )} */}
+              )}
               {error && <Text style={styles.errorText}>{error}</Text>}
 
               {!isEdit && (

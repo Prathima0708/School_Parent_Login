@@ -1,7 +1,7 @@
 import { Feather, Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import {
   View,
@@ -23,6 +23,7 @@ import { Teacher, TeacherEmail } from "../../Login";
 import {
   Avatar as NativeAvatar,
   Text as NativeText,
+  Image as NativeImage,
   Divider,
 } from "native-base";
 import TeachersHome from "../BottomTab/TeachersHome";
@@ -62,6 +63,22 @@ const TeachersProfile = () => {
     setShowForm(true);
     setShowList(false);
   }
+
+  const myRef = useRef(null);
+
+  useEffect(() => {
+    if (myRef.current && myRef.current.setNativeProps) {
+      const styleObj = {
+        borderWidth: 3,
+        borderRadius: 100,
+        borderColor: "#22D3EE"
+      };
+      myRef.current.setNativeProps({
+        style: styleObj
+      });
+    }
+  }, [myRef]);
+
   return (
     <>
       <View
@@ -73,13 +90,22 @@ const TeachersProfile = () => {
         <View style={{ flex: 2 }}>
           <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
             <View style={{ flex: 1, backgroundColor: "#00008b" }}>
-              <NativeAvatar
+              {/* <NativeAvatar
                 bg="purple.600"
                 alignSelf="center"
                 size="xl"
                 top="15%"
+                
                 source={{ uri: `http://10.0.2.2:8000${data.student_photo}` }}
-              ></NativeAvatar>
+              ></NativeAvatar> */}
+              <NativeImage 
+                alignSelf='center'
+                borderRadius={100}
+                top="15%"
+                source={{
+                  uri: `http://10.0.2.2:8000${data.student_photo}`
+                }} alt="Student Image" size="lg" ref={myRef}
+                resizeMode="contain"/>
             </View>
             <View style={{ flex: 1, backgroundColor: "#00008b" }}>
               <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
