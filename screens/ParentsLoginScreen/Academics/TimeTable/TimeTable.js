@@ -41,7 +41,7 @@ const TimeTable = () => {
 
   const [examData, setExamData] = useState();
 
-  const [timeTable, setTimeTable] = useState();
+  const [timeTable, setTimeTable] = useState([]);
   const [forTimeTableList, setForTimeTableList] = useState({
     color: "white",
     backgroundColor: "#0C60F4",
@@ -326,10 +326,10 @@ const TimeTable = () => {
               <View style={[styles.tableTopStyle]}>
                 <>
                   <View style={[{ flexDirection: "row" }]}>
-                    <View style={styles.tableHead}>
+                    <View style={[styles.tableHead,{alignItems:'center'}]}>
                       <Text style={styles.headingFont}>Time</Text>
                     </View>
-                    <View style={styles.tableHead}>
+                    <View style={[styles.tableHead,{alignItems:'center'}]}>
                       <Text style={styles.headingFont}>Subject</Text>
                     </View>
                   </View>
@@ -341,7 +341,8 @@ const TimeTable = () => {
                   >
                     <View style={{ flex: 8, bottom: 1 }}>
                       <ScrollView>
-                        <View style={[styles.flexrow]}>
+                        {timeTable.length > 0 ?
+                         <View style={[styles.flexrow]}>
                           <View style={[styles.root]}>
                             {timeTable &&
                               timeTable.map((data) => (
@@ -396,7 +397,12 @@ const TimeTable = () => {
                                 </>
                               ))}
                           </View>
-                        </View>
+                        </View> : 
+                        <View style={{ alignItems: "center", marginVertical: 10 }}>
+                        <NativeText fontSize="xl" bold color="error.900">
+                          No data found.
+                        </NativeText>
+                      </View>}
                       </ScrollView>
                     </View>
                   </View>
@@ -407,10 +413,10 @@ const TimeTable = () => {
               <View style={[styles.tableTopStyle]}>
                 <>
                   <View style={[{ flexDirection: "row" }]}>
-                    <View style={styles.tableHead}>
+                    <View style={[styles.tableHead,{alignItems:'center'}]}>
                       <Text style={styles.headingFont}>Time</Text>
                     </View>
-                    <View style={styles.tableHead}>
+                    <View style={[styles.tableHead,{alignItems:'center'}]}>
                       <Text style={styles.headingFont}>Subject</Text>
                     </View>
                   </View>
@@ -422,6 +428,7 @@ const TimeTable = () => {
                   >
                     <View style={{ flex: 8, bottom: 1 }}>
                       <ScrollView>
+                        {timeTable.length > 0 ?
                         <View style={[styles.flexrow]}>
                           <View style={[styles.root]}>
                             {timeTable &&
@@ -477,7 +484,12 @@ const TimeTable = () => {
                                 </>
                               ))}
                           </View>
-                        </View>
+                        </View> :
+                        <View style={{ alignItems: "center", marginVertical: 10 }}>
+                        <NativeText fontSize="xl" bold color="error.900">
+                          No data found.
+                        </NativeText>
+                      </View>}
                       </ScrollView>
                     </View>
                   </View>
@@ -488,10 +500,10 @@ const TimeTable = () => {
               <View style={[styles.tableTopStyle]}>
                 <>
                   <View style={[{ flexDirection: "row" }]}>
-                    <View style={styles.tableHead}>
+                    <View style={[styles.tableHead,{alignItems:'center'}]}>
                       <Text style={styles.headingFont}>Time</Text>
                     </View>
-                    <View style={styles.tableHead}>
+                    <View style={[styles.tableHead,{alignItems:'center'}]}>
                       <Text style={styles.headingFont}>Subject</Text>
                     </View>
                   </View>
@@ -503,6 +515,7 @@ const TimeTable = () => {
                   >
                     <View style={{ flex: 8, bottom: 1 }}>
                       <ScrollView>
+                        {timeTable.length > 0 ?
                         <View style={[styles.flexrow]}>
                           <View style={[styles.root]}>
                             {timeTable &&
@@ -558,7 +571,12 @@ const TimeTable = () => {
                                 </>
                               ))}
                           </View>
-                        </View>
+                        </View> :
+                        <View style={{ alignItems: "center", marginVertical: 10 }}>
+                        <NativeText fontSize="xl" bold color="error.900">
+                          No data found.
+                        </NativeText>
+                      </View>}
                       </ScrollView>
                     </View>
                   </View>
@@ -569,10 +587,10 @@ const TimeTable = () => {
               <View style={[styles.tableTopStyle]}>
                 <>
                   <View style={[{ flexDirection: "row" }]}>
-                    <View style={styles.tableHead}>
+                    <View style={[styles.tableHead,{alignItems:'center'}]}>
                       <Text style={styles.headingFont}>Time</Text>
                     </View>
-                    <View style={styles.tableHead}>
+                    <View style={[styles.tableHead,{alignItems:'center'}]}>
                       <Text style={styles.headingFont}>Subject</Text>
                     </View>
                   </View>
@@ -584,6 +602,7 @@ const TimeTable = () => {
                   >
                     <View style={{ flex: 8, bottom: 1 }}>
                       <ScrollView>
+                        {timeTable.length >0 ?
                         <View style={[styles.flexrow]}>
                           <View style={[styles.root]}>
                             {timeTable &&
@@ -639,7 +658,12 @@ const TimeTable = () => {
                                 </>
                               ))}
                           </View>
-                        </View>
+                        </View> : 
+                        <View style={{ alignItems: "center", marginVertical: 10 }}>
+                        <NativeText fontSize="xl" bold color="error.900">
+                          No data found.
+                        </NativeText>
+                      </View>}
                       </ScrollView>
                     </View>
                   </View>
@@ -650,10 +674,10 @@ const TimeTable = () => {
               <View style={[styles.tableTopStyle]}>
                 <>
                   <View style={[{ flexDirection: "row" }]}>
-                    <View style={styles.tableHead}>
+                    <View style={[styles.tableHead,{alignItems:'center'}]}>
                       <Text style={styles.headingFont}>Time</Text>
                     </View>
-                    <View style={styles.tableHead}>
+                    <View style={[styles.tableHead,{alignItems:'center'}]}>
                       <Text style={styles.headingFont}>Subject</Text>
                     </View>
                   </View>
@@ -665,6 +689,7 @@ const TimeTable = () => {
                   >
                     <View style={{ flex: 8, bottom: 1 }}>
                       <ScrollView>
+                        {timeTable.length > 0 ?
                         <View style={[styles.flexrow]}>
                           <View style={[styles.root]}>
                             {timeTable &&
@@ -720,7 +745,12 @@ const TimeTable = () => {
                                 </>
                               ))}
                           </View>
-                        </View>
+                        </View> :
+                        <View style={{ alignItems: "center", marginVertical: 10 }}>
+                        <NativeText fontSize="xl" bold color="error.900">
+                          No data found.
+                        </NativeText>
+                      </View>}
                       </ScrollView>
                     </View>
                   </View>
@@ -731,10 +761,10 @@ const TimeTable = () => {
               <View style={[styles.tableTopStyle]}>
                 <>
                   <View style={[{ flexDirection: "row" }]}>
-                    <View style={styles.tableHead}>
+                    <View style={[styles.tableHead,{alignItems:'center'}]}>
                       <Text style={styles.headingFont}>Time</Text>
                     </View>
-                    <View style={styles.tableHead}>
+                    <View style={[styles.tableHead,{alignItems:'center'}]}>
                       <Text style={styles.headingFont}>Subject</Text>
                     </View>
                   </View>
@@ -746,6 +776,7 @@ const TimeTable = () => {
                   >
                     <View style={{ flex: 8, bottom: 1 }}>
                       <ScrollView>
+                        {timeTable.length > 0 ?
                         <View style={[styles.flexrow]}>
                           <View style={[styles.root]}>
                             {timeTable &&
@@ -801,7 +832,12 @@ const TimeTable = () => {
                                 </>
                               ))}
                           </View>
-                        </View>
+                        </View> :
+                        <View style={{ alignItems: "center", marginVertical: 10 }}>
+                        <NativeText fontSize="xl" bold color="error.900">
+                          No data found.
+                        </NativeText>
+                      </View>}
                       </ScrollView>
                     </View>
                   </View>
@@ -1129,14 +1165,11 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderLeftWidth: 1,
     borderTopWidth: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "#3F96B8",
   },
   headingFont: {
     // fontFamily: "Hind-SemiBold",
     fontWeight: "bold",
-    right:'15%',
     color: "white",
     fontSize: deviceWidth < 370 ? 14 : 14,
   },

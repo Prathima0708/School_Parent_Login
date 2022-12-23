@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment";
 import { Alert, HStack, VStack,Text as NativeText, Box, Heading } from "native-base";
 import { useEffect, useState } from "react";
 import { Dimensions, Text } from "react-native";
@@ -42,11 +43,11 @@ function ExamTimeTable(){
             </View>
               <View style={[styles.tableTopStyle]}>
                 <>
-                  <View style={[{ flexDirection: "row",marginVertical:20 }]}>
-                    <View style={styles.tableHead}>
+                  <View style={[{ flexDirection: "row",marginVertical:20}]}>
+                    <View style={[styles.tableHead,{alignItems:"center"}]}>
                       <Text style={styles.headingFont}>Time</Text>
                     </View>
-                    <View style={styles.tableHead}>
+                    <View style={[styles.tableHead,{alignItems:"center"}]}>
                       <Text style={styles.headingFont}>Subject</Text>
                     </View>
                   </View>
@@ -58,6 +59,7 @@ function ExamTimeTable(){
                   >
                     <View style={{ flex: 8, bottom: 20 }}>
                       <ScrollView>
+                        {data.length >0 ? 
                         <View style={[styles.flexrow]}>
                           <View style={[styles.root,{}]}>
                             {data &&
@@ -66,17 +68,20 @@ function ExamTimeTable(){
                                   <View
                                     style={[
                                       styles.container,
-                                      { flexDirection: "row" },
+                                      { flexDirection: "row",justifyContent:"center" },
                                     ]}
                                   >
                                     <View style={[styles.colStyle]}>
                                       <Text
                                         style={[
-                                          styles.tableTitle,
-                                          { left: "35%" },
+                                          styles.tableTitle,{justifyContent:"center"}
+                                          // { left: "35%" },
                                         ]}
                                       >
-                                        {data.name}
+                                        {moment(
+                                                  data.exam_time,
+                                                  "HH:mm"
+                                                ).format("hh:mm ")}
                                       </Text>
                                     </View>
                                   </View>
@@ -90,24 +95,29 @@ function ExamTimeTable(){
                                   <View
                                     style={[
                                       styles.container,
-                                      { flexDirection: "row" },
+                                      { flexDirection: "row",justifyContent:"center" },
                                     ]}
                                   >
                                     <View
                                       style={[
                                         styles.colStyle,
-                                        { left: "80%" },
+                                        // { left: "80%" },
                                       ]}
                                     >
                                       <Text style={[styles.tableTitle]}>
-                                        {data.value}
+                                        {data.subject}
                                       </Text>
                                     </View>
                                   </View>
                                 </>
                               ))}
                           </View>
-                        </View>
+                        </View> :
+                        <View style={{ alignItems: "center", marginVertical: 10 }}>
+                        <NativeText fontSize="xl" bold color="error.900">
+                          No data found.
+                        </NativeText>
+                      </View>}
                       </ScrollView>
                     </View>
                   </View>
@@ -143,14 +153,13 @@ const styles=StyleSheet.create({
         borderRightWidth: 1,
         borderLeftWidth: 1,
         borderTopWidth: 1,
-        justifyContent: "center",
-        alignItems: "center",
         backgroundColor: "darkblue",
       },
       headingFont: {
         // fontFamily: "Hind-SemiBold",
         fontWeight: "bold",
-        right:'15%',
+        // justifyContent:'center',
+        //right:'15%',
         color: "white",
         fontSize: deviceWidth < 370 ? 14 : 14,
       },

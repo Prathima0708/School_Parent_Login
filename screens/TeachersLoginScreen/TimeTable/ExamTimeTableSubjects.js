@@ -172,7 +172,11 @@ const ExamTimeTableSubjects = () => {
                                     >
                                       <Text style={[styles.tableTitle]}>
                                         {/* {moment(data.exam_time).format('hh:mm')} */}
-                                        {data.exam_time}
+                                        {moment(
+                                                  data.exam_time,
+                                                  "HH:mm"
+                                                ).format("hh:mm ")}
+                                        {/* {data.exam_time} */}
                                       </Text>
                                     </View>
                                   </View>
