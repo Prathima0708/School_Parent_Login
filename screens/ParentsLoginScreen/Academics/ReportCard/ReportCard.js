@@ -6,7 +6,8 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { Image as NativeImage } from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { Card, DataTable, Paragraph, Title } from "react-native-paper";
 import { Divider } from "react-native-paper";
@@ -43,6 +44,21 @@ const ReportCard = () => {
     }
     fetchData();
   }, []);
+
+  const myRef = useRef(null);
+
+  useEffect(() => {
+    if (myRef.current && myRef.current.setNativeProps) {
+      const styleObj = {
+        borderWidth: 3,
+        //borderRadius: 4,
+        borderColor: "white",
+      };
+      myRef.current.setNativeProps({
+        style: styleObj,
+      });
+    }
+  }, [myRef]);
 
   // useEffect(() => {
   //   for (i = 0; i < data.length; i++) {
@@ -115,15 +131,24 @@ const ReportCard = () => {
         </View> */}
 
         <View style={styles.studentItem}>
-          <View style={styles.studentItem}>
-            <View style={styles.imageContainer}>
-              <Image
+          {/* <View style={styles.studentItem}> */}
+            <View style={{ flex: 0.53 }}>
+              {/* <Image
                 source={{
                   uri: `http://10.0.2.2:8000${StudentPhoto}`,
                 }}
                 style={styles.image}
                 width="100px"
-              />
+              /> */}
+            <NativeImage
+              source={{
+                uri: `http://10.0.2.2:8000${StudentPhoto}`,
+              }}
+              alt="Student Image"
+              size="lg"
+              resizeMode="contain"
+              ref={myRef}
+            />
             </View>
 
             <View style={[{ flex: 1 }, { flexDirection: "column", left: 30 }]}>
@@ -160,7 +185,7 @@ const ReportCard = () => {
                   {StudentRegNo}
                 </Text>
               </View>
-            </View>
+            {/* </View> */}
           </View>
         </View>
         <View style={styles.tableTopStyle}>
@@ -555,7 +580,7 @@ const styles = StyleSheet.create({
   },
   studentItem: {
     width: "90%",
-
+    padding:20,
     marginVertical: 20,
     marginHorizontal: 20,
     //  backgroundColor: "#3e04c3",

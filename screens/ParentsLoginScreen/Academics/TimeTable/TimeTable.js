@@ -39,7 +39,7 @@ const TimeTable = () => {
   const [saturdayTimeTable, setSaturdayTimeTable] = useState(false);
   // const [data, setData] = useState();
 
-  const [examData, setExamData] = useState();
+  const [examData, setExamData] = useState([]);
 
   const [timeTable, setTimeTable] = useState([]);
   const [forTimeTableList, setForTimeTableList] = useState({
@@ -861,7 +861,7 @@ const TimeTable = () => {
           >
             <View style={{ flex: 8, bottom: 10 }}>
               <ScrollView style={{ backgroundColor: "white" }}>
-                {examData &&
+                {examData.length > 0 ?
                   examData.map((data) => (
                     <Pressable onPress={navigateHandler.bind(this, data.id)}>
                       <View style={[styles.mainView]}>
@@ -990,7 +990,12 @@ const TimeTable = () => {
                       </View>
                     </View>
                     </Pressable>
-                  ))}
+                  )) : 
+                  <View style={{ alignItems: "center", marginVertical: 10 }}>
+                    <NativeText fontSize="xl" bold color="error.900">
+                      No data found.
+                    </NativeText>
+                  </View>}
               </ScrollView>
             </View>
 

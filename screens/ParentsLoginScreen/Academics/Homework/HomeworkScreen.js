@@ -15,7 +15,7 @@ import {
 } from "../../../../components/StudentItem/StudentItem";
 import ParentsHome from "../../BottomTab/ParentsHome";
 import { ScrollView } from "react-native";
-import { Modal, Button as NativeButton, IconButton, Button } from "native-base";
+import { Modal, Button as NativeButton, IconButton,Text as NativeText } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { Card } from "react-native-paper";
 import moment from "moment";
@@ -69,6 +69,7 @@ const HomeworkScreen = () => {
         <View style={{ flex: 8, bottom: 10 }}>
           <ScrollView>
             <View style={styles.root}>
+              {data.length > 0 ?
               <FlatList
                 data={data}
                 style={{ width: "95%" }}
@@ -193,7 +194,12 @@ const HomeworkScreen = () => {
                     </Card>
                   );
                 }}
-              />
+              />:
+              <View style={{ alignItems: "center", marginVertical: 10 }}>
+              <NativeText fontSize="xl" bold color="error.900">
+                No Assigned homework found.
+              </NativeText>
+            </View>}
             </View>
           </ScrollView>
         </View>
@@ -335,6 +341,7 @@ const styles = StyleSheet.create({
   root: {
     justifyContent: "center",
     alignItems: "center",
+    marginVertical:30
   },
   remark: {
     fontSize: deviceWidth < 370 ? 16 : 20,

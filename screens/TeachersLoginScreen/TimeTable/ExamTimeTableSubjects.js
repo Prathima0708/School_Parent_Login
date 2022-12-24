@@ -135,13 +135,13 @@ const ExamTimeTableSubjects = () => {
                                   <View
                                     style={[
                                       styles.container,
-                                      { flexDirection: "row" },
+                                      { flexDirection: "row"},
                                     ]}
                                   >
                                     <View style={[styles.colStyle]}>
                                       <Text
                                         style={[
-                                          styles.tableTitle,
+                                          styles.tableTitle
                                           // { left: "" },
                                         ]}
                                       >
@@ -219,8 +219,8 @@ const ExamTimeTableSubjects = () => {
                                   >
                                     <View
                                       style={[
-                                        styles.colStyle
-                                        // { left: "80%" },
+                                        styles.colStyle,
+                                       //{ left: "80%" },
                                       ]}
                                     >
                                       <Text style={[styles.tableTitle]}>
@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderLeftWidth: 1,
     borderTopWidth: 1,
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#5578E3",
   },
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
   headingFont: {
     // fontFamily: "Hind-SemiBold",
     fontFamily:'HindBold',
-    right:'15%',
+    //right:'15%',
     color: "white",
     fontSize: deviceWidth < 370 ? 14 : 14,
   },
@@ -335,6 +335,6 @@ const styles = StyleSheet.create({
     borderWidth: 1
   },
   tableTitle:{
-    fontFamily:"HindSemiBold"
+    fontFamily:"HindSemiBold",
   }
 });

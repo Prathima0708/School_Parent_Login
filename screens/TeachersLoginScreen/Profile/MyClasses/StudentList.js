@@ -59,9 +59,9 @@ const StudentList = () => {
           setFilteredData(filteredc);
         }
 
-        if (filteredc.length == 0) {
-          Alert.alert("No data found", "No data found for respective search");
-        }
+        // if (filteredc.length == 0) {
+        //   Alert.alert("No data found", "No data found for respective search");
+        // }
       } catch (error) {
         console.log(error);
       }
@@ -156,59 +156,65 @@ const StudentList = () => {
         >
           <View style={{ flex: 8, bottom: 10 }}>
             <ScrollView>
-              <View style={styles.root}>
-                {filteredData &&
-                  filteredData.map((filteredData, key) => (
-                    <>
-                      <TouchableHighlight
-                        onPress={pressHandler.bind(this, filteredData.id)}
-                        underlayColor="#D1D4FF"
-                      >
-                        <View style={styles.tableText}>
-                          <View
-                            style={{
-                              flex: 1,
-                              alignItems: "center",
-                              paddingVertical: 20,
-                            }}
+            {filteredData.length > 0 ?
+            <View style={styles.root}>
+              {filteredData &&
+                filteredData.map((filteredData, key) => (
+                  <>
+                    <TouchableHighlight
+                      onPress={pressHandler.bind(this, filteredData.id)}
+                      underlayColor="#D1D4FF"
+                    >
+                      <View style={styles.tableText}>
+                        <View
+                          style={{
+                            flex: 1,
+                            alignItems: "center",
+                            paddingVertical: 20,
+                          }}
+                        >
+                          <Text
+                            style={[styles.headerText, { color: "black" }]}
                           >
-                            <Text
-                              style={[styles.headerText, { color: "black" }]}
-                            >
-                              {filteredData.reg_number}
-                            </Text>
-                          </View>
-                          <View
-                            style={{
-                              flex: 1,
-                              alignItems: "center",
-                              paddingVertical: 20,
-                            }}
-                          >
-                            <Text
-                              style={[styles.headerText, { color: "black" }]}
-                            >
-                              {filteredData.student_name}
-                            </Text>
-                          </View>
-                          <View
-                            style={{
-                              flex: 1,
-                              alignItems: "center",
-                              paddingVertical: 20,
-                            }}
-                          >
-                            <Text
-                              style={[styles.headerText, { color: "black" }]}
-                            >
-                              {filteredData.class_name} - {filteredData.section}
-                            </Text>
-                          </View>
+                            {filteredData.reg_number}
+                          </Text>
                         </View>
-                      </TouchableHighlight>
-                    </>
-                  ))}
-              </View>
+                        <View
+                          style={{
+                            flex: 1,
+                            alignItems: "center",
+                            paddingVertical: 20,
+                          }}
+                        >
+                          <Text
+                            style={[styles.headerText, { color: "black" }]}
+                          >
+                            {filteredData.student_name}
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flex: 1,
+                            alignItems: "center",
+                            paddingVertical: 20,
+                          }}
+                        >
+                          <Text
+                            style={[styles.headerText, { color: "black" }]}
+                          >
+                            {filteredData.class_name} - {filteredData.section}
+                          </Text>
+                        </View>
+                      </View>
+                    </TouchableHighlight>
+                  </>
+                ))}
+            </View> :
+            <View style={{ alignItems: "center", marginVertical: 10 }}>
+            <NativeText fontSize="xl" bold color="error.900">
+              No data found.
+            </NativeText>
+          </View>}
             </ScrollView>
           </View>
         </View>
