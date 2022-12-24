@@ -43,6 +43,7 @@ export var SubjectID;
 let localUri, filename, match, type, base64;
 let ImageResult;
 var newArray, TOKEN, USERNAME;
+var KEY,VALUE,SUBJECTVALUE,SUBJECTKEY;
 const TeacherHomeworkScreenBuild = () => {
   const scrollY = new Animated.Value(0);
 
@@ -106,6 +107,7 @@ const TeacherHomeworkScreenBuild = () => {
     !enteredSelcetdSubIsValid && enteredSelectedSubTouched;
 
   const [subjectData, setSubjectData] = useState([]);
+  const [subjectDataEdit, setSubjectDataEdit] = useState([]);
 
   const [subject, setEnteredSubject] = useState("");
   const [enteredSubjectTouched, setEnteredSubjectTouched] = useState(false);
@@ -349,6 +351,7 @@ const TeacherHomeworkScreenBuild = () => {
 
   function fetchSubjects() {
     console.log(selected);
+    console.log(selectedSubject)
     async function fetchSubjects() {
       axios
         .get(
@@ -364,6 +367,33 @@ const TeacherHomeworkScreenBuild = () => {
           console.log(response.data);
           //setSubjectData(newSubjects);
           setSubjectData(response.data);
+        })
+
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    fetchSubjects();
+  }
+
+  function fetchSubjectsEdit() {
+   
+    async function fetchSubjects() {
+      console.log('key inside fetch subjects',KEY)
+      axios
+        .get(
+          `http://10.0.2.2:8000/school/StudentclassSubjectDetail/${KEY}`
+        )
+        .then((response) => {
+        //  console.log("subjects", response.data);
+          for (var i = 0; i < response.data.length; i++) {
+            response.data[i] =
+              response.data[i].charAt(0).toUpperCase() +
+              response.data[i].substr(1);
+          }
+          console.log(response.data);
+          //setSubjectData(newSubjects);
+          setSubjectDataEdit(response.data);
         })
 
         .catch((e) => {
@@ -486,22 +516,23 @@ const TeacherHomeworkScreenBuild = () => {
   }
 
   function updateHandler() {
-    // let selectedData = selected.split(" - ");
-    // let class_name = selectedData[0];
-    // let section = selectedData[1];
+    console.log('selected inside update',selected)
+    let filteredlist = newArray.filter((ele) => ele.key == selected);
+    console.log('filetred list inside update',filteredlist)
+    console.log('inside update ',selectedSubject)
     let uploaduri = image;
     // let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
     const formdata = {
-      // class_name: class_name,
-      // section: section,
-      //subject: subject,
+       class_name: filteredlist[0].classname,
+       section: filteredlist[0].section,
+      subject: selectedSubject,
       homework_date: FROMDATE,
       remark: remark,
       //  homework_photo: "",
       //homework: "",
       due_date: TODATE,
       //    description: hw,
-      created_by: "",
+     
     };
     console.log(formdata);
 
@@ -521,7 +552,7 @@ const TeacherHomeworkScreenBuild = () => {
           "Content-Type": "application/json; charset=utf-8",
         };
 
-        const resLogin = await axios.put(
+        const resLogin = await axios.patch(
           `http://10.0.2.2:8000/school/Homework/${ID}/`,
           formdata,
           {
@@ -887,11 +918,24 @@ const TeacherHomeworkScreenBuild = () => {
     // let section = selectedData[1];
 
     const filteredDummuyData = homeworkData.find((data) => data.id == id);
-    // console.log(filteredDummuyData);
+ 
+  
+     console.log(filteredDummuyData);
+
 
     // setData(filteredDummuyData.selectedData[class_name]);
     // setEnteredSection(filteredDummuyData.section);
     // setEnteredSubject(filteredDummuyData.subject);
+    //console.log(filteredDummuyData.class_name + "-" + filteredDummuyData.section )
+    VALUE=filteredDummuyData.class_name + " " + "-" + " " + filteredDummuyData.section
+      //KEY=filteredDummuyData.id
+   // console.log(VALUE)
+      let filteredlistC = newArray.filter((ele) => ele.value == VALUE );
+    KEY=filteredlistC[0].key
+    // console.log(KEY)
+
+    SUBJECTVALUE=filteredDummuyData.subject
+  
     setFromText(moment(filteredDummuyData.homework_date).format("DD/MM/YYYY"));
     setToText(moment(filteredDummuyData.due_date).format("DD/MM/YYYY"));
     // moment(filteredDummuyData.due_date).format('DD/MM/YYYY')
@@ -913,6 +957,8 @@ const TeacherHomeworkScreenBuild = () => {
     setShowList(false);
     setIsEdit(true);
   }
+
+
 
   function deleteItem(id) {
     console.log("i am pressed");
@@ -1025,6 +1071,7 @@ const TeacherHomeworkScreenBuild = () => {
                     dropdownTextStyles={styles.dropText}
                     inputStyles={styles.dropText}
                     onSelect={fetchSubjects}
+                 
                   />
                   {selectInputIsInValid && (
                     <Text style={[styles.errorText, { top: 10 }]}>
@@ -1033,6 +1080,32 @@ const TeacherHomeworkScreenBuild = () => {
                   )}
                 </View>
               )}
+
+
+             {isEdit &&<View style={styles.selectStyle}>
+                  <SelectList
+                    setSelected={setSelected}
+                    data={data}
+                  save="key"
+                    placeholder="Select class"
+                    boxStyles={
+                      selectInputIsInValid && styles.errorSelectedColor
+                    }
+                    dropdownTextStyles={styles.dropText}
+                    inputStyles={styles.dropText}
+                    onSelect={ fetchSubjects}
+                    defaultOption={{
+                      key: String(KEY),
+                      value: String(VALUE),
+                    }}
+                  />
+                  {selectInputIsInValid && (
+                    <Text style={[styles.errorText, { top: 10 }]}>
+                      Select class
+                    </Text>
+                  )}
+                </View>}
+            
 
               {!isEdit && (
                 <View style={styles.selectStyleSub}>
@@ -1045,6 +1118,40 @@ const TeacherHomeworkScreenBuild = () => {
                     }
                     dropdownTextStyles={styles.dropText}
                     inputStyles={styles.dropText}
+                  />
+                  {selectInputIsInValid ? (
+                    <Text style={[styles.errorText, { top: 10 }]}>
+                      Please select class first
+                    </Text>
+                  ) : (
+                    selectSubInputIsInValid &&
+                    !selectInputIsInValid && (
+                      <Text style={[styles.errorText, { top: 10 }]}>
+                        Select subject
+                      </Text>
+                    )
+                  )}
+                </View>
+              )}
+
+
+              
+{isEdit && (
+                <View style={styles.selectStyleSub}>
+                  <SelectList
+                    setSelected={setSelectedSubject}
+                    data={subjectData}
+                    placeholder="Select subject"
+                    boxStyles={
+                      selectSubInputIsInValid && styles.errorSelectedColor
+                    }
+                    dropdownTextStyles={styles.dropText}
+                    inputStyles={styles.dropText}
+                    defaultOption={{
+                      key: String(KEY),
+                      value: String(SUBJECTVALUE),
+                    }}
+                    save='value'
                   />
                   {selectInputIsInValid ? (
                     <Text style={[styles.errorText, { top: 10 }]}>
@@ -1549,6 +1656,29 @@ const TeacherHomeworkScreenBuild = () => {
                                         </View>
                                       </View>
                                     </View>
+
+                                    <View style={{ flex: 1 }}>
+                                      <View
+                                        style={[
+                                          { flex: 1 },
+                                          {
+                                            flexDirection: "row",
+                                          },
+                                        ]}
+                                      >
+                                        <View style={{ flex: 0.7 }}>
+                                          <Text style={styles.cardTextStyle}>
+                                            Classname:
+                                          </Text>
+                                        </View>
+                                        <View style={{ flex: 1 }}>
+                                          <Text style={styles.textStyle}>
+                                            {homeworkData.class_name}{"-"}{homeworkData.section}
+                                          </Text>
+                                        </View>
+                                      </View>
+                                    </View>
+
                                     <View style={{ flex: 1 }}>
                                       <View
                                         style={[
