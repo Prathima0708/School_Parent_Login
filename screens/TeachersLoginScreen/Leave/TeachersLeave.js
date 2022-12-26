@@ -1558,7 +1558,7 @@ const TeachersLeave = () => {
                                     >
                                       <View style={{ flex: 0.4 }}>
                                         <Text style={styles.cardTextStyle}>
-                                          Leave type:
+                                          Leave type:-------
                                         </Text>
                                       </View>
                                       <View style={{ flex: 1 }}>
