@@ -486,7 +486,7 @@ const TeachersTimetable = () => {
                   {showSelected && (isUndefined || !isIdThere) && (
                     <View style={{ alignItems: "center", top: "2%" }}>
                       <NativeText fontSize="xl" bold color="error.900">
-                        No Data Found
+                        No Timetable found
                       </NativeText>
                     </View>
                   )}

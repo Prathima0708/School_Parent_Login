@@ -767,6 +767,9 @@ const TeachersMarksheet = () => {
   }
 
   function cancelPressHandler() {
+
+    console.log("from cancel handler",selected);
+    
     setShowInitialBtn(true);
     setShowBtn(true);
     setShowForm(true);
@@ -1114,14 +1117,14 @@ const TeachersMarksheet = () => {
           ]}
         >
           <View style={{ flex: 8, bottom: 10 }}>
-            {filteredData.length <=0 ? 
-              (<View style={{ alignItems: "center", top: "5%" }}>
-               <NativeText fontSize="xl" bold color="error.900">
-                 No Data Found
-               </NativeText>
-              </View>) :
+            {/* {filteredData.length <=0 ?  */}
+              {/* // (<View style={{ alignItems: "center", top: "5%" }}>
+              //  <NativeText fontSize="xl" bold color="error.900">
+              //    No Data Found
+              //  </NativeText>
+              // </View>) : */}
 
-              (
+              
               <ScrollView>
               <View style={styles.root}>
                 {filteredData &&
@@ -1189,7 +1192,7 @@ const TeachersMarksheet = () => {
                   ))}
               </View>
             </ScrollView>
-              )}
+              {/* )} */}
             
           </View>
         </View>

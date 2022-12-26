@@ -30,6 +30,7 @@ import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import { Badge, Button as NativeBtn, IconButton } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
 import { useNavigation } from "@react-navigation/native";
+import {Text as NativeText} from "native-base"
 export var ID;
 export var FROMDATE, TODATE;
 const TecahersExamTimeTable = () => {
@@ -782,6 +783,7 @@ const TecahersExamTimeTable = () => {
                   { useNativeDriver: false }
                 )}
               >
+                {filteredData.length > 0 ?
                 <View style={styles.root}>
                   {loading ? (
                     <ActivityIndicator
@@ -791,6 +793,7 @@ const TecahersExamTimeTable = () => {
                       // textStyle={styles.spinnerTextStyle}
                     />
                   ) : (
+                    
                     filteredData.map((data, key) => (
                       <>
                         <Pressable
@@ -825,7 +828,7 @@ const TecahersExamTimeTable = () => {
                                         style={[
                                           styles.cardTextStyle,
                                           {
-                                            color: "#007520",
+                                            color: "black",
                                             fontFamily:"HindBold",
                                             fontSize:
                                               deviceWidth < 370 ? 14 : 16,
@@ -990,7 +993,12 @@ const TecahersExamTimeTable = () => {
                       </>
                     ))
                   )}
-                </View>
+                </View> :
+                <View style={{ alignItems: "center", top: "2%" }}>
+                <NativeText fontSize="xl" bold color="error.900">
+                  No exam timetable found
+                </NativeText>
+              </View>}
               </ScrollView>
             </View>
             {keyboardStatus == "Keyboard Hidden" && (

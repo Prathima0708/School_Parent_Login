@@ -979,6 +979,11 @@ const TeachersLeaveUpdated = () => {
       fetchData();
     }
   }
+
+  function linkPressedHandler(){
+    setShowForm(true);
+    setShowTeachersList(false);
+  }
   return (
     <>
       {showChoice && (
@@ -1437,9 +1442,11 @@ const TeachersLeaveUpdated = () => {
             />
             {leaveByUsername.length <= 0 ? (
               <View style={{ alignItems: "center", top: "2%" }}>
-                <NativeText fontSize="xl" bold color="error.900">
-                  No Data Found
-                </NativeText>
+                <Text style={styles.msgText}>No Leaves are found,
+                  <Text
+                    style={styles.linkText}
+                    onPress={linkPressedHandler}>Start adding here</Text>
+                </Text>
               </View>
             ) : (
               <ScrollView
@@ -1815,7 +1822,7 @@ const TeachersLeaveUpdated = () => {
             {leaveByClassSection.length <= 0 ? (
               <View style={{ alignItems: "center", top: "2%" }}>
                 <NativeText fontSize="xl" bold color="error.900">
-                  No data found.
+                  No Student's Leaves are found
                 </NativeText>
               </View>
             ) : (
@@ -1828,7 +1835,7 @@ const TeachersLeaveUpdated = () => {
               >
                 <View style={styles.root}>
                   {/* {!filteredData && <Spinner size="lg" />} */}
-                  {!filteredData && <Text>no data founds</Text>}
+                  {/* {!filteredData && <Text>no data founds</Text>} */}
                   {loading ? (
                     <ActivityIndicator
                       size={40}
@@ -2441,4 +2448,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
+  linkText:{
+    fontFamily:"HindSemiBold",
+    color:"#02BFC4",
+    fontSize:18,
+    textDecorationLine:"underline",
+    textDecorationColor:"#02BFC4",
+    cursor:'pointer'
+  },
+  msgText:{
+    fontSize:18,
+    fontFamily:"HindSemiBold",
+    color:"#6B0000",
+  }
 });

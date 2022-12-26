@@ -732,6 +732,11 @@ const TeachersCalendarScreenBuild = () => {
     setShowList(true);
     setShowForm(false);
   }
+
+  function linkPressedHandler(){
+    setShowForm(true);
+    setShowList(false);
+  }
   return (
     <>
       {showInitialBtn && (
@@ -987,6 +992,7 @@ const TeachersCalendarScreenBuild = () => {
                 { useNativeDriver: false }
               )}
             >
+              {filteredData.length > 0 ?
               <View style={styles.root}>
                 {loading ? (
                   <HStack space={8} justifyContent="center" alignItems="center">
@@ -1141,7 +1147,14 @@ const TeachersCalendarScreenBuild = () => {
                     </>
                   ))
                 )}
-              </View>
+              </View> :
+              <View style={{ alignItems: "center", top: "2%" }}>
+              <Text style={styles.msgText}>No Leaves are found,
+                <Text
+                  style={styles.linkText}
+                  onPress={linkPressedHandler}>Start adding here</Text>
+              </Text>
+            </View>}
             </ScrollView>
           </View>
           {keyboardStatus == "Keyboard Hidden" && (
@@ -1343,4 +1356,17 @@ const styles = StyleSheet.create({
   spinnerTextStyle: {
     color: "#FFF",
   },
+  linkText:{
+    fontFamily:"HindSemiBold",
+    color:"#02BFC4",
+    fontSize:18,
+    textDecorationLine:"underline",
+    textDecorationColor:"#02BFC4",
+    cursor:'pointer'
+  },
+  msgText:{
+    fontSize:18,
+    fontFamily:"HindSemiBold",
+    color:"#6B0000",
+  }
 });
