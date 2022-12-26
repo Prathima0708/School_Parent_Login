@@ -76,9 +76,13 @@ const TeachersNoticeBoard = () => {
       </View>
       <View style={{ flex: 2, backgroundColor: "white" }}>
         <ScrollView>
+          {data.length <= 0 ?
+          <View style={{ alignItems: "center", marginTop: "5%" }}>
+            <Text style={styles.msgText}>No Events are found</Text>
+          </View> :
           <Box>
             <FlatList data={data} padding={2} renderItem={renderNotice} />
-          </Box>
+          </Box>}
         </ScrollView>
       </View>
       <View style={{ flex: 0.2, backgroundColor: "white" }}>
@@ -106,4 +110,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
   },
+  msgText:{
+    fontSize:18,
+    fontFamily:"HindSemiBold",
+    color:"#6B0000",
+  }
 });

@@ -876,6 +876,23 @@ const TeachersCalendar = () => {
       console.log("uncheck");
     }
   }
+
+  function linkPressedHandler(){
+    setShowForm(true);
+    setShowList(false);
+
+    setForCalendarList({
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
+    });
+    setForCalendarForm({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
+  }
+  
   return (
     <>
       {showInitialBtn && (
@@ -1272,6 +1289,14 @@ const TeachersCalendar = () => {
                 { useNativeDriver: false }
               )}
             >
+              {filteredData.length <=0 ?
+              <View style={{ alignItems: "center", marginTop: "5%" }}>
+                <Text style={styles.msgText}>No Leaves are found,
+                  <Text
+                    style={styles.linkText}
+                    onPress={linkPressedHandler}>Start adding here</Text>
+                </Text>
+              </View>  :
               <View style={styles.root}>
                 {loading ? (
                   <HStack space={8} justifyContent="center" alignItems="center">
@@ -1537,7 +1562,7 @@ const TeachersCalendar = () => {
                     </>
                   ))
                 )}
-              </View>
+              </View>}
             </ScrollView>
           </View>
           {keyboardStatus == "Keyboard Hidden" && (
@@ -1759,4 +1784,17 @@ const styles = StyleSheet.create({
   errorSelectedColor: {
     borderColor: "red",
   },
+  linkText:{
+    fontFamily:"HindSemiBold",
+    color:"#02BFC4",
+    fontSize:18,
+    textDecorationLine:"underline",
+    textDecorationColor:"#02BFC4",
+    cursor:'pointer'
+  },
+  msgText:{
+    fontSize:18,
+    fontFamily:"HindSemiBold",
+    color:"#6B0000",
+  }
 });

@@ -704,6 +704,23 @@ const LeaveScreen = () => {
       setSearchText(text);
     }
   };
+
+  function linkPressedHandler(){
+    setShowForm(true);
+    setShowList(false);
+
+    setForHomeworkList({
+      color: "white",
+      backgroundColor: "#0C60F4",
+      borderRadius: 10,
+    });
+    setForHomeworkForm({
+      color: "black",
+      backgroundColor: "#F4F6F6",
+      borderRadius: 10,
+    });
+  }
+
   return (
     <>
       {showInitialBtn && (
@@ -1129,6 +1146,14 @@ const LeaveScreen = () => {
                   { useNativeDriver: false }
                 )}
               >
+                {data.length <=0 ?
+                <View style={{ alignItems: "center", marginTop: "5%" }}>
+                  <Text style={styles.msgText}>No Leaves are found,
+                    <Text
+                      style={styles.linkText}
+                      onPress={linkPressedHandler}>Start adding here</Text>
+                  </Text>
+                </View> :
                 <View style={styles.root}>
                   {loading ? (
                     <ActivityIndicator
@@ -1441,7 +1466,7 @@ const LeaveScreen = () => {
                       </>
                     ))
                   )}
-                </View>
+                </View>}
               </ScrollView>
             </View>
             {keyboardStatus == "Keyboard Hidden" && (
@@ -1691,4 +1716,17 @@ const styles = StyleSheet.create({
     left: deviceWidth < 370 ? 20 : 30,
     top: 5,
   },
+  linkText:{
+    fontFamily:"HindSemiBold",
+    color:"#02BFC4",
+    fontSize:18,
+    textDecorationLine:"underline",
+    textDecorationColor:"#02BFC4",
+    cursor:'pointer'
+  },
+  msgText:{
+    fontSize:18,
+    fontFamily:"HindSemiBold",
+    color:"#6B0000",
+  }
 });

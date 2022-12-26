@@ -17,7 +17,7 @@ const TeachersHome = () => {
         name="person"
         size={34}
         color="white"
-        onPress={() => navigation.navigate("TeachersProfile")}
+        onPress={() => navigation.navigate("MyClasses")}
       />
     </View>
   );
