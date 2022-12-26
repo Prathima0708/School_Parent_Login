@@ -122,9 +122,7 @@ const TeachersTimetable = () => {
   useEffect(() => {
     async function fetchClass() {
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/Studentclass/`
-        );
+        const res = await axios.get(`${subURL}/Studentclass/`);
         newArray = res.data.map((item) => {
           return {
             key: item.id,
@@ -244,9 +242,7 @@ const TeachersTimetable = () => {
   function timeTableList() {
     async function fetchDailyTimeTable() {
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/AddmoreTimetable_list/`
-        );
+        const res = await axios.get(`${subURL}/AddmoreTimetable_list/`);
         setShowTimeTableData(res.data);
       } catch (error) {
         console.log(error);
@@ -427,7 +423,9 @@ const TeachersTimetable = () => {
               </Text>
               <View style={styles.space} />
               <View style={styles.space} />
-              <Text style={{fontFamily:'HindBold',fontSize:20,top: "3%"}}>-</Text>
+              <Text style={{ fontFamily: "HindBold", fontSize: 20, top: "3%" }}>
+                -
+              </Text>
               <View style={styles.space} />
               <View style={styles.space} />
               <SelectList

@@ -30,6 +30,7 @@ import { Card, DataTable } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
+import { subURL } from "../../../components/utils/URL's";
 export var ID;
 export var FROMDATE, TODATE;
 const TeachersLeaveScreenBuild = () => {
@@ -313,13 +314,9 @@ const TeachersLeaveScreenBuild = () => {
             "Content-Type": "application/json; charset=utf-8",
           };
           const dataForm = FormData;
-          const resLogin = await axios.put(
-            `http://10.0.2.2:8000/school/Leave/${ID}/`,
-            dataForm,
-            {
-              headers: headers,
-            }
-          );
+          const resLogin = await axios.put(`${subURL}/Leave/${ID}/`, dataForm, {
+            headers: headers,
+          });
           // const token = resLogin.data.token;
           // const userId = resLogin.data.user_id;
           console.log(resLogin.data);
@@ -457,13 +454,9 @@ const TeachersLeaveScreenBuild = () => {
           "Content-Type": "application/json; charset=utf-8",
         };
         const dataForm = FormData;
-        const resLogin = await axios.post(
-          `http://10.0.2.2:8000/school/Leave/`,
-          dataForm,
-          {
-            headers: headers,
-          }
-        );
+        const resLogin = await axios.post(`${subURL}/Leave/`, dataForm, {
+          headers: headers,
+        });
 
         // const token = resLogin.data.token;
         // const userId = resLogin.data.user_id;
@@ -651,7 +644,7 @@ const TeachersLeaveScreenBuild = () => {
         };
         // const dataForm = FormData;
         const resLogin = await axios.delete(
-          `http://10.0.2.2:8000/school/Leave/${id}/`,
+          `${subURL}/Leave/${id}/`,
           // FormData,
           {
             headers: headers,

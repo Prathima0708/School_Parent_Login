@@ -497,10 +497,17 @@ import React from "react";
 
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { Box, FlatList, Heading, ScrollView,Text as NativeText } from "native-base";
+import {
+  Box,
+  FlatList,
+  Heading,
+  ScrollView,
+  Text as NativeText,
+} from "native-base";
 import axios from "axios";
 import NoticeBoardList from "./NoticeBoardList";
-import ParentsHome from '../BottomTab/ParentsHome'
+import ParentsHome from "../BottomTab/ParentsHome";
+import { subURL } from "../../../components/utils/URL's";
 export var arr = [];
 var sortedArr = [];
 const NoticeBoard = () => {
@@ -518,7 +525,7 @@ const NoticeBoard = () => {
         };
 
         // const res = await axios.get("http://10.0.2.2:8000/school/users/", {
-        const res = await axios.get("http://10.0.2.2:8000/school/Calendar/", {
+        const res = await axios.get(`${subURL}/Calendar/`, {
           headers: headers,
         });
         console.log(res.data);
@@ -556,42 +563,41 @@ const NoticeBoard = () => {
     return <NoticeBoardList {...itemData.item} />;
   }
   return (
-
-    <View style={[{flex:1}, {flexDirection: "column"}]}>
-        <View style={styles.headingView} >
-          <NativeText bold style={styles.textStyle}>Upcoming Events</NativeText>
-        </View>
-        <View style={{ flex: 2, backgroundColor: "white" }} >
-          <ScrollView>
-            <Box>
-              <FlatList data={data} padding={2} renderItem={renderNotice} />
-            </Box>
-          </ScrollView>
-        </View>
-        <View style={{ flex: 0.2, backgroundColor: "white" }} >
-          <ParentsHome />
-        </View>
+    <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
+      <View style={styles.headingView}>
+        <NativeText bold style={styles.textStyle}>
+          Upcoming Events
+        </NativeText>
       </View>
-
+      <View style={{ flex: 2, backgroundColor: "white" }}>
+        <ScrollView>
+          <Box>
+            <FlatList data={data} padding={2} renderItem={renderNotice} />
+          </Box>
+        </ScrollView>
+      </View>
+      <View style={{ flex: 0.2, backgroundColor: "white" }}>
+        <ParentsHome />
+      </View>
+    </View>
   );
 };
 
 export default NoticeBoard;
 
 const styles = StyleSheet.create({
-  headingView:{
-    flex: 0.2, 
+  headingView: {
+    flex: 0.2,
     backgroundColor: "white",
-    alignItems:'center',
-    paddingVertical:15,
+    alignItems: "center",
+    paddingVertical: 15,
   },
-  textStyle:{
-    fontSize:20,
-    color:'white',
-    marginTop:'2%',
-    backgroundColor:'#364585',
-    padding:10,
-    borderRadius:10
-  }
-})
-
+  textStyle: {
+    fontSize: 20,
+    color: "white",
+    marginTop: "2%",
+    backgroundColor: "#364585",
+    padding: 10,
+    borderRadius: 10,
+  },
+});

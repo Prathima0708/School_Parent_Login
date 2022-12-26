@@ -125,6 +125,7 @@ import axios from "axios";
 import TeachersHome from "../../BottomTab/TeachersHome";
 import BackButton from "../../../../components/UI/BackButton";
 import { useNavigation } from "@react-navigation/native";
+import { subURL } from "../../../../components/utils/URL's";
 export var finalList = [];
 
 const TeachersAttendance = () => {
@@ -164,7 +165,7 @@ const TeachersAttendance = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Calendar/`);
+        const res = await axios.get(`${subURL}/Calendar/`);
         // console.log(res.data);
         setData(res.data);
         setFilteredData(res.data);

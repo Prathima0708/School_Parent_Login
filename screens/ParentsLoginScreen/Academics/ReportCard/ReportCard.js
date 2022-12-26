@@ -23,6 +23,7 @@ import {
   Section,
   StudentPhoto,
 } from "../../../../components/StudentItem/StudentItem";
+import { subURL } from "../../../../components/utils/URL's";
 var obtMarks = [];
 const ReportCard = () => {
   const [data, setData] = useState([]);
@@ -33,7 +34,7 @@ const ReportCard = () => {
     async function fetchData() {
       try {
         const res = await axios.get(
-          `http://10.0.2.2:8000/school/MarksheetReg/${StudentRegNo}`
+          `${subURL}/MarksheetReg/${StudentRegNo}`
         );
         console.log(res.data);
 

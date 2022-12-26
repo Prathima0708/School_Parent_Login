@@ -10,6 +10,7 @@ import { SELECTEDUSER } from "./Chat";
 import ChatHeader from "./ChatUI/ChatHeader";
 import ChatInput from "./ChatUI/ChatInput";
 import MessageList from "./ChatUI/MessageList";
+import { chatURL } from "../utils/URL's";
 
 export var chatUuid;
 const SingleUser = ({ navigation, route }) => {
@@ -30,7 +31,7 @@ const SingleUser = ({ navigation, route }) => {
           Authorization: "Token " + `${Token}`,
         };
         const users = await axios.get(
-          `http://10.0.2.2:8000/chat/createchatroom/${selectedUserId}`,
+          `${chatURL}/createchatroom/${selectedUserId}`,
 
           {
             headers: headers,

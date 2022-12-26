@@ -36,6 +36,7 @@ import { Card, DataTable } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
+import { subURL } from "../../../../components/utils/URL's";
 export var ID;
 var FROMDATE, TODATE;
 
@@ -185,7 +186,7 @@ const TeacherHomeworkScreenBuild = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
+        const res = await axios.get(`${subURL}/Homework/`);
         setHomeworkData(res.data);
         setFilteredData(res.data);
         let test = 0;
@@ -354,9 +355,7 @@ const TeacherHomeworkScreenBuild = () => {
     console.log(selectedSubject);
     async function fetchSubjects() {
       axios
-        .get(
-          `http://10.0.2.2:8000/school/StudentclassSubjectDetail/${selected}`
-        )
+        .get(`${subURL}/StudentclassSubjectDetail/${selected}`)
         .then((response) => {
           console.log("subjects", response.data);
           for (var i = 0; i < response.data.length; i++) {
@@ -551,7 +550,7 @@ const TeacherHomeworkScreenBuild = () => {
         };
 
         const resLogin = await axios.patch(
-          `http://10.0.2.2:8000/school/Homework/${ID}/`,
+          `${subURL}/Homework/${ID}/`,
           formdata,
           {
             headers: headers,
@@ -746,13 +745,9 @@ const TeacherHomeworkScreenBuild = () => {
             Authorization: "Token " + `${token}`,
           };
 
-          const resLogin = await axios.post(
-            "http://10.0.2.2:8000/school/Homework/",
-            formdata,
-            {
-              headers: headers,
-            }
-          );
+          const resLogin = await axios.post(`${subURL}/Homework/`, formdata, {
+            headers: headers,
+          });
           console.log("response", resLogin.data);
         } catch (error) {
           console.log(error);
@@ -982,7 +977,7 @@ const TeacherHomeworkScreenBuild = () => {
         };
         // const dataForm = FormData;
         const resLogin = await axios.delete(
-          `http://10.0.2.2:8000/school/Homework/${id}/`,
+          `${subURL}/Homework/${id}/`,
           // FormData,
           {
             headers: headers,

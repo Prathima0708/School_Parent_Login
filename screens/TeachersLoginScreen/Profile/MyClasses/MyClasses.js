@@ -42,7 +42,7 @@ const MyClasses = () => {
   useEffect(() => {
     async function fetchStudentClass() {
       axios
-        .get("http://10.0.2.2:8000/school/Studentclass/")
+        .get(`${subURL}/Studentclass/`)
         .then((response) => {
           let newArray = response.data.map((item) => {
             return {
@@ -191,7 +191,7 @@ const MyClasses = () => {
                   fontFamily: "HindRegular",
                   fontSize: 18,
                 }}
-                placeholder="Search here"
+                placeholder="Search here.."
                 onChangeText={(text) => searchFilter(text)}
                 value={searchText}
               />

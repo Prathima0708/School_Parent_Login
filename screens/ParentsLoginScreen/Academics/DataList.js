@@ -1,12 +1,13 @@
 import { View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
+import { subURL } from "../../../components/utils/URL's";
 
 const DataList = () => {
   const [homework, setHomeWork] = useState([]);
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get("http://10.0.2.2:8000/school/Homework/");
+        const res = await axios.get(`${subURL}/Homework/`);
         console.log(res.data);
 
         setHomeWork(res.data);

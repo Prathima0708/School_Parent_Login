@@ -46,10 +46,10 @@ import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import BackButton from "../../../components/UI/BackButton";
 import { subURL } from "../../../components/utils/URL's";
 import { MYCLASS, MYSECTION } from "../Profile/MyClasses/DisplayClass";
-export var ID, EDT_ID;
-export var FROMDATE, TODATE;
-export var BADGE;
-var USERNAME, TOKEN, USERROLE, USERID;
+var ID, EDT_ID;
+var FROMDATE, TODATE;
+var BADGE;
+var USERNAME, TOKEN, USERROLE, USERID, KEY, VALUE;
 
 var firstData, KEY, VALUE, newArray;
 const TeachersLeaveUpdated = () => {
@@ -406,9 +406,15 @@ const TeachersLeaveUpdated = () => {
   }
 
   function updateHandler() {
+    console.log("inside update", selected);
+    let filteredlist = leaveTypeData.filter((ele) => ele.value == selected);
+    if (selected.toString() == selected) {
+      console.log("true");
+    }
+    console.log(filteredlist);
     setShowInitialBtn(true);
     const FormData = {
-      // leave_type: leaveType,
+      leave_type: selected,
       leave_reason: leaveReason,
       leave_form: FROMDATE,
       leave_to: TODATE,
@@ -539,13 +545,9 @@ const TeachersLeaveUpdated = () => {
             Authorization: "Token " + `${token}`,
           };
 
-          const resLogin = await axios.post(
-            `http://10.0.2.2:8000/school/Leave/`,
-            FormData,
-            {
-              headers: headers,
-            }
-          );
+          const resLogin = await axios.post(`${subURL}/Leave/`, FormData, {
+            headers: headers,
+          });
 
           console.log("post req response -", resLogin.data);
         } catch (error) {
@@ -698,13 +700,9 @@ const TeachersLeaveUpdated = () => {
           Authorization: "Token " + `${token}`,
         };
         const dataForm = FormData;
-        const resLogin = await axios.patch(
-          `http://10.0.2.2:8000/school/Leave/${ID}/`,
-          dataForm,
-          {
-            headers: headers,
-          }
-        );
+        const resLogin = await axios.patch(`${subURL}/Leave/${ID}/`, dataForm, {
+          headers: headers,
+        });
         // const token = resLogin.data.token;
         // const userId = resLogin.data.user_id;
         // console.log(resLogin.data);
@@ -791,7 +789,7 @@ const TeachersLeaveUpdated = () => {
   function applyLeave() {
     setShowForm(true);
     setShowChoice(false);
-    setError(null)
+    setError(null);
   }
 
   function myLeaveList() {
@@ -801,9 +799,7 @@ const TeachersLeaveUpdated = () => {
 
     async function fetchData() {
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/LeaveByUsername/${user}/`
-        );
+        const res = await axios.get(`${subURL}/LeaveByUsername/${user}/`);
 
         setLeaveByUsername(res.data);
       } catch (error) {
@@ -898,7 +894,7 @@ const TeachersLeaveUpdated = () => {
     async function fetchData() {
       try {
         const res = await axios.get(
-          `http://10.0.2.2:8000/school/LeaveCS/${class_name}/${section}`
+          `${subURL}/LeaveCS/${class_name}/${section}`
         );
 
         console.log("leave by class section");
@@ -926,6 +922,13 @@ const TeachersLeaveUpdated = () => {
     EDT_ID = id;
 
     const filteredDummuyData = leaveByUsername.find((data) => data.id == id);
+    console.log(filteredDummuyData);
+    let filteredlist = leaveTypeData.filter(
+      (ele) => ele.value == filteredDummuyData.leave_type
+    );
+    console.log(filteredlist[0].value);
+    KEY = filteredlist[0].key;
+    VALUE = filteredlist[0].value;
 
     // setSelected(filteredDummuyData.leave_type);
     //  setEnteredcreatedby(filteredDummuyData.created_by);
@@ -967,9 +970,7 @@ const TeachersLeaveUpdated = () => {
       }
       async function fetchData() {
         try {
-          const res = await axios.get(
-            `http://10.0.2.2:8000/school/LeaveByUsername/${user}/`
-          );
+          const res = await axios.get(`${subURL}/LeaveByUsername/${user}/`);
           // console.log(res.data);
           setLeaveByUsername(res.data);
         } catch (error) {
@@ -980,7 +981,7 @@ const TeachersLeaveUpdated = () => {
     }
   }
 
-  function linkPressedHandler(){
+  function linkPressedHandler() {
     setShowForm(true);
     setShowTeachersList(false);
   }
@@ -1087,86 +1088,86 @@ const TeachersLeaveUpdated = () => {
             ]}
           >
             <ScrollView persistentScrollbar={false}>
-
-
-              <View
-                style={[
-                  { flex: 1 },
-                  {
-                    flexDirection: "column",
-                    paddingVertical: 10,
-                  },
-                ]}
-              >
-                <View style={{ flex: 1, marginHorizontal: 16 }}>
-                  <View
-                    style={[
-                      { flex: 1 },
-                      {
-                        flexDirection: "row",
-                        marginRight: 6,
-                      },
-                    ]}
-                  >
-                    <View style={{ flex: 1, justifyContent: "center" }}>
-                      <Text style={[styles.labelStyle]}>User name</Text>
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <TextInput
-                        style={[
-                          styles.labelStyle,
-                          {
-                            borderWidth: 1,
-                            padding: 7,
-                            borderColor: "#A3A5A5",
-                          },
-                        ]}
-                        editable={false}
-                        selectTextOnFocus={false}
-                        value={user}
-                      />
-                    </View>
-                  </View>
-                </View>
-                <View style={styles.space} />
-                <View style={{ flex: 1 }}>
-                  <View
-                    style={[
-                      { flex: 1 },
-                      {
-                        flexDirection: "row",
-                        marginHorizontal: 8,
-                        marginRight: 20,
-                      },
-                    ]}
-                  >
+              {!isEdit && (
+                <View
+                  style={[
+                    { flex: 1 },
+                    {
+                      flexDirection: "column",
+                      paddingVertical: 10,
+                    },
+                  ]}
+                >
+                  <View style={{ flex: 1, marginHorizontal: 16 }}>
                     <View
-                      style={{
-                        flex: 1,
-                        justifyContent: "center",
-                        marginLeft: "3%",
-                      }}
+                      style={[
+                        { flex: 1 },
+                        {
+                          flexDirection: "row",
+                          marginRight: 6,
+                        },
+                      ]}
                     >
-                      <Text style={styles.labelStyle}>User role</Text>
+                      <View style={{ flex: 1, justifyContent: "center" }}>
+                        <Text style={[styles.labelStyle]}>User name</Text>
+                      </View>
+                      <View style={{ flex: 1 }}>
+                        <TextInput
+                          style={[
+                            styles.labelStyle,
+                            {
+                              borderWidth: 1,
+                              padding: 7,
+                              borderColor: "#A3A5A5",
+                            },
+                          ]}
+                          editable={false}
+                          selectTextOnFocus={false}
+                          value={user}
+                        />
+                      </View>
                     </View>
-                    <View style={{ flex: 1 }}>
-                      <TextInput
-                        style={[
-                          styles.labelStyle,
-                          {
-                            borderWidth: 1,
-                            padding: 7,
-                            borderColor: "#A3A5A5",
-                          },
-                        ]}
-                        editable={false}
-                        selectTextOnFocus={false}
-                        value={userRole}
-                      />
+                  </View>
+                  <View style={styles.space} />
+                  <View style={{ flex: 1 }}>
+                    <View
+                      style={[
+                        { flex: 1 },
+                        {
+                          flexDirection: "row",
+                          marginHorizontal: 8,
+                          marginRight: 20,
+                        },
+                      ]}
+                    >
+                      <View
+                        style={{
+                          flex: 1,
+                          justifyContent: "center",
+                          marginLeft: "3%",
+                        }}
+                      >
+                        <Text style={styles.labelStyle}>User role</Text>
+                      </View>
+                      <View style={{ flex: 1 }}>
+                        <TextInput
+                          style={[
+                            styles.labelStyle,
+                            {
+                              borderWidth: 1,
+                              padding: 7,
+                              borderColor: "#A3A5A5",
+                            },
+                          ]}
+                          editable={false}
+                          selectTextOnFocus={false}
+                          value={userRole}
+                        />
+                      </View>
                     </View>
                   </View>
                 </View>
-              </View>
+              )}
 
               {!isEdit && (
                 <View
@@ -1209,6 +1210,53 @@ const TeachersLeaveUpdated = () => {
                   />
                 </View>
               )}
+
+              {isEdit && (
+                <View
+                  style={{
+                    top: "3%",
+                    left: "3%",
+                    flexDirection: "row",
+                    marginVertical: 10,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                      top: "3%",
+                      //marginLeft: 10,
+                    }}
+                  >
+                    Leave Type
+                  </Text>
+                  <View style={styles.leaveSpace} />
+
+                  <SelectList
+                    //setSelected={(val) => setSelected(val)}
+                    setSelected={setSelected}
+                    defaultOption={{
+                      key: String(KEY),
+                      value: String(VALUE),
+                    }}
+                    data={leaveTypeData}
+                    save="value"
+                    //placeholder="Select Leave Type"
+                    boxStyles={[
+                      selectInputIsInValid && styles.errorSelectedColor,
+                      { bottom: "5%" },
+                      // { marginHorizontal: 15, marginVertical: 10 },
+                    ]}
+                    dropdownTextStyles={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                      //marginHorizontal: 25,
+                    }}
+                    inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                  />
+                </View>
+              )}
+
               <View style={[{ flexDirection: "row" }]}>
                 <View style={{ flex: 1 }}>
                   <View>
@@ -1300,7 +1348,7 @@ const TeachersLeaveUpdated = () => {
                   )}
                 </View>
               </View>
-              
+
               <View>
                 <View
                   style={
@@ -1442,10 +1490,11 @@ const TeachersLeaveUpdated = () => {
             />
             {leaveByUsername.length <= 0 ? (
               <View style={{ alignItems: "center", top: "2%" }}>
-                <Text style={styles.msgText}>No Leaves are found,
-                  <Text
-                    style={styles.linkText}
-                    onPress={linkPressedHandler}>Start adding here</Text>
+                <Text style={styles.msgText}>
+                  No Leaves are found,
+                  <Text style={styles.linkText} onPress={linkPressedHandler}>
+                    Start adding here
+                  </Text>
                 </Text>
               </View>
             ) : (
@@ -1857,13 +1906,19 @@ const TeachersLeaveUpdated = () => {
                             }}
                           >
                             <Card.Content>
-                              <View style={{ flex: 1,flexDirection:'row',marginVertical:5, }}>
+                              <View
+                                style={{
+                                  flex: 1,
+                                  flexDirection: "row",
+                                  marginVertical: 5,
+                                }}
+                              >
                                 <View
                                   style={[
                                     { flex: 1 },
                                     {
                                       flexDirection: "row",
-                                      marginHorizontal:6,
+                                      marginHorizontal: 6,
                                     },
                                   ]}
                                 >
@@ -1883,7 +1938,7 @@ const TeachersLeaveUpdated = () => {
                                     { flex: 1 },
                                     {
                                       flexDirection: "row",
-                                      marginLeft:'8%'
+                                      marginLeft: "8%",
                                     },
                                   ]}
                                 >
@@ -1938,7 +1993,7 @@ const TeachersLeaveUpdated = () => {
                                     </View>
                                   </View>
                                 </View>
-                                <View style={styles.space}/>
+                                <View style={styles.space} />
                                 <View style={{ flex: 1 }}>
                                   <View
                                     style={[
@@ -2097,7 +2152,6 @@ const TeachersLeaveUpdated = () => {
                                       { flex: 1, top: "4%" },
                                       {
                                         flexDirection: "row",
-                                        
                                       },
                                     ]}
                                   >
@@ -2146,7 +2200,7 @@ const TeachersLeaveUpdated = () => {
                                         flex: 1,
                                         // left: "7%",
                                         bottom: "2%",
-                                        alignItems:'flex-end'
+                                        alignItems: "flex-end",
                                       }}
                                     >
                                       <View
@@ -2154,7 +2208,7 @@ const TeachersLeaveUpdated = () => {
                                           { flex: 4 },
                                           {
                                             flexDirection: "row",
-                                            // left: "12%",                                           
+                                            // left: "12%",
                                           },
                                         ]}
                                       >
@@ -2448,17 +2502,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
-  linkText:{
-    fontFamily:"HindSemiBold",
-    color:"#02BFC4",
-    fontSize:18,
-    textDecorationLine:"underline",
-    textDecorationColor:"#02BFC4",
-    cursor:'pointer'
+  linkText: {
+    fontFamily: "HindSemiBold",
+    color: "#02BFC4",
+    fontSize: 18,
+    textDecorationLine: "underline",
+    textDecorationColor: "#02BFC4",
+    cursor: "pointer",
   },
-  msgText:{
-    fontSize:18,
-    fontFamily:"HindSemiBold",
-    color:"#6B0000",
-  }
+  msgText: {
+    fontSize: 18,
+    fontFamily: "HindSemiBold",
+    color: "#6B0000",
+  },
 });

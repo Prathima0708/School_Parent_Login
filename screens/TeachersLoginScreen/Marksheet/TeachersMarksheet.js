@@ -28,10 +28,10 @@ import { Ionicons } from "@expo/vector-icons";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import { subURL } from "../../../components/utils/URL's";
 import { style } from "@mui/system";
-import { IconButton,Text as NativeText } from "native-base";
+import { IconButton, Text as NativeText } from "native-base";
 export var ID;
 export var StudentList = [];
-var newArray, firstData, KEY, VALUE;
+var newArray, firstData, KEY, VALUE, CANCELKEY, CANCELVALUE;
 const TeachersMarksheet = () => {
   const [defaultClass, setDefaultClass] = useState();
   const [mathsLabel, setMathsLabel] = useState(true);
@@ -170,6 +170,7 @@ const TeachersMarksheet = () => {
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
   const [empty, setEmpty] = useState(false);
+  const [cancelState, setIsCancelState] = useState(false);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -767,9 +768,12 @@ const TeachersMarksheet = () => {
   }
 
   function cancelPressHandler() {
-
-    console.log("from cancel handler",selected);
-    
+    setIsCancelState(true);
+    console.log("from cancel handler", selected);
+    let filteredlist = newArray.filter((ele) => ele.key == selected);
+    console.log(filteredlist[0].value);
+    CANCELKEY = filteredlist[0].key;
+    CANCELVALUE = filteredlist[0].value;
     setShowInitialBtn(true);
     setShowBtn(true);
     setShowForm(true);
@@ -878,11 +882,11 @@ const TeachersMarksheet = () => {
         return itemData.indexOf(textData) > -1;
       });
       setFilteredData(newData);
-      setStudList(newData);
+      // setStudList(newData);
       setSearchText(text);
     } else {
       setFilteredData(studList);
-      setStudList(studList);
+      //setStudList(studList);
       setSearchText(text);
     }
   };
@@ -944,21 +948,47 @@ const TeachersMarksheet = () => {
                 Select class
               </Text>
               <View style={styles.space} />
-              <Text style={{fontFamily:'HindBold',fontSize:20,top: "5%"}}>-</Text>
+              <Text style={{ fontFamily: "HindBold", fontSize: 20, top: "5%" }}>
+                -
+              </Text>
               <View style={styles.space} />
-              <SelectList
-                defaultOption={{
-                  key: String(KEY),
-                  value: String(VALUE),
-                }}
-                setSelected={setSelected}
-                data={studData}
-                placeholder="Select class"
-                boxStyles={{ borderRadius: 10, top: "4%" }}
-                dropdownTextStyles={{ fontSize: 18, fontFamily: "HindRegular" }}
-                inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-                onSelect={viewStudentList}
-              />
+
+              {!cancelState && (
+                <SelectList
+                  defaultOption={{
+                    key: String(KEY),
+                    value: String(VALUE),
+                  }}
+                  setSelected={setSelected}
+                  data={studData}
+                  placeholder="Select class"
+                  boxStyles={{ borderRadius: 10, top: "4%" }}
+                  dropdownTextStyles={{
+                    fontSize: 18,
+                    fontFamily: "HindRegular",
+                  }}
+                  inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                  onSelect={viewStudentList}
+                />
+              )}
+              {cancelState && (
+                <SelectList
+                  defaultOption={{
+                    key: String(CANCELKEY),
+                    value: String(CANCELVALUE),
+                  }}
+                  setSelected={setSelected}
+                  data={studData}
+                  placeholder="Select class"
+                  boxStyles={{ borderRadius: 10, top: "4%" }}
+                  dropdownTextStyles={{
+                    fontSize: 18,
+                    fontFamily: "HindRegular",
+                  }}
+                  inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                  onSelect={viewStudentList}
+                />
+              )}
             </View>
             {/* <View
               style={{
@@ -1078,129 +1108,153 @@ const TeachersMarksheet = () => {
             <SearchBar
               style={styles.searchBar}
               textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
-              placeholder="Search here"
+              placeholder="Search here..."
               onChangeText={(text) => searchFilter(text)}
               value={searchText}
             />
-          <View style={styles.tableHeader}>
-          <View
-            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-          >
-            <Text style={styles.headerText}>Reg no</Text>
-          </View>
-          <View
-            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-          >
-            <Text style={styles.headerText}>Student name</Text>
-          </View>
-          <View
-            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-          >
-            <Text style={styles.headerText}>Class {"\n"} name</Text>
-          </View>
-          <View
-            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-          >
-            <Text style={styles.headerText}>Actions</Text>
-          </View>
-         </View>
-         <View
-          style={[
-            { flex: 1 },
-            {
-              flexDirection: "column",
-              top: keyboardStatus == "Keyboard Hidden" ? "11.5%" : "18%",
-              marginTop:'6%',
-              paddingHorizontal: 10,
-              marginHorizontal: 10,
-            },
-          ]}
-        >
-          <View style={{ flex: 8, bottom: 10 }}>
-            {/* {filteredData.length <=0 ?  */}
-              {/* // (<View style={{ alignItems: "center", top: "5%" }}>
-              //  <NativeText fontSize="xl" bold color="error.900">
-              //    No Data Found
-              //  </NativeText>
-              // </View>) : */}
-
-              
-              <ScrollView>
-              <View style={styles.root}>
-                {filteredData &&
-                  filteredData.map((filteredData, key) => (
-                    <>
-                        <View style={styles.tableText}>
-                          <View
-                            style={{
-                              flex: 1,
-                              alignItems: "center",
-                              paddingVertical: 20,
-                            }}
-                          >
-                            <Text
-                              style={[styles.headerText, { color: "black" }]}
-                            >
-                              {filteredData.reg_number}
-                            </Text>
-                          </View>
-                          <View
-                            style={{
-                              flex: 1,
-                              alignItems: "center",
-                              paddingVertical: 20,
-                            }}
-                          >
-                            <Text
-                              style={[styles.headerText, { color: "black" }]}
-                            >
-                              {filteredData.student_name}
-                            </Text>
-                          </View>
-                          <View
-                            style={{
-                              flex: 1,
-                              alignItems: "center",
-                              paddingVertical: 20,
-                            }}
-                          >
-                            <Text
-                              style={[styles.headerText, { color: "black" }]}
-                            >
-                              {filteredData.class_name} - {filteredData.section}
-                            </Text>
-                          </View>
-                          <View
-                            style={{
-                              flex: 1,
-                              alignItems: "center",
-                              paddingVertical: 20,
-                            }}
-                          >
-                            <IconButton
-                              colorScheme="blue"
-                              onPress={() => addForm(filteredData.id)}
-                              variant="subtle"
-                              _icon={{
-                                as: Ionicons,
-                                name: "eye",
-                              }}
-                            />
-                          </View>
-                        </View>
-                    </>
-                  ))}
+            <View style={styles.tableHeader}>
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={styles.headerText}>Reg no</Text>
               </View>
-            </ScrollView>
-              {/* )} */}
-            
-          </View>
-        </View>
-        {keyboardStatus == "Keyboard Hidden" && (
-          <View style={{ flex: 0.4 }}>
-            <TeachersHome />
-          </View>
-        )}
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={styles.headerText}>Student name</Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={styles.headerText}>Class {"\n"} name</Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={styles.headerText}>Actions</Text>
+              </View>
+            </View>
+            <View
+              style={[
+                { flex: 1 },
+                {
+                  flexDirection: "column",
+                  top: keyboardStatus == "Keyboard Hidden" ? "11.5%" : "18%",
+                  marginTop: "6%",
+                  paddingHorizontal: 10,
+                  marginHorizontal: 10,
+                },
+              ]}
+            >
+              <View style={{ flex: 8, bottom: 10 }}>
+                {filteredData.length <= 0 ? (
+                  <View style={{ alignItems: "center", top: "5%" }}>
+                    <NativeText fontSize="xl" bold color="error.900">
+                      No Data Found
+                    </NativeText>
+                  </View>
+                ) : (
+                  <ScrollView>
+                    <View style={styles.root}>
+                      {filteredData &&
+                        filteredData.map((filteredData, key) => (
+                          <>
+                            <View style={styles.tableText}>
+                              <View
+                                style={{
+                                  flex: 1,
+                                  alignItems: "center",
+                                  paddingVertical: 20,
+                                }}
+                              >
+                                <Text
+                                  style={[
+                                    styles.headerText,
+                                    { color: "black" },
+                                  ]}
+                                >
+                                  {filteredData.reg_number}
+                                </Text>
+                              </View>
+                              <View
+                                style={{
+                                  flex: 1,
+                                  alignItems: "center",
+                                  paddingVertical: 20,
+                                }}
+                              >
+                                <Text
+                                  style={[
+                                    styles.headerText,
+                                    { color: "black" },
+                                  ]}
+                                >
+                                  {filteredData.student_name}
+                                </Text>
+                              </View>
+                              <View
+                                style={{
+                                  flex: 1,
+                                  alignItems: "center",
+                                  paddingVertical: 20,
+                                }}
+                              >
+                                <Text
+                                  style={[
+                                    styles.headerText,
+                                    { color: "black" },
+                                  ]}
+                                >
+                                  {filteredData.class_name} -{" "}
+                                  {filteredData.section}
+                                </Text>
+                              </View>
+                              <View
+                                style={{
+                                  flex: 1,
+                                  alignItems: "center",
+                                  paddingVertical: 20,
+                                }}
+                              >
+                                <IconButton
+                                  colorScheme="blue"
+                                  onPress={() => addForm(filteredData.id)}
+                                  variant="subtle"
+                                  _icon={{
+                                    as: Ionicons,
+                                    name: "eye",
+                                  }}
+                                />
+                              </View>
+                            </View>
+                          </>
+                        ))}
+                    </View>
+                  </ScrollView>
+                )}
+              </View>
+            </View>
+            {keyboardStatus == "Keyboard Hidden" && (
+              <View style={{ flex: 0.4 }}>
+                <TeachersHome />
+              </View>
+            )}
             {/* <ScrollView horizontal={true}>
               <DataTable style={styles.container}>
                 <DataTable.Header style={styles.tableHeader}>
@@ -1321,57 +1375,92 @@ const TeachersMarksheet = () => {
                 </Text>
               </View>
             </View> */}
-              <View style={[{flex:1}, {
-                flexDirection: "column",backgroundColor:'darkblue',marginHorizontal:20,marginVertical:60,bottom:'5%'
-              }]}>
-                <View style={{ flex: 1 }} >
-                  <View style={[{flex:1}, {
-                    flexDirection: "row"
-                  }]}>
-                    <View style={{ flex: 1,marginHorizontal:60,marginVertical:10 }} >
-                      <Text style={[styles.headingFont, { fontSize: 18, color: "white" }]}>Roll no</Text>
-                    </View>
-                    <View style={{ flex: 1,marginVertical:10 }} >
-                      {filteredMarks.map((data, key) => (
-                        <Text
-                          style={[
-                            styles.headingFont,
-                            { fontSize: 18, color: "white" },
-                          ]}
-                        >
-                          {StudentList.reg_number}
-                        </Text>
-                      ))}
-                    </View>
+            <View
+              style={[
+                { flex: 1 },
+                {
+                  flexDirection: "column",
+                  backgroundColor: "darkblue",
+                  marginHorizontal: 20,
+                  marginVertical: 60,
+                  bottom: "5%",
+                },
+              ]}
+            >
+              <View style={{ flex: 1 }}>
+                <View
+                  style={[
+                    { flex: 1 },
+                    {
+                      flexDirection: "row",
+                    },
+                  ]}
+                >
+                  <View
+                    style={{
+                      flex: 1,
+                      marginHorizontal: 60,
+                      marginVertical: 10,
+                    }}
+                  >
+                    <Text
+                      style={[
+                        styles.headingFont,
+                        { fontSize: 18, color: "white" },
+                      ]}
+                    >
+                      Roll no
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1, marginVertical: 10 }}>
+                    {filteredMarks.map((data, key) => (
+                      <Text
+                        style={[
+                          styles.headingFont,
+                          { fontSize: 18, color: "white" },
+                        ]}
+                      >
+                        {StudentList.reg_number}
+                      </Text>
+                    ))}
                   </View>
                 </View>
-                <View style={{ flex: 1, }} >
-                  <View style={[{flex:1}, {
-                      flexDirection: "row"
-                    }]}>
-                      <View style={{ flex: 1,marginHorizontal:60 }} >
-                        <Text
-                          style={[styles.headingFont, { fontSize: 18, color: "white" }]}
-                        >
-                          Student name
-                        </Text>
-                      </View>
-                      <View style={{ flex: 1 }} >
-                        {filteredMarks.map((data, key) => (
-                          <Text
-                            style={[
-                              styles.headingFont,
-                              { fontSize: 18, color: "white" },
-                            ]}
-                          >
-                            {" "}
-                            {data.student_name}
-                          </Text>
-                        ))}
-                      </View>
-                    </View>
-                  </View>
               </View>
+              <View style={{ flex: 1 }}>
+                <View
+                  style={[
+                    { flex: 1 },
+                    {
+                      flexDirection: "row",
+                    },
+                  ]}
+                >
+                  <View style={{ flex: 1, marginHorizontal: 60 }}>
+                    <Text
+                      style={[
+                        styles.headingFont,
+                        { fontSize: 18, color: "white" },
+                      ]}
+                    >
+                      Student name
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    {filteredMarks.map((data, key) => (
+                      <Text
+                        style={[
+                          styles.headingFont,
+                          { fontSize: 18, color: "white" },
+                        ]}
+                      >
+                        {" "}
+                        {data.student_name}
+                      </Text>
+                    ))}
+                  </View>
+                </View>
+              </View>
+            </View>
             <View
               style={[
                 { flex: 0.34 },
@@ -1423,7 +1512,12 @@ const TeachersMarksheet = () => {
               ]}
             >
               <View
-                style={{ flex: 1, borderRightWidth: 1, alignItems: "center",paddingBottom:10 }}
+                style={{
+                  flex: 1,
+                  borderRightWidth: 1,
+                  alignItems: "center",
+                  paddingBottom: 10,
+                }}
               >
                 <View>
                   <Text style={styles.headingFont}>MATHS</Text>

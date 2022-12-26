@@ -107,7 +107,15 @@
 //   },
 // });
 
-import { View, Text, Platform, ScrollView, FlatList, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Platform,
+  ScrollView,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
@@ -115,6 +123,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { Button } from "native-base";
 import axios from "axios";
 import TeachersList from "./TeachersList";
+import { subURL } from "../../../../components/utils/URL's";
 
 const TeachersAttendanceBuild = () => {
   const [frommode, setFromMode] = useState("date");
@@ -128,27 +137,26 @@ const TeachersAttendanceBuild = () => {
   const [showCalendar, setShowCalendar] = useState(true);
   const [showStudList, setShowStudList] = useState(false);
 
-//   const [present,setPresent]=useState(false);
-  const [absent,setAbsent]=useState('');
-  const [holiday,setHoliday]=useState('');
-
+  //   const [present,setPresent]=useState(false);
+  const [absent, setAbsent] = useState("");
+  const [holiday, setHoliday] = useState("");
 
   const [present, setPresent] = useState("");
 
-  const [test,setTest]=useState()
-  const text='present',text1='absent',text2='holiday'
- // const [test,setTest]=useState(STATUS);
+  const [test, setTest] = useState();
+  const text = "present",
+    text1 = "absent",
+    text2 = "holiday";
+  // const [test,setTest]=useState(STATUS);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/Calendar/`
-        );
+        const res = await axios.get(`${subURL}/Calendar/`);
         // console.log(res.data);
         setData(res.data);
         setFilteredData(res.data);
-        console.log(data)
+        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -160,98 +168,90 @@ const TeachersAttendanceBuild = () => {
     return <TeachersList {...itemData.item} onPresent={present} />;
   }
 
-
-  function saveAttendance(){
+  function saveAttendance() {
     console.log("finalList", test);
-
   }
   function presentButtonPressed(id) {
+    console.log(id);
 
-    console.log(id)
+    const formData = {
+      id: id,
+      attendance_status: "present",
+    };
 
-    const formData={
-      id:id,
-      attendance_status:'present'
-    }
+    console.log(formData);
 
-    console.log(formData)
-
-    setTest(test=>({
-        ...test,
-        [id]: {'PRESENT': 'present'}
-     }))
-
+    setTest((test) => ({
+      ...test,
+      [id]: { PRESENT: "present" },
+    }));
   }
 
   function absentBtnHandler(id) {
-    console.log(id)
+    console.log(id);
 
-    const formData={
-      id:id,
-      attendance_status:'absent'
-    }
+    const formData = {
+      id: id,
+      attendance_status: "absent",
+    };
 
-    console.log(formData)
+    console.log(formData);
 
-    setTest(test=>({
-        ...test,
-        [id]: {'ABSENT':'absent'}
-     }))
-
+    setTest((test) => ({
+      ...test,
+      [id]: { ABSENT: "absent" },
+    }));
   }
-
 
   function holidatBtnGHandler(id) {
-    console.log(id)
+    console.log(id);
 
-    const formData={
-      id:id,
-      attendance_status:'holiday'
-    }
+    const formData = {
+      id: id,
+      attendance_status: "holiday",
+    };
 
-    console.log(formData)
+    console.log(formData);
 
-    setTest(test=>({
-        ...test,
-        [id]: {'HOLIDAY':'holiday'}
-     }))
-
-    
+    setTest((test) => ({
+      ...test,
+      [id]: { HOLIDAY: "holiday" },
+    }));
   }
-
 
   return (
     <View>
       <ScrollView>
         {data &&
-            data.map((data)=>(
-                <View style={[{flex:1}, {flexDirection: "row"}]}>
-                    <View style={{ flex: 1 }} >
-                        <Text>{data.class_name}</Text>
-                        <View style={styles.space} />
-                    </View>
-                    <View style={{ flex: 1}} >
-                        <Text>{data.teachers}</Text>
-                        <View style={styles.space} />
-                    </View>
-                    <View style={{ flex: 1}} >
-                        <Text>{data.id}</Text>
-                        <View style={styles.space} />
-                    </View>
-                    <View style={{ flex: 0.5,right:'10%'}} >
-                        <View style={styles.space} />
-                        <Button  onPress={()=>presentButtonPressed(data.id)}>P</Button>
-                        <View style={styles.space} />
-                        <Button onPress={()=>absentBtnHandler(data.id)}>A</Button>
-                        <View style={styles.space} />
-                        <Button onPress={()=>holidatBtnGHandler(data.id)}>H</Button>
-                        <View style={styles.space} />
-                    </View>
-                </View>
-            ))}
-        <Button onPress={saveAttendance} style={{}}>Save</Button>
+          data.map((data) => (
+            <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
+              <View style={{ flex: 1 }}>
+                <Text>{data.class_name}</Text>
+                <View style={styles.space} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text>{data.teachers}</Text>
+                <View style={styles.space} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text>{data.id}</Text>
+                <View style={styles.space} />
+              </View>
+              <View style={{ flex: 0.5, right: "10%" }}>
+                <View style={styles.space} />
+                <Button onPress={() => presentButtonPressed(data.id)}>P</Button>
+                <View style={styles.space} />
+                <Button onPress={() => absentBtnHandler(data.id)}>A</Button>
+                <View style={styles.space} />
+                <Button onPress={() => holidatBtnGHandler(data.id)}>H</Button>
+                <View style={styles.space} />
+              </View>
+            </View>
+          ))}
+        <Button onPress={saveAttendance} style={{}}>
+          Save
+        </Button>
       </ScrollView>
-      
     </View>
   );
 };

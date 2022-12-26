@@ -184,6 +184,7 @@ import ImageSlider from "./ImageSlider";
 import Swiper from "react-native-swiper";
 import { Heading } from "native-base";
 import { PHONENO } from "../Login";
+import { subURL } from "../../components/utils/URL's";
 export var studentList = [];
 export var value, phno;
 export var PHONE;
@@ -267,7 +268,7 @@ function ParentsLoginScreen() {
       try {
         //  const ph = route.params.phone.toString();
 
-        const res = await axios.get("http://10.0.2.2:8000/school/Student/");
+        const res = await axios.get(`${subURL}/Student/`);
         // if (route.params.phone == undefined) {
         //   phonenumber = value;
         // }
@@ -311,7 +312,10 @@ function ParentsLoginScreen() {
         ]}
       >
         <View style={styles.studInfoStyle}>
-          <Heading size="md" style={{ textAlign: "center", bottom: 7,marginVertical:7 }}>
+          <Heading
+            size="md"
+            style={{ textAlign: "center", bottom: 7, marginVertical: 7 }}
+          >
             Student details
           </Heading>
           <ScrollView persistentScrollbar={false}>

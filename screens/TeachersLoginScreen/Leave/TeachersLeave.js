@@ -206,7 +206,7 @@ const TeachersLeave = () => {
   useEffect(() => {
     async function fetchStudentClass() {
       axios
-        .get(`http://10.0.2.2:8000/school/IsClassteacher/${UserId}/`)
+        .get(`${subURL}/IsClassteacher/${UserId}/`)
         .then((response) => {
           let newArray = response.data.map((item) => {
             return {
@@ -464,13 +464,9 @@ const TeachersLeave = () => {
             "Content-Type": "application/json; charset=utf-8",
           };
           const dataForm = FormData;
-          const resLogin = await axios.put(
-            `http://10.0.2.2:8000/school/Leave/${ID}/`,
-            dataForm,
-            {
-              headers: headers,
-            }
-          );
+          const resLogin = await axios.put(`${subURL}/Leave/${ID}/`, dataForm, {
+            headers: headers,
+          });
           // const token = resLogin.data.token;
           // const userId = resLogin.data.user_id;
           console.log(resLogin.data);
@@ -583,13 +579,9 @@ const TeachersLeave = () => {
           Authorization: "Token " + `${token}`,
         };
         const dataForm = FormData;
-        const resLogin = await axios.post(
-          `http://10.0.2.2:8000/school/Leave/`,
-          dataForm,
-          {
-            headers: headers,
-          }
-        );
+        const resLogin = await axios.post(`${subURL}/Leave/`, dataForm, {
+          headers: headers,
+        });
 
         console.log("post req response -", resLogin.data);
       } catch (error) {
@@ -735,13 +727,9 @@ const TeachersLeave = () => {
           Authorization: "Token " + `${token}`,
         };
         const dataForm = FormData;
-        const resLogin = await axios.patch(
-          `http://10.0.2.2:8000/school/Leave/${ID}/`,
-          dataForm,
-          {
-            headers: headers,
-          }
-        );
+        const resLogin = await axios.patch(`${subURL}/Leave/${ID}/`, dataForm, {
+          headers: headers,
+        });
         // const token = resLogin.data.token;
         // const userId = resLogin.data.user_id;
         // console.log(resLogin.data);
@@ -794,13 +782,9 @@ const TeachersLeave = () => {
           Authorization: "Token " + `${token}`,
         };
         const dataForm = FormData;
-        const resLogin = await axios.patch(
-          `http://10.0.2.2:8000/school/Leave/${ID}/`,
-          dataForm,
-          {
-            headers: headers,
-          }
-        );
+        const resLogin = await axios.patch(`${subURL}/Leave/${ID}/`, dataForm, {
+          headers: headers,
+        });
         // const token = resLogin.data.token;
         // const userId = resLogin.data.user_id;
         console.log(resLogin.data);
@@ -884,9 +868,7 @@ const TeachersLeave = () => {
     async function fetchData() {
       console.log("this is the username -", user);
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/LeaveByUsername/${user}/`
-        );
+        const res = await axios.get(`${subURL}/LeaveByUsername/${user}/`);
         console.log(res.data);
 
         setLeaveByUsername(res.data);

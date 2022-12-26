@@ -30,6 +30,7 @@ import Input from "../../../../components/UI/Input";
 import VerticalLine from "../../../../components/UI/VerticalLine";
 import { DataTable } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { subURL } from "../../../../components/utils/URL's";
 export var ID;
 const TeachersHomework = () => {
   const [showForm, setShowForm] = useState(true);
@@ -122,7 +123,7 @@ const TeachersHomework = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
+        const res = await axios.get(`${subURL}/Homework/`);
         setHomeworkData(res.data);
         let test = 0;
         const value = await AsyncStorage.getItem("key");
@@ -392,7 +393,7 @@ const TeachersHomework = () => {
           };
 
           const resLogin = await axios.put(
-            `http://10.0.2.2:8000/school/Homework/${ID}/`,
+            `${subURL}/Homework/${ID}/`,
             formdata,
             {
               headers: headers,
@@ -552,13 +553,9 @@ const TeachersHomework = () => {
             "Content-Type": "application/json; charset=utf-8;",
           };
 
-          const resLogin = await axios.post(
-            "http://10.0.2.2:8000/school/Homework/",
-            formdata,
-            {
-              headers: headers,
-            }
-          );
+          const resLogin = await axios.post(`${subURL}/Homework/`, formdata, {
+            headers: headers,
+          });
 
           console.log(resLogin.data);
         } catch (error) {
@@ -710,7 +707,7 @@ const TeachersHomework = () => {
         };
         // const dataForm = FormData;
         const resLogin = await axios.delete(
-          `http://10.0.2.2:8000/school/Homework/${id}/`,
+          `${subURL}/Homework/${id}/`,
           // FormData,
           {
             headers: headers,
