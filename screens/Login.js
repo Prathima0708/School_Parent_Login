@@ -744,6 +744,7 @@ function Login() {
   const [invalidPassword, setInValidPassword] = useState(false);
   const [invalidUserName, setInValidUserName] = useState(false);
   const [invalidForm, setInValidForm] = useState(false);
+  const [staff, setStaff] = useState([]);
 
   const [students, setStudents] = useState([]);
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
@@ -847,7 +848,7 @@ function Login() {
         const user = { username: enteredUser, password: enteredPassword };
 
         const resLogin = await axios.post(
-          "http://10.0.2.2:8000/school/api-token-auth/",
+          `${subURL}/api-token-auth/`,
           user,
 
           {
@@ -855,8 +856,13 @@ function Login() {
           }
         );
 
-        const res = await axios.get("http://10.0.2.2:8000/school/Student/");
-
+        const res = await axios.get(`${subURL}/Student/`);
+        const staffres = await axios.get(`${subURL}/Staff`);
+        //   console.log(staffres.data);
+        let filteredStaff = staffres.data.filter(
+          (ele) => ele.user_id.username == enteredUser
+        );
+        console.log(filteredStaff.staff_photo);
         let filteredlist = res.data.filter(
           (ele) => ele.contact_num == enteredPhone
         );

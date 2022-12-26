@@ -30,6 +30,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 import { StudentRegNo } from "../../../../components/StudentItem/StudentItem";
+import { subURL } from "../../../../components/utils/URL's";
 var ID;
 var FROMDATE, TODATE;
 
@@ -163,7 +164,7 @@ const LeaveScreen = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
+        const res = await axios.get(`${subURL}/Leave/`);
         setHomeworkData(res.data);
         setFilteredData(res.data);
         let test = 0;
@@ -384,7 +385,7 @@ const LeaveScreen = () => {
           };
           const dataForm = FormData;
           const resLogin = await axios.patch(
-            `http://10.0.2.2:8000/school/Leave/${ID}/`,
+            `${subURL}/Leave/${ID}/`,
             dataForm,
             {
               headers: headers,
@@ -593,7 +594,7 @@ const LeaveScreen = () => {
     async function fetchData() {
       try {
         const res = await axios.get(
-          `http://10.0.2.2:8000/school/LeaveReg/${StudentRegNo}`
+          `${subURL}/LeaveReg/${StudentRegNo}`
         );
         console.log(res.data);
         setData(res.data);
@@ -669,7 +670,7 @@ const LeaveScreen = () => {
       async function fetchData() {
         try {
           const res = await axios.get(
-            `http://10.0.2.2:8000/school/LeaveReg/${StudentRegNo}/`
+            `${subURL}/LeaveReg/${StudentRegNo}/`
           );
           // console.log(res.data);
           setData(res.data);

@@ -29,6 +29,7 @@ import Input from "../../../../components/UI/Input";
 import VerticalLine from "../../../../components/UI/VerticalLine";
 import { Card, DataTable } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { subURL } from "../../../../components/utils/URL's";
 export var ID;
 const TeacherHomeworkScreenBuild = () => {
   const [showForm, setShowForm] = useState(true);
@@ -128,7 +129,7 @@ const TeacherHomeworkScreenBuild = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
+        const res = await axios.get(`${subURL}/Homework/`);
         setHomeworkData(res.data);
         let test = 0;
         const value = await AsyncStorage.getItem("key");
@@ -398,7 +399,7 @@ const TeacherHomeworkScreenBuild = () => {
           };
 
           const resLogin = await axios.put(
-            `http://10.0.2.2:8000/school/Homework/${ID}/`,
+            `${subURL}/Homework/${ID}/`,
             formdata,
             {
               headers: headers,
@@ -562,13 +563,9 @@ const TeacherHomeworkScreenBuild = () => {
             "Content-Type": "application/json; charset=utf-8;",
           };
 
-          const resLogin = await axios.post(
-            "http://10.0.2.2:8000/school/Homework/",
-            formdata,
-            {
-              headers: headers,
-            }
-          );
+          const resLogin = await axios.post(`${subURL}/Homework/`, formdata, {
+            headers: headers,
+          });
 
           console.log(resLogin.data);
         } catch (error) {
@@ -725,7 +722,7 @@ const TeacherHomeworkScreenBuild = () => {
         };
         // const dataForm = FormData;
         const resLogin = await axios.delete(
-          `http://10.0.2.2:8000/school/Homework/${id}/`,
+          `${subURL}/Homework/${id}/`,
           // FormData,
           {
             headers: headers,
@@ -994,91 +991,100 @@ const TeacherHomeworkScreenBuild = () => {
           </View>
         </ScrollView>
       )}
-      <View style={[{flex:1}, {flexDirection: "column"}]}>
-        <View style={{ flex: 8,bottom:10 }} >
-        <ScrollView>
-       <View style={styles.root}>
-          {showList &&
-          homeworkData &&
-          homeworkData.map((homeworkData, key) => (
-            <Card style={{ marginTop: 15, margin: 10 }}>
-              <Card.Content>
-                <Card.Title
-                  title={homeworkData.class_name}
-                  titleStyle={{
-                    color: "purple",
-                    fontFamily: "HindRegular",
-                    fontWeight: "bold",
-                  }}
-                />
-                <View style={[{ flexDirection: "row" }]}>
-                  <View style={{ flex: 2, left: 20 }}>
-                    <Text style={styles.cardTextStyle}>
-                      <Ionicons name="calendar" size={24} color="green" />
-                      Assigned
-                    </Text>
-                  </View>
-                  <View style={{ flex: 2 }}>
-                    <Text style={styles.cardTextStyle}>
-                      <Ionicons name="calendar" size={24} color="green" />
-                      Due
-                    </Text>
-                  </View>
-                </View>
-                <View style={[{ flexDirection: "row" }]}>
-                  <View style={{ flex: 2, left: 40 }}>
-                    <Text style={[styles.cardTextStyle, { fontSize: 17 }]}>
-                      {moment(homeworkData.homework_date).format("DD/MM/YYYY")}
-                    </Text>
-                  </View>
-                  <View style={{ flex: 2, left: 105 }}>
-                    <Text style={[styles.cardTextStyle, { fontSize: 17 }]}>
-                      {moment(homeworkData.due_date).format("DD/MM/YYYY")}
-                    </Text>
-                  </View>
-                  <View style={{ flex: 2, left: 120, bottom: 5 }}>
-                    <Ionicons
-                      name="md-pencil-sharp"
-                      size={24}
-                      color="green"
-                      onPress={() => editItem(homeworkData.id)}
-                    />
-                  </View>
-                  <View style={{ flex: 2, left: 70, bottom: 5 }}>
-                    <Ionicons
-                      name="trash"
-                      size={24}
-                      color="red"
-                      onPress={() => deleteItem(homeworkData.id)}
-                    />
-                  </View>
-                </View>
-                <View style={[{ flexDirection: "column", flex: 1 }]}>
-                  <View style={{ flex: 2, left: 40, top: 5 }}>
-                    <Text
-                      style={[styles.cardTextStyle, { fontWeight: "bold" }]}
-                    >
-                      Description:
-                    </Text>
-                  </View>
-                  <View style={{ flex: 2, left: 40, top: 5 }}>
-                    <Text
-                      style={[
-                        styles.cardTextStyle,
-                        { color: "grey", fontSize: 18 },
-                      ]}
-                    >
-                      {homeworkData.description}
-                    </Text>
-                  </View>
-                </View>
-              </Card.Content>
-            </Card>
-          ))}
+      <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
+        <View style={{ flex: 8, bottom: 10 }}>
+          <ScrollView>
+            <View style={styles.root}>
+              {showList &&
+                homeworkData &&
+                homeworkData.map((homeworkData, key) => (
+                  <Card style={{ marginTop: 15, margin: 10 }}>
+                    <Card.Content>
+                      <Card.Title
+                        title={homeworkData.class_name}
+                        titleStyle={{
+                          color: "purple",
+                          fontFamily: "HindRegular",
+                          fontWeight: "bold",
+                        }}
+                      />
+                      <View style={[{ flexDirection: "row" }]}>
+                        <View style={{ flex: 2, left: 20 }}>
+                          <Text style={styles.cardTextStyle}>
+                            <Ionicons name="calendar" size={24} color="green" />
+                            Assigned
+                          </Text>
+                        </View>
+                        <View style={{ flex: 2 }}>
+                          <Text style={styles.cardTextStyle}>
+                            <Ionicons name="calendar" size={24} color="green" />
+                            Due
+                          </Text>
+                        </View>
+                      </View>
+                      <View style={[{ flexDirection: "row" }]}>
+                        <View style={{ flex: 2, left: 40 }}>
+                          <Text
+                            style={[styles.cardTextStyle, { fontSize: 17 }]}
+                          >
+                            {moment(homeworkData.homework_date).format(
+                              "DD/MM/YYYY"
+                            )}
+                          </Text>
+                        </View>
+                        <View style={{ flex: 2, left: 105 }}>
+                          <Text
+                            style={[styles.cardTextStyle, { fontSize: 17 }]}
+                          >
+                            {moment(homeworkData.due_date).format("DD/MM/YYYY")}
+                          </Text>
+                        </View>
+                        <View style={{ flex: 2, left: 120, bottom: 5 }}>
+                          <Ionicons
+                            name="md-pencil-sharp"
+                            size={24}
+                            color="green"
+                            onPress={() => editItem(homeworkData.id)}
+                          />
+                        </View>
+                        <View style={{ flex: 2, left: 70, bottom: 5 }}>
+                          <Ionicons
+                            name="trash"
+                            size={24}
+                            color="red"
+                            onPress={() => deleteItem(homeworkData.id)}
+                          />
+                        </View>
+                      </View>
+                      <View style={[{ flexDirection: "column", flex: 1 }]}>
+                        <View style={{ flex: 2, left: 40, top: 5 }}>
+                          <Text
+                            style={[
+                              styles.cardTextStyle,
+                              { fontWeight: "bold" },
+                            ]}
+                          >
+                            Description:
+                          </Text>
+                        </View>
+                        <View style={{ flex: 2, left: 40, top: 5 }}>
+                          <Text
+                            style={[
+                              styles.cardTextStyle,
+                              { color: "grey", fontSize: 18 },
+                            ]}
+                          >
+                            {homeworkData.description}
+                          </Text>
+                        </View>
+                      </View>
+                    </Card.Content>
+                  </Card>
+                ))}
+            </View>
+          </ScrollView>
         </View>
-      </ScrollView>
-        </View>
-        <View style={{ flex: 1}} >
+        <View style={{ flex: 1 }}>
           <TeachersHome />
         </View>
       </View>

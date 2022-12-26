@@ -15,10 +15,16 @@ import {
 } from "../../../../components/StudentItem/StudentItem";
 import ParentsHome from "../../BottomTab/ParentsHome";
 import { ScrollView } from "react-native";
-import { Modal, Button as NativeButton, IconButton,Text as NativeText } from "native-base";
+import {
+  Modal,
+  Button as NativeButton,
+  IconButton,
+  Text as NativeText,
+} from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { Card } from "react-native-paper";
 import moment from "moment";
+import { subURL } from "../../../../components/utils/URL's";
 
 const HomeworkScreen = () => {
   const [data, setData] = useState([]);
@@ -38,7 +44,7 @@ const HomeworkScreen = () => {
     async function fetchData() {
       try {
         const res = await axios.get(
-          `http://10.0.2.2:8000/school/HomeworkListByClass/${className}/${Section}`
+          `${subURL}/HomeworkListByClass/${className}/${Section}`
         );
         //  console.log(res.data);
         setIsLoading(false);
@@ -69,137 +75,145 @@ const HomeworkScreen = () => {
         <View style={{ flex: 8, bottom: 10 }}>
           <ScrollView>
             <View style={styles.root}>
-              {data.length > 0 ?
-              <FlatList
-                data={data}
-                style={{ width: "95%" }}
-                renderItem={({ item }) => {
-                  return (
-                    <Card style={styles.cardStyle}>
-                      <Card.Content style={styles.cardContentStyle}>
-                        <View
-                          style={[
-                            { flex: 1 },
-                            { flexDirection: "row" },
-                            styles.subDesign,
-                          ]}
-                        >
-                          <View style={{ flex: 5 }}>
-                            <Text style={styles.labelStyle}>Subject</Text>
-                          </View>
-                          <View style={{ flex: 5 }}>
-                            <Text style={styles.textStyle}>{item.subject}</Text>
-                          </View>
-                        </View>
-                        <View
-                          style={[
-                            { flex: 1 },
-                            { flexDirection: "row", marginVertical: 10 },
-                          ]}
-                        >
-                          <View style={{ flex: 1, alignItems: "center" }}>
-                            <Text
-                              style={[styles.textStyle, { color: "black" }]}
-                            >
-                              {moment(item.homework_date).format("DD/MM/YYYY")}
-                            </Text>
+              {data.length > 0 ? (
+                <FlatList
+                  data={data}
+                  style={{ width: "95%" }}
+                  renderItem={({ item }) => {
+                    return (
+                      <Card style={styles.cardStyle}>
+                        <Card.Content style={styles.cardContentStyle}>
+                          <View
+                            style={[
+                              { flex: 1 },
+                              { flexDirection: "row" },
+                              styles.subDesign,
+                            ]}
+                          >
+                            <View style={{ flex: 5 }}>
+                              <Text style={styles.labelStyle}>Subject</Text>
+                            </View>
+                            <View style={{ flex: 5 }}>
+                              <Text style={styles.textStyle}>
+                                {item.subject}
+                              </Text>
+                            </View>
                           </View>
                           <View
-                            style={{
-                              flex: 0.2,
-                              alignItems: "center",
-                              top: "1%",
-                            }}
+                            style={[
+                              { flex: 1 },
+                              { flexDirection: "row", marginVertical: 10 },
+                            ]}
                           >
-                            <Text
-                              style={[
-                                {
-                                  fontFamily: "HindRegular",
-                                  color: "black",
-                                  fontSize: 15,
-                                  fontWeight: "bold",
-                                },
-                              ]}
-                            >
-                              to
-                            </Text>
-                          </View>
-                          <View style={{ flex: 1, alignItems: "center" }}>
-                            <Text
-                              style={[styles.textStyle, { color: "black" }]}
-                            >
-                              {moment(item.due_date).format("DD/MM/YYYY")}
-                            </Text>
-                          </View>
-                        </View>
-                        <View
-                          style={[
-                            { flex: 1 },
-                            { flexDirection: "row", marginHorizontal: 10 },
-                          ]}
-                        >
-                          <View style={{ flex: 1, left: "70%" }}>
-                            <Text
-                              style={[styles.textStyle, { color: "black" }]}
-                            >
-                              Remark :
-                            </Text>
-                          </View>
-                          <View style={{ flex: 2.6 }}>
-                            <Text style={[styles.cardText]}>{item.remark}</Text>
-                          </View>
-                        </View>
-                        <View
-                          style={[
-                            { flex: 1 },
-                            { flexDirection: "row", marginVertical: 10 },
-                          ]}
-                        >
-                          <View style={{ flex: 3 }}>
-                            <Text
-                              style={[styles.textStyle, { color: "black" }]}
-                            >
-                              Description :
-                            </Text>
-                          </View>
-                          <View style={{ flex: 2.5, left: -40 }}>
-                            <Text style={[styles.cardText]}>
-                              {item.description}
-                            </Text>
-                          </View>
-                        </View>
-                        <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
-                          <View style={{ flex: 6 }}>
-                            {/* <Text>Remark</Text> */}
-                          </View>
-                          <View style={{ flex: 1, right: "75%" }}>
-                            <IconButton
-                              colorScheme="blue"
-                              onPress={() =>
-                                openModal(
-                                  "center",
-                                  item.id,
-                                  item.homework_photo
-                                )
-                              }
-                              variant="subtle"
-                              _icon={{
-                                as: Ionicons,
-                                name: "eye",
+                            <View style={{ flex: 1, alignItems: "center" }}>
+                              <Text
+                                style={[styles.textStyle, { color: "black" }]}
+                              >
+                                {moment(item.homework_date).format(
+                                  "DD/MM/YYYY"
+                                )}
+                              </Text>
+                            </View>
+                            <View
+                              style={{
+                                flex: 0.2,
+                                alignItems: "center",
+                                top: "1%",
                               }}
-                            />
+                            >
+                              <Text
+                                style={[
+                                  {
+                                    fontFamily: "HindRegular",
+                                    color: "black",
+                                    fontSize: 15,
+                                    fontWeight: "bold",
+                                  },
+                                ]}
+                              >
+                                to
+                              </Text>
+                            </View>
+                            <View style={{ flex: 1, alignItems: "center" }}>
+                              <Text
+                                style={[styles.textStyle, { color: "black" }]}
+                              >
+                                {moment(item.due_date).format("DD/MM/YYYY")}
+                              </Text>
+                            </View>
                           </View>
-                        </View>
-                      </Card.Content>
-                    </Card>
-                  );
-                }}
-              />:
-              <View style={{ alignItems: "center", marginVertical: 10 }}>
-              <NativeText fontSize="xl" bold color="error.900">
-                No Assigned homework found.
-              </NativeText>
-            </View>}
+                          <View
+                            style={[
+                              { flex: 1 },
+                              { flexDirection: "row", marginHorizontal: 10 },
+                            ]}
+                          >
+                            <View style={{ flex: 1, left: "70%" }}>
+                              <Text
+                                style={[styles.textStyle, { color: "black" }]}
+                              >
+                                Remark :
+                              </Text>
+                            </View>
+                            <View style={{ flex: 2.6 }}>
+                              <Text style={[styles.cardText]}>
+                                {item.remark}
+                              </Text>
+                            </View>
+                          </View>
+                          <View
+                            style={[
+                              { flex: 1 },
+                              { flexDirection: "row", marginVertical: 10 },
+                            ]}
+                          >
+                            <View style={{ flex: 3 }}>
+                              <Text
+                                style={[styles.textStyle, { color: "black" }]}
+                              >
+                                Description :
+                              </Text>
+                            </View>
+                            <View style={{ flex: 2.5, left: -40 }}>
+                              <Text style={[styles.cardText]}>
+                                {item.description}
+                              </Text>
+                            </View>
+                          </View>
+                          <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
+                            <View style={{ flex: 6 }}>
+                              {/* <Text>Remark</Text> */}
+                            </View>
+                            <View style={{ flex: 1, right: "75%" }}>
+                              <IconButton
+                                colorScheme="blue"
+                                onPress={() =>
+                                  openModal(
+                                    "center",
+                                    item.id,
+                                    item.homework_photo
+                                  )
+                                }
+                                variant="subtle"
+                                _icon={{
+                                  as: Ionicons,
+                                  name: "eye",
+                                }}
+                              />
+                            </View>
+                          </View>
+                        </Card.Content>
+                      </Card>
+                    );
+                  }}
+                />
+              ) : (
+                <View style={{ alignItems: "center", marginVertical: 10 }}>
+                  <NativeText fontSize="xl" bold color="error.900">
+                    No Assigned homework found.
+                  </NativeText>
+                </View>
+              )}
             </View>
           </ScrollView>
         </View>
@@ -341,7 +355,7 @@ const styles = StyleSheet.create({
   root: {
     justifyContent: "center",
     alignItems: "center",
-    marginVertical:30
+    marginVertical: 30,
   },
   remark: {
     fontSize: deviceWidth < 370 ? 16 : 20,

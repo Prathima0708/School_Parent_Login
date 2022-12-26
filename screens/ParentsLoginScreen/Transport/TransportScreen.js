@@ -16,6 +16,7 @@ import ParentsHome from "../BottomTab/ParentsHome";
 import { Divider, Text } from "native-base";
 import { busNumber } from "../../../components/StudentItem/StudentItem";
 import { AntDesign } from "@expo/vector-icons";
+import { subURL } from "../../../components/utils/URL's";
 const TransportScreen = () => {
   // useEffect(()=>{
   //   async function getToken(){
@@ -37,7 +38,7 @@ const TransportScreen = () => {
     async function fetchData() {
       try {
         const res = await axios.get(
-          `http://10.0.2.2:8000/school/TransportreportDetailList/${busNumber}`
+          `${subURL}/TransportreportDetailList/${busNumber}`
         );
         console.log(res.data);
 
@@ -89,15 +90,25 @@ const TransportScreen = () => {
                   paddingLeft: 15,
                 }}
               >
-                <Text fontSize={deviceWidth < 370 ? 'xl' : '3xl'} style={styles.textStyle}>
+                <Text
+                  fontSize={deviceWidth < 370 ? "xl" : "3xl"}
+                  style={styles.textStyle}
+                >
                   {data.route_name}
                 </Text>
               </View>
               <View style={styles.iconStyle}>
-                <AntDesign name="right" size={deviceWidth < 370 ? 20 : 25} color="white" />
+                <AntDesign
+                  name="right"
+                  size={deviceWidth < 370 ? 20 : 25}
+                  color="white"
+                />
               </View>
               <View style={{ flex: 1, alignItems: "center", top: 15 }}>
-                <Text fontSize={deviceWidth < 370 ? 'xl' : '3xl'} style={styles.textStyle}>
+                <Text
+                  fontSize={deviceWidth < 370 ? "xl" : "3xl"}
+                  style={styles.textStyle}
+                >
                   {data.stop_name}
                 </Text>
               </View>
@@ -107,18 +118,19 @@ const TransportScreen = () => {
                 <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
                   <View style={{ flex: 1 }}>
                     <Text
-                      fontSize={deviceWidth < 370 ? 'md' : '2xl'}
+                      fontSize={deviceWidth < 370 ? "md" : "2xl"}
                       style={[styles.textStyle, { color: "black", left: 20 }]}
                     >
                       Driver Name :
                     </Text>
                   </View>
-                  <View 
-                    style={{ 
+                  <View
+                    style={{
                       flex: deviceWidth < 370 ? 1.5 : 1,
-                    }}>
+                    }}
+                  >
                     <Text
-                      fontSize={deviceWidth < 370 ? 'md' : '2xl'}
+                      fontSize={deviceWidth < 370 ? "md" : "2xl"}
                       style={[styles.textStyle, { color: "black", left: 1 }]}
                     >
                       {data.driver_name}
@@ -136,10 +148,11 @@ const TransportScreen = () => {
                       Mobile number :
                     </Text>
                   </View>
-                  <View style=
-                    {{ 
+                  <View
+                    style={{
                       flex: deviceWidth < 370 ? 1.4 : 1.7,
-                    }}>
+                    }}
+                  >
                     <Text
                       fontSize="sm"
                       style={[styles.textStyle, { color: "black" }]}
@@ -189,7 +202,8 @@ const TransportScreen = () => {
                       <View style={{ flex: 1 }}>
                         <Divider
                           bg="#275932"
-                          thickness={deviceWidth < 370 ? 1.4 : 1.7}                     orientation="vertical"
+                          thickness={deviceWidth < 370 ? 1.4 : 1.7}
+                          orientation="vertical"
                           style={{ left: "60%" }}
                         />
                         <Divider
@@ -294,7 +308,7 @@ const styles = StyleSheet.create({
     flex: 0.2,
     flexDirection: "row",
     backgroundColor: "#275932",
-   // padding: 5,
+    // padding: 5,
     top: 10,
     borderRadius: 20,
     marginHorizontal: 20,

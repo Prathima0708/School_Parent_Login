@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { subURL } from "../components/utils/URL's";
 
 export var studentList = [];
 function WelcomeScreen() {
@@ -16,7 +17,7 @@ function WelcomeScreen() {
     async function login() {
       try {
         const ph = route.params.phone.toString();
-        const res = await axios.get("http://10.0.2.2:8000/school/Student/");
+        const res = await axios.get(`${subURL}/Student/`);
         //  console.log(res.data);
         setStudents(res.data);
         let filteredlist = res.data.filter(

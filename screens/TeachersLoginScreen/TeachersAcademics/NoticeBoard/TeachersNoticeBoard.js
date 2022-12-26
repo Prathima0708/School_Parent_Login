@@ -13,6 +13,7 @@ import {
 import axios from "axios";
 import NoticeBoard from "./NoticeBoard";
 import TeachersHome from "../../BottomTab/TeachersHome";
+import { subURL } from "../../../../components/utils/URL's";
 export var arr = [];
 var sortedArr = [];
 const TeachersNoticeBoard = () => {
@@ -30,7 +31,7 @@ const TeachersNoticeBoard = () => {
         };
 
         // const res = await axios.get("http://10.0.2.2:8000/school/users/", {
-        const res = await axios.get("http://10.0.2.2:8000/school/Calendar/", {
+        const res = await axios.get(`${subURL}/Calendar/`, {
           headers: headers,
         });
         console.log(res.data);

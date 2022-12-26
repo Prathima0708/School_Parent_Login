@@ -23,6 +23,7 @@ import {
 } from "native-base";
 import { useEffect, useState } from "react";
 import { Token } from "../../screens/Login";
+import { chatURL, mainURL } from "../utils/URL's";
 
 import ChatList from "./ChatList";
 export var SELECTEDUSER, USERNAME, TOKEN;
@@ -105,7 +106,7 @@ const Chat = () => {
         };
 
         // const res = await axios.get("http://10.0.2.2:8000/school/users/", {
-        const users = await axios.get("http://10.0.2.2:8000/chat/list/", {
+        const users = await axios.get(`${chatURL}/list/`, {
           headers: headers,
         });
         // async function fetchUser() {
@@ -194,9 +195,6 @@ const Chat = () => {
 };
 export default Chat;
 
-
-
-
 // import * as WebSocket from 'expo-websockets';
 
 // const chatUrl = 'ws://YOUR_BACKEND_SERVER_URL';
@@ -223,4 +221,3 @@ export default Chat;
 //   // Render the chat UI, allowing the user to view and send messages
 //   // ...
 // };
-

@@ -18,14 +18,14 @@
 //   );
 // }
 
-import { mainURL } from "./URL's";
+import { mainURL, subURL } from "./URL's";
 
 function GetAllStudents() {
   const [students, setStudents] = useState([]);
   async function getStudents() {
     try {
       // const students = await axios.get("http://10.0.2.2:8000/school/Student/");
-      const students = await axios.get(`${mainURL}/school/Student/`);
+      const students = await axios.get(`${subURL}/Student/`);
 
       // console.log(students.data);
       setStudents(students.data);
