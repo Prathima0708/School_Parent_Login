@@ -58,6 +58,7 @@ import ExamTimeTableSubjects from "./screens/TeachersLoginScreen/TimeTable/ExamT
 import TeachersLeave from "./screens/TeachersLoginScreen/Leave/TeachersLeave";
 import TeachersLeaveUpdated from "./screens/TeachersLoginScreen/Leave/TeachersLeaveUpdated";
 import ExamTimeTable from "./screens/ParentsLoginScreen/Academics/TimeTable/ExamTimeTable";
+import TeachersAttendanceBuild from "./screens/TeachersLoginScreen/TeachersAcademics/Attendance/TeachersAttendanceBuild";
 var value, Group, GroupP, GroupT;
 // function Bottom() {
 //   return (
@@ -216,7 +217,7 @@ export default function App() {
         />
         <Stack.Screen
           name="TeachersAttendance"
-          component={TeachersAttendance}
+          component={TeachersAttendanceBuild}
           options={{ title: "Attendance" }}
         />
 
@@ -506,7 +507,7 @@ export default function App() {
         />
         <Stack.Screen
           name="TeachersAttendance"
-          component={TeachersAttendance}
+          component={TeachersAttendanceBuild}
           options={{ title: "Attendance" }}
         />
         <Stack.Screen

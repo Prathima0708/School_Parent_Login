@@ -167,7 +167,7 @@ const ExamTimeTableSubjects = () => {
                                     <View
                                       style={[
                                         styles.colStyle,
-                                        // { left: "80%" },
+                                        { left: "95%" },
                                       ]}
                                     >
                                       <Text style={[styles.tableTitle]}>
@@ -220,7 +220,8 @@ const ExamTimeTableSubjects = () => {
                                     <View
                                       style={[
                                         styles.colStyle,
-                                       //{ left: "80%" },
+
+                                       { left: "80%" },
                                       ]}
                                     >
                                       <Text style={[styles.tableTitle]}>
@@ -328,6 +329,7 @@ const styles = StyleSheet.create({
   },
   colStyle: {
     padding: deviceHieght < 600 ? "5%" : "3%",
+    left:'40%'
     // marginVertical:10
   },
   container: {

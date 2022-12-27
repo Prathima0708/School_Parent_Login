@@ -225,9 +225,9 @@ function LandingScreen() {
                  top:'3%'
                }}
              >
-               Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
-               nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
-               erat volutpat.
+               We provide qualitative education in a safe and caring environment, 
+               inspiring all our students to reach their true potential and emerge as 
+               responsible participants in a global society.
              </Text>
            </View>
         </View>

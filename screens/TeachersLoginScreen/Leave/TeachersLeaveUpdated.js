@@ -1906,55 +1906,44 @@ const TeachersLeaveUpdated = () => {
                             }}
                           >
                             <Card.Content>
-                              <View
-                                style={{
-                                  flex: 1,
-                                  flexDirection: "row",
-                                  marginVertical: 5,
-                                }}
-                              >
-                                <View
-                                  style={[
-                                    { flex: 1 },
-                                    {
-                                      flexDirection: "row",
-                                      marginHorizontal: 6,
-                                    },
-                                  ]}
-                                >
-                                  <View style={{ flex: 5 }}>
-                                    <Text style={styles.cardTextStyle}>
-                                      Student Name:
-                                    </Text>
-                                  </View>
-                                  <View style={{ flex: 1.6 }}>
-                                    <Text style={styles.textStyle}>
-                                      {data.student_reg_number.student_name}
-                                    </Text>
+                              <View style={[{flex:1}, {
+                                flexDirection: "column"
+                              }]}>
+                                <View style={{ flex: 1 }} >
+                                  <View style={[{flex:1}, {
+                                    flexDirection: "row"
+                                  }]}>
+                                    <View style={{ flex: 0.6 }} >
+                                      <Text style={styles.cardTextStyle}>
+                                        Student Name:
+                                      </Text>
+                                    </View>
+                                    <View style={{ flex: 1 }} >
+                                      <Text style={styles.textStyle}>
+                                        {data.student_reg_number.student_name}
+                                      </Text>
+                                    </View>
                                   </View>
                                 </View>
-                                <View
-                                  style={[
-                                    { flex: 1 },
-                                    {
-                                      flexDirection: "row",
-                                      marginLeft: "8%",
-                                    },
-                                  ]}
-                                >
-                                  <View style={{ flex: 0.7 }}>
-                                    <Text style={styles.cardTextStyle}>
-                                      Reg No:
-                                    </Text>
+                                <View style={styles.spaceHead}/>
+                                <View style={{ flex: 1 }} >
+                                  <View style={[{flex:1}, {
+                                      flexDirection: "row"
+                                    }]}>
+                                      <View style={{ flex: 0.3 }} >
+                                        <Text style={styles.cardTextStyle}>
+                                          Reg No:
+                                        </Text>
+                                      </View>
+                                      <View style={{ flex: 1 }} >
+                                        <Text style={styles.textStyle}>
+                                          {data.student_reg_number.reg_number}
+                                        </Text>
+                                      </View>
+                                    </View>
                                   </View>
-                                  <View style={{ flex: 1 }}>
-                                    <Text style={styles.textStyle}>
-                                      {data.student_reg_number.reg_number}
-                                    </Text>
-                                  </View>
-                                </View>
                               </View>
-
+                              <View style={styles.spaceHead}/>
                               <View
                                 style={[
                                   { flex: 1 },
@@ -2359,6 +2348,10 @@ const styles = StyleSheet.create({
   space: {
     width: 20, // or whatever size you need
     height: 20,
+  },
+  spaceHead:{
+    width: 20, // or whatever size you need
+    height: 5,
   },
   leaveSpace: {
     width: 60, // or whatever size you need

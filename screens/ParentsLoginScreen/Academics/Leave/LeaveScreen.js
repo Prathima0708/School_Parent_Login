@@ -870,50 +870,37 @@ const LeaveScreen = () => {
 
               {!isEdit && (
                 <>
-                <View
-                  style={{
-                    top: "3%",
-                    left: "3%",
-                    flexDirection: "row",
-                    marginVertical: 10,
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontFamily: "HindRegular",
-                      fontSize: 18,
-                      top: "3%",
-                      //marginLeft: 10,
-                    }}
-                  >
-                    Leave Type
-                  </Text>
-                  <View style={styles.leaveSpace} />
-                  <View style={{flex:1,flexDirection:'column'}}>
-                  <SelectList
-                    //setSelected={(val) => setSelected(val)}
-                    setSelected={setSelected}
-                    data={leaveTypeData}
-                    save="value"
-                    //placeholder="Select Leave Type"
-                    boxStyles={[
-                      selectInputIsInValid && styles.errorSelectedColor,
-                      { bottom: "5%",marginHorizontal:10},
-                      // { marginHorizontal: 15, marginVertical: 10 },
-                    ]}
-                    dropdownTextStyles={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      //marginHorizontal: 25,
-                    }}
-                    inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-                  />
-                  {selectInputIsInValid && (
-                    <Text style={styles.commonErrorMsg}>Select leave type</Text>
-                  )}
-                  </View>   
-                  
-                </View>
+                  <View style={[{flex:1}, {flexDirection: "row"}]}>
+                    <View style={{ flex: 1 }} >
+                      <Text
+                        style={{fontFamily: "HindRegular",fontSize: 18,marginLeft:'11%',marginTop:'15%'}}>
+                        Leave Type
+                      </Text>
+                    </View>
+                    <View style={{ flex: 1 }} >
+                      <SelectList
+                        //setSelected={(val) => setSelected(val)}
+                        setSelected={setSelected}
+                        data={leaveTypeData}
+                        save="value"
+                        //placeholder="Select Leave Type"
+                        boxStyles={[
+                          selectInputIsInValid && styles.errorSelectedColor,
+                          {},
+                          // { marginHorizontal: 15, marginVertical: 10 },
+                        ]}
+                        dropdownTextStyles={{
+                          fontSize: 18,
+                          fontFamily: "HindRegular",
+                          //marginHorizontal: 25,
+                        }}
+                        inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                      />
+                      {selectInputIsInValid && (
+                        <Text style={styles.commonErrorMsg}>Select leave type</Text>
+                      )}
+                    </View>
+                  </View>
                 </>
               )}
 
@@ -1542,7 +1529,7 @@ const styles = StyleSheet.create({
     height: 20,
   },
   leaveSpace: {
-    width: 60, // or whatever size you need
+    width: 40, // or whatever size you need
     height: 10,
   },
   btnSubmit: {

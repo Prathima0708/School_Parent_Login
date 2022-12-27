@@ -80,7 +80,7 @@ const DisplayClass = ({ class_name, section, id }) => {
   return (
     <>
     <View style={styles.space}/>
-    <View>
+    <View style={{width:'30%'}}>
       <Pressable onPress={navigateHander}>
         <Card
           // key={key}

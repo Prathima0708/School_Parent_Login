@@ -783,6 +783,26 @@ const TeachersTransport = () => {
                         <Text style={styles.cardData}>{data.emp_mobile}</Text>
                       </View>
                     </View>
+                    <View style={styles.flexStyleRow}>
+                      <View style={styles.flexData1}>
+                        <Text style={[styles.cardTextStyle]}>
+                          route name
+                        </Text>
+                      </View>
+                      <View style={styles.flexData}>
+                        <Text style={styles.cardData}>{data.route_name}</Text>
+                      </View>
+                    </View>
+                    <View style={styles.flexStyleRow}>
+                      <View style={styles.flexData1}>
+                        <Text style={[styles.cardTextStyle]}>
+                          Stop name
+                        </Text>
+                      </View>
+                      <View style={styles.flexData}>
+                        <Text style={styles.cardData}>{data.stop_name}</Text>
+                      </View>
+                    </View>
                   </Card.Content>
                 </Card>
               ))}
