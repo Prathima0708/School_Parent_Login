@@ -269,21 +269,36 @@ const TeachersAttendanceBuild = () => {
   function absentAllHandler(){
     setSelectedStatus("Absent");
 
-    const object = {
-      id: id,
-      leave_status: "present"
-    };
-    setArray(prevArray => [...prevArray, object]);
+    while(array.length > 0) {
+      array.pop();
+    }
+    
+    for(i=0;i < data.length;i++){
+      const  object = {
+        id: data[i].id,
+        leave_status: "absent"
+      };
+
+      array.push(object)
+    }
   }
 
   function holidayForAllHandler(){
     setSelectedStatus("Holiday");
 
-    const object = {
-      id: id,
-      leave_status: "present"
-    };
-    setArray(prevArray => [...prevArray, object]);
+    while(array.length > 0) {
+      array.pop();
+    }
+    
+    for(i=0;i < data.length;i++){
+      const  object = {
+        id: data[i].id,
+        leave_status: "holiday"
+      };
+
+      array.push(object)
+    }
+
   }
 
   function saveAttendance() {
