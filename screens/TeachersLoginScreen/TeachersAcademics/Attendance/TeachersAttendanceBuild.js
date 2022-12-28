@@ -126,8 +126,7 @@ import axios from "axios";
 import TeachersList from "./TeachersList";
 import { subURL } from "../../../../components/utils/URL's";
 import TeachersHome from "../../BottomTab/TeachersHome";
-
-var Indiviual_ID;
+var PRESENT_IND_ID,ABSENT_IND_ID;
 const TeachersAttendanceBuild = () => {
 
   const [frommode, setFromMode] = useState("date");
@@ -141,6 +140,12 @@ const TeachersAttendanceBuild = () => {
   const [showCalendar, setShowCalendar] = useState(true);
   const [showStudList, setShowStudList] = useState(false);
   const [array,setArray]=useState([]);
+
+  const [presentPressed,setPresentPressed]=useState(false);
+  const [absentPressed,setAbsentPressed]=useState(false);
+
+  const [samePresentID,setSamePresentID]=useState();
+  const [sameAbsentID,setSameAbsentID]=useState(false);
 
   let i;
 
@@ -197,8 +202,16 @@ const TeachersAttendanceBuild = () => {
   }
 
   function presentButtonPressed(id) {
-    Indiviual_ID=id;
-    
+   
+    setAbsentPressed(false);
+    setPresentPressed(true);
+
+
+    if(data.find((item) => item.id === id)){
+      //console.log("SAME ID",id)
+      setSamePresentID(id);
+    }
+
     setSelectedStatus("Present")
     const object = {
       id: id,
@@ -213,10 +226,13 @@ const TeachersAttendanceBuild = () => {
       setArray(prevArray => [...prevArray, object]);
       //setItems([...items, updatedItem]);
     }
+
+
   }
 
   function absentBtnHandler(id) {
-    Indiviual_ID=id;
+    setAbsentPressed(true);
+    setPresentPressed(false);
     setSelectedStatus("Absent")
     const object = {
       id: id,
@@ -233,7 +249,7 @@ const TeachersAttendanceBuild = () => {
   }
 
   function holidatBtnGHandler(id) {
-    Indiviual_ID=id;
+    
     setSelectedStatus("Holiday")
     const object = {
       id: id,
@@ -305,6 +321,27 @@ const TeachersAttendanceBuild = () => {
     console.log("finalList", array);
   }
 
+  function changeColor(id){
+
+    // while(array.length > 0) {
+    //   array.pop();
+    // }
+
+    let j;
+    console.log('----------------')
+    console.log(id)
+    if(array.filter((item) => item.id === id)){
+      console.log(array.filter((item) => item.id === id))
+
+      if(array.map((data)=>(data.leave_status==='present'))){
+        return 'green'
+      } else if(array.map((data)=>(data.leave_status==='absent'))){
+        return 'red'
+      } else {
+        return 'grey'
+      }
+    }
+  }
   return (
     <>
       {showCalendar && (
@@ -372,15 +409,21 @@ const TeachersAttendanceBuild = () => {
           <View style={{ flex: 0.3}} >
             <View style={[{flex:1}, {flexDirection: "row",left:'10%',marginHorizontal:15,marginVertical:15}]}>
               <View style={{ flex: 1 }} >
-                <NativeButton onPress={presentAllHandler}>Present All</NativeButton>
+                <NativeButton 
+                  onPress={presentAllHandler} 
+                  colorScheme="green">Present All</NativeButton>
               </View>
               <View style={styles.space}/>
               <View style={{ flex: 1 }} >
-                <NativeButton onPress={absentAllHandler}>Absent All</NativeButton>
+                <NativeButton 
+                  onPress={absentAllHandler}
+                  colorScheme='red'>Absent All</NativeButton>
               </View>
               <View style={styles.space}/>
               <View style={{ flex: 1 }} >
-                <NativeButton onPress={holidayForAllHandler}>Holiday</NativeButton>
+                <NativeButton 
+                  onPress={holidayForAllHandler}
+                  colorScheme='yellow'>Holiday</NativeButton>
               </View>
               <View style={styles.space}/>
             </View>
@@ -417,11 +460,16 @@ const TeachersAttendanceBuild = () => {
                         flexDirection: "column",marginVertical:20,
                       }]}>
                         <View style={{ flex: 1 ,marginRight:'30%'}} >
-                          <Button onPress={() => presentButtonPressed(data.id)} title="P" />
+                          <Button 
+                            onPress={() => presentButtonPressed(data.id)}
+                            color={changeColor(data.id)}
+                            title="P" />
                         </View>
                         <View style={styles.space}/>
                         <View style={{ flex: 1,marginRight:'30%' }} >
-                          <Button onPress={() => absentBtnHandler(data.id)} title="A" />
+                          <Button 
+                            color={changeColor(data.id)}
+                            onPress={() => absentBtnHandler(data.id)} title="A"/>
                         </View>
                         {/* <View style={styles.space}/>
                         <View style={{ flex: 1,marginRight:'30%' }} >
