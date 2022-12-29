@@ -51,7 +51,10 @@ var FROMDATE, TODATE;
 var BADGE;
 var USERNAME, TOKEN, USERROLE, USERID, KEY, VALUE;
 
-var firstData, KEY, VALUE, newArray;
+var firstData,
+  KEY,
+  VALUE,
+  newArray = [];
 const TeachersLeaveUpdated = () => {
   const [user, setUser] = useState("");
   const [userRole, setUserRole] = useState("");
@@ -192,6 +195,8 @@ const TeachersLeaveUpdated = () => {
   const [filteredData, setFilteredData] = useState([]);
 
   const [classTeacherData, setClassTeacherData] = useState([]);
+  const [bgColor, setBgColor] = useState(false);
+  var leavelistarray = [];
 
   let i = 0;
 
@@ -300,8 +305,8 @@ const TeachersLeaveUpdated = () => {
   async function fetchUser() {
     USERNAME = await AsyncStorage.getItem("UserName");
     USERROLE = await AsyncStorage.getItem("datagroup");
-    USERID = await AsyncStorage.getItem("key");
-    // console.log("this is the username from aysnc", USERNAME);
+    // USERID = await AsyncStorage.getItem("key");
+    // console.log("this is the userid from aysnc", USERID);
 
     if (USERNAME !== null) {
       setUser(USERNAME);
@@ -309,9 +314,9 @@ const TeachersLeaveUpdated = () => {
     if (USERROLE !== null) {
       setUserRole(USERROLE);
     }
-    if (USERID !== null) {
-      setUserID(USERID);
-    }
+    // if (USERID !== null) {
+    //   setUserID(USERID);
+    // }
   }
   fetchUser();
 
@@ -810,15 +815,18 @@ const TeachersLeaveUpdated = () => {
   }
 
   function showLeaveList() {
-    setShowList(true);
-    setShowForm(false);
-    setShowChoice(false);
+    console.log("show leave lisr fun");
+    // setShowList(true);
+    // setShowForm(false);
+    // setShowChoice(false);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
     }, 5000);
     setBtn(true);
     async function fetchStudentClass() {
+      console.log("inside fetchstudentclass");
+      console.log("user id is", userID);
       axios
         .get(`http://10.0.2.2:8000/school/IsClassteacher/${userID}/`)
         .then((response) => {
@@ -830,7 +838,20 @@ const TeachersLeaveUpdated = () => {
               section: item.section,
             };
           });
+          console.log(newArray);
 
+          console.log("new array length", newArray.length);
+
+          if (newArray.length >= 1) {
+            // setBgColor(true);
+            setShowList(true);
+            setShowForm(false);
+            setShowChoice(false);
+            setLoading(true);
+          }
+          // else if (newArray.length == 0) {
+          //   setBgColor(false);
+          // }
           firstData = newArray[0];
 
           KEY = firstData.key;
@@ -843,6 +864,7 @@ const TeachersLeaveUpdated = () => {
     }
     fetchStudentClass();
   }
+  console.log("new array length outside", newArray?.length);
 
   function backHandler() {
     setShowChoice(true);
@@ -985,6 +1007,18 @@ const TeachersLeaveUpdated = () => {
     setShowForm(true);
     setShowTeachersList(false);
   }
+  useEffect(() => {
+    console.log("first");
+    async function getUserId() {
+      USERID = await AsyncStorage.getItem("key");
+      if (USERID !== null) {
+        setUserID(USERID);
+      }
+    }
+    getUserId();
+    console.log("this is the userid in useeffect", userID);
+    showLeaveList();
+  }, []);
   return (
     <>
       {showChoice && (
@@ -1036,7 +1070,15 @@ const TeachersLeaveUpdated = () => {
 
           <View style={{ flex: 1, marginHorizontal: "20%", bottom: "10%" }}>
             <Pressable onPress={showLeaveList}>
-              <Card style={styles.cardStyle}>
+              <Card
+                style={[
+                  styles.cardStyle,
+                  // { backgroundColor: bgColor ? "darkblue" : "gray" },
+                  {
+                    backgroundColor: newArray.length == 0 ? "gray" : "darkblue",
+                  },
+                ]}
+              >
                 <Card.Content style={{ margin: 1, marginTop: 0 }}>
                   <View style={{ alignItems: "center" }}>
                     <Text
@@ -1053,6 +1095,7 @@ const TeachersLeaveUpdated = () => {
               </Card>
             </Pressable>
           </View>
+
           <View style={{ flex: 0.2 }}>
             <TeachersHome />
           </View>
@@ -1871,7 +1914,7 @@ const TeachersLeaveUpdated = () => {
             {leaveByClassSection.length <= 0 ? (
               <View style={{ alignItems: "center", top: "2%" }}>
                 <NativeText fontSize="xl" bold color="error.900">
-                  No Student's Leaves are found
+                  No Student Leaves found
                 </NativeText>
               </View>
             ) : (
@@ -1906,44 +1949,59 @@ const TeachersLeaveUpdated = () => {
                             }}
                           >
                             <Card.Content>
-                              <View style={[{flex:1}, {
-                                flexDirection: "column"
-                              }]}>
-                                <View style={{ flex: 1 }} >
-                                  <View style={[{flex:1}, {
-                                    flexDirection: "row"
-                                  }]}>
-                                    <View style={{ flex: 0.6 }} >
+                              <View
+                                style={[
+                                  { flex: 1 },
+                                  {
+                                    flexDirection: "column",
+                                  },
+                                ]}
+                              >
+                                <View style={{ flex: 1 }}>
+                                  <View
+                                    style={[
+                                      { flex: 1 },
+                                      {
+                                        flexDirection: "row",
+                                      },
+                                    ]}
+                                  >
+                                    <View style={{ flex: 0.6 }}>
                                       <Text style={styles.cardTextStyle}>
                                         Student Name:
                                       </Text>
                                     </View>
-                                    <View style={{ flex: 1 }} >
+                                    <View style={{ flex: 1 }}>
                                       <Text style={styles.textStyle}>
                                         {data.student_reg_number.student_name}
                                       </Text>
                                     </View>
                                   </View>
                                 </View>
-                                <View style={styles.spaceHead}/>
-                                <View style={{ flex: 1 }} >
-                                  <View style={[{flex:1}, {
-                                      flexDirection: "row"
-                                    }]}>
-                                      <View style={{ flex: 0.3 }} >
-                                        <Text style={styles.cardTextStyle}>
-                                          Reg No:
-                                        </Text>
-                                      </View>
-                                      <View style={{ flex: 1 }} >
-                                        <Text style={styles.textStyle}>
-                                          {data.student_reg_number.reg_number}
-                                        </Text>
-                                      </View>
+                                <View style={styles.spaceHead} />
+                                <View style={{ flex: 1 }}>
+                                  <View
+                                    style={[
+                                      { flex: 1 },
+                                      {
+                                        flexDirection: "row",
+                                      },
+                                    ]}
+                                  >
+                                    <View style={{ flex: 0.3 }}>
+                                      <Text style={styles.cardTextStyle}>
+                                        Reg No:
+                                      </Text>
+                                    </View>
+                                    <View style={{ flex: 1 }}>
+                                      <Text style={styles.textStyle}>
+                                        {data.student_reg_number.reg_number}
+                                      </Text>
                                     </View>
                                   </View>
+                                </View>
                               </View>
-                              <View style={styles.spaceHead}/>
+                              <View style={styles.spaceHead} />
                               <View
                                 style={[
                                   { flex: 1 },
@@ -2349,7 +2407,7 @@ const styles = StyleSheet.create({
     width: 20, // or whatever size you need
     height: 20,
   },
-  spaceHead:{
+  spaceHead: {
     width: 20, // or whatever size you need
     height: 5,
   },

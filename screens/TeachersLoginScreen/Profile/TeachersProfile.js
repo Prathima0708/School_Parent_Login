@@ -30,6 +30,7 @@ import TeachersHome from "../BottomTab/TeachersHome";
 import { STD_ID } from "./MyClasses/StudentList";
 import { subURL } from "../../../components/utils/URL's";
 import axios from "axios";
+import moment from "moment";
 
 const TeachersProfile = () => {
   const [showForm, setShowForm] = useState(false);
@@ -71,10 +72,10 @@ const TeachersProfile = () => {
       const styleObj = {
         borderWidth: 3,
         borderRadius: 100,
-        borderColor: "#22D3EE"
+        borderColor: "#577AFE",
       };
       myRef.current.setNativeProps({
-        style: styleObj
+        style: styleObj,
       });
     }
   }, [myRef]);
@@ -98,14 +99,18 @@ const TeachersProfile = () => {
                 
                 source={{ uri: `http://10.0.2.2:8000${data.student_photo}` }}
               ></NativeAvatar> */}
-              <NativeImage 
-                alignSelf='center'
+              <NativeImage
+                alignSelf="center"
                 borderRadius={100}
                 top="15%"
                 source={{
-                  uri: `http://10.0.2.2:8000${data.student_photo}`
-                }} alt="Student Image" size="lg" ref={myRef}
-                resizeMode="contain"/>
+                  uri: `http://10.0.2.2:8000${data.student_photo}`,
+                }}
+                alt="Student Image"
+                size="lg"
+                ref={myRef}
+                resizeMode="contain"
+              />
             </View>
             <View style={{ flex: 1, backgroundColor: "#00008b" }}>
               <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
@@ -150,7 +155,10 @@ const TeachersProfile = () => {
                 <NativeText fontWeight="bold">Date of birth:</NativeText>
               </View>
               <View style={{ flex: 1.6 }}>
-                <NativeText>{data.Dob}</NativeText>
+                <NativeText>
+                  {" "}
+                  {moment(data.Dob).format("DD/MM/YYYY")}
+                </NativeText>
               </View>
             </View>
           </View>
@@ -162,7 +170,10 @@ const TeachersProfile = () => {
                 <NativeText fontWeight="bold">Date of Admission:</NativeText>
               </View>
               <View style={{ flex: 1.6 }}>
-                <NativeText>{data.date_of_admission}</NativeText>
+                <NativeText>
+                  {" "}
+                  {moment(data.date_of_admission).format("DD/MM/YYYY")}
+                </NativeText>
               </View>
             </View>
           </View>
@@ -193,12 +204,10 @@ const TeachersProfile = () => {
                   {
                     flexDirection: "column",
                     marginHorizontal: 10,
+                    top: "15%",
                   },
                 ]}
               >
-                <View style={{ flex: 1 }}>
-                  <NativeText fontWeight="bold">Contact</NativeText>
-                </View>
                 <View style={{ flex: 1 }}>
                   <NativeText fontWeight="bold">Mobile number</NativeText>
                 </View>
@@ -213,10 +222,10 @@ const TeachersProfile = () => {
                   { flex: 1 },
                   {
                     flexDirection: "column",
+                    top: "15%",
                   },
                 ]}
               >
-                <View style={{ flex: 1 }}></View>
                 <View style={{ flex: 1 }}>
                   <NativeText>{data.contact_num}</NativeText>
                 </View>

@@ -727,7 +727,8 @@ export var Token,
   PHONENO,
   VALUE,
   ParentGroup,
-  UserName;
+  UserName,
+  StaffPhoto;
 export var studentList = [];
 function Login() {
   // const [fontsLoaded] = useFonts({
@@ -862,7 +863,9 @@ function Login() {
         let filteredStaff = staffres.data.filter(
           (ele) => ele.user_id.username == enteredUser
         );
-        console.log(filteredStaff.staff_photo);
+        console.log(filteredStaff);
+        console.log("this is staff photo-", filteredStaff[0].staff_photo);
+        StaffPhoto = filteredStaff[0].staff_photo;
         let filteredlist = res.data.filter(
           (ele) => ele.contact_num == enteredPhone
         );
@@ -884,13 +887,6 @@ function Login() {
 
         try {
           await AsyncStorage.setItem("UserName", Teacher);
-          // await AsyncStorage.setItem("datagroupParent", resLogin.data.groups[1]);
-        } catch (error) {
-          // Error saving data
-        }
-
-        try {
-          await AsyncStorage.setItem("userID", UserId);
           // await AsyncStorage.setItem("datagroupParent", resLogin.data.groups[1]);
         } catch (error) {
           // Error saving data
@@ -980,7 +976,7 @@ function Login() {
           console.log(err);
         } else {
           JSON.parse(value); // boolean false
-          //  console.log("this is the userid:" + value);
+          console.log("this is the userid:" + value);
         }
       });
 

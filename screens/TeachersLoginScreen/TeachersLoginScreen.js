@@ -1,5 +1,5 @@
 import { StyleSheet, FlatList, View, Dimensions } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import CategoryGridTile from "../../components/StudentItem/CategoryGridTile";
 
@@ -13,10 +13,11 @@ import { Text } from "react-native";
 import { Image } from "react-native";
 import TeachersCategoryGridTile from "../../components/StudentItem/TeachersCategoryGridTile";
 
-import { Teacher } from "../Login";
+import { StaffPhoto, Teacher } from "../Login";
 import { useRoute } from "@react-navigation/native";
 import axios from "axios";
 import { subURL } from "../../components/utils/URL's";
+import { Image as NativeImage } from "native-base";
 var USERNAME, value, USERID;
 let i;
 const TeachersLoginScreen = ({ navigation }) => {
@@ -43,7 +44,20 @@ const TeachersLoginScreen = ({ navigation }) => {
       console.log(error);
     }
   }
+  const myRef = useRef(null);
 
+  useEffect(() => {
+    if (myRef.current && myRef.current.setNativeProps) {
+      const styleObj = {
+        borderWidth: 3,
+        borderRadius: 100,
+        borderColor: "#577AFE",
+      };
+      myRef.current.setNativeProps({
+        style: styleObj,
+      });
+    }
+  }, [myRef]);
   async function fetchUser() {
     USERNAME = await AsyncStorage.getItem("UserName");
     console.log("this is the username from aysnc", USERNAME);
@@ -146,17 +160,37 @@ const TeachersLoginScreen = ({ navigation }) => {
   return (
     <>
       <View style={{ backgroundColor: "#ffff", height: "100%" }}>
-        <Text style={styles.heading}>{USERNAME} Dashboard</Text>
+        <Text style={styles.heading}></Text>
         <View style={styles.studentItem}>
           <View style={styles.studentItem}>
+            {/* <Image
+              source={{
+                uri: `http://10.0.2.2:8000${StaffPhoto}`,
+              }}
+              style={styles.image}
+            /> */}
             <Image
               source={{
                 uri: "https://cdn-icons-png.flaticon.com/512/848/848006.png",
               }}
               style={styles.image}
             />
+            {/* <NativeImage
+              alignSelf="center"
+              borderRadius={100}
+              top="15%"
+              source={{
+                uri: `http://10.0.2.2:8000${StaffPhoto}`,
+              }}
+              alt="Student Image"
+              size="lg"
+              ref={myRef}
+              resizeMode="contain"
+            /> */}
 
-            <Text style={[styles.textBase, styles.description]}>{user}</Text>
+            <Text style={[styles.textBase, styles.description]}>
+              {user.charAt(0).toUpperCase() + user.slice(1)}
+            </Text>
           </View>
         </View>
         <View style={{ backgroundColor: "white", height: "100%" }}>

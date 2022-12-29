@@ -79,7 +79,7 @@ const TeachersNoticeBoard = () => {
         <ScrollView>
           {data.length <= 0 ?
           <View style={{ alignItems: "center", marginTop: "5%" }}>
-            <Text style={styles.msgText}>No Events are found</Text>
+            <Text style={styles.msgText}>No upcoming events found</Text>
           </View> :
           <Box>
             <FlatList data={data} padding={2} renderItem={renderNotice} />
