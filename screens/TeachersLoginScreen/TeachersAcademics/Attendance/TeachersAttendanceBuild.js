@@ -115,31 +115,54 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
-  Button
+  Button,
+  Dimensions
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Button as NativeButton} from "native-base";
+import { Button as NativeButton,Text as NativeText} from "native-base";
 import axios from "axios";
 import TeachersList from "./TeachersList";
 import { subURL } from "../../../../components/utils/URL's";
 import TeachersHome from "../../BottomTab/TeachersHome";
-var PRESENT_IND_ID,ABSENT_IND_ID;
+import SelectList from "react-native-dropdown-select-list";
+import { Keyboard } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import BackButton from "../../../../components/UI/BackButton";
+
+var USERID,newArray;
+
 const TeachersAttendanceBuild = () => {
 
   const [frommode, setFromMode] = useState("date");
   const [fromDate, setFromDate] = useState(new Date());
   const [fromShow, setFromShow] = useState(false);
+
+  const [isFromDateFocused, setIsFromDateFocused] = useState(false);
   const [fromText, setFromText] = useState("");
+  const [enteredFromDateTouched, setEnteredFromDateTouched] = useState(false);
+  const enteredFromDateIsValid = fromText.trim() !== "";
+  const fromDateInputIsInValid =
+    !enteredFromDateIsValid && enteredFromDateTouched;
   
   const [selectedStatus, setSelectedStatus] = useState("");
+  const [userID, setUserID] = useState("");
 
-  const [data, setData] = useState([]);
+  const [selectedClassSection, setSelectedClassSection] = useState("");
+  const [enteredSelectedTouched, setEnteredSelectedTouched] = useState(false);
+  const enteredSelcetdIsValid = selectedClassSection.toString().trim() !== "";
+  const selectInputIsInValid = !enteredSelcetdIsValid && enteredSelectedTouched;
+
   const [showCalendar, setShowCalendar] = useState(true);
   const [showStudList, setShowStudList] = useState(false);
+
+  const [data, setData] = useState([]);
   const [array,setArray]=useState([]);
+  const [classTeacherData, setClassTeacherData] = useState([]);
+
 
   const [presentPressed,setPresentPressed]=useState(false);
   const [absentPressed,setAbsentPressed]=useState(false);
@@ -147,20 +170,105 @@ const TeachersAttendanceBuild = () => {
   const [samePresentID,setSamePresentID]=useState();
   const [sameAbsentID,setSameAbsentID]=useState(false);
 
-  let i;
+  const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
+  const navigation = useNavigation();
+
+  let i,totalIDs=[];
+
+  async function fetchUser() {
+    USERID = await AsyncStorage.getItem("key");
+
+    if (USERID !== null) {
+      setUserID(USERID);
+    }
+  }
+  fetchUser();
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchStudentClass() {
+      axios
+        .get(`${subURL}/IsClassteacher/${userID}/`)
+        .then((response) => {
+          newArray = response.data.map((item) => {
+            return {
+              key: item.id,
+              value: item.class_name + " - " + item.section,
+              classname: item.class_name,
+              section: item.section,
+            };
+          });
+          setClassTeacherData(newArray);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    fetchStudentClass();
+  }, [userID]);
+
+  
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardStatus("Keyboard Shown");
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardStatus("Keyboard Hidden");
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    if (showCalendar) {
+      setShowCalendar(true);
+      navigation.setOptions({ headerShown: true });
+    }
+    if (showStudList) {
+      navigation.setOptions({ headerShown: false });
+    }
+  }, [showCalendar,showStudList]);
+
+  function viewStudentList() {
+    async function fetchStudents() {
+
+      let filteredlist = newArray.filter((ele) => ele.key == selectedClassSection);
+      let class_name = filteredlist[0].classname;
+      let section = filteredlist[0].section;
+
       try {
-        const res = await axios.get(`${subURL}/Calendar/`);
-        // console.log(res.data);
-        setData(res.data);
+        const res = await axios.get(`${subURL}/Student/`);
+
+        let filteredclass = res.data.filter(
+          (ele) => ele.class_name == class_name
+        );
+
+        let filteredsection = res.data.filter((ele) => ele.section == section);
+
+        const filteredList = filteredclass && filteredsection;
+
+        let filteredc = filteredList.filter(
+          (ele) => ele.class_name == class_name
+        );
+
+        // let filteredc = res.data;
+
+        if (filteredc) {
+          setData(filteredc);
+        }
+        
+        for(i=0;i<data.length;i++){
+          totalIDs[i]=data[i].id;
+        }
+
       } catch (error) {
         console.log(error);
       }
     }
-    fetchData();
-  }, []);
+    fetchStudents();
+  }
 
   const fromDateChangeHandler = (event, selectedFromDate) => {
     const currentFromDate = selectedFromDate;
@@ -197,15 +305,23 @@ const TeachersAttendanceBuild = () => {
   }
 
   function buttonPressedHandler() {
-    setShowCalendar(false);
-    setShowStudList(true);
+
+    setEnteredSelectedTouched(true);
+    setEnteredFromDateTouched(true);
+
+    if (!enteredSelcetdIsValid || !enteredFromDateIsValid) {
+      return;
+    }else{
+
+      setShowCalendar(false);
+      setShowStudList(true);
+    }
   }
 
   function presentButtonPressed(id) {
    
     setAbsentPressed(false);
     setPresentPressed(true);
-
 
     if(data.find((item) => item.id === id)){
       //console.log("SAME ID",id)
@@ -226,8 +342,6 @@ const TeachersAttendanceBuild = () => {
       setArray(prevArray => [...prevArray, object]);
       //setItems([...items, updatedItem]);
     }
-
-
   }
 
   function absentBtnHandler(id) {
@@ -248,38 +362,24 @@ const TeachersAttendanceBuild = () => {
     }
   }
 
-  function holidatBtnGHandler(id) {
-    
-    setSelectedStatus("Holiday")
-    const object = {
-      id: id,
-      leave_status: "holiday"
-    };
-    const existingItem = array.find((item) => item.id === object.id);
-
-    if(existingItem){
-      setArray(array.map((item)=>(item.id===object.id ? object : item)))
-    }else{
-      setArray(prevArray => [...prevArray, object]);
-      //setItems([...items, updatedItem]);
-    }
-  }
-
   function presentAllHandler(){
     setSelectedStatus("Present");
 
     while(array.length > 0) {
       array.pop();
     }
-    
+  
     for(i=0;i < data.length;i++){
       const  object = {
         id: data[i].id,
         leave_status: "present"
       };
 
+      changeColor(data[i].id, 'P')
       array.push(object)
+      console.log(array);
     }
+    viewStudentList();
   }
 
   function absentAllHandler(){
@@ -294,9 +394,11 @@ const TeachersAttendanceBuild = () => {
         id: data[i].id,
         leave_status: "absent"
       };
-
+      
+      changeColor(data[i].id, 'A')
       array.push(object)
     }
+    viewStudentList();
   }
 
   function holidayForAllHandler(){
@@ -319,68 +421,154 @@ const TeachersAttendanceBuild = () => {
 
   function saveAttendance() {
     console.log("finalList", array);
+
+
   }
 
-  function changeColor(id){
-
-    // while(array.length > 0) {
-    //   array.pop();
-    // }
-
-    let j;
-    console.log('----------------')
-    console.log(id)
+  function changeColor(id, text){
     if(array.filter((item) => item.id === id)){
-      console.log(array.filter((item) => item.id === id))
+      var selectedData = []
+      selectedData = array.filter((item) => item.id === id)
+      if(selectedData.length>0){
 
-      if(array.map((data)=>(data.leave_status==='present'))){
-        return 'green'
-      } else if(array.map((data)=>(data.leave_status==='absent'))){
-        return 'red'
-      } else {
-        return 'grey'
+        var isPresent = false;
+        var isAbsent = false;
+        isPresent = selectedData.map((data,key)=>(data.leave_status==='present'))[0]
+        isAbsent = selectedData.map((data,key)=>(data.leave_status==='absent'))[0]
+
+        if(isPresent && text=='P'){
+          return 'green'
+        } else if(isAbsent && text=='A'){
+          return 'red'
+        } else {
+          return 'grey'
+        }
       }
+      return 'grey'
     }
   }
+
+  function fromDateBlurHandler() {
+    setEnteredFromDateTouched(true);
+    setIsFromDateFocused(false);
+  }
+
+  function onFocusFromHandler() {
+    setIsFromDateFocused(true);
+    setEnteredFromDateTouched(false);
+    //setstartDateLabel(true);
+  }
+
+  function backButtonHandler(){
+    setShowCalendar(true);
+    setShowStudList(false);
+
+    setSelectedClassSection("");
+    setEnteredSelectedTouched(false);
+    
+    setFromText("");
+    setEnteredFromDateTouched(false);
+
+  }
+
   return (
     <>
       {showCalendar && (
-        <>
+        <View
+          style={[
+            { flex: 1 },
+            { flexDirection: "column", backgroundColor: "white" },
+          ]}
+        >
+
           <View
             style={[
-              { flex: 1 },
-              {
-                flexDirection: "column",
-                backgroundColor: "white",
-              },
+              styles.inputForm,
             ]}
           >
-            <View style={{ flex: 1 }}>
-              <View style={[styles.overallContainer]}>
-                <View style={styles.iconContainer}>
-                  <Ionicons
-                    style={{}}
-                    name="calendar"
-                    size={24}
-                    color="black"
-                    onPress={() => showFromMode("date")}
+            <ScrollView persistentScrollbar={false}>
+                <View
+                  style={{
+                    top: "3%",
+                    left: "3%",
+                    flexDirection: "row",
+                    marginVertical: 10,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                      top: "3%",
+                      //marginLeft: 10,
+                    }}
+                  >
+                    Select Class
+                  </Text>
+                  <View style={styles.leaveSpace} />
+                  <View style={{flexDirection:'column'}}>
+                  <SelectList
+                    setSelected={setSelectedClassSection}
+                    data={classTeacherData}
+                    onSelect={viewStudentList}
+                    placeholder="Select class"
+                    save="key"
+                    boxStyles={
+                      selectInputIsInValid && styles.errorSelectedColor
+                    }
+                    dropdownTextStyles={{
+                      fontSize: 18,
+                      fontFamily: "HindRegular",
+                    }}
+                    inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
                   />
+                  {selectInputIsInValid && (
+                    <Text style={[styles.errorText, { top: 10,left:'2%' }]}>
+                      Select class
+                    </Text>
+                  )}
+                  </View>
                 </View>
+
+              <View style={[{ flexDirection: "column" }]}>
+              <View
+                  style={{
+                    top: "3%",
+                    left: "3%",
+                    flexDirection: "row",
+                    marginVertical: 10,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                      top: "3%",
+                      //marginLeft: 10,
+                    }}
+                  >
+                    Select Date
+                  </Text>
+                  <View style={styles.dateLabelSpace} />
+                
                 <View style={styles.dateContainer}>
                   <UnderlinedInput
                     value={fromText}
                     placeholder="Select Date"
                     // onSubmitEditing={Keyboard.dismiss}
-                    // style={
-                    //   isFromFocused
-                    //     ? styles.focusStyle
-                    //     : fromDateInputIsInValid && styles.errorBorderColorDate
-                    // }
-                    // blur={fromDateBlurHandler}
-                    // onFocus={onFromFocusHandler}
+                    style={
+                      isFromDateFocused
+                        ? styles.focusStyle
+                        : fromDateInputIsInValid && styles.errorBorderColorDate
+                    }
+                    blur={fromDateBlurHandler}
+                    onFocus={onFocusFromHandler}
                     onChangeText={frmDateHandler}
                     onPressIn={() => showFromMode("date")}
                   />
+                  {fromDateInputIsInValid && (
+                    <Text style={styles.commonErrorMsg}>Select from date</Text>
+                  )}
                   {fromShow && (
                     <DateTimePicker
                       testID="dateTimePicker"
@@ -392,21 +580,29 @@ const TeachersAttendanceBuild = () => {
                     />
                   )}
                 </View>
+                </View>
+                <View style={{ flex: 1.5,width:'50%',marginLeft:'27%',marginTop:'10%'}}>
+                  <NativeButton size="md" onPress={buttonPressedHandler}>
+                    Start Attendance
+                  </NativeButton>
+              </View> 
               </View>
-              <View style={{ flex: 1.5, paddingHorizontal: 100 }}>
-                <NativeButton size="md" onPress={buttonPressedHandler}>
-                  Start Attendance
-                </NativeButton>
-              </View>
-            </View>
+            </ScrollView>
           </View>
-          <TeachersHome />
-        </>
+          {keyboardStatus == "Keyboard Hidden" && (
+            <View style={{ flex: 0.2, backgroundColor: "white" }}>
+              <TeachersHome />
+            </View>
+          )}
+        </View>
       )}
 
       {showStudList && (
         <View style={[{flex:1}, {flexDirection: "column"}]}>
-          <View style={{ flex: 0.3}} >
+          <View style={[{ flex: 0.9 }, { flexDirection: "row",alignItems:"center"}]}>
+            <BackButton onPress={backButtonHandler} />
+          </View>
+          <View style={{ flex: 0.7,bottom:"7%"}} >
             <View style={[{flex:1}, {flexDirection: "row",left:'10%',marginHorizontal:15,marginVertical:15}]}>
               <View style={{ flex: 1 }} >
                 <NativeButton 
@@ -427,29 +623,57 @@ const TeachersAttendanceBuild = () => {
               </View>
               <View style={styles.space}/>
             </View>
+            <View style={[{flex:1}, {
+              flexDirection: "column",marginLeft:'7%'
+            }]}>
+              <View style={{ flex: 0.8 }} >
+                <View style={[{flex:1}, {
+                  flexDirection: "row"
+                }]}>
+                  <View style={{ flex: 1,justifyContent:'center' }} >
+                    <Text style={styles.labelStyle}>Class :</Text>
+                  </View>
+                  <View style={{ flex: 1 }} >
+                    <Text></Text>
+                  </View>
+                </View>
+              </View>
+              <View style={{ flex: 1 }} >
+                <View style={[{flex:1}, {
+                    flexDirection: "row"
+                  }]}>
+                    <View style={{ flex: 0.2,justifyContent:'center' }} >
+                      <Text style={styles.labelStyle}>Date :</Text>
+                    </View>
+                    <View style={{ flex: 1,justifyContent:'center' }} >
+                      <Text style={styles.labelStyle}>{fromText}</Text>
+                    </View>
+                  </View>
+                </View>
+            </View>
           </View>
-          <View style={{ flex: 2,marginVertical:10}} >
+          <View style={{ flex: 2,bottom:'6%'}} >
             <ScrollView>
-              {data && 
+              {data &&
                 data.map((data,key)=>(
                   <View style={[{flex:1}, {
-                    flexDirection: "row",backgroundColor:'#D3D2FF' ,marginVertical:10
+                    flexDirection: "row",backgroundColor:'#D3D2FF' ,marginVertical:10,marginHorizontal:20
                   }]}>
                     <View style={{ flex: 1,justifyContent:'center',alignItems:'center' }} >
                       <Text style={[styles.textBase, styles.description]}>
+                        {data.reg_number}
+                      </Text>
+                    </View>
+                    <View style={{ flex: 1 ,justifyContent:'center',alignItems:'center' }} >
+                      <Text style={[styles.textBase, styles.description]}>
+                        {data.student_name}
+                      </Text>
+                    </View>
+                    {/* <View style={{ flex: 1 }} >
+                      <Text style={[styles.textBase, styles.description]}>
                         {data.id}
                       </Text>
-                    </View>
-                    <View style={{ flex: 1 }} >
-                      <Text style={[styles.textBase, styles.description]}>
-                        {/* {teachers} */}
-                      </Text>
-                    </View>
-                    <View style={{ flex: 1 }} >
-                      <Text style={[styles.textBase, styles.description]}>
-                        {/* {class_name} Second  */}
-                      </Text>
-                    </View>
+                    </View> */}
                     {/* <View style={{ flex: 1,justifyContent:'center' }} >
                       <Text style={{ color: "black", fontWeight: "bold" }}>
                         {selectedStatus}
@@ -462,13 +686,14 @@ const TeachersAttendanceBuild = () => {
                         <View style={{ flex: 1 ,marginRight:'30%'}} >
                           <Button 
                             onPress={() => presentButtonPressed(data.id)}
-                            color={changeColor(data.id)}
+                            color={changeColor(data.id,"P")}
+                          
                             title="P" />
                         </View>
                         <View style={styles.space}/>
                         <View style={{ flex: 1,marginRight:'30%' }} >
                           <Button 
-                            color={changeColor(data.id)}
+                            color={changeColor(data.id,"A")}
                             onPress={() => absentBtnHandler(data.id)} title="A"/>
                         </View>
                         {/* <View style={styles.space}/>
@@ -478,12 +703,19 @@ const TeachersAttendanceBuild = () => {
                       </View>
                     </View>
                   </View>
-                ))}
+                ))
+                //  : 
+                // <View style={{ alignItems: "center", marginVertical: 10 }}>
+                //   <NativeText fontSize="xl" bold color="error.900">
+                //     No Students found
+                //   </NativeText>
+                // </View>
+                }
             </ScrollView>
           </View>
-          <View style={{ flex: 0.3 ,marginHorizontal:60}} >
+          <View style={{ flex: 0.3 ,marginHorizontal:60,bottom:'3%'}} >
             <NativeButton size="md" onPress={saveAttendance}>
-              Save
+              Save All
             </NativeButton>
           </View>
           <View style={{ flex: 0.2 }} >
@@ -715,7 +947,11 @@ export default TeachersAttendanceBuild;
 // };
 // export default TeachersAttendance;
 
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
+
 
   overallContainer: {
     flex: 1,
@@ -723,15 +959,14 @@ const styles = StyleSheet.create({
     top: "10%",
   },
   iconContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "flex-end",
+    flex: 0.3,
+    justifyContent:'center',
+    bottom:'1%',
+    alignItems: "flex-start",
   },
   dateContainer: {
     flex: 2,
-    justifyContent: "center",
-    alignItems: "flex-start",
-    right: "5%",
+    //right: "5%",
   },
   studentItem: {
     // width: "90%",
@@ -750,6 +985,22 @@ const styles = StyleSheet.create({
     color: "black",
     marginRight: 33,
   },
+  leaveSpace: {
+    width: 60, // or whatever size you need
+    height: 10,
+  },
+  dateLabelSpace:{
+    width: 40, // or whatever size you need
+    height: 10,
+  },
+  inputForm: {
+    flex: 2,
+    paddingHorizontal: 20,
+    marginTop: "30%",
+    //paddingTop: '5%',
+    backgroundColor: "white",
+    // height: "100%",
+  },
   description: {
     fontSize: 20,
     marginBottom: 4,
@@ -758,6 +1009,29 @@ const styles = StyleSheet.create({
   space: {
     width: 20, // or whatever size you need
     height: 20,
+  },
+  errorBorderColorDate: {
+    borderBottomColor: "red",
+  },
+  commonErrorMsg: {
+    color: "red",
+    left: 20,
+    fontFamily: "HindRegular",
+    fontSize: deviceWidth < 370 ? 16 : 18,
+    top: deviceHieght > 800 ? -3 : 1,
+  },
+  errorSelectedColor: {
+    borderColor: "red",
+  },
+  errorText: {
+    color: "red",
+    left: 20,
+    fontFamily: "HindRegular",
+    fontSize: 16,
+  },
+  labelStyle:{
+    fontFamily:'HindBold',
+    fontSize:16
   },
   checkBoxContainer: {},
 });
