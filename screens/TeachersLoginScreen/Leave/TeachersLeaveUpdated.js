@@ -54,7 +54,8 @@ var USERNAME, TOKEN, USERROLE, USERID, KEY, VALUE;
 var firstData,
   KEY,
   VALUE,
-  newArray = [];
+  newArray = [],
+  checkCT=[];
 const TeachersLeaveUpdated = () => {
   const [user, setUser] = useState("");
   const [userRole, setUserRole] = useState("");
@@ -195,7 +196,7 @@ const TeachersLeaveUpdated = () => {
   const [filteredData, setFilteredData] = useState([]);
 
   const [classTeacherData, setClassTeacherData] = useState([]);
-  const [bgColor, setBgColor] = useState(false);
+  const [bgColor, setBgColor] = useState([]);
   var leavelistarray = [];
 
   let i = 0;
@@ -261,7 +262,23 @@ const TeachersLeaveUpdated = () => {
 
   // newArray - dropdown
   // selected clas and sec sen in LeaveCS API
-
+  useEffect(() => {
+  
+    async function getUserId() {
+      USERID = await AsyncStorage.getItem("key");
+      if (USERID !== null) {
+        setUserID(USERID);
+      }
+      console.log("this is the userid in useeffect", userID);
+      const res= await axios.get(`http://10.0.2.2:8000/school/IsClassteacher/${userID}/`)
+      setBgColor(res.data)
+      
+    }
+    getUserId();
+   
+  //  showLeaveList();
+  }, [userID]);
+  
   useLayoutEffect(() => {
     if (showForm) {
       setShowForm(true);
@@ -305,7 +322,7 @@ const TeachersLeaveUpdated = () => {
   async function fetchUser() {
     USERNAME = await AsyncStorage.getItem("UserName");
     USERROLE = await AsyncStorage.getItem("datagroup");
-    // USERID = await AsyncStorage.getItem("key");
+    USERID = await AsyncStorage.getItem("key");
     // console.log("this is the userid from aysnc", USERID);
 
     if (USERNAME !== null) {
@@ -314,9 +331,9 @@ const TeachersLeaveUpdated = () => {
     if (USERROLE !== null) {
       setUserRole(USERROLE);
     }
-    // if (USERID !== null) {
-    //   setUserID(USERID);
-    // }
+    if (USERID !== null) {
+      setUserID(USERID);
+    }
   }
   fetchUser();
 
@@ -819,7 +836,7 @@ const TeachersLeaveUpdated = () => {
     // setShowList(true);
     // setShowForm(false);
     // setShowChoice(false);
-    setLoading(true);
+   // setLoading(true);
     setTimeout(() => {
       setLoading(false);
     }, 5000);
@@ -840,9 +857,9 @@ const TeachersLeaveUpdated = () => {
           });
           console.log(newArray);
 
-          console.log("new array length", newArray.length);
+        //  console.log("new array length", newArray.length);
 
-          if (newArray.length >= 1) {
+          if (bgColor.length >= 1) {
             // setBgColor(true);
             setShowList(true);
             setShowForm(false);
@@ -864,7 +881,7 @@ const TeachersLeaveUpdated = () => {
     }
     fetchStudentClass();
   }
-  console.log("new array length outside", newArray?.length);
+ // console.log("new array length outside", newArray?.length);
 
   function backHandler() {
     setShowChoice(true);
@@ -1007,18 +1024,7 @@ const TeachersLeaveUpdated = () => {
     setShowForm(true);
     setShowTeachersList(false);
   }
-  useEffect(() => {
-    console.log("first");
-    async function getUserId() {
-      USERID = await AsyncStorage.getItem("key");
-      if (USERID !== null) {
-        setUserID(USERID);
-      }
-    }
-    getUserId();
-    console.log("this is the userid in useeffect", userID);
-    showLeaveList();
-  }, []);
+
   return (
     <>
       {showChoice && (
@@ -1075,7 +1081,7 @@ const TeachersLeaveUpdated = () => {
                   styles.cardStyle,
                   // { backgroundColor: bgColor ? "darkblue" : "gray" },
                   {
-                    backgroundColor: newArray.length == 0 ? "gray" : "darkblue",
+                    backgroundColor: bgColor.length == 0 ? "gray" : "darkblue",
                   },
                 ]}
               >

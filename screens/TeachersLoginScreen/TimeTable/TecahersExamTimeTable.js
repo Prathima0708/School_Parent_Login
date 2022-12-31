@@ -629,6 +629,7 @@ const TecahersExamTimeTable = () => {
 
   function viewExamList() {
     async function login() {
+      console.log('selected is ',selected)
       let selectedData = selected.split(" - ");
       let class_name = selectedData[0];
       let section = selectedData[1];
