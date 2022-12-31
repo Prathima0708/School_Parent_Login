@@ -1213,45 +1213,35 @@ const TeachersLeaveUpdated = () => {
               )}
 
               {!isEdit && (
-                <View
-                  style={{
-                    top: "3%",
-                    left: "3%",
-                    flexDirection: "row",
-                    marginVertical: 10,
-                  }}
-                >
+                <View style={[{flex:1}, {flexDirection: "row",marginVertical:10}]}>
+                <View style={{ flex: 1}} >
                   <Text
-                    style={{
-                      fontFamily: "HindRegular",
-                      fontSize: 18,
-                      top: "3%",
-                      //marginLeft: 10,
-                    }}
-                  >
+                    style={{fontFamily: "HindRegular",fontSize: 18,marginLeft:'11%',marginTop:'10%'}}>
                     Leave Type
                   </Text>
-                  <View style={styles.leaveSpace} />
-
-                  <SelectList
-                    //setSelected={(val) => setSelected(val)}
-                    setSelected={setSelected}
-                    data={leaveTypeData}
-                    save="value"
-                    //placeholder="Select Leave Type"
-                    boxStyles={[
-                      selectInputIsInValid && styles.errorSelectedColor,
-                      { bottom: "5%" },
-                      // { marginHorizontal: 15, marginVertical: 10 },
-                    ]}
-                    dropdownTextStyles={{
-                      fontSize: 18,
-                      fontFamily: "HindRegular",
-                      //marginHorizontal: 25,
-                    }}
-                    inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-                  />
                 </View>
+                <View style={{ flex: 1,paddingRight:20 }} >
+                  <SelectList
+                //setSelected={(val) => setSelected(val)}
+                setSelected={setSelected}
+                data={leaveTypeData}
+                save="value"
+                //placeholder="Select Leave Type"
+                boxStyles={[
+                  selectInputIsInValid && styles.errorSelectedColor,
+                ]}
+                dropdownTextStyles={{
+                  fontSize: 18,
+                  fontFamily: "HindRegular",
+                  //marginHorizontal: 25,
+                }}
+                inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+              />
+                  {selectInputIsInValid && (
+                    <Text style={styles.commonErrorMsg}>Select leave type</Text>
+                  )}
+                </View>
+              </View>
               )}
 
               {isEdit && (

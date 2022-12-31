@@ -200,7 +200,7 @@ const CalenderScreen = () => {
           },
         ]}
       >
-        <View style={{ flex: 2.3 }}>
+        <View style={{ flex: 1.3,backgroundColor:'white' }}>
           <Calendar
             markedDates={dates}
             style={{
@@ -226,7 +226,12 @@ const CalenderScreen = () => {
             }}
           />
         </View>
-        <View style={{ flex: 2, marginTop: "2%" }}>
+        {/* <View style={{ flex: 2, marginTop: "2%" }}> */}
+        <View
+          style={[
+            { flex: 1 },
+            { flexDirection: "column", backgroundColor: "white" }]}>
+          <View style={{ flex: 8, bottom: 10 }}>
           <ScrollView>
             <View
               style={[
@@ -242,7 +247,6 @@ const CalenderScreen = () => {
                     flex: 1,
                     alignItems: "center",
                     justifyContent: "center",
-                    top: "30%",
                   }}
                 >
                   <Text
@@ -367,8 +371,10 @@ const CalenderScreen = () => {
               )}
             </View>
           </ScrollView>
+          </View>
         </View>
-        <View style={{ flex: 0.3, backgroundColor: "green" }}>
+        {/* </View> */}
+        <View style={{ flex: 0.2 }}>
           <ParentsHome />
         </View>
       </View>

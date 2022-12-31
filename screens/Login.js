@@ -860,12 +860,12 @@ function Login() {
         const res = await axios.get(`${subURL}/Student/`);
         const staffres = await axios.get(`${subURL}/Staff`);
         //   console.log(staffres.data);
-        let filteredStaff = staffres.data.filter(
-          (ele) => ele.user_id.username == enteredUser
-        );
-        console.log(filteredStaff);
-        console.log("this is staff photo-", filteredStaff[0].staff_photo);
-        StaffPhoto = filteredStaff[0].staff_photo;
+        // let filteredStaff = staffres.data.filter(
+        //   (ele) => ele.user_id.username == enteredUser
+        // );
+        // console.log(filteredStaff);
+        // console.log("this is staff photo-", filteredStaff[0].staff_photo);
+        // StaffPhoto = filteredStaff[0].staff_photo;
         let filteredlist = res.data.filter(
           (ele) => ele.contact_num == enteredPhone
         );

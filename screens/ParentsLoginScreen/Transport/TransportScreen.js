@@ -86,12 +86,13 @@ const TransportScreen = () => {
                 style={{
                   flex: 1,
                   alignItems: "center",
-                  top: 15,
-                  paddingLeft: 15,
+                  justifyContent:"center",
+                  // top: 15,
+                  //paddingLeft: 15,
                 }}
               >
                 <Text
-                  fontSize={deviceWidth < 370 ? "xl" : "3xl"}
+                  fontSize={deviceWidth < 370 ? "xl" : "2xl"}
                   style={styles.textStyle}
                 >
                   {data.route_name}
@@ -104,9 +105,9 @@ const TransportScreen = () => {
                   color="white"
                 />
               </View>
-              <View style={{ flex: 1, alignItems: "center", top: 15 }}>
+              <View style={{ flex: 1,justifyContent:'center',alignItems:"center" }}>
                 <Text
-                  fontSize={deviceWidth < 370 ? "xl" : "3xl"}
+                  fontSize={deviceWidth < 370 ? "xl" : "2xl"}
                   style={styles.textStyle}
                 >
                   {data.stop_name}
@@ -300,9 +301,10 @@ const styles = StyleSheet.create({
     fontFamily: "HindSemiBold",
   },
   iconStyle: {
-    flex: 1,
+    flex: 0.2,
     alignItems: "center",
-    top: deviceWidth < 370 ? 20 : 25,
+    justifyContent:'center',
+    //top: deviceWidth < 370 ? 20 : 25,
   },
   itemStyle: {
     flex: 0.2,

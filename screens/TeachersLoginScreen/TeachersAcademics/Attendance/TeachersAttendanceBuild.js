@@ -134,6 +134,9 @@ import { useNavigation } from "@react-navigation/native";
 import BackButton from "../../../../components/UI/BackButton";
 
 var USERID,newArray;
+const defaultBorderColor = '#D3D2FF';
+
+let IDSet = new Set();
 
 const TeachersAttendanceBuild = () => {
 
@@ -169,11 +172,12 @@ const TeachersAttendanceBuild = () => {
 
   const [samePresentID,setSamePresentID]=useState();
   const [sameAbsentID,setSameAbsentID]=useState(false);
+  const [missedID, setMissedID] = useState(null);
 
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const navigation = useNavigation();
 
-  let i,totalIDs=[];
+  let i;
 
   async function fetchUser() {
     USERID = await AsyncStorage.getItem("key");
@@ -257,10 +261,6 @@ const TeachersAttendanceBuild = () => {
 
         if (filteredc) {
           setData(filteredc);
-        }
-        
-        for(i=0;i<data.length;i++){
-          totalIDs[i]=data[i].id;
         }
 
       } catch (error) {
@@ -422,7 +422,23 @@ const TeachersAttendanceBuild = () => {
   function saveAttendance() {
     console.log("finalList", array);
 
+    const mainId = new Set(data.map(obj => obj.id));
+    const selectedId = new Set(array.map(obj => obj.id));
 
+    const eqSet = (mainId, selectedId) =>
+    mainId.size === selectedId.size &&
+    [...mainId].every((x) => selectedId.has(x));
+
+    if(eqSet(mainId, selectedId)){
+      setMissedID(false)
+      console.log("STATUS",missedID)
+    }else{
+      setMissedID(true)
+      console.log("STATUS",missedID)
+    }
+
+    IDSet = [...mainId].filter(x => !selectedId.has(x));
+    console.log(IDSet)
   }
 
   function changeColor(id, text){
@@ -470,6 +486,16 @@ const TeachersAttendanceBuild = () => {
     setEnteredFromDateTouched(false);
 
   }
+
+  const viewStyles = {
+    borderColor: defaultBorderColor,
+    flex:1,
+    flexDirection: "row",
+    borderWidth:3,
+    backgroundColor: '#D3D2FF',
+    marginVertical:10,
+    marginHorizontal:20
+  };
 
   return (
     <>
@@ -647,6 +673,7 @@ const TeachersAttendanceBuild = () => {
                     </View>
                     <View style={{ flex: 1,justifyContent:'center' }} >
                       <Text style={styles.labelStyle}>{fromText}</Text>
+                      {missedID && <Text>Error</Text>}
                     </View>
                   </View>
                 </View>
@@ -655,65 +682,63 @@ const TeachersAttendanceBuild = () => {
           <View style={{ flex: 2,bottom:'6%'}} >
             <ScrollView>
               {data &&
-                data.map((data,key)=>(
-                  <View style={[{flex:1}, {
-                    flexDirection: "row",backgroundColor:'#D3D2FF' ,marginVertical:10,marginHorizontal:20
-                  }]}>
-                    <View style={{ flex: 1,justifyContent:'center',alignItems:'center' }} >
-                      <Text style={[styles.textBase, styles.description]}>
-                        {data.reg_number}
-                      </Text>
-                    </View>
-                    <View style={{ flex: 1 ,justifyContent:'center',alignItems:'center' }} >
-                      <Text style={[styles.textBase, styles.description]}>
-                        {data.student_name}
-                      </Text>
-                    </View>
-                    {/* <View style={{ flex: 1 }} >
-                      <Text style={[styles.textBase, styles.description]}>
-                        {data.id}
-                      </Text>
-                    </View> */}
-                    {/* <View style={{ flex: 1,justifyContent:'center' }} >
-                      <Text style={{ color: "black", fontWeight: "bold" }}>
-                        {selectedStatus}
-                      </Text>
-                    </View> */}
-                    <View style={{ flex: 0.4 }} >
-                      <View style={[{flex:1}, {
-                        flexDirection: "column",marginVertical:20,
-                      }]}>
-                        <View style={{ flex: 1 ,marginRight:'30%'}} >
-                          <Button 
-                            onPress={() => presentButtonPressed(data.id)}
-                            color={changeColor(data.id,"P")}
-                          
-                            title="P" />
+                data.map((data,key)=>{
+                    if (IDSet.has(data.id)) {
+                      viewStyles.borderColor = '#ED7940';
+                    } else {
+                      viewStyles.borderColor = defaultBorderColor;
+                    }
+                    return <View style={viewStyles}>
+                      <View style={{ flex: 1,justifyContent:'center',alignItems:'center' }} >
+                        <Text style={[styles.textBase, styles.description]}>
+                          {data.reg_number}
+                        </Text>
+                      </View>
+                      <View style={{ flex: 1 ,justifyContent:'center',alignItems:'center' }} >
+                        <Text style={[styles.textBase, styles.description]}>
+                          {data.student_name}
+                        </Text>
+                      </View>
+                      <View style={{ flex: 1 }} >
+                        <Text style={[styles.textBase, styles.description]}>
+                          {data.id}
+                        </Text>
+                      </View>
+                      {/* <View style={{ flex: 1,justifyContent:'center' }} >
+                        <Text style={{ color: "black", fontWeight: "bold" }}>
+                          {selectedStatus}
+                        </Text>
+                      </View> */}
+                      <View style={{ flex: 0.4 }} >
+                        <View style={[{flex:1}, {
+                          flexDirection: "column",marginVertical:20,
+                        }]}>
+                          <View style={{ flex: 1 ,marginRight:'30%'}} >
+                            <Button 
+                              onPress={() => presentButtonPressed(data.id)}
+                              color={changeColor(data.id,"P")}
+                            
+                              title="P" />
+                          </View>
+                          <View style={styles.space}/>
+                          <View style={{ flex: 1,marginRight:'30%' }} >
+                            <Button 
+                              color={changeColor(data.id,"A")}
+                              onPress={() => absentBtnHandler(data.id)} title="A"/>
+                          </View>
+                          {/* <View style={styles.space}/>
+                          <View style={{ flex: 1,marginRight:'30%' }} >
+                            <Button onPress={() => holidatBtnGHandler(data.id)} title="H" />
+                          </View>*/}
                         </View>
-                        <View style={styles.space}/>
-                        <View style={{ flex: 1,marginRight:'30%' }} >
-                          <Button 
-                            color={changeColor(data.id,"A")}
-                            onPress={() => absentBtnHandler(data.id)} title="A"/>
-                        </View>
-                        {/* <View style={styles.space}/>
-                        <View style={{ flex: 1,marginRight:'30%' }} >
-                          <Button onPress={() => holidatBtnGHandler(data.id)} title="H" />
-                        </View>*/}
                       </View>
                     </View>
-                  </View>
-                ))
-                //  : 
-                // <View style={{ alignItems: "center", marginVertical: 10 }}>
-                //   <NativeText fontSize="xl" bold color="error.900">
-                //     No Students found
-                //   </NativeText>
-                // </View>
-                }
+                  })}
+               
             </ScrollView>
           </View>
           <View style={{ flex: 0.3 ,marginHorizontal:60,bottom:'3%'}} >
+            
             <NativeButton size="md" onPress={saveAttendance}>
               Save All
             </NativeButton>
@@ -1013,7 +1038,8 @@ const styles = StyleSheet.create({
   errorBorderColorDate: {
     borderBottomColor: "red",
   },
-  commonErrorMsg: {
+  commonError
+  : {
     color: "red",
     left: 20,
     fontFamily: "HindRegular",
