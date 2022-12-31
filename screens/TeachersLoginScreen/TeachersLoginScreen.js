@@ -180,7 +180,7 @@ const TeachersLoginScreen = ({ navigation }) => {
               borderRadius={100}
               top="15%"
               source={{
-                uri: `http://10.0.2.2:8000${StaffPhoto}`,
+                uri: `${StaffPhoto}`,
               }}
               alt="Student Image"
               size="lg"

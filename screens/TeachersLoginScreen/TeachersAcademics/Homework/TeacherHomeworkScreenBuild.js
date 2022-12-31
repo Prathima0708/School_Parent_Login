@@ -38,7 +38,7 @@ import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 import { subURL } from "../../../../components/utils/URL's";
 import * as FileSystem from "expo-file-system";
-import * as ImageManipulator from "expo-image-manipulator";
+
 export var ID;
 var FROMDATE, TODATE;
 
@@ -182,7 +182,8 @@ const TeacherHomeworkScreenBuild = () => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState("");
 
-  const [image1, setImage1] = useState(null);
+  const [selectedSearch, setSelectedSearch] = useState("");
+  const [studData, setStudData] = useState([]);
 
   let i = 0;
 
@@ -394,6 +395,7 @@ const TeacherHomeworkScreenBuild = () => {
           });
           console.log(details);
           //setSubjectData(newSubjects);
+          setStudData(newArray)
           setData(newArray);
 
           console.log(newArray);
@@ -1098,6 +1100,29 @@ const TeacherHomeworkScreenBuild = () => {
     });
   }
 
+  function searchHW() {
+    async function login() {
+
+      let filteredlist = newArray.filter((ele) => ele.key == selectedSearch);
+     
+      let class_name = filteredlist[0].classname;
+      let section = filteredlist[0].section;
+      try {
+        const res = await axios.get(`${subURL}/HomeworkListByClass/${class_name}/${section}`);
+       
+          setFilteredData(res.data);
+        
+
+        // if (res.data.length == 0) {
+        //   Alert.alert("No data found", "No data found for respective search");
+        // }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    login();
+  }
+
   return (
     <>
       {showInitialBtn && (
@@ -1496,7 +1521,7 @@ const TeacherHomeworkScreenBuild = () => {
       )}
       {showList && (
         <>
-          <View style={{ backgroundColor: "white" }}>
+          {/* <View style={{ backgroundColor: "white" }}>
             <SearchBar
               onSubmitEditing={Keyboard.dismiss}
               style={styles.searchBar}
@@ -1507,6 +1532,39 @@ const TeacherHomeworkScreenBuild = () => {
               placeholder="Search here"
               onChangeText={(text) => searchFilter(text)}
               value={searchText}
+            />
+          </View> */}
+             <View
+            style={[
+              {
+                //width: 170,
+                fontSize: 20,
+                backgroundColor:'white',
+                // marginTop: 13,
+                margin: 10,
+                left:20,
+                marginTop:'4%',
+                flexDirection:'row'
+              },
+            ]}
+          >
+            <Text style={{fontFamily:'HindBold',fontSize:20,top:'3%',marginLeft:10}}>Search by</Text>
+            <View style={styles.space}/>
+            <View style={styles.space}/>
+            <Text style={{fontFamily:'HindBold',fontSize:20,top: "3%",right:'2%'}}>-</Text>
+            <View style={styles.space}/>
+            <SelectList
+              //  defaultOption={{ key: "1", value: "Second-A" }}
+              setSelected={setSelectedSearch}
+              data={studData}
+              save='key'
+              placeholder="Select class"
+              onSelect={searchHW}
+              boxStyles={{ borderRadius: 10 }}
+              dropdownTextStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+              inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+              dropdownStyles={{width:'120%'}}
+              
             />
           </View>
           <View
@@ -1526,7 +1584,7 @@ const TeacherHomeworkScreenBuild = () => {
                 {filteredData.length <= 0 ? (
                   <View style={{ alignItems: "center", marginTop: "5%" }}>
                     <Text style={styles.msgText}>
-                      No Leaves are found,
+                      No Homeworks  found,
                       <Text
                         style={styles.linkText}
                         onPress={linkPressedHandler}
