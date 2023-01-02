@@ -47,7 +47,7 @@ import TeachersLeaveScreenBuild from "./screens/TeachersLoginScreen/Leave/Teache
 import TeachersCalendarScreenBuild from "./screens/TeachersLoginScreen/Calendar/TeachersCalendarScreenBuild";
 import { LogBox } from "react-native";
 import TeachersAttendance from "./screens/TeachersLoginScreen/TeachersAcademics/Attendance/TeachersAttendance";
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, extendTheme } from "native-base";
 import StudentDetails from "./screens/ParentsLoginScreen/Profile/StudentDetails";
 import EditTransport from "./screens/TeachersLoginScreen/Transport/EditTransport";
 import EditCalendar from "./screens/TeachersLoginScreen/Calendar/EditCalendar";
@@ -90,6 +90,33 @@ export default function App() {
   });
   const [tokenIsPresent, setTokenIsPresent] = useState(false);
   const [showtab, setShowTab] = useState(false);
+  const theme = extendTheme({
+    fontConfig: {
+      Roboto: {
+        100: {
+          normal: "Hind-SemiBold",
+        },
+
+        // Add more variants
+        //   700: {
+        //     normal: 'Roboto-Bold',
+        //   },
+        //   800: {
+        //     normal: 'Roboto-Bold',
+        //     italic: 'Roboto-BoldItalic',
+        //   },
+        //   900: {
+        //     normal: 'Roboto-Bold',
+        //     italic: 'Roboto-BoldItalic',
+        //   },
+      },
+    },
+
+    // Make sure values below matches any of the keys in `fontConfig`
+    fonts: {
+      heading: "Hind-SemiBold",
+    },
+  });
 
   useEffect(() => {
     LogBox.ignoreLogs([
@@ -545,7 +572,7 @@ export default function App() {
   }
   return (
     <>
-      <NativeBaseProvider>
+      <NativeBaseProvider theme={theme}>
         <Navigation />
       </NativeBaseProvider>
     </>
