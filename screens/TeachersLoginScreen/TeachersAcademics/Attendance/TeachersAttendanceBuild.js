@@ -132,11 +132,10 @@ import SelectList from "react-native-dropdown-select-list";
 import { Keyboard } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import BackButton from "../../../../components/UI/BackButton";
+import { borderColor } from "@mui/system";
 
-var USERID,newArray;
-const defaultBorderColor = '#D3D2FF';
+var USERID,newArray,IDSETARRAY=[];
 
-let IDSet = new Set();
 
 const TeachersAttendanceBuild = () => {
 
@@ -170,14 +169,16 @@ const TeachersAttendanceBuild = () => {
   const [presentPressed,setPresentPressed]=useState(false);
   const [absentPressed,setAbsentPressed]=useState(false);
 
-  const [samePresentID,setSamePresentID]=useState();
-  const [sameAbsentID,setSameAbsentID]=useState(false);
-  const [missedID, setMissedID] = useState(null);
+  // const [samePresentID,setSamePresentID]=useState();
+  // const [sameAbsentID,setSameAbsentID]=useState(false);
+  const [missedID,setMissedID]=useState(false);
+  const[test,setTest]=useState(false);
 
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const navigation = useNavigation();
 
-  let i;
+  let IDSet=new Set();
+  let i,totalIDs=[];
 
   async function fetchUser() {
     USERID = await AsyncStorage.getItem("key");
@@ -262,6 +263,10 @@ const TeachersAttendanceBuild = () => {
         if (filteredc) {
           setData(filteredc);
         }
+        
+        for(i=0;i<data.length;i++){
+          totalIDs[i]=data[i].id;
+        }
 
       } catch (error) {
         console.log(error);
@@ -323,10 +328,10 @@ const TeachersAttendanceBuild = () => {
     setAbsentPressed(false);
     setPresentPressed(true);
 
-    if(data.find((item) => item.id === id)){
-      //console.log("SAME ID",id)
-      setSamePresentID(id);
-    }
+    // if(data.find((item) => item.id === id)){
+    //   //console.log("SAME ID",id)
+    //   setSamePresentID(id);
+    // }
 
     setSelectedStatus("Present")
     const object = {
@@ -341,6 +346,14 @@ const TeachersAttendanceBuild = () => {
     }else{
       setArray(prevArray => [...prevArray, object]);
       //setItems([...items, updatedItem]);
+    }
+
+    if(IDSETARRAY.length>0){
+      var selectedID = IDSETARRAY.filter((item) => item === id)
+  
+      if(selectedID.length > 0){
+        IDSETARRAY = IDSETARRAY.filter((item) => item !== selectedID[0])
+      }
     }
   }
 
@@ -360,15 +373,25 @@ const TeachersAttendanceBuild = () => {
       setArray(prevArray => [...prevArray, object]);
       //setItems([...items, updatedItem]);
     }
+
+    if(IDSETARRAY.length>0){
+      var selectedID = IDSETARRAY.filter((item) => item === id)
+  
+      if(selectedID.length > 0){
+        IDSETARRAY = IDSETARRAY.filter((item) => item !== selectedID[0])
+      }
+    }
+
   }
 
   function presentAllHandler(){
     setSelectedStatus("Present");
 
-    while(array.length > 0) {
-      array.pop();
-    }
-  
+    // while(array.length > 0) {
+    //   array.pop();
+    // }
+    array.length=0
+
     for(i=0;i < data.length;i++){
       const  object = {
         id: data[i].id,
@@ -380,15 +403,17 @@ const TeachersAttendanceBuild = () => {
       console.log(array);
     }
     viewStudentList();
+
+    IDSETARRAY=[]
   }
 
   function absentAllHandler(){
     setSelectedStatus("Absent");
 
-    while(array.length > 0) {
-      array.pop();
-    }
-    
+    // while(array.length > 0) {
+    //   array.pop();
+    // }
+    array.length=0
     for(i=0;i < data.length;i++){
       const  object = {
         id: data[i].id,
@@ -399,15 +424,17 @@ const TeachersAttendanceBuild = () => {
       array.push(object)
     }
     viewStudentList();
+
+    IDSETARRAY=[]
   }
 
   function holidayForAllHandler(){
     setSelectedStatus("Holiday");
 
-    while(array.length > 0) {
-      array.pop();
-    }
-    
+    // while(array.length > 0) {
+    //   array.pop();
+    // }
+    array.length=0
     for(i=0;i < data.length;i++){
       const  object = {
         id: data[i].id,
@@ -417,6 +444,7 @@ const TeachersAttendanceBuild = () => {
       array.push(object)
     }
 
+    IDSETARRAY =[]
   }
 
   function saveAttendance() {
@@ -431,17 +459,66 @@ const TeachersAttendanceBuild = () => {
 
     if(eqSet(mainId, selectedId)){
       setMissedID(false)
-      console.log("STATUS",missedID)
     }else{
       setMissedID(true)
-      console.log("STATUS",missedID)
     }
 
     IDSet = [...mainId].filter(x => !selectedId.has(x));
-    console.log(IDSet)
+
+    IDSETARRAY=IDSet
+    
+    IDSet.forEach((value, index, set) => {
+      if (mainId.has(value)) {
+        setTest(true);
+      }else{
+        setTest(false);
+      }
+    }); 
+  }
+
+  function changeBorderColor(id){
+    // IDSETARRAY.forEach((element) => {
+      var selectedID = IDSETARRAY.filter((item) => item === id)
+      if(IDSETARRAY.length > 0){
+        if (selectedID.length > 0) {
+          let styleData = {
+            borderColor:'red',
+            borderWidth:1,
+            flex:1,
+            flexDirection: "row",
+            backgroundColor: '#D3D2FF',
+            marginVertical:10,
+            marginHorizontal:20
+          }
+          return styleData;
+        }else{
+          let styleData = {
+            borderColor:'black',
+            borderWidth:1,
+            flex:1,
+            flexDirection: "row",
+            backgroundColor: '#D3D2FF',
+            marginVertical:10,
+            marginHorizontal:20
+          }
+          return styleData;
+        }
+      } else {
+        let styleData = {
+          borderColor:'black',
+          borderWidth:1,
+          flex:1,
+          flexDirection: "row",
+          backgroundColor: '#D3D2FF',
+          marginVertical:10,
+          marginHorizontal:20
+        }
+        return styleData;
+      }
   }
 
   function changeColor(id, text){
+    
     if(array.filter((item) => item.id === id)){
       var selectedData = []
       selectedData = array.filter((item) => item.id === id)
@@ -486,16 +563,6 @@ const TeachersAttendanceBuild = () => {
     setEnteredFromDateTouched(false);
 
   }
-
-  const viewStyles = {
-    borderColor: defaultBorderColor,
-    flex:1,
-    flexDirection: "row",
-    borderWidth:3,
-    backgroundColor: '#D3D2FF',
-    marginVertical:10,
-    marginHorizontal:20
-  };
 
   return (
     <>
@@ -673,7 +740,6 @@ const TeachersAttendanceBuild = () => {
                     </View>
                     <View style={{ flex: 1,justifyContent:'center' }} >
                       <Text style={styles.labelStyle}>{fromText}</Text>
-                      {missedID && <Text>Error</Text>}
                     </View>
                   </View>
                 </View>
@@ -682,63 +748,64 @@ const TeachersAttendanceBuild = () => {
           <View style={{ flex: 2,bottom:'6%'}} >
             <ScrollView>
               {data &&
-                data.map((data,key)=>{
-                    if (IDSet.has(data.id)) {
-                      viewStyles.borderColor = '#ED7940';
-                    } else {
-                      viewStyles.borderColor = defaultBorderColor;
-                    }
-                    return <View style={viewStyles}>
-                      <View style={{ flex: 1,justifyContent:'center',alignItems:'center' }} >
-                        <Text style={[styles.textBase, styles.description]}>
-                          {data.reg_number}
-                        </Text>
-                      </View>
-                      <View style={{ flex: 1 ,justifyContent:'center',alignItems:'center' }} >
-                        <Text style={[styles.textBase, styles.description]}>
-                          {data.student_name}
-                        </Text>
-                      </View>
-                      <View style={{ flex: 1 }} >
-                        <Text style={[styles.textBase, styles.description]}>
-                          {data.id}
-                        </Text>
-                      </View>
-                      {/* <View style={{ flex: 1,justifyContent:'center' }} >
-                        <Text style={{ color: "black", fontWeight: "bold" }}>
-                          {selectedStatus}
-                        </Text>
-                      </View> */}
-                      <View style={{ flex: 0.4 }} >
-                        <View style={[{flex:1}, {
-                          flexDirection: "column",marginVertical:20,
-                        }]}>
-                          <View style={{ flex: 1 ,marginRight:'30%'}} >
-                            <Button 
-                              onPress={() => presentButtonPressed(data.id)}
-                              color={changeColor(data.id,"P")}
-                            
-                              title="P" />
-                          </View>
-                          <View style={styles.space}/>
-                          <View style={{ flex: 1,marginRight:'30%' }} >
-                            <Button 
-                              color={changeColor(data.id,"A")}
-                              onPress={() => absentBtnHandler(data.id)} title="A"/>
-                          </View>
-                          {/* <View style={styles.space}/>
-                          <View style={{ flex: 1,marginRight:'30%' }} >
-                            <Button onPress={() => holidatBtnGHandler(data.id)} title="H" />
-                          </View>*/}
+                data.map((data,key)=>(
+                  <View style={changeBorderColor(data.id)}>
+
+                    <View style={{ flex: 1,justifyContent:'center',alignItems:'center' }} >
+                      <Text style={[styles.textBase, styles.description]}>
+                        {data.reg_number}
+                      </Text>
+                    </View>
+                    <View style={{ flex: 1 ,justifyContent:'center',alignItems:'center' }} >
+                      <Text style={[styles.textBase, styles.description]}>
+                        {data.student_name}
+                      </Text>
+                    </View>
+                    <View style={{ flex: 1,justifyContent:'center',alignItems:'center' }} >
+                      <Text style={[styles.textBase, styles.description]}>
+                        {data.id}
+                      </Text>
+                    </View>
+                    {/* <View style={{ flex: 1,justifyContent:'center' }} >
+                      <Text style={{ color: "black", fontWeight: "bold" }}>
+                        {selectedStatus}
+                      </Text>
+                    </View> */}
+                    <View style={{ flex: 0.4 }} >
+                      <View style={[{flex:1}, {
+                        flexDirection: "column",marginVertical:20,
+                      }]}>
+                        <View style={{ flex: 1 ,marginRight:'30%'}} >
+                          <Button 
+                            onPress={() => presentButtonPressed(data.id)}
+                            color={changeColor(data.id,"P")}
+                          
+                            title="P" />
                         </View>
+                        <View style={styles.space}/>
+                        <View style={{ flex: 1,marginRight:'30%' }} >
+                          <Button 
+                            color={changeColor(data.id,"A")}
+                            onPress={() => absentBtnHandler(data.id)} title="A"/>
+                        </View>
+                        {/* <View style={styles.space}/>
+                        <View style={{ flex: 1,marginRight:'30%' }} >
+                          <Button onPress={() => holidatBtnGHandler(data.id)} title="H" />
+                        </View>*/}
                       </View>
                     </View>
-                  })}
-               
+                  </View>
+                ))
+                //  : 
+                // <View style={{ alignItems: "center", marginVertical: 10 }}>
+                //   <NativeText fontSize="xl" bold color="error.900">
+                //     No Students found
+                //   </NativeText>
+                // </View>
+                }
             </ScrollView>
           </View>
           <View style={{ flex: 0.3 ,marginHorizontal:60,bottom:'3%'}} >
-            
             <NativeButton size="md" onPress={saveAttendance}>
               Save All
             </NativeButton>
@@ -977,7 +1044,14 @@ const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
 
-
+  viewStyle:{
+    flex:1,
+    flexDirection: "row",
+    backgroundColor:'#D3D2FF' ,
+    marginVertical:10,
+    marginHorizontal:20,
+    borderWidth:1,
+  },
   overallContainer: {
     flex: 1,
     flexDirection: "row",
@@ -1038,8 +1112,7 @@ const styles = StyleSheet.create({
   errorBorderColorDate: {
     borderBottomColor: "red",
   },
-  commonError
-  : {
+  commonErrorMsg: {
     color: "red",
     left: 20,
     fontFamily: "HindRegular",
