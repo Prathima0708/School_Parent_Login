@@ -1534,7 +1534,8 @@ const TeacherHomeworkScreenBuild = () => {
               value={searchText}
             />
           </View> */}
-             <View
+          <View style={{backgroundColor:'white',flex:1}}>
+          <View
             style={[
               {
                 //width: 170,
@@ -1914,6 +1915,8 @@ const TeacherHomeworkScreenBuild = () => {
               </View>
             )}
           </View>
+          </View>
+          
         </>
       )}
     </>
