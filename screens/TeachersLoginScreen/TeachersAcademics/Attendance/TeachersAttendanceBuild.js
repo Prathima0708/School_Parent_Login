@@ -628,7 +628,9 @@ const TeachersAttendanceBuild = () => {
           <View style={[{ flex: 0.9 }, { flexDirection: "row",alignItems:"center"}]}>
             <BackButton onPress={backButtonHandler} />
           </View>
+
           <View style={{ flex: 0.7,bottom:"7%"}} >
+            
             <View style={[{flex:1}, {flexDirection: "row",left:'10%',marginHorizontal:15,marginVertical:15}]}>
               <View style={{ flex: 1 }} >
                 <NativeButton 
@@ -649,6 +651,7 @@ const TeachersAttendanceBuild = () => {
               </View>
               <View style={styles.space}/>
             </View>
+
             <View style={[{flex:1}, {
               flexDirection: "column",marginLeft:'7%'
             }]}>

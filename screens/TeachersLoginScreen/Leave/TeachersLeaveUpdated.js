@@ -29,6 +29,7 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../../components/UI/Button";
 import axios from "axios";
+import { Button as NativeButton } from "native-base";
 import { TEST, Token } from "../../Login";
 import BgButton from "../../../components/UI/BgButton";
 import {
@@ -55,7 +56,7 @@ var firstData,
   KEY,
   VALUE,
   newArray = [],
-  checkCT=[];
+  checkCT = [];
 const TeachersLeaveUpdated = () => {
   const [user, setUser] = useState("");
   const [userRole, setUserRole] = useState("");
@@ -197,7 +198,7 @@ const TeachersLeaveUpdated = () => {
 
   const [classTeacherData, setClassTeacherData] = useState([]);
   const [bgColor, setBgColor] = useState([]);
-  var leavelistarray = [];
+  const [showDefault, setShowDefault] = useState(false);
 
   let i = 0;
 
@@ -263,22 +264,22 @@ const TeachersLeaveUpdated = () => {
   // newArray - dropdown
   // selected clas and sec sen in LeaveCS API
   useEffect(() => {
-  
     async function getUserId() {
       USERID = await AsyncStorage.getItem("key");
       if (USERID !== null) {
         setUserID(USERID);
       }
-      console.log("this is the userid in useeffect", userID);
-      const res= await axios.get(`http://10.0.2.2:8000/school/IsClassteacher/${userID}/`)
-      setBgColor(res.data)
-      
+      //  console.log("this is the userid in useeffect", userID);
+      const res = await axios.get(
+        `http://10.0.2.2:8000/school/IsClassteacher/${userID}/`
+      );
+      setBgColor(res.data);
     }
     getUserId();
-   
-  //  showLeaveList();
+
+    //  showLeaveList();
   }, [userID]);
-  
+
   useLayoutEffect(() => {
     if (showForm) {
       setShowForm(true);
@@ -836,7 +837,7 @@ const TeachersLeaveUpdated = () => {
     // setShowList(true);
     // setShowForm(false);
     // setShowChoice(false);
-   // setLoading(true);
+    // setLoading(true);
     setTimeout(() => {
       setLoading(false);
     }, 5000);
@@ -857,7 +858,7 @@ const TeachersLeaveUpdated = () => {
           });
           console.log(newArray);
 
-        //  console.log("new array length", newArray.length);
+          //  console.log("new array length", newArray.length);
 
           if (bgColor.length >= 1) {
             // setBgColor(true);
@@ -881,7 +882,7 @@ const TeachersLeaveUpdated = () => {
     }
     fetchStudentClass();
   }
- // console.log("new array length outside", newArray?.length);
+  // console.log("new array length outside", newArray?.length);
 
   function backHandler() {
     setShowChoice(true);
@@ -916,6 +917,7 @@ const TeachersLeaveUpdated = () => {
   function selecteHandler() {}
 
   function classsectionSelectHandler() {
+    setShowDefault(true);
     console.log("selected");
     console.log(selectedClassSection);
     //  console.log("new array-", newArray);
@@ -975,6 +977,80 @@ const TeachersLeaveUpdated = () => {
     setToText(moment(filteredDummuyData.enddate).format("DD/MM/YYYY"));
     setEnteredLeaveReason(filteredDummuyData.leave_reason);
     setEnteredEmail(filteredDummuyData.email);
+  }
+
+  function filterPending() {
+    async function fetchData() {
+      let filtered = newArray?.filter((ele) => ele.key == selectedClassSection);
+
+      // console.log(filteredlist[0].classname);
+      let class_name = filtered[0].classname;
+      let section = filtered[0].section;
+      try {
+        const res = await axios.get(
+          `${subURL}/LeaveCS/${class_name}/${section}`
+        );
+        const filteredList = res.data.filter(
+          (ele) => ele.leave_status == "Pending"
+        );
+        if (filteredList.length == 0) {
+          Alert.alert("No data found");
+        }
+        setFilteredData(filteredList);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }
+  function filterApproved() {
+    async function fetchData() {
+      let filtered = newArray?.filter((ele) => ele.key == selectedClassSection);
+
+      // console.log(filteredlist[0].classname);
+      let class_name = filtered[0].classname;
+      let section = filtered[0].section;
+      try {
+        const res = await axios.get(
+          `${subURL}/LeaveCS/${class_name}/${section}`
+        );
+        const filteredList = res.data.filter(
+          (ele) => ele.leave_status == "Approved"
+        );
+        if (filteredList.length == 0) {
+          Alert.alert("No data found");
+        }
+        setFilteredData(filteredList);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }
+
+  function filterDenied() {
+    async function fetchData() {
+      let filtered = newArray?.filter((ele) => ele.key == selectedClassSection);
+
+      // console.log(filteredlist[0].classname);
+      let class_name = filtered[0].classname;
+      let section = filtered[0].section;
+      try {
+        const res = await axios.get(
+          `${subURL}/LeaveCS/${class_name}/${section}`
+        );
+        const filteredList = res.data.filter(
+          (ele) => ele.leave_status == "Denied"
+        );
+        if (filteredList.length == 0) {
+          Alert.alert("No data found");
+        }
+        setFilteredData(filteredList);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
   }
 
   function deleteItem(id) {
@@ -1075,13 +1151,13 @@ const TeachersLeaveUpdated = () => {
           </View>
 
           <View style={{ flex: 1, marginHorizontal: "20%", bottom: "10%" }}>
-            <Pressable onPress={showLeaveList}>
-              <Card
+            {/* <Pressable onPress={showLeaveList}> */}
+            {/* <Card
                 style={[
                   styles.cardStyle,
                   // { backgroundColor: bgColor ? "darkblue" : "gray" },
                   {
-                    backgroundColor: bgColor.length == 0 ? "gray" : "darkblue",
+                    backgroundColor: bgColor.length >= 1 ? "darkblue" : "gray",
                   },
                 ]}
               >
@@ -1098,8 +1174,29 @@ const TeachersLeaveUpdated = () => {
                     </Text>
                   </View>
                 </Card.Content>
-              </Card>
-            </Pressable>
+              </Card> */}
+
+            {/* <Btn
+              title="show leave list"
+              disabled={bgColor.length == 0 ? true : false}
+              onPress={showLeaveList}
+              style={styles.cardStyle}
+            /> */}
+            <NativeButton
+              isDisabled={bgColor.length == 0 ? true : false}
+              onPress={showLeaveList}
+              style={[styles.cardStyle]}
+              size="md"
+              padding={7}
+              // textStyle={{ fontFamily: "HindSemiBold", fontSize: 18 }}
+              fontFamily="heading"
+
+              //  colorScheme="blue"
+            >
+              View Student Leaves
+            </NativeButton>
+
+            {/* </Pressable> */}
           </View>
 
           <View style={{ flex: 0.2 }}>
@@ -1219,35 +1316,48 @@ const TeachersLeaveUpdated = () => {
               )}
 
               {!isEdit && (
-                <View style={[{flex:1}, {flexDirection: "row",marginVertical:10}]}>
-                <View style={{ flex: 1}} >
-                  <Text
-                    style={{fontFamily: "HindRegular",fontSize: 18,marginLeft:'11%',marginTop:'10%'}}>
-                    Leave Type
-                  </Text>
+                <View
+                  style={[
+                    { flex: 1 },
+                    { flexDirection: "row", marginVertical: 10 },
+                  ]}
+                >
+                  <View style={{ flex: 1 }}>
+                    <Text
+                      style={{
+                        fontFamily: "HindRegular",
+                        fontSize: 18,
+                        marginLeft: "11%",
+                        marginTop: "10%",
+                      }}
+                    >
+                      Leave Type
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1, paddingRight: 20 }}>
+                    <SelectList
+                      //setSelected={(val) => setSelected(val)}
+                      setSelected={setSelected}
+                      data={leaveTypeData}
+                      save="value"
+                      //placeholder="Select Leave Type"
+                      boxStyles={[
+                        selectInputIsInValid && styles.errorSelectedColor,
+                      ]}
+                      dropdownTextStyles={{
+                        fontSize: 18,
+                        fontFamily: "HindRegular",
+                        //marginHorizontal: 25,
+                      }}
+                      inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                    />
+                    {selectInputIsInValid && (
+                      <Text style={styles.commonErrorMsg}>
+                        Select leave type
+                      </Text>
+                    )}
+                  </View>
                 </View>
-                <View style={{ flex: 1,paddingRight:20 }} >
-                  <SelectList
-                //setSelected={(val) => setSelected(val)}
-                setSelected={setSelected}
-                data={leaveTypeData}
-                save="value"
-                //placeholder="Select Leave Type"
-                boxStyles={[
-                  selectInputIsInValid && styles.errorSelectedColor,
-                ]}
-                dropdownTextStyles={{
-                  fontSize: 18,
-                  fontFamily: "HindRegular",
-                  //marginHorizontal: 25,
-                }}
-                inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-              />
-                  {selectInputIsInValid && (
-                    <Text style={styles.commonErrorMsg}>Select leave type</Text>
-                  )}
-                </View>
-              </View>
               )}
 
               {isEdit && (
@@ -1899,18 +2009,56 @@ const TeachersLeaveUpdated = () => {
               />
             </View>
 
-            <SearchBar
-              onSubmitEditing={Keyboard.dismiss}
-              style={styles.searchBarNew}
-              textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
-              placeholder="Search here by leave type"
-              onChangeText={(text) => searchFilter(text)}
-              value={searchText}
-            />
+            {showDefault && (
+              <>
+                <SearchBar
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={styles.searchBarNew}
+                  textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
+                  placeholder="Search here by leave type"
+                  onChangeText={(text) => searchFilter(text)}
+                  value={searchText}
+                />
+
+                <NativeText bold style={{ fontSize: 20, left: "40%" }}>
+                  Sort by-
+                </NativeText>
+                <View
+                  style={[
+                    { flex: 0.5 },
+                    {
+                      flexDirection: "row",
+                      left: "3%",
+                      marginHorizontal: 15,
+                      marginVertical: 15,
+                    },
+                  ]}
+                >
+                  <View style={{ flex: 1 }}>
+                    <NativeButton onPress={filterApproved} colorScheme="green">
+                      Approved
+                    </NativeButton>
+                  </View>
+                  <View style={styles.space} />
+                  <View style={{ flex: 1 }}>
+                    <NativeButton onPress={filterDenied} colorScheme="red">
+                      Denied
+                    </NativeButton>
+                  </View>
+                  <View style={styles.space} />
+                  <View style={{ flex: 1 }}>
+                    <NativeButton onPress={filterPending} colorScheme="yellow">
+                      Pending
+                    </NativeButton>
+                  </View>
+                  <View style={styles.space} />
+                </View>
+              </>
+            )}
             {leaveByClassSection.length <= 0 ? (
-              <View style={{ alignItems: "center", top: "2%" }}>
+              <View style={{ alignItems: "center", top: "16%" }}>
                 <NativeText fontSize="xl" bold color="error.900">
-                  No Student Leaves found
+                  Select class to view Student leaves
                 </NativeText>
               </View>
             ) : (
@@ -1921,7 +2069,7 @@ const TeachersLeaveUpdated = () => {
                   { useNativeDriver: false }
                 )}
               >
-                <View style={styles.root}>
+                <View style={[styles.root]}>
                   {/* {!filteredData && <Spinner size="lg" />} */}
                   {/* {!filteredData && <Text>no data founds</Text>} */}
                   {loading ? (
@@ -1932,6 +2080,7 @@ const TeachersLeaveUpdated = () => {
                       textStyle={styles.spinnerTextStyle}
                     />
                   ) : (
+                    showDefault &&
                     filteredData.map((data) => (
                       <>
                         <View>
