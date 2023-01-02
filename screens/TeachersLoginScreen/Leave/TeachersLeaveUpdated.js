@@ -838,6 +838,7 @@ const TeachersLeaveUpdated = () => {
     // setShowForm(false);
     // setShowChoice(false);
     // setLoading(true);
+    setShowDefault(false)
     setTimeout(() => {
       setLoading(false);
     }, 5000);
@@ -905,6 +906,7 @@ const TeachersLeaveUpdated = () => {
   }
 
   function leaveBackHandler() {
+    setShowDefault(false)
     setShowChoice(true);
     setShowList(false);
   }
@@ -1963,113 +1965,105 @@ const TeachersLeaveUpdated = () => {
       )}
 
       {showList && (
-        <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
-          <View style={{ flex: 2, backgroundColor: "white" }}>
-            <Ionicons
-              name="chevron-back"
-              size={25}
-              color="black"
-              onPress={leaveBackHandler}
-              style={{ left: 15, top: "13%" }}
-            />
-            <NativeText
-              bold
-              fontSize={16}
-              style={{ top: "9.1%", left: "12%" }}
-              onPress={leaveBackHandler}
-            >
-              Back
-            </NativeText>
-            <NativeText bold style={{ fontSize: 20, left: "40%", top: "10%" }}>
-              Leave List
-            </NativeText>
-
-            <View style={{ top: "12%", marginHorizontal: 30 }}>
-              <SelectList
-                setSelected={setSelectedClassSection}
-                data={classTeacherData}
-                // defaultOption={{
-                //   key: String(KEY),
-                //   value: String(VALUE),
-                // }}
-                onSelect={classsectionSelectHandler}
-                placeholder="Select class"
-                boxStyles={[
-                  selectInputIsInValid && styles.errorSelectedColor,
-                  { marginHorizontal: 20, marginVertical: 10 },
-                ]}
-                // boxStyles={{ borderRadius: 0 }}
-                dropdownTextStyles={{
-                  fontSize: 18,
-                  marginHorizontal: 20,
-                  fontFamily: "HindRegular",
-                }}
-                inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-                save="key"
-              />
-            </View>
-
-            {showDefault && (
-              <>
-                <SearchBar
-                  onSubmitEditing={Keyboard.dismiss}
-                  style={styles.searchBarNew}
-                  textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
-                  placeholder="Search here by leave type"
-                  onChangeText={(text) => searchFilter(text)}
-                  value={searchText}
-                />
-
-                <NativeText bold style={{ fontSize: 20, left: "40%" }}>
-                  Sort by-
-                </NativeText>
-                <View
-                  style={[
-                    { flex: 0.5 },
-                    {
-                      flexDirection: "row",
-                      left: "3%",
-                      marginHorizontal: 15,
-                      marginVertical: 15,
-                    },
-                  ]}
-                >
-                  <View style={{ flex: 1 }}>
-                    <NativeButton onPress={filterApproved} colorScheme="green">
-                      Approved
-                    </NativeButton>
-                  </View>
-                  <View style={styles.space} />
-                  <View style={{ flex: 1 }}>
-                    <NativeButton onPress={filterDenied} colorScheme="red">
-                      Denied
-                    </NativeButton>
-                  </View>
-                  <View style={styles.space} />
-                  <View style={{ flex: 1 }}>
-                    <NativeButton onPress={filterPending} colorScheme="yellow">
-                      Pending
-                    </NativeButton>
-                  </View>
-                  <View style={styles.space} />
-                </View>
-              </>
-            )}
-            {leaveByClassSection.length <= 0 ? (
-              <View style={{ alignItems: "center", top: "16%" }}>
-                <NativeText fontSize="xl" bold color="error.900">
-                  Select class to view Student leaves
+        <View style={[{flex:1}, {
+          flexDirection: "column"
+        }]}>
+          <View style={{ flex: 0.5,flexDirection: "row",alignItems:"center" }} >
+            {/* */}
+            <View style={[{flex:1}, {
+              flexDirection: "column",marginTop:'5%'
+            }]}>
+              <View style={{ flex: 0.2 }} >
+                <BackButton onPress={leaveBackHandler} /> 
+              </View>
+              <View style={{ flex: 0.2,alignSelf:"center" }} >
+                <NativeText bold style={{ fontSize: 20, }}>
+                  Leave List
                 </NativeText>
               </View>
-            ) : (
-              <ScrollView
-                scrollEventThrottle={15}
-                onScroll={Animated.event(
-                  [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-                  { useNativeDriver: false }
-                )}
-              >
-                <View style={[styles.root]}>
+            </View>
+          </View>
+          {/* <View style={{ flex: 1, backgroundColor: "darkorange" }} > */}
+            <SelectList
+              setSelected={setSelectedClassSection}
+              data={classTeacherData}
+              // defaultOption={{
+              //   key: String(KEY),
+              //   value: String(VALUE),
+              // }}
+              dropdownStyles={{marginTop:'-5%'}}
+              onSelect={classsectionSelectHandler}
+              placeholder="Select class"
+              boxStyles={[
+                selectInputIsInValid && styles.errorSelectedColor,
+                { marginHorizontal: 20,bottom:'10%'},
+              ]}
+              // boxStyles={{ borderRadius: 0 }}
+              dropdownTextStyles={{
+                fontSize: 18,
+                //marginHorizontal: 20,
+                fontFamily: "HindRegular",
+              }}
+
+              inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+              save="key"/>
+          {/* </View> */}
+          <View style={{ flex: 1 }} >
+            {/* {showDefault &&  */}
+              {showDefault && 
+                <>
+                  <SearchBar
+                onSubmitEditing={Keyboard.dismiss}
+                style={styles.searchBarNew}
+                textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
+                placeholder="Search here by leave type"
+                onChangeText={(text) => searchFilter(text)}
+                value={searchText}
+              />
+              <NativeText bold style={{ fontSize: 20, left: "40%",marginVertical:15 }}>
+                  Sort by-
+              </NativeText>
+              <View style={[{flex:0.2}, {flexDirection: "row",marginVertical:6,marginHorizontal:10}]}>
+                <View style={{ flex: 1 }} >
+                  <NativeButton onPress={filterApproved} colorScheme="green">
+                    Approved
+                  </NativeButton>
+                </View>
+                <View style={styles.space}/>
+                <View style={{ flex: 1 }} >
+                  <NativeButton onPress={filterDenied} colorScheme="red">
+                    Denied
+                  </NativeButton>
+                </View>
+                <View style={styles.space}/>
+                <View style={{ flex: 1}} >
+                  <NativeButton onPress={filterPending} colorScheme="yellow">
+                    Pending
+                  </NativeButton>
+                </View>
+              </View>
+                </>
+              }
+              <View
+                  style={[
+                    { flex: 1 },
+                    { flexDirection: "column", backgroundColor: "white" },
+                  ]}
+                >
+                  <View style={{ flex: 8, bottom: 10 }}>
+
+                  {leaveByClassSection.length <= 0 ? (
+                    <View style={{ alignItems: "center", top: "16%" }}>
+                      <NativeText fontSize="xl" bold color="error.900">
+                        Select class to view Student leaves
+                      </NativeText>
+                    </View>) : 
+                  <ScrollView 
+                    scrollEventThrottle={15}
+                    onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                    { useNativeDriver: false })}>
+                       <View style={[styles.root]}>
                   {/* {!filteredData && <Spinner size="lg" />} */}
                   {/* {!filteredData && <Text>no data founds</Text>} */}
                   {loading ? (
@@ -2441,14 +2435,15 @@ const TeachersLeaveUpdated = () => {
                     ))
                   )}
                 </View>
-              </ScrollView>
-            )}
+                  </ScrollView>}
+                </View>
+              </View>
+            {/* } */}
+                
           </View>
-          {keyboardStatus == "Keyboard Hidden" && (
-            <View style={{ flex: 0.2, backgroundColor: "white" }}>
-              <TeachersHome />
-            </View>
-          )}
+          <View style={{ flex: 0.1 }} >
+            <TeachersHome />
+          </View>
         </View>
       )}
     </>
@@ -2492,8 +2487,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#F0F3F4",
   },
   searchBarNew: {
-    marginTop: 100,
-    marginBottom: 20,
+    //marginTop: 100,
+    //marginBottom: 20,
     backgroundColor: "#F0F3F4",
   },
   btnSubmit1: {

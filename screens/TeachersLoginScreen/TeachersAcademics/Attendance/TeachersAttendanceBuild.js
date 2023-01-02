@@ -478,7 +478,9 @@ const TeachersAttendanceBuild = () => {
 
   function changeBorderColor(id){
     // IDSETARRAY.forEach((element) => {
+      
       var selectedID = IDSETARRAY.filter((item) => item === id)
+      console.log(selectedID)
       if(IDSETARRAY.length > 0){
         if (selectedID.length > 0) {
           let styleData = {
@@ -561,6 +563,9 @@ const TeachersAttendanceBuild = () => {
     
     setFromText("");
     setEnteredFromDateTouched(false);
+
+    array.length=0;
+    IDSETARRAY=[]
 
   }
 
