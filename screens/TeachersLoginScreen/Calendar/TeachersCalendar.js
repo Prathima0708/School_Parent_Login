@@ -172,6 +172,7 @@ const TeachersCalendar = () => {
 
   const [anyCheck, setAnyChecked] = useState(true);
   let i = 0;
+  const [saveYear, setSaveYear] = useState([]);
 
   // async function logoutHandler() {
   //   try {
@@ -196,18 +197,28 @@ const TeachersCalendar = () => {
         console.log("keys -", keys);
         setData(res.data);
         setFilteredData(res.data);
+        var newArray = res.data.map((item) => {
+          return {
+            key: item.id,
 
+            value: moment(res.data.startdate).format("YYYY"),
+          };
+        });
+        console.log(newArray);
+        setSaveYear(newArray);
         let test = 0;
 
-        for (i = 0; i < res.data.length; i++) {
-          // console.log(res.data[i].created_by);
-          if (USERNAME == res.data[i].created_by) {
-            //  console.log("is same");
-            SetIsSame(true);
-          } else {
-            //  console.log("not same");
-          }
-        }
+        // for (i = 0; i < res.data.length; i++) {
+        //   // console.log(moment(res.data[i].startdate).format("YYYY"));
+        //   // saveYear.push(moment(res.data[i].startdate).format("YYYY"));
+        //   // setSaveYear(moment(res.data[i].startdate).format("YYYY"));
+        //   // if (USERNAME == res.data[i].created_by) {
+        //   //   //  console.log("is same");
+        //   //   SetIsSame(true);
+        //   // } else {
+        //   //   //  console.log("not same");
+        //   // }
+        // }
 
         // const value = await AsyncStorage.getItem("key");
         // for (i = 0; i < res.data.length; i++) {
@@ -1269,6 +1280,56 @@ const TeachersCalendar = () => {
             onChangeText={(text) => searchFilter(text)}
             value={searchText}
           />
+          <View
+            style={[
+              {
+                //width: 170,
+                fontSize: 20,
+                backgroundColor: "white",
+                // marginTop: 13,
+                margin: 10,
+                left: 20,
+                marginTop: "4%",
+                flexDirection: "row",
+              },
+            ]}
+          >
+            <Text
+              style={{
+                fontFamily: "HindBold",
+                fontSize: 20,
+                top: "3%",
+                marginLeft: 10,
+              }}
+            >
+              Sort by
+            </Text>
+            <View style={styles.space} />
+            <View style={styles.space} />
+            <Text
+              style={{
+                fontFamily: "HindBold",
+                fontSize: 20,
+                top: "3%",
+                right: "2%",
+              }}
+            >
+              -
+            </Text>
+            <View style={styles.space} />
+            <SelectList
+              //  defaultOption={{ key: "1", value: "Second-A" }}
+              //  setSelected={setSelectedSearch}
+              data={saveYear}
+              // save="key"
+              placeholder="Select year"
+              // onSelect={searchHW}
+              boxStyles={{ borderRadius: 10 }}
+              dropdownTextStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+              inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+              dropdownStyles={{ width: "120%" }}
+            />
+          </View>
         </View>
       )}
       {showList && (
@@ -1314,6 +1375,7 @@ const TeachersCalendar = () => {
                       />
                     </HStack>
                   ) : (
+                    filteredData &&
                     filteredData.map((filteredData, key) => (
                       <>
                         <View>
