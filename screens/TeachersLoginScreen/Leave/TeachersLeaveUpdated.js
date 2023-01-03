@@ -838,7 +838,7 @@ const TeachersLeaveUpdated = () => {
     // setShowForm(false);
     // setShowChoice(false);
     // setLoading(true);
-    setShowDefault(false)
+    setShowDefault(false);
     setTimeout(() => {
       setLoading(false);
     }, 5000);
@@ -906,7 +906,7 @@ const TeachersLeaveUpdated = () => {
   }
 
   function leaveBackHandler() {
-    setShowDefault(false)
+    setShowDefault(false);
     setShowChoice(true);
     setShowList(false);
   }
@@ -930,8 +930,8 @@ const TeachersLeaveUpdated = () => {
     console.log("filtered list-", filteredlist);
     console.log("--------------------------------");
     // console.log(filteredlist[0].classname);
-    let class_name = filteredlist[0].classname;
-    let section = filteredlist[0].section;
+    let class_name = filteredlist[0]?.classname;
+    let section = filteredlist[0]?.section;
     // let send = selectedClassSection.split(" - ");
     // // // console.log(send[0]);
     async function fetchData() {
@@ -1965,322 +1965,162 @@ const TeachersLeaveUpdated = () => {
       )}
 
       {showList && (
-        <View style={[{flex:1}, {
-          flexDirection: "column"
-        }]}>
-          <View style={{ flex: 0.5,flexDirection: "row",alignItems:"center" }} >
+        <View
+          style={[
+            { flex: 1 },
+            {
+              flexDirection: "column",
+              backgroundColor: "white",
+            },
+          ]}
+        >
+          <View
+            style={{
+              flex: 0.5,
+              flexDirection: "row",
+              alignItems: "center",
+              backgroundColor: "white",
+            }}
+          >
             {/* */}
-            <View style={[{flex:1}, {
-              flexDirection: "column",marginTop:'5%'
-            }]}>
-              <View style={{ flex: 0.2 }} >
-                <BackButton onPress={leaveBackHandler} /> 
+            <View
+              style={[
+                { flex: 1 },
+                {
+                  flexDirection: "column",
+                  marginTop: "5%",
+                },
+              ]}
+            >
+              <View style={{ flex: 0.2 }}>
+                <BackButton onPress={leaveBackHandler} />
               </View>
-              <View style={{ flex: 0.2,alignSelf:"center" }} >
-                <NativeText bold style={{ fontSize: 20, }}>
+              <View style={{ flex: 0.2, alignSelf: "center" }}>
+                <NativeText bold style={{ fontSize: 20 }}>
                   Leave List
                 </NativeText>
               </View>
             </View>
           </View>
           {/* <View style={{ flex: 1, backgroundColor: "darkorange" }} > */}
-            <SelectList
-              setSelected={setSelectedClassSection}
-              data={classTeacherData}
-              // defaultOption={{
-              //   key: String(KEY),
-              //   value: String(VALUE),
-              // }}
-              dropdownStyles={{marginTop:'-5%'}}
-              onSelect={classsectionSelectHandler}
-              placeholder="Select class"
-              boxStyles={[
-                selectInputIsInValid && styles.errorSelectedColor,
-                { marginHorizontal: 20,bottom:'10%'},
-              ]}
-              // boxStyles={{ borderRadius: 0 }}
-              dropdownTextStyles={{
-                fontSize: 18,
-                //marginHorizontal: 20,
-                fontFamily: "HindRegular",
-              }}
-
-              inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-              save="key"/>
+          <SelectList
+            setSelected={setSelectedClassSection}
+            data={classTeacherData}
+            // defaultOption={{
+            //   key: String(KEY),
+            //   value: String(VALUE),
+            // }}
+            dropdownStyles={{ marginTop: "-5%" }}
+            onSelect={classsectionSelectHandler}
+            placeholder="Select class"
+            boxStyles={[
+              selectInputIsInValid && styles.errorSelectedColor,
+              { marginHorizontal: 20, bottom: "10%" },
+            ]}
+            // boxStyles={{ borderRadius: 0 }}
+            dropdownTextStyles={{
+              fontSize: 18,
+              //marginHorizontal: 20,
+              fontFamily: "HindRegular",
+            }}
+            inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+            save="key"
+          />
           {/* </View> */}
-          <View style={{ flex: 1 }} >
+          <View style={{ flex: 1 }}>
             {/* {showDefault &&  */}
-              {showDefault && 
-                <>
-                  <SearchBar
-                onSubmitEditing={Keyboard.dismiss}
-                style={styles.searchBarNew}
-                textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
-                placeholder="Search here by leave type"
-                onChangeText={(text) => searchFilter(text)}
-                value={searchText}
-              />
-              <NativeText bold style={{ fontSize: 20, left: "40%",marginVertical:15 }}>
+            {showDefault && (
+              <>
+                <SearchBar
+                  onSubmitEditing={Keyboard.dismiss}
+                  style={styles.searchBarNew}
+                  textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
+                  placeholder="Search here by leave type"
+                  onChangeText={(text) => searchFilter(text)}
+                  value={searchText}
+                />
+                <NativeText
+                  bold
+                  style={{ fontSize: 20, left: "40%", marginVertical: 15 }}
+                >
                   Sort by-
-              </NativeText>
-              <View style={[{flex:0.2}, {flexDirection: "row",marginVertical:6,marginHorizontal:10}]}>
-                <View style={{ flex: 1 }} >
-                  <NativeButton onPress={filterApproved} colorScheme="green">
-                    Approved
-                  </NativeButton>
-                </View>
-                <View style={styles.space}/>
-                <View style={{ flex: 1 }} >
-                  <NativeButton onPress={filterDenied} colorScheme="red">
-                    Denied
-                  </NativeButton>
-                </View>
-                <View style={styles.space}/>
-                <View style={{ flex: 1}} >
-                  <NativeButton onPress={filterPending} colorScheme="yellow">
-                    Pending
-                  </NativeButton>
-                </View>
-              </View>
-                </>
-              }
-              <View
+                </NativeText>
+                <View
                   style={[
-                    { flex: 1 },
-                    { flexDirection: "column", backgroundColor: "white" },
+                    { flex: 0.2 },
+                    {
+                      flexDirection: "row",
+                      marginVertical: 6,
+                      marginHorizontal: 10,
+                    },
                   ]}
                 >
-                  <View style={{ flex: 8, bottom: 10 }}>
-
-                  {leaveByClassSection.length <= 0 ? (
-                    <View style={{ alignItems: "center", top: "16%" }}>
-                      <NativeText fontSize="xl" bold color="error.900">
-                        Select class to view Student leaves
-                      </NativeText>
-                    </View>) : 
-                  <ScrollView 
+                  <View style={{ flex: 1 }}>
+                    <NativeButton onPress={filterApproved} colorScheme="green">
+                      Approved
+                    </NativeButton>
+                  </View>
+                  <View style={styles.space} />
+                  <View style={{ flex: 1 }}>
+                    <NativeButton onPress={filterDenied} colorScheme="red">
+                      Denied
+                    </NativeButton>
+                  </View>
+                  <View style={styles.space} />
+                  <View style={{ flex: 1 }}>
+                    <NativeButton onPress={filterPending} colorScheme="yellow">
+                      Pending
+                    </NativeButton>
+                  </View>
+                </View>
+              </>
+            )}
+            <View
+              style={[
+                { flex: 1 },
+                { flexDirection: "column", backgroundColor: "white" },
+              ]}
+            >
+              <View style={{ flex: 8, bottom: 10 }}>
+                {leaveByClassSection.length <= 0 ? (
+                  <View style={{ alignItems: "center", top: "16%" }}>
+                    <NativeText fontSize="xl" bold color="error.900">
+                      Select class to view Student leaves
+                    </NativeText>
+                  </View>
+                ) : (
+                  <ScrollView
                     scrollEventThrottle={15}
                     onScroll={Animated.event(
-                    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-                    { useNativeDriver: false })}>
-                       <View style={[styles.root]}>
-                  {/* {!filteredData && <Spinner size="lg" />} */}
-                  {/* {!filteredData && <Text>no data founds</Text>} */}
-                  {loading ? (
-                    <ActivityIndicator
-                      size={40}
-                      visible={loading}
-                      textContent={"Loading..."}
-                      textStyle={styles.spinnerTextStyle}
-                    />
-                  ) : (
-                    showDefault &&
-                    filteredData.map((data) => (
-                      <>
-                        <View>
-                          <Card
-                            style={{
-                              marginVertical: 15,
-                              marginHorizontal: 20,
-                              elevation: 5,
-                              borderRadius: 10,
-                              paddingBottom: 20,
-                            }}
-                          >
-                            <Card.Content>
-                              <View
-                                style={[
-                                  { flex: 1 },
-                                  {
-                                    flexDirection: "column",
-                                  },
-                                ]}
+                      [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                      { useNativeDriver: false }
+                    )}
+                  >
+                    <View style={[styles.root]}>
+                      {/* {!filteredData && <Spinner size="lg" />} */}
+                      {/* {!filteredData && <Text>no data founds</Text>} */}
+                      {loading ? (
+                        <ActivityIndicator
+                          size={40}
+                          visible={loading}
+                          textContent={"Loading..."}
+                          textStyle={styles.spinnerTextStyle}
+                        />
+                      ) : (
+                        showDefault &&
+                        filteredData.map((data) => (
+                          <>
+                            <View>
+                              <Card
+                                style={{
+                                  marginVertical: 15,
+                                  marginHorizontal: 20,
+                                  elevation: 5,
+                                  borderRadius: 10,
+                                  paddingBottom: 20,
+                                }}
                               >
-                                <View style={{ flex: 1 }}>
-                                  <View
-                                    style={[
-                                      { flex: 1 },
-                                      {
-                                        flexDirection: "row",
-                                      },
-                                    ]}
-                                  >
-                                    <View style={{ flex: 0.6 }}>
-                                      <Text style={styles.cardTextStyle}>
-                                        Student Name:
-                                      </Text>
-                                    </View>
-                                    <View style={{ flex: 1 }}>
-                                      <Text style={styles.textStyle}>
-                                        {data.student_reg_number.student_name}
-                                      </Text>
-                                    </View>
-                                  </View>
-                                </View>
-                                <View style={styles.spaceHead} />
-                                <View style={{ flex: 1 }}>
-                                  <View
-                                    style={[
-                                      { flex: 1 },
-                                      {
-                                        flexDirection: "row",
-                                      },
-                                    ]}
-                                  >
-                                    <View style={{ flex: 0.3 }}>
-                                      <Text style={styles.cardTextStyle}>
-                                        Reg No:
-                                      </Text>
-                                    </View>
-                                    <View style={{ flex: 1 }}>
-                                      <Text style={styles.textStyle}>
-                                        {data.student_reg_number.reg_number}
-                                      </Text>
-                                    </View>
-                                  </View>
-                                </View>
-                              </View>
-                              <View style={styles.spaceHead} />
-                              <View
-                                style={[
-                                  { flex: 1 },
-                                  {
-                                    flexDirection: "row",
-                                  },
-                                ]}
-                              >
-                                <View style={{ flex: 1 }}>
-                                  <View
-                                    style={[
-                                      { flex: 1 },
-                                      {
-                                        flexDirection: "row",
-                                      },
-                                    ]}
-                                  >
-                                    <View style={{ flex: 0.3 }}>
-                                      <Ionicons
-                                        name="calendar"
-                                        size={25}
-                                        color="#D4AC0D"
-                                        style={{}}
-                                      />
-                                    </View>
-                                    <View
-                                      style={{
-                                        flex: 1,
-                                        alignItems: "flex-start",
-                                        left: "1%",
-                                      }}
-                                    >
-                                      <Text style={styles.cardTextStyle}>
-                                        Leave from
-                                      </Text>
-                                    </View>
-                                  </View>
-                                </View>
-                                <View style={styles.space} />
-                                <View style={{ flex: 1 }}>
-                                  <View
-                                    style={[
-                                      { flex: 1 },
-                                      {
-                                        flexDirection: "row",
-                                      },
-                                    ]}
-                                  >
-                                    <View style={{ flex: 0.3 }}>
-                                      <Ionicons
-                                        name="calendar"
-                                        size={25}
-                                        color="#D4AC0D"
-                                        style={{}}
-                                      />
-                                    </View>
-                                    <View
-                                      style={{
-                                        flex: 1,
-                                        alignItems: "flex-start",
-                                        left: "1%",
-                                      }}
-                                    >
-                                      <Text style={styles.cardTextStyle}>
-                                        Leave to
-                                      </Text>
-                                    </View>
-                                  </View>
-                                </View>
-                              </View>
-
-                              <View
-                                style={[
-                                  { flex: 1 },
-                                  {
-                                    flexDirection: "row",
-                                  },
-                                ]}
-                              >
-                                <View style={{ flex: 1 }}>
-                                  <View
-                                    style={[
-                                      { flex: 1 },
-                                      {
-                                        flexDirection: "row",
-                                      },
-                                    ]}
-                                  >
-                                    <View style={{ flex: 0.3 }}></View>
-                                    <View
-                                      style={{
-                                        flex: 1,
-                                        alignItems: "flex-start",
-                                        left: "1%",
-                                      }}
-                                    >
-                                      <Text style={styles.textStyle}>
-                                        {moment(data.leave_form).format(
-                                          "DD/MM/YYYY"
-                                        )}
-                                      </Text>
-                                    </View>
-                                  </View>
-                                </View>
-                                <View style={{ flex: 1 }}>
-                                  <View
-                                    style={[
-                                      { flex: 1 },
-                                      {
-                                        flexDirection: "row",
-                                      },
-                                    ]}
-                                  >
-                                    <View style={{ flex: 0.3 }}></View>
-                                    <View
-                                      style={{
-                                        flex: 1,
-                                        alignItems: "flex-start",
-                                        left: "1%",
-                                      }}
-                                    >
-                                      <Text style={styles.textStyle}>
-                                        {moment(data.leave_to).format(
-                                          "DD/MM/YYYY"
-                                        )}
-                                      </Text>
-                                    </View>
-                                  </View>
-                                </View>
-                              </View>
-
-                              <View
-                                style={[
-                                  { flex: 1, top: "3%" },
-                                  {
-                                    flexDirection: "row",
-                                  },
-                                ]}
-                              >
-                                <View style={{ flex: 1 }}>
+                                <Card.Content>
                                   <View
                                     style={[
                                       { flex: 1 },
@@ -2298,18 +2138,22 @@ const TeachersLeaveUpdated = () => {
                                           },
                                         ]}
                                       >
-                                        <View style={{ flex: 0.5 }}>
+                                        <View style={{ flex: 0.6 }}>
                                           <Text style={styles.cardTextStyle}>
-                                            Leave reason:
+                                            Student Name:
                                           </Text>
                                         </View>
                                         <View style={{ flex: 1 }}>
                                           <Text style={styles.textStyle}>
-                                            {data.leave_reason}
+                                            {
+                                              data.student_reg_number
+                                                .student_name
+                                            }
                                           </Text>
                                         </View>
                                       </View>
                                     </View>
+                                    <View style={styles.spaceHead} />
                                     <View style={{ flex: 1 }}>
                                       <View
                                         style={[
@@ -2319,23 +2163,23 @@ const TeachersLeaveUpdated = () => {
                                           },
                                         ]}
                                       >
-                                        <View style={{ flex: 0.4 }}>
+                                        <View style={{ flex: 0.3 }}>
                                           <Text style={styles.cardTextStyle}>
-                                            Leave type:
+                                            Reg No:
                                           </Text>
                                         </View>
                                         <View style={{ flex: 1 }}>
                                           <Text style={styles.textStyle}>
-                                            {data.leave_type}
+                                            {data.student_reg_number.reg_number}
                                           </Text>
                                         </View>
                                       </View>
                                     </View>
                                   </View>
-
+                                  <View style={styles.spaceHead} />
                                   <View
                                     style={[
-                                      { flex: 1, top: "4%" },
+                                      { flex: 1 },
                                       {
                                         flexDirection: "row",
                                       },
@@ -2350,98 +2194,300 @@ const TeachersLeaveUpdated = () => {
                                           },
                                         ]}
                                       >
-                                        <View style={{ flex: 0.7 }}>
-                                          <Text style={styles.cardTextStyle}>
-                                            Status:
-                                          </Text>
+                                        <View style={{ flex: 0.3 }}>
+                                          <Ionicons
+                                            name="calendar"
+                                            size={25}
+                                            color="#D4AC0D"
+                                            style={{}}
+                                          />
                                         </View>
-                                        <View style={{ flex: 1.5 }}>
-                                          {data.leave_status == "Approved" ? (
-                                            <Badge
-                                              colorScheme="success"
-                                              style={{ width: "65%" }}
-                                            >
-                                              {data.leave_status}
-                                            </Badge>
-                                          ) : data.leave_status == "Pending" ? (
-                                            <Badge
-                                              colorScheme="warning"
-                                              style={{ width: "65%" }}
-                                            >
-                                              {data.leave_status}
-                                            </Badge>
-                                          ) : (
-                                            <Badge
-                                              colorScheme="danger"
-                                              style={{ width: "65%" }}
-                                            >
-                                              {data.leave_status}
-                                            </Badge>
-                                          )}
+                                        <View
+                                          style={{
+                                            flex: 1,
+                                            alignItems: "flex-start",
+                                            left: "1%",
+                                          }}
+                                        >
+                                          <Text style={styles.cardTextStyle}>
+                                            Leave from
+                                          </Text>
                                         </View>
                                       </View>
                                     </View>
-                                    <View
-                                      style={{
-                                        flex: 1,
-                                        // left: "7%",
-                                        bottom: "2%",
-                                        alignItems: "flex-end",
-                                      }}
-                                    >
+                                    <View style={styles.space} />
+                                    <View style={{ flex: 1 }}>
                                       <View
                                         style={[
-                                          { flex: 4 },
+                                          { flex: 1 },
                                           {
                                             flexDirection: "row",
-                                            // left: "12%",
                                           },
                                         ]}
                                       >
                                         <View style={{ flex: 0.3 }}>
-                                          <IconButton
-                                            colorScheme="success"
-                                            onPress={() =>
-                                              approveHandler(data.id)
-                                            }
-                                            variant="subtle"
-                                            _icon={{
-                                              as: Ionicons,
-                                              name: "md-checkmark-sharp",
-                                            }}
+                                          <Ionicons
+                                            name="calendar"
+                                            size={25}
+                                            color="#D4AC0D"
+                                            style={{}}
                                           />
                                         </View>
-                                        <View style={styles.space} />
-                                        <View style={{ flex: 0.3 }}>
-                                          <IconButton
-                                            colorScheme="danger"
-                                            onPress={() => denyHanlder(data.id)}
-                                            variant="subtle"
-                                            _icon={{
-                                              as: Ionicons,
-                                              name: "close",
-                                            }}
-                                          />
+                                        <View
+                                          style={{
+                                            flex: 1,
+                                            alignItems: "flex-start",
+                                            left: "1%",
+                                          }}
+                                        >
+                                          <Text style={styles.cardTextStyle}>
+                                            Leave to
+                                          </Text>
                                         </View>
                                       </View>
                                     </View>
                                   </View>
-                                </View>
-                              </View>
-                            </Card.Content>
-                          </Card>
-                        </View>
-                      </>
-                    ))
-                  )}
-                </View>
-                  </ScrollView>}
-                </View>
+
+                                  <View
+                                    style={[
+                                      { flex: 1 },
+                                      {
+                                        flexDirection: "row",
+                                      },
+                                    ]}
+                                  >
+                                    <View style={{ flex: 1 }}>
+                                      <View
+                                        style={[
+                                          { flex: 1 },
+                                          {
+                                            flexDirection: "row",
+                                          },
+                                        ]}
+                                      >
+                                        <View style={{ flex: 0.3 }}></View>
+                                        <View
+                                          style={{
+                                            flex: 1,
+                                            alignItems: "flex-start",
+                                            left: "1%",
+                                          }}
+                                        >
+                                          <Text style={styles.textStyle}>
+                                            {moment(data.leave_form).format(
+                                              "DD/MM/YYYY"
+                                            )}
+                                          </Text>
+                                        </View>
+                                      </View>
+                                    </View>
+                                    <View style={{ flex: 1 }}>
+                                      <View
+                                        style={[
+                                          { flex: 1 },
+                                          {
+                                            flexDirection: "row",
+                                          },
+                                        ]}
+                                      >
+                                        <View style={{ flex: 0.3 }}></View>
+                                        <View
+                                          style={{
+                                            flex: 1,
+                                            alignItems: "flex-start",
+                                            left: "1%",
+                                          }}
+                                        >
+                                          <Text style={styles.textStyle}>
+                                            {moment(data.leave_to).format(
+                                              "DD/MM/YYYY"
+                                            )}
+                                          </Text>
+                                        </View>
+                                      </View>
+                                    </View>
+                                  </View>
+
+                                  <View
+                                    style={[
+                                      { flex: 1, top: "3%" },
+                                      {
+                                        flexDirection: "row",
+                                      },
+                                    ]}
+                                  >
+                                    <View style={{ flex: 1 }}>
+                                      <View
+                                        style={[
+                                          { flex: 1 },
+                                          {
+                                            flexDirection: "column",
+                                          },
+                                        ]}
+                                      >
+                                        <View style={{ flex: 1 }}>
+                                          <View
+                                            style={[
+                                              { flex: 1 },
+                                              {
+                                                flexDirection: "row",
+                                              },
+                                            ]}
+                                          >
+                                            <View style={{ flex: 0.5 }}>
+                                              <Text
+                                                style={styles.cardTextStyle}
+                                              >
+                                                Leave reason:
+                                              </Text>
+                                            </View>
+                                            <View style={{ flex: 1 }}>
+                                              <Text style={styles.textStyle}>
+                                                {data.leave_reason}
+                                              </Text>
+                                            </View>
+                                          </View>
+                                        </View>
+                                        <View style={{ flex: 1 }}>
+                                          <View
+                                            style={[
+                                              { flex: 1 },
+                                              {
+                                                flexDirection: "row",
+                                              },
+                                            ]}
+                                          >
+                                            <View style={{ flex: 0.4 }}>
+                                              <Text
+                                                style={styles.cardTextStyle}
+                                              >
+                                                Leave type:
+                                              </Text>
+                                            </View>
+                                            <View style={{ flex: 1 }}>
+                                              <Text style={styles.textStyle}>
+                                                {data.leave_type}
+                                              </Text>
+                                            </View>
+                                          </View>
+                                        </View>
+                                      </View>
+
+                                      <View
+                                        style={[
+                                          { flex: 1, top: "4%" },
+                                          {
+                                            flexDirection: "row",
+                                          },
+                                        ]}
+                                      >
+                                        <View style={{ flex: 1 }}>
+                                          <View
+                                            style={[
+                                              { flex: 1 },
+                                              {
+                                                flexDirection: "row",
+                                              },
+                                            ]}
+                                          >
+                                            <View style={{ flex: 0.7 }}>
+                                              <Text
+                                                style={styles.cardTextStyle}
+                                              >
+                                                Status:
+                                              </Text>
+                                            </View>
+                                            <View style={{ flex: 1.5 }}>
+                                              {data.leave_status ==
+                                              "Approved" ? (
+                                                <Badge
+                                                  colorScheme="success"
+                                                  style={{ width: "65%" }}
+                                                >
+                                                  {data.leave_status}
+                                                </Badge>
+                                              ) : data.leave_status ==
+                                                "Pending" ? (
+                                                <Badge
+                                                  colorScheme="warning"
+                                                  style={{ width: "65%" }}
+                                                >
+                                                  {data.leave_status}
+                                                </Badge>
+                                              ) : (
+                                                <Badge
+                                                  colorScheme="danger"
+                                                  style={{ width: "65%" }}
+                                                >
+                                                  {data.leave_status}
+                                                </Badge>
+                                              )}
+                                            </View>
+                                          </View>
+                                        </View>
+                                        <View
+                                          style={{
+                                            flex: 1,
+                                            // left: "7%",
+                                            bottom: "2%",
+                                            alignItems: "flex-end",
+                                          }}
+                                        >
+                                          <View
+                                            style={[
+                                              { flex: 4 },
+                                              {
+                                                flexDirection: "row",
+                                                // left: "12%",
+                                              },
+                                            ]}
+                                          >
+                                            <View style={{ flex: 0.3 }}>
+                                              <IconButton
+                                                colorScheme="success"
+                                                onPress={() =>
+                                                  approveHandler(data.id)
+                                                }
+                                                variant="subtle"
+                                                _icon={{
+                                                  as: Ionicons,
+                                                  name: "md-checkmark-sharp",
+                                                }}
+                                              />
+                                            </View>
+                                            <View style={styles.space} />
+                                            <View style={{ flex: 0.3 }}>
+                                              <IconButton
+                                                colorScheme="danger"
+                                                onPress={() =>
+                                                  denyHanlder(data.id)
+                                                }
+                                                variant="subtle"
+                                                _icon={{
+                                                  as: Ionicons,
+                                                  name: "close",
+                                                }}
+                                              />
+                                            </View>
+                                          </View>
+                                        </View>
+                                      </View>
+                                    </View>
+                                  </View>
+                                </Card.Content>
+                              </Card>
+                            </View>
+                          </>
+                        ))
+                      )}
+                    </View>
+                  </ScrollView>
+                )}
               </View>
+            </View>
             {/* } */}
-                
           </View>
-          <View style={{ flex: 0.1 }} >
+          <View style={{ flex: 0.1 }}>
             <TeachersHome />
           </View>
         </View>

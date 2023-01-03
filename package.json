@@ -28,6 +28,7 @@
     "accordion-collapse-react-native": "^1.1.1",
     "await": "^0.2.6",
     "axios": "^0.27.2",
+    "base-64": "^1.0.0",
     "bootstrap": "^5.2.0",
     "eas-cli": "^2.1.0",
     "expo": "~45.0.0",
@@ -39,7 +40,6 @@
     "expo-document-picker": "~10.2.1",
     "expo-file-system": "^15.1.1",
     "expo-font": "~10.1.0",
-    
     "expo-image-picker": "~13.1.1",
     "expo-keep-awake": "~10.1.1",
     "expo-media-library": "~14.1.0",
@@ -119,7 +119,6 @@
     "react-native-x-carousel": "^1.0.1",
     "react-native-zigzag-view": "^0.2.0",
     "rn-calendar-component": "^0.5.1",
-  
     "rn-keyboard-sticky-view": "^1.0.4",
     "searchable-flatlist": "^0.0.4",
     "tailwindcss-react-native": "^1.7.10"

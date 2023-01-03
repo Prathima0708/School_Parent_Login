@@ -37,8 +37,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 import { subURL } from "../../../../components/utils/URL's";
-import * as FileSystem from "expo-file-system";
-
+// import * as FileSystem from "expo-file-system";
+import { decode, FileSystem } from "base-64";
 export var ID;
 var FROMDATE, TODATE;
 
@@ -271,7 +271,7 @@ const TeacherHomeworkScreenBuild = () => {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-      // base64: true,
+      //base64: true,
     });
 
     // const { status } = await MediaLibrary.requestPermissionsAsync();
@@ -308,7 +308,7 @@ const TeacherHomeworkScreenBuild = () => {
     // const file = await FileSystem.readAsStringAsync(result.uri, {
     //   encoding: FileSystem.EncodingType.Base64,
     // });
-    // console.log(typeof file);
+    // console.log(file);
 
     // try {
     //   filename = await ImageManipulator.manipulateAsync(file, [], {
@@ -347,7 +347,8 @@ const TeacherHomeworkScreenBuild = () => {
     // }
 
     localUri = result.uri;
-    // filename = localUri.split("/").pop();
+    filename = localUri.split("/").pop();
+
     // console.log("filename-", JSON.stringify(filename));
 
     match = /\.(\w+)$/.exec(filename);
@@ -395,7 +396,7 @@ const TeacherHomeworkScreenBuild = () => {
           });
           console.log(details);
           //setSubjectData(newSubjects);
-          setStudData(newArray)
+          setStudData(newArray);
           setData(newArray);
 
           console.log(newArray);
@@ -1102,16 +1103,16 @@ const TeacherHomeworkScreenBuild = () => {
 
   function searchHW() {
     async function login() {
-
       let filteredlist = newArray.filter((ele) => ele.key == selectedSearch);
-     
+
       let class_name = filteredlist[0].classname;
       let section = filteredlist[0].section;
       try {
-        const res = await axios.get(`${subURL}/HomeworkListByClass/${class_name}/${section}`);
-       
-          setFilteredData(res.data);
-        
+        const res = await axios.get(
+          `${subURL}/HomeworkListByClass/${class_name}/${section}`
+        );
+
+        setFilteredData(res.data);
 
         // if (res.data.length == 0) {
         //   Alert.alert("No data found", "No data found for respective search");
@@ -1534,330 +1535,265 @@ const TeacherHomeworkScreenBuild = () => {
               value={searchText}
             />
           </View> */}
-          <View style={{backgroundColor:'white',flex:1}}>
-          <View
-            style={[
-              {
-                //width: 170,
-                fontSize: 20,
-                backgroundColor:'white',
-                // marginTop: 13,
-                margin: 10,
-                left:20,
-                marginTop:'4%',
-                flexDirection:'row'
-              },
-            ]}
-          >
-            <Text style={{fontFamily:'HindBold',fontSize:20,top:'3%',marginLeft:10}}>Search by</Text>
-            <View style={styles.space}/>
-            <View style={styles.space}/>
-            <Text style={{fontFamily:'HindBold',fontSize:20,top: "3%",right:'2%'}}>-</Text>
-            <View style={styles.space}/>
-            <SelectList
-              //  defaultOption={{ key: "1", value: "Second-A" }}
-              setSelected={setSelectedSearch}
-              data={studData}
-              save='key'
-              placeholder="Select class"
-              onSelect={searchHW}
-              boxStyles={{ borderRadius: 10 }}
-              dropdownTextStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-              inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-              dropdownStyles={{width:'120%'}}
-              
-            />
-          </View>
-          <View
-            style={[
-              { flex: 1 },
-              { flexDirection: "column", backgroundColor: "white" },
-            ]}
-          >
-            <View style={{ flex: 8, bottom: 10 }}>
-              <ScrollView
-                scrollEventThrottle={25}
-                onScroll={Animated.event(
-                  [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-                  { useNativeDriver: false }
-                )}
+          <View style={{ backgroundColor: "white", flex: 1 }}>
+            <View
+              style={[
+                {
+                  //width: 170,
+                  fontSize: 20,
+                  backgroundColor: "white",
+                  // marginTop: 13,
+                  margin: 10,
+                  left: 20,
+                  marginTop: "4%",
+                  flexDirection: "row",
+                },
+              ]}
+            >
+              <Text
+                style={{
+                  fontFamily: "HindBold",
+                  fontSize: 20,
+                  top: "3%",
+                  marginLeft: 10,
+                }}
               >
-                {filteredData.length <= 0 ? (
-                  <View style={{ alignItems: "center", marginTop: "5%" }}>
-                    <Text style={styles.msgText}>
-                      No Homeworks  found,
-                      <Text
-                        style={styles.linkText}
-                        onPress={linkPressedHandler}
-                      >
-                        Start adding here
+                Search by
+              </Text>
+              <View style={styles.space} />
+              <View style={styles.space} />
+              <Text
+                style={{
+                  fontFamily: "HindBold",
+                  fontSize: 20,
+                  top: "3%",
+                  right: "2%",
+                }}
+              >
+                -
+              </Text>
+              <View style={styles.space} />
+              <SelectList
+                //  defaultOption={{ key: "1", value: "Second-A" }}
+                setSelected={setSelectedSearch}
+                data={studData}
+                save="key"
+                placeholder="Select class"
+                onSelect={searchHW}
+                boxStyles={{ borderRadius: 10 }}
+                dropdownTextStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                dropdownStyles={{ width: "120%" }}
+              />
+            </View>
+            <View
+              style={[
+                { flex: 1 },
+                { flexDirection: "column", backgroundColor: "white" },
+              ]}
+            >
+              <View style={{ flex: 8, bottom: 10 }}>
+                <ScrollView
+                  scrollEventThrottle={25}
+                  onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                    { useNativeDriver: false }
+                  )}
+                >
+                  {filteredData.length <= 0 ? (
+                    <View style={{ alignItems: "center", marginTop: "5%" }}>
+                      <Text style={styles.msgText}>
+                        No Homeworks found,
+                        <Text
+                          style={styles.linkText}
+                          onPress={linkPressedHandler}
+                        >
+                          Start adding here
+                        </Text>
                       </Text>
-                    </Text>
-                  </View>
-                ) : (
-                  <View style={styles.root}>
-                    {loading ? (
-                      <ActivityIndicator
-                        size={40}
-                        visible={loading}
-                        textContent={"Loading..."}
-                        textStyle={styles.spinnerTextStyle}
-                      />
-                    ) : (
-                      filteredData.map((homeworkData, key) => (
-                        <>
-                          <View>
-                            <Card
-                              style={{
-                                marginVertical: 15,
-                                marginHorizontal: 20,
-                                elevation: 5,
-                                borderRadius: 10,
-                                paddingBottom: 20,
-                              }}
-                            >
-                              <Card.Content>
-                                <View
-                                  style={[
-                                    { flex: 1 },
-                                    {
-                                      flexDirection: "row",
-                                    },
-                                  ]}
-                                >
-                                  <View style={{ flex: 1 }}>
-                                    <View
-                                      style={[
-                                        { flex: 1 },
-                                        {
-                                          flexDirection: "row",
-                                        },
-                                      ]}
-                                    >
-                                      <View style={{ flex: 0.2 }}>
-                                        <Ionicons
-                                          name="calendar"
-                                          size={25}
-                                          color="#D4AC0D"
-                                          style={{}}
-                                        />
-                                      </View>
-                                      <View style={{ flex: 1 }}>
-                                        <Text
-                                          style={[
-                                            styles.cardTextStyle,
-                                            { left: 5 },
-                                          ]}
-                                        >
-                                          Start Date
-                                        </Text>
-                                      </View>
-                                    </View>
-                                  </View>
-                                  <View style={{ flex: 1 }}>
-                                    <View
-                                      style={[
-                                        { flex: 1 },
-                                        {
-                                          flexDirection: "row",
-                                        },
-                                      ]}
-                                    >
-                                      <View style={{ flex: 0.3 }}>
-                                        <Ionicons
-                                          name="calendar"
-                                          size={25}
-                                          color="#D4AC0D"
-                                          style={{}}
-                                        />
-                                      </View>
+                    </View>
+                  ) : (
+                    <View style={styles.root}>
+                      {loading ? (
+                        <ActivityIndicator
+                          size={40}
+                          visible={loading}
+                          textContent={"Loading..."}
+                          textStyle={styles.spinnerTextStyle}
+                        />
+                      ) : (
+                        filteredData.map((homeworkData, key) => (
+                          <>
+                            <View>
+                              <Card
+                                style={{
+                                  marginVertical: 15,
+                                  marginHorizontal: 20,
+                                  elevation: 5,
+                                  borderRadius: 10,
+                                  paddingBottom: 20,
+                                }}
+                              >
+                                <Card.Content>
+                                  <View
+                                    style={[
+                                      { flex: 1 },
+                                      {
+                                        flexDirection: "row",
+                                      },
+                                    ]}
+                                  >
+                                    <View style={{ flex: 1 }}>
                                       <View
-                                        style={{
-                                          flex: 1,
-                                          alignItems: "flex-start",
-                                          left: "1%",
-                                        }}
+                                        style={[
+                                          { flex: 1 },
+                                          {
+                                            flexDirection: "row",
+                                          },
+                                        ]}
                                       >
-                                        <Text
-                                          style={[
-                                            styles.cardTextStyle,
-                                            { left: 5 },
-                                          ]}
+                                        <View style={{ flex: 0.2 }}>
+                                          <Ionicons
+                                            name="calendar"
+                                            size={25}
+                                            color="#D4AC0D"
+                                            style={{}}
+                                          />
+                                        </View>
+                                        <View style={{ flex: 1 }}>
+                                          <Text
+                                            style={[
+                                              styles.cardTextStyle,
+                                              { left: 5 },
+                                            ]}
+                                          >
+                                            Start Date
+                                          </Text>
+                                        </View>
+                                      </View>
+                                    </View>
+                                    <View style={{ flex: 1 }}>
+                                      <View
+                                        style={[
+                                          { flex: 1 },
+                                          {
+                                            flexDirection: "row",
+                                          },
+                                        ]}
+                                      >
+                                        <View style={{ flex: 0.3 }}>
+                                          <Ionicons
+                                            name="calendar"
+                                            size={25}
+                                            color="#D4AC0D"
+                                            style={{}}
+                                          />
+                                        </View>
+                                        <View
+                                          style={{
+                                            flex: 1,
+                                            alignItems: "flex-start",
+                                            left: "1%",
+                                          }}
                                         >
-                                          End Date
-                                        </Text>
+                                          <Text
+                                            style={[
+                                              styles.cardTextStyle,
+                                              { left: 5 },
+                                            ]}
+                                          >
+                                            End Date
+                                          </Text>
+                                        </View>
                                       </View>
                                     </View>
                                   </View>
-                                </View>
 
-                                <View
-                                  style={[
-                                    { flex: 1 },
-                                    {
-                                      flexDirection: "row",
-                                    },
-                                  ]}
-                                >
-                                  <View style={{ flex: 1 }}>
-                                    <View
-                                      style={[
-                                        { flex: 1 },
-                                        {
-                                          flexDirection: "row",
-                                        },
-                                      ]}
-                                    >
-                                      <View style={{ flex: 0.3 }}></View>
+                                  <View
+                                    style={[
+                                      { flex: 1 },
+                                      {
+                                        flexDirection: "row",
+                                      },
+                                    ]}
+                                  >
+                                    <View style={{ flex: 1 }}>
                                       <View
-                                        style={{
-                                          flex: 1,
-                                          alignItems: "flex-start",
-                                          left: "1%",
-                                        }}
+                                        style={[
+                                          { flex: 1 },
+                                          {
+                                            flexDirection: "row",
+                                          },
+                                        ]}
                                       >
-                                        <Text style={styles.textStyle}>
-                                          {moment(
-                                            homeworkData.homework_date
-                                          ).format("DD/MM/YYYY")}
-                                        </Text>
+                                        <View style={{ flex: 0.3 }}></View>
+                                        <View
+                                          style={{
+                                            flex: 1,
+                                            alignItems: "flex-start",
+                                            left: "1%",
+                                          }}
+                                        >
+                                          <Text style={styles.textStyle}>
+                                            {moment(
+                                              homeworkData.homework_date
+                                            ).format("DD/MM/YYYY")}
+                                          </Text>
+                                        </View>
                                       </View>
                                     </View>
-                                  </View>
-                                  <View style={{ flex: 1 }}>
-                                    <View
-                                      style={[
-                                        { flex: 1 },
-                                        {
-                                          flexDirection: "row",
-                                        },
-                                      ]}
-                                    >
-                                      <View style={{ flex: 0.3 }}>
-                                        {/* <Ionicons
+                                    <View style={{ flex: 1 }}>
+                                      <View
+                                        style={[
+                                          { flex: 1 },
+                                          {
+                                            flexDirection: "row",
+                                          },
+                                        ]}
+                                      >
+                                        <View style={{ flex: 0.3 }}>
+                                          {/* <Ionicons
                                           name="calendar"
                                           size={25}
                                           color="#D4AC0D"
                                           style={{  }}
                                         /> */}
-                                      </View>
-                                      <View
-                                        style={{
-                                          flex: 1,
-                                          alignItems: "flex-start",
-                                          left: "1%",
-                                        }}
-                                      >
-                                        <Text style={styles.textStyle}>
-                                          {moment(homeworkData.due_date).format(
-                                            "DD/MM/YYYY"
-                                          )}
-                                        </Text>
+                                        </View>
+                                        <View
+                                          style={{
+                                            flex: 1,
+                                            alignItems: "flex-start",
+                                            left: "1%",
+                                          }}
+                                        >
+                                          <Text style={styles.textStyle}>
+                                            {moment(
+                                              homeworkData.due_date
+                                            ).format("DD/MM/YYYY")}
+                                          </Text>
+                                        </View>
                                       </View>
                                     </View>
                                   </View>
-                                </View>
 
-                                <View
-                                  style={[
-                                    { flex: 1, top: "3%" },
-                                    {
-                                      flexDirection: "row",
-                                    },
-                                  ]}
-                                >
-                                  <View style={{ flex: 1 }}>
-                                    <View
-                                      style={[
-                                        { flex: 1 },
-                                        {
-                                          flexDirection: "column",
-                                        },
-                                      ]}
-                                    >
-                                      <View style={{ flex: 1 }}>
-                                        <View
-                                          style={[
-                                            { flex: 1 },
-                                            {
-                                              flexDirection: "row",
-                                            },
-                                          ]}
-                                        >
-                                          <View style={{ flex: 0.7 }}>
-                                            <Text style={styles.cardTextStyle}>
-                                              Classname:
-                                            </Text>
-                                          </View>
-                                          <View style={{ flex: 1 }}>
-                                            <Text style={styles.textStyle}>
-                                              {homeworkData.class_name}
-                                              {"-"}
-                                              {homeworkData.section}
-                                            </Text>
-                                          </View>
-                                        </View>
-                                      </View>
-
-                                      <View style={{ flex: 1 }}>
-                                        <View
-                                          style={[
-                                            { flex: 1 },
-                                            {
-                                              flexDirection: "row",
-                                            },
-                                          ]}
-                                        >
-                                          <View style={{ flex: 0.5 }}>
-                                            <Text style={styles.cardTextStyle}>
-                                              Subject:
-                                            </Text>
-                                          </View>
-                                          <View style={{ flex: 1 }}>
-                                            <Text style={styles.textStyle}>
-                                              {homeworkData.subject}
-                                            </Text>
-                                          </View>
-                                        </View>
-                                      </View>
-
-                                      <View style={{ flex: 1 }}>
-                                        <View
-                                          style={[
-                                            { flex: 1 },
-                                            {
-                                              flexDirection: "row",
-                                            },
-                                          ]}
-                                        >
-                                          <View style={{ flex: 0.7 }}>
-                                            <Text style={styles.cardTextStyle}>
-                                              Description:
-                                            </Text>
-                                          </View>
-                                          <View style={{ flex: 1 }}>
-                                            <Text style={styles.textStyle}>
-                                              {homeworkData.remark}
-                                            </Text>
-                                          </View>
-                                        </View>
-                                      </View>
-                                    </View>
-
-                                    <View
-                                      style={[
-                                        {
-                                          flex: 1,
-                                          top: "4%",
-                                          marginLeft: "70%",
-                                        },
-                                        {
-                                          flexDirection: "row",
-                                        },
-                                      ]}
-                                    >
-                                      {homeworkData.created_by == USERNAME && (
-                                        <View style={{ flex: 1, bottom: "1%" }}>
+                                  <View
+                                    style={[
+                                      { flex: 1, top: "3%" },
+                                      {
+                                        flexDirection: "row",
+                                      },
+                                    ]}
+                                  >
+                                    <View style={{ flex: 1 }}>
+                                      <View
+                                        style={[
+                                          { flex: 1 },
+                                          {
+                                            flexDirection: "column",
+                                          },
+                                        ]}
+                                      >
+                                        <View style={{ flex: 1 }}>
                                           <View
                                             style={[
                                               { flex: 1 },
@@ -1866,57 +1802,147 @@ const TeacherHomeworkScreenBuild = () => {
                                               },
                                             ]}
                                           >
-                                            <View style={{ flex: 0.4 }}>
-                                              <IconButton
-                                                colorScheme="success"
-                                                onPress={() =>
-                                                  editItem(homeworkData.id)
-                                                }
-                                                variant="subtle"
-                                                _icon={{
-                                                  as: Ionicons,
-                                                  name: "md-pencil-sharp",
-                                                }}
-                                              />
+                                            <View style={{ flex: 0.7 }}>
+                                              <Text
+                                                style={styles.cardTextStyle}
+                                              >
+                                                Classname:
+                                              </Text>
                                             </View>
-                                            <View style={styles.space} />
-                                            <View style={{ flex: 0.4 }}>
-                                              <IconButton
-                                                colorScheme="danger"
-                                                onPress={() =>
-                                                  deleteItem(homeworkData.id)
-                                                }
-                                                variant="subtle"
-                                                _icon={{
-                                                  as: Ionicons,
-                                                  name: "trash",
-                                                }}
-                                              />
+                                            <View style={{ flex: 1 }}>
+                                              <Text style={styles.textStyle}>
+                                                {homeworkData.class_name}
+                                                {"-"}
+                                                {homeworkData.section}
+                                              </Text>
                                             </View>
                                           </View>
                                         </View>
-                                      )}
+
+                                        <View style={{ flex: 1 }}>
+                                          <View
+                                            style={[
+                                              { flex: 1 },
+                                              {
+                                                flexDirection: "row",
+                                              },
+                                            ]}
+                                          >
+                                            <View style={{ flex: 0.5 }}>
+                                              <Text
+                                                style={styles.cardTextStyle}
+                                              >
+                                                Subject:
+                                              </Text>
+                                            </View>
+                                            <View style={{ flex: 1 }}>
+                                              <Text style={styles.textStyle}>
+                                                {homeworkData.subject}
+                                              </Text>
+                                            </View>
+                                          </View>
+                                        </View>
+
+                                        <View style={{ flex: 1 }}>
+                                          <View
+                                            style={[
+                                              { flex: 1 },
+                                              {
+                                                flexDirection: "row",
+                                              },
+                                            ]}
+                                          >
+                                            <View style={{ flex: 0.7 }}>
+                                              <Text
+                                                style={styles.cardTextStyle}
+                                              >
+                                                Description:
+                                              </Text>
+                                            </View>
+                                            <View style={{ flex: 1 }}>
+                                              <Text style={styles.textStyle}>
+                                                {homeworkData.remark}
+                                              </Text>
+                                            </View>
+                                          </View>
+                                        </View>
+                                      </View>
+
+                                      <View
+                                        style={[
+                                          {
+                                            flex: 1,
+                                            top: "4%",
+                                            marginLeft: "70%",
+                                          },
+                                          {
+                                            flexDirection: "row",
+                                          },
+                                        ]}
+                                      >
+                                        {homeworkData.created_by ==
+                                          USERNAME && (
+                                          <View
+                                            style={{ flex: 1, bottom: "1%" }}
+                                          >
+                                            <View
+                                              style={[
+                                                { flex: 1 },
+                                                {
+                                                  flexDirection: "row",
+                                                },
+                                              ]}
+                                            >
+                                              <View style={{ flex: 0.4 }}>
+                                                <IconButton
+                                                  colorScheme="success"
+                                                  onPress={() =>
+                                                    editItem(homeworkData.id)
+                                                  }
+                                                  variant="subtle"
+                                                  _icon={{
+                                                    as: Ionicons,
+                                                    name: "md-pencil-sharp",
+                                                  }}
+                                                />
+                                              </View>
+                                              <View style={styles.space} />
+                                              <View style={{ flex: 0.4 }}>
+                                                <IconButton
+                                                  colorScheme="danger"
+                                                  onPress={() =>
+                                                    deleteItem(homeworkData.id)
+                                                  }
+                                                  variant="subtle"
+                                                  _icon={{
+                                                    as: Ionicons,
+                                                    name: "trash",
+                                                  }}
+                                                />
+                                              </View>
+                                            </View>
+                                          </View>
+                                        )}
+                                      </View>
                                     </View>
                                   </View>
-                                </View>
-                              </Card.Content>
-                            </Card>
-                          </View>
-                        </>
-                      ))
-                    )}
-                  </View>
-                )}
-              </ScrollView>
-            </View>
-            {keyboardStatus == "Keyboard Hidden" && (
-              <View style={{ flex: 1 }}>
-                <TeachersHome />
+                                </Card.Content>
+                              </Card>
+                            </View>
+                          </>
+                        ))
+                      )}
+                    </View>
+                  )}
+                </ScrollView>
               </View>
-            )}
+              {keyboardStatus == "Keyboard Hidden" && (
+                <View style={{ flex: 1 }}>
+                  <TeachersHome />
+                </View>
+              )}
+            </View>
           </View>
-          </View>
-          
         </>
       )}
     </>
