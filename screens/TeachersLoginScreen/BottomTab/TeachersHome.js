@@ -50,15 +50,46 @@ import { View, Text, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
+import { TouchableNativeFeedback } from "react-native";
+import { TouchableHighlight } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const TeachersHome = ({ style }) => {
   const navigation = useNavigation();
   const [changeIconBackground, setChangeIconBackground] = useState(false);
+  const [textColorDashboard, setTextColorDashboard] = useState("grey");
+  const [textColorAcademics, setTextColorAcademics] = useState("grey");
+  const [textColorClass, setTextColorClass] = useState("grey");
 
   function myClassesPressedHandler() {
     setChangeIconBackground(true);
     navigation.navigate("MyClasses");
   }
+
+  const onShowUnderlayDashboard = () => {
+    setTextColorDashboard("#fff");
+  };
+
+  const onHideUnderlayDashboard = () => {
+    setTextColorDashboard("grey");
+  };
+
+  const onShowUnderlayAcademics = () => {
+    setTextColorAcademics("#fff");
+  };
+
+  const onHideUnderlayAcademics = () => {
+    setTextColorAcademics("grey");
+  };
+
+  const onShowUnderlayClass = () => {
+    setTextColorClass("#fff");
+  };
+
+  const onHideUnderlayClass = () => {
+    setTextColorClass("grey");
+  };
+
   return (
     <View style={styles.root}>
       <View
@@ -80,23 +111,43 @@ const TeachersHome = ({ style }) => {
               },
             ]}
           >
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "flex-end",
-              }}
-            >
+            {/* <View style={{ flex: 1,alignItems:"center",justifyContent:'flex-end' }} >
               <Ionicons
                 name="grid-outline"
                 size={25}
                 color="grey"
                 onPress={() => navigation.navigate("TeachersLogin")}
+
               />
             </View>
-            <View style={{ flex: 1, alignItems: "center" }}>
+            <View style={{ flex: 1,alignItems:'center', }} >
               <Text style={styles.tabText}>Dashboard</Text>
-            </View>
+            </View> */}
+            <TouchableHighlight
+              onPress={() => navigation.navigate("TeachersLogin")}
+              underlayColor="#3559EA"
+              onShowUnderlay={onShowUnderlayDashboard}
+              onHideUnderlay={onHideUnderlayDashboard}
+              style={{ borderRadius: 5 }}
+            >
+              <View
+                style={[
+                  { flex: 1 },
+                  {
+                    flexDirection: "column",
+                  },
+                ]}
+              >
+                <View style={{ flex: 1, alignItems: "center" }}>
+                  <Ionicons name="home" size={25} color={textColorDashboard} />
+                </View>
+                <View style={{ flex: 1, alignItems: "center" }}>
+                  <Text style={[styles.tabText, { color: textColorDashboard }]}>
+                    Dashboard
+                  </Text>
+                </View>
+              </View>
+            </TouchableHighlight>
           </View>
         </View>
         <View style={{ flex: 0.4 }}>
@@ -109,7 +160,7 @@ const TeachersHome = ({ style }) => {
               },
             ]}
           >
-            <View style={{ flex: 1, alignItems: "center" }}>
+            {/* <View style={{ flex: 1,alignItems:'center' }} >
               <Ionicons
                 name="grid-outline"
                 size={25}
@@ -117,9 +168,38 @@ const TeachersHome = ({ style }) => {
                 onPress={() => navigation.navigate("TeachersAcademics")}
               />
             </View>
-            <View style={{ flex: 1, alignItems: "center" }}>
+            <View style={{ flex: 1 ,alignItems:'center'}} >
               <Text style={styles.tabText}>Academics</Text>
-            </View>
+            </View> */}
+            <TouchableHighlight
+              onPress={() => navigation.navigate("TeachersAcademics")}
+              underlayColor="#3559EA"
+              onShowUnderlay={onShowUnderlayAcademics}
+              onHideUnderlay={onHideUnderlayAcademics}
+              style={{ borderRadius: 5 }}
+            >
+              <View
+                style={[
+                  { flex: 1 },
+                  {
+                    flexDirection: "column",
+                  },
+                ]}
+              >
+                <View style={{ flex: 1, alignItems: "center" }}>
+                  <Ionicons
+                    name="grid-outline"
+                    size={25}
+                    color={textColorAcademics}
+                  />
+                </View>
+                <View style={{ flex: 1, alignItems: "center" }}>
+                  <Text style={[styles.tabText, { color: textColorAcademics }]}>
+                    Academics
+                  </Text>
+                </View>
+              </View>
+            </TouchableHighlight>
           </View>
         </View>
         <View style={{ flex: 0.4 }}>
@@ -133,25 +213,48 @@ const TeachersHome = ({ style }) => {
               },
             ]}
           >
-            <View style={{ flex: 1, alignItems: "center" }}>
-              <Ionicons
-                name="person"
-                size={25}
-                //color='grey'
-                color={changeIconBackground ? "blue" : "grey"}
-                onPress={myClassesPressedHandler}
-              />
-            </View>
-            <View style={{ flex: 1, alignItems: "center" }}>
-              <Text
+            {/* <View style={{ flex: 1,alignItems:'center' }} >
+                <Ionicons
+                  name="person"
+                  size={25}
+                  //color='grey'
+                  color= "grey"
+                  onPress={myClassesPressedHandler}
+                />
+              </View>
+              <View style={{ flex: 1,alignItems:'center' }} >
+                <Text 
+                  style={[styles.tabText,]}>MyClasses</Text>
+              </View> */}
+            <TouchableHighlight
+              onPress={myClassesPressedHandler}
+              onShowUnderlay={onShowUnderlayClass}
+              onHideUnderlay={onHideUnderlayClass}
+              underlayColor="#3559EA"
+              style={{ borderRadius: 5 }}
+            >
+              <View
                 style={[
-                  styles.tabText,
-                  changeIconBackground ? { color: "blue" } : { color: "grey" },
+                  { flex: 1 },
+                  {
+                    flexDirection: "column",
+                  },
                 ]}
               >
-                MyClasses
-              </Text>
-            </View>
+                <View style={{ flex: 1, alignItems: "center" }}>
+                  <MaterialCommunityIcons
+                    name="google-classroom"
+                    size={25}
+                    color={textColorClass}
+                  />
+                </View>
+                <View style={{ flex: 1, alignItems: "center" }}>
+                  <Text style={[styles.tabText, { color: textColorClass }]}>
+                    MyClasses
+                  </Text>
+                </View>
+              </View>
+            </TouchableHighlight>
           </View>
         </View>
       </View>
@@ -186,6 +289,11 @@ const styles = StyleSheet.create({
   tabText: {
     fontFamily: "HindSemiBold",
     color: "grey",
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: "#333",
+    padding: 10,
   },
 });
 

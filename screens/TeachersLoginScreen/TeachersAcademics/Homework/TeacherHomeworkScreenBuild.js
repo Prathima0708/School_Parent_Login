@@ -37,13 +37,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 import { subURL } from "../../../../components/utils/URL's";
-// import * as FileSystem from "expo-file-system";
-import { decode, FileSystem } from "base-64";
+import * as FileSystem from "expo-file-system";
+
 export var ID;
 var FROMDATE, TODATE;
 
 var SubjectID;
-let localUri, match, type, base64;
+let localUri, match, type, path;
 let ImageResult, filename;
 var newArray, TOKEN, USERNAME;
 var KEY, VALUE, SUBJECTVALUE, SUBJECTKEY;
@@ -348,6 +348,8 @@ const TeacherHomeworkScreenBuild = () => {
 
     localUri = result.uri;
     filename = localUri.split("/").pop();
+    path = FileSystem.documentDirectory + filename;
+    console.log(path);
 
     // console.log("filename-", JSON.stringify(filename));
 
@@ -768,7 +770,7 @@ const TeacherHomeworkScreenBuild = () => {
         remark: remark,
         // homework_photo:
         //  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAC+klEQVRoge2ZT0hUURSHv3Pf02EsC9TEEgNBUCqKygmkaFVtIlrUoAbVqpZGtWhRC6HANoU7oTbRPwshahHUJoRALWsTUViLgizjWYkUmTjvnRaOMgwz4/ic0DfNBwNv7jn3/s6Pc+97bxgoUKDAf4HMXDS2OAdFaAO2AMsWryQAJkA/iMoTsayuZ7fK38w1QQAirU4ncOKfl+cPV1XO17oVF3p6xE2XZBpbnIMsXRMAloi2fywavZwpycS309JHaYu0OM3pwobpMxEMhEsbD39NeX4Ni3+w50N1aErOpApIpNVRgMHuSkmVkMh8cv3kZ5rTeOjrflFzH5iw1F03cGf1x8S4yVZgsXlxu+oB8BgIu8a6mBwPjBEAyzMngSmU5sghZ2diLFBGBu5WvEXoAkDppF1n6w+UEYAQxe3AN2BzZGj06Mz47GEPKJ8Hu1fVgGjgOpJEdVP0+xoI4NZKxrWphzwworgNkAdGEMmPjqB5srVg2og9822pv2sl0xT9FI7ZoV/A2q37vpQEtiP9PTUTgnwCjL3cqgusEQBPdAjAQxoCbcR4vANApD7QRpC4EfWCbUS86a0F0hD0l8YZfga6IwmU5ouRvHiyAwUjS49sjQyrEi0Oy4risKxA9ADw/h/V5Esrm9vvsB0LbervWfkjcbApOl4WsydfAdULKDpnWgYYybSyKieTFwaIj53yWXCutUaMot2ZFg+VyON0MS9mp435wbeWyC17eej32V+TJQjSCqxOzolNmqx/SywUH1ojoLfHxsbP2b3Xav8Ap+OfWba1Ok8Vdnga2wXcS7WKWLHd8cung92VO1PlZEMutNLetTzkJgAqHduODJcnx5ui42UGOuI5N+Zffm610rZy63EtMj9H+4BG4DNwyhjrEYDrunsMdKhQB/p82Ujl9t5eifk1kgutjHsyEnWqKOIhmvZfrRdFtre370aV49dErrTmPFzro1octkaPGZHDim6YniSvFe+6V1p59eUVmVpA/YumVaBAgYDyF2wAQNEGCgG3AAAAAElFTkSuQmCC",
-        homework_photo: localUri,
+        homework_photo: path,
         // homework_photo: filename,
         homework: "empty",
         due_date: TODATE,
