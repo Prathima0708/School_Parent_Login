@@ -55,7 +55,7 @@ function TeachersAcademics({ navigation }) {
   }
   return (
     <>
-      <View style={{ backgroundColor: "white", height: "100%" }}>
+      <View style={{ backgroundColor: "white", height: "94.5%" }}>
         <FlatList
           style={styles.test}
           data={TEACHERSACADEMICS}

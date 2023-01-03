@@ -466,6 +466,7 @@ const TeachersAttendanceBuild = () => {
     IDSet = [...mainId].filter(x => !selectedId.has(x));
 
     IDSETARRAY=IDSet
+    console.log("from savell",IDSETARRAY)
     
     IDSet.forEach((value, index, set) => {
       if (mainId.has(value)) {
@@ -478,7 +479,7 @@ const TeachersAttendanceBuild = () => {
 
   function changeBorderColor(id){
     // IDSETARRAY.forEach((element) => {
-      
+      console.log("executed")
       var selectedID = IDSETARRAY.filter((item) => item === id)
       console.log(selectedID)
       if(IDSETARRAY.length > 0){
