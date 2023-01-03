@@ -20,7 +20,7 @@ const TeachersHome = ({style}) => {
   }
 
   const onShowUnderlayDashboard = () => {
-    setTextColorDashboard('#fff');
+    setTextColorDashboard('black');
   };
 
   const onHideUnderlayDashboard = () => {
@@ -28,7 +28,7 @@ const TeachersHome = ({style}) => {
   };
 
   const onShowUnderlayAcademics = () => {
-    setTextColorAcademics('#fff');
+    setTextColorAcademics('black');
   };
 
   const onHideUnderlayAcademics = () => {
@@ -36,7 +36,7 @@ const TeachersHome = ({style}) => {
   };
 
   const onShowUnderlayClass = () => {
-    setTextColorClass('#fff');
+    setTextColorClass('black');
   };
 
   const onHideUnderlayClass = () => {
@@ -68,7 +68,7 @@ const TeachersHome = ({style}) => {
             </View> */}
             <TouchableHighlight
                 onPress={() => navigation.navigate("TeachersLogin")}
-                underlayColor="#3559EA"
+                underlayColor="#E5E7E9"
                 onShowUnderlay={onShowUnderlayDashboard}
                 onHideUnderlay={onHideUnderlayDashboard}
                 style={{borderRadius:5}}
@@ -84,7 +84,7 @@ const TeachersHome = ({style}) => {
                     />
                   </View>
                   <View style={{ flex: 1,alignItems:'center' }} >
-                    <Text style={[styles.tabText,{color: textColorDashboard}]}>Dashboard</Text>
+                    <Text style={[styles.tabText,{color: textColorDashboard}]}>Home</Text>
                   </View>
                 </View>
             </TouchableHighlight>
@@ -108,7 +108,7 @@ const TeachersHome = ({style}) => {
             </View> */}
             <TouchableHighlight
                 onPress={() => navigation.navigate("TeachersAcademics")}
-                underlayColor="#3559EA"
+                underlayColor="#E5E7E9"
                 onShowUnderlay={onShowUnderlayAcademics}
                 onHideUnderlay={onHideUnderlayAcademics}
                 style={{borderRadius:5}}
@@ -152,7 +152,7 @@ const TeachersHome = ({style}) => {
                 onPress={myClassesPressedHandler}
                 onShowUnderlay={onShowUnderlayClass}
                 onHideUnderlay={onHideUnderlayClass}
-                underlayColor="#3559EA"
+                underlayColor="#E5E7E9"
                 style={{borderRadius:5}}
               >
                 <View style={[{flex:1}, {
