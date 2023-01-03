@@ -47,6 +47,7 @@ function Academics({ navigation }) {
   }
   return (
     <>
+     <View style={{ backgroundColor: "white", height: "100%" }}>
       <FlatList
         style={styles.test}
         data={ACADEMICS}
@@ -55,28 +56,23 @@ function Academics({ navigation }) {
         numColumns={2}
       />
       <ParentsHome />
+      </View>
     </>
   );
 }
 export default Academics;
 
 const styles = StyleSheet.create({
-  root: {
-    width: "50%",
-  },
-  main: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
   rootContainer: {
     flex: 1,
+    top: 10,
     justifyContent: "center",
     alignItems: "center",
+   // backgroundColor:'red'
     //padding: 32,
   },
   test: {
-    // textAlign: "center",
-    top: 20,
+    top: 15,
+    //backgroundColor:'white'
   },
 });
