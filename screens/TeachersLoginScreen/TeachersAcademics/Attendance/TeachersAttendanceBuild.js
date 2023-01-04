@@ -123,7 +123,7 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Button as NativeButton,Text as NativeText} from "native-base";
+import { Badge, Button as NativeButton,Text as NativeText} from "native-base";
 import axios from "axios";
 import TeachersList from "./TeachersList";
 import { subURL } from "../../../../components/utils/URL's";
@@ -150,7 +150,6 @@ const TeachersAttendanceBuild = () => {
   const fromDateInputIsInValid =
     !enteredFromDateIsValid && enteredFromDateTouched;
   
-  const [selectedStatus, setSelectedStatus] = useState("");
   const [userID, setUserID] = useState("");
 
   const [selectedClassSection, setSelectedClassSection] = useState("");
@@ -169,8 +168,6 @@ const TeachersAttendanceBuild = () => {
   const [presentPressed,setPresentPressed]=useState(false);
   const [absentPressed,setAbsentPressed]=useState(false);
 
-  // const [samePresentID,setSamePresentID]=useState();
-  // const [sameAbsentID,setSameAbsentID]=useState(false);
   const [missedID,setMissedID]=useState(false);
   const[test,setTest]=useState(false);
 
@@ -310,14 +307,12 @@ const TeachersAttendanceBuild = () => {
   }
 
   function buttonPressedHandler() {
-
     setEnteredSelectedTouched(true);
     setEnteredFromDateTouched(true);
 
     if (!enteredSelcetdIsValid || !enteredFromDateIsValid) {
       return;
     }else{
-
       setShowCalendar(false);
       setShowStudList(true);
     }
@@ -333,7 +328,7 @@ const TeachersAttendanceBuild = () => {
     //   setSamePresentID(id);
     // }
 
-    setSelectedStatus("Present")
+   // setSelectedStatus("Present")
     const object = {
       id: id,
       leave_status: "present"
@@ -360,7 +355,7 @@ const TeachersAttendanceBuild = () => {
   function absentBtnHandler(id) {
     setAbsentPressed(true);
     setPresentPressed(false);
-    setSelectedStatus("Absent")
+    //setSelectedStatus("Absent")
     const object = {
       id: id,
       leave_status: "absent"
@@ -385,7 +380,7 @@ const TeachersAttendanceBuild = () => {
   }
 
   function presentAllHandler(){
-    setSelectedStatus("Present");
+    //setSelectedStatus("Present");
 
     // while(array.length > 0) {
     //   array.pop();
@@ -400,7 +395,6 @@ const TeachersAttendanceBuild = () => {
 
       changeColor(data[i].id, 'P')
       array.push(object)
-      console.log(array);
     }
     viewStudentList();
 
@@ -408,7 +402,7 @@ const TeachersAttendanceBuild = () => {
   }
 
   function absentAllHandler(){
-    setSelectedStatus("Absent");
+    //setSelectedStatus("Absent");
 
     // while(array.length > 0) {
     //   array.pop();
@@ -429,7 +423,7 @@ const TeachersAttendanceBuild = () => {
   }
 
   function holidayForAllHandler(){
-    setSelectedStatus("Holiday");
+    //setSelectedStatus("Holiday");
 
     // while(array.length > 0) {
     //   array.pop();
@@ -440,10 +434,10 @@ const TeachersAttendanceBuild = () => {
         id: data[i].id,
         leave_status: "holiday"
       };
-
+      changeHolidayColor(data[i].id, 'H')
       array.push(object)
     }
-
+    viewStudentList();
     IDSETARRAY =[]
   }
 
@@ -466,7 +460,6 @@ const TeachersAttendanceBuild = () => {
     IDSet = [...mainId].filter(x => !selectedId.has(x));
 
     IDSETARRAY=IDSet
-    console.log("from savell",IDSETARRAY)
     
     IDSet.forEach((value, index, set) => {
       if (mainId.has(value)) {
@@ -479,9 +472,8 @@ const TeachersAttendanceBuild = () => {
 
   function changeBorderColor(id){
     // IDSETARRAY.forEach((element) => {
-      console.log("executed")
       var selectedID = IDSETARRAY.filter((item) => item === id)
-      console.log(selectedID)
+
       if(IDSETARRAY.length > 0){
         if (selectedID.length > 0) {
           let styleData = {
@@ -489,7 +481,7 @@ const TeachersAttendanceBuild = () => {
             borderWidth:1,
             flex:1,
             flexDirection: "row",
-            backgroundColor: '#D3D2FF',
+            backgroundColor: '#FFBAAF',
             marginVertical:10,
             marginHorizontal:20
           }
@@ -520,6 +512,27 @@ const TeachersAttendanceBuild = () => {
       }
   }
 
+  function changeHolidayColor(id,text){
+    if(array.filter((item) => item.id === id)){
+      var selectedData = []
+      selectedData = array.filter((item) => item.id === id)
+      if(selectedData.length>0){
+
+        var isHoliday=false;
+        // isPresent = selectedData.map((data,key)=>(data.leave_status==='present'))[0]
+        // isAbsent = selectedData.map((data,key)=>(data.leave_status==='absent'))[0]
+        isHoliday = selectedData.map((data,key)=>(data.leave_status==='holiday'))[0]
+
+        if(isHoliday && text==='H'){
+          return 'goldenrod'
+        } else{
+          return '#dddddd'
+        }
+      }
+      return '#dddddd'
+    }
+  }
+
   function changeColor(id, text){
     
     if(array.filter((item) => item.id === id)){
@@ -536,7 +549,7 @@ const TeachersAttendanceBuild = () => {
           return 'green'
         } else if(isAbsent && text=='A'){
           return 'red'
-        } else {
+        } else{
           return 'grey'
         }
       }
@@ -698,7 +711,7 @@ const TeachersAttendanceBuild = () => {
 
       {showStudList && (
         <View style={[{flex:1}, {flexDirection: "column"}]}>
-          <View style={[{ flex: 0.9 }, { flexDirection: "row",alignItems:"center"}]}>
+          <View style={[{ flex: 0.9 }, { flexDirection: "row",alignItems:"center",}]}>
             <BackButton onPress={backButtonHandler} />
           </View>
 
@@ -784,6 +797,7 @@ const TeachersAttendanceBuild = () => {
                       <View style={[{flex:1}, {
                         flexDirection: "column",marginVertical:20,
                       }]}>
+                        
                         <View style={{ flex: 1 ,marginRight:'30%'}} >
                           <Button 
                             onPress={() => presentButtonPressed(data.id)}
@@ -797,10 +811,13 @@ const TeachersAttendanceBuild = () => {
                             color={changeColor(data.id,"A")}
                             onPress={() => absentBtnHandler(data.id)} title="A"/>
                         </View>
-                        {/* <View style={styles.space}/>
-                        <View style={{ flex: 1,marginRight:'30%' }} >
-                          <Button onPress={() => holidatBtnGHandler(data.id)} title="H" />
-                        </View>*/}
+                        <View style={styles.space}/>
+                        <View style={{ flex: 1,marginRight:'20%',right:'9%'}} >
+                          <NativeButton     
+                            style={{backgroundColor:changeHolidayColor(data.id,"H")}}>
+                            <Text style={{fontFamily:'HindBold',color:'grey'}}>H</Text>
+                          </NativeButton>
+                        </View>
                       </View>
                     </View>
                   </View>

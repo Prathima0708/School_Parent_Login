@@ -78,7 +78,7 @@ const ParentsHome = ({style}) => {
                 }]}>
                   <View style={{ flex: 1,alignItems:'center' }} >
                     <Ionicons
-                      name="home"
+                      name="home-outline"
                       size={25}
                       color={textColorDashboard}
                     />

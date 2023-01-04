@@ -197,12 +197,14 @@ const CalenderScreen = () => {
           { flex: 1 },
           {
             flexDirection: "column",
+            backgroundColor:'white'
           },
         ]}
       >
-        <View style={{ flex: 1.3,backgroundColor:'white' }}>
+        <View style={{ flex: 2,backgroundColor:'white' }}>
           <Calendar
             markedDates={dates}
+            hideExtraDays={true}
             style={{
               elevation: 5,
               shadowColor: "black",
@@ -230,8 +232,8 @@ const CalenderScreen = () => {
         <View
           style={[
             { flex: 1 },
-            { flexDirection: "column", backgroundColor: "white" }]}>
-          <View style={{ flex: 8, bottom: 10 }}>
+            { flexDirection: "column", backgroundColor: "white"}]}>
+          <View style={{ flex: 8, bottom: 30, }}>
           <ScrollView>
             <View
               style={[
