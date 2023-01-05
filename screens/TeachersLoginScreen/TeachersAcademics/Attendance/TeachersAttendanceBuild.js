@@ -116,14 +116,15 @@ import {
   StyleSheet,
   TouchableOpacity,
   Button,
-  Dimensions
+  Dimensions,
+  TextInput
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Badge, Button as NativeButton,Text as NativeText} from "native-base";
+import { Badge, Button as NativeButton,FormControl,Modal,Text as NativeText,Input as NativeInput} from "native-base";
 import axios from "axios";
 import TeachersList from "./TeachersList";
 import { subURL } from "../../../../components/utils/URL's";
@@ -157,6 +158,11 @@ const TeachersAttendanceBuild = () => {
   const enteredSelcetdIsValid = selectedClassSection.toString().trim() !== "";
   const selectInputIsInValid = !enteredSelcetdIsValid && enteredSelectedTouched;
 
+  const [description, setEnteredDescription] = useState("");
+  const [enteredDescriptionTouched, setEnteredDescriptionTouched] = useState(false);
+  const enteredDescriptionIsValid = description.trim() !== "";
+  const descriptionInputIsInValid = !enteredDescriptionIsValid && enteredDescriptionTouched;
+
   const [showCalendar, setShowCalendar] = useState(true);
   const [showStudList, setShowStudList] = useState(false);
 
@@ -164,6 +170,9 @@ const TeachersAttendanceBuild = () => {
   const [array,setArray]=useState([]);
   const [classTeacherData, setClassTeacherData] = useState([]);
 
+  const [placement, setPlacement] = useState(undefined);
+  const [open, setOpen] = useState(false);
+  const [done,setDone]=useState(false);
 
   const [presentPressed,setPresentPressed]=useState(false);
   const [absentPressed,setAbsentPressed]=useState(false);
@@ -272,6 +281,10 @@ const TeachersAttendanceBuild = () => {
     fetchStudents();
   }
 
+  function descriptionChangeHandler(enteredValue){
+    setEnteredDescription(enteredValue)
+  }
+
   const fromDateChangeHandler = (event, selectedFromDate) => {
     const currentFromDate = selectedFromDate;
 
@@ -331,7 +344,8 @@ const TeachersAttendanceBuild = () => {
    // setSelectedStatus("Present")
     const object = {
       id: id,
-      leave_status: "present"
+      leave_status: "present",
+      holiday_description:""
     };
 
     const existingItem = array.find((item) => item.id === object.id);
@@ -358,7 +372,8 @@ const TeachersAttendanceBuild = () => {
     //setSelectedStatus("Absent")
     const object = {
       id: id,
-      leave_status: "absent"
+      leave_status: "absent",
+      holiday_description:""
     };
     const existingItem = array.find((item) => item.id === object.id);
 
@@ -390,7 +405,8 @@ const TeachersAttendanceBuild = () => {
     for(i=0;i < data.length;i++){
       const  object = {
         id: data[i].id,
-        leave_status: "present"
+        leave_status: "present",
+        holiday_description:""
       };
 
       changeColor(data[i].id, 'P')
@@ -411,7 +427,8 @@ const TeachersAttendanceBuild = () => {
     for(i=0;i < data.length;i++){
       const  object = {
         id: data[i].id,
-        leave_status: "absent"
+        leave_status: "absent",
+        holiday_description:""
       };
       
       changeColor(data[i].id, 'A')
@@ -422,23 +439,17 @@ const TeachersAttendanceBuild = () => {
     IDSETARRAY=[]
   }
 
-  function holidayForAllHandler(){
-    //setSelectedStatus("Holiday");
+  function holidayForAllHandler(placement){
 
-    // while(array.length > 0) {
-    //   array.pop();
-    // }
     array.length=0
-    for(i=0;i < data.length;i++){
-      const  object = {
-        id: data[i].id,
-        leave_status: "holiday"
-      };
-      changeHolidayColor(data[i].id, 'H')
-      array.push(object)
-    }
-    viewStudentList();
     IDSETARRAY =[]
+
+    setHideStudList(true);
+
+    setOpen(true);
+    setPlacement(placement);
+    setEnteredDescription("")
+    setEnteredDescriptionTouched(false);
   }
 
   function saveAttendance() {
@@ -460,7 +471,7 @@ const TeachersAttendanceBuild = () => {
     IDSet = [...mainId].filter(x => !selectedId.has(x));
 
     IDSETARRAY=IDSet
-    
+    console.log("IDSETARRAY",IDSETARRAY)
     IDSet.forEach((value, index, set) => {
       if (mainId.has(value)) {
         setTest(true);
@@ -468,6 +479,7 @@ const TeachersAttendanceBuild = () => {
         setTest(false);
       }
     }); 
+
   }
 
   function changeBorderColor(id){
@@ -510,27 +522,6 @@ const TeachersAttendanceBuild = () => {
         }
         return styleData;
       }
-  }
-
-  function changeHolidayColor(id,text){
-    if(array.filter((item) => item.id === id)){
-      var selectedData = []
-      selectedData = array.filter((item) => item.id === id)
-      if(selectedData.length>0){
-
-        var isHoliday=false;
-        // isPresent = selectedData.map((data,key)=>(data.leave_status==='present'))[0]
-        // isAbsent = selectedData.map((data,key)=>(data.leave_status==='absent'))[0]
-        isHoliday = selectedData.map((data,key)=>(data.leave_status==='holiday'))[0]
-
-        if(isHoliday && text==='H'){
-          return 'goldenrod'
-        } else{
-          return '#dddddd'
-        }
-      }
-      return '#dddddd'
-    }
   }
 
   function changeColor(id, text){
@@ -583,6 +574,26 @@ const TeachersAttendanceBuild = () => {
 
   }
 
+  function donePressedHandler(){
+    // setOpen(false);
+    for(i=0;i < data.length;i++){
+      const  object = {
+        id: data[i].id,
+        leave_status: "holiday",
+        holiday_description:description
+      };
+      
+      array.push(object)
+    }
+    viewStudentList();
+    setEnteredDescriptionTouched(true);
+
+    if (!enteredDescriptionIsValid) {
+      return;
+    }else{
+      setOpen(false);
+    }
+  }
   return (
     <>
       {showCalendar && (
@@ -715,7 +726,9 @@ const TeachersAttendanceBuild = () => {
             <BackButton onPress={backButtonHandler} />
           </View>
 
-          <View style={{ flex: 0.7,bottom:"7%"}} >
+          <View style={{ 
+            flex: keyboardStatus == "Keyboard Hidden" ? 0.7 : 1 ,
+            bottom:"7%"}} >
             
             <View style={[{flex:1}, {flexDirection: "row",left:'10%',marginHorizontal:15,marginVertical:15}]}>
               <View style={{ flex: 1 }} >
@@ -732,7 +745,7 @@ const TeachersAttendanceBuild = () => {
               <View style={styles.space}/>
               <View style={{ flex: 1 }} >
                 <NativeButton 
-                  onPress={holidayForAllHandler}
+                  onPress={()=>holidayForAllHandler("top")}
                   colorScheme='yellow'>Holiday</NativeButton>
               </View>
               <View style={styles.space}/>
@@ -768,55 +781,63 @@ const TeachersAttendanceBuild = () => {
             </View>
           </View>
           <View style={{ flex: 2,bottom:'6%'}} >
+            {
             <ScrollView>
               {data &&
                 data.map((data,key)=>(
                   <View style={changeBorderColor(data.id)}>
-
-                    <View style={{ flex: 1,justifyContent:'center',alignItems:'center' }} >
-                      <Text style={[styles.textBase, styles.description]}>
-                        {data.reg_number}
-                      </Text>
-                    </View>
-                    <View style={{ flex: 1 ,justifyContent:'center',alignItems:'center' }} >
-                      <Text style={[styles.textBase, styles.description]}>
-                        {data.student_name}
-                      </Text>
-                    </View>
-                    <View style={{ flex: 1,justifyContent:'center',alignItems:'center' }} >
-                      <Text style={[styles.textBase, styles.description]}>
-                        {data.id}
-                      </Text>
-                    </View>
-                    {/* <View style={{ flex: 1,justifyContent:'center' }} >
-                      <Text style={{ color: "black", fontWeight: "bold" }}>
-                        {selectedStatus}
-                      </Text>
-                    </View> */}
-                    <View style={{ flex: 0.4 }} >
-                      <View style={[{flex:1}, {
-                        flexDirection: "column",marginVertical:20,
-                      }]}>
-                        
-                        <View style={{ flex: 1 ,marginRight:'30%'}} >
-                          <Button 
-                            onPress={() => presentButtonPressed(data.id)}
-                            color={changeColor(data.id,"P")}
-                          
-                            title="P" />
+                    <View style={[{flex:1}, {
+                      flexDirection: "row"
+                    }]}>
+                      <View style={{ flex: 1 }} >
+                        <View style={[{flex:1}, {
+                          flexDirection: "row"
+                        }]}>
+                          <View style={{ flex: 0.5,alignItems:'center',justifyContent:'center' }} >
+                            <Text style={[styles.textBase, styles.description]}>
+                              {data.reg_number}
+                            </Text>
+                          </View>
+                          <View style={{ flex: 1,alignItems:'center',justifyContent:'center'}} >
+                            <Text style={[styles.textBase, styles.description]}>
+                              {data.student_name}
+                            </Text>
+                          </View>
                         </View>
-                        <View style={styles.space}/>
-                        <View style={{ flex: 1,marginRight:'30%' }} >
-                          <Button 
-                            color={changeColor(data.id,"A")}
-                            onPress={() => absentBtnHandler(data.id)} title="A"/>
-                        </View>
-                        <View style={styles.space}/>
-                        <View style={{ flex: 1,marginRight:'20%',right:'9%'}} >
-                          <NativeButton     
-                            style={{backgroundColor:changeHolidayColor(data.id,"H")}}>
-                            <Text style={{fontFamily:'HindBold',color:'grey'}}>H</Text>
-                          </NativeButton>
+                      </View>
+                      <View style={{ flex: 0.2}} >
+                        <View style={[{flex:1}, {
+                          flexDirection: "row"
+                        }]}>
+                          {/* <View style={{ flex: 0.9 }} >
+                            
+                          </View> */}
+                          <View style={{ flex: 1}} >
+                            <View style={[{flex:1}, {
+                              flexDirection: "column",marginVertical:10,marginHorizontal:10
+                            }]}>
+                              <View style={{ flex: 1 }} >
+                                <Button 
+                                  onPress={() => presentButtonPressed(data.id)}
+                                  color={changeColor(data.id,"P")}
+                                
+                                  title="P" />
+                              </View>
+                              <View style={styles.space}/>
+                              <View style={{ flex: 1}} >
+                                <Button 
+                                  color={changeColor(data.id,"A")}
+                                  onPress={() => absentBtnHandler(data.id)} title="A"/>
+                              </View>
+                              {/* <View style={styles.space}/>
+                              <View style={{ flex: 1,height:'80%' }} >
+                                <NativeButton
+                                  style={{backgroundColor:changeHolidayColor(data.id,"H")}}>
+                                  <Text style={{fontFamily:'HindBold',color:'grey',bottom:'15%'}}>H</Text>
+                                </NativeButton>
+                              </View> */}
+                            </View>
+                          </View>
                         </View>
                       </View>
                     </View>
@@ -829,7 +850,67 @@ const TeachersAttendanceBuild = () => {
                 //   </NativeText>
                 // </View>
                 }
-            </ScrollView>
+            </ScrollView>}
+            <Modal
+              isOpen={open}
+              onClose={() => setOpen(false)}
+              //safeAreaTop={true}
+              size="full"
+            >
+          <Modal.Content maxWidth="90%" minHeight="5%">
+            <Modal.Header
+              style={{ justifyContent: "center", alignItems: "center" }}
+            >
+              Holiday Description
+            </Modal.Header>
+            <Modal.Body>
+              <FormControl.Label>Description</FormControl.Label>
+              <NativeInput 
+                multiline={true}
+                style={[styles.descriptionTextStyle,
+                  descriptionInputIsInValid && styles.errorBorderColor]}
+                value={description}
+                onChangeText={descriptionChangeHandler}
+              />
+              {descriptionInputIsInValid && 
+              <Text style={[styles.errorText,{left:0}]}>Enter the description</Text>}
+            </Modal.Body>
+            <Modal.Footer>
+              <NativeButton.Group space={2}>
+                <NativeButton
+                  onPress={donePressedHandler}>
+                  Done
+                </NativeButton>
+                <NativeButton
+                  onPress={() => {
+                    setOpen(false);
+                  }}
+                >
+                  Cancel
+                </NativeButton>
+              </NativeButton.Group>
+            </Modal.Footer>
+          </Modal.Content>
+        </Modal>
+            {/* {hideStudList && 
+              <View style={[{flex:1}, {
+                // Try setting `flexDirection` to `"row"`.
+                flexDirection: "column"
+              }]}>
+                <View style={{ flex: 1, backgroundColor: "red" }} >
+                  <Text>Description</Text>
+                </View>
+                <View style={{ flex: 1, backgroundColor: "darkorange" }} >
+                  <TextInput
+                    style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+                    onChangeText={text => setValue(text)}
+                    value={value}
+                    multiline={true}
+                    numberOfLines={4}
+                  />
+                </View>
+              </View> 
+            } */}
           </View>
           <View style={{ flex: 0.3 ,marginHorizontal:60,bottom:'3%'}} >
             <NativeButton size="md" onPress={saveAttendance}>
@@ -1069,7 +1150,12 @@ const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
-
+  descriptionTextStyle:{
+    fontSize:18
+  },
+  errorBorderColor:{
+    borderColor:'red'
+  },
   viewStyle:{
     flex:1,
     flexDirection: "row",
