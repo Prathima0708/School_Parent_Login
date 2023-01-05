@@ -1468,7 +1468,15 @@ const TeacherHomeworkScreenBuild = () => {
                       />
                     }
                   >
-                    Upload Image
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        fontFamily: "HindSemiBold",
+                        color: "white",
+                      }}
+                    >
+                      Upload Image
+                    </Text>
                   </NativeButton>
                   {!image && (
                     <Text
@@ -2011,10 +2019,10 @@ const styles = StyleSheet.create({
     height: 20,
   },
   btnSubmit: {
+    marginTop: 10,
+    marginBottom: 59,
     width: "70%",
-    // marginTop: deviceWidth < 370 ? "3%" : "1%",
-    bottom: "4%",
-    marginLeft: deviceWidth < 370 ? "35%" : "35%",
+    marginLeft: 130,
   },
   imagePreView: {
     width: "100%",

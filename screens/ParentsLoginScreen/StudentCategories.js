@@ -106,6 +106,6 @@ const styles = StyleSheet.create({
     //padding: 32,
   },
   test: {
-    top: 25,
+    top: 15,
   },
 });

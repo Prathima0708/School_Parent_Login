@@ -36,7 +36,7 @@ import {
   Section,
   className,
 } from "../../../components/StudentItem/StudentItem";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import TeachersHome from "../BottomTab/TeachersHome";
 import Input from "../../../components/UI/Input";
 import { Teacher, UserId } from "../../Login";
@@ -1005,6 +1005,9 @@ const TeachersLeaveUpdated = () => {
     }
     fetchData();
   }
+  function filterAll() {
+    classsectionSelectHandler();
+  }
   function filterApproved() {
     async function fetchData() {
       let filtered = newArray?.filter((ele) => ele.key == selectedClassSection);
@@ -1184,19 +1187,28 @@ const TeachersLeaveUpdated = () => {
               onPress={showLeaveList}
               style={styles.cardStyle}
             /> */}
-            <NativeButton
-              isDisabled={bgColor.length == 0 ? true : false}
-              onPress={showLeaveList}
-              style={[styles.cardStyle]}
-              size="md"
-              padding={7}
-              // textStyle={{ fontFamily: "HindSemiBold", fontSize: 18 }}
-              fontFamily="heading"
+            <View style={{ fontFamily: "HindSemiBold" }}>
+              <NativeButton
+                isDisabled={bgColor.length == 0 ? true : false}
+                onPress={showLeaveList}
+                style={[styles.cardStyle]}
+                size="md"
+                padding={7}
+                // textStyle={{ fontFamily: "HindSemiBold", fontSize: 18 }}
 
-              //  colorScheme="blue"
-            >
-              View Student Leaves
-            </NativeButton>
+                //  colorScheme="blue"
+              >
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontFamily: "HindSemiBold",
+                    color: "white",
+                  }}
+                >
+                  View Student Leaves
+                </Text>
+              </NativeButton>
+            </View>
 
             {/* </Pressable> */}
           </View>
@@ -2039,37 +2051,103 @@ const TeachersLeaveUpdated = () => {
                   onChangeText={(text) => searchFilter(text)}
                   value={searchText}
                 />
-                <NativeText
-                  bold
-                  style={{ fontSize: 20, left: "40%", marginVertical: 15 }}
-                >
-                  Sort by-
-                </NativeText>
+
                 <View
                   style={[
                     { flex: 0.2 },
                     {
+                      // Try setting `flexDirection` to `"row"`.
                       flexDirection: "row",
-                      marginVertical: 6,
-                      marginHorizontal: 10,
                     },
                   ]}
                 >
-                  <View style={{ flex: 1 }}>
-                    <NativeButton onPress={filterApproved} colorScheme="green">
-                      Approved
-                    </NativeButton>
+                  <View
+                    style={{
+                      flex: 1.5,
+                      left: "24%",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <NativeText bold style={{ fontSize: 18 }}>
+                      Sort by -
+                    </NativeText>
                   </View>
                   <View style={styles.space} />
-                  <View style={{ flex: 1 }}>
-                    <NativeButton onPress={filterDenied} colorScheme="red">
-                      Denied
-                    </NativeButton>
+                  <View
+                    style={{
+                      flex: 1.5,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <IconButton
+                      colorScheme="success"
+                      onPress={filterApproved}
+                      variant="subtle"
+                      _icon={{
+                        as: Ionicons,
+                        name: "md-checkmark-sharp",
+                      }}
+                    />
                   </View>
                   <View style={styles.space} />
-                  <View style={{ flex: 1 }}>
-                    <NativeButton onPress={filterPending} colorScheme="yellow">
-                      Pending
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      right: "22%",
+                    }}
+                  >
+                    <IconButton
+                      colorScheme="danger"
+                      onPress={filterDenied}
+                      variant="subtle"
+                      _icon={{
+                        as: Ionicons,
+                        name: "close",
+                      }}
+                    />
+                  </View>
+                  <View style={styles.space} />
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      right: "22%",
+                    }}
+                  >
+                    <IconButton
+                      colorScheme="yellow"
+                      onPress={filterPending}
+                      variant="subtle"
+                      _icon={{
+                        as: MaterialIcons,
+                        name: "pending",
+                      }}
+                    />
+                  </View>
+                  <View style={styles.space} />
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      right: "22%",
+                    }}
+                  >
+                    <NativeButton onPress={filterAll} colorScheme="darkBlue">
+                      <Text
+                        style={{
+                          fontSize: 15,
+                          fontFamily: "HindSemiBold",
+                          color: "white",
+                        }}
+                      >
+                        All
+                      </Text>
                     </NativeButton>
                   </View>
                 </View>
@@ -2583,8 +2661,8 @@ const styles = StyleSheet.create({
   // },
   btnSubmit: {
     marginTop: deviceWidth < 370 ? 40 : 10,
-    width: "50%",
-    marginLeft: 180,
+    width: "60%",
+    marginLeft: 160,
   },
   dateContainer: {
     width: "10%",
@@ -2719,7 +2797,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     borderRadius: 10,
     padding: 10,
-    backgroundColor: "darkblue",
+    backgroundColor: "#2E799B",
     width: "80%",
   },
   labelStyle: {

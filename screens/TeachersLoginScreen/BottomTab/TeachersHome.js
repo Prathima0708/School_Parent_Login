@@ -91,7 +91,11 @@ const TeachersHome = ({ style }) => {
                 ]}
               >
                 <View style={{ flex: 1, alignItems: "center" }}>
-                  <Ionicons name="home" size={25} color={textColorDashboard} />
+                  <Ionicons
+                    name="home-outline"
+                    size={25}
+                    color={textColorDashboard}
+                  />
                 </View>
                 <View style={{ flex: 1, alignItems: "center" }}>
                   <Text style={[styles.tabText, { color: textColorDashboard }]}>
