@@ -18,6 +18,7 @@ import { useRoute } from "@react-navigation/native";
 import axios from "axios";
 import { subURL } from "../../components/utils/URL's";
 import { Image as NativeImage } from "native-base";
+import TeachersHome from "./BottomTab/TeachersHome";
 var USERNAME, value, USERID;
 let i;
 const TeachersLoginScreen = ({ navigation }) => {
@@ -202,6 +203,7 @@ const TeachersLoginScreen = ({ navigation }) => {
             numColumns={2}
           />
         </View>
+        <TeachersHome />
       </View>
     </>
   );
@@ -225,7 +227,7 @@ const styles = StyleSheet.create({
 
   rootContainer1: {
     flex: 1,
-    top: 10,
+    top: 3,
     justifyContent: "center",
     alignItems: "center",
     //padding: 32,
@@ -249,7 +251,8 @@ const styles = StyleSheet.create({
     width: "80%",
     marginHorizontal: "10%",
     padding: "3%",
-    marginVertical: "3%",
+    bottom:'2%',
+   // marginVertical: "1%",
     //  backgroundColor: "#3e04c3",
     backgroundColor: "#23215b",
     //   flexDirection: "row",
