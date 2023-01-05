@@ -668,23 +668,24 @@ const TeachersCalendar = () => {
         setData(res.data);
         setFilteredData(res.data);
 
-        setForCalendarForm({
-          color: "white",
-          backgroundColor: "#1E8449",
-          borderRadius: 10,
-        });
-        setForCalendarList({
-          backgroundColor: "#F4F6F6",
-          color: "black",
-          borderRadius: 10,
-        });
-        setShowForm(false);
-        setShowList(true);
+        
       } catch (error) {
         console.log(error);
       }
     }
     fetchData();
+    setForCalendarForm({
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
+    });
+    setForCalendarList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
+    setShowForm(false);
+    setShowList(true);
     setAnyChecked(true);
   }
 
@@ -906,7 +907,7 @@ const TeachersCalendar = () => {
 
   return (
     <>
-      {showInitialBtn && (
+      {/* {showInitialBtn && (
         <Animated.View
           style={[
             {
@@ -915,17 +916,20 @@ const TeachersCalendar = () => {
             },
           ]}
         >
-          <View style={styles.BtnContainer}>
-            <BgButton onPress={showCalendarForm} style={forCalendarList}>
-              Add Event
-            </BgButton>
-
-            <BgButton onPress={showCalendar} style={forCalendarForm}>
-              Show Event
-            </BgButton>
-          </View>
+          
         </Animated.View>
-      )}
+      )} */}
+
+      {showInitialBtn &&
+      <View style={styles.BtnContainer}>
+        <BgButton onPress={showCalendarForm} style={forCalendarList}>
+          Add Event
+        </BgButton>
+
+        <BgButton onPress={showCalendar} style={forCalendarForm}>
+          Show Event
+        </BgButton>
+      </View> } 
       {showForm && (
         <>
           <ScrollView style={{ backgroundColor: "white" }}>
@@ -1250,7 +1254,7 @@ const TeachersCalendar = () => {
             </View>
           </ScrollView>
           {keyboardStatus == "Keyboard Hidden" && (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 0.3 }}>
               <TeachersHome />
             </View>
           )}
@@ -1688,7 +1692,7 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 5,
     backgroundColor: "white",
-    height: "200%",
+    height: "220%",
   },
   errorBorderColor: {
     borderColor: "red",

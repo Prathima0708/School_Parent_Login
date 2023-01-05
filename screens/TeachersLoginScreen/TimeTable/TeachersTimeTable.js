@@ -247,29 +247,30 @@ const TeachersTimetable = () => {
       } catch (error) {
         console.log(error);
       }
-      setForExamTimeTable({
-        color: "black",
-        backgroundColor: "#F4F6F6",
-        borderRadius: 10,
-        borderTopColor: "#d9dffc",
-        borderBottomWidth: 0,
-        borderLeftWidth: 0,
-        borderRightWidth: 0,
-      });
-      setForTimeTableList({
-        backgroundColor: "#0C60F4",
-        color: "white",
-        borderRadius: 10,
-        borderBottomWidth: 0,
-        borderLeftWidth: 0,
-        borderRightWidth: 0,
-      });
-      setShowAddBtn(true);
-      setShowTimeTableList(true);
-      setShowForm(false);
-      setShowTable(false);
+
     }
     fetchDailyTimeTable();
+    setForExamTimeTable({
+      color: "black",
+      backgroundColor: "#F4F6F6",
+      borderRadius: 10,
+      borderTopColor: "#d9dffc",
+      borderBottomWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 0,
+    });
+    setForTimeTableList({
+      backgroundColor: "#0C60F4",
+      color: "white",
+      borderRadius: 10,
+      borderBottomWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 0,
+    });
+    setShowAddBtn(true);
+    setShowTimeTableList(true);
+    setShowForm(false);
+    setShowTable(false);
   }
 
   useEffect(() => {
