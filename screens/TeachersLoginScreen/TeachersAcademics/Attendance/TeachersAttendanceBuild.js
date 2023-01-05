@@ -184,7 +184,7 @@ const TeachersAttendanceBuild = () => {
   const navigation = useNavigation();
 
   let IDSet=new Set();
-  let i,totalIDs=[];
+  let i;
 
   async function fetchUser() {
     USERID = await AsyncStorage.getItem("key");
@@ -263,15 +263,11 @@ const TeachersAttendanceBuild = () => {
         let filteredc = filteredList.filter(
           (ele) => ele.class_name == class_name
         );
-
+        
         // let filteredc = res.data;
 
         if (filteredc) {
           setData(filteredc);
-        }
-        
-        for(i=0;i<data.length;i++){
-          totalIDs[i]=data[i].id;
         }
 
       } catch (error) {
@@ -395,11 +391,7 @@ const TeachersAttendanceBuild = () => {
   }
 
   function presentAllHandler(){
-    //setSelectedStatus("Present");
-
-    // while(array.length > 0) {
-    //   array.pop();
-    // }
+ 
     array.length=0
 
     for(i=0;i < data.length;i++){
@@ -418,11 +410,7 @@ const TeachersAttendanceBuild = () => {
   }
 
   function absentAllHandler(){
-    //setSelectedStatus("Absent");
-
-    // while(array.length > 0) {
-    //   array.pop();
-    // }
+    
     array.length=0
     for(i=0;i < data.length;i++){
       const  object = {
@@ -443,8 +431,6 @@ const TeachersAttendanceBuild = () => {
 
     array.length=0
     IDSETARRAY =[]
-
-    setHideStudList(true);
 
     setOpen(true);
     setPlacement(placement);
