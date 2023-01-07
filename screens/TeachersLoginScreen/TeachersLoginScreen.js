@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
   },
 
   rootContainer1: {
-    flex: 1,
+    //flex: 1,
     top: 3,
     justifyContent: "center",
     alignItems: "center",
