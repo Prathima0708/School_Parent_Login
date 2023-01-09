@@ -28,6 +28,7 @@
     "accordion-collapse-react-native": "^1.1.1",
     "await": "^0.2.6",
     "axios": "^0.27.2",
+    "base-64": "^1.0.0",
     "bootstrap": "^5.2.0",
     "eas-cli": "^2.1.0",
     "expo": "~45.0.0",

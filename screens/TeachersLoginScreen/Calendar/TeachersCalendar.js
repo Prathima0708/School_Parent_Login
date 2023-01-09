@@ -1703,8 +1703,8 @@ const styles = StyleSheet.create({
 
   btnSubmit: {
     marginTop: deviceHieght < 600 ? "5%" : "10%",
-    width: "50%",
-    marginLeft: 180,
+    width: "60%",
+    marginLeft: 153,
   },
   btnSubmitNew: {
     marginTop: deviceHieght < 600 ? "5%" : "5%",
