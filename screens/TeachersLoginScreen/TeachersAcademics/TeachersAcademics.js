@@ -35,12 +35,7 @@ function TeachersAcademics({ navigation }) {
       }
     }
     return (
-      //     <ZigzagView
-      //   backgroundColor="#CCC"
-      //   surfaceColor="#FFF"
-      //   style={{}}
-
-      // >
+    
       <View style={styles.rootContainer}>
         <CategoryGridTile
           title={itemData.item.title}
@@ -50,7 +45,7 @@ function TeachersAcademics({ navigation }) {
           txtclr={itemData.item.txtclr}
         />
       </View>
-      // </ZigzagView>
+  
     );
   }
   return (
@@ -63,6 +58,7 @@ function TeachersAcademics({ navigation }) {
           renderItem={renderCategoryItem}
           // horizontal={true}
           numColumns={2}
+         
         />
       </View>
       <TeachersHome />
@@ -76,17 +72,20 @@ const styles = StyleSheet.create({
     // backgroundColor: "white",
     //marginVertical:40,
     //marginTop:10,
-    // flex:1,
+     flex:1,
     marginHorizontal: 5,
     marginVertical: 5,
     // width: 180,
     left: 25,
   },
   test: {
-    top: 25,
+  //  top: 25,
+    paddingLeft: "5%",
+    paddingRight: "5%",
   },
   rootContainer: {
-    flex: 1,
+ //   flex: 1,
+    top: 3,
     justifyContent: "center",
     alignItems: "center",
     //padding: 32,

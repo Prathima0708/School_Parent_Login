@@ -1,111 +1,4 @@
-// import { View, StyleSheet, ScrollView, Button, FlatList } from "react-native";
-// import React, { useState } from "react";
-// import axios from "axios";
-// import { useEffect } from "react";
-// import SearchBar from "react-native-dynamic-search-bar";
-// import StudentAttendance from "../../../../components/StudentItem/StudentAttendance";
-// import TeacherAttendance, {
-//   CLASSNAME,
-//   ID,
-//   SECTION,
-//   STATUS,
-//   STUDENTNAME,
-// } from "./TeacherAttendance";
 
-// const TeachersAttendance = () => {
-//   const [data, setData] = useState([]);
-//   const [filteredData, setFilteredData] = useState([]);
-//   const [searchText, setSearchText] = useState("");
-//   let i,
-//     storeData = [];
-//   const [inputs, setInputs] = useState([
-//     {
-//       class_name: CLASSNAME,
-//       section: SECTION,
-//       status: STATUS,
-//       student_name: STUDENTNAME,
-//     },
-//   ]);
-
-//   useEffect(() => {
-//     async function fetchData() {
-//       try {
-//         const res = await axios.get(
-//           `http://10.0.2.2:8000/school/Studentclass/`
-//         );
-//         // console.log(res.data);
-//         setData(res.data);
-//         setFilteredData(res.data);
-//       } catch (error) {
-//         console.log(error);
-//       }
-//     }
-//     fetchData();
-//   }, []);
-
-//   const searchFilter = (text) => {
-//     if (text) {
-//       const newData = data.filter((item) => {
-//         const itemData = item.teachers
-//           ? item.teachers.toUpperCase()
-//           : "".toUpperCase();
-//         const textData = text.toUpperCase();
-//         return itemData.indexOf(textData) > -1;
-//       });
-//       setFilteredData(newData);
-//       setSearchText(text);
-//     } else {
-//       setFilteredData(data);
-//       setSearchText(text);
-//     }
-//   };
-//   function renderStudentDetails(itemData) {
-//     return <TeacherAttendance {...itemData.item} />;
-//   }
-
-//   function buttonPressedHandler() {
-//     console.log("inside button");
-
-//     for (i = 0; i < filteredData.length; i++) {
-//       console.log(filteredData[i].class_name);
-//     }
-//     const FormData = {
-//       student_name: STUDENTNAME,
-//       class_name: CLASSNAME,
-//       section: SECTION,
-//       status: STATUS,
-//     };
-
-//     console.log(FormData);
-//   }
-
-//   return (
-//     <>
-//       <SearchBar
-//         style={styles.searchBar}
-//         placeholder="Search here by name"
-//         onChangeText={(text) => searchFilter(text)}
-//         value={searchText}
-//       />
-
-//       <ScrollView>
-//         <FlatList
-//           data={filteredData}
-//           renderItem={renderStudentDetails}
-//           keyExtractor={(item, index) => index.toString()}
-//         />
-//         <Button title="Save" onPress={buttonPressedHandler} />
-//       </ScrollView>
-//     </>
-//   );
-// };
-// export default TeachersAttendance;
-
-// const styles = StyleSheet.create({
-//   searchBar: {
-//     top: 10,
-//   },
-// });
 
 import {
   View,
@@ -118,6 +11,7 @@ import {
   Button,
   Dimensions,
   TextInput,
+  Alert,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useLayoutEffect, useState } from "react";
@@ -141,8 +35,10 @@ import { Keyboard } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import BackButton from "../../../../components/UI/BackButton";
 import { borderColor } from "@mui/system";
+import moment from "moment";
 
 var USERID,
+  TOKEN,
   newArray,
   IDSETARRAY = [];
 var filteredArray = [];
@@ -160,6 +56,8 @@ const TeachersAttendanceBuild = () => {
     !enteredFromDateIsValid && enteredFromDateTouched;
 
   const [userID, setUserID] = useState("");
+
+  const [token, setToken] = useState("");
 
   const [selectedClassSection, setSelectedClassSection] = useState("");
   const [enteredSelectedTouched, setEnteredSelectedTouched] = useState(false);
@@ -193,6 +91,8 @@ const TeachersAttendanceBuild = () => {
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const navigation = useNavigation();
 
+  
+
   let IDSet = new Set();
   let i,
     totalIDs = [];
@@ -205,6 +105,15 @@ const TeachersAttendanceBuild = () => {
     }
   }
   fetchUser();
+
+  async function fetchToken() {
+    TOKEN = await AsyncStorage.getItem("token");
+
+    if (TOKEN !== null) {
+      setToken(TOKEN);
+    }
+  }
+  fetchToken();
 
   useEffect(() => {
     async function fetchStudentClass() {
@@ -352,16 +261,27 @@ const TeachersAttendanceBuild = () => {
     // }
 
     // setSelectedStatus("Present")
-    const object = {
-      id: id,
-      leave_status: "present",
-      holiday_description: "",
-    };
 
-    const existingItem = array.find((item) => item.id === object.id);
+    const object = {
+      student: id,
+      attendance_date: moment(fromDate).format("YYYY-MM-DD"),
+      class_name: filteredArray[0].classname,
+      section: filteredArray[0].section,
+      attendance_status: "present",
+      description: "",
+    };
+    // const object = {
+    //   id: id,
+    //   leave_status: "present",
+    //   holiday_description: "",
+    // };
+
+    const existingItem = array.find((item) => item.student === object.student);
 
     if (existingItem) {
-      setArray(array.map((item) => (item.id === object.id ? object : item)));
+      setArray(
+        array.map((item) => (item.student === object.student ? object : item))
+      );
     } else {
       setArray((prevArray) => [...prevArray, object]);
       //setItems([...items, updatedItem]);
@@ -380,15 +300,25 @@ const TeachersAttendanceBuild = () => {
     setAbsentPressed(true);
     setPresentPressed(false);
     //setSelectedStatus("Absent")
+    // const object = {
+    //   id: id,
+    //   leave_status: "absent",
+    //   holiday_description: "",
+    // };
     const object = {
-      id: id,
-      leave_status: "absent",
-      holiday_description: "",
+      student: id,
+      attendance_date: moment(fromDate).format("YYYY-MM-DD"),
+      class_name: filteredArray[0].classname,
+      section: filteredArray[0].section,
+      attendance_status: "absent",
+      description: "",
     };
-    const existingItem = array.find((item) => item.id === object.id);
+    const existingItem = array.find((item) => item.student === object.student);
 
     if (existingItem) {
-      setArray(array.map((item) => (item.id === object.id ? object : item)));
+      setArray(
+        array.map((item) => (item.student === object.student ? object : item))
+      );
     } else {
       setArray((prevArray) => [...prevArray, object]);
       //setItems([...items, updatedItem]);
@@ -412,10 +342,18 @@ const TeachersAttendanceBuild = () => {
     array.length = 0;
 
     for (i = 0; i < data.length; i++) {
+      // const object = {
+      //   id: data[i].id,
+      //   leave_status: "present",
+      //   holiday_description: "",
+      // };
       const object = {
-        id: data[i].id,
-        leave_status: "present",
-        holiday_description: "",
+        student: data[i].id,
+        attendance_date: moment(fromDate).format("YYYY-MM-DD"),
+        class_name: filteredArray[0].classname,
+        section: filteredArray[0].section,
+        attendance_status: "present",
+        description: "",
       };
 
       changeColor(data[i].id, "P");
@@ -434,10 +372,18 @@ const TeachersAttendanceBuild = () => {
     // }
     array.length = 0;
     for (i = 0; i < data.length; i++) {
+      // const object = {
+      //   id: data[i].id,
+      //   leave_status: "absent",
+      //   holiday_description: "",
+      // };
       const object = {
-        id: data[i].id,
-        leave_status: "absent",
-        holiday_description: "",
+        student: data[i].id,
+        attendance_date: moment(fromDate).format("YYYY-MM-DD"),
+        class_name: filteredArray[0].classname,
+        section: filteredArray[0].section,
+        attendance_status: "absent",
+        description: "",
       };
 
       changeColor(data[i].id, "A");
@@ -461,10 +407,60 @@ const TeachersAttendanceBuild = () => {
   }
 
   function saveAttendance() {
-    //  console.log("finalList", array);
+  //  console.log("finalList", array);
+
+    async function getData() {
+      try {
+       const resAttendance = await axios.get(`${subURL}/Attendance/`);
+       const isSameDataPresent = data.some(item1 => {
+        return resAttendance.data.some(item2 => {
+          return item1.id === item2.student && moment(fromDate).format("YYYY-MM-DD") ===item2.attendance_date;
+        });
+      });
+      console.log(isSameDataPresent)
+
+       if(isSameDataPresent==true){
+        Alert.alert("Attendance already marked",  [
+          {
+            text: "OK",
+            onPress: () => {
+             // setShowStudList(false);
+             // showCalendar();
+            },
+          },
+        ]);
+       }
+       else{
+        async function storeData() {
+          try {
+            let headers = {
+              "Content-Type": "application/json; charset=utf-8",
+              Authorization: "Token " + `${token}`,
+            };
+
+            const resLogin = await axios.post(`${subURL}/Attendance/`, array, {
+              headers: headers,
+            });
+            //console.log(resLogin.data);
+          } catch (error) {
+            console.log(error);
+          }
+        }
+        storeData();
+       }
+      
+
+        // const resStudent = await axios.get(`${subURL}/Student/`);
+
+      
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
 
     const mainId = new Set(data.map((obj) => obj.id));
-    const selectedId = new Set(array.map((obj) => obj.id));
+    const selectedId = new Set(array.map((obj) => obj.student));
 
     const eqSet = (mainId, selectedId) =>
       mainId.size === selectedId.size &&
@@ -479,7 +475,7 @@ const TeachersAttendanceBuild = () => {
     IDSet = [...mainId].filter((x) => !selectedId.has(x));
 
     IDSETARRAY = IDSet;
-    console.log("IDSETARRAY", IDSETARRAY);
+    //console.log("IDSETARRAY", IDSETARRAY);
     IDSet.forEach((value, index, set) => {
       if (mainId.has(value)) {
         setTest(true);
@@ -532,17 +528,17 @@ const TeachersAttendanceBuild = () => {
   }
 
   function changeColor(id, text) {
-    if (array.filter((item) => item.id === id)) {
+    if (array.filter((item) => item.student === id)) {
       var selectedData = [];
-      selectedData = array.filter((item) => item.id === id);
+      selectedData = array.filter((item) => item.student === id);
       if (selectedData.length > 0) {
         var isPresent = false;
         var isAbsent = false;
         isPresent = selectedData.map(
-          (data, key) => data.leave_status === "present"
+          (data, key) => data.attendance_status === "present"
         )[0];
         isAbsent = selectedData.map(
-          (data, key) => data.leave_status === "absent"
+          (data, key) => data.attendance_status === "absent"
         )[0];
 
         if (isPresent && text == "P") {
@@ -811,7 +807,7 @@ const TeachersAttendanceBuild = () => {
                       color: "white",
                     }}
                   >
-                    Holiday
+                    Holiday All
                   </Text>
                 </NativeButton>
               </View>
