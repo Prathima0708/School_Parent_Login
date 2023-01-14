@@ -160,17 +160,15 @@ const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   gridItem: {
     flex: 1,
-    marginHorizontal: 9,
-    marginVertical: 13,
     padding: 7,
     paddingTop: 0,
     width: 150,
-
+    marginHorizontal:10,
+    marginVertical:10,
     height: 110,
     borderRadius: 18,
-   elevation: 3,
+    elevation: 3,
     shadowColor: "black",
-
     shadowOpacity: 0.75,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,

@@ -20,6 +20,7 @@ import * as ImagePicker from "expo-image-picker";
 import SelectList from "react-native-dropdown-select-list";
 import { Alert, Button as Btn, Image } from "react-native";
 import moment from "moment";
+
 import {
   launchCameraAsync,
   useCameraPermissions,
@@ -265,6 +266,18 @@ const TeacherHomeworkScreenBuild = () => {
   }
   fetchUser();
 
+  const imageToBlob = async (imageUri) => {
+    const fileType = await FileSystem.getContentUriAsync(imageUri);
+    const file = await FileSystem.readAsStringAsync(imageUri, { encoding: FileSystem.EncodingType.Base64 });
+    const buffer = new Uint8Array(file.length);
+    for (let i = 0; i < file.length; i++) {
+        buffer[i] = file.charCodeAt(i);
+    }
+    const blob = new Blob([buffer], { type: fileType });
+  
+    return blob;
+  }
+
   const PickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -273,6 +286,11 @@ const TeacherHomeworkScreenBuild = () => {
       quality: 1,
       //base64: true,
     });
+    const source = { uri: result.uri };
+    const fileName = result.uri.split('/').pop();
+
+    const blob = await imageToBlob(source.uri);
+    const myFile = new File([blob], fileName, {type: result.type});
 
     // const { status } = await MediaLibrary.requestPermissionsAsync();
     // if (status === "granted") {
@@ -299,8 +317,8 @@ const TeacherHomeworkScreenBuild = () => {
     // console.log(ImageResult)
 
     location = result.uri;
-    if (!result.canceled) {
-      setImage(result.uri);
+    if (!result.cancelled) {
+      setImage(result);
     }
 
     //RNFetchBlob.config({ fileCache: true });
@@ -373,7 +391,7 @@ const TeacherHomeworkScreenBuild = () => {
   let imagePreView;
 
   if (image) {
-    imagePreView = <Image style={styles.image} source={{ uri: image }} />;
+   // imagePreView = <Image style={styles.image} source={{ uri: image }} />;
   }
 
   useEffect(() => {
@@ -653,7 +671,7 @@ const TeacherHomeworkScreenBuild = () => {
 
     // }
   }
-  let postForm = new FormData();
+
   function buttonPressedHandler() {
     // console.log(selectedSubject);
     // console.log("selected value -", newArray);
@@ -727,40 +745,7 @@ const TeacherHomeworkScreenBuild = () => {
     //   return;
     // }
     else {
-      console.log("filename", filename);
-      // console.log(newArray);
-      // console.log("inside post req from date", FROMDATE);
-      // console.log("inside post req to date", TODATE);
       let filteredlist = newArray.filter((ele) => ele.key == selected);
-      // console.log(filteredlist);
-
-      // const imageData = new FormData();
-      // let photo = {
-      //   uri: localUri,
-      //   type: "image/*",
-      // };
-      // imageData.append("homework_photo", photo);
-      // const image = imageData.append("homework_photo", filename);
-
-      // console.log("salvo");
-      // console.log(image);
-      // let photo = {
-      //   uri: localUri,
-      //   type: "image/*",
-      // };
-      // console.log("photo");
-      // console.log(photo);
-
-      // postForm.append("class_name", filteredlist[0].classname);
-      // postForm.append("section", filteredlist[0].section);
-      // postForm.append("subject", selectedSubject);
-      // postForm.append("homework_date", FROMDATE);
-      // postForm.append("remark", remark);
-      // postForm.append("homework_photo", photo);
-
-      // postForm.append("homework", "empty");
-      // postForm.append("due_date", TODATE);
-      // postForm.append("description", hw);
 
       var formdata = {
         class_name: filteredlist[0].classname,
@@ -768,47 +753,59 @@ const TeacherHomeworkScreenBuild = () => {
         subject: selectedSubject,
         homework_date: FROMDATE,
         remark: remark,
-        // homework_photo:
-        //  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAC+klEQVRoge2ZT0hUURSHv3Pf02EsC9TEEgNBUCqKygmkaFVtIlrUoAbVqpZGtWhRC6HANoU7oTbRPwshahHUJoRALWsTUViLgizjWYkUmTjvnRaOMgwz4/ic0DfNBwNv7jn3/s6Pc+97bxgoUKDAf4HMXDS2OAdFaAO2AMsWryQAJkA/iMoTsayuZ7fK38w1QQAirU4ncOKfl+cPV1XO17oVF3p6xE2XZBpbnIMsXRMAloi2fywavZwpycS309JHaYu0OM3pwobpMxEMhEsbD39NeX4Ni3+w50N1aErOpApIpNVRgMHuSkmVkMh8cv3kZ5rTeOjrflFzH5iw1F03cGf1x8S4yVZgsXlxu+oB8BgIu8a6mBwPjBEAyzMngSmU5sghZ2diLFBGBu5WvEXoAkDppF1n6w+UEYAQxe3AN2BzZGj06Mz47GEPKJ8Hu1fVgGjgOpJEdVP0+xoI4NZKxrWphzwworgNkAdGEMmPjqB5srVg2og9822pv2sl0xT9FI7ZoV/A2q37vpQEtiP9PTUTgnwCjL3cqgusEQBPdAjAQxoCbcR4vANApD7QRpC4EfWCbUS86a0F0hD0l8YZfga6IwmU5ouRvHiyAwUjS49sjQyrEi0Oy4risKxA9ADw/h/V5Esrm9vvsB0LbervWfkjcbApOl4WsydfAdULKDpnWgYYybSyKieTFwaIj53yWXCutUaMot2ZFg+VyON0MS9mp435wbeWyC17eej32V+TJQjSCqxOzolNmqx/SywUH1ojoLfHxsbP2b3Xav8Ap+OfWba1Ok8Vdnga2wXcS7WKWLHd8cung92VO1PlZEMutNLetTzkJgAqHduODJcnx5ui42UGOuI5N+Zffm610rZy63EtMj9H+4BG4DNwyhjrEYDrunsMdKhQB/p82Ujl9t5eifk1kgutjHsyEnWqKOIhmvZfrRdFtre370aV49dErrTmPFzro1octkaPGZHDim6YniSvFe+6V1p59eUVmVpA/YumVaBAgYDyF2wAQNEGCgG3AAAAAElFTkSuQmCC",
-        homework_photo: path,
-        // homework_photo: filename,
+        homework_photo: image,
         homework: "empty",
         due_date: TODATE,
         description: hw,
         // created_by: user,
       };
-      // let newObj = Object.assign(formdata, {
-      //   homework_photo: { localUri, filename },
-      // });
+
       console.log(formdata);
+ 
+      console.log('********************')
+    //   var formData = new FormData();
+    //  console.log(FROMDATE)
+    //   formData.append('class_name', filteredlist[0].classname);
+    //   formData.append('section', filteredlist[0].section);
+    //   // formData.append('startedYear', value.startedYear);
+    //   formData.append('subject', selectedSubject);
+    //   formData.append('homework_date', FROMDATE);
+    //   formData.append('remark', remark);
+    //   console.log(formData)
+    //   // formData.append('homework_photo',image,image.name);
+    //   formData.append('homework_photo', {
+    //     uri: image.uri,
+    //     type: `image/${image.type}`, // using path (path.extname()), or using uri (uri.split(".")[1])
+    //     name: `image.${image.uri.split('/').pop()}`}),
+    //   formData.append('homework', "");
+    //   formData.append('due_date', TODATE);
+    //   formData.append('description', hw);
 
-      // let formData = new FormData();
-      // formData.append("class_name", filteredlist[0].classname);
-      // formData.append("section", filteredlist[0].section);
-      // formData.append("subject", selectedSubject);
-      // formData.append("homework_date", FROMDATE);
-      // formData.append("remark", remark);
-      //formData.append("homework_photo", localUri, filename);
-      // // formData.append("homework_photo", filename);
-      // formData.append("homework", "empty");
-      // formData.append("due_date", TODATE);
-      // formData.append("description", hw);
-
-      //console.log(formData);
-
+    //  console.log(formData)
+      // console.log(formData.homework_date)
+      // console.log(formData._parts[7][1]);
+      // console.log(formData.subject)
       async function storeData() {
         try {
-          let headers = {
-            //  Accept: "application/json",
-            //"Content-Type": "application/json; charset=utf-8;",
-            "Content-Type": "multipart/form-data",
-            Authorization: "Token " + `${token}`,
-          };
 
-          const resLogin = await axios.post(`${subURL}/Homework/`, formdata, {
-            headers: headers,
+        //  debugger
+          // let headers = {
+          //   //  Accept: "application/json",
+          //   //"Content-Type": "application/json; charset=utf-8;",
+          //   // "Content-Type": "multipart/form-data",
+          //   Authorization: "Token " + `${token}`,
+          // };
+          let headers = new Headers({
+            // 'Content-Type': 'application/json',
+            "Content-Type": "multipart/form-data",
+            'Authorization': 'Token ' + `${token}`
+          });
+         // console.log(formData)
+         const resLogin = await axios.post(`${subURL}/Homework/`, formData, {
+           headers: headers,
           });
           console.log("response", resLogin.data);
+          debugger
         } catch (error) {
           console.log(error);
         }
