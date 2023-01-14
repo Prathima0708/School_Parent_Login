@@ -244,7 +244,7 @@ export default function App() {
         />
         <Stack.Screen
           name="TeachersAttendance"
-          component={TeachersAttendanceBuild}
+          component={TeachersAttendance}
           options={{ title: "Attendance" }}
         />
 
@@ -534,7 +534,7 @@ export default function App() {
         />
         <Stack.Screen
           name="TeachersAttendance"
-          component={TeachersAttendanceBuild}
+          component={TeachersAttendance}
           options={{ title: "Attendance" }}
         />
         <Stack.Screen

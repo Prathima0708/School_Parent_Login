@@ -160,9 +160,10 @@ const TeachersLoginScreen = ({ navigation }) => {
 
   return (
     <>
-      <View style={{ backgroundColor: "#ffff", height: "100%" }}>
-        <Text style={styles.heading}></Text>
-        <View style={styles.studentItem}>
+      <View style={[{flex:1}, {
+        flexDirection: "column",backgroundColor:'white'
+      }]}>
+        <View style={{ flex: 0.9 }} >
           <View style={styles.studentItem}>
             {/* <Image
               source={{
@@ -188,22 +189,22 @@ const TeachersLoginScreen = ({ navigation }) => {
               ref={myRef}
               resizeMode="contain"
             /> */}
-
             <Text style={[styles.textBase, styles.description]}>
               {user.charAt(0).toUpperCase() + user.slice(1)}
             </Text>
           </View>
         </View>
-        <View style={{ backgroundColor: "white", height: "100%" }}>
+        <View style={{ flex: 2,alignItems:'center' }} >
           <FlatList
-            style={styles.rootContainer}
             data={TEACHERS}
             keyExtractor={(item) => item.id}
             renderItem={renderCategoryItem}
             numColumns={2}
           />
         </View>
-        <TeachersHome />
+        <View style={{ flex: 0.3}} >
+          <TeachersHome />
+        </View>
       </View>
     </>
   );
@@ -257,7 +258,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#23215b",
     //   flexDirection: "row",
     alignItems: "center",
-
+    marginTop:'10%',
     justifyContent: "space-between",
     borderRadius: 16,
   },

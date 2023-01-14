@@ -50,18 +50,30 @@ function TeachersAcademics({ navigation }) {
   }
   return (
     <>
-      <View style={{ backgroundColor: "white", height: "94.5%" }}>
-        <FlatList
-          style={styles.test}
-          data={TEACHERSACADEMICS}
-          keyExtractor={(item) => item.id}
-          renderItem={renderCategoryItem}
-          // horizontal={true}
-          numColumns={2}
-         
-        />
+      <View
+        style={[
+          {
+            flex:1,
+            flexDirection: 'column',
+            backgroundColor:"white"
+          },
+        ]}>
+        <View style={{flex: 1,alignItems:"center",marginTop:"2%"}} >
+          <FlatList
+            style={styles.test}
+            data={TEACHERSACADEMICS}
+            keyExtractor={(item) => item.id}
+            renderItem={renderCategoryItem}
+            // horizontal={true}
+            numColumns={2}
+          
+          />
+        </View>
+        <View style={{flex: 0.1}} >
+          <TeachersHome />
+        </View>
       </View>
-      <TeachersHome />
+      
     </>
   );
 }
