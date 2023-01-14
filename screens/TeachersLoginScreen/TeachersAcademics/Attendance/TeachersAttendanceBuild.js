@@ -12,6 +12,7 @@ import {
   Dimensions,
   TextInput,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useLayoutEffect, useState } from "react";
@@ -25,6 +26,7 @@ import {
   Modal,
   Text as NativeText,
   Input as NativeInput,
+  HStack,
 } from "native-base";
 import axios from "axios";
 import TeachersList from "./TeachersList";
@@ -36,12 +38,23 @@ import { useNavigation } from "@react-navigation/native";
 import BackButton from "../../../../components/UI/BackButton";
 import { borderColor } from "@mui/system";
 import moment from "moment";
+import { isLoading } from "expo-font";
 
 var USERID,
-  TOKEN,
+  TOKEN,FROMDATE,
   newArray,
   IDSETARRAY = [];
 var filteredArray = [];
+// const getButtonColor = (status, title) => {
+//   switch (status + title) {
+//     case 'presentP':
+//       return 'green';
+//     case 'absentA':
+//       return 'red';
+//     default:
+//       return changeColorUpdate(data.student.id, status);
+//   }
+// }
 
 const TeachersAttendanceBuild = () => {
   const [frommode, setFromMode] = useState("date");
@@ -91,6 +104,24 @@ const TeachersAttendanceBuild = () => {
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const navigation = useNavigation();
 
+
+  //new states
+  const [filteredArray,setFilteredArray]=useState([])
+  const [showDefaultBtns,setShowDefaultBtns]=useState(true)
+
+  const [showFirstStudList,setShowFirstStudList]=useState(true)
+
+  const [showEditBtn,setShowEditBtn]=useState(false)
+  const [editBtnPressed,setEditBtnPressed]=useState(false)
+
+  const [saveAttendanceDataByDCS,setSaveAttendanceDataByDCS]=useState([])
+  const [showDCSData,setShowDCSData]=useState(false)
+
+  const [updateArray,setUpdateArray]=useState([])
+  
+  const [loading, setLoading] = useState(false);
+  // const [presentButtonColor, setPresentButtonColor] = useState(getButtonColor('present', "P"));
+  // const [absentButtonColor, setAbsentButtonColor] = useState(getButtonColor('absent', "A"));
   
 
   let IDSet = new Set();
@@ -166,7 +197,7 @@ const TeachersAttendanceBuild = () => {
       let filteredlist = newArray.filter(
         (ele) => ele.key == selectedClassSection
       );
-      filteredArray = filteredlist;
+      setFilteredArray(filteredlist)
       let class_name = filteredlist[0].classname;
       let section = filteredlist[0].section;
 
@@ -207,6 +238,7 @@ const TeachersAttendanceBuild = () => {
 
   const fromDateChangeHandler = (event, selectedFromDate) => {
     const currentFromDate = selectedFromDate;
+    FROMDATE=selectedFromDate
 
     setFromShow(Platform.OS === "ios");
     // setFromDate(currentFromDate);
@@ -239,32 +271,99 @@ const TeachersAttendanceBuild = () => {
     setFromDate(enteredValue);
   }
 
+  function showAttendance() {
+     setShowDCSData(true);
+    const request_model = {
+      attendance_date: moment(FROMDATE).format("YYYY-MM-DD"),
+      class_name: filteredArray[0].classname,
+      section: filteredArray[0].section,
+    };
+    async function getData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: "Token " + `${token}`,
+        };
+        const res = await axios.post(
+          `${subURL}/AttendanceListByDCS/`,
+          request_model,
+          {
+            headers: headers,
+          }
+        );
+
+        setSaveAttendanceDataByDCS(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
+  }
+
   function buttonPressedHandler() {
+   // setIsEdit(false)
+   
     setEnteredSelectedTouched(true);
     setEnteredFromDateTouched(true);
-
+    
     if (!enteredSelcetdIsValid || !enteredFromDateIsValid) {
       return;
     } else {
       setShowCalendar(false);
       setShowStudList(true);
+      setShowDefaultBtns(true)
+      setShowFirstStudList(true)
+      setShowEditBtn(false)
+      setShowDCSData(false)
+      setEditBtnPressed(false)
     }
+    async function getData() {
+      try {
+        const resAttendance = await axios.get(`${subURL}/Attendance/`);
+        const isSameDataPresent = data.some((item1) => {
+          return resAttendance.data.some((item2) => {
+            return (
+              item1.id === item2.student &&
+              moment(FROMDATE).format("YYYY-MM-DD") === item2.attendance_date
+            );
+          });
+        });
+    
+        if (isSameDataPresent == true) {
+          Alert.alert("Attendance has been already marked", "Already marked", [
+            {
+              text: "OK",
+              onPress: () => {
+                // setIsEdit(false);
+                // setShowEditData(true);
+                setShowFirstStudList(false)
+                setShowDefaultBtns(false)
+                setShowEditBtn(true)
+                 showAttendance();
+                 setEditBtnPressed(false)
+                // setshowSavedData(false);
+                // //showAttendance();
+              },
+            },
+          ]);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    getData();
   }
 
   function presentButtonPressed(id) {
     setAbsentPressed(false);
     setPresentPressed(true);
 
-    // if(data.find((item) => item.id === id)){
-    //   //console.log("SAME ID",id)
-    //   setSamePresentID(id);
-    // }
-
-    // setSelectedStatus("Present")
+   
 
     const object = {
       student: id,
-      attendance_date: moment(fromDate).format("YYYY-MM-DD"),
+      attendance_date: moment(FROMDATE).format("YYYY-MM-DD"),
       class_name: filteredArray[0].classname,
       section: filteredArray[0].section,
       attendance_status: "present",
@@ -307,7 +406,7 @@ const TeachersAttendanceBuild = () => {
     // };
     const object = {
       student: id,
-      attendance_date: moment(fromDate).format("YYYY-MM-DD"),
+      attendance_date: moment(FROMDATE).format("YYYY-MM-DD"),
       class_name: filteredArray[0].classname,
       section: filteredArray[0].section,
       attendance_status: "absent",
@@ -349,7 +448,7 @@ const TeachersAttendanceBuild = () => {
       // };
       const object = {
         student: data[i].id,
-        attendance_date: moment(fromDate).format("YYYY-MM-DD"),
+        attendance_date: moment(FROMDATE).format("YYYY-MM-DD"),
         class_name: filteredArray[0].classname,
         section: filteredArray[0].section,
         attendance_status: "present",
@@ -379,7 +478,7 @@ const TeachersAttendanceBuild = () => {
       // };
       const object = {
         student: data[i].id,
-        attendance_date: moment(fromDate).format("YYYY-MM-DD"),
+        attendance_date: moment(FROMDATE).format("YYYY-MM-DD"),
         class_name: filteredArray[0].classname,
         section: filteredArray[0].section,
         attendance_status: "absent",
@@ -408,27 +507,31 @@ const TeachersAttendanceBuild = () => {
 
   function saveAttendance() {
   //  console.log("finalList", array);
-
+  setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+   
     async function getData() {
       try {
        const resAttendance = await axios.get(`${subURL}/Attendance/`);
        const isSameDataPresent = data.some(item1 => {
         return resAttendance.data.some(item2 => {
-          return item1.id === item2.student && moment(fromDate).format("YYYY-MM-DD") ===item2.attendance_date;
+          return item1.id === item2.student && moment(FROMDATE).format("YYYY-MM-DD") ===item2.attendance_date;
         });
       });
-      console.log(isSameDataPresent)
+     // console.log(isSameDataPresent)
 
        if(isSameDataPresent==true){
-        Alert.alert("Attendance already marked",  [
-          {
-            text: "OK",
-            onPress: () => {
-             // setShowStudList(false);
-             // showCalendar();
-            },
-          },
-        ]);
+        // Alert.alert("Attendance already marked","",  [
+        //   {
+        //     text: "OK",
+        //     onPress: () => {
+        //      // setShowStudList(false);
+        //      // showCalendar();
+        //     },
+        //   },
+        // ]);
        }
        else{
         async function storeData() {
@@ -447,6 +550,73 @@ const TeachersAttendanceBuild = () => {
           }
         }
         storeData();
+        const mainId = new Set(data.map((obj) => obj.id));
+        const selectedId = new Set(array.map((obj) => obj.student));
+
+    const eqSet = (mainId, selectedId) =>
+      mainId.size === selectedId.size &&
+      [...mainId].every((x) => selectedId.has(x));
+
+    if (eqSet(mainId, selectedId)) {
+      Alert.alert("Saved Data", "Saved Data successfully", [
+        {
+          text: "OK",
+          onPress: () => {
+            setShowDefaultBtns(false)
+            setShowFirstStudList(false)
+            setShowDCSData(true)
+            showAttendance()
+            setShowEditBtn(true);
+            setEditBtnPressed(false)
+            //setshowSavedData(true);
+            //showAttendance();
+          },
+        },
+      ]);
+      console.log('ids  marked')
+      setMissedID(false);
+   
+    } else {
+      Alert.alert("Please mark attendance for all students")
+      console.log('ids not  marked')
+      setMissedID(true);
+            
+    }
+    
+
+    IDSet = [...mainId].filter((x) => !selectedId.has(x));
+
+    IDSETARRAY = IDSet;
+    //console.log("IDSETARRAY", IDSETARRAY);
+    IDSet.forEach((value, index, set) => {
+      if (mainId.has(value)) {
+       // console.log('ids  marked')
+        setTest(true);
+      } else {
+       // console.log('ids not marked')
+        setTest(false);
+      }
+    });
+  
+    // if(missedID==true){
+      
+    //   Alert.alert("Please mark attendance for all students")
+    // }
+    // if(missedID==false){
+      // var selectedID = IDSETARRAY.filter((item) => item === id);
+
+      // if (IDSETARRAY.length > 0) {
+      //   if (selectedID.length > 0) {
+      //     Alert.alert("please mark attendance for all students")
+      //   } else {
+      //     Alert.alert("please mark attendance for all students")
+      //   }
+      // } else {
+      
+   //   }
+      
+
+    //}
        }
       
 
@@ -459,35 +629,15 @@ const TeachersAttendanceBuild = () => {
     }
     getData();
 
-    const mainId = new Set(data.map((obj) => obj.id));
-    const selectedId = new Set(array.map((obj) => obj.student));
-
-    const eqSet = (mainId, selectedId) =>
-      mainId.size === selectedId.size &&
-      [...mainId].every((x) => selectedId.has(x));
-
-    if (eqSet(mainId, selectedId)) {
-      setMissedID(false);
-    } else {
-      setMissedID(true);
-    }
-
-    IDSet = [...mainId].filter((x) => !selectedId.has(x));
-
-    IDSETARRAY = IDSet;
-    //console.log("IDSETARRAY", IDSETARRAY);
-    IDSet.forEach((value, index, set) => {
-      if (mainId.has(value)) {
-        setTest(true);
-      } else {
-        setTest(false);
-      }
-    });
+   
+    
   }
 
   function changeBorderColor(id) {
     // IDSETARRAY.forEach((element) => {
     var selectedID = IDSETARRAY.filter((item) => item === id);
+    
+
 
     if (IDSETARRAY.length > 0) {
       if (selectedID.length > 0) {
@@ -553,6 +703,33 @@ const TeachersAttendanceBuild = () => {
     }
   }
 
+  function changeColorUpdate(id, text) {
+
+    if (updateArray.filter((item) => item.student === id)) {
+      var selectedData = [];
+      selectedData = updateArray.filter((item) => item.student === id);
+      if (selectedData.length > 0) {
+        var isPresent = false;
+        var isAbsent = false;
+        isPresent = selectedData.map(
+          (data, key) => data.attendance_status === "present"
+        )[0];
+        isAbsent = selectedData.map(
+          (data, key) => data.attendance_status === "absent"
+        )[0];
+
+        if (isPresent && text == "P") {
+          return "green";
+        } else if (isAbsent && text == "A") {
+          return "red";
+        } else {
+          return "grey";
+        }
+      }
+      return "grey";
+    }
+  }
+
   function fromDateBlurHandler() {
     setEnteredFromDateTouched(true);
     setIsFromDateFocused(false);
@@ -565,6 +742,7 @@ const TeachersAttendanceBuild = () => {
   }
 
   function backButtonHandler() {
+   
     setShowCalendar(true);
     setShowStudList(false);
 
@@ -573,6 +751,8 @@ const TeachersAttendanceBuild = () => {
 
     setFromText("");
     setEnteredFromDateTouched(false);
+    
+    
 
     array.length = 0;
     IDSETARRAY = [];
@@ -600,6 +780,114 @@ const TeachersAttendanceBuild = () => {
       setOpen(false);
     }
   }
+  function editHandler(){
+  
+    setShowDCSData(false)
+    setEditBtnPressed(true)
+    setShowEditBtn(false)
+
+  }
+
+  function updatePresentButton(data){
+    let updatedStatus = 'P'
+   // changeColorUpdate(data.student.id, 'P');
+    
+   
+    console.log('in update present button')
+  
+    const object = {
+      student: data.student.id,
+      attendance_date: moment(FROMDATE).format("YYYY-MM-DD"),
+      class_name: filteredArray[0].classname,
+      section: filteredArray[0].section,
+      attendance_status: "present",
+      description: "",
+      id: data.id
+    };
+    console.log(object)
+    const existingItem = updateArray.find((item) => item.student === object.student);
+
+    if (existingItem) {
+      setUpdateArray(
+        updateArray.map((item) => (item.student === object.student ? object : item))
+      );
+    } else {
+      setUpdateArray((prevArray) => [...prevArray, object]);
+      //setItems([...items, updatedItem]);
+    }
+  }
+  function updateAbsentButton(data){
+    let updatedStatus = 'A'
+   // changeColorUpdate(data.student.id, 'A');
+   
+    console.log('in update absent button')
+  
+    const object = {
+      student: data.student.id,
+      attendance_date: moment(FROMDATE).format("YYYY-MM-DD"),
+      class_name: filteredArray[0].classname,
+      section: filteredArray[0].section,
+      attendance_status: "absent",
+      description: "",
+      id: data.id
+    };
+    console.log(object)
+    const existingItem = updateArray.find((item) => item.student === object.student);
+
+    if (existingItem) {
+      setUpdateArray(
+        updateArray.map((item) => (item.student === object.student ? object : item))
+      );
+    } else {
+      setUpdateArray((prevArray) => [...prevArray, object]);
+      //setItems([...items, updatedItem]);
+    }
+  }
+  function updateHandler() {
+    
+    console.log("updated array-", updateArray);
+    async function updateData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: "Token " + `${token}`,
+        };
+
+        const resLogin = await axios.put(`${subURL}/Attendance/`, updateArray, {
+          headers: headers,
+        });
+
+        // const token = resLogin.data.token;
+        // const userId = resLogin.data.user_id;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    updateData();
+    Alert.alert("Successfully updated", "", [
+      {
+        text: "OK",
+        onPress: () => {
+          showAttendance()
+          setShowDCSData(true)
+          setEditBtnPressed(false)
+          setShowEditBtn(true)
+          
+                 
+          // showAttendance();
+          // setShowEditData(true);
+          // setshowSavedData(true);
+        },
+      },
+    ]);
+  }
+ 
+  function cancelHandler(){
+    setShowDCSData(true)
+    setEditBtnPressed(false)
+    setShowEditBtn(true)
+  }
+ 
   return (
     <>
       {showCalendar && (
@@ -668,7 +956,7 @@ const TeachersAttendanceBuild = () => {
                       fontFamily: "HindRegular",
                       fontSize: 18,
                       top: "3%",
-                      //marginLeft: 10,
+                    
                     }}
                   >
                     Select Date
@@ -679,7 +967,7 @@ const TeachersAttendanceBuild = () => {
                     <UnderlinedInput
                       value={fromText}
                       placeholder="Select Date"
-                      // onSubmitEditing={Keyboard.dismiss}
+                    
                       style={
                         isFromDateFocused
                           ? styles.focusStyle
@@ -728,6 +1016,26 @@ const TeachersAttendanceBuild = () => {
                     </Text>
                   </NativeButton>
                 </View>
+                <View
+                  style={{
+                    flex: 1.5,
+                    width: "50%",
+                    marginLeft: "27%",
+                    marginTop: "10%",
+                  }}
+                >
+                  <NativeButton size="md">
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        fontFamily: "HindSemiBold",
+                        color: "white",
+                      }}
+                    >
+                      View Reports
+                    </Text>
+                  </NativeButton>
+                </View>
               </View>
             </ScrollView>
           </View>
@@ -740,6 +1048,7 @@ const TeachersAttendanceBuild = () => {
       )}
 
       {showStudList && (
+
         <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
           <View
             style={[
@@ -747,7 +1056,7 @@ const TeachersAttendanceBuild = () => {
               { flexDirection: "row", alignItems: "center" },
             ]}
           >
-            <BackButton onPress={backButtonHandler} />
+            <BackButton onPress={editBtnPressed ? cancelHandler:backButtonHandler} />
           </View>
 
           <View
@@ -756,7 +1065,8 @@ const TeachersAttendanceBuild = () => {
               bottom: "7%",
             }}
           >
-            <View
+
+            {showDefaultBtns &&<View
               style={[
                 { flex: 1 },
                 {
@@ -812,30 +1122,33 @@ const TeachersAttendanceBuild = () => {
                 </NativeButton>
               </View>
               <View style={styles.space} />
-            </View>
+            </View>}
 
+           
+          <View style={{ flex: 0.5, bottom: "6%" }}>
             <View
               style={[
                 { flex: 1 },
                 {
+                  // Try setting `flexDirection` to `"row"`.
                   flexDirection: "column",
-                  marginLeft: "7%",
                 },
               ]}
             >
-              <View style={{ flex: 0.8 }}>
+              <View style={{ flex: 1 }}>
                 <View
                   style={[
                     { flex: 1 },
                     {
+                      // Try setting `flexDirection` to `"row"`.
                       flexDirection: "row",
                     },
                   ]}
                 >
-                  <View style={{ flex: 0.2, justifyContent: "center" }}>
+                  <View style={{ flex: 0.27, alignItems: "center" }}>
                     <Text style={styles.labelStyle}>Class :</Text>
                   </View>
-                  <View style={{ flex: 1 }}>
+                  <View style={{ flex: 0.27 }}>
                     <Text style={styles.labelStyle}>
                       {filteredArray[0]?.value}
                     </Text>
@@ -847,25 +1160,46 @@ const TeachersAttendanceBuild = () => {
                   style={[
                     { flex: 1 },
                     {
+                      // Try setting `flexDirection` to `"row"`.
                       flexDirection: "row",
                     },
                   ]}
                 >
-                  <View style={{ flex: 0.2, justifyContent: "center" }}>
+                  <View style={{ flex: 0.27, alignItems: "center" }}>
                     <Text style={styles.labelStyle}>Date :</Text>
                   </View>
-                  <View style={{ flex: 1, justifyContent: "center" }}>
+                
+                  <View style={{ flex: 0.27 }}>
                     <Text style={styles.labelStyle}>{fromText}</Text>
                   </View>
+                  
                 </View>
+              
               </View>
+             
             </View>
+          
           </View>
+       {  showEditBtn && <View style={{ flex: 1, alignItems: "center",left:'30%' }}>
+                  <NativeButton size="md" onPress={editHandler} >
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontFamily: "HindSemiBold",
+                  color: "white",
+                }}
+              >
+                Edit
+              </Text>
+            </NativeButton>
+                  </View>}
+          </View>
+         
           <View style={{ flex: 2, bottom: "6%" }}>
             {
               <ScrollView>
                 {
-                  data &&
+                  data && showFirstStudList &&
                     data.map((data, key) => (
                       <View style={changeBorderColor(data.id)}>
                         <View
@@ -913,6 +1247,7 @@ const TeachersAttendanceBuild = () => {
                               </View>
                             </View>
                           </View>
+
                           <View style={{ flex: 0.2 }}>
                             <View
                               style={[
@@ -922,9 +1257,7 @@ const TeachersAttendanceBuild = () => {
                                 },
                               ]}
                             >
-                              {/* <View style={{ flex: 0.9 }} >
                             
-                          </View> */}
                               <View style={{ flex: 1 }}>
                                 <View
                                   style={[
@@ -953,13 +1286,7 @@ const TeachersAttendanceBuild = () => {
                                       title="A"
                                     />
                                   </View>
-                                  {/* <View style={styles.space}/>
-                              <View style={{ flex: 1,height:'80%' }} >
-                                <NativeButton
-                                  style={{backgroundColor:changeHolidayColor(data.id,"H")}}>
-                                  <Text style={{fontFamily:'HindBold',color:'grey',bottom:'15%'}}>H</Text>
-                                </NativeButton>
-                              </View> */}
+                              
                                 </View>
                               </View>
                             </View>
@@ -967,13 +1294,232 @@ const TeachersAttendanceBuild = () => {
                         </View>
                       </View>
                     ))
-                  //  :
-                  // <View style={{ alignItems: "center", marginVertical: 10 }}>
-                  //   <NativeText fontSize="xl" bold color="error.900">
-                  //     No Students found
-                  //   </NativeText>
-                  // </View>
+                
                 }
+                 {showDCSData && 
+                  saveAttendanceDataByDCS.map((data, key) => (
+                    <View style={changeBorderColor(data.id)}>
+                      <View
+                        style={[
+                          { flex: 1 },
+                          {
+                            flexDirection: "row",
+                          },
+                        ]}
+                      >
+                        <View style={{ flex: 1 }}>
+                          <View
+                            style={[
+                              { flex: 1 },
+                              {
+                                flexDirection: "row",
+                              },
+                            ]}
+                          >
+                            <View
+                              style={{
+                                flex: 0.5,
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <Text
+                                style={[styles.textBase, styles.description]}
+                              >
+                                {data.student.reg_number} 
+                              </Text>
+                            </View>
+                            <View
+                              style={{
+                                flex: 1,
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <Text
+                                style={[styles.textBase, styles.description]}
+                              >
+                                {data.student.student_name}
+                              </Text>
+                            </View>
+                          </View>
+                        </View>
+                        <View style={{ flex: 0.5 }}>
+                          <View
+                            style={[
+                              { flex: 1 },
+                              {
+                                flexDirection: "row",
+                              },
+                            ]}
+                          >
+                            <View style={{ flex: 1 }}>
+                              <View
+                                style={[
+                                  { flex: 1 },
+                                  {
+                                    flexDirection: "row",
+                                    marginVertical: 10,
+                                    marginHorizontal: 10,
+                                  },
+                                ]}
+                              >
+                                <View style={{ flex: 1 }}>
+                                  <View style={{ flex: 1.5 }}>
+                                    {data.attendance_status == "present" ? (
+                                      <Badge
+                                        colorScheme="success"
+                                        style={{ width: "65%" }}
+                                      >
+                                        {data.attendance_status.charAt(0).toUpperCase() + data.attendance_status.slice(1)}
+                                      </Badge>
+                                    ) : (
+                                      <Badge
+                                        colorScheme="danger"
+                                        style={{ width: "65%" }}
+                                      >
+                                        {data.attendance_status.charAt(0).toUpperCase() + data.attendance_status.slice(1)}
+                                      </Badge>
+                                    )}
+                                    {/* <Button
+                                      color={
+                                        data.attendance_status == "present"
+                                          ? "blue"
+                                          : "red"
+                                      }
+                                      title={
+                                        data.attendance_status == "present"
+                                          ? "Present"
+                                          : "Absent"
+                                      }
+                                    /> */}
+                                  </View>
+                                </View>
+
+                                {/* <View style={{ flex: 0.7 }}>
+                                  <IconButton
+                                    colorScheme="success"
+                                    onPress={() =>
+                                      editItem(
+                                        data.student.id,
+                                        data.student.reg_number,
+                                        data.student.student_name
+                                      )
+                                    }
+                                    variant="subtle"
+                                    _icon={{
+                                      as: Ionicons,
+                                      name: "md-pencil-sharp",
+                                    }}
+                                  />
+                                </View> */}
+                              </View>
+                            </View>
+                          </View>
+                        </View>
+                      </View>
+                    </View>
+                  ))}
+
+            {editBtnPressed && 
+                  saveAttendanceDataByDCS.map((data, key) => (
+                    <View style={changeBorderColor(data.student.id)}>
+                      <View
+                        style={[
+                          { flex: 1 },
+                          {
+                            flexDirection: "row",
+                          },
+                        ]}
+                      >
+                        <View style={{ flex: 1 }}>
+                          <View
+                            style={[
+                              { flex: 1 },
+                              {
+                                flexDirection: "row",
+                              },
+                            ]}
+                          >
+                            <View
+                              style={{
+                                flex: 0.5,
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <Text
+                                style={[styles.textBase, styles.description]}
+                              >
+                                {data.student.reg_number} 
+                              </Text>
+                            </View>
+                            <View
+                              style={{
+                                flex: 1,
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <Text
+                                style={[styles.textBase, styles.description]}
+                              >
+                                {data.student.student_name}
+                              </Text>
+                            </View>
+                          </View>
+                        </View>
+
+                        <View style={{ flex: 0.2 }}>
+                            <View
+                              style={[
+                                { flex: 1 },
+                                {
+                                  flexDirection: "row",
+                                },
+                              ]}
+                            >
+                            
+                              <View style={{ flex: 1 }}>
+                                <View
+                                  style={[
+                                    { flex: 1 },
+                                    {
+                                      flexDirection: "column",
+                                      marginVertical: 10,
+                                      marginHorizontal: 10,
+                                    },
+                                  ]}
+                                >
+                                  <View style={{ flex: 1 }}>
+                                  <Button
+                                  onPress={() => updatePresentButton(data)}
+                                 // color={data.attendance_status === 'present' ? 'green' : changeColorUpdate(data.student.id, "P")}
+                                 color={changeColorUpdate(data.student.id, "P")}
+
+                                  title="P" 
+                                    />
+                                  
+                                  </View>
+                                  <View style={styles.space} />
+                                  <View style={{ flex: 1 }}>
+                                  <Button
+                                  onPress={() => updateAbsentButton(data)}
+                                //  color={data.attendance_status === 'absent' ? 'red' : changeColorUpdate(data.student.id, "A")}
+                                 color={ changeColorUpdate(data.student.id, "A")}
+                            
+                                  title="A" 
+                                    />
+   
+                                  </View>
+                              
+                                </View>
+                              </View>
+                            </View>
+                          </View>
+                      </View>
+                    </View>
+                  ))}
               </ScrollView>
             }
             <Modal
@@ -1021,27 +1567,9 @@ const TeachersAttendanceBuild = () => {
                 </Modal.Footer>
               </Modal.Content>
             </Modal>
-            {/* {hideStudList && 
-              <View style={[{flex:1}, {
-                // Try setting `flexDirection` to `"row"`.
-                flexDirection: "column"
-              }]}>
-                <View style={{ flex: 1, backgroundColor: "red" }} >
-                  <Text>Description</Text>
-                </View>
-                <View style={{ flex: 1, backgroundColor: "darkorange" }} >
-                  <TextInput
-                    style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-                    onChangeText={text => setValue(text)}
-                    value={value}
-                    multiline={true}
-                    numberOfLines={4}
-                  />
-                </View>
-              </View> 
-            } */}
+           
           </View>
-          <View
+        { !showDCSData && <View
             style={{
               flex: 0.3,
               marginHorizontal: 60,
@@ -1049,7 +1577,7 @@ const TeachersAttendanceBuild = () => {
               left: "10%",
             }}
           >
-            <NativeButton size="md" onPress={saveAttendance} w="3/4">
+            <NativeButton size="md" onPress={editBtnPressed?updateHandler:saveAttendance} w={editBtnPressed?'1/3':'3/4'} left={editBtnPressed ?'155':'0'}>
               <Text
                 style={{
                   fontSize: 15,
@@ -1057,10 +1585,21 @@ const TeachersAttendanceBuild = () => {
                   color: "white",
                 }}
               >
-                Save
+                {editBtnPressed ? 'Update':'Save'}
               </Text>
             </NativeButton>
-          </View>
+          {editBtnPressed &&  <NativeButton size="md" onPress={cancelHandler} w="1/3" right='20' bottom='10'>
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontFamily: "HindSemiBold",
+                  color: "white",
+                }}
+              >
+                Cancel
+              </Text>
+            </NativeButton>}
+          </View>}
           <View style={{ flex: 0.2 }}>
             <TeachersHome />
           </View>
@@ -1072,223 +1611,6 @@ const TeachersAttendanceBuild = () => {
 
 export default TeachersAttendanceBuild;
 
-// import {
-//   View,
-//   Text,
-//   Platform,
-//   ScrollView,
-//   FlatList,
-//   StyleSheet,
-// } from "react-native";
-// import React, { useEffect, useState } from "react";
-// import { Ionicons } from "@expo/vector-icons";
-// import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
-// import DateTimePicker from "@react-native-community/datetimepicker";
-// import { Button } from "native-base";
-// import TeacherAttendance, { STATUS } from "./TeacherAttendance";
-// import axios from "axios";
-
-// const TeachersAttendance = () => {
-//   const [frommode, setFromMode] = useState("date");
-//   const [fromDate, setFromDate] = useState(new Date());
-//   const [fromShow, setFromShow] = useState(false);
-//   const [fromText, setFromText] = useState("");
-
-//   const [data, setData] = useState([]);
-
-//   const [showCalendar, setShowCalendar] = useState(true);
-//   const [showStudList, setShowStudList] = useState(false);
-
-//   const [present, setPresent] = useState(false);
-//   const [absent, setAbsent] = useState(false);
-//   const [holiday, setHoliday] = useState(false);
-//   const [statusBackground, setStatusBackground] = useState();
-//   const [selectedStatus, setSelectedStatus] = useState("");
-//   useEffect(() => {
-//     async function fetchData() {
-//       try {
-//         const res = await axios.get(
-//           `http://10.0.2.2:8000/school/Studentclass/`
-//         );
-//         // console.log(res.data);
-//         setData(res.data);
-//         //  setFilteredData(res.data);
-//       } catch (error) {
-//         console.log(error);
-//       }
-//     }
-//     fetchData();
-//   }, []);
-
-//   function presentBtnHandler() {
-//     setPresent(true);
-
-//     setSelectedStatus("Present");
-//   }
-
-//   function absentBtnHandler() {
-//     setAbsent(true);
-
-//     setSelectedStatus("Absent");
-//   }
-//   function holidatBtnGHandler() {
-//     setHoliday(true);
-
-//     setSelectedStatus("Holiday");
-//   }
-
-//   const showFromMode = (currentFromMode) => {
-//     setFromShow(true);
-
-//     setFromMode(currentFromMode);
-//   };
-//   function buttonPressedHandler() {
-//     setShowCalendar(false);
-//     setShowStudList(true);
-//   }
-//   const fromDateChangeHandler = (event, selectedFromDate) => {
-//     const currentFromDate = selectedFromDate;
-
-//     setFromShow(Platform.OS === "ios");
-//     // setFromDate(currentFromDate);
-
-//     let tempFromDate = new Date(currentFromDate);
-//     let fDate =
-//       tempFromDate.getDate() +
-//       "/" +
-//       (tempFromDate.getMonth() + 1) +
-//       "/" +
-//       tempFromDate.getFullYear();
-
-//     if (event.type == "set") {
-//       setFromText(fDate);
-//     } else {
-//       // if (event?.type === "dismissed") {
-//       //   setFromText("");
-//       //   return;
-//       // }
-//     }
-//   };
-//   function renderStudentDetails(itemData) {
-//     return (
-//       <>
-//         <ScrollView horizontal={false}>
-//           <View style={styles.studentItem}>
-//             <View style={styles.studentItem}>
-//               <Text style={[styles.textBase, styles.description]}>
-//                 {itemData.item.teachers} {itemData.item.id}
-//               </Text>
-//               <Text style={[styles.textBase, styles.description]}>
-//                 {itemData.item.section}
-//               </Text>
-//               <Text style={[styles.textBase, styles.description]}>
-//                 {itemData.item.class_name}
-//               </Text>
-//             </View>
-//             <View style={{ padding: 10 }}>
-//               <Text style={{ color: "black", fontWeight: "bold" }}>
-//                 {selectedStatus}
-//               </Text>
-//             </View>
-//             <View style={styles.checkBoxContainer}>
-//               <Button
-//                 title="P"
-//                 // color={changePresentColor}
-//                 onPress={presentBtnHandler}
-//               />
-//               <View style={styles.space} />
-//               <Button
-//                 title="A"
-//                 // color={changeAbsentColor}
-//                 onPress={absentBtnHandler}
-//               />
-//               <View style={styles.space} />
-//               <Button
-//                 title="H"
-//                 // color={changeHolidayColor}
-//                 onPress={holidatBtnGHandler}
-//               />
-//             </View>
-//           </View>
-//         </ScrollView>
-//       </>
-//     );
-//   }
-//   function frmDateHandler(enteredValue) {
-//     setFromDate(enteredValue);
-//   }
-
-//   function saveAttendance() {}
-
-//   return (
-//     <View>
-//       {showCalendar && (
-//         <View style={{}}>
-//           <View>
-//             <Ionicons
-//               style={{
-//                 position: "absolute",
-//                 top: 23,
-//               }}
-//               name="calendar"
-//               size={24}
-//               color="black"
-//               onPress={() => showFromMode("date")}
-//             />
-//           </View>
-//           <UnderlinedInput
-//             value={fromText}
-//             placeholder="Select Date"
-//             // onSubmitEditing={Keyboard.dismiss}
-//             // style={
-//             //   isFromFocused
-//             //     ? styles.focusStyle
-//             //     : fromDateInputIsInValid && styles.errorBorderColorDate
-//             // }
-//             // blur={fromDateBlurHandler}
-//             // onFocus={onFromFocusHandler}
-//             onChangeText={frmDateHandler}
-//             onPressIn={() => showFromMode("date")}
-//           />
-
-//           {fromShow && (
-//             <DateTimePicker
-//               testID="dateTimePicker"
-//               value={fromDate}
-//               mode={frommode}
-//               is24Hour={true}
-//               display="default"
-//               onChange={fromDateChangeHandler}
-//             />
-//           )}
-
-//           <Button size="sm" onPress={buttonPressedHandler}>
-//             Start Attendance
-//           </Button>
-//         </View>
-//       )}
-
-//       {showStudList && (
-//         <View>
-//           <ScrollView>
-//             <View style={ }}>
-//               <Button>Present</Button>
-//               <Button>Absent</Button>
-//               <Button>Holiday</Button>
-//             </View>
-//             <FlatList
-//               data={data}
-//               renderItem={renderStudentDetails}
-//               keyExtractor={(item, index) => index.toString()}
-//             />
-//             <Button onPress={saveAttendance}>Save</Button>
-//           </ScrollView>
-//         </View>
-//       )}
-//     </View>
-//   );
-// };
-// export default TeachersAttendance;
 
 const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
