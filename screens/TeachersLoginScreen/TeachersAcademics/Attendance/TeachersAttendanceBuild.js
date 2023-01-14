@@ -1016,7 +1016,7 @@ const TeachersAttendanceBuild = () => {
                     </Text>
                   </NativeButton>
                 </View>
-                <View
+                {/* <View
                   style={{
                     flex: 1.5,
                     width: "50%",
@@ -1035,7 +1035,7 @@ const TeachersAttendanceBuild = () => {
                       View Reports
                     </Text>
                   </NativeButton>
-                </View>
+                </View> */}
               </View>
             </ScrollView>
           </View>
