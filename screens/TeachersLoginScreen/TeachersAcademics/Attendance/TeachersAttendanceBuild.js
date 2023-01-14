@@ -27,6 +27,7 @@ import {
   Text as NativeText,
   Input as NativeInput,
   HStack,
+  Spinner,
 } from "native-base";
 import axios from "axios";
 import TeachersList from "./TeachersList";
@@ -433,19 +434,11 @@ const TeachersAttendanceBuild = () => {
   }
 
   function presentAllHandler() {
-    //setSelectedStatus("Present");
-
-    // while(array.length > 0) {
-    //   array.pop();
-    // }
+   
     array.length = 0;
 
     for (i = 0; i < data.length; i++) {
-      // const object = {
-      //   id: data[i].id,
-      //   leave_status: "present",
-      //   holiday_description: "",
-      // };
+   
       const object = {
         student: data[i].id,
         attendance_date: moment(FROMDATE).format("YYYY-MM-DD"),
@@ -494,8 +487,8 @@ const TeachersAttendanceBuild = () => {
   }
 
   function holidayForAllHandler(placement) {
-    array.length = 0;
-    IDSETARRAY = [];
+    // array.length = 0;
+    // IDSETARRAY = [];
 
     // setHideStudList(true);
 
@@ -503,14 +496,12 @@ const TeachersAttendanceBuild = () => {
     setPlacement(placement);
     setEnteredDescription("");
     setEnteredDescriptionTouched(false);
+   
   }
 
   function saveAttendance() {
   //  console.log("finalList", array);
-  setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
+ 
    
     async function getData() {
       try {
@@ -760,25 +751,69 @@ const TeachersAttendanceBuild = () => {
 
   function donePressedHandler() {
     // setOpen(false);
-    for (i = 0; i < data.length; i++) {
-      const object = {
-        id: data[i].id,
-        leave_status: "holiday",
-        holiday_description: description,
-      };
-
-      array.push(object);
-    }
-    console.log(array);
-
-    viewStudentList();
+  
+   
     setEnteredDescriptionTouched(true);
 
     if (!enteredDescriptionIsValid) {
       return;
     } else {
       setOpen(false);
+    
+    array.length = 0;
+console.log('inside done button')
+    for (i = 0; i < data.length; i++) {
+   
+      const object = {
+        student: data[i].id,
+        attendance_date: moment(FROMDATE).format("YYYY-MM-DD"),
+        class_name: filteredArray[0].classname,
+        section: filteredArray[0].section,
+        attendance_status: "holiday",
+        description: description,
+      };
+
+      changeColor(data[i].id, "H");
+      array.push(object);
     }
+    viewStudentList();
+    
+    console.log(array)
+
+    IDSETARRAY = [];
+    async function storeData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: "Token " + `${token}`,
+        };
+
+        const resLogin = await axios.post(`${subURL}/Attendance/`, array, {
+          headers: headers,
+        });
+        //console.log(resLogin.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    storeData();
+    Alert.alert("Saved Data", "Saved Data successfully", [
+      {
+        text: "OK",
+        onPress: () => {
+          setShowDefaultBtns(false)
+          setShowFirstStudList(false)
+          setShowDCSData(true)
+          showAttendance()
+          setShowEditBtn(true);
+          setEditBtnPressed(false)
+          //setshowSavedData(true);
+          //showAttendance();
+        },
+      },
+    ]);
+  }
+
   }
   function editHandler(){
   
@@ -1296,7 +1331,9 @@ const TeachersAttendanceBuild = () => {
                     ))
                 
                 }
-                 {showDCSData && 
+               
+                 {showDCSData &&    
+    
                   saveAttendanceDataByDCS.map((data, key) => (
                     <View style={changeBorderColor(data.id)}>
                       <View
@@ -1366,33 +1403,33 @@ const TeachersAttendanceBuild = () => {
                               >
                                 <View style={{ flex: 1 }}>
                                   <View style={{ flex: 1.5 }}>
-                                    {data.attendance_status == "present" ? (
-                                      <Badge
-                                        colorScheme="success"
-                                        style={{ width: "65%" }}
-                                      >
-                                        {data.attendance_status.charAt(0).toUpperCase() + data.attendance_status.slice(1)}
-                                      </Badge>
-                                    ) : (
-                                      <Badge
-                                        colorScheme="danger"
-                                        style={{ width: "65%" }}
-                                      >
-                                        {data.attendance_status.charAt(0).toUpperCase() + data.attendance_status.slice(1)}
-                                      </Badge>
-                                    )}
-                                    {/* <Button
-                                      color={
-                                        data.attendance_status == "present"
-                                          ? "blue"
-                                          : "red"
-                                      }
-                                      title={
-                                        data.attendance_status == "present"
-                                          ? "Present"
-                                          : "Absent"
-                                      }
-                                    /> */}
+                                 
+
+                                    {data.attendance_status ==
+                                              "present" ? (
+                                                <Badge
+                                                  colorScheme="success"
+                                                  style={{ width: "65%" }}
+                                                >
+                                            {data.attendance_status.charAt(0).toUpperCase() + data.attendance_status.slice(1)}
+                                                </Badge>
+                                              ) : data.attendance_status ==
+                                                "absent" ? (
+                                                <Badge
+                                                  colorScheme="danger"
+                                                  style={{ width: "65%" }}
+                                                >
+                                               {data.attendance_status.charAt(0).toUpperCase() + data.attendance_status.slice(1)}
+                                                </Badge>
+                                              ) : (
+                                                <Badge
+                                                  colorScheme="yellow"
+                                                  style={{ width: "65%" }}
+                                                >
+                                              {data.attendance_status.charAt(0).toUpperCase() + data.attendance_status.slice(1)}
+                                                </Badge>
+                                              )}
+                                  
                                   </View>
                                 </View>
 
