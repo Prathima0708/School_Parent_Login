@@ -12,7 +12,7 @@ import {
 import { Image as NativeImage } from "native-base";
 import ImageSlider from "../../screens/ParentsLoginScreen/ImageSlider";
 import { useEffect, useRef } from "react";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export var studentId,
   className,
   StudentRegNo,
@@ -73,9 +73,19 @@ function StudentItem({
     AcademicYear = academic_year;
     StudentPhoto = student_photo;
     console.log(id);
+    
     navigation.navigate("Category");
   }
   const myRef = useRef(null);
+
+  // async function fetchData() {
+  //   try {
+  //     await AsyncStorage.setItem("STUD_ID", id);
+  //   } catch (error) {
+  //     // Error saving data
+  //   }
+  // }
+  // fetchData();
 
   useEffect(() => {
     if (myRef.current && myRef.current.setNativeProps) {

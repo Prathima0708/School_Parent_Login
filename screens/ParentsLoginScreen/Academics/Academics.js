@@ -47,7 +47,23 @@ function Academics({ navigation }) {
   }
   return (
     <>
-     <View style={{ backgroundColor: "white", height: "100%" }}>
+      <View
+        style={[{flex:1, flexDirection: 'column'}]}>
+        <View style={{flex: 2, backgroundColor: 'white',alignItems:'center'}} >
+          <FlatList
+            style={styles.test}
+            data={ACADEMICS}
+            keyExtractor={(item) => item.id}
+            renderItem={renderCategoryItem}
+            numColumns={2}
+          />
+        </View>
+        <View style={{flex: 0.1}} >
+          <ParentsHome />
+        </View>
+      </View>
+
+     {/* <View style={{ backgroundColor: "white", height: "100%" }}>
       <FlatList
         style={styles.test}
         data={ACADEMICS}
@@ -56,7 +72,7 @@ function Academics({ navigation }) {
         numColumns={2}
       />
       <ParentsHome />
-      </View>
+      </View> */}
     </>
   );
 }
@@ -64,15 +80,14 @@ export default Academics;
 
 const styles = StyleSheet.create({
   rootContainer: {
-    flex: 1,
-    top: 10,
+    marginTop:'2%',
     justifyContent: "center",
     alignItems: "center",
    // backgroundColor:'red'
     //padding: 32,
   },
-  test: {
-    top: 15,
-    //backgroundColor:'white'
-  },
+  // test: {
+  //   top: 15,
+  //   //backgroundColor:'white'
+  // },
 });

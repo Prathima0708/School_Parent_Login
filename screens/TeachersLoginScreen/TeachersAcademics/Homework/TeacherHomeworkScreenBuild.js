@@ -286,9 +286,10 @@ const TeacherHomeworkScreenBuild = () => {
       quality: 1,
       //base64: true,
     });
+    
     const source = { uri: result.uri };
     const fileName = result.uri.split('/').pop();
-
+    
     const blob = await imageToBlob(source.uri);
     const myFile = new File([blob], fileName, {type: result.type});
 
@@ -318,7 +319,7 @@ const TeacherHomeworkScreenBuild = () => {
 
     location = result.uri;
     if (!result.cancelled) {
-      setImage(result);
+      setImage(myFile);
     }
 
     //RNFetchBlob.config({ fileCache: true });
@@ -772,11 +773,7 @@ const TeacherHomeworkScreenBuild = () => {
     //   formData.append('homework_date', FROMDATE);
     //   formData.append('remark', remark);
     //   console.log(formData)
-    //   // formData.append('homework_photo',image,image.name);
-    //   formData.append('homework_photo', {
-    //     uri: image.uri,
-    //     type: `image/${image.type}`, // using path (path.extname()), or using uri (uri.split(".")[1])
-    //     name: `image.${image.uri.split('/').pop()}`}),
+    //   formData.append('homework_photo',image,image.name);
     //   formData.append('homework', "");
     //   formData.append('due_date', TODATE);
     //   formData.append('description', hw);
@@ -801,7 +798,7 @@ const TeacherHomeworkScreenBuild = () => {
             'Authorization': 'Token ' + `${token}`
           });
          // console.log(formData)
-         const resLogin = await axios.post(`${subURL}/Homework/`, formData, {
+         const resLogin = await axios.post(`${subURL}/Homework/`, formdata, {
            headers: headers,
           });
           console.log("response", resLogin.data);
