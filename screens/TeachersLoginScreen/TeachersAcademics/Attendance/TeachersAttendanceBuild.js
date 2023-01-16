@@ -1,5 +1,3 @@
-
-
 import {
   View,
   Text,
@@ -13,6 +11,7 @@ import {
   TextInput,
   Alert,
   ActivityIndicator,
+  TouchableHighlight,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useLayoutEffect, useState } from "react";
@@ -40,9 +39,11 @@ import BackButton from "../../../../components/UI/BackButton";
 import { borderColor } from "@mui/system";
 import moment from "moment";
 import { isLoading } from "expo-font";
+import SearchBar from "react-native-dynamic-search-bar";
 
 var USERID,
-  TOKEN,FROMDATE,
+  TOKEN,
+  FROMDATE,
   newArray,
   IDSETARRAY = [];
 var filteredArray = [];
@@ -85,7 +86,8 @@ const TeachersAttendanceBuild = () => {
   const descriptionInputIsInValid =
     !enteredDescriptionIsValid && enteredDescriptionTouched;
 
-  const [showCalendar, setShowCalendar] = useState(true);
+  const [showCalendar, setShowCalendar] = useState(false);
+
   const [showStudList, setShowStudList] = useState(false);
 
   const [data, setData] = useState([]);
@@ -105,25 +107,28 @@ const TeachersAttendanceBuild = () => {
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const navigation = useNavigation();
 
-
   //new states
-  const [filteredArray,setFilteredArray]=useState([])
-  const [showDefaultBtns,setShowDefaultBtns]=useState(true)
+  const [filteredArray, setFilteredArray] = useState([]);
+  const [showDefaultBtns, setShowDefaultBtns] = useState(true);
 
-  const [showFirstStudList,setShowFirstStudList]=useState(true)
+  const [showFirstStudList, setShowFirstStudList] = useState(true);
 
-  const [showEditBtn,setShowEditBtn]=useState(false)
-  const [editBtnPressed,setEditBtnPressed]=useState(false)
+  const [showEditBtn, setShowEditBtn] = useState(false);
+  const [editBtnPressed, setEditBtnPressed] = useState(false);
 
-  const [saveAttendanceDataByDCS,setSaveAttendanceDataByDCS]=useState([])
-  const [showDCSData,setShowDCSData]=useState(false)
+  const [saveAttendanceDataByDCS, setSaveAttendanceDataByDCS] = useState([]);
+  const [showDCSData, setShowDCSData] = useState(false);
 
-  const [updateArray,setUpdateArray]=useState([])
-  
+  const [updateArray, setUpdateArray] = useState([]);
+
   const [loading, setLoading] = useState(false);
   // const [presentButtonColor, setPresentButtonColor] = useState(getButtonColor('present', "P"));
   // const [absentButtonColor, setAbsentButtonColor] = useState(getButtonColor('absent', "A"));
-  
+
+  const [showStartingPage, setShowStartingPage] = useState(true);
+  const [showReports, setShowReports] = useState(false);
+  const [reportData, setReportData] = useState([]);
+  const [showReportList, setShowReportList] = useState(false);
 
   let IDSet = new Set();
   let i,
@@ -194,11 +199,13 @@ const TeachersAttendanceBuild = () => {
   }, [showCalendar, showStudList]);
 
   function viewStudentList() {
+    setShowReportList(true);
+
     async function fetchStudents() {
       let filteredlist = newArray.filter(
         (ele) => ele.key == selectedClassSection
       );
-      setFilteredArray(filteredlist)
+      setFilteredArray(filteredlist);
       let class_name = filteredlist[0].classname;
       let section = filteredlist[0].section;
 
@@ -221,6 +228,7 @@ const TeachersAttendanceBuild = () => {
 
         if (filteredc) {
           setData(filteredc);
+          setReportData(filteredc);
         }
 
         for (i = 0; i < data.length; i++) {
@@ -239,7 +247,7 @@ const TeachersAttendanceBuild = () => {
 
   const fromDateChangeHandler = (event, selectedFromDate) => {
     const currentFromDate = selectedFromDate;
-    FROMDATE=selectedFromDate
+    FROMDATE = selectedFromDate;
 
     setFromShow(Platform.OS === "ios");
     // setFromDate(currentFromDate);
@@ -273,7 +281,7 @@ const TeachersAttendanceBuild = () => {
   }
 
   function showAttendance() {
-     setShowDCSData(true);
+    setShowDCSData(true);
     const request_model = {
       attendance_date: moment(FROMDATE).format("YYYY-MM-DD"),
       class_name: filteredArray[0].classname,
@@ -302,21 +310,21 @@ const TeachersAttendanceBuild = () => {
   }
 
   function buttonPressedHandler() {
-   // setIsEdit(false)
-   
+    // setIsEdit(false)
+
     setEnteredSelectedTouched(true);
     setEnteredFromDateTouched(true);
-    
+
     if (!enteredSelcetdIsValid || !enteredFromDateIsValid) {
       return;
     } else {
       setShowCalendar(false);
       setShowStudList(true);
-      setShowDefaultBtns(true)
-      setShowFirstStudList(true)
-      setShowEditBtn(false)
-      setShowDCSData(false)
-      setEditBtnPressed(false)
+      setShowDefaultBtns(true);
+      setShowFirstStudList(true);
+      setShowEditBtn(false);
+      setShowDCSData(false);
+      setEditBtnPressed(false);
     }
     async function getData() {
       try {
@@ -329,7 +337,7 @@ const TeachersAttendanceBuild = () => {
             );
           });
         });
-    
+
         if (isSameDataPresent == true) {
           Alert.alert("Attendance has been already marked", "Already marked", [
             {
@@ -337,11 +345,11 @@ const TeachersAttendanceBuild = () => {
               onPress: () => {
                 // setIsEdit(false);
                 // setShowEditData(true);
-                setShowFirstStudList(false)
-                setShowDefaultBtns(false)
-                setShowEditBtn(true)
-                 showAttendance();
-                 setEditBtnPressed(false)
+                setShowFirstStudList(false);
+                setShowDefaultBtns(false);
+                setShowEditBtn(true);
+                showAttendance();
+                setEditBtnPressed(false);
                 // setshowSavedData(false);
                 // //showAttendance();
               },
@@ -359,8 +367,6 @@ const TeachersAttendanceBuild = () => {
   function presentButtonPressed(id) {
     setAbsentPressed(false);
     setPresentPressed(true);
-
-   
 
     const object = {
       student: id,
@@ -434,11 +440,9 @@ const TeachersAttendanceBuild = () => {
   }
 
   function presentAllHandler() {
-   
     array.length = 0;
 
     for (i = 0; i < data.length; i++) {
-   
       const object = {
         student: data[i].id,
         attendance_date: moment(FROMDATE).format("YYYY-MM-DD"),
@@ -496,139 +500,131 @@ const TeachersAttendanceBuild = () => {
     setPlacement(placement);
     setEnteredDescription("");
     setEnteredDescriptionTouched(false);
-   
   }
 
   function saveAttendance() {
-  //  console.log("finalList", array);
- 
-   
+    //  console.log("finalList", array);
+
     async function getData() {
       try {
-       const resAttendance = await axios.get(`${subURL}/Attendance/`);
-       const isSameDataPresent = data.some(item1 => {
-        return resAttendance.data.some(item2 => {
-          return item1.id === item2.student && moment(FROMDATE).format("YYYY-MM-DD") ===item2.attendance_date;
+        const resAttendance = await axios.get(`${subURL}/Attendance/`);
+        const isSameDataPresent = data.some((item1) => {
+          return resAttendance.data.some((item2) => {
+            return (
+              item1.id === item2.student &&
+              moment(FROMDATE).format("YYYY-MM-DD") === item2.attendance_date
+            );
+          });
         });
-      });
-     // console.log(isSameDataPresent)
+        // console.log(isSameDataPresent)
 
-       if(isSameDataPresent==true){
-        // Alert.alert("Attendance already marked","",  [
-        //   {
-        //     text: "OK",
-        //     onPress: () => {
-        //      // setShowStudList(false);
-        //      // showCalendar();
-        //     },
-        //   },
-        // ]);
-       }
-       else{
-        async function storeData() {
-          try {
-            let headers = {
-              "Content-Type": "application/json; charset=utf-8",
-              Authorization: "Token " + `${token}`,
-            };
+        if (isSameDataPresent == true) {
+          // Alert.alert("Attendance already marked","",  [
+          //   {
+          //     text: "OK",
+          //     onPress: () => {
+          //      // setShowStudList(false);
+          //      // showCalendar();
+          //     },
+          //   },
+          // ]);
+        } else {
+          async function storeData() {
+            try {
+              let headers = {
+                "Content-Type": "application/json; charset=utf-8",
+                Authorization: "Token " + `${token}`,
+              };
 
-            const resLogin = await axios.post(`${subURL}/Attendance/`, array, {
-              headers: headers,
-            });
-            //console.log(resLogin.data);
-          } catch (error) {
-            console.log(error);
+              const resLogin = await axios.post(
+                `${subURL}/Attendance/`,
+                array,
+                {
+                  headers: headers,
+                }
+              );
+              //console.log(resLogin.data);
+            } catch (error) {
+              console.log(error);
+            }
           }
+          storeData();
+          const mainId = new Set(data.map((obj) => obj.id));
+          const selectedId = new Set(array.map((obj) => obj.student));
+
+          const eqSet = (mainId, selectedId) =>
+            mainId.size === selectedId.size &&
+            [...mainId].every((x) => selectedId.has(x));
+
+          if (eqSet(mainId, selectedId)) {
+            Alert.alert("Saved Data", "Saved Data successfully", [
+              {
+                text: "OK",
+                onPress: () => {
+                  setShowDefaultBtns(false);
+                  setShowFirstStudList(false);
+                  setShowDCSData(true);
+                  showAttendance();
+                  setShowEditBtn(true);
+                  setEditBtnPressed(false);
+                  //setshowSavedData(true);
+                  //showAttendance();
+                },
+              },
+            ]);
+            console.log("ids  marked");
+            setMissedID(false);
+          } else {
+            Alert.alert("Please mark attendance for all students");
+            console.log("ids not  marked");
+            setMissedID(true);
+          }
+
+          IDSet = [...mainId].filter((x) => !selectedId.has(x));
+
+          IDSETARRAY = IDSet;
+          //console.log("IDSETARRAY", IDSETARRAY);
+          IDSet.forEach((value, index, set) => {
+            if (mainId.has(value)) {
+              // console.log('ids  marked')
+              setTest(true);
+            } else {
+              // console.log('ids not marked')
+              setTest(false);
+            }
+          });
+
+          // if(missedID==true){
+
+          //   Alert.alert("Please mark attendance for all students")
+          // }
+          // if(missedID==false){
+          // var selectedID = IDSETARRAY.filter((item) => item === id);
+
+          // if (IDSETARRAY.length > 0) {
+          //   if (selectedID.length > 0) {
+          //     Alert.alert("please mark attendance for all students")
+          //   } else {
+          //     Alert.alert("please mark attendance for all students")
+          //   }
+          // } else {
+
+          //   }
+
+          //}
         }
-        storeData();
-        const mainId = new Set(data.map((obj) => obj.id));
-        const selectedId = new Set(array.map((obj) => obj.student));
-
-    const eqSet = (mainId, selectedId) =>
-      mainId.size === selectedId.size &&
-      [...mainId].every((x) => selectedId.has(x));
-
-    if (eqSet(mainId, selectedId)) {
-      Alert.alert("Saved Data", "Saved Data successfully", [
-        {
-          text: "OK",
-          onPress: () => {
-            setShowDefaultBtns(false)
-            setShowFirstStudList(false)
-            setShowDCSData(true)
-            showAttendance()
-            setShowEditBtn(true);
-            setEditBtnPressed(false)
-            //setshowSavedData(true);
-            //showAttendance();
-          },
-        },
-      ]);
-      console.log('ids  marked')
-      setMissedID(false);
-   
-    } else {
-      Alert.alert("Please mark attendance for all students")
-      console.log('ids not  marked')
-      setMissedID(true);
-            
-    }
-    
-
-    IDSet = [...mainId].filter((x) => !selectedId.has(x));
-
-    IDSETARRAY = IDSet;
-    //console.log("IDSETARRAY", IDSETARRAY);
-    IDSet.forEach((value, index, set) => {
-      if (mainId.has(value)) {
-       // console.log('ids  marked')
-        setTest(true);
-      } else {
-       // console.log('ids not marked')
-        setTest(false);
-      }
-    });
-  
-    // if(missedID==true){
-      
-    //   Alert.alert("Please mark attendance for all students")
-    // }
-    // if(missedID==false){
-      // var selectedID = IDSETARRAY.filter((item) => item === id);
-
-      // if (IDSETARRAY.length > 0) {
-      //   if (selectedID.length > 0) {
-      //     Alert.alert("please mark attendance for all students")
-      //   } else {
-      //     Alert.alert("please mark attendance for all students")
-      //   }
-      // } else {
-      
-   //   }
-      
-
-    //}
-       }
-      
 
         // const resStudent = await axios.get(`${subURL}/Student/`);
-
-      
       } catch (error) {
         console.log(error);
       }
     }
     getData();
-
-   
-    
   }
 
   function changeBorderColor(id) {
     // IDSETARRAY.forEach((element) => {
     var selectedID = IDSETARRAY.filter((item) => item === id);
-    
-
 
     if (IDSETARRAY.length > 0) {
       if (selectedID.length > 0) {
@@ -695,7 +691,6 @@ const TeachersAttendanceBuild = () => {
   }
 
   function changeColorUpdate(id, text) {
-
     if (updateArray.filter((item) => item.student === id)) {
       var selectedData = [];
       selectedData = updateArray.filter((item) => item.student === id);
@@ -733,7 +728,6 @@ const TeachersAttendanceBuild = () => {
   }
 
   function backButtonHandler() {
-   
     setShowCalendar(true);
     setShowStudList(false);
 
@@ -742,8 +736,6 @@ const TeachersAttendanceBuild = () => {
 
     setFromText("");
     setEnteredFromDateTouched(false);
-    
-    
 
     array.length = 0;
     IDSETARRAY = [];
@@ -751,85 +743,79 @@ const TeachersAttendanceBuild = () => {
 
   function donePressedHandler() {
     // setOpen(false);
-  
-   
+
     setEnteredDescriptionTouched(true);
 
     if (!enteredDescriptionIsValid) {
       return;
     } else {
       setOpen(false);
-    
-    array.length = 0;
-console.log('inside done button')
-    for (i = 0; i < data.length; i++) {
-   
-      const object = {
-        student: data[i].id,
-        attendance_date: moment(FROMDATE).format("YYYY-MM-DD"),
-        class_name: filteredArray[0].classname,
-        section: filteredArray[0].section,
-        attendance_status: "holiday",
-        description: description,
-      };
 
-      changeColor(data[i].id, "H");
-      array.push(object);
-    }
-    viewStudentList();
-    
-    console.log(array)
-
-    IDSETARRAY = [];
-    async function storeData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-          Authorization: "Token " + `${token}`,
+      array.length = 0;
+      console.log("inside done button");
+      for (i = 0; i < data.length; i++) {
+        const object = {
+          student: data[i].id,
+          attendance_date: moment(FROMDATE).format("YYYY-MM-DD"),
+          class_name: filteredArray[0].classname,
+          section: filteredArray[0].section,
+          attendance_status: "holiday",
+          description: description,
         };
 
-        const resLogin = await axios.post(`${subURL}/Attendance/`, array, {
-          headers: headers,
-        });
-        //console.log(resLogin.data);
-      } catch (error) {
-        console.log(error);
+        changeColor(data[i].id, "H");
+        array.push(object);
       }
-    }
-    storeData();
-    Alert.alert("Saved Data", "Saved Data successfully", [
-      {
-        text: "OK",
-        onPress: () => {
-          setShowDefaultBtns(false)
-          setShowFirstStudList(false)
-          setShowDCSData(true)
-          showAttendance()
-          setShowEditBtn(true);
-          setEditBtnPressed(false)
-          //setshowSavedData(true);
-          //showAttendance();
+      viewStudentList();
+
+      console.log(array);
+
+      IDSETARRAY = [];
+      async function storeData() {
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+            Authorization: "Token " + `${token}`,
+          };
+
+          const resLogin = await axios.post(`${subURL}/Attendance/`, array, {
+            headers: headers,
+          });
+          //console.log(resLogin.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      storeData();
+      Alert.alert("Saved Data", "Saved Data successfully", [
+        {
+          text: "OK",
+          onPress: () => {
+            setShowDefaultBtns(false);
+            setShowFirstStudList(false);
+            setShowDCSData(true);
+            showAttendance();
+            setShowEditBtn(true);
+            setEditBtnPressed(false);
+            //setshowSavedData(true);
+            //showAttendance();
+          },
         },
-      },
-    ]);
+      ]);
+    }
+  }
+  function editHandler() {
+    setShowDCSData(false);
+    setEditBtnPressed(true);
+    setShowEditBtn(false);
   }
 
-  }
-  function editHandler(){
-  
-    setShowDCSData(false)
-    setEditBtnPressed(true)
-    setShowEditBtn(false)
+  function updatePresentButton(data) {
+    let updatedStatus = "P";
+    // changeColorUpdate(data.student.id, 'P');
 
-  }
+    console.log("in update present button");
 
-  function updatePresentButton(data){
-    let updatedStatus = 'P'
-   // changeColorUpdate(data.student.id, 'P');
-    
-   
-    console.log('in update present button')
-  
     const object = {
       student: data.student.id,
       attendance_date: moment(FROMDATE).format("YYYY-MM-DD"),
@@ -837,26 +823,30 @@ console.log('inside done button')
       section: filteredArray[0].section,
       attendance_status: "present",
       description: "",
-      id: data.id
+      id: data.id,
     };
-    console.log(object)
-    const existingItem = updateArray.find((item) => item.student === object.student);
+    console.log(object);
+    const existingItem = updateArray.find(
+      (item) => item.student === object.student
+    );
 
     if (existingItem) {
       setUpdateArray(
-        updateArray.map((item) => (item.student === object.student ? object : item))
+        updateArray.map((item) =>
+          item.student === object.student ? object : item
+        )
       );
     } else {
       setUpdateArray((prevArray) => [...prevArray, object]);
       //setItems([...items, updatedItem]);
     }
   }
-  function updateAbsentButton(data){
-    let updatedStatus = 'A'
-   // changeColorUpdate(data.student.id, 'A');
-   
-    console.log('in update absent button')
-  
+  function updateAbsentButton(data) {
+    let updatedStatus = "A";
+    // changeColorUpdate(data.student.id, 'A');
+
+    console.log("in update absent button");
+
     const object = {
       student: data.student.id,
       attendance_date: moment(FROMDATE).format("YYYY-MM-DD"),
@@ -864,14 +854,18 @@ console.log('inside done button')
       section: filteredArray[0].section,
       attendance_status: "absent",
       description: "",
-      id: data.id
+      id: data.id,
     };
-    console.log(object)
-    const existingItem = updateArray.find((item) => item.student === object.student);
+    console.log(object);
+    const existingItem = updateArray.find(
+      (item) => item.student === object.student
+    );
 
     if (existingItem) {
       setUpdateArray(
-        updateArray.map((item) => (item.student === object.student ? object : item))
+        updateArray.map((item) =>
+          item.student === object.student ? object : item
+        )
       );
     } else {
       setUpdateArray((prevArray) => [...prevArray, object]);
@@ -879,7 +873,6 @@ console.log('inside done button')
     }
   }
   function updateHandler() {
-    
     console.log("updated array-", updateArray);
     async function updateData() {
       try {
@@ -903,12 +896,11 @@ console.log('inside done button')
       {
         text: "OK",
         onPress: () => {
-          showAttendance()
-          setShowDCSData(true)
-          setEditBtnPressed(false)
-          setShowEditBtn(true)
-          
-                 
+          showAttendance();
+          setShowDCSData(true);
+          setEditBtnPressed(false);
+          setShowEditBtn(true);
+
           // showAttendance();
           // setShowEditData(true);
           // setshowSavedData(true);
@@ -916,15 +908,102 @@ console.log('inside done button')
       },
     ]);
   }
- 
-  function cancelHandler(){
-    setShowDCSData(true)
-    setEditBtnPressed(false)
-    setShowEditBtn(true)
+
+  function cancelHandler() {
+    setShowDCSData(true);
+    setEditBtnPressed(false);
+    setShowEditBtn(true);
   }
- 
+  function markAttendance() {
+    setShowCalendar(true);
+    setShowStartingPage(false);
+  }
+  function viewReports() {
+    setShowReports(true);
+    setShowStartingPage(false);
+  }
+
+  function pressHandler(id) {
+    console.log(id);
+    navigation.navigate("AttendanceReport", {
+      id: id,
+    });
+    // const request_model = {
+    //   student_id: id,
+    //   year: "2023",
+    // };
+    // async function getData() {
+    //   try {
+    //     let headers = {
+    //       "Content-Type": "application/json; charset=utf-8",
+    //       Authorization: "Token " + `${token}`,
+    //     };
+    //     const res = await axios.post(
+    //       `${subURL}/AttendanceDetailByStudentIDYear/`,
+    //       request_model,
+    //       {
+    //         headers: headers,
+    //       }
+    //     );
+
+    //     console.log(res.data);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
+    // getData();
+  }
   return (
     <>
+      {showStartingPage && (
+        <View
+          style={[
+            { flex: 1 },
+            { flexDirection: "column", backgroundColor: "white" },
+          ]}
+        >
+          <View
+            style={{
+              flex: 1.5,
+              width: "50%",
+              marginLeft: "27%",
+              marginTop: "10%",
+            }}
+          >
+            <NativeButton size="md" onPress={markAttendance}>
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontFamily: "HindSemiBold",
+                  color: "white",
+                }}
+              >
+                Mark Attendance
+              </Text>
+            </NativeButton>
+          </View>
+          <View
+            style={{
+              flex: 1.5,
+              width: "50%",
+              marginLeft: "27%",
+              marginTop: "10%",
+            }}
+          >
+            <NativeButton size="md" onPress={viewReports}>
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontFamily: "HindSemiBold",
+                  color: "white",
+                }}
+              >
+                View Reports
+              </Text>
+            </NativeButton>
+          </View>
+        </View>
+      )}
       {showCalendar && (
         <View
           style={[
@@ -991,7 +1070,6 @@ console.log('inside done button')
                       fontFamily: "HindRegular",
                       fontSize: 18,
                       top: "3%",
-                    
                     }}
                   >
                     Select Date
@@ -1002,7 +1080,6 @@ console.log('inside done button')
                     <UnderlinedInput
                       value={fromText}
                       placeholder="Select Date"
-                    
                       style={
                         isFromDateFocused
                           ? styles.focusStyle
@@ -1051,29 +1128,10 @@ console.log('inside done button')
                     </Text>
                   </NativeButton>
                 </View>
-                {/* <View
-                  style={{
-                    flex: 1.5,
-                    width: "50%",
-                    marginLeft: "27%",
-                    marginTop: "10%",
-                  }}
-                >
-                  <NativeButton size="md">
-                    <Text
-                      style={{
-                        fontSize: 15,
-                        fontFamily: "HindSemiBold",
-                        color: "white",
-                      }}
-                    >
-                      View Reports
-                    </Text>
-                  </NativeButton>
-                </View> */}
               </View>
             </ScrollView>
           </View>
+
           {keyboardStatus == "Keyboard Hidden" && (
             <View style={{ flex: 0.2, backgroundColor: "white" }}>
               <TeachersHome />
@@ -1082,8 +1140,207 @@ console.log('inside done button')
         </View>
       )}
 
-      {showStudList && (
+      {showReports && (
+        <View
+          style={[
+            {
+              flex: 1,
+              flexDirection: "column",
+              backgroundColor: "white",
+            },
+          ]}
+        >
+          <View
+            style={{
+              top: "3%",
+              left: "3%",
+              flexDirection: "row",
+              marginVertical: 20,
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "HindRegular",
+                fontSize: 18,
+                top: "3%",
+              }}
+            >
+              Select Class
+            </Text>
+            <View style={styles.leaveSpace} />
+            <View style={{ flexDirection: "column" }}>
+              <SelectList
+                setSelected={setSelectedClassSection}
+                data={classTeacherData}
+                onSelect={viewStudentList}
+                placeholder="Select class"
+                save="key"
+                boxStyles={selectInputIsInValid && styles.errorSelectedColor}
+                dropdownTextStyles={{
+                  fontSize: 18,
+                  fontFamily: "HindRegular",
+                }}
+                inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+              />
+              {selectInputIsInValid && (
+                <Text style={[styles.errorText, { top: 10, left: "2%" }]}>
+                  Select class
+                </Text>
+              )}
+            </View>
+          </View>
+          <View style={{ flex: 2 }}>
+            {showReportList && (
+              <View style={{ flex: 1, backgroundColor: "white" }}>
+                <View style={styles.title}>
+                  <SearchBar
+                    style={styles.searchBar}
+                    textInputStyle={{
+                      fontFamily: "HindRegular",
+                      fontSize: 18,
+                    }}
+                    placeholder="Search here"
+                    //    onChangeText={(text) => searchFilter(text)}
+                    // value={searchText}
+                  />
+                </View>
+                <View style={styles.tableHeader}>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Text style={styles.headerText}>Reg no</Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Text style={styles.headerText}>Student name</Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Text style={styles.headerText}>Class name</Text>
+                  </View>
+                </View>
 
+                <View
+                  style={[
+                    { flex: 1 },
+                    {
+                      flexDirection: "column",
+                      top:
+                        keyboardStatus == "Keyboard Hidden" ? "11.5%" : "18%",
+                      paddingHorizontal: 10,
+                      marginHorizontal: 10,
+                    },
+                  ]}
+                >
+                  <View style={{ flex: 8, bottom: 10 }}>
+                    <ScrollView>
+                      {reportData.length > 0 ? (
+                        <View style={styles.root}>
+                          {reportData &&
+                            reportData.map((filteredData, key) => (
+                              <>
+                                <TouchableHighlight
+                                  onPress={pressHandler.bind(
+                                    this,
+                                    filteredData.id
+                                  )}
+                                  underlayColor="#D1D4FF"
+                                  style={{ cursor: "pointer" }}
+                                >
+                                  <View style={styles.tableText}>
+                                    <View
+                                      style={{
+                                        flex: 1,
+                                        alignItems: "center",
+                                        paddingVertical: 20,
+                                      }}
+                                    >
+                                      <Text
+                                        style={[
+                                          styles.headerText,
+                                          { color: "black" },
+                                        ]}
+                                      >
+                                        {filteredData.reg_number}
+                                      </Text>
+                                    </View>
+                                    <View
+                                      style={{
+                                        flex: 1,
+                                        alignItems: "center",
+                                        paddingVertical: 20,
+                                      }}
+                                    >
+                                      <Text
+                                        style={[
+                                          styles.headerText,
+                                          { color: "black" },
+                                        ]}
+                                      >
+                                        {filteredData.student_name}
+                                      </Text>
+                                    </View>
+                                    <View
+                                      style={{
+                                        flex: 1,
+                                        alignItems: "center",
+                                        paddingVertical: 20,
+                                      }}
+                                    >
+                                      <Text
+                                        style={[
+                                          styles.headerText,
+                                          { color: "black" },
+                                        ]}
+                                      >
+                                        {filteredData.class_name} -{" "}
+                                        {filteredData.section}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                </TouchableHighlight>
+                              </>
+                            ))}
+                        </View>
+                      ) : (
+                        <View
+                          style={{
+                            alignItems: "center",
+                            marginVertical: 10,
+                          }}
+                        >
+                          <NativeText fontSize="xl" bold color="error.900">
+                            No data found.
+                          </NativeText>
+                        </View>
+                      )}
+                    </ScrollView>
+                  </View>
+                </View>
+              </View>
+            )}
+          </View>
+          <View style={{ flex: 0.1, backgroundColor: "green" }}>
+            <TeachersHome />
+          </View>
+        </View>
+      )}
+
+      {showStudList && (
         <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
           <View
             style={[
@@ -1091,7 +1348,9 @@ console.log('inside done button')
               { flexDirection: "row", alignItems: "center" },
             ]}
           >
-            <BackButton onPress={editBtnPressed ? cancelHandler:backButtonHandler} />
+            <BackButton
+              onPress={editBtnPressed ? cancelHandler : backButtonHandler}
+            />
           </View>
 
           <View
@@ -1100,240 +1359,233 @@ console.log('inside done button')
               bottom: "7%",
             }}
           >
-
-            {showDefaultBtns &&<View
-              style={[
-                { flex: 1 },
-                {
-                  flexDirection: "row",
-                  left: "10%",
-                  marginHorizontal: 15,
-                  marginVertical: 15,
-                },
-              ]}
-            >
-              <View style={{ flex: 1 }}>
-                <NativeButton onPress={presentAllHandler} colorScheme="green">
-                  <Text
-                    style={{
-                      fontSize: 15,
-                      fontFamily: "HindSemiBold",
-                      color: "white",
-                    }}
-                  >
-                    Present All
-                  </Text>
-                </NativeButton>
-              </View>
-              <View style={styles.space} />
-              <View style={{ flex: 1 }}>
-                <NativeButton onPress={absentAllHandler} colorScheme="red">
-                  <Text
-                    style={{
-                      fontSize: 15,
-                      fontFamily: "HindSemiBold",
-                      color: "white",
-                    }}
-                  >
-                    Absent All
-                  </Text>
-                </NativeButton>
-              </View>
-              <View style={styles.space} />
-              <View style={{ flex: 1 }}>
-                <NativeButton
-                  onPress={() => holidayForAllHandler("top")}
-                  colorScheme="yellow"
-                >
-                  <Text
-                    style={{
-                      fontSize: 15,
-                      fontFamily: "HindSemiBold",
-                      color: "white",
-                    }}
-                  >
-                    Holiday All
-                  </Text>
-                </NativeButton>
-              </View>
-              <View style={styles.space} />
-            </View>}
-
-           
-          <View style={{ flex: 0.5, bottom: "6%" }}>
-            <View
-              style={[
-                { flex: 1 },
-                {
-                  // Try setting `flexDirection` to `"row"`.
-                  flexDirection: "column",
-                },
-              ]}
-            >
-              <View style={{ flex: 1 }}>
-                <View
-                  style={[
-                    { flex: 1 },
-                    {
-                      // Try setting `flexDirection` to `"row"`.
-                      flexDirection: "row",
-                    },
-                  ]}
-                >
-                  <View style={{ flex: 0.27, alignItems: "center" }}>
-                    <Text style={styles.labelStyle}>Class :</Text>
-                  </View>
-                  <View style={{ flex: 0.27 }}>
-                    <Text style={styles.labelStyle}>
-                      {filteredArray[0]?.value}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-              <View style={{ flex: 1 }}>
-                <View
-                  style={[
-                    { flex: 1 },
-                    {
-                      // Try setting `flexDirection` to `"row"`.
-                      flexDirection: "row",
-                    },
-                  ]}
-                >
-                  <View style={{ flex: 0.27, alignItems: "center" }}>
-                    <Text style={styles.labelStyle}>Date :</Text>
-                  </View>
-                
-                  <View style={{ flex: 0.27 }}>
-                    <Text style={styles.labelStyle}>{fromText}</Text>
-                  </View>
-                  
-                </View>
-              
-              </View>
-             
-            </View>
-          
-          </View>
-       {  showEditBtn && <View style={{ flex: 1, alignItems: "center",left:'30%' }}>
-                  <NativeButton size="md" onPress={editHandler} >
-              <Text
-                style={{
-                  fontSize: 15,
-                  fontFamily: "HindSemiBold",
-                  color: "white",
-                }}
+            {showDefaultBtns && (
+              <View
+                style={[
+                  { flex: 1 },
+                  {
+                    flexDirection: "row",
+                    left: "10%",
+                    marginHorizontal: 15,
+                    marginVertical: 15,
+                  },
+                ]}
               >
-                Edit
-              </Text>
-            </NativeButton>
-                  </View>}
+                <View style={{ flex: 1 }}>
+                  <NativeButton onPress={presentAllHandler} colorScheme="green">
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        fontFamily: "HindSemiBold",
+                        color: "white",
+                      }}
+                    >
+                      Present All
+                    </Text>
+                  </NativeButton>
+                </View>
+                <View style={styles.space} />
+                <View style={{ flex: 1 }}>
+                  <NativeButton onPress={absentAllHandler} colorScheme="red">
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        fontFamily: "HindSemiBold",
+                        color: "white",
+                      }}
+                    >
+                      Absent All
+                    </Text>
+                  </NativeButton>
+                </View>
+                <View style={styles.space} />
+                <View style={{ flex: 1 }}>
+                  <NativeButton
+                    onPress={() => holidayForAllHandler("top")}
+                    colorScheme="yellow"
+                  >
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        fontFamily: "HindSemiBold",
+                        color: "white",
+                      }}
+                    >
+                      Holiday All
+                    </Text>
+                  </NativeButton>
+                </View>
+                <View style={styles.space} />
+              </View>
+            )}
+
+            <View style={{ flex: 0.5, bottom: "6%" }}>
+              <View
+                style={[
+                  { flex: 1 },
+                  {
+                    // Try setting `flexDirection` to `"row"`.
+                    flexDirection: "column",
+                  },
+                ]}
+              >
+                <View style={{ flex: 1 }}>
+                  <View
+                    style={[
+                      { flex: 1 },
+                      {
+                        // Try setting `flexDirection` to `"row"`.
+                        flexDirection: "row",
+                      },
+                    ]}
+                  >
+                    <View style={{ flex: 0.27, alignItems: "center" }}>
+                      <Text style={styles.labelStyle}>Class :</Text>
+                    </View>
+                    <View style={{ flex: 0.27 }}>
+                      <Text style={styles.labelStyle}>
+                        {filteredArray[0]?.value}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <View
+                    style={[
+                      { flex: 1 },
+                      {
+                        // Try setting `flexDirection` to `"row"`.
+                        flexDirection: "row",
+                      },
+                    ]}
+                  >
+                    <View style={{ flex: 0.27, alignItems: "center" }}>
+                      <Text style={styles.labelStyle}>Date :</Text>
+                    </View>
+
+                    <View style={{ flex: 0.27 }}>
+                      <Text style={styles.labelStyle}>{fromText}</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+            {showEditBtn && (
+              <View style={{ flex: 1, alignItems: "center", left: "30%" }}>
+                <NativeButton size="md" onPress={editHandler}>
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontFamily: "HindSemiBold",
+                      color: "white",
+                    }}
+                  >
+                    Edit
+                  </Text>
+                </NativeButton>
+              </View>
+            )}
           </View>
-         
+
           <View style={{ flex: 2, bottom: "6%" }}>
             {
               <ScrollView>
-                {
-                  data && showFirstStudList &&
-                    data.map((data, key) => (
-                      <View style={changeBorderColor(data.id)}>
-                        <View
-                          style={[
-                            { flex: 1 },
-                            {
-                              flexDirection: "row",
-                            },
-                          ]}
-                        >
-                          <View style={{ flex: 1 }}>
+                {data &&
+                  showFirstStudList &&
+                  data.map((data, key) => (
+                    <View style={changeBorderColor(data.id)}>
+                      <View
+                        style={[
+                          { flex: 1 },
+                          {
+                            flexDirection: "row",
+                          },
+                        ]}
+                      >
+                        <View style={{ flex: 1 }}>
+                          <View
+                            style={[
+                              { flex: 1 },
+                              {
+                                flexDirection: "row",
+                              },
+                            ]}
+                          >
                             <View
-                              style={[
-                                { flex: 1 },
-                                {
-                                  flexDirection: "row",
-                                },
-                              ]}
+                              style={{
+                                flex: 0.5,
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
                             >
-                              <View
-                                style={{
-                                  flex: 0.5,
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                }}
+                              <Text
+                                style={[styles.textBase, styles.description]}
                               >
-                                <Text
-                                  style={[styles.textBase, styles.description]}
-                                >
-                                  {data.reg_number}
-                                </Text>
-                              </View>
-                              <View
-                                style={{
-                                  flex: 1,
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                }}
+                                {data.reg_number}
+                              </Text>
+                            </View>
+                            <View
+                              style={{
+                                flex: 1,
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <Text
+                                style={[styles.textBase, styles.description]}
                               >
-                                <Text
-                                  style={[styles.textBase, styles.description]}
-                                >
-                                  {data.student_name}
-                                </Text>
-                              </View>
+                                {data.student_name}
+                              </Text>
                             </View>
                           </View>
+                        </View>
 
-                          <View style={{ flex: 0.2 }}>
-                            <View
-                              style={[
-                                { flex: 1 },
-                                {
-                                  flexDirection: "row",
-                                },
-                              ]}
-                            >
-                            
-                              <View style={{ flex: 1 }}>
-                                <View
-                                  style={[
-                                    { flex: 1 },
-                                    {
-                                      flexDirection: "column",
-                                      marginVertical: 10,
-                                      marginHorizontal: 10,
-                                    },
-                                  ]}
-                                >
-                                  <View style={{ flex: 1 }}>
-                                    <Button
-                                      onPress={() =>
-                                        presentButtonPressed(data.id)
-                                      }
-                                      color={changeColor(data.id, "P")}
-                                      title="P"
-                                    />
-                                  </View>
-                                  <View style={styles.space} />
-                                  <View style={{ flex: 1 }}>
-                                    <Button
-                                      color={changeColor(data.id, "A")}
-                                      onPress={() => absentBtnHandler(data.id)}
-                                      title="A"
-                                    />
-                                  </View>
-                              
+                        <View style={{ flex: 0.2 }}>
+                          <View
+                            style={[
+                              { flex: 1 },
+                              {
+                                flexDirection: "row",
+                              },
+                            ]}
+                          >
+                            <View style={{ flex: 1 }}>
+                              <View
+                                style={[
+                                  { flex: 1 },
+                                  {
+                                    flexDirection: "column",
+                                    marginVertical: 10,
+                                    marginHorizontal: 10,
+                                  },
+                                ]}
+                              >
+                                <View style={{ flex: 1 }}>
+                                  <Button
+                                    onPress={() =>
+                                      presentButtonPressed(data.id)
+                                    }
+                                    color={changeColor(data.id, "P")}
+                                    title="P"
+                                  />
+                                </View>
+                                <View style={styles.space} />
+                                <View style={{ flex: 1 }}>
+                                  <Button
+                                    color={changeColor(data.id, "A")}
+                                    onPress={() => absentBtnHandler(data.id)}
+                                    title="A"
+                                  />
                                 </View>
                               </View>
                             </View>
                           </View>
                         </View>
                       </View>
-                    ))
-                
-                }
-               
-                 {showDCSData &&    
-    
+                    </View>
+                  ))}
+
+                {showDCSData &&
                   saveAttendanceDataByDCS.map((data, key) => (
                     <View style={changeBorderColor(data.id)}>
                       <View
@@ -1363,7 +1615,7 @@ console.log('inside done button')
                               <Text
                                 style={[styles.textBase, styles.description]}
                               >
-                                {data.student.reg_number} 
+                                {data.student.reg_number}
                               </Text>
                             </View>
                             <View
@@ -1403,33 +1655,37 @@ console.log('inside done button')
                               >
                                 <View style={{ flex: 1 }}>
                                   <View style={{ flex: 1.5 }}>
-                                 
-
-                                    {data.attendance_status ==
-                                              "present" ? (
-                                                <Badge
-                                                  colorScheme="success"
-                                                  style={{ width: "65%" }}
-                                                >
-                                            {data.attendance_status.charAt(0).toUpperCase() + data.attendance_status.slice(1)}
-                                                </Badge>
-                                              ) : data.attendance_status ==
-                                                "absent" ? (
-                                                <Badge
-                                                  colorScheme="danger"
-                                                  style={{ width: "65%" }}
-                                                >
-                                               {data.attendance_status.charAt(0).toUpperCase() + data.attendance_status.slice(1)}
-                                                </Badge>
-                                              ) : (
-                                                <Badge
-                                                  colorScheme="yellow"
-                                                  style={{ width: "65%" }}
-                                                >
-                                              {data.attendance_status.charAt(0).toUpperCase() + data.attendance_status.slice(1)}
-                                                </Badge>
-                                              )}
-                                  
+                                    {data.attendance_status == "present" ? (
+                                      <Badge
+                                        colorScheme="success"
+                                        style={{ width: "65%" }}
+                                      >
+                                        {data.attendance_status
+                                          .charAt(0)
+                                          .toUpperCase() +
+                                          data.attendance_status.slice(1)}
+                                      </Badge>
+                                    ) : data.attendance_status == "absent" ? (
+                                      <Badge
+                                        colorScheme="danger"
+                                        style={{ width: "65%" }}
+                                      >
+                                        {data.attendance_status
+                                          .charAt(0)
+                                          .toUpperCase() +
+                                          data.attendance_status.slice(1)}
+                                      </Badge>
+                                    ) : (
+                                      <Badge
+                                        colorScheme="yellow"
+                                        style={{ width: "65%" }}
+                                      >
+                                        {data.attendance_status
+                                          .charAt(0)
+                                          .toUpperCase() +
+                                          data.attendance_status.slice(1)}
+                                      </Badge>
+                                    )}
                                   </View>
                                 </View>
 
@@ -1458,7 +1714,7 @@ console.log('inside done button')
                     </View>
                   ))}
 
-            {editBtnPressed && 
+                {editBtnPressed &&
                   saveAttendanceDataByDCS.map((data, key) => (
                     <View style={changeBorderColor(data.student.id)}>
                       <View
@@ -1488,7 +1744,7 @@ console.log('inside done button')
                               <Text
                                 style={[styles.textBase, styles.description]}
                               >
-                                {data.student.reg_number} 
+                                {data.student.reg_number}
                               </Text>
                             </View>
                             <View
@@ -1508,52 +1764,52 @@ console.log('inside done button')
                         </View>
 
                         <View style={{ flex: 0.2 }}>
-                            <View
-                              style={[
-                                { flex: 1 },
-                                {
-                                  flexDirection: "row",
-                                },
-                              ]}
-                            >
-                            
-                              <View style={{ flex: 1 }}>
-                                <View
-                                  style={[
-                                    { flex: 1 },
-                                    {
-                                      flexDirection: "column",
-                                      marginVertical: 10,
-                                      marginHorizontal: 10,
-                                    },
-                                  ]}
-                                >
-                                  <View style={{ flex: 1 }}>
+                          <View
+                            style={[
+                              { flex: 1 },
+                              {
+                                flexDirection: "row",
+                              },
+                            ]}
+                          >
+                            <View style={{ flex: 1 }}>
+                              <View
+                                style={[
+                                  { flex: 1 },
+                                  {
+                                    flexDirection: "column",
+                                    marginVertical: 10,
+                                    marginHorizontal: 10,
+                                  },
+                                ]}
+                              >
+                                <View style={{ flex: 1 }}>
                                   <Button
-                                  onPress={() => updatePresentButton(data)}
-                                 // color={data.attendance_status === 'present' ? 'green' : changeColorUpdate(data.student.id, "P")}
-                                 color={changeColorUpdate(data.student.id, "P")}
-
-                                  title="P" 
-                                    />
-                                  
-                                  </View>
-                                  <View style={styles.space} />
-                                  <View style={{ flex: 1 }}>
+                                    onPress={() => updatePresentButton(data)}
+                                    // color={data.attendance_status === 'present' ? 'green' : changeColorUpdate(data.student.id, "P")}
+                                    color={changeColorUpdate(
+                                      data.student.id,
+                                      "P"
+                                    )}
+                                    title="P"
+                                  />
+                                </View>
+                                <View style={styles.space} />
+                                <View style={{ flex: 1 }}>
                                   <Button
-                                  onPress={() => updateAbsentButton(data)}
-                                //  color={data.attendance_status === 'absent' ? 'red' : changeColorUpdate(data.student.id, "A")}
-                                 color={ changeColorUpdate(data.student.id, "A")}
-                            
-                                  title="A" 
-                                    />
-   
-                                  </View>
-                              
+                                    onPress={() => updateAbsentButton(data)}
+                                    //  color={data.attendance_status === 'absent' ? 'red' : changeColorUpdate(data.student.id, "A")}
+                                    color={changeColorUpdate(
+                                      data.student.id,
+                                      "A"
+                                    )}
+                                    title="A"
+                                  />
                                 </View>
                               </View>
                             </View>
                           </View>
+                        </View>
                       </View>
                     </View>
                   ))}
@@ -1604,39 +1860,53 @@ console.log('inside done button')
                 </Modal.Footer>
               </Modal.Content>
             </Modal>
-           
           </View>
-        { !showDCSData && <View
-            style={{
-              flex: 0.3,
-              marginHorizontal: 60,
-              bottom: "3%",
-              left: "10%",
-            }}
-          >
-            <NativeButton size="md" onPress={editBtnPressed?updateHandler:saveAttendance} w={editBtnPressed?'1/3':'3/4'} left={editBtnPressed ?'155':'0'}>
-              <Text
-                style={{
-                  fontSize: 15,
-                  fontFamily: "HindSemiBold",
-                  color: "white",
-                }}
+          {!showDCSData && (
+            <View
+              style={{
+                flex: 0.3,
+                marginHorizontal: 60,
+                bottom: "3%",
+                left: "10%",
+              }}
+            >
+              <NativeButton
+                size="md"
+                onPress={editBtnPressed ? updateHandler : saveAttendance}
+                w={editBtnPressed ? "1/3" : "3/4"}
+                left={editBtnPressed ? "155" : "0"}
               >
-                {editBtnPressed ? 'Update':'Save'}
-              </Text>
-            </NativeButton>
-          {editBtnPressed &&  <NativeButton size="md" onPress={cancelHandler} w="1/3" right='20' bottom='10'>
-              <Text
-                style={{
-                  fontSize: 15,
-                  fontFamily: "HindSemiBold",
-                  color: "white",
-                }}
-              >
-                Cancel
-              </Text>
-            </NativeButton>}
-          </View>}
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontFamily: "HindSemiBold",
+                    color: "white",
+                  }}
+                >
+                  {editBtnPressed ? "Update" : "Save"}
+                </Text>
+              </NativeButton>
+              {editBtnPressed && (
+                <NativeButton
+                  size="md"
+                  onPress={cancelHandler}
+                  w="1/3"
+                  right="20"
+                  bottom="10"
+                >
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontFamily: "HindSemiBold",
+                      color: "white",
+                    }}
+                  >
+                    Cancel
+                  </Text>
+                </NativeButton>
+              )}
+            </View>
+          )}
           <View style={{ flex: 0.2 }}>
             <TeachersHome />
           </View>
@@ -1647,7 +1917,6 @@ console.log('inside done button')
 };
 
 export default TeachersAttendanceBuild;
-
 
 const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
@@ -1747,5 +2016,76 @@ const styles = StyleSheet.create({
     fontFamily: "HindBold",
     fontSize: 16,
   },
-  checkBoxContainer: {},
+  title: {
+    flex: 0.1,
+    alignItems: "center",
+    justifyContent: "center",
+    top: "5%",
+  },
+  tableHeader: {
+    flex: 0.2,
+    flexDirection: "row",
+    top: "17%",
+    borderWidth: 1,
+    marginHorizontal: 20,
+    backgroundColor: "darkblue",
+  },
+  tableText: {
+    flex: 1,
+    flexDirection: "row",
+    // paddingHorizontal:10,
+    // marginHorizontal:10,
+    borderBottomWidth: 1,
+    borderRightWidth: 1,
+    borderLeftWidth: 1,
+  },
+  headerText: {
+    fontFamily: "HindBold",
+    fontSize: 16,
+    color: "white",
+  },
+  th: {
+    padding: 5,
+    marginRight: 13,
+    //fontSize: 24,
+  },
+
+  tableTitle: {
+    // padding: 5,
+    margin: 7,
+    fontFamily: "HindMedium",
+    fontSize: 20,
+  },
+  tableCell: {
+    width: 110,
+
+    marginLeft: 35,
+  },
+
+  tableMarks: {
+    width: 10,
+
+    marginLeft: 35,
+  },
+
+  tableRow: {
+    height: "9%",
+    borderBottomColor: "black",
+    borderBottomWidth: 2,
+  },
+  space: {
+    width: 20, // or whatever size you need
+    height: 20,
+  },
+  searchBar: {
+    //top: 10,
+    backgroundColor: "#F0F3F4",
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  root: {
+    // backgroundColor: "#EBECFO",
+    backgroundColor: "white",
+    height: "100%",
+  },
 });

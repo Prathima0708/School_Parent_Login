@@ -59,6 +59,7 @@ import TeachersLeave from "./screens/TeachersLoginScreen/Leave/TeachersLeave";
 import TeachersLeaveUpdated from "./screens/TeachersLoginScreen/Leave/TeachersLeaveUpdated";
 import ExamTimeTable from "./screens/ParentsLoginScreen/Academics/TimeTable/ExamTimeTable";
 import TeachersAttendanceBuild from "./screens/TeachersLoginScreen/TeachersAcademics/Attendance/TeachersAttendanceBuild";
+import AttendanceReport from "./screens/TeachersLoginScreen/TeachersAcademics/Attendance/AttendanceReport";
 var value, Group, GroupP, GroupT;
 // function Bottom() {
 //   return (
@@ -246,6 +247,11 @@ export default function App() {
           name="TeachersAttendance"
           component={TeachersAttendanceBuild}
           options={{ title: "Attendance" }}
+        />
+        <Stack.Screen
+          name="AttendanceReport"
+          component={AttendanceReport}
+          options={{ title: "Report" }}
         />
 
         {/* <Stack.Screen name="TeachersHomework" component={TeachersHomework} /> */}
@@ -536,6 +542,11 @@ export default function App() {
           name="TeachersAttendance"
           component={TeachersAttendanceBuild}
           options={{ title: "Attendance" }}
+        />
+        <Stack.Screen
+          name="AttendanceReport"
+          component={AttendanceReport}
+          options={{ title: "Report" }}
         />
         <Stack.Screen
           name="TeachersProfile"
