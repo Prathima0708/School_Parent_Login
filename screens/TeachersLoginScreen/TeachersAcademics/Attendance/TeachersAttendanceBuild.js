@@ -44,9 +44,12 @@ import SearchBar from "react-native-dynamic-search-bar";
 var USERID,
   TOKEN,
   FROMDATE,
+  firstData,
+  KEY,
+  VALUE,
   newArray,
   IDSETARRAY = [];
-var filteredArray = [];
+
 // const getButtonColor = (status, title) => {
 //   switch (status + title) {
 //     case 'presentP':
@@ -165,6 +168,10 @@ const TeachersAttendanceBuild = () => {
               section: item.section,
             };
           });
+          firstData = newArray[0];
+
+          KEY = firstData.key;
+          VALUE = firstData.value;
           setClassTeacherData(newArray);
         })
         .catch((e) => {
@@ -1170,6 +1177,10 @@ const TeachersAttendanceBuild = () => {
             <View style={styles.leaveSpace} />
             <View style={{ flexDirection: "column" }}>
               <SelectList
+                defaultOption={{
+                  key: String(KEY),
+                  value: String(VALUE),
+                }}
                 setSelected={setSelectedClassSection}
                 data={classTeacherData}
                 onSelect={viewStudentList}

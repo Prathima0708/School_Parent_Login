@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRoute } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { subURL } from "../../../../components/utils/URL's";
@@ -7,8 +7,10 @@ import { Button as NativeButton, Text as NativeText } from "native-base";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 import moment from "moment";
+import SelectList from "react-native-dropdown-select-list";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
-var TOKEN, FROMDATE;
+import BgButton from "../../../../components/UI/BgButton";
+var TOKEN, FROMDATE, SELECTEDYEAR, firstData, KEY, VALUE;
 const AttendanceReport = () => {
   const [frommode, setFromMode] = useState("date");
   const [fromDate, setFromDate] = useState(new Date());
@@ -17,16 +19,69 @@ const AttendanceReport = () => {
   const [isFromDateFocused, setIsFromDateFocused] = useState(false);
   const [fromText, setFromText] = useState("");
   const [enteredFromDateTouched, setEnteredFromDateTouched] = useState(false);
-  const enteredFromDateIsValid = fromText.trim() !== "";
+  const enteredFromDateIsValid = fromText !== "";
   const fromDateInputIsInValid =
     !enteredFromDateIsValid && enteredFromDateTouched;
 
+  const [forYearlyReport, setForYearlyReport] = useState({
+    color: "white",
+    backgroundColor: "#0C60F4",
+    borderRadius: 10,
+  });
+  const [forMonthlyReport, setForMonthlyReport] = useState({
+    color: "black",
+    backgroundColor: "#F4F6F6",
+    borderRadius: 10,
+  });
   const route = useRoute();
   const [token, setToken] = useState("");
   const [yearReport, setYearReport] = useState([]);
+  const [yearMonthReport, setYearMonthReport] = useState([]);
   const [monthlyCount, setMonthlyCount] = useState({});
+  const [dailyAttendance, setDailyAttendance] = useState({});
 
-  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May"];
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "June",
+    "July",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const months = [
+    // { key: "Month", value: "Month" },
+    { key: "01", value: "Jan" },
+    { key: "02", value: "Feb" },
+
+    { key: "03", value: "Mar" },
+    { key: "04", value: "Apr" },
+    { key: "05", value: "May" },
+    { key: "06", value: "Jun" },
+
+    { key: "07", value: "July" },
+    { key: "08", value: "Aug" },
+    { key: "09", value: "Sep" },
+    { key: "10", value: "Oct" },
+
+    { key: "11", value: "Nov" },
+    { key: "12", value: "Dec" },
+  ];
+
+  const [showYearReport, setShowYearReport] = useState(true);
+  const [showMonthReport, setShowMonthReport] = useState(false);
+  // firstData = months[0];
+  // KEY = firstData.key;
+  // VALUE = firstData.value;
+
+  const [selected, setSelected] = useState("");
+  const [listSelected, setListSelected] = useState([]);
+  const [showFirstOption, setShowFirstOption] = useState(false);
 
   async function fetchToken() {
     TOKEN = await AsyncStorage.getItem("token");
@@ -39,7 +94,7 @@ const AttendanceReport = () => {
   useEffect(() => {
     const request_model = {
       student_id: route.params.id,
-      year: "2023",
+      year: moment(FROMDATE).format("YYYY"),
     };
 
     async function getData() {
@@ -78,6 +133,49 @@ const AttendanceReport = () => {
     }
     getData();
   }, []);
+
+  function viewList() {
+    const request_model = {
+      student_id: route.params.id,
+      year: moment(FROMDATE).format("YYYY"),
+    };
+    async function getData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+          //   Authorization: "Token " + `${token}`,
+        };
+        const res = await axios.post(
+          `${subURL}/AttendanceDetailByStudentIDYear/`,
+          request_model,
+          {
+            headers: headers,
+          }
+        );
+
+        setYearReport(res.data);
+        let counts = {};
+        res.data.map((item) => {
+          const date = new Date(item.attendance_date);
+          const month = date.getMonth();
+          if (!counts[month]) {
+            counts[month] = { present: 0, absent: 0 };
+          }
+          if (item.attendance_status === "present") {
+            counts[month].present++;
+          } else {
+            counts[month].absent++;
+          }
+        });
+        setMonthlyCount(counts);
+        //console.log(monthlyCount);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
+  }
+
   function fromDateBlurHandler() {
     setEnteredFromDateTouched(true);
     setIsFromDateFocused(false);
@@ -96,6 +194,10 @@ const AttendanceReport = () => {
     // setFromDate(currentFromDate);
 
     let tempFromDate = new Date(currentFromDate);
+    console.log(tempFromDate.getFullYear());
+    SELECTEDYEAR = tempFromDate.getFullYear();
+    let year = moment(tempFromDate).format("YYYY");
+    console.log("year is ", year);
     let fDate =
       tempFromDate.getDate() +
       "/" +
@@ -104,13 +206,15 @@ const AttendanceReport = () => {
       tempFromDate.getFullYear();
 
     if (event.type == "set") {
-      setFromText(fDate);
+      setFromText(year);
+      viewList();
     } else {
       // if (event?.type === "dismissed") {
       //   setFromText("");
       //   return;
       // }
     }
+    console.log("fromtext", fromText);
   };
 
   const showFromMode = (currentFromMode) => {
@@ -122,156 +226,391 @@ const AttendanceReport = () => {
   function frmDateHandler(enteredValue) {
     setFromDate(enteredValue);
   }
+  function yearlyReport() {
+    setShowYearReport(true);
+    setShowMonthReport(false);
+    setForYearlyReport({
+      backgroundColor: "#0C60F4",
+      color: "white",
+      borderRadius: 10,
+    });
+    setForMonthlyReport({
+      color: "black",
+      backgroundColor: "#F4F6F6",
+      borderRadius: 10,
+    });
+  }
+  function monthlyReport() {
+    setShowYearReport(false);
+    setShowMonthReport(true);
+    setForMonthlyReport({
+      color: "white",
+      backgroundColor: "#1E8449",
+      borderRadius: 10,
+    });
+    setForYearlyReport({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
+  }
+  function viewYearMonthReport() {
+    setShowYearReport(true);
+    setShowYearReport(false);
+    const request_model = {
+      student_id: route.params.id,
+      yearMonth: moment(FROMDATE).format("YYYY-MM"),
+    };
+    async function getData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+          //   Authorization: "Token " + `${token}`,
+        };
+        const res = await axios.post(
+          `${subURL}/AttendanceDetailByStudentIDMonthYear/`,
+          request_model,
+          {
+            headers: headers,
+          }
+        );
+        console.log(selected);
+        setYearMonthReport(res.data);
+        const filteredAttendance = yearMonthReport.filter(
+          (item) => new Date(item.attendance_date).getMonth() === selected
+        );
+        let counts = {};
+        filteredAttendance.map((item) => {
+          const date = new Date(item.attendance_date);
+          const day = date.getDate();
+          if (!counts[day]) {
+            counts[day] = item.attendance_status;
+          }
+        });
+        setDailyAttendance(counts);
+        console.log(dailyAttendance);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
+  }
   return (
     <>
-      <View style={[{ flexDirection: "column" }]}>
-        <View
-          style={{
-            top: "3%",
-            left: "3%",
-            flexDirection: "row",
-            marginVertical: 10,
-          }}
-        >
-          <Text
-            style={{
-              fontFamily: "HindRegular",
-              fontSize: 18,
-              top: "3%",
-            }}
-          >
-            Select Year
-          </Text>
-          <View style={styles.dateLabelSpace} />
+      <View style={styles.BtnContainer}>
+        <BgButton onPress={yearlyReport} style={forYearlyReport}>
+          Yearly Report
+        </BgButton>
 
-          <View style={styles.dateContainer}>
-            <UnderlinedInput
-              value={fromText}
-              placeholder="Select Year"
-              style={
-                isFromDateFocused
-                  ? styles.focusStyle
-                  : fromDateInputIsInValid && styles.errorBorderColorDate
-              }
-              blur={fromDateBlurHandler}
-              onFocus={onFocusFromHandler}
-              onChangeText={frmDateHandler}
-              onPressIn={() => showFromMode("date")}
-            />
-            {fromDateInputIsInValid && (
-              <Text style={styles.commonErrorMsg}>Select from date</Text>
-            )}
-            {fromShow && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={fromDate}
-                mode={frommode}
-                is24Hour={true}
-                display="default"
-                onChange={fromDateChangeHandler}
-              />
-            )}
-          </View>
-        </View>
+        <BgButton onPress={monthlyReport} style={forMonthlyReport}>
+          Monthly Report
+        </BgButton>
       </View>
-      {/* <Text>AttendanceReport {route.params.id}</Text> */}
-      <View style={{ flex: 1, backgroundColor: "white", marginTop: "9%" }}>
-        <View style={[styles.tableHeader]}>
+
+      {showYearReport && (
+        <View style={[{ flexDirection: "column" }]}>
           <View
             style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
+              top: "3%",
+              left: "3%",
+              flexDirection: "row",
+              marginVertical: 10,
             }}
           >
-            <Text style={styles.headerText}>Month</Text>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text style={styles.headerText}>Present</Text>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text style={styles.headerText}>Absent</Text>
+            <Text
+              style={{
+                fontFamily: "HindRegular",
+                fontSize: 18,
+                top: "3%",
+              }}
+            >
+              Select Year
+            </Text>
+            <View style={styles.dateLabelSpace} />
+
+            <View style={styles.dateContainer}>
+              <UnderlinedInput
+                value={fromText || moment(FROMDATE).format("YYYY")}
+                placeholder="Select Year"
+                style={
+                  isFromDateFocused
+                    ? styles.focusStyle
+                    : fromDateInputIsInValid && styles.errorBorderColorDate
+                }
+                blur={fromDateBlurHandler}
+                onFocus={onFocusFromHandler}
+                onChangeText={frmDateHandler}
+                onPressIn={() => showFromMode("date")}
+              />
+              {fromDateInputIsInValid && (
+                <Text style={styles.commonErrorMsg}>Select from date</Text>
+              )}
+              {fromShow && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={fromDate}
+                  mode={frommode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={fromDateChangeHandler}
+                />
+              )}
+            </View>
           </View>
         </View>
+      )}
 
-        <View
-          style={[
-            { flex: 1 },
-            {
-              flexDirection: "column",
-              // top: keyboardStatus == "Keyboard Hidden" ? "11.5%" : "18%",
-              paddingHorizontal: 10,
-              marginHorizontal: 10,
-            },
-          ]}
-        >
-          <View style={{ flex: 8, bottom: 10, top: 7 }}>
-            <ScrollView>
-              {Object.entries(monthlyCount).map(([month, counts]) => (
-                <View
-                  style={[
-                    { flex: 1 },
-                    {
-                      // Try setting `flexDirection` to `"row"`.
-                      flexDirection: "row",
-                      borderWidth: 1,
-                    },
-                  ]}
-                >
-                  <View
-                    style={{
-                      flex: 1,
+      {showYearReport && (
+        <View style={{ flex: 1, backgroundColor: "white", marginTop: "9%" }}>
+          <View style={[styles.tableHeader]}>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={styles.headerText}>Month</Text>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={styles.headerText}>Present</Text>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={styles.headerText}>Absent</Text>
+            </View>
+          </View>
 
-                      alignItems: "center",
-                    }}
-                  >
-                    <Text>{monthNames[month]}</Text>
-                  </View>
-                  <View
-                    style={{
-                      flex: 1,
-
-                      alignItems: "center",
-                    }}
-                  >
-                    <Text> {counts.present}</Text>
-                  </View>
-                  <View
-                    style={{
-                      flex: 1,
-
-                      alignItems: "center",
-                    }}
-                  >
-                    <Text> {counts.absent}</Text>
-                  </View>
-                </View>
-              ))}
-              {/* <View>
+          <View
+            style={[
+              { flex: 1 },
+              {
+                flexDirection: "column",
+                // top: keyboardStatus == "Keyboard Hidden" ? "11.5%" : "18%",
+                paddingHorizontal: 10,
+                marginHorizontal: 10,
+              },
+            ]}
+          >
+            <View style={{ flex: 8, bottom: 10, top: 7 }}>
+              <ScrollView>
                 {Object.entries(monthlyCount).map(([month, counts]) => (
-                  <View key={month}>
-                    <Text>{monthNames[month]}</Text>
-                    <Text>Present: {counts.present}</Text>
-                    <Text>Absent: {counts.absent}</Text>
+                  <View
+                    style={[
+                      { flex: 1 },
+                      {
+                        // Try setting `flexDirection` to `"row"`.
+                        flexDirection: "row",
+                        borderWidth: 1,
+                      },
+                    ]}
+                  >
+                    <View
+                      style={{
+                        flex: 1,
+
+                        alignItems: "center",
+                      }}
+                    >
+                      <Text>{monthNames[month]}</Text>
+                    </View>
+                    <View
+                      style={{
+                        flex: 1,
+
+                        alignItems: "center",
+                      }}
+                    >
+                      <Text> {counts.present}</Text>
+                    </View>
+                    <View
+                      style={{
+                        flex: 1,
+
+                        alignItems: "center",
+                      }}
+                    >
+                      <Text> {counts.absent}</Text>
+                    </View>
                   </View>
                 ))}
-              </View> */}
-            </ScrollView>
+              </ScrollView>
+            </View>
           </View>
         </View>
-      </View>
+      )}
+
+      {showMonthReport && (
+        <View style={[{ flexDirection: "column" }]}>
+          <View
+            style={{
+              top: "3%",
+              left: "3%",
+              flexDirection: "row",
+              marginVertical: 10,
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "HindRegular",
+                fontSize: 18,
+                top: "3%",
+              }}
+            >
+              Select Year
+            </Text>
+            <View style={styles.dateLabelSpace} />
+
+            <View style={styles.dateContainer}>
+              <UnderlinedInput
+                value={fromText || moment(FROMDATE).format("YYYY")}
+                placeholder="Select Year"
+                style={
+                  isFromDateFocused
+                    ? styles.focusStyle
+                    : fromDateInputIsInValid && styles.errorBorderColorDate
+                }
+                blur={fromDateBlurHandler}
+                onFocus={onFocusFromHandler}
+                onChangeText={frmDateHandler}
+                onPressIn={() => showFromMode("date")}
+              />
+              {fromDateInputIsInValid && (
+                <Text style={styles.commonErrorMsg}>Select from date</Text>
+              )}
+              {fromShow && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={fromDate}
+                  mode={frommode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={fromDateChangeHandler}
+                />
+              )}
+            </View>
+          </View>
+
+          <View
+            style={{
+              top: "3%",
+              left: "3%",
+              flexDirection: "row",
+              marginVertical: 10,
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "HindRegular",
+                fontSize: 18,
+                top: "3%",
+                //marginLeft: 10,
+              }}
+            >
+              Select Month
+            </Text>
+            <View style={styles.leaveSpace} />
+            <View style={{ flexDirection: "column" }}>
+              <SelectList
+                setSelected={setSelected}
+                data={months}
+                onSelect={viewYearMonthReport}
+                //placeholder="Month"
+                placeholder={showFirstOption && "Month"}
+                save="key"
+                dropdownTextStyles={{
+                  fontSize: 18,
+                  fontFamily: "HindRegular",
+                }}
+                inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+              />
+            </View>
+          </View>
+        </View>
+      )}
+      {showMonthReport && (
+        <View style={{ flex: 1, backgroundColor: "white", marginTop: "9%" }}>
+          <View style={[styles.tableHeader]}>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={styles.headerText}>Day</Text>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={styles.headerText}>Status</Text>
+            </View>
+          </View>
+
+          <View
+            style={[
+              { flex: 1 },
+              {
+                flexDirection: "column",
+                // top: keyboardStatus == "Keyboard Hidden" ? "11.5%" : "18%",
+                paddingHorizontal: 10,
+                marginHorizontal: 10,
+              },
+            ]}
+          >
+            <View style={{ flex: 8, bottom: 10, top: 7 }}>
+              <ScrollView>
+                {Object.entries(dailyAttendance).map(([day, status]) => (
+                  <View
+                    style={[
+                      { flex: 1 },
+                      {
+                        // Try setting `flexDirection` to `"row"`.
+                        flexDirection: "row",
+                        borderWidth: 1,
+                      },
+                    ]}
+                  >
+                    <View
+                      style={{
+                        flex: 1,
+
+                        alignItems: "center",
+                      }}
+                    >
+                      <Text>{day}</Text>
+                    </View>
+                    <View
+                      style={{
+                        flex: 1,
+
+                        alignItems: "center",
+                      }}
+                    >
+                      <Text> {status}</Text>
+                    </View>
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
+          </View>
+        </View>
+      )}
     </>
   );
 };
@@ -284,6 +623,14 @@ const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   descriptionTextStyle: {
     fontSize: 18,
+  },
+  BtnContainer: {
+    fontSize: 24,
+    flexDirection: "row",
+
+    width: "100%",
+
+    backgroundColor: "#FDFEFE",
   },
   errorBorderColor: {
     borderColor: "red",
@@ -333,7 +680,7 @@ const styles = StyleSheet.create({
     height: 10,
   },
   dateLabelSpace: {
-    width: 40, // or whatever size you need
+    width: 30, // or whatever size you need
     height: 10,
   },
   inputForm: {
@@ -451,46 +798,57 @@ const styles = StyleSheet.create({
 
 // import { useState, useEffect } from 'react';
 
-// function AttendanceCounter() {
+// function AttendanceReport() {
 //   const [attendance, setAttendance] = useState([]);
-//   const [monthlyCount, setMonthlyCount] = useState({});
+//   const [selectedMonth, setSelectedMonth] = useState(null);
+//   const [dailyAttendance, setDailyAttendance] = useState({});
 
 //   useEffect(() => {
 //     // fetch attendance data from the backend
 //     fetch('https://your-backend-url.com/attendance')
 //       .then(response => response.json())
-//       .then(data => {
-//         setAttendance(data);
-
-//         // count the number of attendance for each month
-//         const counts = data.reduce((counts, item) => {
-//           const date = new Date(item.date);
-//           const month = date.getMonth();
-//           if (!counts[month]) {
-//             counts[month] = { present: 0, absent: 0 };
-//           }
-//           if (item.status === 'present') {
-//             counts[month].present++;
-//           } else {
-//             counts[month].absent++;
-//           }
-//           return counts;
-//         }, {});
-//         setMonthlyCount(counts);
-//       });
+//       .then(data => setAttendance(data));
 //   }, []);
+
+//   const handleMonthSelection = month => {
+//     setSelectedMonth(month);
+
+//     // filter the attendance data for the selected month
+//     const filteredAttendance = attendance.filter(
+//       item => new Date(item.attendance_date).getMonth() === month
+//     );
+
+//     //create an object for each day of the month
+//     let counts = {};
+//     filteredAttendance.map(item => {
+//       const date = new Date(item.attendance_date);
+//       const day = date.getDate();
+//       if (!counts[day]) {
+//         counts[day] = item.attendance_status;
+//       }
+//     });
+//     setDailyAttendance(counts);
+//   };
 
 //   return (
 //     <View>
-//       {Object.entries(monthlyCount).map(([month, counts]) => (
-//         <View key={month}>
-//           <Text>
-//             {new Intl.DateTimeFormat('en-US', { month: 'long' }).format(new Date(2000, month))}
-//           </Text>
-//           <Text>Present: {counts.present}</Text>
-//           <Text>Absent: {counts.absent}</Text>
-//         </View>
-//       ))}
+//       <Picker
+//         selectedValue={selectedMonth}
+//         onValueChange={month => handleMonthSelection(month)}
+//       >
+//         {monthNames.map((month, index) => (
+//           <Picker.Item key={index} label={month} value={index} />
+//         ))}
+//       </Picker>
+//       <View>
+//         {Object.entries(dailyAttendance).map(([day, status]) => (
+//             <View key={day}>
+//                 <Text>{day}</Text>
+//                 <Text>{status}</Text>
+//             </View>
+//         ))}
+//       </View>
 //     </View>
 //   );
 // }
+// const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
