@@ -12,6 +12,7 @@ import {
   Alert,
   ActivityIndicator,
   TouchableHighlight,
+  Pressable,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useLayoutEffect, useState } from "react";
@@ -40,6 +41,7 @@ import { borderColor } from "@mui/system";
 import moment from "moment";
 import { isLoading } from "expo-font";
 import SearchBar from "react-native-dynamic-search-bar";
+import { Card } from "react-native-paper";
 
 var USERID,
   TOKEN,
@@ -196,14 +198,21 @@ const TeachersAttendanceBuild = () => {
   }, []);
 
   useLayoutEffect(() => {
-    if (showCalendar) {
-      setShowCalendar(true);
+    if(showStartingPage){
+      setShowStartingPage(true);
       navigation.setOptions({ headerShown: true });
+    }
+    if(showReports){
+      navigation.setOptions({ headerShown: false });
+    }
+    if (showCalendar) {
+      // setShowCalendar(true);
+      navigation.setOptions({ headerShown: false });
     }
     if (showStudList) {
       navigation.setOptions({ headerShown: false });
     }
-  }, [showCalendar, showStudList]);
+  }, [showStartingPage,showCalendar,showReports, showStudList]);
 
   function viewStudentList() {
     setShowReportList(true);
@@ -748,6 +757,16 @@ const TeachersAttendanceBuild = () => {
     IDSETARRAY = [];
   }
 
+  function backMarkHandler(){
+    setShowCalendar(false);
+    setShowStartingPage(true);
+  }
+
+  function backReportHandler(){
+    setShowReports(false);
+    setShowStartingPage(true);
+  }
+
   function donePressedHandler() {
     // setOpen(false);
 
@@ -963,53 +982,55 @@ const TeachersAttendanceBuild = () => {
   return (
     <>
       {showStartingPage && (
-        <View
-          style={[
-            { flex: 1 },
-            { flexDirection: "column", backgroundColor: "white" },
-          ]}
-        >
-          <View
-            style={{
-              flex: 1.5,
-              width: "50%",
-              marginLeft: "27%",
-              marginTop: "10%",
-            }}
-          >
-            <NativeButton size="md" onPress={markAttendance}>
-              <Text
-                style={{
-                  fontSize: 15,
-                  fontFamily: "HindSemiBold",
-                  color: "white",
-                }}
-              >
-                Mark Attendance
-              </Text>
-            </NativeButton>
-          </View>
-          <View
-            style={{
-              flex: 1.5,
-              width: "50%",
-              marginLeft: "27%",
-              marginTop: "10%",
-            }}
-          >
-            <NativeButton size="md" onPress={viewReports}>
-              <Text
-                style={{
-                  fontSize: 15,
-                  fontFamily: "HindSemiBold",
-                  color: "white",
-                }}
-              >
-                View Reports
-              </Text>
-            </NativeButton>
-          </View>
-        </View>
+         <View
+         style={[
+           { flex: 1 },
+           { flexDirection: "column", backgroundColor: "white" },
+         ]}
+       >
+         <View style={{ flex: 1, marginHorizontal: "20%", top: "10%" }}>
+           <Pressable onPress={markAttendance}>
+             <Card style={styles.cardStyle}>
+               <Card.Content style={{ margin: 1, marginTop: 0 }}>
+                 <View style={{ alignItems: "center" }}>
+                   <Text
+                     style={{
+                       fontSize: 15,
+                       fontFamily: "HindSemiBold",
+                       color: "white",
+                     }}
+                   >
+                     Mark Attendance
+                   </Text>
+                 </View>
+               </Card.Content>
+             </Card>
+           </Pressable>
+         </View>
+
+         <View style={{ flex: 1, marginHorizontal: "20%" }}>
+           <Pressable onPress={viewReports}>
+             <Card style={styles.cardStyle}>
+               <Card.Content style={{ margin: 1, marginTop: 0 }}>
+                 <View style={{ alignItems: "center" }}>
+                   <Text
+                     style={{
+                       fontSize: 15,
+                       fontFamily: "HindSemiBold",
+                       color: "white",
+                     }}
+                   >
+                     View Reports
+                   </Text>
+                 </View>
+               </Card.Content>
+             </Card>
+           </Pressable>
+         </View>
+         <View style={{ flex: 0.2 }}>
+           <TeachersHome />
+         </View>
+       </View>
       )}
       {showCalendar && (
         <View
@@ -1018,6 +1039,16 @@ const TeachersAttendanceBuild = () => {
             { flexDirection: "column", backgroundColor: "white" },
           ]}
         >
+          <View
+            style={[
+              { flex: 0.9 },
+              { flexDirection: "row", alignItems: "center" },
+            ]}
+          >
+            <BackButton
+              onPress={backMarkHandler}
+            />
+          </View>
           <View style={[styles.inputForm]}>
             <ScrollView persistentScrollbar={false}>
               <View
@@ -1158,11 +1189,21 @@ const TeachersAttendanceBuild = () => {
           ]}
         >
           <View
+            style={[
+              { flex: 0.7 },
+              { flexDirection: "row", alignItems: "center"},
+            ]}
+          >
+            <BackButton
+              onPress={backReportHandler}
+            />
+          </View>
+          <View
             style={{
-              top: "3%",
+              //top: "3%",
               left: "3%",
               flexDirection: "row",
-              marginVertical: 20,
+              //marginVertical: 5,
             }}
           >
             <Text
@@ -1990,7 +2031,7 @@ const styles = StyleSheet.create({
   inputForm: {
     flex: 2,
     paddingHorizontal: 20,
-    marginTop: "30%",
+    //marginTop: "6%",
     //paddingTop: '5%',
     backgroundColor: "white",
     // height: "100%",
@@ -2098,5 +2139,14 @@ const styles = StyleSheet.create({
     // backgroundColor: "#EBECFO",
     backgroundColor: "white",
     height: "100%",
+  },
+  cardStyle: {
+    marginVertical: 15,
+    marginHorizontal: 27,
+    elevation: 5,
+    borderRadius: 10,
+    padding: 10,
+    backgroundColor: "#2E799B",
+    width: "80%",
   },
 });
