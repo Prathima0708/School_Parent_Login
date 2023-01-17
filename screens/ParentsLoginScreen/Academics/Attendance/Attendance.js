@@ -75,125 +75,143 @@
 // });
 
 
-import { View, Text, ScrollView } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { Calendar } from "react-native-calendars";
-import ParentsHome from '../../BottomTab/ParentsHome';
-import { subURL } from '../../../../components/utils/URL\'s';
+
+  // function leftArrowPressedHandler (current){
+  //   const substractMonth = new Date(current.setMonth(current.getMonth() - 1));
+    
+  //   setCurrent(substractMonth);
+  //   console.log(current)
+  //     const request_model = {
+  //       student_id: studentId,
+  //       yearMonth: moment(current).format("YYYY-MM")
+  //     }; 
+  //     async function fetchData() {
+  //       try {
+  //         let headers = {
+  //           "Content-Type": "application/json; charset=utf-8",
+  //         };
+  //         const res = await axios.post(
+  //         `${subURL}/AttendanceDetailByStudentIDMonthYear/`,  
+  //         request_model,
+  //           {
+  //             headers: headers,
+  //           });
+  //            // console.log(res.data)
+  //             setData(res.data)
+  //             selectedDate = new Set(data.map((obj) => obj.attendance_date));
+  //           } catch (error) {
+  //             console.log(error);
+  //           }
+  //         }
+  //     fetchData();
+
+  // }
 import axios from 'axios';
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { studentId } from '../../../../components/StudentItem/StudentItem';
 import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { View } from 'react-native';
+import CalendarPicker from 'react-native-calendar-picker';
+import { studentId } from '../../../../components/StudentItem/StudentItem';
+import { subURL } from '../../../../components/utils/URL\'s';
+import ParentsHome from '../../BottomTab/ParentsHome';
+  
+  function Attendance() {
 
-var ID;
-const Attendance = () => {
-  const [current, setCurrent] = useState(new Date());
-  const [data,setData]=useState([]);
-  let dates={},selectedDate;
+    const [customDatesStyles,setCustomDatesStyles]=useState([]);
+    let today=moment();
+    let formatedTodayDate=(moment(today).format('YYYY-MM'))
 
-  function leftArrowPressedHandler (current){
-    const substractMonth = new Date(current.setMonth(current.getMonth() - 1));
-    
-    setCurrent(substractMonth);
-
-    const request_model = {
-      student_id: studentId,
-      yearMonth: moment(current).format("YYYY-MM")
-    }; 
-    
     useEffect(()=>{
       const request_model = {
         student_id: studentId,
-        yearMonth: moment(current).format("YYYY-MM")
+        yearMonth:formatedTodayDate
       }; 
       async function fetchData() {
         try {
           let headers = {
             "Content-Type": "application/json; charset=utf-8",
           };
-          const res = await axios.post(
-          `${subURL}/AttendanceDetailByStudentIDMonthYear/`,  
+          const res = await axios.post(`${subURL}/AttendanceDetailByStudentIDMonthYear/`,
           request_model,
-            {
-              headers: headers,
-            });
-             // console.log(res.data)
-              setData(res.data)
-              selectedDate = new Set(data.map((obj) => obj.attendance_date));
-            } catch (error) {
-              console.log(error);
-            }
-          }
-      fetchData();
-    },[]);
-    async function fetchData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
-        const res = await axios.post(
-        `${subURL}/AttendanceDetailByStudentIDMonthYear/`,  
-        request_model,
           {
             headers: headers,
-          });
-           // console.log(res.data)
-            setData(res.data)
-            selectedDate = new Set(data.map((obj) => obj.attendance_date));
+          });   
+          setCustomDatesStyles(
+            res.data.map(d => (
+              {
+                date: d.attendance_date, 
+                style: {backgroundColor: d.attendance_status=='present' ? 'green' : 'red'}, 
+                textStyle:{color:d.attendance_status==='present' ? 'white' : 'white'}, 
+                containerStyle:[]
+              })));
+          console.log(customDatesStyles)
           } catch (error) {
             console.log(error);
           }
         }
-    fetchData();
-  }
+      fetchData();
+      // customDatesStyles.pop()
+    },[]);
 
-  return (
-    <View
-      style={[
-        {
-          flex:1,
-          flexDirection: 'column',
-        },
-      ]}>
-      <View style={{flex: 1.4,backgroundColor:'white'}} >
-        <Calendar
-          markedDates={selectedDate}
-          current={current}
-          onPressArrowLeft={()=> leftArrowPressedHandler(current)}
-          hideExtraDays={true}
-          style={{
-            elevation: 5,
-            shadowColor: "black",
-            borderBottomLeftRadius: 20,
-            borderBottomRightRadius: 20,
-            shadowOpacity: 0.75,
-            shadowOffset: { width: 0, height: 2 },
-            shadowRadius: 8,
-            overflow: Platform.OS === "android" ? "hidden" : "visible",
-            marginLeft: 10,
-            marginRight: 10,
-          }}   
-          theme={{
-            textDayFontSize: 16,
-            textMonthFontSize: 16,
-            textDayHeaderFontSize: 16,
-          }}
+    function monthChangeHandler(month){
+
+      const request_model = {
+        student_id: studentId,
+        yearMonth: moment(month).format("YYYY-MM")
+      }; 
+      
+      async function fetchData() {
+        try {
+          let headers = {
+            "Content-Type": "application/json; charset=utf-8",
+          };
+          const res = await axios.post(`${subURL}/AttendanceDetailByStudentIDMonthYear/`,
+          request_model,
+          {
+            headers: headers,
+          });   
+          setCustomDatesStyles(
+            res.data.map(d => (
+              {
+                date: d.attendance_date, 
+                style: { backgroundColor: d.attendance_status==='present' ? 'green' : 'red' },
+                textStyle:{color: d.attendance_status==='present' ? 'white' : 'white'}, 
+                containerStyle:[]
+              })));
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      fetchData();
+    //  customDatesStyles.pop()
+    }
+
+    return (
+      <View
+        style={[
+          {
+            // Try setting `flexDirection` to `"row"`.
+            flex:1,
+            flexDirection: 'column',
+            backgroundColor:'white'
+          },
+        ]}>
+        <View style={{flex: 1.2}} >
+          <CalendarPicker
+            onMonthChange={(month) => monthChangeHandler(month)}
+            customDatesStyles={customDatesStyles}
+            enableDateChange={false}
           />
-      </View>
-      <View style={[{flex: 1 , flexDirection: "column", backgroundColor: "white"}]}>
-        <View style={{ flex: 8, bottom: 30, }}>
-          <ScrollView>
-            <View style={[ { flex: 1,flexDirection: "column"}]}>
-                
-            </View>
-          </ScrollView>
+        </View>
+        <View style={{flex: 1}} >
+          
+        </View>
+        <View style={{flex: 0.1}} >
+          <ParentsHome />
         </View>
       </View>
-      <View style={{flex: 0.1, backgroundColor: 'darkorange'}} >
-        <ParentsHome />
-      </View>
-    </View>
-  )
-}
-
-export default Attendance
+    );
+  }
+  
+  export default Attendance;
+  
