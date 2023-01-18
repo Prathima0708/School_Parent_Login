@@ -17,6 +17,7 @@ import moment from "moment";
 import SelectList from "react-native-dropdown-select-list";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 import BgButton from "../../../../components/UI/BgButton";
+import TeachersHome from "../../BottomTab/TeachersHome";
 var TOKEN, FROMDATE, SELECTEDYEAR, firstData, KEY, VALUE;
 const AttendanceReport = () => {
   const [frommode, setFromMode] = useState("date");
@@ -63,21 +64,21 @@ const AttendanceReport = () => {
   ];
   const months = [
     // { key: "Month", value: "Month" },
-    { key: "01", value: "Jan" },
-    { key: "02", value: "Feb" },
+    { key: "01", value: "January" },
+    { key: "02", value: "Feburary" },
 
-    { key: "03", value: "Mar" },
-    { key: "04", value: "Apr" },
+    { key: "03", value: "March" },
+    { key: "04", value: "April" },
     { key: "05", value: "May" },
-    { key: "06", value: "Jun" },
+    { key: "06", value: "June" },
 
     { key: "07", value: "July" },
-    { key: "08", value: "Aug" },
-    { key: "09", value: "Sep" },
-    { key: "10", value: "Oct" },
+    { key: "08", value: "August" },
+    { key: "09", value: "September" },
+    { key: "10", value: "October" },
 
-    { key: "11", value: "Nov" },
-    { key: "12", value: "Dec" },
+    { key: "11", value: "Novembar" },
+    { key: "12", value: "Decembar" },
   ];
 
   const [showYearReport, setShowYearReport] = useState(true);
@@ -330,6 +331,7 @@ const AttendanceReport = () => {
               // Try setting `flexDirection` to `"row"`.
               flex: 0.5,
               flexDirection: "column",
+              backgroundColor:'white'
             },
           ]}
         >
@@ -404,7 +406,7 @@ const AttendanceReport = () => {
               style={[
                 {
                   // Try setting `flexDirection` to `"row"`.
-                  flexDirection: "column",
+                  flexDirection: "row",
                   flex: 1,
                 },
               ]}
@@ -421,7 +423,7 @@ const AttendanceReport = () => {
                 >
                   <View
                     style={{
-                      flex: 0.4,
+                      flex: 1,
 
                       alignItems: "flex-start",
                       justifyContent: "center",
@@ -468,7 +470,7 @@ const AttendanceReport = () => {
                 >
                   <View
                     style={{
-                      flex: 0.4,
+                      flex: 1,
 
                       alignItems: "flex-start",
                       justifyContent: "center",
@@ -509,7 +511,7 @@ const AttendanceReport = () => {
       )}
 
       {showYearReport && (
-        <View style={{ flex: 1, backgroundColor: "white", marginTop: "9%" }}>
+        <View style={{ flex: 1, backgroundColor: "white" }}>
           <View style={[styles.tableHeader]}>
             <View
               style={{
@@ -551,9 +553,20 @@ const AttendanceReport = () => {
               },
             ]}
           >
-            <View style={{ flex: 8, bottom: 10, top: 1 }}>
-              <ScrollView>
-                {Object.entries(monthlyCount).map(([month, counts]) => (
+        <View
+          style={[
+            { flex: 1 },
+            {
+              flexDirection: "column",
+             // top:  "18%",
+              // paddingHorizontal: 10,
+              // marginHorizontal: 10,
+            },
+          ]}
+        >
+          <View style={{ flex: 8, bottom: 2 }}>
+            <ScrollView>
+               {Object.entries(monthlyCount).map(([month, counts]) => (
                   <Pressable onPress={showSingleReport.bind(this, month)}>
                     <View
                       style={[
@@ -619,20 +632,25 @@ const AttendanceReport = () => {
                     </View>
                   </Pressable>
                 ))}
-              </ScrollView>
-            </View>
+            </ScrollView>
+          </View>
+        </View>
+          </View>
+          <View style={{ flex: 0.2 }}>
+            <TeachersHome />
           </View>
         </View>
       )}
 
       {showMonthReport && (
-        <View style={[{ flexDirection: "column" }]}>
+        <View style={[{ flexDirection: "column",backgroundColor:'white' }]}>
           <View style={{}}>
             <View
               style={[
                 {
                   // Try setting `flexDirection` to `"row"`.
                   flexDirection: "row",
+                  
                 },
               ]}
             >
@@ -714,10 +732,12 @@ const AttendanceReport = () => {
             <View style={styles.leaveSpace} />
             <View
               style={{
-                flexDirection: "column",
+                // flexDirection: "column",
+                position: 'relative', zIndex: 1 
               }}
             >
               <SelectList
+               
                 defaultOption={{
                   key: KEY,
                   value: VALUE,
@@ -727,15 +747,20 @@ const AttendanceReport = () => {
                 onSelect={viewYearMonthReport}
                 placeholder="Month"
                 save="key"
+                // boxStyles={{backgroundColor:'yellow'}}
+                // dropdownItemStyles={{backgroundColor:'black'}}
+                // dropdownStyles={{backgroundColor:'cyan'}}
+                // dropdownShown={false}
                 dropdownTextStyles={{
-                  fontSize: 18,
+                  fontSize: 15,
                   fontFamily: "HindRegular",
+                  //backgroundColor:'purple'
                 }}
-                inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                inputStyles={{ fontSize:15, fontFamily: "HindRegular"}}
               />
             </View>
           </View>
-          <View style={{ left: "7%", top: "15%" }}>
+          {/* <View style={{ left: "7%", top: "15%" }}>
             <Text
               style={{
                 fontFamily: "HindRegular",
@@ -757,12 +782,118 @@ const AttendanceReport = () => {
               {""} {""}
               {route.params.regno}
             </Text>
+          </View> */}
+          <View style={{marginTop:'10%' }}>
+            <View
+              style={[
+                {
+                  // Try setting `flexDirection` to `"row"`.
+                  flexDirection: "row",
+                  // flex: 1,
+                },
+              ]}
+            >
+              <View style={{ flex: 1 }}>
+                <View
+                  style={[
+                    {
+                      // Try setting `flexDirection` to `"row"`.
+                      flexDirection: "row",
+                     // flex: 1,
+                    },
+                  ]}
+                >
+                  <View
+                    style={{
+                      flex: 1,
+
+                      alignItems: "flex-start",
+                      justifyContent: "center",
+                      //right: 12,
+                      left: 29,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: "HindRegular",
+                        fontSize: 18,
+                      }}
+                    >
+                      Name
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: "HindRegular",
+                        fontSize: 18,
+                      }}
+                    >
+                      {route.params.name}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View style={{ flex: 1 }}>
+                <View
+                  style={[
+                    {
+                      // Try setting `flexDirection` to `"row"`.
+                      flexDirection: "row",
+                      flex: 1,
+                    },
+                  ]}
+                >
+                  <View
+                    style={{
+                      flex: 1,
+
+                      alignItems: "flex-start",
+                      justifyContent: "center",
+                      //right: 12,
+                      left: 29,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: "HindRegular",
+                        fontSize: 18,
+                      }}
+                    >
+                      Reg No
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: "HindRegular",
+                        fontSize: 18,
+                      }}
+                    >
+                      {route.params.regno}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
           </View>
         </View>
       )}
       {showMonthReport && (
-        <View style={{ flex: 1, backgroundColor: "white", marginTop: "9%" }}>
-          <View style={[styles.tableHeader]}>
+        <View style={{ flex: 1, backgroundColor: "white" }}>
+          <View style={[styles.tableHeader,{marginTop:20}]}>
             <View
               style={{
                 flex: 1,
@@ -794,7 +925,7 @@ const AttendanceReport = () => {
               },
             ]}
           >
-            <View style={{ flex: 8, bottom: 10, top: 1 }}>
+            <View style={{ flex: 8, bottom: 2 }}>
               <ScrollView>
                 {Object.entries(dailyAttendance).map(([day, status]) => (
                   <View
@@ -843,6 +974,9 @@ const AttendanceReport = () => {
                 ))}
               </ScrollView>
             </View>
+          </View>
+          <View style={{ flex: 0.3 }}>
+            <TeachersHome />
           </View>
         </View>
       )}
