@@ -268,15 +268,17 @@ const TeacherHomeworkScreenBuild = () => {
 
   const imageToBlob = async (imageUri) => {
     const fileType = await FileSystem.getContentUriAsync(imageUri);
-    const file = await FileSystem.readAsStringAsync(imageUri, { encoding: FileSystem.EncodingType.Base64 });
+    const file = await FileSystem.readAsStringAsync(imageUri, {
+      encoding: FileSystem.EncodingType.Base64,
+    });
     const buffer = new Uint8Array(file.length);
     for (let i = 0; i < file.length; i++) {
-        buffer[i] = file.charCodeAt(i);
+      buffer[i] = file.charCodeAt(i);
     }
     const blob = new Blob([buffer], { type: fileType });
-  
+
     return blob;
-  }
+  };
 
   const PickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -286,12 +288,12 @@ const TeacherHomeworkScreenBuild = () => {
       quality: 1,
       //base64: true,
     });
-    
+
     const source = { uri: result.uri };
-    const fileName = result.uri.split('/').pop();
-    
+    const fileName = result.uri.split("/").pop();
+
     const blob = await imageToBlob(source.uri);
-    const myFile = new File([blob], fileName, {type: result.type});
+    const myFile = new File([blob], fileName, { type: result.type });
 
     // const { status } = await MediaLibrary.requestPermissionsAsync();
     // if (status === "granted") {
@@ -392,7 +394,7 @@ const TeacherHomeworkScreenBuild = () => {
   let imagePreView;
 
   if (image) {
-   // imagePreView = <Image style={styles.image} source={{ uri: image }} />;
+    // imagePreView = <Image style={styles.image} source={{ uri: image }} />;
   }
 
   useEffect(() => {
@@ -411,16 +413,13 @@ const TeacherHomeworkScreenBuild = () => {
             };
           });
 
-          console.log("studentclass", response.data);
           const details = newArray.sort(function (obj1, obj2) {
             return obj1.value.localeCompare(obj2.value);
           });
-          console.log(details);
+
           //setSubjectData(newSubjects);
           setStudData(newArray);
           setData(newArray);
-
-          console.log(newArray);
         })
         .catch((e) => {
           console.log(e);
@@ -762,30 +761,29 @@ const TeacherHomeworkScreenBuild = () => {
       };
 
       console.log(formdata);
- 
-      console.log('********************')
-    //   var formData = new FormData();
-    //  console.log(FROMDATE)
-    //   formData.append('class_name', filteredlist[0].classname);
-    //   formData.append('section', filteredlist[0].section);
-    //   // formData.append('startedYear', value.startedYear);
-    //   formData.append('subject', selectedSubject);
-    //   formData.append('homework_date', FROMDATE);
-    //   formData.append('remark', remark);
-    //   console.log(formData)
-    //   formData.append('homework_photo',image,image.name);
-    //   formData.append('homework', "");
-    //   formData.append('due_date', TODATE);
-    //   formData.append('description', hw);
 
-    //  console.log(formData)
+      console.log("********************");
+      //   var formData = new FormData();
+      //  console.log(FROMDATE)
+      //   formData.append('class_name', filteredlist[0].classname);
+      //   formData.append('section', filteredlist[0].section);
+      //   // formData.append('startedYear', value.startedYear);
+      //   formData.append('subject', selectedSubject);
+      //   formData.append('homework_date', FROMDATE);
+      //   formData.append('remark', remark);
+      //   console.log(formData)
+      //   formData.append('homework_photo',image,image.name);
+      //   formData.append('homework', "");
+      //   formData.append('due_date', TODATE);
+      //   formData.append('description', hw);
+
+      //  console.log(formData)
       // console.log(formData.homework_date)
       // console.log(formData._parts[7][1]);
       // console.log(formData.subject)
       async function storeData() {
         try {
-
-        //  debugger
+          //  debugger
           // let headers = {
           //   //  Accept: "application/json",
           //   //"Content-Type": "application/json; charset=utf-8;",
@@ -795,14 +793,14 @@ const TeacherHomeworkScreenBuild = () => {
           let headers = new Headers({
             // 'Content-Type': 'application/json',
             "Content-Type": "multipart/form-data",
-            'Authorization': 'Token ' + `${token}`
+            Authorization: "Token " + `${token}`,
           });
-         // console.log(formData)
-         const resLogin = await axios.post(`${subURL}/Homework/`, formdata, {
-           headers: headers,
+          // console.log(formData)
+          const resLogin = await axios.post(`${subURL}/Homework/`, formdata, {
+            headers: headers,
           });
           console.log("response", resLogin.data);
-          debugger
+          debugger;
         } catch (error) {
           console.log(error);
         }
@@ -2056,7 +2054,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F0F3F4",
   },
   dropText: {
-    fontSize: deviceWidth < 370 ? 16 : 18,
+    fontSize: deviceWidth < 370 ? 16 : 15,
     fontFamily: "HindRegular",
   },
   errorText: {

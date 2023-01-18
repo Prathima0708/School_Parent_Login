@@ -1279,6 +1279,7 @@ const TeachersCalendar = () => {
               fontFamily: "HindRegular",
               fontSize: 18,
             }}
+         //   onClearPress={() => setFilteredData(filteredData)}
             placeholder="Search here"
             onChangeText={(text) => searchFilter(text)}
             value={searchText}
