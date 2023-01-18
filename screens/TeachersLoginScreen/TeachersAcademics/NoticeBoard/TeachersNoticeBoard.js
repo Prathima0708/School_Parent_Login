@@ -56,8 +56,12 @@ const TeachersNoticeBoard = () => {
 
         console.log("after sorting");
         // console.log(arr.slice(0, 3));
-
-        setData(res.data.slice(0, 10));
+        const today = new Date();
+        const filteredData = res.data.filter(
+          (item) => new Date(item.startdate) >= today
+        );
+        setData(filteredData);
+        // setData(res.data.slice(0, 10));
       } catch (error) {
         console.log(error);
       }
@@ -77,13 +81,15 @@ const TeachersNoticeBoard = () => {
       </View>
       <View style={{ flex: 2, backgroundColor: "white" }}>
         <ScrollView>
-          {data.length <= 0 ?
-          <View style={{ alignItems: "center", marginTop: "5%" }}>
-            <Text style={styles.msgText}>No upcoming events found</Text>
-          </View> :
-          <Box>
-            <FlatList data={data} padding={2} renderItem={renderNotice} />
-          </Box>}
+          {data.length <= 0 ? (
+            <View style={{ alignItems: "center", marginTop: "5%" }}>
+              <Text style={styles.msgText}>No upcoming events found</Text>
+            </View>
+          ) : (
+            <Box>
+              <FlatList data={data} padding={2} renderItem={renderNotice} />
+            </Box>
+          )}
         </ScrollView>
       </View>
       <View style={{ flex: 0.2, backgroundColor: "white" }}>
@@ -111,9 +117,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
   },
-  msgText:{
-    fontSize:18,
-    fontFamily:"HindSemiBold",
-    color:"#6B0000",
-  }
+  msgText: {
+    fontSize: 18,
+    fontFamily: "HindSemiBold",
+    color: "#6B0000",
+  },
 });

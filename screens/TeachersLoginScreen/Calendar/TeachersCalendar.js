@@ -667,8 +667,6 @@ const TeachersCalendar = () => {
 
         setData(res.data);
         setFilteredData(res.data);
-
-        
       } catch (error) {
         console.log(error);
       }
@@ -920,16 +918,17 @@ const TeachersCalendar = () => {
         </Animated.View>
       )} */}
 
-      {showInitialBtn &&
-      <View style={styles.BtnContainer}>
-        <BgButton onPress={showCalendarForm} style={forCalendarList}>
-          Add Event
-        </BgButton>
+      {showInitialBtn && (
+        <View style={styles.BtnContainer}>
+          <BgButton onPress={showCalendarForm} style={forCalendarList}>
+            Add Event
+          </BgButton>
 
-        <BgButton onPress={showCalendar} style={forCalendarForm}>
-          Show Event
-        </BgButton>
-      </View> } 
+          <BgButton onPress={showCalendar} style={forCalendarForm}>
+            Show Event
+          </BgButton>
+        </View>
+      )}
       {showForm && (
         <>
           <ScrollView style={{ backgroundColor: "white" }}>
@@ -1284,7 +1283,7 @@ const TeachersCalendar = () => {
             onChangeText={(text) => searchFilter(text)}
             value={searchText}
           />
-          <View
+          {/* <View
             style={[
               {
                 //width: 170,
@@ -1333,7 +1332,7 @@ const TeachersCalendar = () => {
               inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
               dropdownStyles={{ width: "120%" }}
             />
-          </View>
+          </View> */}
         </View>
       )}
       {showList && (

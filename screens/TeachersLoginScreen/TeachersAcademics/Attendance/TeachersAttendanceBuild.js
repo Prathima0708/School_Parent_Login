@@ -198,11 +198,11 @@ const TeachersAttendanceBuild = () => {
   }, []);
 
   useLayoutEffect(() => {
-    if(showStartingPage){
+    if (showStartingPage) {
       setShowStartingPage(true);
       navigation.setOptions({ headerShown: true });
     }
-    if(showReports){
+    if (showReports) {
       navigation.setOptions({ headerShown: false });
     }
     if (showCalendar) {
@@ -212,7 +212,7 @@ const TeachersAttendanceBuild = () => {
     if (showStudList) {
       navigation.setOptions({ headerShown: false });
     }
-  }, [showStartingPage,showCalendar,showReports, showStudList]);
+  }, [showStartingPage, showCalendar, showReports, showStudList]);
 
   function viewStudentList() {
     setShowReportList(true);
@@ -757,12 +757,12 @@ const TeachersAttendanceBuild = () => {
     IDSETARRAY = [];
   }
 
-  function backMarkHandler(){
+  function backMarkHandler() {
     setShowCalendar(false);
     setShowStartingPage(true);
   }
 
-  function backReportHandler(){
+  function backReportHandler() {
     setShowReports(false);
     setShowStartingPage(true);
   }
@@ -949,10 +949,12 @@ const TeachersAttendanceBuild = () => {
     setShowStartingPage(false);
   }
 
-  function pressHandler(id) {
-    console.log(id);
+  function pressHandler(filteredData) {
+    console.log(filteredData);
     navigation.navigate("AttendanceReport", {
-      id: id,
+      id: filteredData.id,
+      name: filteredData.student_name,
+      regno: filteredData.reg_number,
     });
     // const request_model = {
     //   student_id: id,
@@ -982,55 +984,55 @@ const TeachersAttendanceBuild = () => {
   return (
     <>
       {showStartingPage && (
-         <View
-         style={[
-           { flex: 1 },
-           { flexDirection: "column", backgroundColor: "white" },
-         ]}
-       >
-         <View style={{ flex: 1, marginHorizontal: "20%", top: "10%" }}>
-           <Pressable onPress={markAttendance}>
-             <Card style={styles.cardStyle}>
-               <Card.Content style={{ margin: 1, marginTop: 0 }}>
-                 <View style={{ alignItems: "center" }}>
-                   <Text
-                     style={{
-                       fontSize: 15,
-                       fontFamily: "HindSemiBold",
-                       color: "white",
-                     }}
-                   >
-                     Mark Attendance
-                   </Text>
-                 </View>
-               </Card.Content>
-             </Card>
-           </Pressable>
-         </View>
+        <View
+          style={[
+            { flex: 1 },
+            { flexDirection: "column", backgroundColor: "white" },
+          ]}
+        >
+          <View style={{ flex: 1, marginHorizontal: "20%", top: "10%" }}>
+            <Pressable onPress={markAttendance}>
+              <Card style={styles.cardStyle}>
+                <Card.Content style={{ margin: 1, marginTop: 0 }}>
+                  <View style={{ alignItems: "center" }}>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        fontFamily: "HindSemiBold",
+                        color: "white",
+                      }}
+                    >
+                      Mark Attendance
+                    </Text>
+                  </View>
+                </Card.Content>
+              </Card>
+            </Pressable>
+          </View>
 
-         <View style={{ flex: 1, marginHorizontal: "20%" }}>
-           <Pressable onPress={viewReports}>
-             <Card style={styles.cardStyle}>
-               <Card.Content style={{ margin: 1, marginTop: 0 }}>
-                 <View style={{ alignItems: "center" }}>
-                   <Text
-                     style={{
-                       fontSize: 15,
-                       fontFamily: "HindSemiBold",
-                       color: "white",
-                     }}
-                   >
-                     View Reports
-                   </Text>
-                 </View>
-               </Card.Content>
-             </Card>
-           </Pressable>
-         </View>
-         <View style={{ flex: 0.2 }}>
-           <TeachersHome />
-         </View>
-       </View>
+          <View style={{ flex: 1, marginHorizontal: "20%" }}>
+            <Pressable onPress={viewReports}>
+              <Card style={styles.cardStyle}>
+                <Card.Content style={{ margin: 1, marginTop: 0 }}>
+                  <View style={{ alignItems: "center" }}>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        fontFamily: "HindSemiBold",
+                        color: "white",
+                      }}
+                    >
+                      View Reports
+                    </Text>
+                  </View>
+                </Card.Content>
+              </Card>
+            </Pressable>
+          </View>
+          <View style={{ flex: 0.2 }}>
+            <TeachersHome />
+          </View>
+        </View>
       )}
       {showCalendar && (
         <View
@@ -1045,9 +1047,7 @@ const TeachersAttendanceBuild = () => {
               { flexDirection: "row", alignItems: "center" },
             ]}
           >
-            <BackButton
-              onPress={backMarkHandler}
-            />
+            <BackButton onPress={backMarkHandler} />
           </View>
           <View style={[styles.inputForm]}>
             <ScrollView persistentScrollbar={false}>
@@ -1191,12 +1191,10 @@ const TeachersAttendanceBuild = () => {
           <View
             style={[
               { flex: 0.7 },
-              { flexDirection: "row", alignItems: "center"},
+              { flexDirection: "row", alignItems: "center" },
             ]}
           >
-            <BackButton
-              onPress={backReportHandler}
-            />
+            <BackButton onPress={backReportHandler} />
           </View>
           <View
             style={{
@@ -1308,7 +1306,7 @@ const TeachersAttendanceBuild = () => {
                                 <TouchableHighlight
                                   onPress={pressHandler.bind(
                                     this,
-                                    filteredData.id
+                                    filteredData
                                   )}
                                   underlayColor="#D1D4FF"
                                   style={{ cursor: "pointer" }}

@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  Pressable,
+} from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { useRoute } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -75,9 +82,9 @@ const AttendanceReport = () => {
 
   const [showYearReport, setShowYearReport] = useState(true);
   const [showMonthReport, setShowMonthReport] = useState(false);
-  // firstData = months[0];
-  // KEY = firstData.key;
-  // VALUE = firstData.value;
+  firstData = months[0];
+  KEY = firstData.key;
+  VALUE = firstData.value;
 
   const [selected, setSelected] = useState("");
   const [listSelected, setListSelected] = useState([]);
@@ -126,7 +133,6 @@ const AttendanceReport = () => {
           }
         });
         setMonthlyCount(counts);
-        console.log(monthlyCount);
       } catch (error) {
         console.log(error);
       }
@@ -259,13 +265,13 @@ const AttendanceReport = () => {
     setShowYearReport(false);
     const request_model = {
       student_id: route.params.id,
-      yearMonth: moment(FROMDATE).format("YYYY-MM"),
+      yearMonth: moment(FROMDATE).format("YYYY") + "-" + selected,
     };
     async function getData() {
       try {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
-          //   Authorization: "Token " + `${token}`,
+          Authorization: "Token " + `${token}`,
         };
         const res = await axios.post(
           `${subURL}/AttendanceDetailByStudentIDMonthYear/`,
@@ -274,15 +280,21 @@ const AttendanceReport = () => {
             headers: headers,
           }
         );
-        console.log(selected);
-        setYearMonthReport(res.data);
-        const filteredAttendance = yearMonthReport.filter(
-          (item) => new Date(item.attendance_date).getMonth() === selected
-        );
+        console.log(res.data);
+        //setYearMonthReport(res.data);
+        console.log("selected value is", selected);
+        // const filteredAttendance = res.data.filter(
+        //   (item) => new Date(item.attendance_date).getMonth() === selected
+        // );
+        const filteredAttendance = res.data.filter((item) => {
+          const date = new Date(item.attendance_date);
+          return date.getMonth() + 1 === parseInt(selected);
+        });
         let counts = {};
         filteredAttendance.map((item) => {
           const date = new Date(item.attendance_date);
           const day = date.getDate();
+          console.log("day is", day);
           if (!counts[day]) {
             counts[day] = item.attendance_status;
           }
@@ -294,6 +306,10 @@ const AttendanceReport = () => {
       }
     }
     getData();
+  }
+  function showSingleReport(month) {
+    console.log(month);
+    //setShowMonthReport(true);
   }
   return (
     <>
@@ -308,53 +324,185 @@ const AttendanceReport = () => {
       </View>
 
       {showYearReport && (
-        <View style={[{ flexDirection: "column" }]}>
-          <View
-            style={{
-              top: "3%",
-              left: "3%",
-              flexDirection: "row",
-              marginVertical: 10,
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "HindRegular",
-                fontSize: 18,
-                top: "3%",
-              }}
+        <View
+          style={[
+            {
+              // Try setting `flexDirection` to `"row"`.
+              flex: 0.5,
+              flexDirection: "column",
+            },
+          ]}
+        >
+          <View style={{ flex: 1 }}>
+            <View
+              style={[
+                {
+                  // Try setting `flexDirection` to `"row"`.
+                  flexDirection: "row",
+                  flex: 1,
+                },
+              ]}
             >
-              Select Year
-            </Text>
-            <View style={styles.dateLabelSpace} />
+              <View
+                style={{
+                  flex: 0.4,
 
-            <View style={styles.dateContainer}>
-              <UnderlinedInput
-                value={fromText || moment(FROMDATE).format("YYYY")}
-                placeholder="Select Year"
-                style={
-                  isFromDateFocused
-                    ? styles.focusStyle
-                    : fromDateInputIsInValid && styles.errorBorderColorDate
-                }
-                blur={fromDateBlurHandler}
-                onFocus={onFocusFromHandler}
-                onChangeText={frmDateHandler}
-                onPressIn={() => showFromMode("date")}
-              />
-              {fromDateInputIsInValid && (
-                <Text style={styles.commonErrorMsg}>Select from date</Text>
-              )}
-              {fromShow && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={fromDate}
-                  mode={frommode}
-                  is24Hour={true}
-                  display="default"
-                  onChange={fromDateChangeHandler}
+                  alignItems: "flex-start",
+                  justifyContent: "center",
+                  //right: 12,
+                  left: 29,
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "HindRegular",
+                    fontSize: 18,
+                    top: "3%",
+                  }}
+                >
+                  Select Year
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 0.3,
+
+                  justifyContent: "center",
+                }}
+              >
+                <UnderlinedInput
+                  value={fromText || moment(FROMDATE).format("YYYY")}
+                  placeholder="Select Year"
+                  style={
+                    isFromDateFocused
+                      ? styles.focusStyle
+                      : fromDateInputIsInValid && styles.errorBorderColorDate
+                  }
+                  blur={fromDateBlurHandler}
+                  onFocus={onFocusFromHandler}
+                  onChangeText={frmDateHandler}
+                  onPressIn={() => showFromMode("date")}
                 />
-              )}
+                {fromDateInputIsInValid && (
+                  <Text style={styles.commonErrorMsg}>Select from date</Text>
+                )}
+                {fromShow && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={fromDate}
+                    mode={frommode}
+                    is24Hour={true}
+                    display="default"
+                    onChange={fromDateChangeHandler}
+                  />
+                )}
+              </View>
+            </View>
+          </View>
+          <View style={{ flex: 1 }}>
+            <View
+              style={[
+                {
+                  // Try setting `flexDirection` to `"row"`.
+                  flexDirection: "column",
+                  flex: 1,
+                },
+              ]}
+            >
+              <View style={{ flex: 1 }}>
+                <View
+                  style={[
+                    {
+                      // Try setting `flexDirection` to `"row"`.
+                      flexDirection: "row",
+                      flex: 1,
+                    },
+                  ]}
+                >
+                  <View
+                    style={{
+                      flex: 0.4,
+
+                      alignItems: "flex-start",
+                      justifyContent: "center",
+                      //right: 12,
+                      left: 29,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: "HindRegular",
+                        fontSize: 18,
+                      }}
+                    >
+                      Name
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: "HindRegular",
+                        fontSize: 18,
+                      }}
+                    >
+                      {route.params.name}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View style={{ flex: 1 }}>
+                <View
+                  style={[
+                    {
+                      // Try setting `flexDirection` to `"row"`.
+                      flexDirection: "row",
+                      flex: 1,
+                    },
+                  ]}
+                >
+                  <View
+                    style={{
+                      flex: 0.4,
+
+                      alignItems: "flex-start",
+                      justifyContent: "center",
+                      //right: 12,
+                      left: 29,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: "HindRegular",
+                        fontSize: 18,
+                      }}
+                    >
+                      Reg No
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: "HindRegular",
+                        fontSize: 18,
+                      }}
+                    >
+                      {route.params.regno}
+                    </Text>
+                  </View>
+                </View>
+              </View>
             </View>
           </View>
         </View>
@@ -403,47 +551,73 @@ const AttendanceReport = () => {
               },
             ]}
           >
-            <View style={{ flex: 8, bottom: 10, top: 7 }}>
+            <View style={{ flex: 8, bottom: 10, top: 1 }}>
               <ScrollView>
                 {Object.entries(monthlyCount).map(([month, counts]) => (
-                  <View
-                    style={[
-                      { flex: 1 },
-                      {
-                        // Try setting `flexDirection` to `"row"`.
-                        flexDirection: "row",
-                        borderWidth: 1,
-                      },
-                    ]}
-                  >
+                  <Pressable onPress={showSingleReport.bind(this, month)}>
                     <View
-                      style={{
-                        flex: 1,
-
-                        alignItems: "center",
-                      }}
+                      style={[
+                        { flex: 1 },
+                        {
+                          // Try setting `flexDirection` to `"row"`.
+                          flexDirection: "row",
+                          borderWidth: 1,
+                          paddingVertical: 7,
+                        },
+                      ]}
                     >
-                      <Text>{monthNames[month]}</Text>
-                    </View>
-                    <View
-                      style={{
-                        flex: 1,
+                      <View
+                        style={{
+                          flex: 1,
 
-                        alignItems: "center",
-                      }}
-                    >
-                      <Text> {counts.present}</Text>
-                    </View>
-                    <View
-                      style={{
-                        flex: 1,
+                          alignItems: "center",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontSize: 15,
+                            fontFamily: "HindSemiBold",
+                          }}
+                        >
+                          {monthNames[month]}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          flex: 1,
 
-                        alignItems: "center",
-                      }}
-                    >
-                      <Text> {counts.absent}</Text>
+                          alignItems: "center",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            color: "green",
+                            fontSize: 15,
+                            fontFamily: "HindSemiBold",
+                          }}
+                        >
+                          {counts.present}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          flex: 1,
+
+                          alignItems: "center",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            color: "red",
+                            fontSize: 15,
+                            fontFamily: "HindSemiBold",
+                          }}
+                        >
+                          {counts.absent}
+                        </Text>
+                      </View>
                     </View>
-                  </View>
+                  </Pressable>
                 ))}
               </ScrollView>
             </View>
@@ -453,81 +627,105 @@ const AttendanceReport = () => {
 
       {showMonthReport && (
         <View style={[{ flexDirection: "column" }]}>
-          <View
-            style={{
-              top: "3%",
-              left: "3%",
-              flexDirection: "row",
-              marginVertical: 10,
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "HindRegular",
-                fontSize: 18,
-                top: "3%",
-              }}
+          <View style={{}}>
+            <View
+              style={[
+                {
+                  // Try setting `flexDirection` to `"row"`.
+                  flexDirection: "row",
+                },
+              ]}
             >
-              Select Year
-            </Text>
-            <View style={styles.dateLabelSpace} />
+              <View
+                style={{
+                  flex: 0.4,
 
-            <View style={styles.dateContainer}>
-              <UnderlinedInput
-                value={fromText || moment(FROMDATE).format("YYYY")}
-                placeholder="Select Year"
-                style={
-                  isFromDateFocused
-                    ? styles.focusStyle
-                    : fromDateInputIsInValid && styles.errorBorderColorDate
-                }
-                blur={fromDateBlurHandler}
-                onFocus={onFocusFromHandler}
-                onChangeText={frmDateHandler}
-                onPressIn={() => showFromMode("date")}
-              />
-              {fromDateInputIsInValid && (
-                <Text style={styles.commonErrorMsg}>Select from date</Text>
-              )}
-              {fromShow && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={fromDate}
-                  mode={frommode}
-                  is24Hour={true}
-                  display="default"
-                  onChange={fromDateChangeHandler}
+                  alignItems: "flex-start",
+                  justifyContent: "center",
+                  //right: 12,
+                  left: 29,
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "HindRegular",
+                    fontSize: 18,
+                    top: "3%",
+                  }}
+                >
+                  Select Year
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 0.3,
+
+                  justifyContent: "center",
+                }}
+              >
+                <UnderlinedInput
+                  value={fromText || moment(FROMDATE).format("YYYY")}
+                  placeholder="Select Year"
+                  style={
+                    isFromDateFocused
+                      ? styles.focusStyle
+                      : fromDateInputIsInValid && styles.errorBorderColorDate
+                  }
+                  blur={fromDateBlurHandler}
+                  onFocus={onFocusFromHandler}
+                  onChangeText={frmDateHandler}
+                  onPressIn={() => showFromMode("date")}
                 />
-              )}
+                {fromDateInputIsInValid && (
+                  <Text style={styles.commonErrorMsg}>Select from date</Text>
+                )}
+                {fromShow && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={fromDate}
+                    mode={frommode}
+                    is24Hour={true}
+                    display="default"
+                    onChange={fromDateChangeHandler}
+                  />
+                )}
+              </View>
             </View>
           </View>
 
           <View
             style={{
-              top: "3%",
-              left: "3%",
+              left: "17%",
+              top: "5%",
+
               flexDirection: "row",
-              marginVertical: 10,
             }}
           >
             <Text
               style={{
                 fontFamily: "HindRegular",
                 fontSize: 18,
-                top: "3%",
+
                 //marginLeft: 10,
               }}
             >
               Select Month
             </Text>
             <View style={styles.leaveSpace} />
-            <View style={{ flexDirection: "column" }}>
+            <View
+              style={{
+                flexDirection: "column",
+              }}
+            >
               <SelectList
+                defaultOption={{
+                  key: KEY,
+                  value: VALUE,
+                }}
                 setSelected={setSelected}
                 data={months}
                 onSelect={viewYearMonthReport}
-                //placeholder="Month"
-                placeholder={showFirstOption && "Month"}
+                placeholder="Month"
                 save="key"
                 dropdownTextStyles={{
                   fontSize: 18,
@@ -536,6 +734,29 @@ const AttendanceReport = () => {
                 inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
               />
             </View>
+          </View>
+          <View style={{ left: "7%", top: "15%" }}>
+            <Text
+              style={{
+                fontFamily: "HindRegular",
+                fontSize: 18,
+              }}
+            >
+              Name : {""} {""}
+              {""} {""} {""} {""}
+              {route.params.name}
+            </Text>
+            <Text
+              style={{
+                fontFamily: "HindRegular",
+                fontSize: 18,
+              }}
+            >
+              Reg No : {""} {""}
+              {""} {""}
+              {""} {""}
+              {route.params.regno}
+            </Text>
           </View>
         </View>
       )}
@@ -549,7 +770,7 @@ const AttendanceReport = () => {
                 justifyContent: "center",
               }}
             >
-              <Text style={styles.headerText}>Day</Text>
+              <Text style={styles.headerText}>Date</Text>
             </View>
             <View
               style={{
@@ -573,7 +794,7 @@ const AttendanceReport = () => {
               },
             ]}
           >
-            <View style={{ flex: 8, bottom: 10, top: 7 }}>
+            <View style={{ flex: 8, bottom: 10, top: 1 }}>
               <ScrollView>
                 {Object.entries(dailyAttendance).map(([day, status]) => (
                   <View
@@ -591,18 +812,32 @@ const AttendanceReport = () => {
                         flex: 1,
 
                         alignItems: "center",
+                        marginVertical: 7,
                       }}
                     >
-                      <Text>{day}</Text>
+                      <Text
+                        style={{ fontSize: 15, fontFamily: "HindSemiBold" }}
+                      >
+                        {day}
+                      </Text>
                     </View>
                     <View
                       style={{
                         flex: 1,
 
                         alignItems: "center",
+                        marginVertical: 7,
                       }}
                     >
-                      <Text> {status}</Text>
+                      <Text
+                        style={{
+                          color: status === "present" ? "green" : "red",
+                          fontSize: 15,
+                          fontFamily: "HindSemiBold",
+                        }}
+                      >
+                        {status.charAt(0).toUpperCase() + status.slice(1)}
+                      </Text>
                     </View>
                   </View>
                 ))}
@@ -676,7 +911,7 @@ const styles = StyleSheet.create({
     marginRight: 33,
   },
   leaveSpace: {
-    width: 60, // or whatever size you need
+    width: 50, // or whatever size you need
     height: 10,
   },
   dateLabelSpace: {
