@@ -545,26 +545,7 @@ const TeachersAttendanceBuild = () => {
           //   },
           // ]);
         } else {
-          async function storeData() {
-            try {
-              let headers = {
-                "Content-Type": "application/json; charset=utf-8",
-                Authorization: "Token " + `${token}`,
-              };
-
-              const resLogin = await axios.post(
-                `${subURL}/Attendance/`,
-                array,
-                {
-                  headers: headers,
-                }
-              );
-              //console.log(resLogin.data);
-            } catch (error) {
-              console.log(error);
-            }
-          }
-          storeData();
+          
           const mainId = new Set(data.map((obj) => obj.id));
           const selectedId = new Set(array.map((obj) => obj.student));
 
@@ -573,6 +554,26 @@ const TeachersAttendanceBuild = () => {
             [...mainId].every((x) => selectedId.has(x));
 
           if (eqSet(mainId, selectedId)) {
+            async function storeData() {
+              try {
+                let headers = {
+                  "Content-Type": "application/json; charset=utf-8",
+                  Authorization: "Token " + `${token}`,
+                };
+  
+                const resLogin = await axios.post(
+                  `${subURL}/Attendance/`,
+                  array,
+                  {
+                    headers: headers,
+                  }
+                );
+                //console.log(resLogin.data);
+              } catch (error) {
+                console.log(error);
+              }
+            }
+            storeData();
             Alert.alert("Saved Data", "Saved Data successfully", [
               {
                 text: "OK",
@@ -988,19 +989,28 @@ const TeachersAttendanceBuild = () => {
            { flexDirection: "column", backgroundColor: "white" },
          ]}
        >
-         <View style={{ flex: 1, marginHorizontal: "20%", top: "10%" }}>
+         <View style={{ flex: 1, marginHorizontal: "20%", top: "20%" }}>
            <Pressable onPress={markAttendance}>
              <Card style={styles.cardStyle}>
                <Card.Content style={{ margin: 1, marginTop: 0 }}>
                  <View style={{ alignItems: "center" }}>
                    <Text
                      style={{
-                       fontSize: 15,
+                       fontSize: 18,
                        fontFamily: "HindSemiBold",
                        color: "white",
                      }}
                    >
-                     Mark Attendance
+                    Mark
+                   </Text>
+                   <Text
+                     style={{
+                       fontSize: 18,
+                       fontFamily: "HindSemiBold",
+                       color: "white",
+                     }}
+                   >
+                    Attendance
                    </Text>
                  </View>
                </Card.Content>
@@ -1015,12 +1025,21 @@ const TeachersAttendanceBuild = () => {
                  <View style={{ alignItems: "center" }}>
                    <Text
                      style={{
-                       fontSize: 15,
+                       fontSize: 18,
                        fontFamily: "HindSemiBold",
                        color: "white",
                      }}
                    >
-                     View Reports
+                     View
+                   </Text>
+                   <Text
+                     style={{
+                       fontSize: 18,
+                       fontFamily: "HindSemiBold",
+                       color: "white",
+                     }}
+                   >
+                     Reports
                    </Text>
                  </View>
                </Card.Content>
@@ -1393,7 +1412,7 @@ const TeachersAttendanceBuild = () => {
       )}
 
       {showStudList && (
-        <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
+        <View style={[{ flex: 1 }, { flexDirection: "column",backgroundColor:'white' }]}>
           <View
             style={[
               { flex: 0.9 },
@@ -1408,13 +1427,15 @@ const TeachersAttendanceBuild = () => {
           <View
             style={{
               flex: keyboardStatus == "Keyboard Hidden" ? 0.7 : 1,
-              bottom: "7%",
+              bottom: editBtnPressed ? "5%":'7%',
+              
+              
             }}
           >
             {showDefaultBtns && (
               <View
                 style={[
-                  { flex: 1 },
+                  { flex: 2.5 },
                   {
                     flexDirection: "row",
                     left: "10%",
@@ -1471,13 +1492,21 @@ const TeachersAttendanceBuild = () => {
               </View>
             )}
 
-            <View style={{ flex: 0.5, bottom: "6%" }}>
+            <View style={{ 
+              flex: showDefaultBtns ? 2.7: 0.7, 
+              
+              bottom: "1%",
+              marginTop:showDefaultBtns ? '3%' : '5%',
+              //backgroundColor:'red'
+              
+               }}>
               <View
                 style={[
-                  { flex: 1 },
+                  { flex: 1},
                   {
                     // Try setting `flexDirection` to `"row"`.
                     flexDirection: "column",
+                    
                   },
                 ]}
               >
@@ -1501,7 +1530,8 @@ const TeachersAttendanceBuild = () => {
                     </View>
                   </View>
                 </View>
-                <View style={{ flex: 1 }}>
+              
+                <View style={{ flex: 1,marginTop:'1%' }}>
                   <View
                     style={[
                       { flex: 1 },
@@ -1523,7 +1553,7 @@ const TeachersAttendanceBuild = () => {
               </View>
             </View>
             {showEditBtn && (
-              <View style={{ flex: 1, alignItems: "center", left: "30%" }}>
+              <View style={{ flex: 1, alignItems: "center", left: "37%",justifyContent:'center' }}>
                 <NativeButton size="md" onPress={editHandler}>
                   <Text
                     style={{
@@ -1538,8 +1568,8 @@ const TeachersAttendanceBuild = () => {
               </View>
             )}
           </View>
-
-          <View style={{ flex: 2, bottom: "6%" }}>
+          
+          <View style={{ flex: 2, bottom: "5%" }}>
             {
               <ScrollView>
                 {data &&
@@ -1915,36 +1945,25 @@ const TeachersAttendanceBuild = () => {
           </View>
           {!showDCSData && (
             <View
-              style={{
-                flex: 0.3,
-                marginHorizontal: 60,
-                bottom: "3%",
-                left: "10%",
-              }}
-            >
-              <NativeButton
-                size="md"
-                onPress={editBtnPressed ? updateHandler : saveAttendance}
-                w={editBtnPressed ? "1/3" : "3/4"}
-                left={editBtnPressed ? "155" : "0"}
-              >
-                <Text
-                  style={{
-                    fontSize: 15,
-                    fontFamily: "HindSemiBold",
-                    color: "white",
-                  }}
-                >
-                  {editBtnPressed ? "Update" : "Save"}
-                </Text>
-              </NativeButton>
-              {editBtnPressed && (
+              style={[
+                
+                {
+                  // Try setting `flexDirection` to `"row"`.
+                  flex:0.5,
+                  flexDirection: 'row',
+                  
+                },
+              ]}>
+              <View style={styles.space}/>
+              <View style={{flex: 1}} >
+                
+                {editBtnPressed && (
                 <NativeButton
                   size="md"
                   onPress={cancelHandler}
-                  w="1/3"
-                  right="20"
-                  bottom="10"
+                  //w="1/3"
+                  left="0"
+                 // bottom="12"
                 >
                   <Text
                     style={{
@@ -1957,6 +1976,27 @@ const TeachersAttendanceBuild = () => {
                   </Text>
                 </NativeButton>
               )}
+              </View>
+              <View style={styles.space}/>
+              <View style={{flex: 1}} >
+              <NativeButton
+                  size="md"
+                  onPress={editBtnPressed ? updateHandler : saveAttendance}
+                  //w={editBtnPressed ? "1/3" : "3/4"}
+                  right={editBtnPressed ? "0" : "20"}
+                >
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontFamily: "HindSemiBold",
+                      color: "white",
+                    }}
+                  >
+                    {editBtnPressed ? "Update" : "Save"}
+                  </Text>
+                </NativeButton>
+              </View>
+              <View style={styles.space}/>
             </View>
           )}
           <View style={{ flex: 0.2 }}>
