@@ -712,54 +712,47 @@ const AttendanceReport = () => {
           </View>
 
           <View
-            style={{
-              left: "17%",
-              top: "5%",
-
-              flexDirection: "row",
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "HindRegular",
-                fontSize: 18,
-
-                //marginLeft: 10,
-              }}
-            >
-              Select Month
-            </Text>
-            <View style={styles.leaveSpace} />
-            <View
-              style={{
-                // flexDirection: "column",
-                position: 'relative', zIndex: 1 
-              }}
-            >
-              <SelectList
+            style={[
+                  { flexDirection: "row", marginVertical: 10 },
+                  ]}
+                >
+                  <View style={{ flex: 0.9,left:29,justifyContent:'center' }}>
+                    <Text
+                      style={{
+                        fontFamily: "HindRegular",
+                        fontSize: 18,
+                       // marginLeft: "11%",
+                       // marginTop: "10%",
+                      }}
+                    >
+                      Select Month
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1 ,paddingRight:27}}>
+                  <SelectList
                
-                defaultOption={{
-                  key: KEY,
-                  value: VALUE,
-                }}
-                setSelected={setSelected}
-                data={months}
-                onSelect={viewYearMonthReport}
-                placeholder="Month"
-                save="key"
-                // boxStyles={{backgroundColor:'yellow'}}
-                // dropdownItemStyles={{backgroundColor:'black'}}
-                // dropdownStyles={{backgroundColor:'cyan'}}
-                // dropdownShown={false}
-                dropdownTextStyles={{
-                  fontSize: 15,
-                  fontFamily: "HindRegular",
-                  //backgroundColor:'purple'
-                }}
-                inputStyles={{ fontSize:15, fontFamily: "HindRegular"}}
-              />
-            </View>
-          </View>
+                      defaultOption={{
+                        key: KEY,
+                        value: VALUE,
+                      }}
+                      setSelected={setSelected}
+                      data={months}
+                      onSelect={viewYearMonthReport}
+                      placeholder="Month"
+                      save="key"
+                      // boxStyles={{backgroundColor:'yellow'}}
+                      // dropdownItemStyles={{backgroundColor:'black'}}
+                      // dropdownStyles={{backgroundColor:'cyan'}}
+                      // dropdownShown={false}
+                      dropdownTextStyles={{
+                        fontSize: 15,
+                        fontFamily: "HindRegular",
+                        //backgroundColor:'purple'
+                      }}
+                      inputStyles={{ fontSize:15, fontFamily: "HindRegular"}}
+                    />
+                  </View>
+                </View>
           {/* <View style={{ left: "7%", top: "15%" }}>
             <Text
               style={{
