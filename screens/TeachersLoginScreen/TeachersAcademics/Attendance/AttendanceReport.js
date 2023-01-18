@@ -357,12 +357,12 @@ const AttendanceReport = () => {
               >
                 <Text
                   style={{
-                    fontFamily: "HindRegular",
+                    fontFamily: "HindSemiBold",
                     fontSize: 18,
                     top: "3%",
                   }}
                 >
-                  Select Year
+                  Select Year -
                 </Text>
               </View>
               <View
@@ -433,11 +433,11 @@ const AttendanceReport = () => {
                   >
                     <Text
                       style={{
-                        fontFamily: "HindRegular",
+                        fontFamily: "HindSemiBold",
                         fontSize: 18,
                       }}
                     >
-                      Name
+                      Name :
                     </Text>
                   </View>
                   <View
@@ -449,7 +449,7 @@ const AttendanceReport = () => {
                   >
                     <Text
                       style={{
-                        fontFamily: "HindRegular",
+                        fontFamily: "HindMedium",
                         fontSize: 18,
                       }}
                     >
@@ -480,11 +480,11 @@ const AttendanceReport = () => {
                   >
                     <Text
                       style={{
-                        fontFamily: "HindRegular",
+                        fontFamily: "HindSemiBold",
                         fontSize: 18,
                       }}
                     >
-                      Reg No
+                      Reg No :
                     </Text>
                   </View>
                   <View
@@ -496,7 +496,7 @@ const AttendanceReport = () => {
                   >
                     <Text
                       style={{
-                        fontFamily: "HindRegular",
+                        fontFamily: "HindMedium",
                         fontSize: 18,
                       }}
                     >
@@ -666,7 +666,7 @@ const AttendanceReport = () => {
               >
                 <Text
                   style={{
-                    fontFamily: "HindRegular",
+                    fontFamily: "HindSemiBold",
                     fontSize: 18,
                     top: "3%",
                   }}
@@ -719,7 +719,7 @@ const AttendanceReport = () => {
                   <View style={{ flex: 0.9,left:29,justifyContent:'center' }}>
                     <Text
                       style={{
-                        fontFamily: "HindRegular",
+                        fontFamily: "HindSemiBold",
                         fontSize: 18,
                        // marginLeft: "11%",
                        // marginTop: "10%",
@@ -746,10 +746,10 @@ const AttendanceReport = () => {
                       // dropdownShown={false}
                       dropdownTextStyles={{
                         fontSize: 15,
-                        fontFamily: "HindRegular",
+                        fontFamily: "HindMedium",
                         //backgroundColor:'purple'
                       }}
-                      inputStyles={{ fontSize:15, fontFamily: "HindRegular"}}
+                      inputStyles={{ fontSize:15, fontFamily: "HindMedium"}}
                     />
                   </View>
                 </View>
@@ -808,11 +808,11 @@ const AttendanceReport = () => {
                   >
                     <Text
                       style={{
-                        fontFamily: "HindRegular",
+                        fontFamily: "HindSemiBold",
                         fontSize: 18,
                       }}
                     >
-                      Name
+                      Name :
                     </Text>
                   </View>
                   <View
@@ -824,7 +824,7 @@ const AttendanceReport = () => {
                   >
                     <Text
                       style={{
-                        fontFamily: "HindRegular",
+                        fontFamily: "HindMedium",
                         fontSize: 18,
                       }}
                     >
@@ -855,11 +855,11 @@ const AttendanceReport = () => {
                   >
                     <Text
                       style={{
-                        fontFamily: "HindRegular",
+                        fontFamily: "HindSemiBold",
                         fontSize: 18,
                       }}
                     >
-                      Reg No
+                      Reg No :
                     </Text>
                   </View>
                   <View
@@ -871,7 +871,7 @@ const AttendanceReport = () => {
                   >
                     <Text
                       style={{
-                        fontFamily: "HindRegular",
+                        fontFamily: "HindMedium",
                         fontSize: 18,
                       }}
                     >

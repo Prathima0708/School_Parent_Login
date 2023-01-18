@@ -39,7 +39,6 @@ const TeachersProfile = () => {
   const [data, setData] = useState([]);
 
   const route = useRoute();
-  console.log(route.params.studentid);
 
   //console.log("id -", ID);
   useEffect(() => {
@@ -51,8 +50,6 @@ const TeachersProfile = () => {
         //  console.log(res.data);
 
         setData(res.data[0]);
-        console.log(res.data);
-        console.log(res.data[0].student_name);
       } catch (error) {
         console.log(error);
       }
@@ -115,14 +112,24 @@ const TeachersProfile = () => {
             <View style={{ flex: 1, backgroundColor: "#00008b" }}>
               <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
                 <View style={{ flex: 1, alignItems: "center" }}>
-                  <NativeText fontSize="16" style={{ color: "white" }}>
+                  <NativeText
+                    style={{ color: "white" }}
+                    fontFamily="HindSemiBold"
+                    fontSize="17"
+                  >
                     {data.student_name}
                   </NativeText>
                 </View>
               </View>
               <View style={[{ flex: 4 }, { flexDirection: "row" }]}>
                 <View style={{ flex: 1, alignItems: "center" }}>
-                  <NativeText style={{ color: "white" }}>12</NativeText>
+                  <NativeText
+                    style={{ color: "white" }}
+                    fontFamily="HindSemiBold"
+                    fontSize="17"
+                  >
+                    {data.reg_number}
+                  </NativeText>
                 </View>
               </View>
             </View>
@@ -132,31 +139,40 @@ const TeachersProfile = () => {
           <View style={{ flex: 1.3 }}>
             <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
               <View style={{ flex: 1 }}>
-                <NativeText fontWeight="bold">Father Name:</NativeText>
+                <NativeText fontFamily="HindSemiBold" fontSize="15">
+                  Father Name
+                </NativeText>
               </View>
               <View style={{ flex: 1.6 }}>
-                <NativeText>{data.father_name}</NativeText>
+                <NativeText fontFamily="HindMedium" fontSize="15">
+                  {data.father_name}
+                </NativeText>
               </View>
             </View>
           </View>
           <View style={{ flex: 1.3 }}>
             <View style={[{ flex: 1 }, { flexDirection: "row", bottom: "4%" }]}>
               <View style={{ flex: 1 }}>
-                <NativeText fontWeight="bold">Mother Name:</NativeText>
+                <NativeText fontFamily="HindSemiBold" fontSize="15">
+                  Mother Name
+                </NativeText>
               </View>
               <View style={{ flex: 1.6 }}>
-                <NativeText>{data.mother_name}</NativeText>
+                <NativeText fontFamily="HindMedium" fontSize="15">
+                  {data.mother_name}
+                </NativeText>
               </View>
             </View>
           </View>
           <View style={{ flex: 1.3 }}>
             <View style={[{ flex: 1 }, { flexDirection: "row", bottom: "8%" }]}>
               <View style={{ flex: 1 }}>
-                <NativeText fontWeight="bold">Date of birth:</NativeText>
+                <NativeText fontFamily="HindSemiBold" fontSize="15">
+                  Date of birth
+                </NativeText>
               </View>
               <View style={{ flex: 1.6 }}>
-                <NativeText>
-                  {" "}
+                <NativeText fontFamily="HindMedium" fontSize="15">
                   {moment(data.Dob).format("DD/MM/YYYY")}
                 </NativeText>
               </View>
@@ -167,11 +183,12 @@ const TeachersProfile = () => {
               style={[{ flex: 1 }, { flexDirection: "row", bottom: "12%" }]}
             >
               <View style={{ flex: 1 }}>
-                <NativeText fontWeight="bold">Date of Admission:</NativeText>
+                <NativeText fontFamily="HindSemiBold" fontSize="15">
+                  Date of Admission
+                </NativeText>
               </View>
               <View style={{ flex: 1.6 }}>
-                <NativeText>
-                  {" "}
+                <NativeText fontFamily="HindMedium" fontSize="15">
                   {moment(data.date_of_admission).format("DD/MM/YYYY")}
                 </NativeText>
               </View>
@@ -182,10 +199,16 @@ const TeachersProfile = () => {
               style={[{ flex: 1 }, { flexDirection: "row", bottom: "16%" }]}
             >
               <View style={{ flex: 1 }}>
-                <NativeText fontWeight="bold"> Standard:</NativeText>
+                <NativeText fontFamily="HindSemiBold" fontSize="15">
+                  Standard
+                </NativeText>
               </View>
               <View style={{ flex: 1.6 }}>
-                <NativeText>Second-C</NativeText>
+                <NativeText fontFamily="HindMedium" fontSize="15">
+                  {data.class_name}
+                  {"-"}
+                  {data.section}
+                </NativeText>
               </View>
             </View>
           </View>
@@ -209,10 +232,14 @@ const TeachersProfile = () => {
                 ]}
               >
                 <View style={{ flex: 1 }}>
-                  <NativeText fontWeight="bold">Mobile number</NativeText>
+                  <NativeText fontFamily="HindSemiBold" fontSize="15">
+                    Mobile number
+                  </NativeText>
                 </View>
-                <View style={{ flex: 1 }}>
-                  <NativeText fontWeight="bold">Email</NativeText>
+                <View style={{ flex: 1.5 }}>
+                  <NativeText fontFamily="HindSemiBold" fontSize="15">
+                    Email
+                  </NativeText>
                 </View>
               </View>
             </View>
@@ -222,15 +249,19 @@ const TeachersProfile = () => {
                   { flex: 1 },
                   {
                     flexDirection: "column",
-                    top: "15%",
+                    top: "10%",
                   },
                 ]}
               >
                 <View style={{ flex: 1 }}>
-                  <NativeText>{data.contact_num}</NativeText>
+                  <NativeText fontFamily="HindMedium" fontSize="15">
+                    {data.contact_num}
+                  </NativeText>
                 </View>
-                <View style={{ flex: 1 }}>
-                  <NativeText>{data.email_address}</NativeText>
+                <View style={{ flex: 1.5 }}>
+                  <NativeText fontFamily="HindMedium" fontSize="15">
+                    {data.email_address}
+                  </NativeText>
                 </View>
               </View>
             </View>
@@ -261,17 +292,21 @@ const TeachersProfile = () => {
                 style={[
                   { flex: 1 },
                   {
-                    flexDirection: "column",
-                    top: "15%",
+                    flexDirection: "row",
+                    top: "10%",
                     marginHorizontal: 10,
                   },
                 ]}
               >
                 <View style={{ flex: 1 }}>
-                  <NativeText fontWeight="bold">Address</NativeText>
+                  <NativeText fontFamily="HindSemiBold" fontSize="15">
+                    Address
+                  </NativeText>
                 </View>
-                <View style={{ flex: 2 }}>
-                  <NativeText>{data.student_address}</NativeText>
+                <View style={{ flex: 1 }}>
+                  <NativeText fontFamily="HindMedium" fontSize="15">
+                    {data.student_address}
+                  </NativeText>
                 </View>
               </View>
             </View>

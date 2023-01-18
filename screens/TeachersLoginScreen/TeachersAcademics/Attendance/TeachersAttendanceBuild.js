@@ -1100,10 +1100,10 @@ const TeachersAttendanceBuild = () => {
                       selectInputIsInValid && styles.errorSelectedColor
                     }
                     dropdownTextStyles={{
-                      fontSize: 18,
+                      fontSize: 15,
                       fontFamily: "HindRegular",
                     }}
-                    inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                    inputStyles={{ fontSize: 15, fontFamily: "HindRegular" }}
                   />
                   {selectInputIsInValid && (
                     <Text style={[styles.errorText, { top: 10, left: "2%" }]}>
@@ -1246,10 +1246,10 @@ const TeachersAttendanceBuild = () => {
                 save="key"
                 boxStyles={selectInputIsInValid && styles.errorSelectedColor}
                 dropdownTextStyles={{
-                  fontSize: 18,
+                  fontSize: 15,
                   fontFamily: "HindRegular",
                 }}
-                inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                inputStyles={{ fontSize: 15, fontFamily: "HindRegular" }}
               />
               {selectInputIsInValid && (
                 <Text style={[styles.errorText, { top: 10, left: "2%" }]}>

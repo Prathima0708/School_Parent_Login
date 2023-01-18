@@ -1354,16 +1354,14 @@ const TeachersLeaveUpdated = () => {
                       setSelected={setSelected}
                       data={leaveTypeData}
                       save="value"
-                      //placeholder="Select Leave Type"
                       boxStyles={[
                         selectInputIsInValid && styles.errorSelectedColor,
                       ]}
                       dropdownTextStyles={{
-                        fontSize: 18,
+                        fontSize: 15,
                         fontFamily: "HindRegular",
-                        //marginHorizontal: 25,
                       }}
-                      inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                      inputStyles={{ fontSize: 15, fontFamily: "HindRegular" }}
                     />
                     {selectInputIsInValid && (
                       <Text style={styles.commonErrorMsg}>
