@@ -736,9 +736,9 @@ const TecahersExamTimeTable = () => {
               placeholder="Select class"
               onSelect={viewExamList}
               boxStyles={{ borderRadius: 10 }}
-              dropdownTextStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-              inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-              dropdownStyles={{width:'120%'}}
+              dropdownTextStyles={{ fontSize: 15, fontFamily: "HindRegular" }}
+              inputStyles={{ fontSize: 15, fontFamily: "HindRegular" }}
+            //  dropdownStyles={{width:'120%'}}
               
             />
           </View>
@@ -1038,9 +1038,9 @@ const TecahersExamTimeTable = () => {
                       selectInputIsInValid && styles.errorSelectedColor,
                       { borderRadius: 0 },
                     ]}
-                    inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                    inputStyles={{ fontSize: 15, fontFamily: "HindRegular" }}
                     dropdownTextStyles={{
-                      fontSize: deviceWidth < 370 ? 14 : 18,
+                      fontSize: deviceWidth < 370 ? 14 : 15,
                       fontFamily: "HindRegular",
                     }}
                   />

@@ -1,4 +1,5 @@
-import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
+import { Text } from "native-base";
+import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 
 function Button({ children, onPress }) {
   return (
@@ -7,7 +8,9 @@ function Button({ children, onPress }) {
       onPress={onPress}
     >
       <View>
-        <Text style={styles.buttonText}>{children}</Text>
+        <Text bold style={styles.buttonText}>
+          {children}
+        </Text>
       </View>
     </Pressable>
   );
@@ -18,11 +21,12 @@ const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 6,
+    borderRadius: 3,
     margin: 30,
     paddingVertical: 8,
     paddingHorizontal: 12,
-    backgroundColor: "#2E799B",
+    // backgroundColor: "#2E799B",
+    backgroundColor: "#1E84A4",
     elevation: 2,
     shadowColor: "black",
     shadowOffset: { width: 1, height: 1 },
@@ -38,7 +42,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: deviceWidth < 370 ? 16 : 18,
 
-    fontFamily: "HindMedium",
+    fontFamily: "HindSemiBold",
   },
 });
 

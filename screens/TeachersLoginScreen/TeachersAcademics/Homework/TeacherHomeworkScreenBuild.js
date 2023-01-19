@@ -86,13 +86,13 @@ const TeacherHomeworkScreenBuild = () => {
   const [showList, setShowList] = useState(false);
   const [forHomeworkList, setForHomeworkList] = useState({
     color: "white",
-    backgroundColor: "#0C60F4",
-    borderRadius: 10,
+    backgroundColor: "#1E84A4",
+    borderRadius: 5,
   });
   const [forHomeworkForm, setForHomeworkForm] = useState({
     color: "black",
     backgroundColor: "#F4F6F6",
-    borderRadius: 10,
+    borderRadius: 5,
   });
 
   const [selected, setSelected] = useState("");
@@ -826,14 +826,14 @@ const TeacherHomeworkScreenBuild = () => {
       setShowForm(false);
       setShowList(true);
       setForHomeworkList({
-        backgroundColor: "#0C60F4",
+        backgroundColor: "#1E84A4",
         color: "white",
-        borderRadius: 10,
+        borderRadius: 5,
       });
       setForHomeworkForm({
         color: "white",
-        backgroundColor: "#1E8449",
-        borderRadius: 10,
+        backgroundColor: "#1E84A4",
+        borderRadius: 5,
       });
     }
   }
@@ -897,14 +897,14 @@ const TeacherHomeworkScreenBuild = () => {
     setEnteredRemark("");
     setHW("");
     setForHomeworkList({
-      backgroundColor: "#0C60F4",
+      backgroundColor: "#1E84A4",
       color: "white",
-      borderRadius: 10,
+      borderRadius: 5,
     });
     setForHomeworkForm({
       color: "black",
       backgroundColor: "#F4F6F6",
-      borderRadius: 10,
+      borderRadius: 5,
     });
     setShowForm(true);
     setShowList(false);
@@ -931,13 +931,13 @@ const TeacherHomeworkScreenBuild = () => {
         setFilteredData(res.data);
         setForHomeworkForm({
           color: "white",
-          backgroundColor: "#1E8449",
-          borderRadius: 10,
+          backgroundColor: "#1E84A4",
+          borderRadius: 5,
         });
         setForHomeworkList({
           backgroundColor: "#F4F6F6",
           color: "black",
-          borderRadius: 10,
+          borderRadius: 5,
         });
         setShowForm(false);
         setShowList(true);
@@ -994,12 +994,12 @@ const TeacherHomeworkScreenBuild = () => {
     setForHomeworkList({
       backgroundColor: "#F4F6F6",
       color: "black",
-      borderRadius: 10,
+      borderRadius: 5,
     });
     setForHomeworkForm({
       color: "white",
-      backgroundColor: "#1E8449",
-      borderRadius: 10,
+      backgroundColor: "#1E84A4",
+      borderRadius: 5,
     });
     setShowForm(true);
     setShowList(false);
@@ -1085,13 +1085,13 @@ const TeacherHomeworkScreenBuild = () => {
 
     setForHomeworkList({
       color: "white",
-      backgroundColor: "#0C60F4",
-      borderRadius: 10,
+      backgroundColor: "#1E84A4",
+      borderRadius: 5,
     });
     setForHomeworkForm({
       color: "black",
       backgroundColor: "#F4F6F6",
-      borderRadius: 10,
+      borderRadius: 5,
     });
   }
 
@@ -1451,6 +1451,7 @@ const TeacherHomeworkScreenBuild = () => {
               <View style={{ flexDirection: "row" }}>
                 <View style={styles.uploadImgBtn}>
                   <NativeButton
+                    backgroundColor="#1E84A4"
                     onPress={PickImage}
                     leftIcon={
                       <Icon
@@ -2128,7 +2129,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F2F2F2",
     backgroundColor: "white",
     paddingHorizontal: 5,
-    fontSize: deviceWidth < 370 ? 13 : 16,
+    fontSize: deviceWidth < 370 ? 13 : 15,
     letterSpacing: 0.5,
   },
 

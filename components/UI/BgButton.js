@@ -37,7 +37,7 @@ import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 function BgButton({ children, onPress, style }) {
   return (
     <Pressable style={[style, styles.button]} onPress={onPress}>
-      <Text italic bold style={[style, styles.buttonText]}>
+      <Text  bold style={[style, styles.buttonText]}>
         {children}
       </Text>
     </Pressable>

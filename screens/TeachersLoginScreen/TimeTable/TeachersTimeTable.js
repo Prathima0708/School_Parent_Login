@@ -68,8 +68,8 @@ const TeachersTimetable = () => {
 
     // backgroundColor: "#D6EAF8",
     color: "white",
-    backgroundColor: "#0C60F4",
-    borderRadius: 10,
+    backgroundColor: "#1E84A4",
+    borderRadius: 5,
     // borderTopColor: "#3d4590",
     borderBottomWidth: 0,
     borderLeftWidth: 0,
@@ -219,7 +219,7 @@ const TeachersTimetable = () => {
     setForTimeTableList({
       backgroundColor: "#F4F6F6",
       color: "black",
-      borderRadius: 10,
+      borderRadius: 5,
       borderBottomWidth: 0,
       borderLeftWidth: 0,
       borderRightWidth: 0,
@@ -227,8 +227,8 @@ const TeachersTimetable = () => {
 
     setForExamTimeTable({
       color: "white",
-      backgroundColor: "#1E8449",
-      borderRadius: 10,
+      backgroundColor: "#1E84A4",
+      borderRadius: 5,
       borderBottomWidth: 0,
       borderLeftWidth: 0,
       borderRightWidth: 0,
@@ -247,22 +247,21 @@ const TeachersTimetable = () => {
       } catch (error) {
         console.log(error);
       }
-
     }
     fetchDailyTimeTable();
     setForExamTimeTable({
       color: "black",
       backgroundColor: "#F4F6F6",
-      borderRadius: 10,
+      borderRadius: 5,
       borderTopColor: "#d9dffc",
       borderBottomWidth: 0,
       borderLeftWidth: 0,
       borderRightWidth: 0,
     });
     setForTimeTableList({
-      backgroundColor: "#0C60F4",
+      backgroundColor: "#1E84A4",
       color: "white",
-      borderRadius: 10,
+      borderRadius: 5,
       borderBottomWidth: 0,
       borderLeftWidth: 0,
       borderRightWidth: 0,
@@ -441,11 +440,11 @@ const TeachersTimetable = () => {
                 // placeholder="Select class."
                 boxStyles={{ borderRadius: 10 }}
                 dropdownTextStyles={{
-                  fontSize: deviceWidth < 370 ? 16 : 18,
+                  fontSize: deviceWidth < 370 ? 16 : 15,
                   fontFamily: "HindRegular",
                 }}
                 inputStyles={{
-                  fontSize: deviceWidth < 370 ? 16 : 18,
+                  fontSize: deviceWidth < 370 ? 16 : 15,
                   fontFamily: "HindRegular",
                 }}
                 onSelect={viewTimeTableList}
@@ -714,13 +713,10 @@ const TeachersTimetable = () => {
                                         filteredTimeTable.map((data) => (
                                           <View style={styles.root}>
                                             <View
-                                              style={[
-                                                styles.firstCol,
-                                                {
-                                                  alignItems: "center",
-                                                  width: 100,
-                                                },
-                                              ]}
+                                              style={{
+                                                alignItems: "center",
+                                                width: 100,
+                                              }}
                                             >
                                               <Text
                                                 style={[styles.headingFirstCol]}
@@ -988,9 +984,9 @@ const styles = StyleSheet.create({
     // marginHorizontal:10
   },
   headingFont: {
-    fontFamily: "Hind-SemiBold",
+    fontFamily: "HindSemiBold",
     // fontWeight: "bold",
-    fontSize: deviceWidth < 370 ? 14 : 14,
+    fontSize: deviceWidth < 370 ? 14 : 15,
   },
   flex: {
     flex: 1,
@@ -1033,5 +1029,9 @@ const styles = StyleSheet.create({
   space: {
     width: 20, // or whatever size you need
     height: 20,
+  },
+  headingFirstCol: {
+    fontFamily: "HindRegular",
+    fontSize: 15,
   },
 });

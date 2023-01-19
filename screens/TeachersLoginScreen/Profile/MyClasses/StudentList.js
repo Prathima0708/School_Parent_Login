@@ -163,9 +163,8 @@ const StudentList = () => {
                       <>
                         <TouchableHighlight
                           onPress={pressHandler.bind(this, filteredData.id)}
-                          underlayColor="#D1D4FF"
+                          underlayColor="#E5E7E9"
                           style={{ cursor: "pointer" }}
-                          
                         >
                           <View style={styles.tableText}>
                             <View
@@ -248,7 +247,7 @@ const styles = StyleSheet.create({
     top: "17%",
     borderWidth: 1,
     marginHorizontal: 20,
-    backgroundColor: "darkblue",
+    backgroundColor: "#1E84A4",
   },
   tableText: {
     flex: 1,
