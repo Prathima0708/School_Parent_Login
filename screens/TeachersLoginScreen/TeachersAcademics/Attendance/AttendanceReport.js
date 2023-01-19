@@ -5,6 +5,7 @@ import {
   Dimensions,
   ScrollView,
   Pressable,
+  TouchableHighlight,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { useRoute } from "@react-navigation/native";
@@ -18,7 +19,14 @@ import SelectList from "react-native-dropdown-select-list";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 import BgButton from "../../../../components/UI/BgButton";
 import TeachersHome from "../../BottomTab/TeachersHome";
-var TOKEN, FROMDATE, SELECTEDYEAR, firstData, KEY, VALUE;
+var TOKEN,
+  FROMDATE,
+  SELECTEDYEAR,
+  firstData,
+  KEY,
+  VALUE,
+  singleReportKey,
+  singleReportValue;
 const AttendanceReport = () => {
   const [frommode, setFromMode] = useState("date");
   const [fromDate, setFromDate] = useState(new Date());
@@ -33,7 +41,7 @@ const AttendanceReport = () => {
 
   const [forYearlyReport, setForYearlyReport] = useState({
     color: "white",
-    backgroundColor: "#0C60F4",
+    backgroundColor: "#1E84A4",
     borderRadius: 10,
   });
   const [forMonthlyReport, setForMonthlyReport] = useState({
@@ -47,6 +55,7 @@ const AttendanceReport = () => {
   const [yearMonthReport, setYearMonthReport] = useState([]);
   const [monthlyCount, setMonthlyCount] = useState({});
   const [dailyAttendance, setDailyAttendance] = useState({});
+  const [viewSingleReport, setViewSingleReport] = useState(false);
 
   const monthNames = [
     "Jan",
@@ -125,12 +134,16 @@ const AttendanceReport = () => {
           const date = new Date(item.attendance_date);
           const month = date.getMonth();
           if (!counts[month]) {
-            counts[month] = { present: 0, absent: 0 };
+            counts[month] = { present: 0, absent: 0, holiday: 0 };
           }
           if (item.attendance_status === "present") {
             counts[month].present++;
-          } else {
+          }
+          if (item.attendance_status === "absent") {
             counts[month].absent++;
+          }
+          if (item.attendance_status === "holiday") {
+            counts[month].holiday++;
           }
         });
         setMonthlyCount(counts);
@@ -166,16 +179,20 @@ const AttendanceReport = () => {
           const date = new Date(item.attendance_date);
           const month = date.getMonth();
           if (!counts[month]) {
-            counts[month] = { present: 0, absent: 0 };
+            counts[month] = { present: 0, absent: 0, holiday: 0 };
           }
           if (item.attendance_status === "present") {
             counts[month].present++;
-          } else {
+          }
+          if (item.attendance_status === "absent") {
             counts[month].absent++;
+          }
+          if (item.attendance_status === "holiday") {
+            counts[month].holiday++;
           }
         });
         setMonthlyCount(counts);
-        //console.log(monthlyCount);
+        console.log(monthlyCount);
       } catch (error) {
         console.log(error);
       }
@@ -237,7 +254,7 @@ const AttendanceReport = () => {
     setShowYearReport(true);
     setShowMonthReport(false);
     setForYearlyReport({
-      backgroundColor: "#0C60F4",
+      backgroundColor: "#1E84A4",
       color: "white",
       borderRadius: 10,
     });
@@ -252,7 +269,7 @@ const AttendanceReport = () => {
     setShowMonthReport(true);
     setForMonthlyReport({
       color: "white",
-      backgroundColor: "#1E8449",
+      backgroundColor: "#1E84A4",
       borderRadius: 10,
     });
     setForYearlyReport({
@@ -281,7 +298,7 @@ const AttendanceReport = () => {
             headers: headers,
           }
         );
-        console.log(res.data);
+        //   console.log(res.data);
         //setYearMonthReport(res.data);
         console.log("selected value is", selected);
         // const filteredAttendance = res.data.filter(
@@ -295,13 +312,13 @@ const AttendanceReport = () => {
         filteredAttendance.map((item) => {
           const date = new Date(item.attendance_date);
           const day = date.getDate();
-          console.log("day is", day);
+          // console.log("day is", day);
           if (!counts[day]) {
             counts[day] = item.attendance_status;
           }
         });
         setDailyAttendance(counts);
-        console.log(dailyAttendance);
+        // console.log(dailyAttendance);
       } catch (error) {
         console.log(error);
       }
@@ -309,18 +326,74 @@ const AttendanceReport = () => {
     getData();
   }
   function showSingleReport(month) {
-    console.log(month);
-    //setShowMonthReport(true);
+    var parsedResult = (parseInt(month) + 1).toString().padStart(2, "0");
+    let filteredlist = months.filter((ele) => ele.key == parsedResult);
+
+    singleReportKey = filteredlist[0].key;
+    singleReportValue = filteredlist[0].value;
+
+    setViewSingleReport(true);
+    setShowMonthReport(true);
+    setShowYearReport(false);
+    setForMonthlyReport({
+      color: "white",
+      backgroundColor: "#1E84A4",
+      borderRadius: 10,
+    });
+    setForYearlyReport({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 10,
+    });
+
+    const request_model = {
+      student_id: route.params.id,
+      yearMonth: moment(FROMDATE).format("YYYY") + "-" + parsedResult,
+    };
+    async function getData() {
+      try {
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: "Token " + `${token}`,
+        };
+        const res = await axios.post(
+          `${subURL}/AttendanceDetailByStudentIDMonthYear/`,
+          request_model,
+          {
+            headers: headers,
+          }
+        );
+
+        const filteredAttendance = res.data.filter((item) => {
+          const date = new Date(item.attendance_date);
+          return date.getMonth() + 1 === parseInt(month) + 1;
+        });
+        let counts = {};
+        filteredAttendance.map((item) => {
+          const date = new Date(item.attendance_date);
+          const day = date.getDate();
+          // console.log("day is", day);
+          if (!counts[day]) {
+            counts[day] = item.attendance_status;
+          }
+        });
+        setDailyAttendance(counts);
+        // console.log(dailyAttendance);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
   }
   return (
     <>
       <View style={styles.BtnContainer}>
         <BgButton onPress={yearlyReport} style={forYearlyReport}>
-          Yearly Report
+          Yearly report
         </BgButton>
 
         <BgButton onPress={monthlyReport} style={forMonthlyReport}>
-          Monthly Report
+          Monthly report
         </BgButton>
       </View>
 
@@ -328,18 +401,16 @@ const AttendanceReport = () => {
         <View
           style={[
             {
-              // Try setting `flexDirection` to `"row"`.
               flex: 0.5,
               flexDirection: "column",
-              backgroundColor:'white'
+              backgroundColor: "white",
             },
           ]}
         >
-          <View style={{ flex: 1 }}>
+          <View style={styles.flexOne}>
             <View
               style={[
                 {
-                  // Try setting `flexDirection` to `"row"`.
                   flexDirection: "row",
                   flex: 1,
                 },
@@ -351,19 +422,11 @@ const AttendanceReport = () => {
 
                   alignItems: "flex-start",
                   justifyContent: "center",
-                  //right: 12,
+
                   left: 29,
                 }}
               >
-                <Text
-                  style={{
-                    fontFamily: "HindSemiBold",
-                    fontSize: 18,
-                    top: "3%",
-                  }}
-                >
-                  Select Year -
-                </Text>
+                <Text style={styles.heading}>Select Year -</Text>
               </View>
               <View
                 style={{
@@ -375,19 +438,12 @@ const AttendanceReport = () => {
                 <UnderlinedInput
                   value={fromText || moment(FROMDATE).format("YYYY")}
                   placeholder="Select Year"
-                  style={
-                    isFromDateFocused
-                      ? styles.focusStyle
-                      : fromDateInputIsInValid && styles.errorBorderColorDate
-                  }
                   blur={fromDateBlurHandler}
                   onFocus={onFocusFromHandler}
                   onChangeText={frmDateHandler}
                   onPressIn={() => showFromMode("date")}
                 />
-                {fromDateInputIsInValid && (
-                  <Text style={styles.commonErrorMsg}>Select from date</Text>
-                )}
+
                 {fromShow && (
                   <DateTimePicker
                     testID="dateTimePicker"
@@ -401,21 +457,19 @@ const AttendanceReport = () => {
               </View>
             </View>
           </View>
-          <View style={{ flex: 1 }}>
+          <View style={styles.flexOne}>
             <View
               style={[
                 {
-                  // Try setting `flexDirection` to `"row"`.
                   flexDirection: "row",
                   flex: 1,
                 },
               ]}
             >
-              <View style={{ flex: 1 }}>
+              <View style={styles.flexOne}>
                 <View
                   style={[
                     {
-                      // Try setting `flexDirection` to `"row"`.
                       flexDirection: "row",
                       flex: 1,
                     },
@@ -427,14 +481,14 @@ const AttendanceReport = () => {
 
                       alignItems: "flex-start",
                       justifyContent: "center",
-                      //right: 12,
+
                       left: 29,
                     }}
                   >
                     <Text
                       style={{
                         fontFamily: "HindSemiBold",
-                        fontSize: 18,
+                        fontSize: 15,
                       }}
                     >
                       Name :
@@ -450,7 +504,7 @@ const AttendanceReport = () => {
                     <Text
                       style={{
                         fontFamily: "HindMedium",
-                        fontSize: 18,
+                        fontSize: 15,
                       }}
                     >
                       {route.params.name}
@@ -458,11 +512,10 @@ const AttendanceReport = () => {
                   </View>
                 </View>
               </View>
-              <View style={{ flex: 1 }}>
+              <View style={styles.flexOne}>
                 <View
                   style={[
                     {
-                      // Try setting `flexDirection` to `"row"`.
                       flexDirection: "row",
                       flex: 1,
                     },
@@ -474,14 +527,14 @@ const AttendanceReport = () => {
 
                       alignItems: "flex-start",
                       justifyContent: "center",
-                      //right: 12,
+
                       left: 29,
                     }}
                   >
                     <Text
                       style={{
                         fontFamily: "HindSemiBold",
-                        fontSize: 18,
+                        fontSize: 15,
                       }}
                     >
                       Reg No :
@@ -497,7 +550,7 @@ const AttendanceReport = () => {
                     <Text
                       style={{
                         fontFamily: "HindMedium",
-                        fontSize: 18,
+                        fontSize: 15,
                       }}
                     >
                       {route.params.regno}
@@ -540,6 +593,15 @@ const AttendanceReport = () => {
             >
               <Text style={styles.headerText}>Absent</Text>
             </View>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={styles.headerText}>Holiday</Text>
+            </View>
           </View>
 
           <View
@@ -547,94 +609,110 @@ const AttendanceReport = () => {
               { flex: 1 },
               {
                 flexDirection: "column",
-                // top: keyboardStatus == "Keyboard Hidden" ? "11.5%" : "18%",
+
                 paddingHorizontal: 10,
                 marginHorizontal: 10,
               },
             ]}
           >
-        <View
-          style={[
-            { flex: 1 },
-            {
-              flexDirection: "column",
-             // top:  "18%",
-              // paddingHorizontal: 10,
-              // marginHorizontal: 10,
-            },
-          ]}
-        >
-          <View style={{ flex: 8, bottom: 2 }}>
-            <ScrollView>
-               {Object.entries(monthlyCount).map(([month, counts]) => (
-                  <Pressable onPress={showSingleReport.bind(this, month)}>
-                    <View
-                      style={[
-                        { flex: 1 },
-                        {
-                          // Try setting `flexDirection` to `"row"`.
-                          flexDirection: "row",
-                          borderWidth: 1,
-                          paddingVertical: 7,
-                        },
-                      ]}
+            <View
+              style={[
+                { flex: 1 },
+                {
+                  flexDirection: "column",
+                },
+              ]}
+            >
+              <View style={{ flex: 8, bottom: 2 }}>
+                <ScrollView>
+                  {Object.entries(monthlyCount).map(([month, counts]) => (
+                    <TouchableHighlight
+                      onPress={showSingleReport.bind(this, month)}
+                      underlayColor="#E5E7E9"
                     >
                       <View
-                        style={{
-                          flex: 1,
-
-                          alignItems: "center",
-                        }}
+                        style={[
+                          { flex: 1 },
+                          {
+                            flexDirection: "row",
+                            borderWidth: 1,
+                            paddingVertical: 7,
+                          },
+                        ]}
                       >
-                        <Text
+                        <View
                           style={{
-                            fontSize: 15,
-                            fontFamily: "HindSemiBold",
+                            flex: 1,
+
+                            alignItems: "center",
                           }}
                         >
-                          {monthNames[month]}
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          flex: 1,
-
-                          alignItems: "center",
-                        }}
-                      >
-                        <Text
+                          <Text
+                            style={{
+                              fontSize: 15,
+                              fontFamily: "HindSemiBold",
+                            }}
+                          >
+                            {monthNames[month]}
+                          </Text>
+                        </View>
+                        <View
                           style={{
-                            color: "green",
-                            fontSize: 15,
-                            fontFamily: "HindSemiBold",
+                            flex: 1,
+
+                            alignItems: "center",
                           }}
                         >
-                          {counts.present}
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          flex: 1,
-
-                          alignItems: "center",
-                        }}
-                      >
-                        <Text
+                          <Text
+                            style={{
+                              color: "green",
+                              fontSize: 15,
+                              fontFamily: "HindSemiBold",
+                            }}
+                          >
+                            {counts.present}
+                          </Text>
+                        </View>
+                        <View
                           style={{
-                            color: "red",
-                            fontSize: 15,
-                            fontFamily: "HindSemiBold",
+                            flex: 1,
+
+                            alignItems: "center",
                           }}
                         >
-                          {counts.absent}
-                        </Text>
+                          <Text
+                            style={{
+                              color: "red",
+                              fontSize: 15,
+                              fontFamily: "HindSemiBold",
+                            }}
+                          >
+                            {counts.absent}
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            flex: 1,
+
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text
+                            style={{
+                              color: "#D4AC0D",
+                              fontSize: 15,
+                              fontFamily: "HindSemiBold",
+                            }}
+                          >
+                            {counts.holiday}
+                          </Text>
+                        </View>
                       </View>
-                    </View>
-                  </Pressable>
-                ))}
-            </ScrollView>
-          </View>
-        </View>
+                    </TouchableHighlight>
+                  ))}
+                </ScrollView>
+              </View>
+            </View>
           </View>
           <View style={{ flex: 0.2 }}>
             <TeachersHome />
@@ -643,16 +721,12 @@ const AttendanceReport = () => {
       )}
 
       {showMonthReport && (
-        <View style={[{ flexDirection: "column",backgroundColor:'white' }]}>
-          <View style={{}}>
+        <View style={[{ flexDirection: "column", backgroundColor: "white" }]}>
+          <View>
             <View
-              style={[
-                {
-                  // Try setting `flexDirection` to `"row"`.
-                  flexDirection: "row",
-                  
-                },
-              ]}
+              style={{
+                flexDirection: "row",
+              }}
             >
               <View
                 style={{
@@ -660,19 +734,11 @@ const AttendanceReport = () => {
 
                   alignItems: "flex-start",
                   justifyContent: "center",
-                  //right: 12,
+
                   left: 29,
                 }}
               >
-                <Text
-                  style={{
-                    fontFamily: "HindSemiBold",
-                    fontSize: 18,
-                    top: "3%",
-                  }}
-                >
-                  Select Year
-                </Text>
+                <Text style={styles.heading}>Select Year</Text>
               </View>
               <View
                 style={{
@@ -684,19 +750,12 @@ const AttendanceReport = () => {
                 <UnderlinedInput
                   value={fromText || moment(FROMDATE).format("YYYY")}
                   placeholder="Select Year"
-                  style={
-                    isFromDateFocused
-                      ? styles.focusStyle
-                      : fromDateInputIsInValid && styles.errorBorderColorDate
-                  }
                   blur={fromDateBlurHandler}
                   onFocus={onFocusFromHandler}
                   onChangeText={frmDateHandler}
                   onPressIn={() => showFromMode("date")}
                 />
-                {fromDateInputIsInValid && (
-                  <Text style={styles.commonErrorMsg}>Select from date</Text>
-                )}
+
                 {fromShow && (
                   <DateTimePicker
                     testID="dateTimePicker"
@@ -711,90 +770,82 @@ const AttendanceReport = () => {
             </View>
           </View>
 
-          <View
-            style={[
-                  { flexDirection: "row", marginVertical: 10 },
-                  ]}
+          {!viewSingleReport && (
+            <View style={[{ flexDirection: "row", marginVertical: 10 }]}>
+              <View style={{ flex: 0.9, left: 29, justifyContent: "center" }}>
+                <Text
+                  style={{
+                    fontFamily: "HindSemiBold",
+                    fontSize: 15,
+                  }}
                 >
-                  <View style={{ flex: 0.9,left:29,justifyContent:'center' }}>
-                    <Text
-                      style={{
-                        fontFamily: "HindSemiBold",
-                        fontSize: 18,
-                       // marginLeft: "11%",
-                       // marginTop: "10%",
-                      }}
-                    >
-                      Select Month
-                    </Text>
-                  </View>
-                  <View style={{ flex: 1 ,paddingRight:27}}>
-                  <SelectList
-               
-                      defaultOption={{
-                        key: KEY,
-                        value: VALUE,
-                      }}
-                      setSelected={setSelected}
-                      data={months}
-                      onSelect={viewYearMonthReport}
-                      placeholder="Month"
-                      save="key"
-                      // boxStyles={{backgroundColor:'yellow'}}
-                      // dropdownItemStyles={{backgroundColor:'black'}}
-                      // dropdownStyles={{backgroundColor:'cyan'}}
-                      // dropdownShown={false}
-                      dropdownTextStyles={{
-                        fontSize: 15,
-                        fontFamily: "HindMedium",
-                        //backgroundColor:'purple'
-                      }}
-                      inputStyles={{ fontSize:15, fontFamily: "HindMedium"}}
-                    />
-                  </View>
-                </View>
-          {/* <View style={{ left: "7%", top: "15%" }}>
-            <Text
-              style={{
-                fontFamily: "HindRegular",
-                fontSize: 18,
-              }}
-            >
-              Name : {""} {""}
-              {""} {""} {""} {""}
-              {route.params.name}
-            </Text>
-            <Text
-              style={{
-                fontFamily: "HindRegular",
-                fontSize: 18,
-              }}
-            >
-              Reg No : {""} {""}
-              {""} {""}
-              {""} {""}
-              {route.params.regno}
-            </Text>
-          </View> */}
-          <View style={{marginTop:'10%' }}>
+                  Select Month
+                </Text>
+              </View>
+              <View style={{ flex: 1, paddingRight: 27 }}>
+                <SelectList
+                  defaultOption={{
+                    key: KEY,
+                    value: VALUE,
+                  }}
+                  setSelected={setSelected}
+                  data={months}
+                  onSelect={viewYearMonthReport}
+                  placeholder="Month"
+                  save="key"
+                  dropdownTextStyles={{
+                    fontSize: 15,
+                    fontFamily: "HindMedium",
+                  }}
+                  inputStyles={{ fontSize: 15, fontFamily: "HindMedium" }}
+                />
+              </View>
+            </View>
+          )}
+
+          {viewSingleReport && (
+            <View style={[{ flexDirection: "row", marginVertical: 10 }]}>
+              <View style={{ flex: 0.9, left: 29, justifyContent: "center" }}>
+                <Text
+                  style={{
+                    fontFamily: "HindSemiBold",
+                    fontSize: 18,
+                  }}
+                >
+                  Select Month
+                </Text>
+              </View>
+              <View style={{ flex: 1, paddingRight: 27 }}>
+                <SelectList
+                  defaultOption={{
+                    key: singleReportKey,
+                    value: singleReportValue,
+                  }}
+                  setSelected={setSelected}
+                  data={months}
+                  onSelect={viewYearMonthReport}
+                  placeholder="Month"
+                  dropdownTextStyles={{
+                    fontSize: 15,
+                    fontFamily: "HindMedium",
+                  }}
+                  inputStyles={{ fontSize: 15, fontFamily: "HindMedium" }}
+                />
+              </View>
+            </View>
+          )}
+
+          <View style={{ marginTop: "10%" }}>
             <View
-              style={[
-                {
-                  // Try setting `flexDirection` to `"row"`.
-                  flexDirection: "row",
-                  // flex: 1,
-                },
-              ]}
+              style={{
+                flexDirection: "row",
+              }}
             >
-              <View style={{ flex: 1 }}>
+              <View style={styles.flexOne}>
                 <View
-                  style={[
-                    {
-                      // Try setting `flexDirection` to `"row"`.
-                      flexDirection: "row",
-                     // flex: 1,
-                    },
-                  ]}
+                  style={{
+                    flexDirection: "row",
+                  }}
                 >
                   <View
                     style={{
@@ -802,14 +853,14 @@ const AttendanceReport = () => {
 
                       alignItems: "flex-start",
                       justifyContent: "center",
-                      //right: 12,
+
                       left: 29,
                     }}
                   >
                     <Text
                       style={{
                         fontFamily: "HindSemiBold",
-                        fontSize: 18,
+                        fontSize: 15,
                       }}
                     >
                       Name :
@@ -825,7 +876,7 @@ const AttendanceReport = () => {
                     <Text
                       style={{
                         fontFamily: "HindMedium",
-                        fontSize: 18,
+                        fontSize: 15,
                       }}
                     >
                       {route.params.name}
@@ -835,13 +886,10 @@ const AttendanceReport = () => {
               </View>
               <View style={{ flex: 1 }}>
                 <View
-                  style={[
-                    {
-                      // Try setting `flexDirection` to `"row"`.
-                      flexDirection: "row",
-                      flex: 1,
-                    },
-                  ]}
+                  style={{
+                    flexDirection: "row",
+                    flex: 1,
+                  }}
                 >
                   <View
                     style={{
@@ -849,14 +897,14 @@ const AttendanceReport = () => {
 
                       alignItems: "flex-start",
                       justifyContent: "center",
-                      //right: 12,
+
                       left: 29,
                     }}
                   >
                     <Text
                       style={{
                         fontFamily: "HindSemiBold",
-                        fontSize: 18,
+                        fontSize: 15,
                       }}
                     >
                       Reg No :
@@ -872,7 +920,7 @@ const AttendanceReport = () => {
                     <Text
                       style={{
                         fontFamily: "HindMedium",
-                        fontSize: 18,
+                        fontSize: 15,
                       }}
                     >
                       {route.params.regno}
@@ -886,7 +934,7 @@ const AttendanceReport = () => {
       )}
       {showMonthReport && (
         <View style={{ flex: 1, backgroundColor: "white" }}>
-          <View style={[styles.tableHeader,{marginTop:20}]}>
+          <View style={[styles.tableHeader, { marginTop: 20 }]}>
             <View
               style={{
                 flex: 1,
@@ -912,7 +960,7 @@ const AttendanceReport = () => {
               { flex: 1 },
               {
                 flexDirection: "column",
-                // top: keyboardStatus == "Keyboard Hidden" ? "11.5%" : "18%",
+
                 paddingHorizontal: 10,
                 marginHorizontal: 10,
               },
@@ -925,7 +973,6 @@ const AttendanceReport = () => {
                     style={[
                       { flex: 1 },
                       {
-                        // Try setting `flexDirection` to `"row"`.
                         flexDirection: "row",
                         borderWidth: 1,
                       },
@@ -955,7 +1002,12 @@ const AttendanceReport = () => {
                     >
                       <Text
                         style={{
-                          color: status === "present" ? "green" : "red",
+                          color:
+                            status === "present"
+                              ? "green"
+                              : status === "absent"
+                              ? "red"
+                              : "#D4AC0D",
                           fontSize: 15,
                           fontFamily: "HindSemiBold",
                         }}
@@ -979,13 +1031,7 @@ const AttendanceReport = () => {
 
 export default AttendanceReport;
 
-const deviceHieght = Dimensions.get("window").height;
-const deviceWidth = Dimensions.get("window").width;
-
 const styles = StyleSheet.create({
-  descriptionTextStyle: {
-    fontSize: 18,
-  },
   BtnContainer: {
     fontSize: 24,
     flexDirection: "row",
@@ -994,223 +1040,26 @@ const styles = StyleSheet.create({
 
     backgroundColor: "#FDFEFE",
   },
-  errorBorderColor: {
-    borderColor: "red",
-  },
-  viewStyle: {
-    flex: 1,
-    flexDirection: "row",
-    backgroundColor: "#D3D2FF",
-    marginVertical: 10,
-    marginHorizontal: 20,
-    borderWidth: 1,
-  },
-  overallContainer: {
-    flex: 1,
-    flexDirection: "row",
-    top: "10%",
-  },
-  iconContainer: {
-    flex: 0.3,
-    justifyContent: "center",
-    bottom: "1%",
-    alignItems: "flex-start",
-  },
-  dateContainer: {
-    flex: 2,
-    //right: "5%",
-  },
-  studentItem: {
-    // width: "90%",
 
-    padding: 11,
-    marginVertical: 8,
-    // //  backgroundColor: "#3e04c3",
-    backgroundColor: "#f0f0fc",
-    flexDirection: "row",
-    alignItems: "center",
-
-    justifyContent: "space-between",
-    borderRadius: 6,
-  },
-  textBase: {
-    color: "black",
-    marginRight: 33,
-  },
-  leaveSpace: {
-    width: 50, // or whatever size you need
-    height: 10,
-  },
-  dateLabelSpace: {
-    width: 30, // or whatever size you need
-    height: 10,
-  },
-  inputForm: {
-    flex: 2,
-    paddingHorizontal: 20,
-    marginTop: "30%",
-    //paddingTop: '5%',
-    backgroundColor: "white",
-    // height: "100%",
-  },
-  description: {
-    fontSize: 20,
-    marginBottom: 4,
-    fontWeight: "bold",
-  },
-  space: {
-    width: 20, // or whatever size you need
-    height: 20,
-  },
-  errorBorderColorDate: {
-    borderBottomColor: "red",
-  },
-  commonErrorMsg: {
-    color: "red",
-    left: 20,
-    fontFamily: "HindRegular",
-    fontSize: deviceWidth < 370 ? 16 : 18,
-    top: deviceHieght > 800 ? -3 : 1,
-  },
-  errorSelectedColor: {
-    borderColor: "red",
-  },
-  errorText: {
-    color: "red",
-    left: 20,
-    fontFamily: "HindRegular",
-    fontSize: 16,
-  },
-  labelStyle: {
-    fontFamily: "HindBold",
-    fontSize: 16,
-  },
-  title: {
-    flex: 0.1,
-    alignItems: "center",
-    justifyContent: "center",
-    top: "5%",
-  },
   tableHeader: {
     flex: 0.1,
     flexDirection: "row",
     borderWidth: 1,
     marginHorizontal: 20,
-    backgroundColor: "darkblue",
+    backgroundColor: "#1E84A4",
   },
-  tableText: {
-    flex: 1,
-    flexDirection: "row",
-    // paddingHorizontal:10,
-    // marginHorizontal:10,
-    borderBottomWidth: 1,
-    borderRightWidth: 1,
-    borderLeftWidth: 1,
-  },
+
   headerText: {
     fontFamily: "HindBold",
     fontSize: 16,
     color: "white",
   },
-  th: {
-    padding: 5,
-    marginRight: 13,
-    //fontSize: 24,
+  flexOne: {
+    flex: 1,
   },
-
-  tableTitle: {
-    // padding: 5,
-    margin: 7,
-    fontFamily: "HindMedium",
-    fontSize: 20,
-  },
-  tableCell: {
-    width: 110,
-
-    marginLeft: 35,
-  },
-
-  tableMarks: {
-    width: 10,
-
-    marginLeft: 35,
-  },
-
-  tableRow: {
-    height: "9%",
-    borderBottomColor: "black",
-    borderBottomWidth: 2,
-  },
-  space: {
-    width: 20, // or whatever size you need
-    height: 20,
-  },
-  searchBar: {
-    //top: 10,
-    backgroundColor: "#F0F3F4",
-    marginTop: 10,
-    marginBottom: 20,
-  },
-  root: {
-    // backgroundColor: "#EBECFO",
-    backgroundColor: "white",
-    height: "100%",
+  heading: {
+    fontFamily: "HindSemiBold",
+    fontSize: 15,
+    top: "3%",
   },
 });
-
-// import { useState, useEffect } from 'react';
-
-// function AttendanceReport() {
-//   const [attendance, setAttendance] = useState([]);
-//   const [selectedMonth, setSelectedMonth] = useState(null);
-//   const [dailyAttendance, setDailyAttendance] = useState({});
-
-//   useEffect(() => {
-//     // fetch attendance data from the backend
-//     fetch('https://your-backend-url.com/attendance')
-//       .then(response => response.json())
-//       .then(data => setAttendance(data));
-//   }, []);
-
-//   const handleMonthSelection = month => {
-//     setSelectedMonth(month);
-
-//     // filter the attendance data for the selected month
-//     const filteredAttendance = attendance.filter(
-//       item => new Date(item.attendance_date).getMonth() === month
-//     );
-
-//     //create an object for each day of the month
-//     let counts = {};
-//     filteredAttendance.map(item => {
-//       const date = new Date(item.attendance_date);
-//       const day = date.getDate();
-//       if (!counts[day]) {
-//         counts[day] = item.attendance_status;
-//       }
-//     });
-//     setDailyAttendance(counts);
-//   };
-
-//   return (
-//     <View>
-//       <Picker
-//         selectedValue={selectedMonth}
-//         onValueChange={month => handleMonthSelection(month)}
-//       >
-//         {monthNames.map((month, index) => (
-//           <Picker.Item key={index} label={month} value={index} />
-//         ))}
-//       </Picker>
-//       <View>
-//         {Object.entries(dailyAttendance).map(([day, status]) => (
-//             <View key={day}>
-//                 <Text>{day}</Text>
-//                 <Text>{status}</Text>
-//             </View>
-//         ))}
-//       </View>
-//     </View>
-//   );
-// }
-// const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

@@ -100,14 +100,14 @@ const TeachersCalendar = () => {
   const [btn, setBtn] = useState(false);
 
   const [forCalendarList, setForCalendarList] = useState({
-    backgroundColor: "#0C60F4",
+    backgroundColor: "#1E84A4",
     color: "white",
-    borderRadius: 10,
+    borderRadius: 5,
   });
   const [forCalendarForm, setForCalendarForm] = useState({
     color: "black",
     backgroundColor: "#F4F6F6",
-    borderRadius: 10,
+    borderRadius: 5,
   });
 
   const [selected, setSelected] = useState("");
@@ -403,12 +403,12 @@ const TeachersCalendar = () => {
       setForCalendarList({
         backgroundColor: "#F4F6F6",
         color: "black",
-        borderRadius: 10,
+        borderRadius: 5,
       });
       setForCalendarForm({
         color: "white",
-        backgroundColor: "#1E8449",
-        borderRadius: 10,
+        backgroundColor: "#1E84A4",
+        borderRadius: 5,
       });
     }
   }
@@ -445,6 +445,7 @@ const TeachersCalendar = () => {
     const FormData = {
       description: description,
       created_by: user,
+
       startdate: FROMDATE,
       enddate: TODATE,
       titlee: title,
@@ -562,12 +563,12 @@ const TeachersCalendar = () => {
           setForCalendarList({
             backgroundColor: "#F4F6F6",
             color: "black",
-            borderRadius: 10,
+            borderRadius: 5,
           });
           setForCalendarForm({
             color: "white",
-            backgroundColor: "#1E8449",
-            borderRadius: 10,
+            backgroundColor: "#1E84A4",
+            borderRadius: 5,
           });
 
           setShowForm(false);
@@ -626,14 +627,14 @@ const TeachersCalendar = () => {
 
   function showCalendarForm() {
     setForCalendarList({
-      backgroundColor: "#0C60F4",
+      backgroundColor: "#1E84A4",
       color: "white",
-      borderRadius: 10,
+      borderRadius: 5,
     });
     setForCalendarForm({
       color: "black",
       backgroundColor: "#F4F6F6",
-      borderRadius: 10,
+      borderRadius: 5,
     });
     setShowForm(true);
     setShowList(false);
@@ -674,13 +675,13 @@ const TeachersCalendar = () => {
     fetchData();
     setForCalendarForm({
       color: "white",
-      backgroundColor: "#1E8449",
-      borderRadius: 10,
+      backgroundColor: "#1E84A4",
+      borderRadius: 5,
     });
     setForCalendarList({
       backgroundColor: "#F4F6F6",
       color: "black",
-      borderRadius: 10,
+      borderRadius: 5,
     });
     setShowForm(false);
     setShowList(true);
@@ -719,7 +720,7 @@ const TeachersCalendar = () => {
   //   });
   //   setForCalendarForm({
   //     color: "white",
-  //     backgroundColor: "#1E8449",
+  //     backgroundColor: "#1E84A4",
   //     borderRadius: 10,
   //   });
   //   // setShowForm(true);
@@ -745,12 +746,12 @@ const TeachersCalendar = () => {
     setForCalendarList({
       backgroundColor: "#F4F6F6",
       color: "black",
-      borderRadius: 10,
+      borderRadius: 5,
     });
     setForCalendarForm({
       color: "white",
-      backgroundColor: "#1E8449",
-      borderRadius: 10,
+      backgroundColor: "#1E84A4",
+      borderRadius: 5,
     });
     setShowForm(true);
     setShowList(false);
@@ -893,13 +894,13 @@ const TeachersCalendar = () => {
 
     setForCalendarList({
       color: "white",
-      backgroundColor: "#1E8449",
-      borderRadius: 10,
+      backgroundColor: "#1E84A4",
+      borderRadius: 5,
     });
     setForCalendarForm({
       backgroundColor: "#F4F6F6",
       color: "black",
-      borderRadius: 10,
+      borderRadius: 5,
     });
   }
 
@@ -919,15 +920,24 @@ const TeachersCalendar = () => {
       )} */}
 
       {showInitialBtn && (
-        <View style={styles.BtnContainer}>
-          <BgButton onPress={showCalendarForm} style={forCalendarList}>
-            Add Event
-          </BgButton>
+        <Animated.View
+          style={[
+            {
+              height: animateHeaderHeight,
+              backgroundColor: animateHeaderBackGround,
+            },
+          ]}
+        >
+          <View style={styles.BtnContainer}>
+            <BgButton onPress={showCalendarForm} style={forCalendarList}>
+              Add Event
+            </BgButton>
 
-          <BgButton onPress={showCalendar} style={forCalendarForm}>
-            Show Event
-          </BgButton>
-        </View>
+            <BgButton onPress={showCalendar} style={forCalendarForm}>
+              Show Event
+            </BgButton>
+          </View>
+        </Animated.View>
       )}
       {showForm && (
         <>
@@ -1279,7 +1289,7 @@ const TeachersCalendar = () => {
               fontFamily: "HindRegular",
               fontSize: 18,
             }}
-         //   onClearPress={() => setFilteredData(filteredData)}
+            //   onClearPress={() => setFilteredData(filteredData)}
             placeholder="Search here"
             onChangeText={(text) => searchFilter(text)}
             value={searchText}
@@ -1702,9 +1712,9 @@ const styles = StyleSheet.create({
   },
 
   btnSubmit: {
-    marginTop: deviceHieght < 600 ? "5%" : "10%",
+    marginTop: deviceHieght < 600 ? "5%" : "25%",
     width: "60%",
-    marginLeft: 153,
+    marginLeft: 155,
   },
   btnSubmitNew: {
     marginTop: deviceHieght < 600 ? "5%" : "5%",
@@ -1791,7 +1801,7 @@ const styles = StyleSheet.create({
     width: "50%",
   },
   cancel: {
-    marginTop: -140,
+    marginTop: -130,
     marginLeft: -15,
     width: "50%",
   },
@@ -1837,7 +1847,7 @@ const styles = StyleSheet.create({
     color: "red",
     left: 20,
     fontFamily: "HindRegular",
-    fontSize: deviceWidth < 370 ? 16 : 18,
+    fontSize: deviceWidth < 370 ? 16 : 15,
     top: deviceHieght > 800 ? -3 : 1,
   },
   spinnerTextStyle: {

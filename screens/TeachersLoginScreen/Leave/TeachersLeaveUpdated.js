@@ -1187,7 +1187,7 @@ const TeachersLeaveUpdated = () => {
               onPress={showLeaveList}
               style={styles.cardStyle}
             /> */}
-            <View style={{ fontFamily: "HindSemiBold" }}>
+            <View>
               <NativeButton
                 isDisabled={bgColor.length == 0 ? true : false}
                 onPress={showLeaveList}
@@ -1213,9 +1213,11 @@ const TeachersLeaveUpdated = () => {
             {/* </Pressable> */}
           </View>
 
-          <View style={{ flex: 0.2 }}>
-            <TeachersHome />
-          </View>
+          {keyboardStatus == "Keyboard Hidden" && (
+            <View style={{ flex: 0.2 }}>
+              <TeachersHome />
+            </View>
+          )}
         </View>
       )}
 
@@ -1236,7 +1238,7 @@ const TeachersLeaveUpdated = () => {
               keyboardStatus == "Keyboard Shown" && { top: "5%" },
             ]}
           >
-            <NativeText bold style={{ fontSize: 20 }}>
+            <NativeText bold style={{ fontSize: 17 }}>
               Leave Form
             </NativeText>
           </View>
@@ -1337,14 +1339,7 @@ const TeachersLeaveUpdated = () => {
                   ]}
                 >
                   <View style={{ flex: 1 }}>
-                    <Text
-                      style={{
-                        fontFamily: "HindRegular",
-                        fontSize: 18,
-                        marginLeft: "11%",
-                        marginTop: "10%",
-                      }}
-                    >
+                    <Text style={[styles.labelStyle, { left: "9%" }]}>
                       Leave Type
                     </Text>
                   </View>
@@ -1384,7 +1379,7 @@ const TeachersLeaveUpdated = () => {
                   <Text
                     style={{
                       fontFamily: "HindRegular",
-                      fontSize: 18,
+                      fontSize: 15,
                       top: "3%",
                       //marginLeft: 10,
                     }}
@@ -1409,11 +1404,11 @@ const TeachersLeaveUpdated = () => {
                       // { marginHorizontal: 15, marginVertical: 10 },
                     ]}
                     dropdownTextStyles={{
-                      fontSize: 18,
+                      fontSize: 15,
                       fontFamily: "HindRegular",
                       //marginHorizontal: 25,
                     }}
-                    inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                    inputStyles={{ fontSize: 15, fontFamily: "HindRegular" }}
                   />
                 </View>
               )}
@@ -1636,7 +1631,7 @@ const TeachersLeaveUpdated = () => {
             <BackButton onPress={teacherLeaveBackHandler} />
           </View>
           <View style={styles.headingStyle}>
-            <NativeText bold style={{ fontSize: 20 }}>
+            <NativeText bold style={{ fontSize: 18 }}>
               Teachers Leave
             </NativeText>
           </View>
@@ -1644,7 +1639,7 @@ const TeachersLeaveUpdated = () => {
             <SearchBar
               onSubmitEditing={Keyboard.dismiss}
               style={styles.searchBar}
-              textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
+              textInputStyle={{ fontFamily: "HindRegular", fontSize: 17 }}
               placeholder="Search here by leave type"
               onChangeText={(text) => searchFilter(text)}
               value={searchText}
@@ -2006,7 +2001,7 @@ const TeachersLeaveUpdated = () => {
                 <BackButton onPress={leaveBackHandler} />
               </View>
               <View style={{ flex: 0.2, alignSelf: "center" }}>
-                <NativeText bold style={{ fontSize: 20 }}>
+                <NativeText bold style={{ fontSize: 17}}>
                   Leave List
                 </NativeText>
               </View>
@@ -2029,11 +2024,11 @@ const TeachersLeaveUpdated = () => {
             ]}
             // boxStyles={{ borderRadius: 0 }}
             dropdownTextStyles={{
-              fontSize: 18,
+              fontSize: 15,
               //marginHorizontal: 20,
               fontFamily: "HindRegular",
             }}
-            inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+            inputStyles={{ fontSize: 15, fontFamily: "HindRegular" }}
             save="key"
           />
           {/* </View> */}
@@ -2044,7 +2039,7 @@ const TeachersLeaveUpdated = () => {
                 <SearchBar
                   onSubmitEditing={Keyboard.dismiss}
                   style={styles.searchBarNew}
-                  textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
+                  textInputStyle={{ fontFamily: "HindRegular", fontSize: 17 }}
                   placeholder="Search here by leave type"
                   onChangeText={(text) => searchFilter(text)}
                   value={searchText}
@@ -2067,7 +2062,7 @@ const TeachersLeaveUpdated = () => {
                       alignItems: "center",
                     }}
                   >
-                    <NativeText bold style={{ fontSize: 18 }}>
+                    <NativeText bold style={{ fontSize: 15 }}>
                       Sort by -
                     </NativeText>
                   </View>
@@ -2563,9 +2558,11 @@ const TeachersLeaveUpdated = () => {
             </View>
             {/* } */}
           </View>
-          <View style={{ flex: 0.1 }}>
-            <TeachersHome />
-          </View>
+          {keyboardStatus == "Keyboard Hidden" && (
+            <View style={{ flex: 0.1 }}>
+              <TeachersHome />
+            </View>
+          )}
         </View>
       )}
     </>
@@ -2648,7 +2645,7 @@ const styles = StyleSheet.create({
     color: "red",
     left: 20,
     fontFamily: "HindRegular",
-    fontSize: deviceWidth < 370 ? 16 : 18,
+    fontSize: deviceWidth < 370 ? 16 : 15,
     top: deviceHieght > 800 ? -3 : 1,
   },
   // labels: {
@@ -2795,7 +2792,8 @@ const styles = StyleSheet.create({
     elevation: 5,
     borderRadius: 10,
     padding: 10,
-    backgroundColor: "#2E799B",
+    //backgroundColor: "#2E799B",
+    backgroundColor: "#1E84A4",
     width: "80%",
   },
   labelStyle: {
@@ -2824,7 +2822,7 @@ const styles = StyleSheet.create({
     cursor: "pointer",
   },
   msgText: {
-    fontSize: 18,
+    fontSize: 15,
     fontFamily: "HindSemiBold",
     color: "#6B0000",
   },

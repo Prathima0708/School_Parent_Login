@@ -65,66 +65,61 @@ const DisplayClass = ({ class_name, section, id }) => {
     // return "darkblue"
   }
   let result = filteredCT?.filter((ele) => ele.id == ID);
-  console.log("length is ", result.length);
+
   useEffect(() => {
     if (result.length == 0) {
       setBgColor(false);
       // setBgColor({ backgroundColor: "orange" });
-      console.log("false");
     } else {
       setBgColor(true);
       // setBgColor({ backgroundColor: "darkblue" });
-      console.log("true");
     }
   });
   return (
     <>
-    <View style={styles.space}/>
-    <View style={{width:'30%'}}>
-      <Pressable onPress={navigateHander}>
-        <Card
-          // key={key}
-          style={{
-            marginVertical: 15,
-            marginHorizontal: 10,
+      <View style={styles.space} />
+      <View style={{ width: "30%" }}>
+        <Pressable onPress={navigateHander}>
+          <Card
+            // key={key}
+            style={{
+              marginVertical: 15,
+              marginHorizontal: 10,
 
-            elevation: 5,
-            borderRadius: 10,
-            paddingBottom: 15,
-            //  backgroundColor: getBg(ID),
-            backgroundColor: bgColor ? "orange" : "darkblue",
-            // backgroundColor: bgColor,
-            width: "110%",
-          }}
-        >
-          <Card.Content style={{ margin: 5, marginTop: 0 }}>
-            <View style={{ top: 10}}>
-              <Text
-                style={{
-                  fontSize: 15,
-                  fontFamily: "HindSemiBold",
-                  color: "white",
-                }}
-              >
-                {class_name} {"-"} {section}
-              </Text>
-            </View>
-          </Card.Content>
-          
-        </Card>
-      </Pressable>
-    </View>
+              elevation: 5,
+              borderRadius: 10,
+              paddingBottom: 15,
+              //  backgroundColor: getBg(ID),
+              backgroundColor: bgColor ? "#DE9317" : "#1E84A4",
+              // backgroundColor: bgColor,
+              width: "110%",
+            }}
+          >
+            <Card.Content style={{ margin: 5, marginTop: 0 }}>
+              <View style={{ top: 10 }}>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontFamily: "HindSemiBold",
+                    color: "white",
+                  }}
+                >
+                  {class_name} {"-"} {section}
+                </Text>
+              </View>
+            </Card.Content>
+          </Card>
+        </Pressable>
+      </View>
     </>
-    
   );
 };
 
 export default DisplayClass;
 
-
-const styles=StyleSheet.create({
-  space:{
+const styles = StyleSheet.create({
+  space: {
     width: 40,
     height: 40,
-  }
-})
+  },
+});

@@ -939,8 +939,8 @@ const TeachersMarksheet = () => {
             >
               <Text
                 style={{
-                  fontFamily: "HindBold",
-                  fontSize: 20,
+                  fontFamily: "HindSemiBold",
+                  fontSize: 15,
                   top: "5%",
                   marginLeft: 10,
                 }}
@@ -948,7 +948,7 @@ const TeachersMarksheet = () => {
                 Select class
               </Text>
               <View style={styles.space} />
-              <Text style={{ fontFamily: "HindBold", fontSize: 20, top: "5%" }}>
+              <Text style={{ fontFamily: "HindSemiBold", fontSize: 15, top: "5%" }}>
                 -
               </Text>
               <View style={styles.space} />
@@ -964,10 +964,10 @@ const TeachersMarksheet = () => {
                   placeholder="Select class"
                   boxStyles={{ borderRadius: 10, top: "4%" }}
                   dropdownTextStyles={{
-                    fontSize: 18,
+                    fontSize: 15,
                     fontFamily: "HindRegular",
                   }}
-                  inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                  inputStyles={{ fontSize: 15, fontFamily: "HindRegular" }}
                   onSelect={viewStudentList}
                 />
               )}
@@ -982,10 +982,10 @@ const TeachersMarksheet = () => {
                   placeholder="Select class"
                   boxStyles={{ borderRadius: 10, top: "4%" }}
                   dropdownTextStyles={{
-                    fontSize: 18,
+                    fontSize: 15,
                     fontFamily: "HindRegular",
                   }}
-                  inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                  inputStyles={{ fontSize: 25, fontFamily: "HindRegular" }}
                   onSelect={viewStudentList}
                 />
               )}
@@ -1674,11 +1674,11 @@ const styles = StyleSheet.create({
     top: "25%",
     borderWidth: 1,
     marginHorizontal: 20,
-    backgroundColor: "darkblue",
+    backgroundColor: "#1E84A4",
   },
   headerText: {
-    fontFamily: "HindBold",
-    fontSize: 16,
+    fontFamily: "HindSemiBold",
+    fontSize: 15,
     color: "white",
   },
   tableTitle: {

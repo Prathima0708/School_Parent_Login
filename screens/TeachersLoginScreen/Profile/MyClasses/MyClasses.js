@@ -302,7 +302,8 @@ const styles = StyleSheet.create({
   space: {
     width: 20,
     height: 20,
-    backgroundColor: "orange",
+    backgroundColor: "#DE9317",
+    left:'20%'
   },
   th: {
     padding: 5,
