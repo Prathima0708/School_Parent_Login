@@ -108,50 +108,54 @@ const AttendanceReport = () => {
     }
   }
   fetchToken();
+  // useEffect(() => {
+  //   const request_model = {
+  //     student_id: route.params.id,
+  //     year: moment(FROMDATE).format("YYYY"),
+  //   };
+
+  //   async function getData() {
+  //     try {
+  //       let headers = {
+  //         "Content-Type": "application/json; charset=utf-8",
+  //         //   Authorization: "Token " + `${token}`,
+  //       };
+  //       const res = await axios.post(
+  //         `${subURL}/AttendanceDetailByStudentIDYear/`,
+  //         request_model,
+  //         {
+  //           headers: headers,
+  //         }
+  //       );
+
+  //       setYearReport(res.data);
+  //       let counts = {};
+  //       res.data.map((item) => {
+  //         const date = new Date(item.attendance_date);
+  //         const month = date.getMonth();
+  //         if (!counts[month]) {
+  //           counts[month] = { present: 0, absent: 0, holiday: 0 };
+  //         }
+  //         if (item.attendance_status === "present") {
+  //           counts[month].present++;
+  //         }
+  //         if (item.attendance_status === "absent") {
+  //           counts[month].absent++;
+  //         }
+  //         if (item.attendance_status === "holiday") {
+  //           counts[month].holiday++;
+  //         }
+  //       });
+  //       setMonthlyCount(counts);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  //   getData();
+  // }, []);
+
   useEffect(() => {
-    const request_model = {
-      student_id: route.params.id,
-      year: moment(FROMDATE).format("YYYY"),
-    };
-
-    async function getData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-          //   Authorization: "Token " + `${token}`,
-        };
-        const res = await axios.post(
-          `${subURL}/AttendanceDetailByStudentIDYear/`,
-          request_model,
-          {
-            headers: headers,
-          }
-        );
-
-        setYearReport(res.data);
-        let counts = {};
-        res.data.map((item) => {
-          const date = new Date(item.attendance_date);
-          const month = date.getMonth();
-          if (!counts[month]) {
-            counts[month] = { present: 0, absent: 0, holiday: 0 };
-          }
-          if (item.attendance_status === "present") {
-            counts[month].present++;
-          }
-          if (item.attendance_status === "absent") {
-            counts[month].absent++;
-          }
-          if (item.attendance_status === "holiday") {
-            counts[month].holiday++;
-          }
-        });
-        setMonthlyCount(counts);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    getData();
+    viewList();
   }, []);
 
   function viewList() {
@@ -218,8 +222,7 @@ const AttendanceReport = () => {
     // setFromDate(currentFromDate);
 
     let tempFromDate = new Date(currentFromDate);
-    console.log(tempFromDate.getFullYear());
-    SELECTEDYEAR = tempFromDate.getFullYear();
+
     let year = moment(tempFromDate).format("YYYY");
     console.log("year is ", year);
     let fDate =
@@ -251,8 +254,11 @@ const AttendanceReport = () => {
     setFromDate(enteredValue);
   }
   function yearlyReport() {
+    setFromText("");
+
     setShowYearReport(true);
     setShowMonthReport(false);
+
     setForYearlyReport({
       backgroundColor: "#1E84A4",
       color: "white",
@@ -265,8 +271,11 @@ const AttendanceReport = () => {
     });
   }
   function monthlyReport() {
+    setFromText("");
+
     setShowYearReport(false);
     setShowMonthReport(true);
+
     setForMonthlyReport({
       color: "white",
       backgroundColor: "#1E84A4",
@@ -714,6 +723,7 @@ const AttendanceReport = () => {
               </View>
             </View>
           </View>
+
           <View style={{ flex: 0.2 }}>
             <TeachersHome />
           </View>

@@ -1874,8 +1874,13 @@ const TeachersAttendanceBuild = () => {
                                 <View style={{ flex: 1 }}>
                                   <Button
                                     onPress={() => updatePresentButton(data)}
-                                    // color={data.attendance_status === 'present' ? 'green' : changeColorUpdate(data.student.id, "P")}
-                                    color={changeColorUpdate(
+                                    // color={
+                                    //   data.attendance_status === "present"
+                                    //     ? "green"
+                                    //     : changeColor(data.student.id, "P")
+                                    // }
+                                    color={changeColorUpdate
+                                      (
                                       data.student.id,
                                       "P"
                                     )}
@@ -1886,7 +1891,11 @@ const TeachersAttendanceBuild = () => {
                                 <View style={{ flex: 1 }}>
                                   <Button
                                     onPress={() => updateAbsentButton(data)}
-                                    //  color={data.attendance_status === 'absent' ? 'red' : changeColorUpdate(data.student.id, "A")}
+                                    // color={
+                                    //   data.attendance_status === "absent"
+                                    //     ? "red"
+                                    //     : changeColor(data.student.id, "A")
+                                    // }
                                     color={changeColorUpdate(
                                       data.student.id,
                                       "A"

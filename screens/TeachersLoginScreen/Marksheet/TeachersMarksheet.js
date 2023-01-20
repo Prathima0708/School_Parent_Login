@@ -948,7 +948,9 @@ const TeachersMarksheet = () => {
                 Select class
               </Text>
               <View style={styles.space} />
-              <Text style={{ fontFamily: "HindSemiBold", fontSize: 15, top: "5%" }}>
+              <Text
+                style={{ fontFamily: "HindSemiBold", fontSize: 15, top: "5%" }}
+              >
                 -
               </Text>
               <View style={styles.space} />
@@ -1669,7 +1671,7 @@ const styles = StyleSheet.create({
     //fontSize: 24,
   },
   tableHeader: {
-    flex: 0.3,
+    flex: 0.2,
     flexDirection: "row",
     top: "25%",
     borderWidth: 1,
