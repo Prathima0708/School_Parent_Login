@@ -304,7 +304,7 @@ function Attendance() {
                 <View style={styles.presentDot}/>
               </View>
               <View style={{flex: 1}} >
-                {count && <Text>Present: {count.present}</Text>}
+                {count && <Text>Present: {count.present} Days</Text>}
               </View>
             </View>
           </View>
@@ -321,7 +321,7 @@ function Attendance() {
                 <View style={styles.absentDot}/>
               </View>
               <View style={{flex: 1}} >
-                {count && <Text>Absent: {count.absent}</Text>}
+                {count && <Text>Absent: {count.absent} Days</Text>}
               </View>
             </View>
           </View>
@@ -338,7 +338,7 @@ function Attendance() {
                 <View style={styles.holidayDot}/>
               </View>
               <View style={{flex: 1}} >
-                {count && <Text>Holiday: {count.holiday}</Text>}
+                {count && <Text>Holiday: {count.holiday} Days</Text>}
               </View>
             </View>
           </View>
@@ -386,19 +386,19 @@ function Attendance() {
       width: 20, // or whatever size you need
       height: 20,
       backgroundColor:'green',
-      borderRadius:100
+      // borderRadius:100
     },
     absentDot: {
       width: 20, // or whatever size you need
       height: 20,
       backgroundColor:'red',
-      borderRadius:100
+      // borderRadius:100
     },
     holidayDot: {
       width: 20, // or whatever size you need
       height: 20,
       backgroundColor:'#D4AC0D',
-      borderRadius:100
+      // borderRadius:100
     },
   })
   

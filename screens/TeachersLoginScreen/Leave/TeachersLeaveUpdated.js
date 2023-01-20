@@ -84,6 +84,9 @@ const TeachersLeaveUpdated = () => {
   });
 
   const [selectedClassSection, setSelectedClassSection] = useState("");
+  const [enteredClassSectionTouched, setEnteredClassSectionTouched] = useState(false);
+  const enteredSelcetdClassSectionIsValid = selectedClassSection.toString().trim() !== "";
+  const selectClassSectionInputIsInValid = !enteredSelcetdClassSectionIsValid && enteredClassSectionTouched;
 
   const [selected, setSelected] = useState("");
   const [enteredSelectedTouched, setEnteredSelectedTouched] = useState(false);
@@ -919,6 +922,7 @@ const TeachersLeaveUpdated = () => {
   function selecteHandler() {}
 
   function classsectionSelectHandler() {
+    console.log('pressed')
     setShowDefault(true);
     console.log("selected");
     console.log(selectedClassSection);
@@ -1970,168 +1974,64 @@ const TeachersLeaveUpdated = () => {
       )}
 
       {showList && (
-        <View
-          style={[
-            { flex: 1 },
-            {
-              flexDirection: "column",
-              backgroundColor: "white",
-            },
-          ]}
-        >
-          <View
-            style={{
-              flex: 0.5,
-              flexDirection: "row",
-              alignItems: "center",
-              backgroundColor: "white",
-            }}
-          >
-            {/* */}
-            <View
-              style={[
-                { flex: 1 },
-                {
-                  flexDirection: "column",
-                  marginTop: "5%",
-                },
-              ]}
-            >
-              <View style={{ flex: 0.2 }}>
-                <BackButton onPress={leaveBackHandler} />
-              </View>
-              <View style={{ flex: 0.2, alignSelf: "center" }}>
-                <NativeText bold style={{ fontSize: 17}}>
-                  Leave List
-                </NativeText>
-              </View>
-            </View>
+        <View style={[{flex:1, flexDirection: 'column',marginTop:'10%',backgroundColor:'white'}]}>
+          <View style={{flex: 0.1,paddingTop:20}} >
+            <BackButton onPress={leaveBackHandler} />
           </View>
-          {/* <View style={{ flex: 1, backgroundColor: "darkorange" }} > */}
-          <SelectList
-            setSelected={setSelectedClassSection}
-            data={classTeacherData}
-            // defaultOption={{
-            //   key: String(KEY),
-            //   value: String(VALUE),
-            // }}
-            dropdownStyles={{ marginTop: "-5%" }}
-            onSelect={classsectionSelectHandler}
-            placeholder="Select class"
-            boxStyles={[
-              selectInputIsInValid && styles.errorSelectedColor,
-              { marginHorizontal: 20, bottom: "10%" },
-            ]}
-            // boxStyles={{ borderRadius: 0 }}
-            dropdownTextStyles={{
-              fontSize: 15,
-              //marginHorizontal: 20,
-              fontFamily: "HindRegular",
-            }}
-            inputStyles={{ fontSize: 15, fontFamily: "HindRegular" }}
-            save="key"
-          />
-          {/* </View> */}
-          <View style={{ flex: 1 }}>
-            {/* {showDefault &&  */}
+          <View style={{flex: 1}} >
+            <NativeText bold style={{ fontSize: 17,marginLeft:'35%',padding:10}}>Leave List</NativeText>
+            <View style={{flexDirection:'row',padding:20}}>
+              <NativeText bold style={{ fontSize: 17,top:'3%'}}>Select Class</NativeText>
+              <View style={styles.space}/>
+              <SelectList
+                setSelected={setSelectedClassSection}
+                data={classTeacherData}
+                //dropdownStyles={{ marginTop: "-5%" }}
+                onSelect={classsectionSelectHandler}
+                placeholder="Select class"
+                boxStyles={[
+                  
+                ]}
+                dropdownTextStyles={{
+                  fontSize: 15,
+                  fontFamily: "HindRegular",
+                }}
+                inputStyles={{ fontSize: 15, fontFamily: "HindRegular" }}
+                save="key"
+              />
+            </View>
             {showDefault && (
-              <>
-                <SearchBar
-                  onSubmitEditing={Keyboard.dismiss}
-                  style={styles.searchBarNew}
-                  textInputStyle={{ fontFamily: "HindRegular", fontSize: 17 }}
-                  placeholder="Search here by leave type"
-                  onChangeText={(text) => searchFilter(text)}
-                  value={searchText}
-                />
-
-                <View
-                  style={[
-                    { flex: 0.2 },
-                    {
-                      // Try setting `flexDirection` to `"row"`.
-                      flexDirection: "row",
-                    },
-                  ]}
-                >
+              // <SearchBar
+              //   onSubmitEditing={Keyboard.dismiss}
+              //   style={styles.searchBarNew}
+              //   textInputStyle={{ fontFamily: "HindRegular", fontSize: 17 }}
+              //   placeholder="Search here by leave type"
+              //   onChangeText={(text) => searchFilter(text)}
+              //   value={searchText}
+              // />  
+              <View
+                style={[
+                  {
+                    // Try setting `flexDirection` to `"row"`.
+                    flex:0.7,
+                    flexDirection: 'column',
+                  },
+                ]}>
+                <View style={{flex: 1}} >
                   <View
-                    style={{
-                      flex: 1.5,
-                      left: "24%",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <NativeText bold style={{ fontSize: 15 }}>
-                      Sort by -
-                    </NativeText>
-                  </View>
-                  <View style={styles.space} />
-                  <View
-                    style={{
-                      flex: 1.5,
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <IconButton
-                      colorScheme="success"
-                      onPress={filterApproved}
-                      variant="subtle"
-                      _icon={{
-                        as: Ionicons,
-                        name: "md-checkmark-sharp",
-                      }}
-                    />
-                  </View>
-                  <View style={styles.space} />
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: "center",
-                      alignItems: "center",
-                      right: "22%",
-                    }}
-                  >
-                    <IconButton
-                      colorScheme="danger"
-                      onPress={filterDenied}
-                      variant="subtle"
-                      _icon={{
-                        as: Ionicons,
-                        name: "close",
-                      }}
-                    />
-                  </View>
-                  <View style={styles.space} />
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: "center",
-                      alignItems: "center",
-                      right: "22%",
-                    }}
-                  >
-                    <IconButton
-                      colorScheme="yellow"
-                      onPress={filterPending}
-                      variant="subtle"
-                      _icon={{
-                        as: MaterialIcons,
-                        name: "pending",
-                      }}
-                    />
-                  </View>
-                  <View style={styles.space} />
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: "center",
-                      alignItems: "center",
-                      right: "22%",
-                    }}
-                  >
-                    <NativeButton onPress={filterAll} colorScheme="darkBlue">
+                    style={[
+                      {
+                        // Try setting `flexDirection` to `"row"`.
+                        flex:1,
+                        flexDirection: 'row',
+                        marginHorizontal:30
+                      },
+                    ]}>
+                    <View style={{flex: 1,right:'10%'}} >
+                      <NativeText bold style={{ fontSize: 17}}>Sort by</NativeText>
+                    </View>
+                    <View style={{flex: 1,alignItems:'flex-start'}} >
+                    <NativeButton  onPress={filterAll} colorScheme="darkBlue" size='sm'>
                       <Text
                         style={{
                           fontSize: 15,
@@ -2139,20 +2039,80 @@ const TeachersLeaveUpdated = () => {
                           color: "white",
                         }}
                       >
-                        All
+                        Reset
+                      </Text>
+                    </NativeButton>
+                      
+                    </View>
+                    <View style={styles.space}/>
+                    <View style={{flex: 1,alignItems:'flex-start',right:'80%'}} >
+                    <NativeButton  onPress={filterApproved} colorScheme="green" size='xs'>
+                        <Text
+                          style={{
+                            fontSize: 15,
+                            fontFamily: "HindSemiBold",
+                            color: "white",
+                          }}
+                        >
+                          Approved
+                        </Text>
+                      </NativeButton>
+                      
+                    </View>
+                  </View>
+                </View>
+                <View style={{flex: 2,alignItems:'flex-start'}} >
+                <View
+                  style={[
+                    {
+                      // Try setting `flexDirection` to `"row"`.
+                      flex:1,
+                      flexDirection: 'row',
+                      marginHorizontal:30
+                     
+                    },
+                  ]}>
+                  <View style={{flex: 1,alignItems:'flex-end',left:'15%'}} >
+                  <NativeButton  onPress={filterDenied} colorScheme="danger" size='xs'>
+                        <Text
+                          style={{
+                            fontSize: 15,
+                            fontFamily: "HindSemiBold",
+                            color: "white",
+                          }}
+                        >
+                          Denied
+                        </Text>
+                      </NativeButton>
+                    
+                  </View>
+                  <View style={styles.space}/>
+                  <View style={{flex: 1,alignItems:'flex-start',left:'7%'}} >
+                  <NativeButton  onPress={filterPending} colorScheme="yellow" size='xs'>
+                      <Text
+                        style={{
+                          fontSize: 15,
+                          fontFamily: "HindSemiBold",
+                          color: "white",
+                        }}
+                      >
+                        Pending
                       </Text>
                     </NativeButton>
                   </View>
                 </View>
-              </>
+                </View>
+              </View>
             )}
-            <View
+            <View style={[{flex:1,flexDirection: 'column'}]}>
+              <View style={{flex: 1}} >
+              <View
               style={[
                 { flex: 1 },
                 { flexDirection: "column", backgroundColor: "white" },
               ]}
             >
-              <View style={{ flex: 8, bottom: 10 }}>
+              <View style={{ flex: 8, bottom: 50 }}>
                 {leaveByClassSection.length <= 0 ? (
                   <View style={{ alignItems: "center", top: "16%" }}>
                     <NativeText fontSize="xl" bold color="error.900">
@@ -2554,15 +2514,14 @@ const TeachersLeaveUpdated = () => {
                     </View>
                   </ScrollView>
                 )}
+                </View>
+                </View>
               </View>
             </View>
-            {/* } */}
           </View>
-          {keyboardStatus == "Keyboard Hidden" && (
-            <View style={{ flex: 0.1 }}>
-              <TeachersHome />
-            </View>
-          )}
+          <View style={{flex: 0.1, backgroundColor: 'green'}} >
+            <TeachersHome />
+          </View>
         </View>
       )}
     </>
