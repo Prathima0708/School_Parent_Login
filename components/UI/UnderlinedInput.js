@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginLeft: 20,
     margin: deviceHieght < 600 ? "2%" : "4%",
-    fontSize: deviceWidth < 370 ? 16 : 15,
+    fontSize: deviceWidth < 370 ? 16 : 17,
     fontFamily: "HindRegular",
     zIndex: -1,
   },
