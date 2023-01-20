@@ -1879,8 +1879,7 @@ const TeachersAttendanceBuild = () => {
                                     //     ? "green"
                                     //     : changeColor(data.student.id, "P")
                                     // }
-                                    color={changeColorUpdate
-                                      (
+                                    color={changeColorUpdate(
                                       data.student.id,
                                       "P"
                                     )}

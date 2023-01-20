@@ -550,8 +550,12 @@ const NoticeBoard = () => {
 
         console.log("after sorting");
         console.log(arr.slice(0, 3));
+        const today = new Date();
+        const filteredData = res.data.filter(
+          (item) => new Date(item.startdate) >= today
+        );
 
-        setData(res.data.slice(0, 10));
+        setData(filteredData);
       } catch (error) {
         console.log(error);
       }
