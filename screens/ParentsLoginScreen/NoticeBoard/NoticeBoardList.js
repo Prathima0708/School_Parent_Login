@@ -26,12 +26,12 @@ const NoticeBoardList = ({ startdate, titlee, description }) => {
             <Text style={styles.titleStyle}>{titlee}</Text>
           </View>
           <View style={[{ flex: 1 }, styles.colorPadding]}>
-            <Text style={styles.descStyle}>{description}</Text>
+            <Text style={[styles.titleStyle,{fontFamily:'HindRegular'}]}>{description}</Text>
           </View>
         </View>
       </View>
       <View style={[styles.dateViewStyle]}>
-        <Text style={[styles.descStyle, { fontWeight: "bold" }]}>
+        <Text style={[styles.titleStyle]}>
           {moment(startdate).format("DD/MM/YYYY")}
         </Text>
       </View>
@@ -49,14 +49,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   titleStyle: {
-    fontSize: 17,
-
+    fontSize: 16,
     fontFamily: "HindSemiBold",
   },
-  descStyle: {
-    fontFamily: "HindRegular",
-    fontSize: 16,
-  },
+  
   colorPadding: {
     backgroundColor: "#DEE4FF",
     padding: 15,

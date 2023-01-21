@@ -124,10 +124,9 @@ const HomeworkScreen = () => {
                               <Text
                                 style={[
                                   {
-                                    fontFamily: "HindRegular",
+                                    fontFamily: "HindSemiBold",
                                     color: "black",
-                                    fontSize: 15,
-                                    fontWeight: "bold",
+                                    fontSize: 18,
                                   },
                                 ]}
                               >
@@ -209,9 +208,9 @@ const HomeworkScreen = () => {
                 />
               ) : (
                 <View style={{ alignItems: "center", marginVertical: 10 }}>
-                  <NativeText fontSize="xl" bold color="error.900">
+                  <Text  style={styles.errText}>
                     No Assigned homework found.
-                  </NativeText>
+                  </Text>
                 </View>
               )}
             </View>
@@ -382,22 +381,30 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     color: "white",
-    fontFamily: "HindBold",
-    fontSize: 20,
+    fontFamily: "HindSemiBold",
+    fontSize: 18,
     textAlign: "center",
+    top:'5%'
   },
   textStyle: {
     color: "white",
-    fontFamily: "HindBold",
-    fontSize: 20,
+    fontFamily: "HindSemiBold",
+    fontSize: 18,
     textAlign: "center",
+    top:'5%'
   },
   cardText: {
     color: "black",
-    fontSize: 17,
+    fontSize: 18,
+    fontFamily:"HindRegular",
     left: "10%",
     top: "10%",
   },
+  errText:{
+    fontFamily: "HindSemiBold",
+    fontSize: 18,
+    color: "#6B0202",
+  }
 });
 
 // import React, { useEffect, useState } from "react";

@@ -46,14 +46,14 @@ const LeaveScreen = () => {
   const [btn, setBtn] = useState(false);
 
   const [forHomeworkList, setForHomeworkList] = useState({
+    backgroundColor: "#1E84A4",
     color: "white",
-    backgroundColor: "#0C60F4",
-    borderRadius: 10,
+    borderRadius: 5,
   });
   const [forHomeworkForm, setForHomeworkForm] = useState({
     color: "black",
     backgroundColor: "#F4F6F6",
-    borderRadius: 10,
+    borderRadius: 5,
   });
 
   const [data, setData] = useState([]);
@@ -418,12 +418,12 @@ const LeaveScreen = () => {
       setForHomeworkList({
         backgroundColor: "#F4F6F6",
         color: "black",
-        borderRadius: 10,
+        borderRadius: 5,
       });
       setForHomeworkForm({
         color: "white",
-        backgroundColor: "#1E8449",
-        borderRadius: 10,
+        backgroundColor: "#1E84A4",
+        borderRadius: 5,
       });
     }
   }
@@ -511,13 +511,13 @@ const LeaveScreen = () => {
       setEnteredEmailTouched(false);
       setForHomeworkList({
         backgroundColor: "#F4F6F6",
-        color: "black",
-        borderRadius: 10,
+            color: "black",
+            borderRadius: 5,
       });
       setForHomeworkForm({
         color: "white",
-        backgroundColor: "#1E8449",
-        borderRadius: 10,
+            backgroundColor: "#1E84A4",
+            borderRadius: 5,
       });
     }
   }
@@ -569,14 +569,14 @@ const LeaveScreen = () => {
     setFromText("");
     setToText("");
     setForHomeworkList({
-      backgroundColor: "#0C60F4",
+      backgroundColor: "#1E84A4",
       color: "white",
-      borderRadius: 10,
+      borderRadius: 5,
     });
     setForHomeworkForm({
       color: "black",
       backgroundColor: "#F4F6F6",
-      borderRadius: 10,
+      borderRadius: 5,
     });
     setShowForm(true);
     setShowList(false);
@@ -601,13 +601,13 @@ const LeaveScreen = () => {
         // setFilteredData(res.data);
         setForHomeworkForm({
           color: "white",
-          backgroundColor: "#1E8449",
-          borderRadius: 10,
+      backgroundColor: "#1E84A4",
+      borderRadius: 5,
         });
         setForHomeworkList({
           backgroundColor: "#F4F6F6",
-          color: "black",
-          borderRadius: 10,
+      color: "black",
+      borderRadius: 5,
         });
         setShowForm(false);
         setShowList(true);
@@ -619,21 +619,30 @@ const LeaveScreen = () => {
   }
   function editItem(id) {
     ID = id;
-    console.log(id);
-    setIsEdit(true);
-    setShowForm(true);
-
+    setShowInitialBtn(false);
     setReasonLabel(true);
     setEmailLabel(true);
 
     const filteredDummuyData = data.find((data) => data.id == ID);
-
-    // setSelected(filteredDummuyData.leave_type);
-    //  setEnteredcreatedby(filteredDummuyData.created_by);
     setFromText(moment(filteredDummuyData.startdate).format("DD/MM/YYYY"));
     setToText(moment(filteredDummuyData.enddate).format("DD/MM/YYYY"));
     setEnteredLeaveReason(filteredDummuyData.leave_reason);
     setEnteredEmail(filteredDummuyData.email);
+
+    setForHomeworkForm({
+      color: "white",
+      backgroundColor: "#1E84A4",
+      borderRadius: 5,
+    });
+    setForHomeworkList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 5,
+    });
+
+    setShowForm(true);
+    setShowList(false); 
+    setIsEdit(true);   
   }
 
   function deleteItem(id) {
@@ -712,13 +721,13 @@ const LeaveScreen = () => {
 
     setForHomeworkList({
       color: "white",
-      backgroundColor: "#0C60F4",
-      borderRadius: 10,
+      backgroundColor: "#1E84A4",
+      borderRadius: 5,
     });
     setForHomeworkForm({
-      color: "black",
       backgroundColor: "#F4F6F6",
-      borderRadius: 10,
+      color: "black",
+      borderRadius: 5,
     });
   }
 
@@ -861,7 +870,7 @@ const LeaveScreen = () => {
                         ]}
                         editable={false}
                         selectTextOnFocus={false}
-                        value={StudentRegNo.toString()}
+                        //value={StudentRegNo.toString()}
                       />
                     </View>
                   </View>
@@ -873,7 +882,7 @@ const LeaveScreen = () => {
                   <View style={[{flex:1}, {flexDirection: "row"}]}>
                     <View style={{ flex: 1 }} >
                       <Text
-                        style={{fontFamily: "HindRegular",fontSize: 18,marginLeft:'11%',marginTop:'15%'}}>
+                        style={{fontFamily: "HindRegular",fontSize: 16,marginLeft:'11%',marginTop:'10%'}}>
                         Leave Type
                       </Text>
                     </View>
@@ -890,11 +899,11 @@ const LeaveScreen = () => {
                           // { marginHorizontal: 15, marginVertical: 10 },
                         ]}
                         dropdownTextStyles={{
-                          fontSize: 18,
+                          fontSize: 15,
                           fontFamily: "HindRegular",
                           //marginHorizontal: 25,
                         }}
-                        inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
+                        inputStyles={{ fontSize: 17, fontFamily: "HindRegular" }}
                       />
                       {selectInputIsInValid && (
                         <Text style={styles.commonErrorMsg}>Select leave type</Text>
@@ -1086,16 +1095,16 @@ const LeaveScreen = () => {
                   <Button onPress={buttonPressedHandler}>Add Leave</Button>
                 </View>
               )}
-              {isEdit && (
-                <View style={styles.btnSubmit1}>
+              {isEdit &&
+               <View style={[{flex:1, flexDirection: 'row',top:'5%'}]}>
+                <View style={{flex: 1}} >
                   <Button onPress={updateHandler}>Update</Button>
                 </View>
-              )}
-              {isEdit && (
-                <View style={styles.cancel}>
+                <View style={{flex: 1}} >
                   <Button onPress={cancelHandler}>Cancel</Button>
                 </View>
-              )}
+              </View>}
+              
             </View>
           </ScrollView>
           {keyboardStatus == "Keyboard Hidden" && (
@@ -1571,7 +1580,7 @@ const styles = StyleSheet.create({
   upEmail: {
     top: deviceHieght > 800 ? 25 : 28,
     left: deviceWidth < 370 ? 20 : 30,
-    width: deviceWidth > 400 ? 110 : 130,
+    width: deviceWidth > 400 ? 130 : 130,
   },
   upEmailExtra: {
     top: deviceHieght > 800 ? 25 : 28,
@@ -1637,14 +1646,14 @@ const styles = StyleSheet.create({
     left: deviceWidth < 370 ? 20 : 30,
   },
   upRemark: {
-    top: deviceHieght > 800 ? 30 : 25,
-    width: deviceWidth > 400 ? 70 : 120,
+    top: deviceHieght > 800 ? 26: 25,
+    width: deviceWidth > 400 ? 130 : 120,
     left: deviceWidth < 370 ? 20 : 30,
     height: deviceHieght > 800 ? 25 : 25,
   },
   labelStyle: {
     fontFamily: "HindRegular",
-    fontSize: 18,
+    fontSize: 16,
   },
   normalHomework: {
     position: "absolute",
@@ -1696,7 +1705,7 @@ const styles = StyleSheet.create({
     color: "red",
     left: 20,
     fontFamily: "HindRegular",
-    fontSize: deviceWidth < 370 ? 16 : 18,
+    fontSize: deviceWidth < 370 ? 16 : 16,
     top: deviceHieght > 800 ? -3 : 1,
   },
   upRemarkExtra: {

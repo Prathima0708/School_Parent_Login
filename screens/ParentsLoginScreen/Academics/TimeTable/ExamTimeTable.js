@@ -114,9 +114,9 @@ function ExamTimeTable(){
                           </View>
                         </View> :
                         <View style={{ alignItems: "center", marginVertical: 10 }}>
-                        <NativeText fontSize="xl" bold color="error.900">
+                        <Text style={styles.errText}>
                           No data found.
-                        </NativeText>
+                        </Text>
                       </View>}
                       </ScrollView>
                     </View>
@@ -179,5 +179,10 @@ const styles=StyleSheet.create({
       container: {
         padding: 10,
         borderWidth: 1,
+      },
+      errText:{
+        fontFamily: "HindSemiBold",
+        fontSize: 18,
+        color: "#6B0202",
       },
 })

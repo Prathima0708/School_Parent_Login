@@ -569,9 +569,9 @@ const NoticeBoard = () => {
   return (
     <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
       <View style={styles.headingView}>
-        <NativeText bold style={styles.textStyle}>
+        <Text style={styles.textStyle}>
           Upcoming Events
-        </NativeText>
+        </Text>
       </View>
       <View style={{ flex: 2, backgroundColor: "white" }}>
         <ScrollView>
@@ -597,9 +597,9 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   textStyle: {
-    fontSize: 20,
+    fontSize: 18,
+    fontFamily:'HindSemiBold',
     color: "white",
-    marginTop: "2%",
     backgroundColor: "#364585",
     padding: 10,
     borderRadius: 10,

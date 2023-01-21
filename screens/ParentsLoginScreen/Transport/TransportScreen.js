@@ -4,6 +4,7 @@ import {
   TextInput,
   ScrollView,
   Dimensions,
+  Text
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import MapView from "react-native-maps";
@@ -13,7 +14,7 @@ import axios from "axios";
 import BgButton from "../../../components/UI/BgButton";
 import { Card } from "react-native-paper";
 import ParentsHome from "../BottomTab/ParentsHome";
-import { Divider, Text } from "native-base";
+import { Divider } from "native-base";
 import { busNumber } from "../../../components/StudentItem/StudentItem";
 import { AntDesign } from "@expo/vector-icons";
 import { subURL } from "../../../components/utils/URL's";
@@ -82,35 +83,22 @@ const TransportScreen = () => {
         data.map((data) => (
           <>
             <View style={styles.itemStyle}>
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: "center",
-                  justifyContent:"center",
-                  // top: 15,
-                  //paddingLeft: 15,
-                }}
-              >
-                <Text
-                  fontSize={deviceWidth < 370 ? "xl" : "2xl"}
-                  style={styles.textStyle}
-                >
-                  {data.route_name}
+              <View style={styles.locationView}>
+                <Text style={styles.textStyle}>
+                  {data.route_name.charAt(0).toUpperCase() + data.route_name.slice(1)}
                 </Text>
               </View>
               <View style={styles.iconStyle}>
                 <AntDesign
                   name="right"
-                  size={deviceWidth < 370 ? 20 : 25}
+                  size={deviceWidth < 370 ? 20 : 18}
                   color="white"
                 />
               </View>
-              <View style={{ flex: 1,justifyContent:'center',alignItems:"center" }}>
-                <Text
-                  fontSize={deviceWidth < 370 ? "xl" : "2xl"}
-                  style={styles.textStyle}
-                >
-                  {data.stop_name}
+              <View style={styles.locationView}>
+                <Text style={styles.textStyle} >
+                  
+                  {data.stop_name.charAt(0).toUpperCase() + data.stop_name.slice(1)}
                 </Text>
               </View>
             </View>
@@ -119,22 +107,22 @@ const TransportScreen = () => {
                 <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
                   <View style={{ flex: 1 }}>
                     <Text
-                      fontSize={deviceWidth < 370 ? "md" : "2xl"}
-                      style={[styles.textStyle, { color: "black", left: 20 }]}
+                      
+                      style={[styles.cardTextStyle, { color: "black", left: 20 }]}
                     >
                       Driver Name :
                     </Text>
                   </View>
                   <View
                     style={{
-                      flex: deviceWidth < 370 ? 1.5 : 1,
+                      flex: deviceWidth < 370 ? 1.5 : 2,
                     }}
                   >
                     <Text
-                      fontSize={deviceWidth < 370 ? "md" : "2xl"}
-                      style={[styles.textStyle, { color: "black", left: 1 }]}
+                     
+                      style={[styles.cardTextStyle, { color: "black", left: 1 }]}
                     >
-                      {data.driver_name}
+                      {data.driver_name.charAt(0).toUpperCase() + data.driver_name.slice(1)}
                     </Text>
                   </View>
                 </View>
@@ -143,20 +131,20 @@ const TransportScreen = () => {
                 <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
                   <View style={{ flex: 1 }}>
                     <Text
-                      fontSize="sm"
-                      style={[styles.textStyle, { color: "black", left: 20 }]}
+                      
+                      style={[styles.cardTextStyle, { color: "black", left: 20 }]}
                     >
                       Mobile number :
                     </Text>
                   </View>
                   <View
                     style={{
-                      flex: deviceWidth < 370 ? 1.4 : 1.7,
+                      flex: deviceWidth < 370 ? 1.4 : 1.5,
                     }}
                   >
                     <Text
-                      fontSize="sm"
-                      style={[styles.textStyle, { color: "black" }]}
+                      
+                      style={[styles.cardTextStyle, { color: "black" }]}
                     >
                       {data.emp_mobile}
                     </Text>
@@ -172,26 +160,26 @@ const TransportScreen = () => {
                     <View
                       style={[{ flex: 1 }, { flexDirection: "row", top: 10 }]}
                     >
-                      <View style={{ flex: 1, alignItems: "center" }}>
+                      <View style={{ flex: 1,alignItems:"center",right:'30%'}}>
                         <Text
-                          fontSize="sm"
-                          style={[styles.textStyle, { color: "black" }]}
+                          
+                          style={[styles.cardTextStyle, { color: "black" }]}
                         >
                           Type
                         </Text>
                       </View>
-                      <View style={{ flex: 1, alignItems: "center" }}>
+                      <View style={{ flex: 1, alignItems: "center",right:'50%' }}>
                         <Text
-                          fontSize="sm"
-                          style={[styles.textStyle, { color: "black" }]}
+                          
+                          style={[styles.cardTextStyle, { color: "black" }]}
                         >
                           Bus Number
                         </Text>
                       </View>
                       <View style={{ flex: 1, alignItems: "center" }}>
                         <Text
-                          fontSize="sm"
-                          style={[styles.textStyle, { color: "black" }]}
+                          
+                          style={[styles.cardTextStyle, { color: "black" }]}
                         >
                           Vehicle Number
                         </Text>
@@ -244,26 +232,26 @@ const TransportScreen = () => {
                     <View
                       style={[{ flex: 3 }, { flexDirection: "row", top: 10 }]}
                     >
-                      <View style={{ flex: 1, alignItems: "center" }}>
+                      <View style={{ flex: 1, alignItems: "center",right:'10%' }}>
                         <Text
-                          fontSize="sm"
-                          style={[styles.textStyle, { color: "black" }]}
+                          
+                          style={[styles.cardTextStyle, { color: "black" }]}
                         >
                           {data.types}
                         </Text>
                       </View>
-                      <View style={{ flex: 1, alignItems: "center" }}>
+                      <View style={{ flex: 1, alignItems: "center",right:'20%' }}>
                         <Text
-                          fontSize="sm"
-                          style={[styles.textStyle, { color: "black" }]}
+                          
+                          style={[styles.cardTextStyle, { color: "black" }]}
                         >
                           {data.busnumber}
                         </Text>
                       </View>
                       <View style={{ flex: 1, alignItems: "center" }}>
                         <Text
-                          fontSize="sm"
-                          style={[styles.textStyle, { color: "black" }]}
+                          
+                          style={[styles.cardTextStyle, { color: "black" }]}
                         >
                           {data.vehicleno}
                         </Text>
@@ -298,6 +286,12 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: "white",
+    fontSize:18,
+    fontFamily: "HindSemiBold",
+  },
+  cardTextStyle:{
+    color: "white",
+    fontSize:15,
     fontFamily: "HindSemiBold",
   },
   iconStyle: {
@@ -307,14 +301,18 @@ const styles = StyleSheet.create({
     //top: deviceWidth < 370 ? 20 : 25,
   },
   itemStyle: {
-    flex: 0.2,
+    flex: 0.1,
     flexDirection: "row",
     backgroundColor: "#275932",
-    // padding: 5,
     top: 10,
     borderRadius: 20,
+    paddingVertical:10,
     marginHorizontal: 20,
-    //paddingBottom:deviceWidth < 370 ? 20 : 1,
+  },
+  locationView:{
+    flex: 1,
+    justifyContent:'center',
+    alignItems:"center"
   },
   cardStyle: {
     flex: 0.5,
@@ -326,56 +324,5 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     elevation: 5,
   },
-  // BtnContainer: {
-  //   flexDirection: "row",
-  //   width: 220,
-  // },
-  // container: {
-  //   padding: 10,
-  // },
-  // type: {
-  //   marginLeft: 10,
-  // },
-  // th: {
-  //   padding: 5,
-  //   marginRight: 13,
-  //   //fontSize: 24,
-  // },
-  // tableHeader: {
-  //   backgroundColor: "skyblue",
 
-  //   height: 50,
-  //   fontWeight: "bold",
-  // },
-  // tableTitle: {
-  //   // padding: 5,
-  //   margin: 7,
-  //   fontFamily: "MonsterratBold",
-  //   fontSize: deviceWidth < 370 ? 13 : 16,
-  // },
-  // tableCell: {
-  //   width: 40,
-  //   //  fontFamily: "Montserrat_600SemiBold",
-  //   marginLeft: 35,
-  // },
-
-  // tableRow: {
-  //   height: "9%",
-  //   borderBottomColor: "black",
-  //   borderBottomWidth: 2,
-  // },
-  // inputForm: {
-  //   padding: 20,
-  // },
-  // inputStyle: {
-  //   borderWidth: 1,
-  //   borderColor: "grey",
-  //   borderRadius: 5,
-  // },
-  // labels: {
-  //   marginTop: 2,
-  // },
-  // btnSubmit: {
-  //   marginTop: 5,
-  // },
 });

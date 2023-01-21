@@ -409,9 +409,9 @@ const TimeTable = () => {
                           <View
                             style={{ alignItems: "center", marginVertical: 10 }}
                           >
-                            <NativeText fontSize="xl" bold color="error.900">
+                            <Text style={styles.errText}>
                               No data found.
-                            </NativeText>
+                            </Text>
                           </View>
                         )}
                       </ScrollView>
@@ -501,9 +501,9 @@ const TimeTable = () => {
                           <View
                             style={{ alignItems: "center", marginVertical: 10 }}
                           >
-                            <NativeText fontSize="xl" bold color="error.900">
+                            <Text style={styles.errText}>
                               No data found.
-                            </NativeText>
+                            </Text>
                           </View>
                         )}
                       </ScrollView>
@@ -593,9 +593,9 @@ const TimeTable = () => {
                           <View
                             style={{ alignItems: "center", marginVertical: 10 }}
                           >
-                            <NativeText fontSize="xl" bold color="error.900">
+                            <Text style={styles.errText}>
                               No data found.
-                            </NativeText>
+                            </Text>
                           </View>
                         )}
                       </ScrollView>
@@ -685,9 +685,9 @@ const TimeTable = () => {
                           <View
                             style={{ alignItems: "center", marginVertical: 10 }}
                           >
-                            <NativeText fontSize="xl" bold color="error.900">
+                            <Text style={styles.errText}>
                               No data found.
-                            </NativeText>
+                            </Text>
                           </View>
                         )}
                       </ScrollView>
@@ -777,9 +777,9 @@ const TimeTable = () => {
                           <View
                             style={{ alignItems: "center", marginVertical: 10 }}
                           >
-                            <NativeText fontSize="xl" bold color="error.900">
+                            <Text style={styles.errText}>
                               No data found.
-                            </NativeText>
+                            </Text>
                           </View>
                         )}
                       </ScrollView>
@@ -869,9 +869,9 @@ const TimeTable = () => {
                           <View
                             style={{ alignItems: "center", marginVertical: 10 }}
                           >
-                            <NativeText fontSize="xl" bold color="error.900">
+                            <Text style={styles.errText}>
                               No data found.
-                            </NativeText>
+                            </Text>
                           </View>
                         )}
                       </ScrollView>
@@ -1049,9 +1049,9 @@ const TimeTable = () => {
                   ))
                 ) : (
                   <View style={{ alignItems: "center", marginVertical: 10 }}>
-                    <NativeText fontSize="xl" bold color="error.900">
+                    <Text style={styles.errText}>
                       No data found.
-                    </NativeText>
+                    </Text>
                   </View>
                 )}
               </ScrollView>
@@ -1096,12 +1096,12 @@ const styles = StyleSheet.create({
     color: "black",
     //textAlign: "center",
   },
-  description: {
-    fontSize: deviceWidth < 370 ? 16 : 20,
+  // description: {
+  //   fontSize: deviceWidth < 370 ? 16 : 20,
 
-    marginBottom: 4,
-    fontFamily: "HindRegular",
-  },
+  //   marginBottom: 4,
+  //   fontFamily: "HindRegular",
+  // },
   imageContainer: {
     paddingHorizontal: 12,
     paddingVertical: 4,
@@ -1115,6 +1115,11 @@ const styles = StyleSheet.create({
   image: {
     height: 80,
     width: 80,
+  },
+  errText:{
+    fontFamily: "HindSemiBold",
+    fontSize: 18,
+    color: "#6B0202",
   },
   container: {
     padding: 10,
@@ -1193,11 +1198,9 @@ const styles = StyleSheet.create({
     padding: deviceHieght < 600 ? "5%" : "3%",
   },
   description: {
-    fontSize: deviceWidth < 370 ? 18 : 20,
-    fontFamily: "HindRegular",
+    fontSize: deviceWidth < 370 ? 18 : 18,
+    fontFamily: "HindSemiBold",
     marginBottom: 4,
-    fontWeight: "bold",
-    // fontWeight: "bold",
   },
   bottomLine: {
     borderBottomColor: "#130BF0",
@@ -1210,11 +1213,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: "12%",
   },
   textInfo: {
-    fontSize: deviceWidth < 370 ? 18 : 20,
+    fontSize: deviceWidth < 370 ? 18 : 18,
     fontFamily: "HindRegular",
     color: "black",
-    fontWeight: "normal",
-
     // left: 10,
   },
   tableTopStyle: {
@@ -1232,9 +1233,9 @@ const styles = StyleSheet.create({
   },
   headingFont: {
     // fontFamily: "Hind-SemiBold",
-    fontWeight: "bold",
+    fontFamily:'HindBold',
     color: "white",
-    fontSize: deviceWidth < 370 ? 14 : 14,
+    fontSize: deviceWidth < 370 ? 14 : 15,
   },
   mainView: {
     flex: 1,
@@ -1244,12 +1245,13 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     color: "black",
-    fontFamily: "HindBold",
+    fontFamily: "HindSemiBold",
     fontSize: 16,
     textAlign: "center",
   },
   cardText: {
     color: "black",
+    fontFamily:'HindRegular',
     fontSize: 16,
     left: "10%",
     top: "10%",

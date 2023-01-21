@@ -95,166 +95,109 @@
 //   console.warn(error);
 // });
 
-import axios from "axios";
-import moment from "moment";
+
 import React, { useEffect, useState } from "react";
-import { Avatar, Card } from "react-native-paper";
-import { Calendar } from "react-native-calendars";
-import { StyleSheet, View, Text, Alert, Platform } from "react-native";
-import { FlatList } from "react-native";
-import { ScrollView } from "react-native";
-import VerticalLine from "../../../components/UI/VerticalLine";
-import { Progress } from "native-base";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
+import CalendarPicker from 'react-native-calendar-picker';
 import ParentsHome from "../../ParentsLoginScreen/BottomTab/ParentsHome";
 import { subURL } from "../../../components/utils/URL's";
-export var fromDateVar = [],
-  toDateVar = [],
-  fromatedDate = [];
-export var filteredDataVar = [];
-const CalenderScreen = () => {
-  const [calendarData, setCalendarData] = useState([]);
-  const [eventDisplay, setEventDisplay] = useState(false);
-  const [dataIsPresent, setDataIsPresent] = useState(true);
-  const [color, setColor] = useState("");
-  let dates = {};
-  let i;
+import axios from "axios";
+import moment from "moment";
 
-  useEffect(() => {
+const CalenderScreen = () => {
+
+  const [data,setData]=useState([]);
+  const [customDatesStyles,setCustomDatesStyles]=useState([]);
+  const [showEvent,setShowEvent]=useState([]);
+
+  const [noEvent,setNoEvent]=useState(false);
+
+  useEffect(()=>{
     async function fetchData() {
       try {
-        const res = await axios.get(`${subURL}/Calendar/`);
-        setCalendarData(res.data);
-        for (i = 0; i < res.data.length; i++) {
-          fromDateVar[i] = moment(res.data[i].startdate).format("YYYY-MM-DD");
+        let headers = {
+          "Content-Type": "application/json; charset=utf-8",
+        };
+        const res = await axios.get(`${subURL}/Calendar/`,
+        {
+          headers: headers,
+        });  
+        setData(res.data);
+        setCustomDatesStyles(
+          res.data.map(d => (
+            {
+              date: d.startdate, 
+              style: {backgroundColor: '#00B8AC' }, 
+              textStyle:{color: 'white'}, 
+              containerStyle:[]
+            })));
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
       }
-    }
     fetchData();
-  }, [calendarData]);
+  },[]);
 
-  useEffect(() => {
-    if (dataIsPresent) {
-      filteredDataVar = [];
-    }
-  }, []);
-
-  for (i = 0; i < calendarData.length; i++) {
-    toDateVar[i] = moment(calendarData[i].enddate).format("YYYY-MM-DD");
-  }
-
-  // for(i=0;i<calendarData.length;i++){
-  //   console.log(fromDateVar[i]+','+toDateVar[i]);
-  // }
-
-  fromDateVar.forEach((val) => {
-    dates[val] = {
-      selected: true,
-      selectedColor: "#00B8AC",
-    };
-  });
-  // fromDateVar.map((item) => {
-  //   dates[item] = {
-  //     marked: true,
-  //     selectedColor: 'red',
-  //     color: 'red',
-  //   };
-  // });
-
-  function showEvent(day) {
-    const filteredData = calendarData.filter(
-      (data) => moment(data.startdate).format("YYYY-MM-DD") == day.dateString
+  function handlePress(day){
+    const filteredData = data.
+    filter((data) => 
+      moment(data.startdate).format("YYYY-MM-DD") == moment(day).format("YYYY-MM-DD")
     );
-    console.log(filteredData.length);
-    filteredDataVar = filteredData;
-    // if (filteredData.length>0) {
-    //   setDataIsPresent(true);
 
-    // }else{
-    //  // setDataIsPresent(false)
-    //   Alert.alert("Data not found!", "No events are found for this date", [
-    //     {
-    //       text: "OK",
-    //       onPress: () => {
-    //         return;
-    //       },
-    //     },
-    //   ]);
-    // }
+    setShowEvent(filteredData);
+
   }
 
-  function leftPressHandler() {
-    console.log("1");
-  }
-  function subtractMonth() {
-    console.log("left");
-  }
   return (
     <>
       <View
         style={[
-          { flex: 1 },
           {
-            flexDirection: "column",
+            // Try setting `flexDirection` to `"row"`.
+            flex:1,
+            flexDirection: 'column',
             backgroundColor:'white'
           },
-        ]}
-      >
-        <View style={{ flex: 2,backgroundColor:'white' }}>
-          <Calendar
-            markedDates={dates}
-            hideExtraDays={true}
-            style={{
-              elevation: 5,
-              shadowColor: "black",
-              borderBottomLeftRadius: 20,
-              borderBottomRightRadius: 20,
-              shadowOpacity: 0.75,
-              shadowOffset: { width: 0, height: 2 },
-              shadowRadius: 8,
-              overflow: Platform.OS === "android" ? "hidden" : "visible",
-              marginLeft: 10,
-              marginRight: 10,
-            }}
-            // markingType={'period'}
-            onDayPress={(day) => {
-              showEvent(day);
-            }}
-            theme={{
-              textDayFontSize: 16,
-              textMonthFontSize: 16,
-              textDayHeaderFontSize: 16,
-            }}
+        ]}>
+        <View style={{flex: 1.2}} >
+          <CalendarPicker
+            onDateChange={(day)=>handlePress(day)}
+            customDatesStyles={customDatesStyles}
+            selectedDayStyle={{}}
+            textStyle={{fontFamily:"HindRegular"}}
           />
+           
         </View>
-        {/* <View style={{ flex: 2, marginTop: "2%" }}> */}
+        
         <View
           style={[
             { flex: 1 },
             { flexDirection: "column", backgroundColor: "white"}]}>
-          <View style={{ flex: 8, bottom: 30, }}>
+          <View style={{ flex: 8, bottom: 40 }}>
           <ScrollView>
+          
             <View
               style={[
                 { flex: 1 },
                 {
                   flexDirection: "column",
+                  paddingHorizontal:10
                 },
               ]}
             >
-              {filteredDataVar.length <= 0 ? (
+              {showEvent.length <= 0 ? (
                 <View
                   style={{
                     flex: 1,
                     alignItems: "center",
                     justifyContent: "center",
+                    marginTop:'9%'
                   }}
                 >
                   <Text
                     style={{
-                      fontFamily: "HindBold",
-                      fontSize: 20,
+                      fontFamily: "HindSemiBold",
+                      fontSize: 18,
                       color: "#6B0202",
                     }}
                   >
@@ -262,18 +205,18 @@ const CalenderScreen = () => {
                   </Text>
                 </View>
               ) : (
-                filteredDataVar.map((data, key) => (
+                showEvent.map((data, key) => (
                   <>
+                    
                     <View
                       style={[
                         { flex: 1 },
                         {
                           flexDirection: "row",
-                          top: 10,
                           borderWidth: 1,
                           borderRadius: 10,
                           padding: 10,
-                          marginHorizontal: 10,
+                          marginTop:'10%'
                         },
                       ]}
                     >
@@ -291,37 +234,28 @@ const CalenderScreen = () => {
                               alignItems: "center",
                               marginHorizontal: 10,
                               borderRadius: 10,
-                              width: "70%",
+                              //width: "71%",
                             }}
                           >
-                            {/* <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
-                    {moment(data.startdate).format("MMM")}
-                  </Text>
-                  <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
-                    {moment(data.startdate).format("D")}
-                  </Text>
-                  <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
-                    {moment(data.startdate).format("YYYY")}
-                  </Text> */}
                             <Text
                               style={{
-                                fontSize: 20,
-                                fontFamily: "HindBold",
+                                fontSize: 18,
+                                fontFamily: "HindSemiBold",
                                 color: "white",
                               }}
                             >
                               {moment(data.startdate).format("DD/MM/YYYY")}
                             </Text>
                           </View>
-                          <View style={{ flex: 2, top: 3, left: "30%" }}>
+                          <View style={{ flex: 2,alignItems:'center' }}>
                             <Text
                               style={{
-                                fontSize: 16,
-                                fontFamily: "HindBold",
+                                fontSize: 18,
+                                fontFamily: "HindSemiBold",
                                 color: "black",
                               }}
                             >
-                              To
+                              to
                             </Text>
                           </View>
                           <View
@@ -331,22 +265,13 @@ const CalenderScreen = () => {
                               alignItems: "center",
                               marginHorizontal: 10,
                               borderRadius: 10,
-                              width: "70%",
+                              //width: "70%",
                             }}
                           >
-                            {/* <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
-                    {moment(data.enddate).format("MMM")}
-                  </Text>
-                  <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
-                    {moment(data.enddate).format("D")}
-                  </Text>
-                  <Text style={{fontSize:20,fontFamily: "HindBold",color:'white'}}>
-                    {moment(data.enddate).format("YYYY")}
-                  </Text> */}
                             <Text
                               style={{
-                                fontSize: 20,
-                                fontFamily: "HindBold",
+                                fontSize: 18,
+                                fontFamily: "HindSemiBold",
                                 color: "white",
                               }}
                             >
@@ -358,16 +283,16 @@ const CalenderScreen = () => {
                       <View style={{ flex: 1, left: "10%" }}>
                         <Text
                           style={{
-                            fontSize: 20,
+                            fontSize: 18,
                             color: "black",
-                            fontFamily: "HindBold",
+                            fontFamily: "HindSemiBold",
                           }}
                         >
                           {data.description}
                         </Text>
                       </View>
                     </View>
-                    <View style={styles.space} />
+                    
                   </>
                 ))
               )}
@@ -375,8 +300,7 @@ const CalenderScreen = () => {
           </ScrollView>
           </View>
         </View>
-        {/* </View> */}
-        <View style={{ flex: 0.2 }}>
+        <View style={{flex: 0.1}} >
           <ParentsHome />
         </View>
       </View>
@@ -387,67 +311,14 @@ const CalenderScreen = () => {
 export default CalenderScreen;
 
 const styles = StyleSheet.create({
-  mainContainer: {
+  listView:{
     flex: 1,
-    flexDirection: "row",
-    backgroundColor: "#DEE4FF",
-    padding: 10,
-    marginHorizontal: 10,
-    borderBottomWidth: 1,
-    borderTopRightRadius: 10,
-    borderBottomLeftRadius: 10,
-  },
-  cardStyle: {
-    top: 10,
-    marginLeft: 10,
-    marginRight: 10,
-    backgroundColor: "#EFFFFD",
-    // borderRadius: 20,
-    // marginBottom: 15,
-
-    // backgroundColor: "#0080FF",
-    // elevation: 5,
-    // shadowColor: "black",
-
-    // shadowOpacity: 0.75,
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowRadius: 8,
-    // overflow: Platform.OS === "android" ? "hidden" : "visible",
-  },
-  cardView: {
-    flexDirection: "row",
+    flexDirection: "column",
+    backgroundColor: "white"
   },
   space: {
-    width: 20,
+    width: 20, // or whatever size you need
     height: 20,
-  },
-  textStyle: {
-    fontFamily: "HindRegular",
-    fontSize: 20,
-    color: "black",
-  },
-  commonDesign: {
-    flexDirection: "row",
-    top: 10,
-    backgroundColor: "#DEF6FF",
-    marginHorizontal: 10,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-  },
-  upDesign: {
-    borderTopWidth: 1,
-    marginHorizontal: 10,
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
-  },
-  downDesign: {
-    paddingBottom: 5,
-    borderBottomWidth: 1,
-    borderBottomRightRadius: 10,
-    borderBottomLeftRadius: 10,
-  },
-  fontStyle: {
-    fontFamily: "HindSemiBold",
-    fontSize: 18,
-  },
+    backgroundColor:'red'
+  }
 });

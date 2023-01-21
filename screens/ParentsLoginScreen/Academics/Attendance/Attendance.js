@@ -275,6 +275,7 @@ function Attendance() {
             // selectedDayTextStyle={{color: 'black'}}
             enableDateChange={true}
             onDateChange={(day)=>handlePress(day)}
+            textStyle={{fontFamily:'HindRegular'}}
           />
            
         </View>
@@ -304,7 +305,7 @@ function Attendance() {
                 <View style={styles.presentDot}/>
               </View>
               <View style={{flex: 1}} >
-                {count && <Text>Present: {count.present} Days</Text>}
+                {count && <Text style={styles.textStyle}>Present: {count.present} Days</Text>}
               </View>
             </View>
           </View>
@@ -321,7 +322,7 @@ function Attendance() {
                 <View style={styles.absentDot}/>
               </View>
               <View style={{flex: 1}} >
-                {count && <Text>Absent: {count.absent} Days</Text>}
+                {count && <Text style={styles.textStyle}>Absent: {count.absent} Days</Text>}
               </View>
             </View>
           </View>
@@ -338,7 +339,7 @@ function Attendance() {
                 <View style={styles.holidayDot}/>
               </View>
               <View style={{flex: 1}} >
-                {count && <Text>Holiday: {count.holiday} Days</Text>}
+                {count && <Text style={styles.textStyle}>Holiday: {count.holiday} Days</Text>}
               </View>
             </View>
           </View>
@@ -400,5 +401,9 @@ function Attendance() {
       backgroundColor:'#D4AC0D',
       // borderRadius:100
     },
+    textStyle:{
+      fontFamily:'HindRegular',
+      fontSize:15
+    }
   })
   

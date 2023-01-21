@@ -67,7 +67,7 @@ const ParentsProfile = () => {
         },
       ]}
     >
-      <View style={{ flex: 0.6 }}>
+      <View style={{ flex: 0.4,backgroundColor:"#f0f0fc" }}>
         <View
           style={[
             styles.container,
@@ -77,7 +77,7 @@ const ParentsProfile = () => {
             },
           ]}
         >
-          <View style={{ flex: 3 }}>
+          <View style={{ flex: 0.4 }}>
             <View style={styles.imageContainer}>
               {/* <Image
                 source={{
@@ -92,23 +92,59 @@ const ParentsProfile = () => {
                 resizeMode="contain" ref={myRef}/>
             </View>
           </View>
-          <View style={{ flex: 5 }}>
-            <View style={{ padding: 15, paddingTop: 0 }}>
-              <Text
-                style={{ fontFamily: "HindMedium", fontSize: 15, margin: 5 }}
-              >
-                Name :{StudentName}
-              </Text>
-              <Text
-                style={{ fontFamily: "HindMedium", fontSize: 15, margin: 5 }}
-              >
-                Class : {className} {"-"} {Section}
-              </Text>
-              <Text
-                style={{ fontFamily: "HindMedium", fontSize: 15, margin: 5 }}
-              >
-                Roll No : {StudentRegNo}
-              </Text>
+          <View style={{ flex: 1 }}>
+            <View
+              style={[
+                { flex: 1 },
+                {
+                  flexDirection: "row",
+                },
+              ]}
+            >
+              <View style={{ flex: 1, alignItems: "center" }}>
+                <Text style={[styles.description]}>Name</Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.textStyleStudInfo]}>
+                  {StudentName}
+                </Text>
+              </View>
+            </View>
+            <View
+              style={[
+                { flex: 1 },
+                {
+                  flexDirection: "row",
+                },
+              ]}
+            >
+              <View style={{ flex: 1, alignItems: "center" }}>
+                <Text style={[styles.description]}>Class</Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.textStyleStudInfo]}>
+                  {className} - {Section}
+                </Text>
+              </View>
+            </View>
+            <View
+              style={[
+                { flex: 1 },
+                {
+                  flexDirection: "row",
+                },
+              ]}
+            >
+              <View style={{ flex: 1, alignItems: "center", marginLeft: "4%" }}>
+                <Text style={[styles.description]}>
+                  Reg No
+                </Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.textStyleStudInfo]}>
+                  {StudentRegNo}
+                </Text>
+              </View>
             </View>
           </View>
         </View>
@@ -120,7 +156,7 @@ const ParentsProfile = () => {
             colorScheme='darkBlue'
             style={[
               styles.buttonStyle,
-              studentInfoClicked && isActive && {borderBottomColor:'#4C49AB',borderBottomWidth:3,backgroundColor:'#D6D7FF'}]}>Student Info</NativeButton>
+              studentInfoClicked && isActive && styles.activeStyle]}>Student Info</NativeButton>
           <Divider
             bg="#4C49AB"
             thickness="2"
@@ -133,85 +169,85 @@ const ParentsProfile = () => {
             colorScheme='darkBlue'
             style={[
               styles.buttonStyle,
-              parentInfoClicked && isActive && {borderBottomColor:'#4C49AB',borderBottomWidth:3,backgroundColor:'#D6D7FF'}]}>Parent Info</NativeButton>
+              parentInfoClicked && isActive && styles.activeStyle]}>Parent Info</NativeButton>
         </View>
 
       {studentInfoClicked && 
         <View
           style={[styles.flexStyle,]}>
-          <View style={[{paddingHorizontal:10,left:'5%'},{ flex: 1}]}>
+          <View style={[{},{ flex: 1}]}>
             <ScrollView>
               <View style={[styles.viewStyle]}>
-                <View style={{ flex: 1}} >
+                <View style={{ flex: 1,alignItems:"center"}} >
                   <Text style={styles.labelStyle}>Date Of Birth</Text>
                 </View>
-                <View style={{ flex: 1 }} >
+                <View style={{ flex: 1,alignItems:"center" }} >
                   <Text style={styles.labelStyle}>{moment(DOB).format("DD/MM/YYYY")}</Text>
                 </View>
               </View>
               <View style={[styles.viewStyle]}>
-                <View style={{ flex: 1}} >
+                <View style={{ flex: 1,alignItems:"center"}} >
                   <Text style={styles.labelStyle}>Gendar</Text>
                 </View>
-                <View style={{ flex: 1 }} >
+                <View style={{ flex: 1 ,alignItems:"center"}} >
                   <Text style={styles.labelStyle}>{Gendar}</Text>
                 </View>
               </View>
               <View style={[styles.viewStyle]}>
-                <View style={{ flex: 1}} >
+                <View style={{ flex: 1,alignItems:"center"}} >
                   <Text style={styles.labelStyle}>Admission Date</Text>
                 </View>
-                <View style={{ flex: 1 }} >
+                <View style={{ flex: 1,alignItems:"center" }} >
                   <Text style={styles.labelStyle}>{moment(DateOfAddmission).format("DD/MM/YYYY")}</Text>
                 </View>
               </View>
               <View style={[styles.viewStyle]}>
-                <View style={{ flex: 1}} >
+                <View style={{ flex: 1,alignItems:"center"}} >
                   <Text style={styles.labelStyle}>Student Address</Text>
                 </View>
-                <View style={{ flex: 1 }} >
+                <View style={{ flex: 1,alignItems:"center" }} >
                   <Text style={styles.labelStyle}>{StudentAddress}</Text>
                 </View>
               </View>
               <View style={[styles.viewStyle]}>
-                <View style={{ flex: 1}} >
+                <View style={{ flex: 1,alignItems:"center"}} >
                   <Text style={styles.labelStyle}>City</Text>
                 </View>
-                <View style={{ flex: 1 }} >
+                <View style={{ flex: 1,alignItems:"center" }} >
                   <Text style={styles.labelStyle}>{City}</Text>
                 </View>
               </View>
 
               <View style={[styles.viewStyle]}>
-                <View style={{ flex: 1}} >
+                <View style={{ flex: 1,alignItems:"center"}} >
                   <Text style={styles.labelStyle}>State</Text>
                 </View>
-                <View style={{ flex: 1 }} >
+                <View style={{ flex: 1,alignItems:"center" }} >
                   <Text style={styles.labelStyle}>{State}</Text>
                 </View>
               </View>
 
               <View style={[styles.viewStyle]}>
-                <View style={{ flex: 1}} >
+                <View style={{ flex: 1,alignItems:"center"}} >
                   <Text style={styles.labelStyle}>Country</Text>
                 </View>
-                <View style={{ flex: 1 }} >
+                <View style={{ flex: 1,alignItems:"center" }} >
                   <Text style={styles.labelStyle}>{Country}</Text>
                 </View>
               </View>
               <View style={[styles.viewStyle]}>
-                <View style={{ flex: 1}} >
+                <View style={{ flex: 1,alignItems:"center"}} >
                   <Text style={styles.labelStyle}>Pincode</Text>
                 </View>
-                <View style={{ flex: 1 }} >
+                <View style={{ flex: 1,alignItems:"center" }} >
                   <Text style={styles.labelStyle}>{Pincode}</Text>
                 </View>
               </View>
               <View style={[styles.viewStyle]}>
-                <View style={{ flex: 1}} >
+                <View style={{ flex: 1,alignItems:"center"}} >
                   <Text style={styles.labelStyle}>Academic Year</Text>
                 </View>
-                <View style={{ flex: 1 }} >
+                <View style={{ flex: 1,alignItems:"center" }} >
                   <Text style={styles.labelStyle}>{AcademicYear}</Text>
                 </View>
               </View>
@@ -370,11 +406,9 @@ const styles = StyleSheet.create({
     height: 10,
   },
   imageContainer: {
-    backgroundColor: "white",
-
   //  borderWidth: 5,
-    justifyContent: "center",
-    alignItems: "center",
+    // justifyContent: "center",
+    // alignItems: "center",
   },
   image: {
     height: 90,
@@ -386,8 +420,17 @@ const styles = StyleSheet.create({
   },
   tabHeader:{
     flexDirection:'row',
+    marginTop:'5%',
     // top:'20%',
     justifyContent:'space-between',
+  },
+  description:{
+    fontSize: 17,
+    fontFamily: "HindSemiBold",
+  },
+  textStyleStudInfo: {
+    fontSize: 17,
+    fontFamily: "HindMedium",
   },
   buttonStyle:{
     width:'50%',
@@ -401,7 +444,7 @@ const styles = StyleSheet.create({
   //   height: 20,
   // },
   labelStyle:{
-    fontFamily:'HindBold'
+    fontFamily:'HindSemiBold'
   },
   flexStyle:{
     flex: 1,
@@ -412,5 +455,10 @@ const styles = StyleSheet.create({
     flex:1,
     flexDirection: "row",
     paddingVertical:10
+  },
+  activeStyle:{
+    borderBottomColor:'#4C49AB',
+    borderBottomWidth:3,
+    backgroundColor:'#D6D7FF'
   }
 });

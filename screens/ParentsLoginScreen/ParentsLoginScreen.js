@@ -189,6 +189,7 @@ export var studentList = [];
 export var value, phno;
 export var PHONE;
 export var phonenumber, USERNAME;
+
 function ParentsLoginScreen() {
   const [students, setStudents] = useState([]);
   const [user, setUser] = useState("");
@@ -312,12 +313,13 @@ function ParentsLoginScreen() {
         ]}
       >
         <View style={styles.studInfoStyle}>
-          <Heading
+          {/* <Heading
             size="md"
             style={{ textAlign: "center", bottom: 7, marginVertical: 7 }}
           >
             Student details
-          </Heading>
+          </Heading> */}
+          <Text style={styles.mainHeading}>Student details</Text>
           <ScrollView persistentScrollbar={false}>
             <FlatList data={students} renderItem={renderStudentDetails} />
           </ScrollView>
@@ -349,6 +351,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     // padding: deviceWidth < 718 ? 20 : 32,
+  },
+  mainHeading:{
+    fontSize:18,
+    fontFamily:'HindSemiBold',
+    left:'33%'
   },
   title: {
     fontSize: 20,
