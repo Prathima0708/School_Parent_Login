@@ -724,7 +724,7 @@ const TecahersExamTimeTable = () => {
               },
             ]}
           >
-            <Text style={{fontFamily:'HindBold',fontSize:20,top:'3%',marginLeft:10}}>Select class</Text>
+            <Text style={{fontFamily:'HindSemiBold',fontSize:17,top:'3%',marginLeft:10}}>Select class</Text>
             <View style={styles.space}/>
             <View style={styles.space}/>
             <Text style={{fontFamily:'HindBold',fontSize:20,top: "3%",right:'2%'}}>-</Text>
@@ -996,7 +996,7 @@ const TecahersExamTimeTable = () => {
                   )}
                 </View> :
                 <View style={{ alignItems: "center", top: "2%" }}>
-                <NativeText fontSize="xl" bold color="error.900">
+                <NativeText fontSize="lg" bold color="error.900">
                   No exam timetable found
                 </NativeText>
               </View>}

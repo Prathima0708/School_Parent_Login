@@ -940,7 +940,7 @@ const TeachersMarksheet = () => {
               <Text
                 style={{
                   fontFamily: "HindSemiBold",
-                  fontSize: 15,
+                  fontSize: 17,
                   top: "5%",
                   marginLeft: 10,
                 }}
@@ -1167,7 +1167,7 @@ const TeachersMarksheet = () => {
               <View style={{ flex: 8, bottom: 10 }}>
                 {filteredData.length <= 0 ? (
                   <View style={{ alignItems: "center", top: "5%" }}>
-                    <NativeText fontSize="xl" bold color="error.900">
+                    <NativeText fontSize="lg" bold color="error.900">
                       No Data Found
                     </NativeText>
                   </View>
@@ -1186,10 +1186,7 @@ const TeachersMarksheet = () => {
                                 }}
                               >
                                 <Text
-                                  style={[
-                                    styles.headerText,
-                                    { color: "black" },
-                                  ]}
+                                  style={styles.headerTextValue}
                                 >
                                   {filteredData.reg_number}
                                 </Text>
@@ -1202,10 +1199,7 @@ const TeachersMarksheet = () => {
                                 }}
                               >
                                 <Text
-                                  style={[
-                                    styles.headerText,
-                                    { color: "black" },
-                                  ]}
+                                 style={styles.headerTextValue}
                                 >
                                   {filteredData.student_name}
                                 </Text>
@@ -1218,10 +1212,7 @@ const TeachersMarksheet = () => {
                                 }}
                               >
                                 <Text
-                                  style={[
-                                    styles.headerText,
-                                    { color: "black" },
-                                  ]}
+                                  style={styles.headerTextValue}
                                 >
                                   {filteredData.class_name} -{" "}
                                   {filteredData.section}
@@ -1680,8 +1671,13 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontFamily: "HindSemiBold",
-    fontSize: 15,
+    fontSize: 16,
     color: "white",
+  },
+  headerTextValue: {
+    fontFamily: "HindMedium",
+    fontSize: 17,
+    color: "black",
   },
   tableTitle: {
     // padding: 5,

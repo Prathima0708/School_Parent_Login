@@ -175,7 +175,7 @@ const StudentList = () => {
                               }}
                             >
                               <Text
-                                style={[styles.headerText, { color: "black" }]}
+                                style={styles.headerTextValue}
                               >
                                 {filteredData.reg_number}
                               </Text>
@@ -188,7 +188,7 @@ const StudentList = () => {
                               }}
                             >
                               <Text
-                                style={[styles.headerText, { color: "black" }]}
+                                style={styles.headerTextValue}
                               >
                                 {filteredData.student_name}
                               </Text>
@@ -201,7 +201,7 @@ const StudentList = () => {
                               }}
                             >
                               <Text
-                                style={[styles.headerText, { color: "black" }]}
+                                style={styles.headerTextValue}
                               >
                                 {filteredData.class_name} -{" "}
                                 {filteredData.section}
@@ -214,7 +214,7 @@ const StudentList = () => {
                 </View>
               ) : (
                 <View style={{ alignItems: "center", marginVertical: 10 }}>
-                  <NativeText fontSize="xl" bold color="error.900">
+                  <NativeText fontSize="lg" bold color="error.900">
                     No data found.
                   </NativeText>
                 </View>
@@ -259,9 +259,14 @@ const styles = StyleSheet.create({
     borderLeftWidth: 1,
   },
   headerText: {
-    fontFamily: "HindBold",
+    fontFamily: "HindSemiBold",
     fontSize: 16,
     color: "white",
+  },
+  headerTextValue: {
+    fontFamily: "HindMedium",
+    fontSize: 17,
+    color: "black",
   },
   th: {
     padding: 5,
