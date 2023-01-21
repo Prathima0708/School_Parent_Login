@@ -413,8 +413,8 @@ const TeachersTimetable = () => {
             >
               <Text
                 style={{
-                  fontFamily: "HindBold",
-                  fontSize: 20,
+                  fontFamily: "HindSemiBold",
+                  fontSize: 17,
                   top: "3%",
                   marginLeft: 10,
                 }}
@@ -483,7 +483,7 @@ const TeachersTimetable = () => {
                 <>
                   {showSelected && (isUndefined || !isIdThere) && (
                     <View style={{ alignItems: "center", top: "2%" }}>
-                      <NativeText fontSize="xl" bold color="error.900">
+                      <NativeText fontSize="lg" bold color="error.900">
                         No Timetable found
                       </NativeText>
                     </View>

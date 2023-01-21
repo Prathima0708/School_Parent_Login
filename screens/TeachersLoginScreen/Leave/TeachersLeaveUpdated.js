@@ -1981,7 +1981,7 @@ const TeachersLeaveUpdated = () => {
           <View style={{flex: 1}} >
             <NativeText bold style={{ fontSize: 17,marginLeft:'35%',padding:10}}>Leave List</NativeText>
             <View style={{flexDirection:'row',padding:20}}>
-              <NativeText bold style={{ fontSize: 17,top:'3%'}}>Select Class</NativeText>
+              <Text  style={{ fontSize: 16,top:'3%',fontFamily:'HindSemiBold'}}>Select Class</Text>
               <View style={styles.space}/>
               <SelectList
                 setSelected={setSelectedClassSection}
@@ -2115,7 +2115,7 @@ const TeachersLeaveUpdated = () => {
               <View style={{ flex: 8, bottom: 50 }}>
                 {leaveByClassSection.length <= 0 ? (
                   <View style={{ alignItems: "center", top: "16%" }}>
-                    <NativeText fontSize="xl" bold color="error.900">
+                    <NativeText fontSize="lg" bold color="error.900">
                       Select class to view Student leaves
                     </NativeText>
                   </View>
@@ -2604,7 +2604,7 @@ const styles = StyleSheet.create({
     color: "red",
     left: 20,
     fontFamily: "HindRegular",
-    fontSize: deviceWidth < 370 ? 16 : 15,
+    fontSize: deviceWidth < 370 ? 16 : 16,
     top: deviceHieght > 800 ? -3 : 1,
   },
   // labels: {
@@ -2694,7 +2694,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F2F2F2",
     backgroundColor: "white",
     paddingHorizontal: 5,
-    fontSize: deviceWidth < 370 ? 13 : 18,
+    fontSize: deviceWidth < 370 ? 13 : 17,
     fontFamily: "HindRegular",
   },
   errorSelectedColor: {
@@ -2781,7 +2781,7 @@ const styles = StyleSheet.create({
     cursor: "pointer",
   },
   msgText: {
-    fontSize: 15,
+    fontSize: 17,
     fontFamily: "HindSemiBold",
     color: "#6B0000",
   },

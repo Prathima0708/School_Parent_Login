@@ -1078,8 +1078,8 @@ const TeachersAttendanceBuild = () => {
               >
                 <Text
                   style={{
-                    fontFamily: "HindRegular",
-                    fontSize: 15,
+                    fontFamily: "HindSemiBold",
+                    fontSize: 17,
                     top: "3%",
                     //marginLeft: 10,
                   }}
@@ -1122,8 +1122,8 @@ const TeachersAttendanceBuild = () => {
                 >
                   <Text
                     style={{
-                      fontFamily: "HindRegular",
-                      fontSize: 15,
+                      fontFamily: "HindSemiBold",
+                      fontSize: 17,
                       top: "3%",
                     }}
                   >
@@ -1223,8 +1223,8 @@ const TeachersAttendanceBuild = () => {
           >
             <Text
               style={{
-                fontFamily: "HindRegular",
-                fontSize: 18,
+                fontFamily: "HindSemiBold",
+                fontSize: 17,
                 top: "3%",
               }}
             >
@@ -1337,10 +1337,7 @@ const TeachersAttendanceBuild = () => {
                                       }}
                                     >
                                       <Text
-                                        style={[
-                                          styles.headerText,
-                                          { color: "black" },
-                                        ]}
+                                        style={styles.headerTextValue}
                                       >
                                         {filteredData.reg_number}
                                       </Text>
@@ -1353,10 +1350,7 @@ const TeachersAttendanceBuild = () => {
                                       }}
                                     >
                                       <Text
-                                        style={[
-                                          styles.headerText,
-                                          { color: "black" },
-                                        ]}
+style={styles.headerTextValue}
                                       >
                                         {filteredData.student_name}
                                       </Text>
@@ -1369,10 +1363,7 @@ const TeachersAttendanceBuild = () => {
                                       }}
                                     >
                                       <Text
-                                        style={[
-                                          styles.headerText,
-                                          { color: "black" },
-                                        ]}
+                                        style={styles.headerTextValue}
                                       >
                                         {filteredData.class_name} -{" "}
                                         {filteredData.section}
@@ -1390,7 +1381,7 @@ const TeachersAttendanceBuild = () => {
                             marginVertical: 10,
                           }}
                         >
-                          <NativeText fontSize="xl" bold color="error.900">
+                          <NativeText fontSize="lg" bold color="error.900">
                             No data found.
                           </NativeText>
                         </View>
@@ -1401,7 +1392,7 @@ const TeachersAttendanceBuild = () => {
               </View>
             )}
           </View>
-          <View style={{ flex: 0.1, backgroundColor: "green" }}>
+          <View style={{ flex: 0.1}}>
             <TeachersHome />
           </View>
         </View>
@@ -1434,7 +1425,7 @@ const TeachersAttendanceBuild = () => {
             {showDefaultBtns && (
               <View
                 style={[
-                  { flex: 2.5 },
+                  { flex: 2.9 },
                   {
                     flexDirection: "row",
                     left: "10%",
@@ -1450,6 +1441,7 @@ const TeachersAttendanceBuild = () => {
                         fontSize: 15,
                         fontFamily: "HindSemiBold",
                         color: "white",
+                       
                       }}
                     >
                       Present All
@@ -2089,9 +2081,9 @@ const styles = StyleSheet.create({
     // height: "100%",
   },
   description: {
-    fontSize: 20,
+    fontSize: 17,
     marginBottom: 4,
-    fontWeight: "bold",
+    fontFamily:'HindMedium'
   },
   space: {
     width: 20, // or whatever size you need
@@ -2129,9 +2121,9 @@ const styles = StyleSheet.create({
   tableHeader: {
     flex: 0.2,
     flexDirection: "row",
-    top: "17%",
+    top: "15%",
     borderWidth: 1,
-    marginHorizontal: 21,
+    marginHorizontal: 20,
     backgroundColor: "#1E84A4",
   },
   tableText: {
@@ -2147,6 +2139,11 @@ const styles = StyleSheet.create({
     fontFamily: "HindSemiBold",
     fontSize: 16,
     color: "white",
+  },
+  headerTextValue: {
+    fontFamily: "HindMedium",
+    fontSize: 16,
+    color: "black",
   },
   th: {
     padding: 5,

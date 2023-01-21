@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     fontSize: deviceWidth < 370 ? 16 : 18,
-
+    padding:'3%',
     fontFamily: "HindSemiBold",
   },
 });

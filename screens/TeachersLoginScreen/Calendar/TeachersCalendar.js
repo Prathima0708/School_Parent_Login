@@ -12,10 +12,10 @@ import {
   ActivityIndicator,
 } from "react-native";
 import SelectList from "react-native-dropdown-select-list";
-import CheckBox from "react-native-check-box";
+
 import React, { useEffect, useState } from "react";
 import { Checkbox } from "react-native-paper";
-import FloatLabelTextInput from "react-native-floating-label-text-input";
+
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../../components/UI/Button";
 import axios from "axios";
@@ -26,23 +26,21 @@ import SearchBar from "react-native-dynamic-search-bar";
 import { Ionicons } from "@expo/vector-icons";
 import TeachersHome from "../BottomTab/TeachersHome";
 import Input from "../../../components/UI/Input";
-import { getMomentsAsync } from "expo-media-library";
+
 import moment from "moment";
 
-import { Card, DataTable } from "react-native-paper";
+import { Card } from "react-native-paper";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import { Animated } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import EditCalendar from "./EditCalendar";
+
 import { HStack, IconButton, Radio } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
-import { style } from "@mui/system";
-import { Token } from "../../Login";
 
-// import { Label } from "react-native-form-component";
-var FloatingLabel = require("react-native-floating-labels");
+
+
 export var ID;
 var FROMDATE, TODATE;
 var USERNAME, TOKEN;
@@ -162,7 +160,7 @@ const TeachersCalendar = () => {
 
   const [showInitialBtn, setShowInitialBtn] = useState(true);
 
-  const [isActive, setActive] = useState(false);
+
   const [loading, setLoading] = useState(false);
 
   const [all, setAll] = useState(false);
@@ -174,27 +172,15 @@ const TeachersCalendar = () => {
   let i = 0;
   const [saveYear, setSaveYear] = useState([]);
 
-  // async function logoutHandler() {
-  //   try {
-  //     const value = await AsyncStorage.getItem("key");
-  //     if (value == null) {
-
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+  
 
   useEffect(() => {
     async function fetchData() {
       try {
         const res = await axios.get(`${subURL}/Calendar/`);
-        // console.log(res.data);
-        // var mapped = res.data.map((item) => ({ [item.key]: item.value }));
-        // var newObj = Object.assign({}, ...mapped);
-        // console.log(newObj);
+      
         const keys = Object.keys(res.data[0]);
-        console.log("keys -", keys);
+     
         setData(res.data);
         setFilteredData(res.data);
         var newArray = res.data.map((item) => {
@@ -204,32 +190,13 @@ const TeachersCalendar = () => {
             value: moment(res.data.startdate).format("YYYY"),
           };
         });
-        console.log(newArray);
+   
         setSaveYear(newArray);
         let test = 0;
 
-        // for (i = 0; i < res.data.length; i++) {
-        //   // console.log(moment(res.data[i].startdate).format("YYYY"));
-        //   // saveYear.push(moment(res.data[i].startdate).format("YYYY"));
-        //   // setSaveYear(moment(res.data[i].startdate).format("YYYY"));
-        //   // if (USERNAME == res.data[i].created_by) {
-        //   //   //  console.log("is same");
-        //   //   SetIsSame(true);
-        //   // } else {
-        //   //   //  console.log("not same");
-        //   // }
-        // }
-
-        // const value = await AsyncStorage.getItem("key");
-        // for (i = 0; i < res.data.length; i++) {
-        //   if (value == res.data[i].created_by) {
-        //     test = res.data[i].created_by;
-        //   } else {
-        //     // console.log('false')
-        //   }
-        // }
+        
         if (test == value) {
-          // console.log("is same")
+         
           SetIsSame(true);
         }
       } catch (error) {
@@ -239,18 +206,7 @@ const TeachersCalendar = () => {
     fetchData();
   }, []);
 
-  // const variable=data.createdby === AsyncStorage.getItem('key')
-  // const value=AsyncStorage.getItem('key')
-  // try {
-  //   const value = await AsyncStorage.getItem("key");
-
-  //   if (value !== null) {
-  //     console.log("This is the token :" + value);
-  //   }
-  // } catch (error) {
-  //   // Error retrieving data
-  // }
-
+ 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -309,7 +265,7 @@ const TeachersCalendar = () => {
     setToDate(currentToDate);
 
     let tempToDate = new Date(currentToDate);
-    console.log(tempToDate);
+   
     let tDate =
       tempToDate.getDate() +
       "/" +
@@ -332,17 +288,14 @@ const TeachersCalendar = () => {
     setEnteredDescription(enteredValue);
   }
 
-  function createdByChangeHandler(enteredValue) {
-    setEnteredcreatedby(enteredValue);
-  }
+
   function frmDateHandler(enteredValue) {
-    // setFromText(enteredValue);
-    // setEnteredFromDate(enteredValue);
+
     setFromDate(enteredValue);
     setenteredfrmdate(enteredValue);
   }
   function toDateHandler(enteredValue) {
-    // setToText(enteredValue);
+   
     setToDate(enteredValue);
     setenteredtodate(enteredValue);
   }
@@ -351,12 +304,11 @@ const TeachersCalendar = () => {
     setShowInitialBtn(true);
     const FormData = {
       description: description,
-      // created_by:createdby,
+
       startdate: FROMDATE,
       enddate: TODATE,
       titlee: title,
     };
-    //console.log(FormData);
 
     if (
       !enteredTitleIsValid ||
@@ -378,8 +330,7 @@ const TeachersCalendar = () => {
               headers: headers,
             }
           );
-          // const token = resLogin.data.token;
-          // const userId = resLogin.data.user_id;
+         
         } catch (error) {
           console.log(error);
         }
@@ -422,9 +373,7 @@ const TeachersCalendar = () => {
 
     var viewOnlyData = [];
 
-    // if (checked) {
-    //   viewOnlyData.push("all");
-    // }
+   
     if (adminChecked) {
       viewOnlyData.push("admin");
     }
@@ -437,10 +386,7 @@ const TeachersCalendar = () => {
       viewOnlyData.push("parent");
     }
 
-    // `{[${checked ? "all" : ""},
-    // ${adminChecked ? "admin" : ""},
-    // ${teacherChecked ? "teacher" : ""},
-    // ${parentChecked ? "parentt" : ""} ]}`
+    
 
     const FormData = {
       description: description,
@@ -452,35 +398,23 @@ const TeachersCalendar = () => {
       viewOnly: viewOnlyData.toString(),
     };
 
-    console.log(FormData);
+    
 
     const formIsValid =
       enteredTitleIsValid &&
       enteredDescriptionIsValid &&
       enteredFromDateIsValid &&
       enteredtoDateIsValid;
-    //  enteredSelcetdIsValid
-    if (formIsValid) {
-    }
 
-    //setEnteredSelectedTouched(true)
+  
+
+   
     setEnteredTitleTouched(true);
     setEnteredDescriptionTouched(true);
     setSelectedTouched(true);
     setEnteredFromDateTouched(true);
     setEnteredtoDateTouched(true);
-    // setCheckFromDateTouched(true);
-    // setCheckToDateTouched(true);
-    // if(!enteredSelcetdIsValid){
-    //   return;
-    // }
-
-    // if (!adminChecked && !teacherChecked && !checked && !parentChecked) {
-    //   return;
-    // }
-    // else{
-    //   setAnyChecked(true);
-    // }
+    
     if (!enteredTitleIsValid) {
       return;
     }
@@ -490,9 +424,7 @@ const TeachersCalendar = () => {
     if (!enteredDescriptionIsValid) {
       return;
     }
-    // if(!enteredCreatedByIsValid){
-    //   return;
-    // }
+ 
     if (!enteredFromDateIsValid) {
       return;
     }
@@ -532,9 +464,7 @@ const TeachersCalendar = () => {
                   headers: headers,
                 }
               );
-              // const token = resLogin.data.token;
-              // const userId = resLogin.data.user_id;
-              // console.log(resLogin.data);
+              
             } catch (error) {
               console.log(error);
             }
@@ -556,10 +486,10 @@ const TeachersCalendar = () => {
           setToText("");
           setEnteredTitleTouched(false);
           setEnteredDescriptionTouched(false);
-          // setEnteredCreatedbyTouched(false);
+       
           setEnteredFromDateTouched(false);
           setEnteredtoDateTouched(false);
-          // setEnteredSelectedTouched(false);
+        
           setForCalendarList({
             backgroundColor: "#F4F6F6",
             color: "black",
@@ -580,14 +510,12 @@ const TeachersCalendar = () => {
     }
     getData();
   }
-  function selectedInputBlur() {
-    setEnteredSelectedTouched(true);
-  }
+ 
 
   function titleBlurHandler() {
     setEnteredTitleTouched(true);
     setIsTitleFocused(false);
-    // setLabel(false);
+  
   }
   function onFocusTitleHandler() {
     setIsTitleFocused(true);
@@ -664,7 +592,7 @@ const TeachersCalendar = () => {
     async function fetchData() {
       try {
         const res = await axios.get(`${subURL}/Calendar/`);
-        console.log(res.data);
+       
 
         setData(res.data);
         setFilteredData(res.data);
@@ -688,60 +616,22 @@ const TeachersCalendar = () => {
     setAnyChecked(true);
   }
 
-  // function editItem(id) {
-  //   // setShowInitialBtn(false);
-
-  //   setLabel(true);
-  //   setDescriptionLabel(true);
-  //   ID = id;
-  //   // console.log(id);
-  //   const filteredDummuyData = data.find((data) => data.id == id);
-  //   navigation.navigate("EditCalendar", {
-  //     id: id,
-  //     title: filteredDummuyData.titlee,
-  //     desc: filteredDummuyData.description,
-  //     fromtext: moment(filteredDummuyData.startdate).format("DD/MM/YYYY"),
-  //     totext: moment(filteredDummuyData.enddate).format("DD/MM/YYYY"),
-  //     cancel: cancelHandler.bind(this),
-  //   });
-
-  //   setEnteredDescription(filteredDummuyData.description);
-  //   //  setEnteredcreatedby(filteredDummuyData.created_by);
-  //   setFromText(moment(filteredDummuyData.startdate).format("DD/MM/YYYY"));
-  //   setToText(moment(filteredDummuyData.enddate).format("DD/MM/YYYY"));
-  //   setEnteredTitle(filteredDummuyData.titlee);
-  //   //  setEnteredMobile(filteredDummuyData.exam_name);
-  //   //  setEnteredRouteName(filteredDummuyData.hour);
-
-  //   setForCalendarList({
-  //     backgroundColor: "#F4F6F6",
-  //     color: "black",
-  //     borderRadius: 10,
-  //   });
-  //   setForCalendarForm({
-  //     color: "white",
-  //     backgroundColor: "#1E84A4",
-  //     borderRadius: 10,
-  //   });
-  //   // setShowForm(true);
-  //   // setShowList(false);
-  //   setIsEdit(true);
-  // }
+ 
 
   function editItem(id) {
     setShowInitialBtn(false);
     setLabel(true);
     setDescriptionLabel(true);
     ID = id;
-    console.log(id);
+  
     const filteredDummuyData = data.find((data) => data.id == id);
 
     setEnteredDescription(filteredDummuyData.description);
-    //  setEnteredcreatedby(filteredDummuyData.created_by);
+
     setFromText(moment(filteredDummuyData.startdate).format("DD/MM/YYYY"));
     setToText(moment(filteredDummuyData.enddate).format("DD/MM/YYYY"));
     setEnteredTitle(filteredDummuyData.titlee);
-    // setSelected(filteredDummuyData.)
+   
 
     setForCalendarList({
       backgroundColor: "#F4F6F6",
@@ -774,23 +664,22 @@ const TeachersCalendar = () => {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
         };
-        // const dataForm = FormData;
+       
         const resLogin = await axios.delete(
           `${subURL}/Calendar/${id}/`,
-          // FormData,
+       
           {
             headers: headers,
           }
         );
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
+       
       } catch (error) {
         console.log(error);
       }
       async function fetchData() {
         try {
           const res = await axios.get(`${subURL}/Calendar/`);
-          // console.log(res.data);
+
           setFilteredData(res.data);
         } catch (error) {
           console.log(error);
@@ -801,7 +690,7 @@ const TeachersCalendar = () => {
   }
 
   const searchFilter = (text) => {
-    console.log("search function");
+    
     if (text) {
       const newData = data.filter((item) => {
         const itemData = item.titlee
@@ -824,41 +713,10 @@ const TeachersCalendar = () => {
     setShowForm(false);
   }
 
-  function radioBtnHandler(nextValue) {
-    setValue(nextValue);
-    console.log(value);
-  }
-  function onePressed() {
-    console.log("one");
-  }
-
-  function twoPressed() {
-    console.log("two");
-  }
-
-  function allCheckedHanlder() {
-    //setAll(isChecked:)
-    setAll(true);
-  }
-
-  function adminCheckedHanlder(event) {
-    if (event.target.checked) {
-      console.log("checked");
-    } else {
-      console.log("unchecked");
-    }
-  }
-
-  function teacherCheckedHanlder() {
-    setTeacher(true);
-  }
-
-  function parentCheckedHanlder() {
-    setParent(true);
-  }
+ 
   async function fetchUser() {
     USERNAME = await AsyncStorage.getItem("UserName");
-    // console.log("this is the username in calendar", USERNAME);
+
     if (USERNAME !== null) {
       setUser(USERNAME);
     }
@@ -876,16 +734,12 @@ const TeachersCalendar = () => {
 
   function allCheckHandler() {
     setTest(true);
-    console.log(test);
+    
     setChecked(!checked);
     setTeacherChecked(!teacherChecked);
     setAdminChecked(!adminChecked);
     setParentChecked(!parentChecked);
-    if (!checked) {
-      console.log("check");
-    } else {
-      console.log("uncheck");
-    }
+   
   }
 
   function linkPressedHandler() {
@@ -906,18 +760,7 @@ const TeachersCalendar = () => {
 
   return (
     <>
-      {/* {showInitialBtn && (
-        <Animated.View
-          style={[
-            {
-              height: animateHeaderHeight,
-              backgroundColor: animateHeaderBackGround,
-            },
-          ]}
-        >
-          
-        </Animated.View>
-      )} */}
+    
 
       {showInitialBtn && (
         <Animated.View
@@ -957,8 +800,7 @@ const TeachersCalendar = () => {
                 </Text>
               </View>
               <Input
-                // keyboardType="number-pad"
-                // placeholder="Title"
+
                 onChangeText={titleChangeHandler}
                 blur={titleBlurHandler}
                 onFocus={onFocusTitleHandler}
@@ -997,7 +839,7 @@ const TeachersCalendar = () => {
                 </Text>
               </View>
               <Input
-                // placeholder="Description"
+
                 onChangeText={descriptionChangeHandler}
                 blur={descriptionBlurHandler}
                 onFocus={onFocusDescHandler}
@@ -1070,13 +912,10 @@ const TeachersCalendar = () => {
                     />
                   </View>
                   <UnderlinedInput
-                    // value={moment(toText).format('DD/MM/YYYY') || moment(toDate).format('DD/MM/YYYY')}
+
                     value={toText || todate}
-                    // value={
-                    //   moment(toText).format("DD/MM/YYYY") ||
-                    //   moment(todate).format("DD/MM/YYYY")
-                    // }
-                    placeholder="End date"
+                   
+                    placeholder="  End date"
                     onSubmitEditing={Keyboard.dismiss}
                     style={
                       isToDateFocused
@@ -1196,11 +1035,7 @@ const TeachersCalendar = () => {
                           onPress={() => {
                             setTeacherChecked(!teacherChecked);
                             setTest(true);
-                            if (!teacherChecked) {
-                              console.log("check");
-                            } else {
-                              console.log("uncheck");
-                            }
+                           
                           }}
                           color={"green"}
                           uncheckColor={"red"}
@@ -1226,11 +1061,7 @@ const TeachersCalendar = () => {
                           onPress={() => {
                             setParentChecked(!parentChecked);
                             setTest(true);
-                            if (!parentChecked) {
-                              console.log("check");
-                            } else {
-                              console.log("uncheck");
-                            }
+                          
                           }}
                           color={"green"}
                           uncheckColor={"red"}
@@ -1274,76 +1105,22 @@ const TeachersCalendar = () => {
         <View
           style={[
             { backgroundColor: "white" },
-            //    { transform: [{ translateY: translateY }] },
-            // { elevation: 4, zIndex: 100 },
+
           ]}
         >
           <SearchBar
-            // style={
-            //   keyboardStatus == "Keyboard Shown"
-            //     ? styles.upSearch
-            //     : styles.searchBar
-            // }
+           
             style={styles.searchBar}
             textInputStyle={{
               fontFamily: "HindRegular",
               fontSize: 18,
             }}
-            //   onClearPress={() => setFilteredData(filteredData)}
+
             placeholder="Search here"
             onChangeText={(text) => searchFilter(text)}
             value={searchText}
           />
-          {/* <View
-            style={[
-              {
-                //width: 170,
-                fontSize: 20,
-                backgroundColor: "white",
-                // marginTop: 13,
-                margin: 10,
-                left: 20,
-                marginTop: "4%",
-                flexDirection: "row",
-              },
-            ]}
-          >
-            <Text
-              style={{
-                fontFamily: "HindBold",
-                fontSize: 20,
-                top: "3%",
-                marginLeft: 10,
-              }}
-            >
-              Sort by
-            </Text>
-            <View style={styles.space} />
-            <View style={styles.space} />
-            <Text
-              style={{
-                fontFamily: "HindBold",
-                fontSize: 20,
-                top: "3%",
-                right: "2%",
-              }}
-            >
-              -
-            </Text>
-            <View style={styles.space} />
-            <SelectList
-              //  defaultOption={{ key: "1", value: "Second-A" }}
-              //  setSelected={setSelectedSearch}
-              data={saveYear}
-              // save="key"
-              placeholder="Select year"
-              // onSelect={searchHW}
-              boxStyles={{ borderRadius: 10 }}
-              dropdownTextStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-              inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-              dropdownStyles={{ width: "120%" }}
-            />
-          </View> */}
+        
         </View>
       )}
       {showList && (
@@ -1355,9 +1132,7 @@ const TeachersCalendar = () => {
         >
           <View style={{ flex: 8, bottom: 10 }}>
             <ScrollView
-              // onScroll={(e) => {
-              //   scrollY.setValue(e.nativeEvent.contentOffset.y);
-              // }}
+             
               scrollEventThrottle={25}
               onScroll={Animated.event(
                 [{ nativeEvent: { contentOffset: { y: scrollY } } }],
@@ -1523,12 +1298,7 @@ const TeachersCalendar = () => {
                                     ]}
                                   >
                                     <View style={{ flex: 0.3 }}>
-                                      {/* <Ionicons
-                                          name="calendar"
-                                          size={25}
-                                          color="#D4AC0D"
-                                          style={{  }}
-                                        /> */}
+                                     
                                     </View>
                                     <View
                                       style={{
@@ -1672,29 +1442,16 @@ const styles = StyleSheet.create({
 
     backgroundColor: "white",
   },
-  labelInput: {
-    color: "#673AB7",
-    fontSize: 20,
-  },
-  formInput: {
-    borderBottomWidth: 1.5,
-    marginLeft: 20,
-    borderColor: "#333",
-  },
-  input: {
-    borderWidth: 0,
-  },
+
   eventName: {
     fontFamily: "HindSemiBold",
     fontSize: 18,
     margin: 10,
     marginTop: 0,
   },
-  home: {
-    marginTop: 29,
-  },
+
   root: {
-    // backgroundColor: "#EBECFO",
+
     backgroundColor: "white",
     height: "100%",
   },
@@ -1712,9 +1469,10 @@ const styles = StyleSheet.create({
   },
 
   btnSubmit: {
-    marginTop: deviceHieght < 600 ? "5%" : "25%",
+    marginTop: deviceHieght < 600 ? "5%" : "20%",
     width: "60%",
     marginLeft: 155,
+    padding:'3%'
   },
   btnSubmitNew: {
     marginTop: deviceHieght < 600 ? "5%" : "5%",
@@ -1726,49 +1484,14 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
   },
-  th: {
-    padding: 5,
-
-    //fontSize: 24,
-  },
-  tableHeader: {
-    backgroundColor: "skyblue",
-
-    height: 50,
-    fontWeight: "bold",
-  },
-  tableTitle: {
-    // padding: 5,
-    margin: 7,
-    fontFamily: "MonsterratBold",
-    fontSize: 16,
-  },
-  flexStyleCol: {
-    flex: 1,
-    flexDirection: "column",
-  },
-  tableCell: {
-    width: 50,
-    //  fontFamily: "Montserrat_600SemiBold",
-    left: 10,
-
-    maxWidth: 200,
-  },
-
-  tableRow: {
-    height: "9%",
-    borderBottomColor: "black",
-    borderBottomWidth: 2,
-    whiteSpace: "pre-line",
-  },
+ 
+  
   searchBar: {
     marginTop: 10,
     marginBottom: 20,
-    // backgroundColor: "white",
+   
     backgroundColor: "#F0F3F4",
-
-    // height:deviceWidth < 370 ? "6%" : "6%",
-  },
+},
   errorLabel: {
     color: "red",
     backgroundColor: "#F2F2F2",
@@ -1777,12 +1500,12 @@ const styles = StyleSheet.create({
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
   normalLabel: {
-    // color: "#A7ADAD",
+
     color: "#AEB6BF",
-    // backgroundColor: "#F2F2F2",
+  
     backgroundColor: "white",
     paddingHorizontal: 5,
-    // bottom: 0,
+
     fontSize: deviceWidth < 370 ? 13 : 16,
     letterSpacing: 0.5,
   },
@@ -1847,7 +1570,7 @@ const styles = StyleSheet.create({
     color: "red",
     left: 20,
     fontFamily: "HindRegular",
-    fontSize: deviceWidth < 370 ? 16 : 15,
+    fontSize: deviceWidth < 370 ? 16 : 16,
     top: deviceHieght > 800 ? -3 : 1,
   },
   spinnerTextStyle: {
@@ -1862,11 +1585,9 @@ const styles = StyleSheet.create({
   labelStyle: {
     fontFamily: "HindRegular",
     fontSize: 18,
-    // marginTop: 10,
+   
   },
-  errorSelectedColor: {
-    borderColor: "red",
-  },
+ 
   linkText: {
     fontFamily: "HindSemiBold",
     color: "#02BFC4",

@@ -184,7 +184,7 @@ const MyClasses = () => {
             ]}
           >
             <View style={{ flex: 0.7, alignItems: "center" }}>
-              <Heading style={{ marginVertical: 15 }}>Class List</Heading>
+              <Text style={{ marginVertical: 15 ,fontFamily:'HindBold',fontSize:17}}>Class List</Text>
               <SearchBar
                 style={styles.searchBar}
                 textInputStyle={{

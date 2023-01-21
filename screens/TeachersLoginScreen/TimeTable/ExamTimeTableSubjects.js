@@ -24,12 +24,12 @@ const ExamTimeTableSubjects = () => {
       //  console.log(res.data);
 
         setData(res.data);
-        console.log(res.data)
+       
         if(res.data.length > 0){
-          console.log('if part')
+       
           setDataIsThere(true);
         }else{
-          console.log('else part')
+          
           setDataIsThere(false);
         }
 
@@ -61,11 +61,10 @@ const ExamTimeTableSubjects = () => {
                         <Text style={styles.labelFont}>Class name-</Text>
                       </View>
                       <View style={{ flex: 2}} >
-                        <Badge 
-                          colorScheme="info" 
-                          variant='solid'
-                          style={{marginHorizontal:20,right:'12%'}}>{route.params.className}
-                        </Badge>
+                        <Text 
+                       
+                          style={[styles.labelFontValue,{marginHorizontal:20,right:'12%'}]}>{route.params.className}
+                        </Text>
                       </View>
                     </View>
                   </View>
@@ -77,11 +76,10 @@ const ExamTimeTableSubjects = () => {
                           <Text style={styles.labelFont}>Exam name-</Text>
                         </View>
                         <View style={{ flex: 2}} >
-                          <Badge 
-                            colorScheme="info" 
-                            variant='solid'
-                            style={{marginHorizontal:12,right:'12%'}}>{route.params.examName}
-                          </Badge>
+                          <Text 
+                          
+                            style={[styles.labelFontValue,{marginHorizontal:12,right:'12%'}]}>{route.params.examName}
+                          </Text>
                         </View>
                     </View>
                   </View>
@@ -93,11 +91,10 @@ const ExamTimeTableSubjects = () => {
                       <Text style={styles.labelFont}>Hour</Text>
                     </View>
                     <View style={{ flex: 0.7 }} >
-                      <Badge 
-                        colorScheme="info" 
-                        variant='solid'
-                        style={{marginHorizontal:20,right:'12%'}}>{route.params.hour}
-                      </Badge>
+                      <Text 
+
+                        style={[styles.labelFontValue,{marginHorizontal:12,right:'12%'}]}>{route.params.hour}
+                      </Text>
                     </View>
                   </View>
                 </View>
@@ -306,9 +303,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#5578E3",
   },
   labelFont:{
-    fontFamily:'HindBold',
+    fontFamily:'HindSemiBold',
     color: "black",
-    fontSize: deviceWidth < 370 ? 14 : 18,
+    fontSize: deviceWidth < 370 ? 14 : 17,
+  },
+  labelFontValue:{
+fontFamily:'HindMedium',
+color: "black",
+    fontSize: deviceWidth < 370 ? 14 : 17,
   },
   headingFont: {
     // fontFamily: "Hind-SemiBold",

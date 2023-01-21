@@ -1164,7 +1164,7 @@ const TeacherHomeworkScreenBuild = () => {
                     onSelect={fetchSubjects}
                   />
                   {selectInputIsInValid && (
-                    <Text style={[styles.errorText, { top: 10 }]}>
+                    <Text style={[styles.errorText, { top: 10 ,left:10 }]}>
                       Select class
                     </Text>
                   )}
@@ -1210,7 +1210,7 @@ const TeacherHomeworkScreenBuild = () => {
                     inputStyles={styles.dropText}
                   />
                   {selectInputIsInValid ? (
-                    <Text style={[styles.errorText, { top: 10 }]}>
+                    <Text style={[styles.errorText, { top: 10 ,left:10}]}>
                       Please select class first
                     </Text>
                   ) : (
@@ -1242,7 +1242,7 @@ const TeacherHomeworkScreenBuild = () => {
                     save="value"
                   />
                   {selectInputIsInValid ? (
-                    <Text style={[styles.errorText, { top: 10 }]}>
+                    <Text style={[styles.errorText, { top: 10 ,left:10 }]}>
                       Please select class first
                     </Text>
                   ) : (
@@ -2016,6 +2016,7 @@ const styles = StyleSheet.create({
     marginBottom: 59,
     width: "70%",
     marginLeft: 130,
+    
   },
   imagePreView: {
     width: "100%",
@@ -2129,7 +2130,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F2F2F2",
     backgroundColor: "white",
     paddingHorizontal: 5,
-    fontSize: deviceWidth < 370 ? 13 : 15,
+    fontSize: deviceWidth < 370 ? 13 : 16,
     letterSpacing: 0.5,
   },
 
@@ -2149,7 +2150,7 @@ const styles = StyleSheet.create({
     color: "red",
     left: 20,
     fontFamily: "HindRegular",
-    fontSize: deviceWidth < 370 ? 16 : 18,
+    fontSize: deviceWidth < 370 ? 16 : 16,
     top: deviceHieght > 800 ? -3 : 1,
   },
   linkText: {

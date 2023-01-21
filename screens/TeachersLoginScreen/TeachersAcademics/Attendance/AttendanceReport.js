@@ -497,7 +497,7 @@ const AttendanceReport = () => {
                     <Text
                       style={{
                         fontFamily: "HindSemiBold",
-                        fontSize: 15,
+                        fontSize: 17,
                       }}
                     >
                       Name :
@@ -513,7 +513,7 @@ const AttendanceReport = () => {
                     <Text
                       style={{
                         fontFamily: "HindMedium",
-                        fontSize: 15,
+                        fontSize: 17,
                       }}
                     >
                       {route.params.name}
@@ -543,7 +543,7 @@ const AttendanceReport = () => {
                     <Text
                       style={{
                         fontFamily: "HindSemiBold",
-                        fontSize: 15,
+                        fontSize: 17,
                       }}
                     >
                       Reg No :
@@ -559,7 +559,7 @@ const AttendanceReport = () => {
                     <Text
                       style={{
                         fontFamily: "HindMedium",
-                        fontSize: 15,
+                        fontSize: 17,
                       }}
                     >
                       {route.params.regno}
@@ -658,7 +658,7 @@ const AttendanceReport = () => {
                         >
                           <Text
                             style={{
-                              fontSize: 15,
+                              fontSize: 17,
                               fontFamily: "HindSemiBold",
                             }}
                           >
@@ -675,7 +675,7 @@ const AttendanceReport = () => {
                           <Text
                             style={{
                               color: "green",
-                              fontSize: 15,
+                              fontSize: 17,
                               fontFamily: "HindSemiBold",
                             }}
                           >
@@ -692,7 +692,7 @@ const AttendanceReport = () => {
                           <Text
                             style={{
                               color: "red",
-                              fontSize: 15,
+                              fontSize: 17,
                               fontFamily: "HindSemiBold",
                             }}
                           >
@@ -709,7 +709,7 @@ const AttendanceReport = () => {
                           <Text
                             style={{
                               color: "#D4AC0D",
-                              fontSize: 15,
+                              fontSize: 17,
                               fontFamily: "HindSemiBold",
                             }}
                           >
@@ -786,7 +786,7 @@ const AttendanceReport = () => {
                 <Text
                   style={{
                     fontFamily: "HindSemiBold",
-                    fontSize: 15,
+                    fontSize: 17,
                   }}
                 >
                   Select Month
@@ -870,7 +870,7 @@ const AttendanceReport = () => {
                     <Text
                       style={{
                         fontFamily: "HindSemiBold",
-                        fontSize: 15,
+                        fontSize: 17,
                       }}
                     >
                       Name :
@@ -886,7 +886,7 @@ const AttendanceReport = () => {
                     <Text
                       style={{
                         fontFamily: "HindMedium",
-                        fontSize: 15,
+                        fontSize: 17,
                       }}
                     >
                       {route.params.name}
@@ -914,7 +914,7 @@ const AttendanceReport = () => {
                     <Text
                       style={{
                         fontFamily: "HindSemiBold",
-                        fontSize: 15,
+                        fontSize: 17,
                       }}
                     >
                       Reg No :
@@ -930,7 +930,7 @@ const AttendanceReport = () => {
                     <Text
                       style={{
                         fontFamily: "HindMedium",
-                        fontSize: 15,
+                        fontSize: 17,
                       }}
                     >
                       {route.params.regno}
@@ -997,7 +997,7 @@ const AttendanceReport = () => {
                       }}
                     >
                       <Text
-                        style={{ fontSize: 15, fontFamily: "HindSemiBold" }}
+                        style={{ fontSize: 17, fontFamily: "HindSemiBold" }}
                       >
                         {day}
                       </Text>
@@ -1018,7 +1018,7 @@ const AttendanceReport = () => {
                               : status === "absent"
                               ? "red"
                               : "#D4AC0D",
-                          fontSize: 15,
+                          fontSize: 17,
                           fontFamily: "HindSemiBold",
                         }}
                       >
@@ -1069,7 +1069,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontFamily: "HindSemiBold",
-    fontSize: 15,
+    fontSize: 17,
     top: "3%",
   },
 });
