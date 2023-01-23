@@ -90,7 +90,7 @@ const HomeworkScreen = () => {
                               styles.subDesign,
                             ]}
                           >
-                            <View style={{ flex: 5 }}>
+                            <View style={{ flex: 2 }}>
                               <Text style={styles.labelStyle}>Subject</Text>
                             </View>
                             <View style={{ flex: 5 }}>
@@ -105,7 +105,13 @@ const HomeworkScreen = () => {
                               { flexDirection: "row", marginVertical: 10 },
                             ]}
                           >
-                            <View style={{ flex: 1, alignItems: "center" }}>
+                            <View
+                              style={{
+                                flex: 1,
+                                alignItems: "center",
+                                right: "20%",
+                              }}
+                            >
                               <Text
                                 style={[styles.textStyle, { color: "black" }]}
                               >
@@ -147,7 +153,7 @@ const HomeworkScreen = () => {
                               { flexDirection: "row", marginHorizontal: 10 },
                             ]}
                           >
-                            <View style={{ flex: 1, left: "70%" }}>
+                            <View style={{ flex: 1, left: "30%" }}>
                               <Text
                                 style={[styles.textStyle, { color: "black" }]}
                               >
@@ -166,7 +172,7 @@ const HomeworkScreen = () => {
                               { flexDirection: "row", marginVertical: 10 },
                             ]}
                           >
-                            <View style={{ flex: 3 }}>
+                            <View style={{ flex: 3, right: "40%" }}>
                               <Text
                                 style={[styles.textStyle, { color: "black" }]}
                               >
@@ -208,7 +214,7 @@ const HomeworkScreen = () => {
                 />
               ) : (
                 <View style={{ alignItems: "center", marginVertical: 10 }}>
-                  <Text  style={styles.errText}>
+                  <Text style={styles.errText}>
                     No Assigned homework found.
                   </Text>
                 </View>
@@ -366,7 +372,7 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     marginHorizontal: 20,
     elevation: 5,
-    borderRadius: 10,
+    // borderRadius: 10,
     top: 10,
     // paddingBottom: 20,
   },
@@ -376,35 +382,36 @@ const styles = StyleSheet.create({
   },
   subDesign: {
     backgroundColor: "darkblue",
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    padding: 5,
+    // borderTopLeftRadius: 10,
+    //  borderTopRightRadius: 10,
   },
   labelStyle: {
     color: "white",
     fontFamily: "HindSemiBold",
     fontSize: 18,
     textAlign: "center",
-    top:'5%'
+    top: "5%",
   },
   textStyle: {
     color: "white",
     fontFamily: "HindSemiBold",
     fontSize: 18,
     textAlign: "center",
-    top:'5%'
+    top: "5%",
   },
   cardText: {
     color: "black",
     fontSize: 18,
-    fontFamily:"HindRegular",
+    fontFamily: "HindRegular",
     left: "10%",
     top: "10%",
   },
-  errText:{
+  errText: {
     fontFamily: "HindSemiBold",
     fontSize: 18,
     color: "#6B0202",
-  }
+  },
 });
 
 // import React, { useEffect, useState } from "react";

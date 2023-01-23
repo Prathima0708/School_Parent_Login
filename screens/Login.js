@@ -1421,7 +1421,7 @@ const styles = StyleSheet.create({
 
   submit: {
     padding: "3%",
-    backgroundColor: "#59b8dd",
+    backgroundColor: "#1E84A4",
     borderRadius: 10,
     borderWidth: 1,
     top: deviceWidth < 370 ? "18%" : "15%",

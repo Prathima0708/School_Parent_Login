@@ -147,10 +147,10 @@ function StudentItem({
                 },
               ]}
             >
-              <View style={{ flex: 1, alignItems: "center" }}>
+              <View style={{ flex: 0.8, alignItems: "center" }}>
                 <Text style={[styles.textBase, styles.description]}>Class</Text>
               </View>
-              <View style={{ flex: 1 }}>
+              <View style={{ flex: 0.8 }}>
                 <Text style={[styles.textBase, styles.textStyleStudInfo]}>
                   {class_name} - {section}
                 </Text>
