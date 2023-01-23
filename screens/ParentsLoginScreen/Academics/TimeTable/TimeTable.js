@@ -50,7 +50,7 @@ const TimeTable = () => {
   const [timeTable, setTimeTable] = useState([]);
   const [forTimeTableList, setForTimeTableList] = useState({
     color: "white",
-    backgroundColor: "#0C60F4",
+    backgroundColor: "#1E84A4",
     borderRadius: 10,
   });
   const [forExamTimeTable, setForExamTimeTable] = useState({
@@ -77,7 +77,7 @@ const TimeTable = () => {
   async function viewExam() {
     setForExamTimeTable({
       color: "white",
-      backgroundColor: "#1E8449",
+      backgroundColor: "#1E84A4",
       borderRadius: 10,
     });
     setForTimeTableList({
@@ -100,7 +100,7 @@ const TimeTable = () => {
   }
   async function timeTableList() {
     setForTimeTableList({
-      backgroundColor: "#0C60F4",
+      backgroundColor: "#1E84A4",
       color: "white",
       borderRadius: 10,
     });
@@ -240,8 +240,12 @@ const TimeTable = () => {
                     <Text
                       style={[
                         styles.description,
-                        styles.bottomLine,
-                        { justifyContent: "center", alignItems: "center" },
+                        //  styles.bottomLine,
+                        {
+                          justifyContent: "center",
+                          alignItems: "center",
+                          left: "5%",
+                        },
                       ]}
                     >
                       Class: <Text style={styles.textInfo}>{className}</Text>
@@ -249,7 +253,7 @@ const TimeTable = () => {
                   </View>
                   <View style={styles.space} />
                   <View style={{ flex: 0.5, marginRight: "5%" }}>
-                    <Text style={[styles.description, styles.bottomLine]}>
+                    <Text style={[styles.description]}>
                       Section: <Text style={styles.textInfo}>{Section}</Text>
                     </Text>
                   </View>
@@ -273,6 +277,7 @@ const TimeTable = () => {
                   size="sm"
                   variant={!isMonActive ? "outline" : "solid"}
                   onPress={mondayPressedHandler}
+                  style={{ fontFamily: "HindSemiBold", fontSize: 18 }}
                 >
                   MON
                 </Button>
@@ -409,9 +414,7 @@ const TimeTable = () => {
                           <View
                             style={{ alignItems: "center", marginVertical: 10 }}
                           >
-                            <Text style={styles.errText}>
-                              No data found.
-                            </Text>
+                            <Text style={styles.errText}>No data found.</Text>
                           </View>
                         )}
                       </ScrollView>
@@ -501,9 +504,7 @@ const TimeTable = () => {
                           <View
                             style={{ alignItems: "center", marginVertical: 10 }}
                           >
-                            <Text style={styles.errText}>
-                              No data found.
-                            </Text>
+                            <Text style={styles.errText}>No data found.</Text>
                           </View>
                         )}
                       </ScrollView>
@@ -593,9 +594,7 @@ const TimeTable = () => {
                           <View
                             style={{ alignItems: "center", marginVertical: 10 }}
                           >
-                            <Text style={styles.errText}>
-                              No data found.
-                            </Text>
+                            <Text style={styles.errText}>No data found.</Text>
                           </View>
                         )}
                       </ScrollView>
@@ -685,9 +684,7 @@ const TimeTable = () => {
                           <View
                             style={{ alignItems: "center", marginVertical: 10 }}
                           >
-                            <Text style={styles.errText}>
-                              No data found.
-                            </Text>
+                            <Text style={styles.errText}>No data found.</Text>
                           </View>
                         )}
                       </ScrollView>
@@ -777,9 +774,7 @@ const TimeTable = () => {
                           <View
                             style={{ alignItems: "center", marginVertical: 10 }}
                           >
-                            <Text style={styles.errText}>
-                              No data found.
-                            </Text>
+                            <Text style={styles.errText}>No data found.</Text>
                           </View>
                         )}
                       </ScrollView>
@@ -869,9 +864,7 @@ const TimeTable = () => {
                           <View
                             style={{ alignItems: "center", marginVertical: 10 }}
                           >
-                            <Text style={styles.errText}>
-                              No data found.
-                            </Text>
+                            <Text style={styles.errText}>No data found.</Text>
                           </View>
                         )}
                       </ScrollView>
@@ -1049,9 +1042,7 @@ const TimeTable = () => {
                   ))
                 ) : (
                   <View style={{ alignItems: "center", marginVertical: 10 }}>
-                    <Text style={styles.errText}>
-                      No data found.
-                    </Text>
+                    <Text style={styles.errText}>No data found.</Text>
                   </View>
                 )}
               </ScrollView>
@@ -1116,7 +1107,7 @@ const styles = StyleSheet.create({
     height: 80,
     width: 80,
   },
-  errText:{
+  errText: {
     fontFamily: "HindSemiBold",
     fontSize: 18,
     color: "#6B0202",
@@ -1140,7 +1131,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   tableTitle: {
-    fontFamily: "HindSemiBold",
+    fontFamily: "HindMedium",
     fontSize: deviceWidth < 370 ? 16 : 16,
   },
   tableCell: {
@@ -1233,7 +1224,7 @@ const styles = StyleSheet.create({
   },
   headingFont: {
     // fontFamily: "Hind-SemiBold",
-    fontFamily:'HindBold',
+    fontFamily: "HindBold",
     color: "white",
     fontSize: deviceWidth < 370 ? 14 : 15,
   },
@@ -1251,7 +1242,7 @@ const styles = StyleSheet.create({
   },
   cardText: {
     color: "black",
-    fontFamily:'HindRegular',
+    fontFamily: "HindRegular",
     fontSize: 16,
     left: "10%",
     top: "10%",

@@ -707,9 +707,12 @@ const TeachersAttendanceBuild = () => {
   }
 
   function changeColorUpdate(id, text) {
+    console.log("updated array", updateArray);
+    // if (updateArray.length > 0) {
     if (updateArray.filter((item) => item.student === id)) {
       var selectedData = [];
       selectedData = updateArray.filter((item) => item.student === id);
+
       if (selectedData.length > 0) {
         var isPresent = false;
         var isAbsent = false;
@@ -719,6 +722,8 @@ const TeachersAttendanceBuild = () => {
         isAbsent = selectedData.map(
           (data, key) => data.attendance_status === "absent"
         )[0];
+
+        console.log(isPresent, isAbsent);
 
         if (isPresent && text == "P") {
           return "green";
@@ -730,6 +735,7 @@ const TeachersAttendanceBuild = () => {
       }
       return "grey";
     }
+    // }
   }
 
   function fromDateBlurHandler() {
@@ -862,6 +868,12 @@ const TeachersAttendanceBuild = () => {
           item.student === object.student ? object : item
         )
       );
+      // update in saveAttendanceDataByDCS to show proper color in UI
+      // setSaveAttendanceDataByDCS(
+      //   saveAttendanceDataByDCS.map((item) =>
+      //     item.student.id === object.student ? Object.assign({}, object) : item
+      //   )
+      // );
     } else {
       setUpdateArray((prevArray) => [...prevArray, object]);
       //setItems([...items, updatedItem]);
@@ -893,13 +905,18 @@ const TeachersAttendanceBuild = () => {
           item.student === object.student ? object : item
         )
       );
+      // update in saveAttendanceDataByDCS to show proper color in UI
+      // setSaveAttendanceDataByDCS(
+      //   saveAttendanceDataByDCS.map((item) =>
+      //     item.student.id === object.student ? Object.assign({}, object) : item
+      //   )
+      // );
     } else {
       setUpdateArray((prevArray) => [...prevArray, object]);
       //setItems([...items, updatedItem]);
     }
   }
   function updateHandler() {
-    console.log("updated array-", updateArray);
     async function updateData() {
       try {
         let headers = {
@@ -1341,9 +1358,7 @@ const TeachersAttendanceBuild = () => {
                                         paddingVertical: 20,
                                       }}
                                     >
-                                      <Text
-                                        style={styles.headerTextValue}
-                                      >
+                                      <Text style={styles.headerTextValue}>
                                         {filteredData.reg_number}
                                       </Text>
                                     </View>
@@ -1354,9 +1369,7 @@ const TeachersAttendanceBuild = () => {
                                         paddingVertical: 20,
                                       }}
                                     >
-                                      <Text
-style={styles.headerTextValue}
-                                      >
+                                      <Text style={styles.headerTextValue}>
                                         {filteredData.student_name}
                                       </Text>
                                     </View>
@@ -1367,9 +1380,7 @@ style={styles.headerTextValue}
                                         paddingVertical: 20,
                                       }}
                                     >
-                                      <Text
-                                        style={styles.headerTextValue}
-                                      >
+                                      <Text style={styles.headerTextValue}>
                                         {filteredData.class_name} -{" "}
                                         {filteredData.section}
                                       </Text>
@@ -1397,7 +1408,7 @@ style={styles.headerTextValue}
               </View>
             )}
           </View>
-          <View style={{ flex: 0.1}}>
+          <View style={{ flex: 0.1 }}>
             <TeachersHome />
           </View>
         </View>
@@ -1446,7 +1457,6 @@ style={styles.headerTextValue}
                         fontSize: 15,
                         fontFamily: "HindSemiBold",
                         color: "white",
-                       
                       }}
                     >
                       Present All
@@ -1874,7 +1884,7 @@ style={styles.headerTextValue}
                                     // color={
                                     //   data.attendance_status === "present"
                                     //     ? "green"
-                                    //     : changeColor(data.student.id, "P")
+                                    //     : "gray"
                                     // }
                                     color={changeColorUpdate(
                                       data.student.id,
@@ -1890,7 +1900,7 @@ style={styles.headerTextValue}
                                     // color={
                                     //   data.attendance_status === "absent"
                                     //     ? "red"
-                                    //     : changeColor(data.student.id, "A")
+                                    //     : "gray"
                                     // }
                                     color={changeColorUpdate(
                                       data.student.id,
@@ -2089,7 +2099,7 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 17,
     marginBottom: 4,
-    fontFamily:'HindMedium'
+    fontFamily: "HindMedium",
   },
   space: {
     width: 20, // or whatever size you need

@@ -528,7 +528,7 @@ const NoticeBoard = () => {
         const res = await axios.get(`${subURL}/Calendar/`, {
           headers: headers,
         });
-        console.log(res.data);
+
         arr = res.data;
         // for (let i = 0; i < res.data.length; i++) {
         //   arr.push(res.data[i].startdate);
@@ -537,8 +537,6 @@ const NoticeBoard = () => {
         //   console.log(arr);
         // }
 
-        console.log("before sorting");
-        console.log(arr);
         function dateComparison(a, b) {
           const date1 = new Date(a.startdate);
           const date2 = new Date(b.startdate);
@@ -548,8 +546,6 @@ const NoticeBoard = () => {
 
         arr.sort(dateComparison);
 
-        console.log("after sorting");
-        console.log(arr.slice(0, 3));
         const today = new Date();
         const filteredData = res.data.filter(
           (item) => new Date(item.startdate) >= today
@@ -569,9 +565,7 @@ const NoticeBoard = () => {
   return (
     <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
       <View style={styles.headingView}>
-        <Text style={styles.textStyle}>
-          Upcoming Events
-        </Text>
+        <Text style={styles.textStyle}>Upcoming Events</Text>
       </View>
       <View style={{ flex: 2, backgroundColor: "white" }}>
         <ScrollView>
@@ -597,11 +591,12 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   textStyle: {
-    fontSize: 18,
-    fontFamily:'HindSemiBold',
-    color: "white",
-    backgroundColor: "#364585",
-    padding: 10,
+    fontSize: 20,
+    fontFamily: "HindSemiBold",
+    color: "black",
+    // backgroundColor: "#364585",
+    // backgroundColor: "#DEE4FF",
+    // padding: 10,
     borderRadius: 10,
   },
 });

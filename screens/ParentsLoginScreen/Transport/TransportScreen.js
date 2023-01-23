@@ -4,7 +4,7 @@ import {
   TextInput,
   ScrollView,
   Dimensions,
-  Text
+  Text,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import MapView from "react-native-maps";
@@ -85,7 +85,8 @@ const TransportScreen = () => {
             <View style={styles.itemStyle}>
               <View style={styles.locationView}>
                 <Text style={styles.textStyle}>
-                  {data.route_name.charAt(0).toUpperCase() + data.route_name.slice(1)}
+                  {data.route_name.charAt(0).toUpperCase() +
+                    data.route_name.slice(1)}
                 </Text>
               </View>
               <View style={styles.iconStyle}>
@@ -96,9 +97,9 @@ const TransportScreen = () => {
                 />
               </View>
               <View style={styles.locationView}>
-                <Text style={styles.textStyle} >
-                  
-                  {data.stop_name.charAt(0).toUpperCase() + data.stop_name.slice(1)}
+                <Text style={styles.textStyle}>
+                  {data.stop_name.charAt(0).toUpperCase() +
+                    data.stop_name.slice(1)}
                 </Text>
               </View>
             </View>
@@ -107,8 +108,10 @@ const TransportScreen = () => {
                 <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
                   <View style={{ flex: 1 }}>
                     <Text
-                      
-                      style={[styles.cardTextStyle, { color: "black", left: 20 }]}
+                      style={[
+                        styles.cardTextStyle,
+                        { color: "black", left: 20 },
+                      ]}
                     >
                       Driver Name :
                     </Text>
@@ -118,11 +121,9 @@ const TransportScreen = () => {
                       flex: deviceWidth < 370 ? 1.5 : 2,
                     }}
                   >
-                    <Text
-                     
-                      style={[styles.cardTextStyle, { color: "black", left: 1 }]}
-                    >
-                      {data.driver_name.charAt(0).toUpperCase() + data.driver_name.slice(1)}
+                    <Text style={styles.cardTextStyleValue}>
+                      {data.driver_name.charAt(0).toUpperCase() +
+                        data.driver_name.slice(1)}
                     </Text>
                   </View>
                 </View>
@@ -131,8 +132,10 @@ const TransportScreen = () => {
                 <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
                   <View style={{ flex: 1 }}>
                     <Text
-                      
-                      style={[styles.cardTextStyle, { color: "black", left: 20 }]}
+                      style={[
+                        styles.cardTextStyle,
+                        { color: "black", left: 20 },
+                      ]}
                     >
                       Mobile number :
                     </Text>
@@ -142,10 +145,7 @@ const TransportScreen = () => {
                       flex: deviceWidth < 370 ? 1.4 : 1.5,
                     }}
                   >
-                    <Text
-                      
-                      style={[styles.cardTextStyle, { color: "black" }]}
-                    >
+                    <Text style={styles.cardTextStyleValue}>
                       {data.emp_mobile}
                     </Text>
                   </View>
@@ -160,17 +160,19 @@ const TransportScreen = () => {
                     <View
                       style={[{ flex: 1 }, { flexDirection: "row", top: 10 }]}
                     >
-                      <View style={{ flex: 1,alignItems:"center",right:'30%'}}>
+                      <View
+                        style={{ flex: 1, alignItems: "center", right: "80%" }}
+                      >
                         <Text
-                          
                           style={[styles.cardTextStyle, { color: "black" }]}
                         >
                           Type
                         </Text>
                       </View>
-                      <View style={{ flex: 1, alignItems: "center",right:'50%' }}>
+                      <View
+                        style={{ flex: 1, alignItems: "center", right: "50%" }}
+                      >
                         <Text
-                          
                           style={[styles.cardTextStyle, { color: "black" }]}
                         >
                           Bus Number
@@ -178,7 +180,6 @@ const TransportScreen = () => {
                       </View>
                       <View style={{ flex: 1, alignItems: "center" }}>
                         <Text
-                          
                           style={[styles.cardTextStyle, { color: "black" }]}
                         >
                           Vehicle Number
@@ -232,27 +233,22 @@ const TransportScreen = () => {
                     <View
                       style={[{ flex: 3 }, { flexDirection: "row", top: 10 }]}
                     >
-                      <View style={{ flex: 1, alignItems: "center",right:'10%' }}>
-                        <Text
-                          
-                          style={[styles.cardTextStyle, { color: "black" }]}
-                        >
+                      <View
+                        style={{ flex: 1, alignItems: "center", right: "30%" }}
+                      >
+                        <Text style={styles.cardTextStyleValue}>
                           {data.types}
                         </Text>
                       </View>
-                      <View style={{ flex: 1, alignItems: "center",right:'20%' }}>
-                        <Text
-                          
-                          style={[styles.cardTextStyle, { color: "black" }]}
-                        >
+                      <View
+                        style={{ flex: 1, alignItems: "center", right: "20%" }}
+                      >
+                        <Text style={styles.cardTextStyleValue}>
                           {data.busnumber}
                         </Text>
                       </View>
                       <View style={{ flex: 1, alignItems: "center" }}>
-                        <Text
-                          
-                          style={[styles.cardTextStyle, { color: "black" }]}
-                        >
+                        <Text style={styles.cardTextStyleValue}>
                           {data.vehicleno}
                         </Text>
                       </View>
@@ -286,18 +282,23 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: "white",
-    fontSize:18,
+    fontSize: 18,
     fontFamily: "HindSemiBold",
   },
-  cardTextStyle:{
+  cardTextStyle: {
     color: "white",
-    fontSize:15,
+    fontSize: 15,
     fontFamily: "HindSemiBold",
+  },
+  cardTextStyleValue: {
+    color: "black",
+    fontSize: 15,
+    fontFamily: "HindRegular",
   },
   iconStyle: {
     flex: 0.2,
     alignItems: "center",
-    justifyContent:'center',
+    justifyContent: "center",
     //top: deviceWidth < 370 ? 20 : 25,
   },
   itemStyle: {
@@ -306,13 +307,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#275932",
     top: 10,
     borderRadius: 20,
-    paddingVertical:10,
+    paddingVertical: 10,
     marginHorizontal: 20,
   },
-  locationView:{
+  locationView: {
     flex: 1,
-    justifyContent:'center',
-    alignItems:"center"
+    justifyContent: "center",
+    alignItems: "center",
   },
   cardStyle: {
     flex: 0.5,
@@ -324,5 +325,4 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     elevation: 5,
   },
-
 });

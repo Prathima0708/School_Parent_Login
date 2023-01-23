@@ -201,7 +201,7 @@ const CalenderScreen = () => {
                       color: "#6B0202",
                     }}
                   >
-                    No Data found
+                    No Events found
                   </Text>
                 </View>
               ) : (
@@ -250,7 +250,7 @@ const CalenderScreen = () => {
                           <View style={{ flex: 2,alignItems:'center' }}>
                             <Text
                               style={{
-                                fontSize: 18,
+                                fontSize: 17,
                                 fontFamily: "HindSemiBold",
                                 color: "black",
                               }}
@@ -270,7 +270,7 @@ const CalenderScreen = () => {
                           >
                             <Text
                               style={{
-                                fontSize: 18,
+                                fontSize: 17,
                                 fontFamily: "HindSemiBold",
                                 color: "white",
                               }}
@@ -283,9 +283,9 @@ const CalenderScreen = () => {
                       <View style={{ flex: 1, left: "10%" }}>
                         <Text
                           style={{
-                            fontSize: 18,
+                            fontSize: 17,
                             color: "black",
-                            fontFamily: "HindSemiBold",
+                            fontFamily: "HindMedium",
                           }}
                         >
                           {data.description}

@@ -33,9 +33,7 @@ const ReportCard = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(
-          `${subURL}/MarksheetReg/${StudentRegNo}`
-        );
+        const res = await axios.get(`${subURL}/MarksheetReg/${StudentRegNo}`);
         console.log(res.data);
 
         setData(res.data);
@@ -133,8 +131,8 @@ const ReportCard = () => {
 
         <View style={styles.studentItem}>
           {/* <View style={styles.studentItem}> */}
-            <View style={{ flex: 0.53 }}>
-              {/* <Image
+          <View style={{ flex: 0.53 }}>
+            {/* <Image
                 source={{
                   uri: `http://10.0.2.2:8000${StudentPhoto}`,
                 }}
@@ -150,42 +148,37 @@ const ReportCard = () => {
               resizeMode="contain"
               ref={myRef}
             />
-            </View>
+          </View>
 
-            <View style={[{ flex: 1 }, { flexDirection: "column", left: 30 }]}>
-              <View style={{ flex: 1 }}>
-                <Text style={[styles.textBase, styles.description]}>Name</Text>
-              </View>
-              <View style={{ flex: 1 }}>
-                <Text style={[styles.textBase, styles.description]}>Class</Text>
-              </View>
-              <View style={{ flex: 1 }}>
-                <Text style={[styles.textBase, styles.description]}>
-                  Reg No
-                </Text>
-              </View>
+          <View style={[{ flex: 1 }, { flexDirection: "column", left: 30 }]}>
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.textBase, styles.description]}>Name</Text>
             </View>
-            <View
-              style={[
-                { flex: 1 },
-                { flexDirection: "column", left: 10, top: 2 },
-              ]}
-            >
-              <View style={{ flex: 1 }}>
-                <Text style={[styles.textBase, styles.textStyleStudInfo]}>
-                  {StudentName}
-                </Text>
-              </View>
-              <View style={{ flex: 1 }}>
-                <Text style={[styles.textBase, styles.textStyleStudInfo]}>
-                  {className} - {Section}
-                </Text>
-              </View>
-              <View style={{ flex: 1 }}>
-                <Text style={[styles.textBase, styles.textStyleStudInfo]}>
-                  {StudentRegNo}
-                </Text>
-              </View>
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.textBase, styles.description]}>Class</Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.textBase, styles.description]}>Reg No</Text>
+            </View>
+          </View>
+          <View
+            style={[{ flex: 1 }, { flexDirection: "column", left: 10, top: 2 }]}
+          >
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.textBase, styles.textStyleStudInfo]}>
+                {StudentName}
+              </Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.textBase, styles.textStyleStudInfo]}>
+                {className} - {Section}
+              </Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.textBase, styles.textStyleStudInfo]}>
+                {StudentRegNo}
+              </Text>
+            </View>
             {/* </View> */}
           </View>
         </View>
@@ -288,25 +281,39 @@ const ReportCard = () => {
                             </View>
                             <View style={styles.root}>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>{data.maths_max_marks}</Text>
+                                <Text style={styles.marksStyle}>
+                                  {data.maths_max_marks}
+                                </Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>{data.english_max_marks}</Text>
+                                <Text style={styles.marksStyle}>
+                                  {data.english_max_marks}
+                                </Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>{data.science_max_mark}</Text>
+                                <Text style={styles.marksStyle}>
+                                  {data.science_max_mark}
+                                </Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>{data.hindi_max_mark}</Text>
+                                <Text style={styles.marksStyle}>
+                                  {data.hindi_max_mark}
+                                </Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>{data.social_max_mark}</Text>
+                                <Text style={styles.marksStyle}>
+                                  {data.social_max_mark}
+                                </Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>{data.kannada_max_mark}</Text>
+                                <Text style={styles.marksStyle}>
+                                  {data.kannada_max_mark}
+                                </Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>{data.computer_max_mark}</Text>
+                                <Text style={styles.marksStyle}>
+                                  {data.computer_max_mark}
+                                </Text>
                               </View>
                               <View style={styles.colStyle}>
                                 <Text style={styles.marksStyle}>
@@ -326,25 +333,39 @@ const ReportCard = () => {
                             </View>
                             <View style={styles.root}>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>{data.maths_min_mark}</Text>
+                                <Text style={styles.marksStyle}>
+                                  {data.maths_min_mark}
+                                </Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>{data.english_min_mark}</Text>
+                                <Text style={styles.marksStyle}>
+                                  {data.english_min_mark}
+                                </Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>{data.science_min_mark}</Text>
+                                <Text style={styles.marksStyle}>
+                                  {data.science_min_mark}
+                                </Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>{data.hindi_min_mark}</Text>
+                                <Text style={styles.marksStyle}>
+                                  {data.hindi_min_mark}
+                                </Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>{data.social_min_mark}</Text>
+                                <Text style={styles.marksStyle}>
+                                  {data.social_min_mark}
+                                </Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>{data.kannada_min_mark}</Text>
+                                <Text style={styles.marksStyle}>
+                                  {data.kannada_min_mark}
+                                </Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>{data.computer_min_mark}</Text>
+                                <Text style={styles.marksStyle}>
+                                  {data.computer_min_mark}
+                                </Text>
                               </View>
                               <View style={styles.colStyle}>
                                 <Text style={styles.marksStyle}>
@@ -360,37 +381,79 @@ const ReportCard = () => {
                             </View>
                             <View style={styles.root}>
                               <View style={[styles.colStyle]}>
-                                <Text style={isFail ? styles.textColor : styles.textPassTableColor}>
+                                <Text
+                                  style={
+                                    isFail
+                                      ? styles.textColor
+                                      : styles.textPassTableColor
+                                  }
+                                >
                                   {data.maths_obt_mark}
                                 </Text>
                               </View>
                               <View style={[styles.colStyle]}>
-                                <Text style={isFail ? styles.textColor : styles.textPassTableColor}>
+                                <Text
+                                  style={
+                                    isFail
+                                      ? styles.textColor
+                                      : styles.textPassTableColor
+                                  }
+                                >
                                   {data.english_obt_mark}
                                 </Text>
                               </View>
                               <View style={[styles.colStyle]}>
-                                <Text style={isFail ? styles.textColor : styles.textPassTableColor}>
+                                <Text
+                                  style={
+                                    isFail
+                                      ? styles.textColor
+                                      : styles.textPassTableColor
+                                  }
+                                >
                                   {data.science_obt_mark}
                                 </Text>
                               </View>
                               <View style={[styles.colStyle]}>
-                                <Text style={isFail ? styles.textColor : styles.textPassTableColor}>
+                                <Text
+                                  style={
+                                    isFail
+                                      ? styles.textColor
+                                      : styles.textPassTableColor
+                                  }
+                                >
                                   {data.hindi_obt_mark}
                                 </Text>
                               </View>
                               <View style={[styles.colStyle]}>
-                                <Text style={isFail ? styles.textColor : styles.textPassTableColor}>
+                                <Text
+                                  style={
+                                    isFail
+                                      ? styles.textColor
+                                      : styles.textPassTableColor
+                                  }
+                                >
                                   {data.social_obt_mark}
                                 </Text>
                               </View>
                               <View style={[styles.colStyle]}>
-                                <Text style={isFail ? styles.textColor : styles.textPassTableColor}>
+                                <Text
+                                  style={
+                                    isFail
+                                      ? styles.textColor
+                                      : styles.textPassTableColor
+                                  }
+                                >
                                   {data.kannada_obt_mark}
                                 </Text>
                               </View>
                               <View style={[styles.colStyle]}>
-                                <Text style={isFail ? styles.textColor : styles.textPassTableColor}>
+                                <Text
+                                  style={
+                                    isFail
+                                      ? styles.textColor
+                                      : styles.textPassTableColor
+                                  }
+                                >
                                   {data.computer_obt_mark}
                                 </Text>
                               </View>
@@ -476,7 +539,7 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor:'white'
+    backgroundColor: "white",
   },
   flexrow: {
     flex: 1,
@@ -535,7 +598,7 @@ const styles = StyleSheet.create({
   },
   headingFont: {
     // fontFamily: "Hind-SemiBold",
-    fontFamily:'HindSemiBold',
+    fontFamily: "HindSemiBold",
     fontSize: deviceWidth < 370 ? 14 : 14,
   },
   tableTopStyle: {
@@ -553,22 +616,22 @@ const styles = StyleSheet.create({
     // left: 10,
   },
   description: {
-    fontSize: deviceWidth < 370 ? 18 : 18,
-    fontFamily: "HindRegular",
+    fontSize: deviceWidth < 370 ? 18 : 17,
+    fontFamily: "HindSemiBold",
     marginBottom: 4,
-    fontWeight: "bold",
+
     // fontWeight: "bold",
   },
-  marksStyle:{
-    fontFamily:"HindSemiBold"
+  marksStyle: {
+    fontFamily: "HindSemiBold",
   },
   textColor: {
     color: "red",
-    fontFamily:"HindSemiBold"
+    fontFamily: "HindSemiBold",
   },
-  textPassTableColor:{
+  textPassTableColor: {
     color: "black",
-    fontFamily:"HindSemiBold"
+    fontFamily: "HindSemiBold",
   },
   textPassColor: {
     color: "green",
@@ -589,7 +652,7 @@ const styles = StyleSheet.create({
   },
   studentItem: {
     width: "90%",
-    padding:20,
+    padding: 20,
     marginVertical: 20,
     marginHorizontal: 20,
     //  backgroundColor: "#3e04c3",
