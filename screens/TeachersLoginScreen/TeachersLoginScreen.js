@@ -50,15 +50,16 @@ const TeachersLoginScreen = ({ navigation }) => {
   useEffect(() => {
     if (myRef.current && myRef.current.setNativeProps) {
       const styleObj = {
-        borderWidth: 3,
+        borderWidth: 0,
         borderRadius: 100,
-        borderColor: "#577AFE",
+        // borderColor: "#577AFE",
       };
       myRef.current.setNativeProps({
         style: styleObj,
       });
     }
   }, [myRef]);
+
   async function fetchUser() {
     USERNAME = await AsyncStorage.getItem("UserName");
     console.log("this is the username from aysnc", USERNAME);
@@ -144,6 +145,7 @@ const TeachersLoginScreen = ({ navigation }) => {
         navigation.navigate("MyClasses");
       }
     }
+    
     return (
       <View style={styles.rootContainer1}>
         <TeachersCategoryGridTile
@@ -171,12 +173,13 @@ const TeachersLoginScreen = ({ navigation }) => {
               }}
               style={styles.image}
             /> */}
-            <Image
-              source={{
-                uri: "https://cdn-icons-png.flaticon.com/512/848/848006.png",
-              }}
-              style={styles.image}
-            />
+            <View style={{backgroundColor:'cyan',padding:10,borderRadius:100}}>
+            <NativeImage source={{
+                  uri: `https://img.icons8.com/doodle/48/null/gender-neutral-user.png`
+                }} alt="Student Image" size="xl" 
+                resizeMode="contain" ref={myRef}/>
+            </View>
+            
             {/* <NativeImage
               alignSelf="center"
               borderRadius={100}
@@ -214,6 +217,8 @@ export default TeachersLoginScreen;
 
 const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
+console.log("hieght" + deviceHieght);
+console.log("width" + deviceWidth);
 
 const styles = StyleSheet.create({
   rootContainer: {
@@ -251,16 +256,13 @@ const styles = StyleSheet.create({
   studentItem: {
     width: "80%",
     marginHorizontal: "10%",
-    padding: "3%",
-    bottom:'2%',
-   // marginVertical: "1%",
-    //  backgroundColor: "#3e04c3",
-    backgroundColor: "#23215b",
-    //   flexDirection: "row",
+    //padding: "3%",
+    bottom:deviceHieght < 600 ? "2%" : "2%",
+
     alignItems: "center",
-    marginTop:'10%',
+    marginTop: deviceHieght < 600 ? "2%" : "5%",
     justifyContent: "space-between",
-    borderRadius: 16,
+    //borderRadius: 16,
   },
   textBase: {
     color: "#0D98BA",

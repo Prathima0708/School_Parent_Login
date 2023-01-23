@@ -1055,17 +1055,22 @@ const TeachersAttendanceBuild = () => {
         <View
           style={[
             { flex: 1 },
-            { flexDirection: "column", backgroundColor: "white" },
+            { flexDirection: "column", backgroundColor: "white",marginTop:'10%' },
           ]}
         >
-          <View
+          <View style={{
+            flex: 0.1,
+            paddingTop:30}} >
+            <BackButton onPress={backMarkHandler} />
+          </View>
+          {/* <View
             style={[
               { flex: 0.9 },
               { flexDirection: "row", alignItems: "center" },
             ]}
           >
             <BackButton onPress={backMarkHandler} />
-          </View>
+          </View> */}
           <View style={[styles.inputForm]}>
             <ScrollView persistentScrollbar={false}>
               <View
@@ -2075,7 +2080,8 @@ const styles = StyleSheet.create({
   inputForm: {
     flex: 2,
     paddingHorizontal: 20,
-    //marginTop: "6%",
+
+    marginTop: "30%",
     //paddingTop: '5%',
     backgroundColor: "white",
     // height: "100%",

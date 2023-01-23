@@ -18,6 +18,7 @@ import DisplayClass from "./DisplayClass";
 import StudentList from "./StudentList";
 import SearchBar from "react-native-dynamic-search-bar";
 import { Keyboard } from "react-native";
+import { Dimensions } from "react-native";
 export var selectedData, length;
 var USERID;
 
@@ -214,7 +215,11 @@ const MyClasses = () => {
                   >
                     <View style={styles.space} />
                   </View>
-                  <View style={{ flex: 1, alignItems: "flex-start" }}>
+                  <View style={{ 
+                    flex: 1,
+                     alignItems: "flex-start" ,
+                     top: deviceHieght > 800 ? '2%' : '0%'
+                     }}>
                     <Text
                       style={{
                         fontFamily: "HindSemiBold",
@@ -246,6 +251,9 @@ const MyClasses = () => {
     </>
   );
 };
+
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   container: {

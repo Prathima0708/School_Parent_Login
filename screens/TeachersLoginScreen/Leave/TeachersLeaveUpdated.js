@@ -892,6 +892,7 @@ const TeachersLeaveUpdated = () => {
     setShowChoice(true);
     setShowForm(false);
     setTypeLabel(false);
+    setIsEdit(false)
     //setEnteredLeaveTypeTouched(false);
     setReasonLabel(false);
     setEmailLabel(false);
@@ -2114,11 +2115,29 @@ const TeachersLeaveUpdated = () => {
             >
               <View style={{ flex: 8, bottom: 50 }}>
                 {leaveByClassSection.length <= 0 ? (
-                  <View style={{ alignItems: "center", top: "16%" }}>
-                    <NativeText fontSize="lg" bold color="error.900">
-                      Select class to view Student leaves
-                    </NativeText>
-                  </View>
+                  // <View style={{ alignItems: "center", top: "16%" }}>
+                  //   <NativeText fontSize="lg" bold color="error.900">
+                  //     Select class to view Student leaves
+                  //   </NativeText>
+                  // </View>
+                  <View
+                  style={{
+                    flex: 1,
+                    alignItems: "center",
+                    //justifyContent: "center",
+                    marginTop:'20%'
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: "HindSemiBold",
+                      fontSize: 18,
+                      color: "#6B0202",
+                    }}
+                  >
+                    Select class to view Student leaves
+                  </Text>
+                </View>
                 ) : (
                   <ScrollView
                     scrollEventThrottle={15}
@@ -2570,7 +2589,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F0F3F4",
   },
   btnSubmit1: {
-    marginTop: 90,
+    marginTop: 80,
     marginBottom: 30,
     marginLeft: 190,
     width: "50%",
@@ -2706,9 +2725,9 @@ const styles = StyleSheet.create({
     left: deviceWidth < 370 ? 20 : 30,
   },
   upRemark: {
-    top: deviceHieght > 800 ? 25 : 28,
+    top: deviceHieght > 800 ? 30 : 28,
     left: deviceWidth < 370 ? 20 : 30,
-    width: deviceWidth > 400 ? 110 : 120,
+    width: deviceWidth > 400 ? 120 : 120,
   },
 
   normalEmail: {
@@ -2717,14 +2736,14 @@ const styles = StyleSheet.create({
     left: deviceWidth < 370 ? 20 : 30,
   },
   upEmail: {
-    top: deviceHieght > 800 ? 25 : 28,
+    top: deviceHieght > 800 ? 60 : 28,
     left: deviceWidth < 370 ? 20 : 30,
-    width: deviceWidth > 400 ? 110 : 130,
+    width: deviceWidth > 400 ? 120 : 130,
   },
   upEmailExtra: {
     top: deviceHieght > 800 ? 25 : 28,
     left: deviceWidth < 370 ? 20 : 30,
-    width: deviceWidth > 400 ? 110 : 115,
+    width: deviceWidth > 400 ? 120 : 115,
   },
   normalRemarkExtra: {
     position: "absolute",

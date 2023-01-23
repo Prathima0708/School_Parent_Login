@@ -1081,16 +1081,23 @@ const TeachersCalendar = () => {
                   <Button onPress={buttonPressedHandler}>Add Event</Button>
                 </View>
               )}
-              {isEdit && (
-                <View style={styles.btnSubmit1}>
+              {isEdit &&
+              <View
+                style={[
+                  {
+                    flex:1,
+                    flexDirection: 'row',
+                    marginTop:'30%'
+                  },
+                ]}>
+                <View style={{flex: 1}} >
                   <Button onPress={updateHandler}>Update</Button>
                 </View>
-              )}
-              {isEdit && (
-                <View style={styles.cancel}>
+                <View style={{flex: 1}} >
                   <Button onPress={cancelHandler}>Cancel</Button>
                 </View>
-              )}
+              </View>}
+              
             </View>
           </ScrollView>
           {keyboardStatus == "Keyboard Hidden" && (
@@ -1471,7 +1478,7 @@ const styles = StyleSheet.create({
   btnSubmit: {
     marginTop: deviceHieght < 600 ? "5%" : "20%",
     width: "60%",
-    marginLeft: 155,
+    marginLeft: 175,
     padding:'3%'
   },
   btnSubmitNew: {

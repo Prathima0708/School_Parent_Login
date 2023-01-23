@@ -995,11 +995,25 @@ const TecahersExamTimeTable = () => {
                     ))
                   )}
                 </View> :
-                <View style={{ alignItems: "center", top: "2%" }}>
-                <NativeText fontSize="lg" bold color="error.900">
+                <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginTop:'9%'
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "HindSemiBold",
+                    fontSize: 18,
+                    color: "#6B0202",
+                  }}
+                >
                   No exam timetable found
-                </NativeText>
-              </View>}
+                </Text>
+              </View>
+              }
               </ScrollView>
             </View>
             {keyboardStatus == "Keyboard Hidden" && (

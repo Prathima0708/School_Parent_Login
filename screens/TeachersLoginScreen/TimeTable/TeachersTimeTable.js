@@ -482,11 +482,24 @@ const TeachersTimetable = () => {
               ) : (
                 <>
                   {showSelected && (isUndefined || !isIdThere) && (
-                    <View style={{ alignItems: "center", top: "2%" }}>
-                      <NativeText fontSize="lg" bold color="error.900">
-                        No Timetable found
-                      </NativeText>
-                    </View>
+                    <View
+                    style={{
+                      flex: 1,
+                      alignItems: "center",
+                      // justifyContent: "center",
+                      marginTop:'2%'
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: "HindSemiBold",
+                        fontSize: 18,
+                        color: "#6B0202",
+                      }}
+                    >
+                      No Timetable found
+                    </Text>
+                  </View>
                   )}
 
                   {showSelected && !isUndefined && isIdThere && (

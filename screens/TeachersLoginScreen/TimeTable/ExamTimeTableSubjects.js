@@ -46,55 +46,77 @@ const ExamTimeTableSubjects = () => {
             {/* <View style={{alignItems:'center',marginVertical:20}}>
                 <Heading fontSize={20}>Exam Time Table</Heading>
             </View> */}
-              <View style={[{flex:1}, {
-                flexDirection: "row"
-              }]}>
-                <View style={{ flex: 1, }} >
-                <View style={[{flex:1}, {
-                  flexDirection: "column"
-                }]}>
-                  <View style={{ flex: 1 }} >
-                    <View style={[{flex:1,marginHorizontal:10}, {
-                      flexDirection: "row",marginVertical:10
-                    }]}>
-                      <View style={{ flex: 2,alignItems:'center' }} >
-                        <Text style={styles.labelFont}>Class name-</Text>
-                      </View>
-                      <View style={{ flex: 2}} >
-                        <Text 
-                       
-                          style={[styles.labelFontValue,{marginHorizontal:20,right:'12%'}]}>{route.params.className}
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                  <View style={{ flex: 1}} >
-                    <View style={[{flex:1}, {
-                        flexDirection: "row",marginHorizontal:10
-                      }]}>
-                        <View style={{ flex: 2.3,alignItems:'center' }} >
-                          <Text style={styles.labelFont}>Exam name-</Text>
-                        </View>
-                        <View style={{ flex: 2}} >
-                          <Text 
-                          
-                            style={[styles.labelFontValue,{marginHorizontal:12,right:'12%'}]}>{route.params.examName}
-                          </Text>
-                        </View>
-                    </View>
-                  </View>
-                </View>
-                </View>
-                <View style={{ flex: 0.8 }} >
-                  <View style={[{flex:0.5}, {flexDirection: "row",alignItems:'center',justifyContent:'center',marginLeft:40}]}>
-                    <View style={{ flex:0.3 }} >
-                      <Text style={styles.labelFont}>Hour</Text>
-                    </View>
-                    <View style={{ flex: 0.7 }} >
-                      <Text 
+             <View
+                style={[
 
-                        style={[styles.labelFontValue,{marginHorizontal:12,right:'12%'}]}>{route.params.hour}
-                      </Text>
+                  {
+                    // Try setting `flexDirection` to `"row"`.
+                    flex:1,
+                    flexDirection: 'column',
+                    padding:10,
+                    marginTop:'10%'
+                  },
+                ]}>
+                <View style={{flex: 1}} >
+                  <View
+                    style={[
+                     
+                      {
+                        // Try setting `flexDirection` to `"row"`.
+                        flex:1,
+                        flexDirection: 'row',
+                      },
+                    ]}>
+                    <View style={{flex: 1,alignItems:'center',marginLeft:'20%'}} >
+                    <Text style={styles.labelFont}>Class name-</Text>
+                    </View>
+                    <View style={{flex: 1}} >
+                    <Text 
+                       
+                       style={[styles.labelFontValue,{}]}>{route.params.className}
+                     </Text>
+                    </View>
+                  </View>
+                </View>
+                <View style={{flex: 1}} >
+                <View
+                    style={[
+                 
+                      {
+                        // Try setting `flexDirection` to `"row"`.
+                        flex:1,
+                        flexDirection: 'row',
+                      },
+                    ]}>
+                    <View style={{flex: 1,alignItems:'center',marginLeft:'20%'}} >
+                    <Text style={styles.labelFont}>Exam name-</Text>
+                    </View>
+                    <View style={{flex: 1}} >
+                    <Text 
+                          
+                          style={[styles.labelFontValue,{}]}>{route.params.examName}
+                        </Text>
+                    </View>
+                  </View>
+                </View>
+                <View style={{flex: 1}} >
+                <View
+                    style={[
+                  
+                      {
+                        // Try setting `flexDirection` to `"row"`.
+                        flex:1,
+                        flexDirection: 'row',
+                      },
+                    ]}>
+                    <View style={{flex: 1,alignItems:'flex-start',marginLeft:'28%'}} >
+                    <Text style={styles.labelFont}>Hour-</Text>
+                    </View>
+                    <View style={{flex: 1}} >
+                    <Text 
+
+                    style={[styles.labelFontValue,{}]}>{route.params.hour}
+                    </Text>
                     </View>
                   </View>
                 </View>
@@ -300,7 +322,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     // justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#5578E3",
+    backgroundColor: "#1E84A4",
   },
   labelFont:{
     fontFamily:'HindSemiBold',

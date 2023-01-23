@@ -929,23 +929,24 @@ const TeacherHomeworkScreenBuild = () => {
         const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
         setHomeworkData(res.data);
         setFilteredData(res.data);
-        setForHomeworkForm({
-          color: "white",
-          backgroundColor: "#1E84A4",
-          borderRadius: 5,
-        });
-        setForHomeworkList({
-          backgroundColor: "#F4F6F6",
-          color: "black",
-          borderRadius: 5,
-        });
-        setShowForm(false);
-        setShowList(true);
+        
       } catch (error) {
         console.log(error);
       }
     }
     fetchData();
+    setForHomeworkForm({
+      color: "white",
+      backgroundColor: "#1E84A4",
+      borderRadius: 5,
+    });
+    setForHomeworkList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 5,
+    });
+    setShowForm(false);
+    setShowList(true);
   }
 
   function editItem(id) {
@@ -1504,6 +1505,22 @@ const TeacherHomeworkScreenBuild = () => {
                   <Button onPress={buttonPressedHandler}>Add Homework</Button>
                 </View>
               )}
+              {/* <View
+                style={[
+                  {
+                    // Try setting `flexDirection` to `"row"`.
+                    flex:1,
+                    flexDirection: 'column',
+                  },
+                ]}>
+                <View style={{flex: 1, backgroundColor: 'red'}}>
+                  <Button onPress={updateHandler}>Update</Button>
+                </View>
+                <View style={{flex: 1, backgroundColor: 'darkorange'}}>
+
+                </View>
+              </View> */}
+
               {isEdit && (
                 <View style={styles.btnSubmit1}>
                   <Button onPress={updateHandler}>Update</Button>
@@ -1555,8 +1572,8 @@ const TeacherHomeworkScreenBuild = () => {
             >
               <Text
                 style={{
-                  fontFamily: "HindBold",
-                  fontSize: 20,
+                  fontFamily: "HindSemiBold",
+                  fontSize: 17,
                   top: "3%",
                   marginLeft: 10,
                 }}
@@ -1569,8 +1586,8 @@ const TeacherHomeworkScreenBuild = () => {
                 style={{
                   fontFamily: "HindBold",
                   fontSize: 20,
-                  top: "3%",
-                  right: "2%",
+                  top: "2%",
+                  right: "3%",
                 }}
               >
                 -
@@ -1584,9 +1601,12 @@ const TeacherHomeworkScreenBuild = () => {
                 placeholder="Select class"
                 onSelect={searchHW}
                 boxStyles={{ borderRadius: 10 }}
-                dropdownTextStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-                inputStyles={{ fontSize: 20, fontFamily: "HindRegular" }}
-                dropdownStyles={{ width: "120%" }}
+                dropdownTextStyles={{
+                  fontSize: 15,
+                  fontFamily: "HindRegular",
+                }}
+                inputStyles={{ fontSize: 15, fontFamily: "HindRegular" }}
+                //dropdownStyles={{ width: "120%" }}
               />
             </View>
             <View
@@ -1971,7 +1991,7 @@ const styles = StyleSheet.create({
     width: "50%",
   },
   cancel: {
-    marginTop: -110,
+    marginTop: -105,
     marginBottom: 50,
     marginLeft: -15,
     width: "50%",
