@@ -135,6 +135,9 @@ const TeachersAttendanceBuild = () => {
   const [reportData, setReportData] = useState([]);
   const [showReportList, setShowReportList] = useState(false);
 
+  const [editPresent, setEditPresent] = useState(false);
+  const [editAbsent, setEditAbsent] = useState(false);
+
   let IDSet = new Set();
   let i,
     totalIDs = [];
@@ -707,7 +710,6 @@ const TeachersAttendanceBuild = () => {
   }
 
   function changeColorUpdate(id, text) {
-    console.log("updated array", updateArray);
     // if (updateArray.length > 0) {
     if (updateArray.filter((item) => item.student === id)) {
       var selectedData = [];
@@ -716,14 +718,23 @@ const TeachersAttendanceBuild = () => {
       if (selectedData.length > 0) {
         var isPresent = false;
         var isAbsent = false;
+
         isPresent = selectedData.map(
           (data, key) => data.attendance_status === "present"
         )[0];
+        // setEditPresent(
+        //   selectedData.map(
+        //     (data, key) => data.attendance_status === "present"
+        //   )[0]
+        // );
         isAbsent = selectedData.map(
           (data, key) => data.attendance_status === "absent"
         )[0];
-
-        console.log(isPresent, isAbsent);
+        // setEditAbsent(
+        //   selectedData.map(
+        //     (data, key) => data.attendance_status === "absent"
+        //   )[0]
+        // );
 
         if (isPresent && text == "P") {
           return "green";
@@ -733,6 +744,7 @@ const TeachersAttendanceBuild = () => {
           return "grey";
         }
       }
+
       return "grey";
     }
     // }
@@ -1072,12 +1084,19 @@ const TeachersAttendanceBuild = () => {
         <View
           style={[
             { flex: 1 },
-            { flexDirection: "column", backgroundColor: "white",marginTop:'10%' },
+            {
+              flexDirection: "column",
+              backgroundColor: "white",
+              marginTop: "10%",
+            },
           ]}
         >
-          <View style={{
-            flex: 0.1,
-            paddingTop:30}} >
+          <View
+            style={{
+              flex: 0.1,
+              paddingTop: 30,
+            }}
+          >
             <BackButton onPress={backMarkHandler} />
           </View>
           {/* <View
@@ -1753,7 +1772,9 @@ const TeachersAttendanceBuild = () => {
                                     {data.attendance_status == "present" ? (
                                       <Badge
                                         colorScheme="success"
-                                        style={{ width: "65%" }}
+                                        style={{
+                                          width: "65%",
+                                        }}
                                       >
                                         {data.attendance_status
                                           .charAt(0)
@@ -1881,15 +1902,19 @@ const TeachersAttendanceBuild = () => {
                                 <View style={{ flex: 1 }}>
                                   <Button
                                     onPress={() => updatePresentButton(data)}
-                                    // color={
-                                    //   data.attendance_status === "present"
-                                    //     ? "green"
-                                    //     : "gray"
-                                    // }
-                                    color={changeColorUpdate(
-                                      data.student.id,
-                                      "P"
-                                    )}
+                                    color={
+                                      data.attendance_status === "present"
+                                        ? "green"
+                                        : changeColorUpdate(
+                                            data.student.id,
+                                            "P"
+                                          )
+                                    }
+                                    // color={changeColorUpdate(
+                                    //   data.student.id,
+                                    //   "P"
+                                    // )}
+
                                     title="P"
                                   />
                                 </View>
@@ -1897,15 +1922,19 @@ const TeachersAttendanceBuild = () => {
                                 <View style={{ flex: 1 }}>
                                   <Button
                                     onPress={() => updateAbsentButton(data)}
-                                    // color={
-                                    //   data.attendance_status === "absent"
-                                    //     ? "red"
-                                    //     : "gray"
-                                    // }
-                                    color={changeColorUpdate(
-                                      data.student.id,
-                                      "A"
-                                    )}
+                                    color={
+                                      data.attendance_status === "absent"
+                                        ? "red"
+                                        : changeColorUpdate(
+                                            data.student.id,
+                                            "A"
+                                          )
+                                    }
+                                    // color={changeColorUpdate(
+                                    //   data.student.id,
+                                    //   "A"
+                                    // )}
+
                                     title="A"
                                   />
                                 </View>

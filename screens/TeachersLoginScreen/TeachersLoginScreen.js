@@ -145,7 +145,7 @@ const TeachersLoginScreen = ({ navigation }) => {
         navigation.navigate("MyClasses");
       }
     }
-    
+
     return (
       <View style={styles.rootContainer1}>
         <TeachersCategoryGridTile
@@ -162,10 +162,16 @@ const TeachersLoginScreen = ({ navigation }) => {
 
   return (
     <>
-      <View style={[{flex:1}, {
-        flexDirection: "column",backgroundColor:'white'
-      }]}>
-        <View style={{ flex: 0.9 }} >
+      <View
+        style={[
+          { flex: 1 },
+          {
+            flexDirection: "column",
+            backgroundColor: "white",
+          },
+        ]}
+      >
+        <View style={{ flex: 0.9 }}>
           <View style={styles.studentItem}>
             {/* <Image
               source={{
@@ -173,13 +179,24 @@ const TeachersLoginScreen = ({ navigation }) => {
               }}
               style={styles.image}
             /> */}
-            <View style={{backgroundColor:'cyan',padding:10,borderRadius:100}}>
-            <NativeImage source={{
-                  uri: `https://img.icons8.com/doodle/48/null/gender-neutral-user.png`
-                }} alt="Student Image" size="xl" 
-                resizeMode="contain" ref={myRef}/>
+            <View
+              style={{
+                backgroundColor: "#1E84A4",
+                padding: 10,
+                borderRadius: 100,
+              }}
+            >
+              <NativeImage
+                source={{
+                  uri: `https://img.icons8.com/doodle/48/null/gender-neutral-user.png`,
+                }}
+                alt="Student Image"
+                size="xl"
+                resizeMode="contain"
+                ref={myRef}
+              />
             </View>
-            
+
             {/* <NativeImage
               alignSelf="center"
               borderRadius={100}
@@ -197,7 +214,7 @@ const TeachersLoginScreen = ({ navigation }) => {
             </Text>
           </View>
         </View>
-        <View style={{ flex: 2,alignItems:'center' }} >
+        <View style={{ flex: 2, alignItems: "center" }}>
           <FlatList
             data={TEACHERS}
             keyExtractor={(item) => item.id}
@@ -205,7 +222,7 @@ const TeachersLoginScreen = ({ navigation }) => {
             numColumns={2}
           />
         </View>
-        <View style={{ flex: 0.3}} >
+        <View style={{ flex: 0.3 }}>
           <TeachersHome />
         </View>
       </View>
@@ -257,7 +274,7 @@ const styles = StyleSheet.create({
     width: "80%",
     marginHorizontal: "10%",
     //padding: "3%",
-    bottom:deviceHieght < 600 ? "2%" : "2%",
+    bottom: deviceHieght < 600 ? "2%" : "2%",
 
     alignItems: "center",
     marginTop: deviceHieght < 600 ? "2%" : "5%",

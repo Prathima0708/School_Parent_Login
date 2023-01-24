@@ -2,20 +2,10 @@ import { StyleSheet, View } from "react-native";
 export var selectedUserId, selectedUserName;
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import {
-  Avatar,
-  Box,
-  HStack,
-  Pressable,
-  Spacer,
-  Text,
-  VStack,
-} from "native-base";
+import { Text } from "native-base";
 import moment from "moment";
 
 const NoticeBoard = ({ startdate, titlee, description }) => {
-  const navigation = useNavigation();
-
   return (
     <View style={[styles.listStyle]}>
       <View style={{ flex: 3 }}>
@@ -46,7 +36,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     padding: 10,
-    borderBottomWidth: 1,
   },
   titleStyle: {
     fontSize: 17,

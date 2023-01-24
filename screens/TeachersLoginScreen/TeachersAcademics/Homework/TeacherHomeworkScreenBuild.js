@@ -75,7 +75,7 @@ const TeacherHomeworkScreenBuild = () => {
 
   const [btn, setBtn] = useState(false);
   const [subBtn, setSubBtn] = useState(false);
-  const [isClassFocused, setIsClassFocused] = useState(false);
+
   const [isSubjectFocused, setIsSubjectFocused] = useState(false);
   const [isFromDateFocused, setIsFromDateFocused] = useState(false);
   const [isToDateFocused, setIsToDateFocused] = useState(false);
@@ -102,8 +102,6 @@ const TeacherHomeworkScreenBuild = () => {
 
   const [data, setData] = useState([]);
 
-  // const [formIsValid,setFormIsValid]=useState(false);
-
   const [selectedSubject, setSelectedSubject] = useState("");
   const [enteredSelectedSubTouched, setEnteredSelectedSubTouched] =
     useState(false);
@@ -118,10 +116,6 @@ const TeacherHomeworkScreenBuild = () => {
   const [enteredSubjectTouched, setEnteredSubjectTouched] = useState(false);
   const enteredSubjectIsValid = subject.trim() !== "";
   const subjectInputIsInValid = !enteredSubjectIsValid && enteredSubjectTouched;
-
-  const [classname, setEnteredClassName] = useState("");
-  const [section, setEnteredSection] = useState("");
-  const [test, setTest] = useState(false);
 
   const [remark, setEnteredRemark] = useState("");
   const [enteredRemarkTouched, setEnteredRemarkTouched] = useState(false);
@@ -170,10 +164,10 @@ const TeacherHomeworkScreenBuild = () => {
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
-  const [cont, setCont] = useState("");
+
   const [show, setShow] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [isDelete, setIsDelete] = useState(false);
+
   const [homeworkData, setHomeworkData] = useState([]);
   const [isSame, SetIsSame] = useState(false);
   const [showInitialBtn, setShowInitialBtn] = useState(true);
@@ -200,11 +194,9 @@ const TeacherHomeworkScreenBuild = () => {
           if (value == res.data[i].created_by) {
             test = res.data[i].created_by;
           } else {
-            // console.log('false')
           }
         }
         if (test == value) {
-          // console.log("is same")
           SetIsSame(true);
         }
       } catch (error) {
@@ -259,7 +251,7 @@ const TeacherHomeworkScreenBuild = () => {
 
   async function fetchUser() {
     USERNAME = await AsyncStorage.getItem("UserName");
-    // console.log("this is the username in calendar", USERNAME);
+
     if (USERNAME !== null) {
       setUser(USERNAME);
     }
@@ -286,7 +278,6 @@ const TeacherHomeworkScreenBuild = () => {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-      //base64: true,
     });
 
     const source = { uri: result.uri };
@@ -294,15 +285,6 @@ const TeacherHomeworkScreenBuild = () => {
 
     const blob = await imageToBlob(source.uri);
     const myFile = new File([blob], fileName, { type: result.type });
-
-    // const { status } = await MediaLibrary.requestPermissionsAsync();
-    // if (status === "granted") {
-    //   await MediaLibrary.saveToLibraryAsync(result.uri);
-
-    //   console.log("Image successfully saved");
-    // }
-    console.log("------");
-    console.log(result);
 
     // const { uri, base64 } = result;
     // const body = JSON.stringify({
@@ -372,11 +354,8 @@ const TeacherHomeworkScreenBuild = () => {
     path = FileSystem.documentDirectory + filename;
     console.log(path);
 
-    // console.log("filename-", JSON.stringify(filename));
-
     match = /\.(\w+)$/.exec(filename);
     type = match ? `image/${match[1]}` : `image`;
-    // console.log("type-", type);
 
     // const base64 = await FileSystem.readAsStringAsync(result.uri, {
     //   encoding: FileSystem.EncodingType.Base64,
@@ -429,8 +408,6 @@ const TeacherHomeworkScreenBuild = () => {
   }, []);
 
   function fetchSubjects() {
-    console.log(selected);
-    console.log(selectedSubject);
     async function fetchSubjects() {
       axios
         .get(`${subURL}/StudentclassSubjectDetail/${selected}`)
@@ -441,33 +418,8 @@ const TeacherHomeworkScreenBuild = () => {
               response.data[i].charAt(0).toUpperCase() +
               response.data[i].substr(1);
           }
-          console.log(response.data);
-          //setSubjectData(newSubjects);
+
           setSubjectData(response.data);
-        })
-
-        .catch((e) => {
-          console.log(e);
-        });
-    }
-    fetchSubjects();
-  }
-
-  function fetchSubjectsEdit() {
-    async function fetchSubjects() {
-      console.log("key inside fetch subjects", KEY);
-      axios
-        .get(`http://10.0.2.2:8000/school/StudentclassSubjectDetail/${KEY}`)
-        .then((response) => {
-          //  console.log("subjects", response.data);
-          for (var i = 0; i < response.data.length; i++) {
-            response.data[i] =
-              response.data[i].charAt(0).toUpperCase() +
-              response.data[i].substr(1);
-          }
-          console.log(response.data);
-          //setSubjectData(newSubjects);
-          setSubjectDataEdit(response.data);
         })
 
         .catch((e) => {
@@ -510,8 +462,6 @@ const TeacherHomeworkScreenBuild = () => {
     } else {
       //cancel button clicked
     }
-
-    //console.log(fDate);
   };
 
   const toDateChangeHandler = (event, selectedToDate) => {
@@ -540,13 +490,10 @@ const TeacherHomeworkScreenBuild = () => {
   };
 
   function frmDateHandler(enteredValue) {
-    // setFromText(enteredValue);
-    // setEnteredFromDate(enteredValue);
     setFromDate(enteredValue);
     setenteredfrmdate(enteredValue);
   }
   function toDateHandler(enteredValue) {
-    // setToText(enteredValue);
     setToDate(enteredValue);
     setenteredtodate(enteredValue);
   }
@@ -574,20 +521,6 @@ const TeacherHomeworkScreenBuild = () => {
     }
     return true;
   }
-  async function takeImageHanlder() {
-    const hasPermission = await verifyPermissions();
-
-    if (!hasPermission) {
-      return;
-    }
-    const image = await launchCameraAsync({
-      allowsEditing: true,
-      aspect: [16, 9],
-      quality: 0.5,
-    });
-
-    setPickedImage(image.uri);
-  }
 
   function updateHandler() {
     console.log("selected inside update", selected);
@@ -595,19 +528,17 @@ const TeacherHomeworkScreenBuild = () => {
     console.log("filetred list inside update", filteredlist);
     console.log("inside update ", selectedSubject);
     let uploaduri = image;
-    // let filename = uploaduri.substring(uploaduri.lastIndexOf("/") + 1);
+
     const formdata = {
       class_name: filteredlist[0].classname,
       section: filteredlist[0].section,
-      // subject: selectedSubject,
+
       subject:
         selected.toString() == selectedSubject ? SUBJECTVALUE : selectedSubject,
       homework_date: FROMDATE,
       remark: remark,
-      //  homework_photo: "",
-      //homework: "",
+
       due_date: TODATE,
-      //    description: hw,
     };
     console.log(formdata);
 
@@ -668,14 +599,9 @@ const TeacherHomeworkScreenBuild = () => {
 
       setShowInitialBtn(true);
     }
-
-    // }
   }
 
   function buttonPressedHandler() {
-    // console.log(selectedSubject);
-    // console.log("selected value -", newArray);
-
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -683,9 +609,6 @@ const TeacherHomeworkScreenBuild = () => {
     setBtn(true);
     setSubBtn(true);
 
-    // const test = image.substring(image.lastIndexOf("/") + 1);
-
-    // console.log(test);
     var dateFromValidate = fromText;
     var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
 
@@ -721,9 +644,6 @@ const TeacherHomeworkScreenBuild = () => {
     if (!enteredSelcetdIsValid) {
       return;
     }
-    // if (!enteredSubjectIsValid) {
-    //   return;
-    // }
 
     if (!enteredFromDateIsValid) {
       return;
@@ -739,12 +659,7 @@ const TeacherHomeworkScreenBuild = () => {
 
     if (!enteredHomeWorkIsValid) {
       return;
-    }
-
-    // if (!enteredImageIsValid) {
-    //   return;
-    // }
-    else {
+    } else {
       let filteredlist = newArray.filter((ele) => ele.key == selected);
 
       var formdata = {
@@ -757,12 +672,10 @@ const TeacherHomeworkScreenBuild = () => {
         homework: "empty",
         due_date: TODATE,
         description: hw,
-        // created_by: user,
       };
 
       console.log(formdata);
 
-      console.log("********************");
       //   var formData = new FormData();
       //  console.log(FROMDATE)
       //   formData.append('class_name', filteredlist[0].classname);
@@ -816,7 +729,7 @@ const TeacherHomeworkScreenBuild = () => {
       setHW("");
       setEnteredSelectedTouched(false);
       setEnteredSelectedSubTouched(false);
-      //setEnteredSelectedTouched(false);
+
       setEnteredSubjectTouched(false);
       setEnteredFromDateTouched(false);
       setEnteredHomeWorkTouched(false);
@@ -838,32 +751,10 @@ const TeacherHomeworkScreenBuild = () => {
     }
   }
 
-  function subjectInputBlur() {
-    setEnteredSubjectTouched(true);
-    setIsSubjectFocused(false);
-  }
   function onSubjectFocusHandler() {
     setIsSubjectFocused(true);
     setEnteredSubjectTouched(false);
     setSubLabel(true);
-  }
-
-  function dateFromHandler() {
-    setEnteredFromDateTouched(true);
-    setIsFromDateFocused(false);
-  }
-  function onFocusFromHandler() {
-    setIsFromDateFocused(true);
-    setEnteredFromDateTouched(false);
-  }
-
-  function dateToHandler() {
-    setEnteredtoDateTouched(true);
-    setIsToDateFocused(false);
-  }
-  function onFocusToHandler() {
-    setEnteredtoDateTouched(false);
-    setIsToDateFocused(true);
   }
 
   function remarkBlurHandler() {
@@ -886,9 +777,6 @@ const TeacherHomeworkScreenBuild = () => {
     setHomeworkLabel(true);
   }
 
-  function uploadImageBlurHandler() {
-    setEnteredImageTouched(true);
-  }
   function showHomeworkForm() {
     setEnteredSubject("");
     setFromText("");
@@ -910,7 +798,7 @@ const TeacherHomeworkScreenBuild = () => {
     setShowList(false);
     setEnteredSelectedTouched(false);
     setEnteredSelectedSubTouched(false);
-    //setEnteredSelectedTouched(false);
+
     setEnteredSubjectTouched(false);
     setEnteredFromDateTouched(false);
     setEnteredHomeWorkTouched(false);
@@ -929,7 +817,6 @@ const TeacherHomeworkScreenBuild = () => {
         const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
         setHomeworkData(res.data);
         setFilteredData(res.data);
-        
       } catch (error) {
         console.log(error);
       }
@@ -955,43 +842,32 @@ const TeacherHomeworkScreenBuild = () => {
 
     console.log(id);
 
-    // setSubLabel(true);
     setRemarkLabel(true);
     setHomeworkLabel(true);
     setShowInitialBtn(false);
-    // let selectedData = selected.split(" - ");
-    // let class_name = selectedData[0];
-    // let section = selectedData[1];
 
     const filteredDummuyData = homeworkData.find((data) => data.id == id);
 
     console.log(filteredDummuyData);
 
-    // setData(filteredDummuyData.selectedData[class_name]);
-    // setEnteredSection(filteredDummuyData.section);
-    // setEnteredSubject(filteredDummuyData.subject);
-    //console.log(filteredDummuyData.class_name + "-" + filteredDummuyData.section )
     VALUE =
       filteredDummuyData.class_name +
       " " +
       "-" +
       " " +
       filteredDummuyData.section;
-    //KEY=filteredDummuyData.id
-    // console.log(VALUE)
+
     let filteredlistC = newArray.filter((ele) => ele.value == VALUE);
     KEY = filteredlistC[0].key;
-    // console.log(KEY)
 
     SUBJECTVALUE = filteredDummuyData.subject;
 
     setFromText(moment(filteredDummuyData.homework_date).format("DD/MM/YYYY"));
     setToText(moment(filteredDummuyData.due_date).format("DD/MM/YYYY"));
-    // moment(filteredDummuyData.due_date).format('DD/MM/YYYY')
+
     setEnteredRemark(filteredDummuyData.remark);
     setHW(filteredDummuyData.description);
 
-    //setImage(filteredDummuyData.homework_photo);
     setForHomeworkList({
       backgroundColor: "#F4F6F6",
       color: "black",
@@ -1009,8 +885,6 @@ const TeacherHomeworkScreenBuild = () => {
 
   function deleteItem(id) {
     console.log("i am pressed");
-    // console.log(id);
-    // const newFilteredData=data.filter((data)=>data.id != id);
 
     Alert.alert("Confirm Deletion", "You are about to delete this row!", [
       {
@@ -1028,16 +902,15 @@ const TeacherHomeworkScreenBuild = () => {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
         };
-        // const dataForm = FormData;
+
         const resLogin = await axios.delete(
           `${subURL}/Homework/${id}/`,
-          // FormData,
+
           {
             headers: headers,
           }
         );
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
+
         console.log(resLogin.data);
       } catch (error) {
         console.log(error);
@@ -1045,7 +918,7 @@ const TeacherHomeworkScreenBuild = () => {
       async function fetchData() {
         try {
           const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
-          // console.log(res.data);
+
           setHomeworkData(res.data);
           setFilteredData(res.data);
         } catch (error) {
@@ -1061,24 +934,6 @@ const TeacherHomeworkScreenBuild = () => {
     setShowList(true);
     setShowForm(false);
   }
-
-  const searchFilter = (text) => {
-    console.log("search function");
-    if (text) {
-      const newData = homeworkData.filter((item) => {
-        const itemData = item.class_name
-          ? item.class_name.toUpperCase()
-          : "".toUpperCase();
-        const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
-      });
-      setFilteredData(newData);
-      setSearchText(text);
-    } else {
-      setFilteredData(homeworkData);
-      setSearchText(text);
-    }
-  };
 
   function linkPressedHandler() {
     setShowForm(true);
@@ -1108,10 +963,6 @@ const TeacherHomeworkScreenBuild = () => {
         );
 
         setFilteredData(res.data);
-
-        // if (res.data.length == 0) {
-        //   Alert.alert("No data found", "No data found for respective search");
-        // }
       } catch (error) {
         console.log(error);
       }
@@ -1165,7 +1016,7 @@ const TeacherHomeworkScreenBuild = () => {
                     onSelect={fetchSubjects}
                   />
                   {selectInputIsInValid && (
-                    <Text style={[styles.errorText, { top: 10 ,left:10 }]}>
+                    <Text style={[styles.errorText, { top: 10, left: 10 }]}>
                       Select class
                     </Text>
                   )}
@@ -1211,7 +1062,7 @@ const TeacherHomeworkScreenBuild = () => {
                     inputStyles={styles.dropText}
                   />
                   {selectInputIsInValid ? (
-                    <Text style={[styles.errorText, { top: 10 ,left:10}]}>
+                    <Text style={[styles.errorText, { top: 10, left: 10 }]}>
                       Please select class first
                     </Text>
                   ) : (
@@ -1243,7 +1094,7 @@ const TeacherHomeworkScreenBuild = () => {
                     save="value"
                   />
                   {selectInputIsInValid ? (
-                    <Text style={[styles.errorText, { top: 10 ,left:10 }]}>
+                    <Text style={[styles.errorText, { top: 10, left: 10 }]}>
                       Please select class first
                     </Text>
                   ) : (
@@ -2036,7 +1887,6 @@ const styles = StyleSheet.create({
     marginBottom: 59,
     width: "70%",
     marginLeft: 130,
-    
   },
   imagePreView: {
     width: "100%",
