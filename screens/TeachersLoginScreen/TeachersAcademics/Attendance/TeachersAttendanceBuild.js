@@ -749,15 +749,6 @@ const TeachersAttendanceBuild = () => {
     }
     // }
   }
-  function setInitialColor(data) {
-    if (data.attendance_status === "present") {
-      return "green";
-    } else if (data.attendance_status === "absent") {
-      return "red";
-    } else {
-      return "grey";
-    }
-  }
 
   function fromDateBlurHandler() {
     setEnteredFromDateTouched(true);
