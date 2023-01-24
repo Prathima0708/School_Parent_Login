@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     padding: 10,
-    borderBottomWidth: 1,
+
+    //borderBottomWidth: 1,
   },
   titleStyle: {
     fontSize: 17,
@@ -60,6 +61,7 @@ const styles = StyleSheet.create({
   colorPadding: {
     backgroundColor: "#DEE4FF",
     padding: 15,
+   
   },
   dateViewStyle: {
     flex: 1,

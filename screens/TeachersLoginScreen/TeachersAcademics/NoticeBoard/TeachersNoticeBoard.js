@@ -103,18 +103,18 @@ export default TeachersNoticeBoard;
 
 const styles = StyleSheet.create({
   headingView: {
-    flex: 0.4,
+    //  flex: 0.4,
     backgroundColor: "white",
     alignItems: "center",
     paddingVertical: 20,
   },
   textStyle: {
-    fontFamily: "HindBold",
-    fontSize: 18,
+    fontFamily: "HindSemiBold",
+    fontSize: 20,
     color: "black",
     marginTop: "2%",
-   backgroundColor: "#DEE4FF",
-    padding: 10,
+    //backgroundColor: "#DEE4FF",
+    // padding: 10,
     borderRadius: 10,
   },
   msgText: {
