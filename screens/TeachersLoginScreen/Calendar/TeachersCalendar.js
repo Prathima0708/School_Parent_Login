@@ -36,8 +36,9 @@ import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import { Animated } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { HStack, IconButton, Radio } from "native-base";
+import { HStack, IconButton, Radio,Button as NativeButton,Text as NativeText,Icon } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
+import CalendarPicker from "react-native-calendar-picker";
 
 
 
@@ -84,6 +85,7 @@ const TeachersCalendar = () => {
   const br = "\n";
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
+  const [showSearchBar, setShowSearchBar] = useState(false);
 
   const [label, setLabel] = useState(false);
   const [descriptionLabel, setDescriptionLabel] = useState(false);
@@ -94,7 +96,7 @@ const TeachersCalendar = () => {
   const [isDescFocused, setIsDescFocused] = useState(false);
   const [isFromDateFocused, setIsFromDateFocused] = useState(false);
   const [isToDateFocused, setIsToDateFocused] = useState(false);
-
+  const [calendarViewBtnPressed,setCalendarViewBtnPressed]=useState(false);
   const [btn, setBtn] = useState(false);
 
   const [forCalendarList, setForCalendarList] = useState({
@@ -156,10 +158,11 @@ const TeachersCalendar = () => {
   const [isSame, SetIsSame] = useState(false);
 
   const [filteredData, setFilteredData] = useState([]);
+  const [customDatesStyles,setCustomDatesStyles]=useState([]);
   const [searchText, setSearchText] = useState("");
 
   const [showInitialBtn, setShowInitialBtn] = useState(true);
-
+  const [showListCalOptionBtn, setShowListCalOptionBtn] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -183,6 +186,15 @@ const TeachersCalendar = () => {
      
         setData(res.data);
         setFilteredData(res.data);
+        console.log(res.data);
+        setCustomDatesStyles(
+          res.data.map(d => (
+            {
+              date: d.startdate, 
+              style: {backgroundColor: '#00B8AC' }, 
+              textStyle:{color: 'white'}, 
+              containerStyle:[]
+            })));
         var newArray = res.data.map((item) => {
           return {
             key: item.id,
@@ -587,6 +599,9 @@ const TeachersCalendar = () => {
     setAdminChecked(false);
     setTeacherChecked(false);
     setParentChecked(false);
+    setCalendarViewBtnPressed(false);
+    setShowListCalOptionBtn(false)
+    setShowSearchBar(false);
   }
   function showCalendar() {
     async function fetchData() {
@@ -601,6 +616,7 @@ const TeachersCalendar = () => {
       }
     }
     fetchData();
+
     setForCalendarForm({
       color: "white",
       backgroundColor: "#1E84A4",
@@ -614,6 +630,8 @@ const TeachersCalendar = () => {
     setShowForm(false);
     setShowList(true);
     setAnyChecked(true);
+    setShowListCalOptionBtn(true);
+    setShowSearchBar(true)
   }
 
  
@@ -758,6 +776,30 @@ const TeachersCalendar = () => {
     });
   }
 
+  function handleDayPress(day){
+    const filteredData = data.
+    filter((data) => 
+      moment(data.startdate).format("YYYY-MM-DD") == moment(day).format("YYYY-MM-DD")
+    );
+    setFilteredData(filteredData)
+    setShowList(true)
+    console.log(filteredData)
+  }
+
+  function calendarViewPressHandler(){
+    setShowList(false);
+    setCalendarViewBtnPressed(true);
+    setShowSearchBar(false);
+
+  }
+
+  function listViewPressHandler(){
+    setShowList(true);
+    setCalendarViewBtnPressed(false);
+    setShowSearchBar(true);
+    showCalendar();
+  }
+
   return (
     <>
     
@@ -781,6 +823,97 @@ const TeachersCalendar = () => {
             </BgButton>
           </View>
         </Animated.View>
+      )}
+      {showListCalOptionBtn && (
+        // <Animated.View
+        //   style={[
+        //     {
+        //       height: animateHeaderHeight,
+        //       backgroundColor: animateHeaderBackGround,
+        //     },
+        //   ]}
+        // >
+          // <View style={styles.viewContainer}>
+          //   <IconButton
+          //     colorScheme="blue"
+          //     onPress={listViewPressHandler} style={{bottom:'5%'}}
+          //     variant="subtle"
+          //     _icon={{
+          //       as: Ionicons,
+          //       name: "list",
+          //     }}>List View</IconButton>
+          //   <View style={styles.space}/>
+          //   <IconButton
+          //     colorScheme="blue"
+          //     onPress={calendarViewPressHandler} style={{bottom:'5%'}}
+          //     variant="subtle"
+          //     _icon={{
+          //       as: Ionicons,
+          //       name: "calendar",
+          //     }}>Calendar View</IconButton>
+          // </View>
+
+          <View
+            style={[
+              {
+                // Try setting `flexDirection` to `"row"`.
+                flex:0.1,
+                flexDirection: 'row',
+                marginHorizontal:20
+              },
+            ]}>
+            <View style={{flex: 1}}>
+              {/* <IconButton
+                colorScheme="blue"
+                onPress={listViewPressHandler} style={{bottom:'5%'}}
+                variant="subtle"
+                _icon={{
+                  as: Ionicons,
+                  name: "list",
+                }}>List View
+              </IconButton> */}
+              <NativeButton 
+                size='md'
+                onPress={listViewPressHandler}
+                style={{backgroundColor:'#002D62',borderRadius:7}}
+                rightIcon={<Icon as={Ionicons} name="list" size="md" />}>
+                  <NativeText 
+                    fontSize='18' 
+                    color='white' 
+                    fontFamily='HindBold'
+                    top='0.5'
+                    left='1'
+                    >List View
+                  </NativeText>
+              </NativeButton>
+            </View>
+            <View style={styles.space}/>
+            <View style={{flex: 1}}>
+              <NativeButton 
+                size='md'
+                onPress={calendarViewPressHandler}
+                style={{backgroundColor:'#002D62',borderRadius:7}}
+                rightIcon={<Icon as={Ionicons} name="calendar" size="md" />}>
+                  <NativeText 
+                    fontSize='18' 
+                    color='white' 
+                    fontFamily='HindBold'
+                    top='0.5'
+                    left='1'
+                    >Calendar View
+                  </NativeText>
+              </NativeButton>
+              {/* <IconButton
+               colorScheme="blue"
+               onPress={calendarViewPressHandler} style={{bottom:'5%'}}
+               variant="subtle"
+               _icon={{
+                 as: Ionicons,
+                 name: "calendar",
+               }}>Calendar View</IconButton> */}
+            </View>
+          </View>
+        // </Animated.View>
       )}
       {showForm && (
         <>
@@ -1108,15 +1241,15 @@ const TeachersCalendar = () => {
         </>
       )}
 
-      {showList && (
+      {showSearchBar && (
         <View
           style={[
             { backgroundColor: "white" },
 
           ]}
         >
+          
           <SearchBar
-           
             style={styles.searchBar}
             textInputStyle={{
               fontFamily: "HindRegular",
@@ -1127,9 +1260,25 @@ const TeachersCalendar = () => {
             onChangeText={(text) => searchFilter(text)}
             value={searchText}
           />
-        
+          {/* <View style={{}}> */}
+    
+          {/* </View> */}
+          
         </View>
       )}
+      {calendarViewBtnPressed &&
+      // <ScrollView>
+         <View style={{backgroundColor:'white',top:'3%'}}>
+        
+        <CalendarPicker
+          onDateChange={(day)=>handleDayPress(day)}
+          customDatesStyles={customDatesStyles}
+          selectedDayStyle={{}}
+          textStyle={{fontFamily:"HindRegular"}}
+        />
+      </View>   
+      // </ScrollView>
+     }
       {showList && (
         <View
           style={[
@@ -1147,7 +1296,7 @@ const TeachersCalendar = () => {
               )}
             >
               {filteredData.length <= 0 ? (
-                <View style={{ alignItems: "center", marginTop: "5%" }}>
+                <View style={{ alignItems: "center", marginTop: "7%" }}>
                   <Text style={styles.msgText}>
                     No events found,
                     <Text style={styles.linkText} onPress={linkPressedHandler}>
@@ -1449,7 +1598,12 @@ const styles = StyleSheet.create({
 
     backgroundColor: "white",
   },
-
+  viewContainer:{
+    fontSize: 24,
+    flexDirection: "row",
+    width: "100%",
+    backgroundColor: "white",
+  },
   eventName: {
     fontFamily: "HindSemiBold",
     fontSize: 18,
@@ -1458,7 +1612,6 @@ const styles = StyleSheet.create({
   },
 
   root: {
-
     backgroundColor: "white",
     height: "100%",
   },
