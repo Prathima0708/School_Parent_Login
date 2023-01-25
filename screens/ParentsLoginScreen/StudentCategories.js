@@ -104,9 +104,9 @@ export default StudentCategories;
 const styles = StyleSheet.create({
   rootContainer: {
     //flex: 1,
-    marginTop:'2%',
-    justifyContent: "center",
-    alignItems: "center",
+    marginTop:'3%',
+    // justifyContent: "center",
+    // alignItems: "center",
     //padding: 32,
   },
   // test: {

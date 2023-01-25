@@ -1256,7 +1256,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   space: {
-    width: 10, // or whatever size you need
+    width: 9, // or whatever size you need
     height: 20,
   },
   buttonGroup: {

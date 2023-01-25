@@ -31,7 +31,7 @@ const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   gridItem: {
     flex: 1,
-    marginHorizontal:10,
+    marginHorizontal:16,
     marginVertical:10,
     padding: 7,
     paddingTop: 0,

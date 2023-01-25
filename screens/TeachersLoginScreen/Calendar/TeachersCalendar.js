@@ -110,6 +110,8 @@ const TeachersCalendar = () => {
     backgroundColor: "#F4F6F6",
     borderRadius: 5,
   });
+  const [listBtnPressed,setListBtnPressed]=useState(false);
+  const [updateBtnPressed,setUpdateBtnPressed]=useState(false);
 
   const [selected, setSelected] = useState("");
   const [enteredSelectedTouched, setEnteredSelectedTouched] = useState(false);
@@ -164,7 +166,7 @@ const TeachersCalendar = () => {
 
   const [showInitialBtn, setShowInitialBtn] = useState(true);
   const [showListCalOptionBtn, setShowListCalOptionBtn] = useState(false);
-
+  const [backAndSearchBar,setBackAndSearchBar]=useState(false);
   const [loading, setLoading] = useState(false);
 
   const [all, setAll] = useState(false);
@@ -238,11 +240,14 @@ const TeachersCalendar = () => {
     
     if (showList) {
       navigation.setOptions({ headerShown: false });
-    }else{
+    }else if(calendarViewBtnPressed){
+      navigation.setOptions({ headerShown: false });
+    }
+    else {
       navigation.setOptions({ headerShown: true });
     }
     
-  }, [showList]);
+  }, [showList,calendarViewBtnPressed]);
 
   const showFromMode = (currentFromMode) => {
     setFromShow(true);
@@ -325,6 +330,7 @@ const TeachersCalendar = () => {
 
   function updateHandler() {
     //setShowInitialBtn(true);
+    setUpdateBtnPressed(true);
     const FormData = {
       description: description,
 
@@ -377,6 +383,7 @@ const TeachersCalendar = () => {
       setToText("");
       setShowForm(false);
       setShowList(true);
+      setBackAndSearchBar(true);
       setForCalendarList({
         backgroundColor: "#F4F6F6",
         color: "black",
@@ -654,6 +661,7 @@ const TeachersCalendar = () => {
     setShowInitialBtn(false);
     setLabel(true);
     setDescriptionLabel(true);
+    setCalendarViewBtnPressed(false);
     ID = id;
   
     const filteredDummuyData = data.find((data) => data.id == id);
@@ -797,32 +805,56 @@ const TeachersCalendar = () => {
     );
     setFilteredData(filteredData)
     setShowList(true)
+    setBackAndSearchBar(false)
     console.log(filteredData)
   }
 
   function calendarViewPressHandler(){
-    setShowList(false);
+    setShowInitialBtn(false);
+    setShowListCalOptionBtn(false)
     setCalendarViewBtnPressed(true);
-    setShowSearchBar(false);
 
   }
 
   function listViewPressHandler(){
     setShowList(true);
+    setListBtnPressed(true);
     setShowSearchBar(true);
+    setBackAndSearchBar(true)
     setShowListCalOptionBtn(false);
     setShowInitialBtn(false);
+
+    async function fetchData() {
+      try {
+        const res = await axios.get(`${subURL}/Calendar/`);
+       
+
+        setData(res.data);
+        setFilteredData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
   }
 
+  function backCalendarBtnHandler(){
+    setShowList(false);
+    setListBtnPressed(false);
+    setShowInitialBtn(true);
+    setShowListCalOptionBtn(true);
+    setCalendarViewBtnPressed(false);
+  }
   function backButtonHandler(){
     setShowList(false);
     setShowInitialBtn(true);
+    setListBtnPressed(false);
     setShowListCalOptionBtn(true);
+
   }
   return (
     <>
-    
-
+  
       {showInitialBtn && (
         <Animated.View
           style={[
@@ -1241,43 +1273,51 @@ const TeachersCalendar = () => {
 
 
       {calendarViewBtnPressed &&
-      // <ScrollView>
-         <View style={{backgroundColor:'white',top:'3%'}}>
-        
-        <CalendarPicker
-          onDateChange={(day)=>handleDayPress(day)}
-          customDatesStyles={customDatesStyles}
-          selectedDayStyle={{}}
-          textStyle={{fontFamily:"HindRegular"}}
-        />
-      </View>   
-      // </ScrollView>
-     }
+      <View style={[{flex:1.3, flexDirection: 'column',marginTop:'10%',backgroundColor:'white'}]}>
+        <View style={{flex: 0.3,paddingTop:20}} >
+          <BackButton onPress={backCalendarBtnHandler} />
+        </View>
+        <View style={{flex: 1}} >
+          <CalendarPicker
+            onDateChange={(day)=>handleDayPress(day)}
+            customDatesStyles={customDatesStyles}
+            selectedDayStyle={{}}
+            textStyle={{fontFamily:"HindRegular"}}
+          />
+          
+        </View>
+      </View>  
+      }
+
       {showList && (
-        <View style={[{flex:1, flexDirection: 'column',marginTop:'10%',backgroundColor:'white'}]}>
+        <View style={[{flex:1, flexDirection: 'column',marginTop: updateBtnPressed ||listBtnPressed ? '10%' : '0%',backgroundColor:'white'}]}>
+          {backAndSearchBar &&
           <View style={{flex: 0.1,paddingTop:20}} >
             <BackButton onPress={backButtonHandler} />
-          </View>
+          </View>}
           <View style={{flex: 1}} >
-            <NativeText bold style={{ fontSize: 17,marginLeft:'40%',padding:10}}>Event List</NativeText>
-            <SearchBar
-              style={styles.searchBar}
-              textInputStyle={{
-                fontFamily: "HindRegular",
-                fontSize: 18,
-              }}
+            {backAndSearchBar && 
+            <>
+              <NativeText bold style={{ fontSize: 17,marginLeft:'40%',padding:10}}>Event List</NativeText>
+              <SearchBar
+                style={styles.searchBar}
+                textInputStyle={{
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
 
-              placeholder="Search here"
-              onChangeText={(text) => searchFilter(text)}
-              value={searchText}
-            />
+                placeholder="Search here"
+                onChangeText={(text) => searchFilter(text)}
+                value={searchText}
+              />
+            </>}
              <View
                 style={[
                   { flex: 1 },
                   { flexDirection: "column", backgroundColor: "white" },
                 ]}
               >
-                <View style={{ flex: 8, bottom: 10 }}>
+                <View style={{ flex: 8, bottom: 13 }}>
                   <ScrollView
                   
                     scrollEventThrottle={25}
@@ -1287,7 +1327,7 @@ const TeachersCalendar = () => {
                     )}
                   >
                     {filteredData.length <= 0 ? (
-                      <View style={{ alignItems: "center", marginTop: "5%" }}>
+                      <View style={{ alignItems: "center", marginTop: "15%" }}>
                         <Text style={styles.msgText}>
                           No events found,
                           <Text style={styles.linkText} onPress={linkPressedHandler}>
@@ -1296,7 +1336,7 @@ const TeachersCalendar = () => {
                         </Text>
                       </View>
                     ) : (
-                      <View style={styles.root}>
+                      <View style={[styles.root]}>
                         {loading ? (
                           <HStack
                             space={8}
@@ -1605,7 +1645,7 @@ const styles = StyleSheet.create({
   },
 
   root: {
-    backgroundColor: "white",
+    // backgroundColor: "whi",
     height: "100%",
   },
   inputForm: {

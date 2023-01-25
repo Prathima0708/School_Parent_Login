@@ -179,6 +179,11 @@ export default function App() {
     return (
       <Stack.Navigator>
         <Stack.Screen
+          name="Category"
+          component={StudentCategories}
+          options={{ title: "Dashboard" }}
+        />
+        <Stack.Screen
           name="LadingScreen"
           component={LandingScreen}
           options={{ title: "Welcome Screen" }}
@@ -269,11 +274,7 @@ export default function App() {
           name="ParentsLoginScreen"
           component={ParentsLoginScreen}
         /> */}
-        <Stack.Screen
-          name="Category"
-          component={StudentCategories}
-          options={{ title: "Dashboard" }}
-        />
+        
         <Stack.Screen
           name="StudentsOverview"
           component={StudentsOverviewScreen}
@@ -376,6 +377,11 @@ export default function App() {
     return (
       <Stack.Navigator>
         <Stack.Screen
+          name="Category"
+          component={StudentCategories}
+          options={{ title: "Dashboard" }}
+        />
+        <Stack.Screen
           name="ParentsLoginScreen"
           component={ParentsLoginScreen}
           options={{ title: "Dashboard" }}
@@ -391,11 +397,7 @@ export default function App() {
           component={Login}
           options={{ title: "Kinara" }}
         />
-        <Stack.Screen
-          name="Category"
-          component={StudentCategories}
-          options={{ title: "Dashboard" }}
-        />
+        
         <Stack.Screen
           name="StudentsOverview"
           component={StudentsOverviewScreen}
