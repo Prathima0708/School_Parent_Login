@@ -718,6 +718,28 @@ const TeachersAttendanceBuild = () => {
       if (selectedData.length > 0) {
         var isPresent = false;
         var isAbsent = false;
+        // var saveattendanceData = [];
+        // saveattendanceData = saveAttendanceDataByDCS.filter(
+        //   (item) => item.student.id === id
+        // );
+        // var initialPresent = false;
+        // var initialAbsent = false;
+        // if (saveattendanceData[0].student.id === id && !editBtnPressed) {
+        //   initialPresent = true;
+        //   initialAbsent = true;
+        //   if (initialPresent) {
+        //     return "green";
+        //   } else if (initialAbsent) {
+        //     return "red";
+        //   } else {
+        //     return "grey";
+        //   }
+        // }
+        // console.log(
+        //   "saveattendanceData",
+        //   saveattendanceData[0].attendance_status,
+        //   saveattendanceData[0].student.id
+        // );
 
         isPresent = selectedData.map(
           (data, key) => data.attendance_status === "present"
@@ -730,11 +752,6 @@ const TeachersAttendanceBuild = () => {
         isAbsent = selectedData.map(
           (data, key) => data.attendance_status === "absent"
         )[0];
-        // setEditAbsent(
-        //   selectedData.map(
-        //     (data, key) => data.attendance_status === "absent"
-        //   )[0]
-        // );
 
         if (isPresent && text == "P") {
           return "green";
@@ -744,8 +761,6 @@ const TeachersAttendanceBuild = () => {
           return "grey";
         }
       }
-
-      return "grey";
     }
     // }
   }
@@ -1903,7 +1918,8 @@ const TeachersAttendanceBuild = () => {
                                   <Button
                                     onPress={() => updatePresentButton(data)}
                                     color={
-                                      data.attendance_status === "present"
+                                      data.attendance_status === "present" &&
+                                      editBtnPressed
                                         ? "green"
                                         : changeColorUpdate(
                                             data.student.id,
@@ -1923,7 +1939,8 @@ const TeachersAttendanceBuild = () => {
                                   <Button
                                     onPress={() => updateAbsentButton(data)}
                                     color={
-                                      data.attendance_status === "absent"
+                                      data.attendance_status === "absent" &&
+                                      editBtnPressed
                                         ? "red"
                                         : changeColorUpdate(
                                             data.student.id,
@@ -1934,7 +1951,6 @@ const TeachersAttendanceBuild = () => {
                                     //   data.student.id,
                                     //   "A"
                                     // )}
-
                                     title="A"
                                   />
                                 </View>

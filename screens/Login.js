@@ -717,6 +717,7 @@ import {
 } from "native-base";
 import { value } from "./ParentsLoginScreen/ParentsLoginScreen";
 import { subURL } from "../components/utils/URL's";
+import * as Notifications from "expo-notifications";
 
 export var Token,
   UserId,
@@ -730,6 +731,7 @@ export var Token,
   UserName,
   StaffPhoto;
 export var studentList = [];
+var PushToken;
 function Login() {
   // const [fontsLoaded] = useFonts({
   //   Roboto: require("../assets/fonts/Roboto-Black.ttf"),
@@ -781,6 +783,7 @@ function Login() {
   const [expandHight, setExpandHieght] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
+  const [pushTkn, setPushTkn] = useState();
   const onClose = () => setIsOpen(false);
   // function login() {
   //   //fun call get stdent  --  [{ctnum},{}]
@@ -802,6 +805,62 @@ function Login() {
     return () => {
       showSubscription.remove();
       hideSubscription.remove();
+    };
+  }, []);
+  useEffect(() => {
+    async function configurePushNotifications() {
+      const { status } = await Notifications.getPermissionsAsync();
+      let finalStatus = status;
+
+      if (finalStatus !== "granted") {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+
+      if (finalStatus !== "granted") {
+        Alert.alert(
+          "permission required",
+          "Push notifications need the appropriate permissions."
+        );
+        return;
+      }
+
+      const pushTokenData = await Notifications.getExpoPushTokenAsync().then(
+        (pushToken) => {
+          console.log(pushToken.data);
+          //setPushTkn(pushToken);
+          PushToken = pushToken.data;
+
+          if (Platform.OS === "android") {
+            Notifications.setNotificationChannelAsync("default", {
+              name: "default",
+              importance: Notifications.AndroidImportance.DEFAULT,
+            });
+          }
+        }
+      );
+    }
+
+    configurePushNotifications();
+  }, []);
+
+  useEffect(() => {
+    const subscription1 = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        console.log("Notification received");
+        // console.log("token",notification)
+      }
+    );
+
+    const subscription2 = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        console.log("Notification response received");
+        //console.log(response)
+      }
+    );
+    return () => {
+      subscription1.remove();
+      subscription2.remove();
     };
   }, []);
 
@@ -856,6 +915,16 @@ function Login() {
             headers: headers,
           }
         );
+        const formData = {
+          user_id: resLogin.data.user_id,
+
+          notification_token: PushToken,
+        };
+        const notificationRes = await axios.post(
+          `${subURL}/Notification/`,
+          formData
+        );
+        // console.log(notificationRes.data);
 
         const res = await axios.get(`${subURL}/Student/`);
         const staffres = await axios.get(`${subURL}/Staff`);
