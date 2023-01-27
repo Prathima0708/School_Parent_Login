@@ -80,9 +80,9 @@ export default Academics;
 
 const styles = StyleSheet.create({
   rootContainer: {
-    marginTop:'2%',
-    justifyContent: "center",
-    alignItems: "center",
+    marginTop:'3%',
+    // justifyContent: "center",
+    // alignItems: "center",
    // backgroundColor:'red'
     //padding: 32,
   },
