@@ -28,13 +28,13 @@ const StudentList = () => {
   const [searchText, setSearchText] = useState("");
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
-  console.log(MYCLASS, MYSECTION);
+  
 
   useEffect(() => {
     async function login() {
       try {
         const res = await axios.get(`${subURL}/Student/`);
-        //console.log(class_name, section);
+    
 
         let filteredclass = res.data.filter((ele) => ele.class_name == MYCLASS);
 
@@ -46,22 +46,14 @@ const StudentList = () => {
 
         let filteredc = filteredList.filter((ele) => ele.class_name == MYCLASS);
 
-        // const id = filteredc.map((id) => id.reg_number);
-        // console.log(id);
 
-        // console.log(filteredc);
-        // StudentList = filteredc;
-        // console.log(StudentList);
 
         if (filteredc) {
-          //console.log(studList);
-          // setStudList(filteredc);
+          
           setFilteredData(filteredc);
         }
 
-        // if (filteredc.length == 0) {
-        //   Alert.alert("No data found", "No data found for respective search");
-        // }
+    
       } catch (error) {
         console.log(error);
       }
@@ -84,7 +76,7 @@ const StudentList = () => {
   }, []);
 
   const searchFilter = (text) => {
-    console.log("search function");
+
     if (text) {
       const newData = filteredData.filter((item) => {
         const itemData = item.student_name
@@ -96,14 +88,14 @@ const StudentList = () => {
       setFilteredData(newData);
       setSearchText(text);
     } else {
-      console.log("else part");
+      
       setFilteredData(filteredData);
       setSearchText(text);
     }
   };
 
   function pressHandler(id) {
-    console.log(id);
+  
 
     navigation.navigate("TeachersProfile", {
       studentid: id,
@@ -252,8 +244,7 @@ const styles = StyleSheet.create({
   tableText: {
     flex: 1,
     flexDirection: "row",
-    // paddingHorizontal:10,
-    // marginHorizontal:10,
+  
     borderBottomWidth: 1,
     borderRightWidth: 1,
     borderLeftWidth: 1,
@@ -268,47 +259,15 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: "black",
   },
-  th: {
-    padding: 5,
-    marginRight: 13,
-    //fontSize: 24,
-  },
 
-  tableTitle: {
-    // padding: 5,
-    margin: 7,
-    fontFamily: "HindMedium",
-    fontSize: 20,
-  },
-  tableCell: {
-    width: 110,
-
-    marginLeft: 35,
-  },
-
-  tableMarks: {
-    width: 10,
-
-    marginLeft: 35,
-  },
-
-  tableRow: {
-    height: "9%",
-    borderBottomColor: "black",
-    borderBottomWidth: 2,
-  },
-  space: {
-    width: 20, // or whatever size you need
-    height: 20,
-  },
   searchBar: {
-    //top: 10,
+  
     backgroundColor: "#F0F3F4",
     marginTop: 10,
     marginBottom: 20,
   },
   root: {
-    // backgroundColor: "#EBECFO",
+  
     backgroundColor: "white",
     height: "100%",
   },
