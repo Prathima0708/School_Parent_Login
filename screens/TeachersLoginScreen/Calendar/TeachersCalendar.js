@@ -388,6 +388,10 @@ const TeachersCalendar = () => {
             showCalendar();
             setShowListCalOptionBtn(false);
             setShowInitialBtn(false);
+            setShowInitialBtn(true);
+            setShowToggleBtn(true)
+            setShowList(true);
+            setShowForm(false);
           //  setShowList(true);
           },
         },
@@ -768,7 +772,9 @@ const TeachersCalendar = () => {
   };
 
   function cancelHandler() {
-    setShowInitialBtn(false);
+   
+    setShowInitialBtn(true);
+    setShowToggleBtn(true)
     setShowList(true);
     setShowForm(false);
   }
@@ -1351,11 +1357,12 @@ const TeachersCalendar = () => {
                     marginTop:'30%'
                   },
                 ]}>
-                <View style={{flex: 1}} >
-                  <Button onPress={updateHandler}>Update</Button>
-                </View>
+              
                 <View style={{flex: 1}} >
                   <Button onPress={cancelHandler}>Cancel</Button>
+                </View>
+                <View style={{flex: 1}} >
+                  <Button onPress={updateHandler}>Update</Button>
                 </View>
               </View>}
               
@@ -1516,10 +1523,10 @@ const TeachersCalendar = () => {
 
       {showList && (
         <View style={[{flex:1, flexDirection: 'column',backgroundColor:'white'}]}>
-          {backAndSearchBar &&
+          {/* {backAndSearchBar &&
           <View style={{flex: 0.1,paddingTop:20}} >
             <BackButton onPress={backButtonHandler} />
-          </View>}
+          </View>} */}
           <View style={{flex: 1}} >
               {backAndSearchBar &&
               <SearchBar
