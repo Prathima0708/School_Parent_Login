@@ -387,7 +387,7 @@ const TeachersCalendar = () => {
           onPress: () => {
             showCalendar();
             setShowListCalOptionBtn(false);
-            setShowInitialBtn(false);
+            //setShowInitialBtn(false);
             setShowInitialBtn(true);
             setShowToggleBtn(true)
             setShowList(true);
@@ -404,6 +404,7 @@ const TeachersCalendar = () => {
       setShowForm(false);
       setShowList(true);
       setBackAndSearchBar(true);
+      setShowInitialBtn(true);
       setForCalendarList({
         backgroundColor: "#F4F6F6",
         color: "black",
