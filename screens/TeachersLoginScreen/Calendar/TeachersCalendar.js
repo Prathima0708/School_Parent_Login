@@ -185,12 +185,6 @@ const TeachersCalendar = () => {
   const [backAndSearchBar,setBackAndSearchBar]=useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [all, setAll] = useState(false);
-  const [admin, setAdmin] = useState(false);
-  const [teacher, setTeacher] = useState(false);
-  const [parent, setParent] = useState(false);
-
-  const [anyCheck, setAnyChecked] = useState(true);
   let i = 0;
   const [saveYear, setSaveYear] = useState([]);
 
@@ -347,12 +341,29 @@ const TeachersCalendar = () => {
   function updateHandler() {
     //setShowInitialBtn(true);
     setUpdateBtnPressed(true);
+
+    var viewOnlyData = [];
+
+   
+    if (adminChecked) {
+      viewOnlyData.push("admin");
+    }
+
+    if (teacherChecked) {
+      viewOnlyData.push("teacher");
+    }
+
+    if (parentChecked) {
+      viewOnlyData.push("parent");
+    }
+    
     const FormData = {
       description: description,
 
       startdate: FROMDATE,
       enddate: TODATE,
       titlee: title,
+      viewOnly: viewOnlyData.toString(),
     };
 
     if (
@@ -673,7 +684,7 @@ const TeachersCalendar = () => {
     setShowList(true);
     setShowToggleBtn(true);
     setCalendarViewBtnPressed(false);
-    setAnyChecked(true);
+    //setAnyChecked(false);
     setListActive(true);
     setCalendarActive(false);
     // setShowListCalOptionBtn(true);
@@ -690,13 +701,17 @@ const TeachersCalendar = () => {
     ID = id;
   
     const filteredDummuyData = data.find((data) => data.id == id);
-
+    console.log(filteredDummuyData)
     setEnteredDescription(filteredDummuyData.description);
 
     setFromText(moment(filteredDummuyData.startdate).format("DD/MM/YYYY"));
     setToText(moment(filteredDummuyData.enddate).format("DD/MM/YYYY"));
     setEnteredTitle(filteredDummuyData.titlee);
-   
+
+    setChecked(filteredDummuyData.viewOnly==='admin,teacher,parent' && !checked);
+    setAdminChecked(filteredDummuyData.viewOnly==='admin' && !adminChecked)
+    setTeacherChecked(filteredDummuyData.viewOnly==='teacher' && !teacherChecked)
+    setParentChecked(filteredDummuyData.viewOnly==='parent' && !parentChecked)
 
     setForCalendarList({
       backgroundColor: "#F4F6F6",
