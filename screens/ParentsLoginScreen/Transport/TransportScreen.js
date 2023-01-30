@@ -6,7 +6,7 @@ import {
   Dimensions,
   Text,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MapView from "react-native-maps";
 import { DataTable } from "react-native-paper";
 import Button from "../../../components/UI/Button";
@@ -14,10 +14,14 @@ import axios from "axios";
 import BgButton from "../../../components/UI/BgButton";
 import { Card } from "react-native-paper";
 import ParentsHome from "../BottomTab/ParentsHome";
-import { Divider } from "native-base";
-import { busNumber } from "../../../components/StudentItem/StudentItem";
-import { AntDesign } from "@expo/vector-icons";
+import { Divider, IconButton } from "native-base";
+import { busNumber, StudentName, StudentPhoto } from "../../../components/StudentItem/StudentItem";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
+import {
+  Image as NativeImage,
+} from "native-base";
 import { subURL } from "../../../components/utils/URL's";
+import { Linking } from "react-native";
 const TransportScreen = () => {
   // useEffect(()=>{
   //   async function getToken(){
@@ -32,8 +36,24 @@ const TransportScreen = () => {
     fontWeight: "bold",
   });
 
+  const [showMap,setShowMap]=useState(false);
   const [showTable, setShowTable] = useState(true);
   const [data, setData] = useState([]);
+
+  const myRef = useRef(null);
+
+  useEffect(() => {
+    if (myRef.current && myRef.current.setNativeProps) {
+      const styleObj = {
+        //borderWidth: 3,
+        borderRadius: 100,
+        //borderColor: "#577AFE",
+      };
+      myRef.current.setNativeProps({
+        style: styleObj,
+      });
+    }
+  }, [myRef]);
 
   useEffect(() => {
     async function fetchData() {
@@ -42,7 +62,7 @@ const TransportScreen = () => {
           `${subURL}/TransportreportDetailList/${busNumber}`
         );
         console.log(res.data);
-
+        console.log(busNumber)
         setData(res.data);
       } catch (error) {
         console.log(error);
@@ -58,27 +78,183 @@ const TransportScreen = () => {
     fetchData();
   }, []);
 
-  function transportList() {
-    setForTransportList({ fontWeight: "bold", color: "black" });
-    setForAddTransport({ color: "black" });
-    setShowForm(false);
-    setShowTable(true);
+  function mapViewPressedHandler(){
+    setShowMap(true);
+  }
+
+  function callBtnPressedHandler(mobile_number){
+    console.log(mobile_number)
+   // phoneNumber = mobile_number.replace(/[^0-9]/g, '');
+    Linking.openURL(`tel:${mobile_number}`);
   }
 
   return (
     <>
-      <MapView style={styles.map} />
-      {/* <View style={[{flex:1}, {flexDirection: "row"}]}>
-        <View style={{ flex: 1, backgroundColor: "red" }} >
-          <Text>{data.route_name}</Text>
+      <View
+        style={[
+          {
+            // Try setting `flexDirection` to `"row"`.
+            flex:1,
+            flexDirection: 'column',
+          },
+        ]}>
+        <View style={{flex: 0.36, backgroundColor: '#1E84A4'}} >
+
         </View>
-        <View style={{ flex: 1, backgroundColor: "darkorange" }} >
-          
+        <View style={{flex: 0.4,backgroundColor:'white'}} >
+          {data &&
+            data.map((data)=>(
+              <View
+                style={[
+                  {
+                    // Try setting `flexDirection` to `"row"`.
+                    flex:1,
+                    flexDirection: 'row',
+                    bottom:'16%',
+                    marginHorizontal:10,
+                    backgroundColor:'#E0E0E0',
+                    borderRadius:10
+                  },
+                ]}>
+                <View style={{flex: 0.7}} >
+                  <View
+                    style={[
+                      {
+                        // Try setting `flexDirection` to `"row"`.
+                        flex:1,
+                        flexDirection: 'column',
+                      },
+                    ]}>
+                    <View style={{flex: 1,justifyContent:'center'}} >
+                      <NativeImage
+                        //alignSelf="center"
+                        left={5}
+                        borderRadius={100}
+                        
+                        source={{
+                          uri: `http://10.0.2.2:8000${StudentPhoto}`,
+                        }}
+                        alt="Student Image"
+                        size="md"
+                        ref={myRef}
+                        resizeMode="contain"
+                      />
+                    </View>
+                    <View style={{flex: 0.3,left:30,bottom:7}} >
+                      <Text style={styles.cardTextStyle}>{StudentName}</Text>
+                    </View>
+                  </View>
+                </View>
+                <View style={{flex: 1}} >
+                  <View
+                    style={[
+                      {
+                        // Try setting `flexDirection` to `"row"`.
+                        flex:1,
+                        flexDirection: 'column',
+                      },
+                    ]}>
+                    <View style={{flex: 1}} >
+                      <View
+                        style={[
+                          {
+                            // Try setting `flexDirection` to `"row"`.
+                            flex:1,
+                            flexDirection: 'row',
+                          },
+                        ]}>
+                        <View style={{flex: 1,justifyContent:'center'}} >
+                          <Text style={styles.lableStyle}>Bus No.</Text>
+                        </View>
+                        <View style={{flex: 1,justifyContent:'center'}} >
+                          <Text style={styles.textStyle}>{data.busnumber}</Text>
+                        </View>
+                      </View>
+                      <View
+                        style={[
+                          {
+                            // Try setting `flexDirection` to `"row"`.
+                            flex:1,
+                            flexDirection: 'row',
+                          },
+                        ]}>
+                        <View style={{flex: 1}} >
+                          <Text style={[styles.textStyle,{fontFamily:'HindRegular'}]}>Left From School At 2.00pm</Text>
+                        </View>
+                        {/* <View style={{flex: 1}} >
+                          <Text>{data.busnumber}</Text>
+                        </View> */}
+                      </View>
+                      <View
+                        style={[
+                          {
+                            // Try setting `flexDirection` to `"row"`.
+                            flex:1,
+                            flexDirection: 'row',
+                            top:10
+                          },
+                        ]}>
+                        <View style={{flex: 0.5}} >
+                          <Text style={styles.cardTextStyle}>Current:</Text>
+                        </View>
+                        <View style={{flex: 1}} >
+                          <Text style={styles.cardTextStyle}>Udupi bus stop</Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+                <View style={{flex: 0.3}} >
+                  <View
+                    style={[
+                      {
+                        // Try setting `flexDirection` to `"row"`.
+                        flex:1,
+                        flexDirection: 'column',
+                        
+                      },
+                    ]}>
+                    <View style={{flex: 1,alignItems:'center',justifyContent:'center'}} > 
+                      <IconButton
+                        colorScheme="lightBlue"
+                        onPress={() =>
+                          callBtnPressedHandler(data.emp_mobile)
+                        }
+                        variant="solid"
+                        borderRadius='full'
+                        _icon={{
+                          as: Ionicons,
+                          name: "call",
+                      }}/>
+                    </View>
+                    <View style={{flex: 1,alignItems:'center',justifyContent:'center'}} >
+                      <IconButton
+                        colorScheme="lightBlue"
+                        onPress={mapViewPressedHandler}
+                        variant="solid"
+                        borderRadius='full'
+                        _icon={{
+                          as: Ionicons,
+                          name: "location",
+                      }}/>
+                    </View>
+                  </View>
+
+                </View>
+              </View>
+          ))}
         </View>
-        <View style={{ flex: 1, backgroundColor: "green" }} >
-          <Text>{data.stop_name}</Text>
+        <View style={{flex:1,backgroundColor:'white',paddingBottom:40}} >
+          {showMap && <MapView style={[styles.map]} />}
         </View>
-      </View> */}
+        <View style={{flex: 0.1}} >
+          <ParentsHome />
+        </View>
+      </View>
+
+
+      {/* <MapView style={styles.map} />
+      
       {data &&
         data.map((data) => (
           <>
@@ -259,7 +435,7 @@ const TransportScreen = () => {
             </View>
           </>
         ))}
-      <ParentsHome />
+      <ParentsHome /> */}
     </>
   );
 };
@@ -277,23 +453,22 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
   },
   map: {
-    width: Dimensions.get("window").width,
-    height: "40%",
+    //width: Dimensions.get("window").width,
+    height: "100%",
+    bottom:'5%',
+    marginHorizontal:13,
   },
   textStyle: {
-    color: "white",
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: "HindSemiBold",
   },
   cardTextStyle: {
-    color: "white",
-    fontSize: 15,
-    fontFamily: "HindSemiBold",
+    fontFamily: "HindBold",
+    fontSize: 16,
   },
-  cardTextStyleValue: {
-    color: "black",
-    fontSize: 15,
-    fontFamily: "HindRegular",
+  lableStyle: {
+    fontFamily: "HindSemiBold",
+    fontSize: 16,
   },
   iconStyle: {
     flex: 0.2,
