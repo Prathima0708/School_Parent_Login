@@ -37,9 +37,10 @@ const TeachersNoticeBoard = () => {
 
         const today = new Date();
         const filteredData = res.data.filter(
-          (item) => new Date(item.startdate) > today
+          (item) => new Date(item.startdate) >= today
         );
         setData(filteredData);
+
         console.log(data);
       } catch (error) {
         console.log(error);
