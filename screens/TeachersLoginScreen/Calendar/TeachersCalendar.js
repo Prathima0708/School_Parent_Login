@@ -353,12 +353,28 @@ const TeachersCalendar = () => {
       viewOnlyData.push("parents");
     }
     setUpdateBtnPressed(true);
+
+    var viewOnlyData = [];
+
+    if (adminChecked) {
+      viewOnlyData.push("admin");
+    }
+
+    if (teacherChecked) {
+      viewOnlyData.push("teacher");
+    }
+
+    if (parentChecked) {
+      viewOnlyData.push("parent");
+    }
+
     const FormData = {
       description: description,
       viewOnly: viewOnlyData.toString(),
       startdate: FROMDATE,
       enddate: TODATE,
       titlee: title,
+      viewOnly: viewOnlyData.toString(),
     };
 
     if (
@@ -664,7 +680,7 @@ const TeachersCalendar = () => {
     setShowList(true);
     setShowToggleBtn(true);
     setCalendarViewBtnPressed(false);
-    setAnyChecked(true);
+    //setAnyChecked(false);
     setListActive(true);
     setCalendarActive(false);
     // setShowListCalOptionBtn(true);

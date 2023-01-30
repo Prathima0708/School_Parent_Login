@@ -106,6 +106,8 @@ const NoticeBoard = ({ startdate, titlee, description, viewOnly }) => {
         <Button title="Notify" onPress={sendPushNotificationHanlder} />
       </View>
     </View>
+
+
   );
 };
 
@@ -138,3 +140,57 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
   },
 });
+
+
+// <View
+// style={[
+//   {
+//     // Try setting `flexDirection` to `"row"`.
+//     flex:1,
+//     flexDirection: 'column',
+//   },
+// ]}>
+// <View style={{flex: 1, backgroundColor: 'red'}} >
+//   <View
+//     style={[
+//       {
+//         // Try setting `flexDirection` to `"row"`.
+//         flex:1,
+//         flexDirection: 'row',
+//       },
+//     ]}>
+//     <View style={{flex: 1, backgroundColor: 'red'}} >
+//       <Text style={styles.titleStyle}>{titlee}</Text>
+//     </View>
+//     <View style={{flex: 1, backgroundColor: 'darkorange'}} >
+//       <Text style={[styles.descStyle, { fontWeight: "bold" }]}>
+//         {moment(startdate).format("DD/MM/YYYY")}
+//       </Text>
+//     </View>
+//   </View>
+// </View>
+// <View style={{flex: 1, backgroundColor: 'darkorange'}} >
+//   <View
+//       style={[
+//         {
+//           // Try setting `flexDirection` to `"row"`.
+//           flex:1,
+//           flexDirection: 'row',
+//         },
+//       ]}>
+//       <View style={{flex: 1, backgroundColor: 'red'}} >
+//         <Text style={styles.descStyle}>{description}</Text>
+//       </View>
+//       <View style={{flex: 1, backgroundColor: 'darkorange'}} >
+//         <IconButton
+//           colorScheme="lightBlue"
+//           onPress={sendPushNotificationHanlder} 
+//           variant="solid"
+//           borderRadius='full'
+//           _icon={{
+//             as: Ionicons,
+//             name: "call",}}/>
+//       </View>
+//     </View>
+//   </View>
+// </View>
