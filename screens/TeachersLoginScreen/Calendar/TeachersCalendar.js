@@ -191,11 +191,6 @@ const TeachersCalendar = () => {
   const [backAndSearchBar, setBackAndSearchBar] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [all, setAll] = useState(false);
-  const [admin, setAdmin] = useState(false);
-  const [teacher, setTeacher] = useState(false);
-  const [parent, setParent] = useState(false);
-
   const [anyCheck, setAnyChecked] = useState(true);
   let i = 0;
   const [saveYear, setSaveYear] = useState([]);
@@ -344,10 +339,23 @@ const TeachersCalendar = () => {
 
   function updateHandler() {
     //setShowInitialBtn(true);
+    var viewOnlyData = [];
+
+    if (adminChecked) {
+      viewOnlyData.push("admin");
+    }
+
+    if (teacherChecked) {
+      viewOnlyData.push("staff");
+    }
+
+    if (parentChecked) {
+      viewOnlyData.push("parents");
+    }
     setUpdateBtnPressed(true);
     const FormData = {
       description: description,
-
+      viewOnly: viewOnlyData.toString(),
       startdate: FROMDATE,
       enddate: TODATE,
       titlee: title,
@@ -483,69 +491,67 @@ const TeachersCalendar = () => {
         let filteredlist = res.data.filter(
           (ele) => ele.description == description
         );
-        if (filteredlist.length > 0) {
-          Alert.alert("Data already exists", "please enter a new data", [
-            {
-              text: "OK",
+        // if (filteredlist.length > 0) {
 
-              style: "cancel",
-            },
-          ]);
-        } else {
-          async function storeData() {
-            try {
-              let headers = {
-                "Content-Type": "application/json; charset=utf-8",
-                Authorization: "Token " + `${token}`,
-              };
-              const dataForm = FormData;
+        //   Alert.alert("Data already exists", "please enter a new data", [
+        //     {
+        //       text: "OK",
 
-              const resLogin = await axios.post(
-                `${subURL}/Calendar/`,
-                dataForm,
-                {
-                  headers: headers,
-                }
-              );
-            } catch (error) {
-              console.log(error);
-            }
+        //       style: "cancel",
+        //     },
+        //   ]);
+        // } else {
+
+        async function storeData() {
+          try {
+            let headers = {
+              "Content-Type": "application/json; charset=utf-8",
+              Authorization: "Token " + `${token}`,
+            };
+            const dataForm = FormData;
+
+            const resLogin = await axios.post(`${subURL}/Calendar/`, dataForm, {
+              headers: headers,
+            });
+          } catch (error) {
+            console.log(error);
           }
-          storeData();
-          Alert.alert("Saved Data", "Saved Data successfully", [
-            {
-              text: "OK",
-              onPress: () => {
-                setShowForm(false);
-                showCalendar();
-              },
-            },
-          ]);
-
-          setEnteredDescription("");
-          setEnteredTitle("");
-          setFromText("");
-          setToText("");
-          setEnteredTitleTouched(false);
-          setEnteredDescriptionTouched(false);
-
-          setEnteredFromDateTouched(false);
-          setEnteredtoDateTouched(false);
-
-          setForCalendarList({
-            backgroundColor: "#F4F6F6",
-            color: "black",
-            borderRadius: 5,
-          });
-          setForCalendarForm({
-            color: "white",
-            backgroundColor: "#1E84A4",
-            borderRadius: 5,
-          });
-
-          setShowForm(false);
-          setShowList(true);
         }
+        storeData();
+        Alert.alert("Saved Data", "Saved Data successfully", [
+          {
+            text: "OK",
+            onPress: () => {
+              setShowForm(false);
+              showCalendar();
+            },
+          },
+        ]);
+
+        setEnteredDescription("");
+        setEnteredTitle("");
+        setFromText("");
+        setToText("");
+        setEnteredTitleTouched(false);
+        setEnteredDescriptionTouched(false);
+
+        setEnteredFromDateTouched(false);
+        setEnteredtoDateTouched(false);
+
+        setForCalendarList({
+          backgroundColor: "#F4F6F6",
+          color: "black",
+          borderRadius: 5,
+        });
+        setForCalendarForm({
+          color: "white",
+          backgroundColor: "#1E84A4",
+          borderRadius: 5,
+        });
+
+        setShowForm(false);
+        setShowList(true);
+        // }
       } catch (error) {
         console.log(error);
       }
@@ -673,12 +679,40 @@ const TeachersCalendar = () => {
     ID = id;
 
     const filteredDummuyData = data.find((data) => data.id == id);
+    console.log(filteredDummuyData);
 
     setEnteredDescription(filteredDummuyData.description);
 
     setFromText(moment(filteredDummuyData.startdate).format("DD/MM/YYYY"));
     setToText(moment(filteredDummuyData.enddate).format("DD/MM/YYYY"));
     setEnteredTitle(filteredDummuyData.titlee);
+
+    if (filteredDummuyData.viewOnly === "staff") {
+      setTeacherChecked(!teacherChecked);
+      // setParentChecked(parentChecked);
+      // setAdminChecked(adminChecked);
+      // setChecked(checked);
+    } else if (filteredDummuyData.viewOnly === "parents") {
+      setParentChecked(!parentChecked);
+      // setTeacherChecked(teacherChecked);
+
+      // setAdminChecked(adminChecked);
+      // setChecked(checked);
+    } else if (filteredDummuyData.viewOnly === "admin") {
+      setAdminChecked(!adminChecked);
+      // setTeacherChecked(teacherChecked);
+      // setParentChecked(parentChecked);
+
+      // setChecked(checked);
+    } else {
+      setChecked(!checked);
+      setTeacherChecked(!teacherChecked);
+      setParentChecked(!parentChecked);
+      setAdminChecked(!adminChecked);
+    }
+    // setAdminChecked(filteredDummuyData.viewOnly === "admin");
+    // setTeacherChecked(filteredDummuyData.viewOnly === "teacher");
+    // setParentChecked(filteredDummuyData.viewOnly === "parent");
 
     setForCalendarList({
       backgroundColor: "#F4F6F6",
@@ -757,6 +791,10 @@ const TeachersCalendar = () => {
     setShowToggleBtn(true);
     setShowList(true);
     setShowForm(false);
+    setAdminChecked(adminChecked);
+    setParentChecked(parentChecked);
+    setTeacherChecked(teacherChecked);
+    setChecked(checked);
   }
 
   async function fetchUser() {
@@ -778,7 +816,7 @@ const TeachersCalendar = () => {
   fetchToken();
 
   function allCheckHandler() {
-    setTest(true);
+    //setTest(true);
 
     setChecked(!checked);
     setTeacherChecked(!teacherChecked);
@@ -1246,7 +1284,7 @@ const TeachersCalendar = () => {
                           status={adminChecked ? "checked" : "unchecked"}
                           onPress={() => {
                             setAdminChecked(!adminChecked);
-                            setTest(true);
+                            //  setTest(true);
                             if (!adminChecked) {
                               console.log("check");
                             } else {
@@ -1279,7 +1317,7 @@ const TeachersCalendar = () => {
                           status={teacherChecked ? "checked" : "unchecked"}
                           onPress={() => {
                             setTeacherChecked(!teacherChecked);
-                            setTest(true);
+                            // setTest(true);
                           }}
                           color={"green"}
                           uncheckColor={"red"}
@@ -1304,7 +1342,7 @@ const TeachersCalendar = () => {
                           status={parentChecked ? "checked" : "unchecked"}
                           onPress={() => {
                             setParentChecked(!parentChecked);
-                            setTest(true);
+                            //  setTest(true);
                           }}
                           color={"green"}
                           uncheckColor={"red"}
@@ -1313,11 +1351,11 @@ const TeachersCalendar = () => {
                     </View>
                   </View>
                 </View>
-                {checkedIsInvalid && selectedTouched && (
+                {/* {checkedIsInvalid && selectedTouched && (
                   <Text style={styles.errorLabel}>
                     Please select atleast one
                   </Text>
-                )}
+                )} */}
               </View>
               {!isEdit && (
                 <View style={[btn ? styles.btnSubmitNew : styles.btnSubmit]}>
