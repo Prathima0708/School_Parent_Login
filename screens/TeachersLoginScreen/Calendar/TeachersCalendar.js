@@ -36,12 +36,18 @@ import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import { Animated } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { HStack, IconButton, Radio,Button as NativeButton,Text as NativeText,Icon, Modal } from "native-base";
+import {
+  HStack,
+  IconButton,
+  Radio,
+  Button as NativeButton,
+  Text as NativeText,
+  Icon,
+  Modal,
+} from "native-base";
 import { subURL } from "../../../components/utils/URL's";
 import CalendarPicker from "react-native-calendar-picker";
 import BackButton from "../../../components/UI/BackButton";
-
-
 
 export var ID;
 var FROMDATE, TODATE;
@@ -69,13 +75,13 @@ const TeachersCalendar = () => {
   const [placement, setPlacement] = useState(undefined);
   const [open, setOpen] = useState(false);
 
-  const [listActive,setListActive]=useState(true);
-  const [calendarActive,setCalendarActive]=useState(false);
+  const [listActive, setListActive] = useState(true);
+  const [calendarActive, setCalendarActive] = useState(false);
 
-  const [eventTitle,setEventTitle]=useState('');
-  const [eventStartDate,setEventStartDate]=useState('');
-  const [eventEndDate,setEventEndDate]=useState('');
-  const [eventDescription,setEventDescription]=useState('');
+  const [eventTitle, setEventTitle] = useState("");
+  const [eventStartDate, setEventStartDate] = useState("");
+  const [eventEndDate, setEventEndDate] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
 
   const scrollY = new Animated.Value(0);
 
@@ -104,13 +110,13 @@ const TeachersCalendar = () => {
   const [descriptionLabel, setDescriptionLabel] = useState(false);
   const [startDateLabel, setstartDateLabel] = useState(false);
   const [endDateLabel, setendDateLabel] = useState(false);
-  const [showSpeacificData,setShowSpeacificData]=useState(false);
+  const [showSpeacificData, setShowSpeacificData] = useState(false);
 
   const [isTitleFocused, setIsTitleFocused] = useState(false);
   const [isDescFocused, setIsDescFocused] = useState(false);
   const [isFromDateFocused, setIsFromDateFocused] = useState(false);
   const [isToDateFocused, setIsToDateFocused] = useState(false);
-  const [calendarViewBtnPressed,setCalendarViewBtnPressed]=useState(false);
+  const [calendarViewBtnPressed, setCalendarViewBtnPressed] = useState(false);
   const [btn, setBtn] = useState(false);
 
   const [forCalendarList, setForCalendarList] = useState({
@@ -123,8 +129,8 @@ const TeachersCalendar = () => {
     backgroundColor: "#F4F6F6",
     borderRadius: 5,
   });
-  const [listBtnPressed,setListBtnPressed]=useState(false);
-  const [updateBtnPressed,setUpdateBtnPressed]=useState(false);
+  const [listBtnPressed, setListBtnPressed] = useState(false);
+  const [updateBtnPressed, setUpdateBtnPressed] = useState(false);
 
   const [selected, setSelected] = useState("");
   const [enteredSelectedTouched, setEnteredSelectedTouched] = useState(false);
@@ -174,40 +180,38 @@ const TeachersCalendar = () => {
   const [isSame, SetIsSame] = useState(false);
 
   const [filteredData, setFilteredData] = useState([]);
-  const [customDatesStyles,setCustomDatesStyles]=useState([]);
-  const [specificEventData,setSpecificEventData]=useState([]);
+  const [customDatesStyles, setCustomDatesStyles] = useState([]);
+  const [specificEventData, setSpecificEventData] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const [filteredlist,setFilteredList]=useState([])
+  const [filteredlist, setFilteredList] = useState([]);
 
   const [showInitialBtn, setShowInitialBtn] = useState(true);
   const [showToggleBtn, setShowToggleBtn] = useState(false);
   const [showListCalOptionBtn, setShowListCalOptionBtn] = useState(false);
-  const [backAndSearchBar,setBackAndSearchBar]=useState(false);
+  const [backAndSearchBar, setBackAndSearchBar] = useState(false);
   const [loading, setLoading] = useState(false);
 
   let i = 0;
   const [saveYear, setSaveYear] = useState([]);
 
-  
-
   useEffect(() => {
     async function fetchData() {
       try {
         const res = await axios.get(`${subURL}/Calendar/`);
-      
+
         const keys = Object.keys(res.data[0]);
-     
+
         setData(res.data);
         setFilteredData(res.data);
         //console.log(res.data);
         setCustomDatesStyles(
-          res.data.map(d => (
-            {
-              date: d.startdate, 
-              style: {backgroundColor: '#00B8AC' }, 
-              textStyle:{color: 'white'}, 
-              containerStyle:[]
-            })));
+          res.data.map((d) => ({
+            date: d.startdate,
+            style: { backgroundColor: "#00B8AC" },
+            textStyle: { color: "white" },
+            containerStyle: [],
+          }))
+        );
         var newArray = res.data.map((item) => {
           return {
             key: item.id,
@@ -215,13 +219,11 @@ const TeachersCalendar = () => {
             value: moment(res.data.startdate).format("YYYY"),
           };
         });
-   
+
         setSaveYear(newArray);
         let test = 0;
 
-        
         if (test == value) {
-         
           SetIsSame(true);
         }
       } catch (error) {
@@ -231,7 +233,6 @@ const TeachersCalendar = () => {
     fetchData();
   }, []);
 
- 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -247,7 +248,7 @@ const TeachersCalendar = () => {
   }, []);
 
   // useLayoutEffect(() => {
-    
+
   //   if (showList) {
   //     navigation.setOptions({ headerShown: false });
   //   }else if(calendarViewBtnPressed){
@@ -256,7 +257,7 @@ const TeachersCalendar = () => {
   //   else {
   //     navigation.setOptions({ headerShown: true });
   //   }
-    
+
   // }, [showList,calendarViewBtnPressed]);
 
   const showFromMode = (currentFromMode) => {
@@ -303,7 +304,7 @@ const TeachersCalendar = () => {
     setToDate(currentToDate);
 
     let tempToDate = new Date(currentToDate);
-   
+
     let tDate =
       tempToDate.getDate() +
       "/" +
@@ -326,14 +327,11 @@ const TeachersCalendar = () => {
     setEnteredDescription(enteredValue);
   }
 
-
   function frmDateHandler(enteredValue) {
-
     setFromDate(enteredValue);
     setenteredfrmdate(enteredValue);
   }
   function toDateHandler(enteredValue) {
-   
     setToDate(enteredValue);
     setenteredtodate(enteredValue);
   }
@@ -386,7 +384,6 @@ const TeachersCalendar = () => {
               headers: headers,
             }
           );
-         
         } catch (error) {
           console.log(error);
         }
@@ -400,10 +397,10 @@ const TeachersCalendar = () => {
             setShowListCalOptionBtn(false);
             //setShowInitialBtn(false);
             setShowInitialBtn(true);
-            setShowToggleBtn(true)
+            setShowToggleBtn(true);
             setShowList(true);
             setShowForm(false);
-          //  setShowList(true);
+            //  setShowList(true);
           },
         },
       ]);
@@ -438,20 +435,17 @@ const TeachersCalendar = () => {
 
     var viewOnlyData = [];
 
-   
     if (adminChecked) {
       viewOnlyData.push("admin");
     }
 
     if (teacherChecked) {
-      viewOnlyData.push("teacher");
+      viewOnlyData.push("staff");
     }
 
     if (parentChecked) {
-      viewOnlyData.push("parent");
+      viewOnlyData.push("parents");
     }
-
-    
 
     const FormData = {
       description: description,
@@ -463,23 +457,18 @@ const TeachersCalendar = () => {
       viewOnly: viewOnlyData.toString(),
     };
 
-    
-
     const formIsValid =
       enteredTitleIsValid &&
       enteredDescriptionIsValid &&
       enteredFromDateIsValid &&
       enteredtoDateIsValid;
 
-  
-
-   
     setEnteredTitleTouched(true);
     setEnteredDescriptionTouched(true);
     setSelectedTouched(true);
     setEnteredFromDateTouched(true);
     setEnteredtoDateTouched(true);
-    
+
     if (!enteredTitleIsValid) {
       return;
     }
@@ -489,7 +478,7 @@ const TeachersCalendar = () => {
     if (!enteredDescriptionIsValid) {
       return;
     }
- 
+
     if (!enteredFromDateIsValid) {
       return;
     }
@@ -529,7 +518,6 @@ const TeachersCalendar = () => {
                   headers: headers,
                 }
               );
-              
             } catch (error) {
               console.log(error);
             }
@@ -551,10 +539,10 @@ const TeachersCalendar = () => {
           setToText("");
           setEnteredTitleTouched(false);
           setEnteredDescriptionTouched(false);
-       
+
           setEnteredFromDateTouched(false);
           setEnteredtoDateTouched(false);
-        
+
           setForCalendarList({
             backgroundColor: "#F4F6F6",
             color: "black",
@@ -575,12 +563,10 @@ const TeachersCalendar = () => {
     }
     getData();
   }
- 
 
   function titleBlurHandler() {
     setEnteredTitleTouched(true);
     setIsTitleFocused(false);
-  
   }
   function onFocusTitleHandler() {
     setIsTitleFocused(true);
@@ -653,14 +639,13 @@ const TeachersCalendar = () => {
     setTeacherChecked(false);
     setParentChecked(false);
     //setCalendarViewBtnPressed(false);
-    setShowListCalOptionBtn(false)
+    setShowListCalOptionBtn(false);
     setShowSearchBar(false);
   }
   function showCalendar() {
     async function fetchData() {
       try {
         const res = await axios.get(`${subURL}/Calendar/`);
-       
 
         setData(res.data);
         setFilteredData(res.data);
@@ -691,15 +676,13 @@ const TeachersCalendar = () => {
     //setShowSearchBar(true)
   }
 
- 
-
   function editItem(id) {
     setShowInitialBtn(false);
     setLabel(true);
     setDescriptionLabel(true);
     setCalendarViewBtnPressed(false);
     ID = id;
-  
+
     const filteredDummuyData = data.find((data) => data.id == id);
     console.log(filteredDummuyData)
     setEnteredDescription(filteredDummuyData.description);
@@ -744,15 +727,14 @@ const TeachersCalendar = () => {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
         };
-       
+
         const resLogin = await axios.delete(
           `${subURL}/Calendar/${id}/`,
-       
+
           {
             headers: headers,
           }
         );
-       
       } catch (error) {
         console.log(error);
       }
@@ -770,7 +752,6 @@ const TeachersCalendar = () => {
   }
 
   const searchFilter = (text) => {
-    
     if (text) {
       const newData = data.filter((item) => {
         const itemData = item.titlee
@@ -788,14 +769,12 @@ const TeachersCalendar = () => {
   };
 
   function cancelHandler() {
-   
     setShowInitialBtn(true);
-    setShowToggleBtn(true)
+    setShowToggleBtn(true);
     setShowList(true);
     setShowForm(false);
   }
 
- 
   async function fetchUser() {
     USERNAME = await AsyncStorage.getItem("UserName");
 
@@ -816,12 +795,11 @@ const TeachersCalendar = () => {
 
   function allCheckHandler() {
     setTest(true);
-    
+
     setChecked(!checked);
     setTeacherChecked(!teacherChecked);
     setAdminChecked(!adminChecked);
     setParentChecked(!parentChecked);
-   
   }
 
   function linkPressedHandler() {
@@ -840,15 +818,14 @@ const TeachersCalendar = () => {
     });
   }
 
-  function calendarViewPressHandler(){
+  function calendarViewPressHandler() {
     setCalendarViewBtnPressed(true);
     setShowList(false);
     setCalendarActive(true);
     setListActive(false);
-    
   }
 
-  function listViewPressHandler(){
+  function listViewPressHandler() {
     setShowList(true);
     setListActive(true);
     setCalendarActive(false);
@@ -856,7 +833,6 @@ const TeachersCalendar = () => {
     async function fetchData() {
       try {
         const res = await axios.get(`${subURL}/Calendar/`);
-       
 
         setData(res.data);
         setFilteredData(res.data);
@@ -867,22 +843,28 @@ const TeachersCalendar = () => {
     fetchData();
   }
 
-  function handleDayPress(day){
+  function handleDayPress(day) {
     // const filteredData = data.
-    // filter((data) => 
+    // filter((data) =>
     //   moment(data.startdate).format("YYYY-MM-DD") == moment(day).format("YYYY-MM-DD")
     // );
     // setFilteredData(filteredData)
- 
+
     let allHavePropertiesWithValues = data.some(
-      obj => moment(obj.startdate).format("YYYY-MM-DD") === moment(day).format("YYYY-MM-DD"));
+      (obj) =>
+        moment(obj.startdate).format("YYYY-MM-DD") ===
+        moment(day).format("YYYY-MM-DD")
+    );
 
-    let filteredList=data.filter(
-      obj => moment(obj.startdate).format("YYYY-MM-DD") === moment(day).format("YYYY-MM-DD"));
+    let filteredList = data.filter(
+      (obj) =>
+        moment(obj.startdate).format("YYYY-MM-DD") ===
+        moment(day).format("YYYY-MM-DD")
+    );
 
-    if(filteredList===undefined){
-      return
-    }else{
+    if (filteredList === undefined) {
+      return;
+    } else {
       // setEventTitle(filteredList.titlee);
       // setEventStartDate(filteredList.startdate);
       // setEventEndDate(filteredList.enddate);
@@ -890,67 +872,64 @@ const TeachersCalendar = () => {
       setFilteredList(filteredList);
     }
 
-    if(allHavePropertiesWithValues){
+    if (allHavePropertiesWithValues) {
       setOpen(true);
       setPlacement(placement);
-    }else{
+    } else {
       setOpen(false);
     }
-
   }
 
-  function backCalendarBtnHandler(){
+  function backCalendarBtnHandler() {
     setShowList(false);
     setListBtnPressed(false);
     setShowInitialBtn(true);
     setShowListCalOptionBtn(true);
     setCalendarViewBtnPressed(false);
   }
-  function backButtonHandler(){
+  function backButtonHandler() {
     setShowList(false);
     setShowInitialBtn(true);
     setListBtnPressed(false);
     setShowListCalOptionBtn(true);
-
   }
   return (
     <>
-  
       {showInitialBtn && (
         <>
-        <Animated.View
-          style={[
-            {
-              height: animateHeaderHeight,
-              backgroundColor: animateHeaderBackGround,
-            },
-          ]}
-        >
-          <View style={styles.BtnContainer}>
-            <BgButton onPress={showCalendarForm} style={forCalendarList}>
-              Add Event
-            </BgButton>
-
-            <BgButton onPress={showCalendar} style={forCalendarForm}>
-              Show Event
-            </BgButton>
-          </View>
-          </Animated.View>
-          {showToggleBtn &&
-          <View
+          <Animated.View
             style={[
-                  
-                  {
-                    // Try setting `flexDirection` to `"row"`.
-                    flex:0.09,
-                    flexDirection: 'row',
-                    backgroundColor:'white',
-                    paddingBottom:'5%'
-                  },
-                ]}>
-                <View style={styles.space}/>
-                <View style={{flex: 0.5}} >
-                  {/* <IconButton
+              {
+                height: animateHeaderHeight,
+                backgroundColor: animateHeaderBackGround,
+              },
+            ]}
+          >
+            <View style={styles.BtnContainer}>
+              <BgButton onPress={showCalendarForm} style={forCalendarList}>
+                Add Event
+              </BgButton>
+
+              <BgButton onPress={showCalendar} style={forCalendarForm}>
+                Show Event
+              </BgButton>
+            </View>
+          </Animated.View>
+          {showToggleBtn && (
+            <View
+              style={[
+                {
+                  // Try setting `flexDirection` to `"row"`.
+                  flex: 0.09,
+                  flexDirection: "row",
+                  backgroundColor: "white",
+                  paddingBottom: "5%",
+                },
+              ]}
+            >
+              <View style={styles.space} />
+              <View style={{ flex: 0.5 }}>
+                {/* <IconButton
                     colorScheme="blue"
                     onPress={listViewPressHandler}
                     variant="subtle"
@@ -958,10 +937,10 @@ const TeachersCalendar = () => {
                       as: Ionicons,
                       name: "list",
                   }}/> */}
-                </View>
-                <View style={styles.spaceBetween}/>
-                <View style={{flex: 0.5}} >
-                  {/* <IconButton
+              </View>
+              <View style={styles.spaceBetween} />
+              <View style={{ flex: 0.5 }}>
+                {/* <IconButton
                     colorScheme="blue"
                     onPress={listViewPressHandler}
                     variant="subtle"
@@ -969,30 +948,33 @@ const TeachersCalendar = () => {
                       as: Ionicons,
                       name: "list",
                   }}/> */}
-                </View>
-                <View style={{flex: 0.5}} >
-                  <IconButton
-                    colorScheme={listActive ? "blue" : "coolGray"}
-                    onPress={listViewPressHandler}
-                    variant="subtle"
-                    _icon={{
-                      as: Ionicons,
-                      name: "list",
-                  }}/>
-                </View>
-                <View style={styles.space}/>
-                <View style={{flex: 0.5}} >
-                  <IconButton
-                    colorScheme={calendarActive ? "blue" : "coolGray"}
-                    onPress={calendarViewPressHandler}
-                    variant="subtle"
-                    _icon={{
-                      as: Ionicons,
-                      name: "calendar",
-                    }}/>
-                </View>
-                <View style={styles.space}/>
-              </View>}
+              </View>
+              <View style={{ flex: 0.5 }}>
+                <IconButton
+                  colorScheme={listActive ? "blue" : "coolGray"}
+                  onPress={listViewPressHandler}
+                  variant="subtle"
+                  _icon={{
+                    as: Ionicons,
+                    name: "list",
+                  }}
+                />
+              </View>
+              <View style={styles.space} />
+              <View style={{ flex: 0.5 }}>
+                <IconButton
+                  colorScheme={calendarActive ? "blue" : "coolGray"}
+                  onPress={calendarViewPressHandler}
+                  variant="subtle"
+                  _icon={{
+                    as: Ionicons,
+                    name: "calendar",
+                  }}
+                />
+              </View>
+              <View style={styles.space} />
+            </View>
+          )}
         </>
       )}
 
@@ -1083,7 +1065,6 @@ const TeachersCalendar = () => {
                 </Text>
               </View>
               <Input
-
                 onChangeText={titleChangeHandler}
                 blur={titleBlurHandler}
                 onFocus={onFocusTitleHandler}
@@ -1122,7 +1103,6 @@ const TeachersCalendar = () => {
                 </Text>
               </View>
               <Input
-
                 onChangeText={descriptionChangeHandler}
                 blur={descriptionBlurHandler}
                 onFocus={onFocusDescHandler}
@@ -1195,9 +1175,7 @@ const TeachersCalendar = () => {
                     />
                   </View>
                   <UnderlinedInput
-
                     value={toText || todate}
-                   
                     placeholder="  End date"
                     onSubmitEditing={Keyboard.dismiss}
                     style={
@@ -1318,7 +1296,6 @@ const TeachersCalendar = () => {
                           onPress={() => {
                             setTeacherChecked(!teacherChecked);
                             setTest(true);
-                           
                           }}
                           color={"green"}
                           uncheckColor={"red"}
@@ -1344,7 +1321,6 @@ const TeachersCalendar = () => {
                           onPress={() => {
                             setParentChecked(!parentChecked);
                             setTest(true);
-                          
                           }}
                           color={"green"}
                           uncheckColor={"red"}
@@ -1364,24 +1340,24 @@ const TeachersCalendar = () => {
                   <Button onPress={buttonPressedHandler}>Add Event</Button>
                 </View>
               )}
-              {isEdit &&
-              <View
-                style={[
-                  {
-                    flex:1,
-                    flexDirection: 'row',
-                    marginTop:'30%'
-                  },
-                ]}>
-              
-                <View style={{flex: 1}} >
-                  <Button onPress={cancelHandler}>Cancel</Button>
+              {isEdit && (
+                <View
+                  style={[
+                    {
+                      flex: 1,
+                      flexDirection: "row",
+                      marginTop: "30%",
+                    },
+                  ]}
+                >
+                  <View style={{ flex: 1 }}>
+                    <Button onPress={cancelHandler}>Cancel</Button>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Button onPress={updateHandler}>Update</Button>
+                  </View>
                 </View>
-                <View style={{flex: 1}} >
-                  <Button onPress={updateHandler}>Update</Button>
-                </View>
-              </View>}
-              
+              )}
             </View>
           </ScrollView>
           {keyboardStatus == "Keyboard Hidden" && (
@@ -1392,382 +1368,449 @@ const TeachersCalendar = () => {
         </>
       )}
 
-
-      {calendarViewBtnPressed &&
-      <View style={[{flex:1.7, flexDirection: 'column',backgroundColor:'white'}]}>
-        
-        <View style={{flex: 1}} >
-          <CalendarPicker
-            onDateChange={(day)=>handleDayPress(day)}
-            customDatesStyles={customDatesStyles}
-            selectedDayStyle={{}}
-            textStyle={{fontFamily:"HindRegular"}}
-          />
-          <Modal
-            isOpen={open}
-            onClose={() => setOpen(false)}
-            safeAreaTop={true}
-            size="full"
-          >
-          <Modal.Content maxWidth="90%" minHeight="5%">
-            <Modal.Header
-              style={{ justifyContent: "center", alignItems: "center" }}
+      {calendarViewBtnPressed && (
+        <View
+          style={[
+            { flex: 1.7, flexDirection: "column", backgroundColor: "white" },
+          ]}
+        >
+          <View style={{ flex: 1 }}>
+            <CalendarPicker
+              onDateChange={(day) => handleDayPress(day)}
+              customDatesStyles={customDatesStyles}
+              selectedDayStyle={{}}
+              textStyle={{ fontFamily: "HindRegular" }}
+            />
+            <Modal
+              isOpen={open}
+              onClose={() => setOpen(false)}
+              safeAreaTop={true}
+              size="full"
             >
-              Events
-            </Modal.Header>
-            
-            <Modal.Body>
-            {filteredlist &&
-              filteredlist.map((data)=>(
-              <ScrollView>
-             
-                <View
-                style={[
-                  {
-                    // Try setting `flexDirection` to `"row"`.
-                    flex:1,
-                    flexDirection: 'column',
-                    borderBottomWidth:1,
-                    borderBottomColor:'grey'
-                  },
-                ]}>
-                <View style={{flex: 1}} >
-                  <View
-                    style={[
-                      {
-                        // Try setting `flexDirection` to `"row"`.
-                        flex:1,
-                        flexDirection: 'row',
-                      },
-                    ]}>
-                    <View style={{flex: 0.3}}>
-                      <Text style={styles.cardTextStyle}>Title</Text>
-                    </View>
-                    <View style={{flex: 1}}>
-                      <Text style={styles.textStyle}>{data.titlee}</Text>
-                    </View>
-                  </View>
-                </View>
-                <View style={{flex: 1}} >
-                  <View
-                    style={[
-                      {
-                        // Try setting `flexDirection` to `"row"`.
-                        flex:1,
-                        flexDirection: 'column',
-                      },
-                    ]}>
-                    <View style={{flex: 1}} >
-                      <View
-                        style={[
-                          {
-                            // Try setting `flexDirection` to `"row"`.
-                            flex:1,
-                            flexDirection: 'row',
-                          },
-                        ]}>
-                        <View style={{flex: 0.3}}>
-                          <Text style={styles.cardTextStyle}>From</Text>
-                        </View>
-                        <View style={{flex: 1}}>
-                          <Text style={styles.textStyle}>{moment(data.startdate).format('DD/MM/YYYY')}</Text>
-                        </View>
-                      </View>
-                    </View>
-                    <View style={{flex: 1}} >
-                      <View
-                        style={[
-                          {
-                            // Try setting `flexDirection` to `"row"`.
-                            flex:1,
-                            flexDirection: 'row',
-                          },
-                        ]}>
-                        <View style={{flex: 0.3}}>
-                          <Text style={styles.cardTextStyle}>To</Text>
-                        </View>
-                        <View style={{flex: 1}}>
-                          <Text style={styles.textStyle}>{moment(data.enddate).format('DD/MM/YYYY')}</Text>
-                        </View>
-                      </View>
-                    </View>
-                  </View>
-                </View>
-                <View style={{flex: 1}} >
-                <View
-                  style={[
-                    {
-                      // Try setting `flexDirection` to `"row"`.
-                      flex:1,
-                      flexDirection: 'row',
-                    },
-                  ]}>
-                  <View style={{flex: 0.6}}>
-                    <Text style={styles.cardTextStyle}>Description</Text>
-                  </View>
-                  <View style={{flex: 1}}>
-                    <Text style={styles.textStyle}>{data.description}</Text>
-                  </View>
-                </View>
-                </View>
-              </View>
-              <View style={styles.space}/>
-              </ScrollView>
-              ))} 
-            </Modal.Body>
-            
-            <Modal.Footer>
-              <NativeButton.Group space={2}>
-                <NativeButton
-                  onPress={() => {
-                    setOpen(false);
-                  }}
+              <Modal.Content maxWidth="90%" minHeight="5%">
+                <Modal.Header
+                  style={{ justifyContent: "center", alignItems: "center" }}
                 >
-                  Close
-                </NativeButton>
-              </NativeButton.Group>
-            </Modal.Footer>
-          </Modal.Content>
-        </Modal>
-        <View style={{ flex: 1 }}>
-          <TeachersHome />
+                  Events
+                </Modal.Header>
+
+                <Modal.Body>
+                  {filteredlist &&
+                    filteredlist.map((data) => (
+                      <ScrollView>
+                        <View
+                          style={[
+                            {
+                              // Try setting `flexDirection` to `"row"`.
+                              flex: 1,
+                              flexDirection: "column",
+                              borderBottomWidth: 1,
+                              borderBottomColor: "grey",
+                            },
+                          ]}
+                        >
+                          <View style={{ flex: 1 }}>
+                            <View
+                              style={[
+                                {
+                                  // Try setting `flexDirection` to `"row"`.
+                                  flex: 1,
+                                  flexDirection: "row",
+                                },
+                              ]}
+                            >
+                              <View style={{ flex: 0.3 }}>
+                                <Text style={styles.cardTextStyle}>Title</Text>
+                              </View>
+                              <View style={{ flex: 1 }}>
+                                <Text style={styles.textStyle}>
+                                  {data.titlee}
+                                </Text>
+                              </View>
+                            </View>
+                          </View>
+                          <View style={{ flex: 1 }}>
+                            <View
+                              style={[
+                                {
+                                  // Try setting `flexDirection` to `"row"`.
+                                  flex: 1,
+                                  flexDirection: "column",
+                                },
+                              ]}
+                            >
+                              <View style={{ flex: 1 }}>
+                                <View
+                                  style={[
+                                    {
+                                      // Try setting `flexDirection` to `"row"`.
+                                      flex: 1,
+                                      flexDirection: "row",
+                                    },
+                                  ]}
+                                >
+                                  <View style={{ flex: 0.3 }}>
+                                    <Text style={styles.cardTextStyle}>
+                                      From
+                                    </Text>
+                                  </View>
+                                  <View style={{ flex: 1 }}>
+                                    <Text style={styles.textStyle}>
+                                      {moment(data.startdate).format(
+                                        "DD/MM/YYYY"
+                                      )}
+                                    </Text>
+                                  </View>
+                                </View>
+                              </View>
+                              <View style={{ flex: 1 }}>
+                                <View
+                                  style={[
+                                    {
+                                      // Try setting `flexDirection` to `"row"`.
+                                      flex: 1,
+                                      flexDirection: "row",
+                                    },
+                                  ]}
+                                >
+                                  <View style={{ flex: 0.3 }}>
+                                    <Text style={styles.cardTextStyle}>To</Text>
+                                  </View>
+                                  <View style={{ flex: 1 }}>
+                                    <Text style={styles.textStyle}>
+                                      {moment(data.enddate).format(
+                                        "DD/MM/YYYY"
+                                      )}
+                                    </Text>
+                                  </View>
+                                </View>
+                              </View>
+                            </View>
+                          </View>
+                          <View style={{ flex: 1 }}>
+                            <View
+                              style={[
+                                {
+                                  // Try setting `flexDirection` to `"row"`.
+                                  flex: 1,
+                                  flexDirection: "row",
+                                },
+                              ]}
+                            >
+                              <View style={{ flex: 0.6 }}>
+                                <Text style={styles.cardTextStyle}>
+                                  Description
+                                </Text>
+                              </View>
+                              <View style={{ flex: 1 }}>
+                                <Text style={styles.textStyle}>
+                                  {data.description}
+                                </Text>
+                              </View>
+                            </View>
+                          </View>
+                        </View>
+                        <View style={styles.space} />
+                      </ScrollView>
+                    ))}
+                </Modal.Body>
+
+                <Modal.Footer>
+                  <NativeButton.Group space={2}>
+                    <NativeButton
+                      onPress={() => {
+                        setOpen(false);
+                      }}
+                    >
+                      Close
+                    </NativeButton>
+                  </NativeButton.Group>
+                </Modal.Footer>
+              </Modal.Content>
+            </Modal>
+            <View style={{ flex: 1 }}>
+              <TeachersHome />
+            </View>
+          </View>
         </View>
-        </View>
-        
-      </View>  
-      }
+      )}
 
       {showList && (
-        <View style={[{flex:1, flexDirection: 'column',backgroundColor:'white'}]}>
+        <View
+          style={[
+            { flex: 1, flexDirection: "column", backgroundColor: "white" },
+          ]}
+        >
           {/* {backAndSearchBar &&
           <View style={{flex: 0.1,paddingTop:20}} >
             <BackButton onPress={backButtonHandler} />
           </View>} */}
-          <View style={{flex: 1}} >
-              {backAndSearchBar &&
+          <View style={{ flex: 1 }}>
+            {backAndSearchBar && (
               <SearchBar
                 style={styles.searchBar}
                 textInputStyle={{
                   fontFamily: "HindRegular",
                   fontSize: 18,
                 }}
-
                 placeholder="Search here"
                 onChangeText={(text) => searchFilter(text)}
                 value={searchText}
-              />}
-            
-             <View
-                style={[
-                  { flex: 1 },
-                  { flexDirection: "column", backgroundColor: "white" },
-                ]}
-              >
-                <View style={{ flex: 8, bottom: 13 }}>
-                  <ScrollView
-                  
-                    scrollEventThrottle={25}
-                    onScroll={Animated.event(
-                      [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-                      { useNativeDriver: false }
-                    )}
-                  >
-                    {filteredData.length <= 0 ? (
-                      <View style={{ alignItems: "center", marginTop: "15%" }}>
-                        <Text style={styles.msgText}>
-                          No events found,
-                          <Text style={styles.linkText} onPress={linkPressedHandler}>
-                            Start adding here
-                          </Text>
+              />
+            )}
+
+            <View
+              style={[
+                { flex: 1 },
+                { flexDirection: "column", backgroundColor: "white" },
+              ]}
+            >
+              <View style={{ flex: 8, bottom: 13 }}>
+                <ScrollView
+                  scrollEventThrottle={25}
+                  onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                    { useNativeDriver: false }
+                  )}
+                >
+                  {filteredData.length <= 0 ? (
+                    <View style={{ alignItems: "center", marginTop: "15%" }}>
+                      <Text style={styles.msgText}>
+                        No events found,
+                        <Text
+                          style={styles.linkText}
+                          onPress={linkPressedHandler}
+                        >
+                          Start adding here
                         </Text>
-                      </View>
-                    ) : (
-                      <View style={[styles.root]}>
-                        {loading ? (
-                          <HStack
-                            space={8}
-                            justifyContent="center"
-                            alignItems="center"
-                          >
-                            <ActivityIndicator
-                              size={40}
-                              visible={loading}
-                              textContent={"Loading..."}
-                              textStyle={styles.spinnerTextStyle}
-                            />
-                          </HStack>
-                        ) : (
-                          filteredData &&
-                          filteredData.map((filteredData, key) => (
-                            <>
-                              <View>
-                                <Card
-                                  style={{
-                                    marginVertical: 15,
-                                    marginHorizontal: 20,
-                                    elevation: 5,
-                                    borderRadius: 10,
-                                    paddingBottom: 20,
-                                  }}
-                                >
-                                  <Card.Content>
-                                    <Text style={styles.eventName}>
-                                      {filteredData.titlee}
-                                    </Text>
-                                    <View
-                                      style={[
-                                        { flex: 1 },
-                                        {
-                                          flexDirection: "row",
-                                        },
-                                      ]}
-                                    >
-                                      <View style={{ flex: 1 }}>
-                                        <View
-                                          style={[
-                                            { flex: 1 },
-                                            {
-                                              flexDirection: "row",
-                                            },
-                                          ]}
-                                        >
-                                          <View style={{ flex: 0.2 }}>
-                                            <Ionicons
-                                              name="calendar"
-                                              size={25}
-                                              color="#D4AC0D"
-                                              style={{}}
-                                            />
-                                          </View>
-                                          <View style={{ flex: 1 }}>
-                                            <Text
-                                              style={[
-                                                styles.cardTextStyle,
-                                                { left: 5 },
-                                              ]}
-                                            >
-                                              Start Date
-                                            </Text>
-                                          </View>
+                      </Text>
+                    </View>
+                  ) : (
+                    <View style={[styles.root]}>
+                      {loading ? (
+                        <HStack
+                          space={8}
+                          justifyContent="center"
+                          alignItems="center"
+                        >
+                          <ActivityIndicator
+                            size={40}
+                            visible={loading}
+                            textContent={"Loading..."}
+                            textStyle={styles.spinnerTextStyle}
+                          />
+                        </HStack>
+                      ) : (
+                        filteredData &&
+                        filteredData.map((filteredData, key) => (
+                          <>
+                            <View>
+                              <Card
+                                style={{
+                                  marginVertical: 15,
+                                  marginHorizontal: 20,
+                                  elevation: 5,
+                                  borderRadius: 10,
+                                  paddingBottom: 20,
+                                }}
+                              >
+                                <Card.Content>
+                                  <Text style={styles.eventName}>
+                                    {filteredData.titlee}
+                                  </Text>
+                                  <View
+                                    style={[
+                                      { flex: 1 },
+                                      {
+                                        flexDirection: "row",
+                                      },
+                                    ]}
+                                  >
+                                    <View style={{ flex: 1 }}>
+                                      <View
+                                        style={[
+                                          { flex: 1 },
+                                          {
+                                            flexDirection: "row",
+                                          },
+                                        ]}
+                                      >
+                                        <View style={{ flex: 0.2 }}>
+                                          <Ionicons
+                                            name="calendar"
+                                            size={25}
+                                            color="#D4AC0D"
+                                            style={{}}
+                                          />
                                         </View>
-                                      </View>
-                                      <View style={{ flex: 1 }}>
-                                        <View
-                                          style={[
-                                            { flex: 1 },
-                                            {
-                                              flexDirection: "row",
-                                            },
-                                          ]}
-                                        >
-                                          <View style={{ flex: 0.3 }}>
-                                            <Ionicons
-                                              name="calendar"
-                                              size={25}
-                                              color="#D4AC0D"
-                                              style={{}}
-                                            />
-                                          </View>
-                                          <View
-                                            style={{
-                                              flex: 1,
-                                              alignItems: "flex-start",
-                                              left: "1%",
-                                            }}
+                                        <View style={{ flex: 1 }}>
+                                          <Text
+                                            style={[
+                                              styles.cardTextStyle,
+                                              { left: 5 },
+                                            ]}
                                           >
-                                            <Text
-                                              style={[
-                                                styles.cardTextStyle,
-                                                { left: 5 },
-                                              ]}
-                                            >
-                                              End Date
-                                            </Text>
-                                          </View>
+                                            Start Date
+                                          </Text>
                                         </View>
                                       </View>
                                     </View>
-
-                                    <View
-                                      style={[
-                                        { flex: 1 },
-                                        {
-                                          flexDirection: "row",
-                                        },
-                                      ]}
-                                    >
-                                      <View style={{ flex: 1 }}>
-                                        <View
-                                          style={[
-                                            { flex: 1 },
-                                            {
-                                              flexDirection: "row",
-                                            },
-                                          ]}
-                                        >
-                                          <View style={{ flex: 0.3 }}></View>
-                                          <View
-                                            style={{
-                                              flex: 1,
-                                              alignItems: "flex-start",
-                                              left: "1%",
-                                            }}
-                                          >
-                                            <Text style={styles.textStyle}>
-                                              {moment(filteredData.startdate).format(
-                                                "DD/MM/YYYY"
-                                              )}
-                                            </Text>
-                                          </View>
+                                    <View style={{ flex: 1 }}>
+                                      <View
+                                        style={[
+                                          { flex: 1 },
+                                          {
+                                            flexDirection: "row",
+                                          },
+                                        ]}
+                                      >
+                                        <View style={{ flex: 0.3 }}>
+                                          <Ionicons
+                                            name="calendar"
+                                            size={25}
+                                            color="#D4AC0D"
+                                            style={{}}
+                                          />
                                         </View>
-                                      </View>
-                                      <View style={{ flex: 1 }}>
                                         <View
-                                          style={[
-                                            { flex: 1 },
-                                            {
-                                              flexDirection: "row",
-                                            },
-                                          ]}
+                                          style={{
+                                            flex: 1,
+                                            alignItems: "flex-start",
+                                            left: "1%",
+                                          }}
                                         >
-                                          <View style={{ flex: 0.3 }}>
-                                          
-                                          </View>
-                                          <View
-                                            style={{
-                                              flex: 1,
-                                              alignItems: "flex-start",
-                                              left: "1%",
-                                            }}
+                                          <Text
+                                            style={[
+                                              styles.cardTextStyle,
+                                              { left: 5 },
+                                            ]}
                                           >
-                                            <Text style={styles.textStyle}>
-                                              {moment(filteredData.enddate).format(
-                                                "DD/MM/YYYY"
-                                              )}
-                                            </Text>
-                                          </View>
+                                            End Date
+                                          </Text>
                                         </View>
                                       </View>
                                     </View>
+                                  </View>
 
-                                    <View
-                                      style={[
-                                        { flex: 1, top: "3%" },
-                                        {
-                                          flexDirection: "row",
-                                        },
-                                      ]}
-                                    >
-                                      <View style={{ flex: 1 }}>
+                                  <View
+                                    style={[
+                                      { flex: 1 },
+                                      {
+                                        flexDirection: "row",
+                                      },
+                                    ]}
+                                  >
+                                    <View style={{ flex: 1 }}>
+                                      <View
+                                        style={[
+                                          { flex: 1 },
+                                          {
+                                            flexDirection: "row",
+                                          },
+                                        ]}
+                                      >
+                                        <View style={{ flex: 0.3 }}></View>
                                         <View
-                                          style={[
-                                            { flex: 1 },
-                                            {
-                                              flexDirection: "column",
-                                            },
-                                          ]}
+                                          style={{
+                                            flex: 1,
+                                            alignItems: "flex-start",
+                                            left: "1%",
+                                          }}
                                         >
-                                          <View style={{ flex: 1 }}>
+                                          <Text style={styles.textStyle}>
+                                            {moment(
+                                              filteredData.startdate
+                                            ).format("DD/MM/YYYY")}
+                                          </Text>
+                                        </View>
+                                      </View>
+                                    </View>
+                                    <View style={{ flex: 1 }}>
+                                      <View
+                                        style={[
+                                          { flex: 1 },
+                                          {
+                                            flexDirection: "row",
+                                          },
+                                        ]}
+                                      >
+                                        <View style={{ flex: 0.3 }}></View>
+                                        <View
+                                          style={{
+                                            flex: 1,
+                                            alignItems: "flex-start",
+                                            left: "1%",
+                                          }}
+                                        >
+                                          <Text style={styles.textStyle}>
+                                            {moment(
+                                              filteredData.enddate
+                                            ).format("DD/MM/YYYY")}
+                                          </Text>
+                                        </View>
+                                      </View>
+                                    </View>
+                                  </View>
+
+                                  <View
+                                    style={[
+                                      { flex: 1, top: "3%" },
+                                      {
+                                        flexDirection: "row",
+                                      },
+                                    ]}
+                                  >
+                                    <View style={{ flex: 1 }}>
+                                      <View
+                                        style={[
+                                          { flex: 1 },
+                                          {
+                                            flexDirection: "column",
+                                          },
+                                        ]}
+                                      >
+                                        <View style={{ flex: 1 }}>
+                                          <View
+                                            style={[
+                                              { flex: 1 },
+                                              {
+                                                flexDirection: "row",
+                                              },
+                                            ]}
+                                          >
+                                            <View style={{ flex: 0.8 }}>
+                                              <Text
+                                                style={styles.cardTextStyle}
+                                              >
+                                                Description:
+                                              </Text>
+                                            </View>
+                                            <View style={{ flex: 1 }}>
+                                              <Text style={styles.textStyle}>
+                                                {filteredData.description}
+                                              </Text>
+                                            </View>
+                                          </View>
+                                        </View>
+                                      </View>
+
+                                      <View
+                                        style={[
+                                          {
+                                            flex: 1,
+                                            top: "4%",
+                                            marginLeft: "70%",
+                                          },
+                                          {
+                                            flexDirection: "row",
+                                          },
+                                        ]}
+                                      >
+                                        {filteredData.created_by ==
+                                          USERNAME && (
+                                          <View
+                                            style={{ flex: 1, bottom: "1%" }}
+                                          >
                                             <View
                                               style={[
                                                 { flex: 1 },
@@ -1776,87 +1819,55 @@ const TeachersCalendar = () => {
                                                 },
                                               ]}
                                             >
-                                              <View style={{ flex: 0.8 }}>
-                                                <Text style={styles.cardTextStyle}>
-                                                  Description:
-                                                </Text>
+                                              <View style={{ flex: 0.4 }}>
+                                                <IconButton
+                                                  colorScheme="success"
+                                                  onPress={() =>
+                                                    editItem(filteredData.id)
+                                                  }
+                                                  variant="subtle"
+                                                  _icon={{
+                                                    as: Ionicons,
+                                                    name: "md-pencil-sharp",
+                                                  }}
+                                                />
                                               </View>
-                                              <View style={{ flex: 1 }}>
-                                                <Text style={styles.textStyle}>
-                                                  {filteredData.description}
-                                                </Text>
+                                              <View style={styles.space} />
+                                              <View style={{ flex: 0.4 }}>
+                                                <IconButton
+                                                  colorScheme="danger"
+                                                  onPress={() =>
+                                                    deleteItem(filteredData.id)
+                                                  }
+                                                  variant="subtle"
+                                                  _icon={{
+                                                    as: Ionicons,
+                                                    name: "trash",
+                                                  }}
+                                                />
                                               </View>
                                             </View>
                                           </View>
-                                        </View>
-
-                                        <View
-                                          style={[
-                                            { flex: 1, top: "4%", marginLeft: "70%" },
-                                            {
-                                              flexDirection: "row",
-                                            },
-                                          ]}
-                                        >
-                                          {filteredData.created_by == USERNAME && (
-                                            <View style={{ flex: 1, bottom: "1%" }}>
-                                              <View
-                                                style={[
-                                                  { flex: 1 },
-                                                  {
-                                                    flexDirection: "row",
-                                                  },
-                                                ]}
-                                              >
-                                                <View style={{ flex: 0.4 }}>
-                                                  <IconButton
-                                                    colorScheme="success"
-                                                    onPress={() =>
-                                                      editItem(filteredData.id)
-                                                    }
-                                                    variant="subtle"
-                                                    _icon={{
-                                                      as: Ionicons,
-                                                      name: "md-pencil-sharp",
-                                                    }}
-                                                  />
-                                                </View>
-                                                <View style={styles.space} />
-                                                <View style={{ flex: 0.4 }}>
-                                                  <IconButton
-                                                    colorScheme="danger"
-                                                    onPress={() =>
-                                                      deleteItem(filteredData.id)
-                                                    }
-                                                    variant="subtle"
-                                                    _icon={{
-                                                      as: Ionicons,
-                                                      name: "trash",
-                                                    }}
-                                                  />
-                                                </View>
-                                              </View>
-                                            </View>
-                                          )}
-                                        </View>
+                                        )}
                                       </View>
                                     </View>
-                                  </Card.Content>
-                                </Card>
-                              </View>
-                            </>
-                          ))
-                        )}
-                      </View>
-                    )}
-                  </ScrollView>
-                </View>
-                {keyboardStatus == "Keyboard Hidden" && (
-                  <View style={{ flex: 1 }}>
-                    <TeachersHome />
-                  </View>
-                )}
+                                  </View>
+                                </Card.Content>
+                              </Card>
+                            </View>
+                          </>
+                        ))
+                      )}
+                    </View>
+                  )}
+                </ScrollView>
               </View>
+              {keyboardStatus == "Keyboard Hidden" && (
+                <View style={{ flex: 1 }}>
+                  <TeachersHome />
+                </View>
+              )}
+            </View>
           </View>
         </View>
       )}
@@ -1877,7 +1888,7 @@ const styles = StyleSheet.create({
 
     backgroundColor: "white",
   },
-  viewContainer:{
+  viewContainer: {
     fontSize: 24,
     flexDirection: "row",
     width: "100%",
@@ -1911,7 +1922,7 @@ const styles = StyleSheet.create({
     marginTop: deviceHieght < 600 ? "5%" : "20%",
     width: "60%",
     marginLeft: 175,
-    padding:'3%'
+    padding: "3%",
   },
   btnSubmitNew: {
     marginTop: deviceHieght < 600 ? "5%" : "5%",
@@ -1923,16 +1934,16 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
   },
-  spaceBetween:{
+  spaceBetween: {
     width: 50,
     height: 20,
   },
   searchBar: {
     marginTop: 10,
     marginBottom: 20,
-   
+
     backgroundColor: "#F0F3F4",
-},
+  },
   errorLabel: {
     color: "red",
     backgroundColor: "#F2F2F2",
@@ -1941,9 +1952,8 @@ const styles = StyleSheet.create({
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
   normalLabel: {
-
     color: "#AEB6BF",
-  
+
     backgroundColor: "white",
     paddingHorizontal: 5,
 
@@ -2026,9 +2036,8 @@ const styles = StyleSheet.create({
   labelStyle: {
     fontFamily: "HindRegular",
     fontSize: 18,
-   
   },
- 
+
   linkText: {
     fontFamily: "HindSemiBold",
     color: "#02BFC4",
