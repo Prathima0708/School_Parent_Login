@@ -732,6 +732,17 @@ export var Token,
   StaffPhoto;
 export var studentList = [];
 var PushToken;
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+      shouldShowAlert: true,
+      title: "Custom",
+    };
+  },
+});
 function Login() {
   // const [fontsLoaded] = useFonts({
   //   Roboto: require("../assets/fonts/Roboto-Black.ttf"),
@@ -920,10 +931,19 @@ function Login() {
 
           notification_token: PushToken,
         };
-        const notificationRes = await axios.post(
-          `${subURL}/Notification/`,
-          formData
+        const getNotificationRes = await axios.get(`${subURL}/Notification/`);
+        let filteredNotification = getNotificationRes.data.filter(
+          (ele) => ele.notification_token == PushToken
         );
+        if (filteredNotification.length > 0) {
+          console.log("token existing");
+        } else {
+          const notificationRes = await axios.post(
+            `${subURL}/Notification/`,
+            formData
+          );
+        }
+
         // console.log(notificationRes.data);
 
         const res = await axios.get(`${subURL}/Student/`);

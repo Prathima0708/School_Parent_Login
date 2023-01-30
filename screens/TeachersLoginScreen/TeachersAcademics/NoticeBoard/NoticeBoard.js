@@ -7,15 +7,6 @@ import moment from "moment";
 import * as Notifications from "expo-notifications";
 import { subURL } from "../../../../components/utils/URL's";
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => {
-    return {
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-      shouldShowAlert: true,
-    };
-  },
-});
 
 const NoticeBoard = ({ startdate, titlee, description }) => {
   // function sendPushNotificationHanlder() {
@@ -48,8 +39,10 @@ const NoticeBoard = ({ startdate, titlee, description }) => {
         headers: {
           "Content-Type": "application/json",
         },
+
         body: JSON.stringify({
           to: token.notification_token,
+
           title: titlee,
           body: description,
         }),
