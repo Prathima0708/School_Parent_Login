@@ -2,11 +2,12 @@ import { Button, StyleSheet, View } from "react-native";
 export var selectedUserId, selectedUserName;
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { Text } from "native-base";
+import { Text,Button as NativeButton,Icon } from "native-base";
 import moment from "moment";
 import * as Notifications from "expo-notifications";
 import { subURL } from "../../../../components/utils/URL's";
 import axios from "axios";
+import { Ionicons } from "@expo/vector-icons";
 
 const NoticeBoard = ({ startdate, titlee, description, viewOnly }) => {
   const [checkGroup, setCheckGroup] = useState(false);
@@ -84,30 +85,74 @@ const NoticeBoard = ({ startdate, titlee, description, viewOnly }) => {
   }
 
   return (
-    <View style={[styles.listStyle]}>
-      <View style={{ flex: 3 }}>
-        <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
-          <View
-            style={[{ flex: 1, borderTopLeftRadius: 10 }, styles.colorPadding]}
-          >
-            <Text style={styles.titleStyle}>{titlee}</Text>
-          </View>
-          <View style={[{ flex: 1 }, styles.colorPadding]}>
+    <>
+      <View
+    style={[
+      {
+        // Try setting `flexDirection` to `"row"`.
+        flex:1,
+        flexDirection: 'column',
+      },
+    ]}>
+    <View style={{flex: 1, backgroundColor: 'red'}} >
+      <View
+        style={[
+          {
+            // Try setting `flexDirection` to `"row"`.
+            flex:1,
+            flexDirection: 'row',
+          },
+        ]}>
+        <View style={{flex: 1, backgroundColor: 'red'}} >
+          <Text style={styles.titleStyle}>{titlee}</Text>
+        </View>
+        <View style={{flex: 1, backgroundColor: 'darkorange'}} >
+          <Text style={[styles.descStyle, { fontWeight: "bold" }]}>
+            {moment(startdate).format("DD/MM/YYYY")}
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View style={{flex: 1, backgroundColor: 'darkorange'}} >
+      <View
+          style={[
+            {
+              // Try setting `flexDirection` to `"row"`.
+              flex:1,
+              flexDirection: 'row',
+            },
+          ]}>
+          <View style={{flex: 1, backgroundColor: 'red'}} >
             <Text style={styles.descStyle}>{description}</Text>
+          </View>
+          <View style={{flex: 1, backgroundColor: 'darkorange'}} >
+            <NativeButton 
+              size='md'
+              onPress={sendPushNotificationHanlder}        
+              style={{backgroundColor:'#002D62',borderRadius:7}}
+              rightIcon={<Icon as={Ionicons} name="notifications" size="md" />}
+              ><Text 
+                fontSize='18' 
+                color='white' 
+                fontFamily='HindBold'
+                top='0.5'
+                left='1'
+                >Notify</Text>
+            </NativeButton>
+            {/* <IconButton
+              colorScheme="lightBlue"
+              onPress={sendPushNotificationHanlder} 
+              variant="solid"
+              borderRadius='full'
+              _icon={{
+                as: Ionicons,
+                name: "call",}}/> */}
           </View>
         </View>
       </View>
-      <View style={[styles.dateViewStyle]}>
-        <Text style={[styles.descStyle, { fontWeight: "bold" }]}>
-          {moment(startdate).format("DD/MM/YYYY")}
-        </Text>
-      </View>
-      <View>
-        <Button title="Notify" onPress={sendPushNotificationHanlder} />
-      </View>
     </View>
-
-
+    <View style={styles.space}/>
+    </>
   );
 };
 
@@ -123,6 +168,10 @@ const styles = StyleSheet.create({
     fontSize: 17,
 
     fontFamily: "HindSemiBold",
+  },
+  space: {
+    width: 20,
+    height: 20,
   },
   descStyle: {
     fontFamily: "HindRegular",
