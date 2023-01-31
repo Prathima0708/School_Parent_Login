@@ -1533,11 +1533,11 @@ const TeachersCalendar = () => {
               size="full"
             >
               <Modal.Content maxWidth="90%" minHeight="5%">
-                <Modal.Header
+                {/* <Modal.Header
                   style={{ justifyContent: "center", alignItems: "center" }}
                 >
                   Events
-                </Modal.Header>
+                </Modal.Header> */}
 
                 <Modal.Body>
                   {filteredlist &&
@@ -1549,7 +1549,7 @@ const TeachersCalendar = () => {
                               // Try setting `flexDirection` to `"row"`.
                               flex: 1,
                               flexDirection: "column",
-                              borderBottomWidth: 1,
+                              borderBottomWidth: filteredlist.length>1 ? 1 : 0,
                               borderBottomColor: "grey",
                             },
                           ]}
@@ -1561,11 +1561,12 @@ const TeachersCalendar = () => {
                                   // Try setting `flexDirection` to `"row"`.
                                   flex: 1,
                                   flexDirection: "row",
+                                  marginVertical:10
                                 },
                               ]}
                             >
-                              <View style={{ flex: 0.3 }}>
-                                <Text style={styles.cardTextStyle}>Title</Text>
+                              <View style={{ flex: 0.35 }}>
+                                <Text style={styles.cardTextStyle}>Title :</Text>
                               </View>
                               <View style={{ flex: 1 }}>
                                 <Text style={styles.textStyle}>
@@ -1580,7 +1581,7 @@ const TeachersCalendar = () => {
                                 {
                                   // Try setting `flexDirection` to `"row"`.
                                   flex: 1,
-                                  flexDirection: "column",
+                                  flexDirection: "row",
                                 },
                               ]}
                             >
@@ -1594,13 +1595,13 @@ const TeachersCalendar = () => {
                                     },
                                   ]}
                                 >
-                                  <View style={{ flex: 0.3 }}>
+                                  <View style={{ flex: 1.1 }}>
                                     <Text style={styles.cardTextStyle}>
-                                      From
+                                      From :
                                     </Text>
                                   </View>
-                                  <View style={{ flex: 1 }}>
-                                    <Text style={styles.textStyle}>
+                                  <View style={{ flex: 1.1 }}>
+                                    <Text style={[styles.textStyle,{left:5}]}>
                                       {moment(data.startdate).format(
                                         "DD/MM/YYYY"
                                       )}
@@ -1618,8 +1619,8 @@ const TeachersCalendar = () => {
                                     },
                                   ]}
                                 >
-                                  <View style={{ flex: 0.3 }}>
-                                    <Text style={styles.cardTextStyle}>To</Text>
+                                  <View style={{ flex: 0.8 }}>
+                                    <Text style={styles.cardTextStyle}>To :</Text>
                                   </View>
                                   <View style={{ flex: 1 }}>
                                     <Text style={styles.textStyle}>
@@ -1632,7 +1633,7 @@ const TeachersCalendar = () => {
                               </View>
                             </View>
                           </View>
-                          <View style={{ flex: 1 }}>
+                          <View style={{ flex: 1,marginVertical:10 }}>
                             <View
                               style={[
                                 {
@@ -1642,9 +1643,9 @@ const TeachersCalendar = () => {
                                 },
                               ]}
                             >
-                              <View style={{ flex: 0.6 }}>
+                              <View style={{ flex: 0.7 }}>
                                 <Text style={styles.cardTextStyle}>
-                                  Description
+                                  Description :
                                 </Text>
                               </View>
                               <View style={{ flex: 1 }}>
@@ -1655,7 +1656,7 @@ const TeachersCalendar = () => {
                             </View>
                           </View>
                         </View>
-                        <View style={styles.space} />
+                        {/* <View style={styles.space} /> */}
                       </ScrollView>
                     ))}
                 </Modal.Body>
