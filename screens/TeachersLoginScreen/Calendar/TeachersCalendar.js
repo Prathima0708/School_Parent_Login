@@ -45,6 +45,7 @@ import {
   Text as NativeText,
   Icon,
   Modal,
+  Badge,
 } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
 import CalendarPicker from "react-native-calendar-picker";
@@ -2035,21 +2036,32 @@ const TeachersCalendar = () => {
                 >
                   <Modal.Content maxWidth="90%" minHeight="5%">
                     {specificData.created_by === USERNAME && (
-                      <Modal.Header style={{}}>
-                        <Text style={[styles.cardTextStyle, { left: 0 }]}>
-                          Notify to{" "}
-                          <Text style={styles.textStyle}>
-                            {specificData.viewOnly}
-                          </Text>
-                        </Text>
-
-                        {specificData.isNotified === false ? (
+                      <Modal.Header style={{height:'15%'}}>
+                         <View
+                          style={[
+                            {
+                              // Try setting `flexDirection` to `"row"`.
+                              flex:1,
+                              flexDirection: 'row',
+                            },
+                          ]}>
+                          <View style={{flex: 0.5}} >
+                            <Text style={[styles.cardTextStyle,{left:0}]}>Notify to</Text>
+                          </View>
+                          <View style={{flex: 1}} >
+                            <Text style={styles.textStyle}> {specificData.viewOnly}</Text>
+                          </View>
+                          <View style={{flex: 0.6,bottom:'2%'}} >
+                          {specificData.isNotified === false ? (
                           <NativeButton
                             size="md"
+                            width='20'
                             onPress={sendPushNotificationHanlder}
                             style={{
                               backgroundColor: "#1E84A4",
-                              borderRadius: 7,
+                              //borderRadius: 7,
+                              left:15
+                              
                             }}
                             rightIcon={
                               <Icon
@@ -2062,8 +2074,10 @@ const TeachersCalendar = () => {
                             Notify
                           </NativeButton>
                         ) : (
-                          <Text>Notified</Text>
+                          <Badge colorScheme="success">Notified</Badge>
                         )}
+                          </View>
+                        </View>
                       </Modal.Header>
                     )}
 
