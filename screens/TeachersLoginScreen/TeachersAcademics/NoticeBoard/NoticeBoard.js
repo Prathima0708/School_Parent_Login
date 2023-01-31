@@ -9,7 +9,29 @@ import { subURL } from "../../../../components/utils/URL's";
 import axios from "axios";
 
 const NoticeBoard = ({ startdate, titlee, description, viewOnly }) => {
+  const navigation = useNavigation();
   const [checkGroup, setCheckGroup] = useState(false);
+
+  useEffect(() => {
+    const subscription1 = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        console.log("Notification received");
+        // console.log("token",notification)
+      }
+    );
+
+    const subscription2 = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        console.log("Notification response received");
+        // navigation.navigate("TeachersTimetable");
+        //console.log(response)
+      }
+    );
+    return () => {
+      subscription1.remove();
+      subscription2.remove();
+    };
+  }, []);
   // function sendPushNotificationHanlder() {
 
   //   fetch("https://exp.host/--/api/v2/push/send", {
@@ -106,8 +128,6 @@ const NoticeBoard = ({ startdate, titlee, description, viewOnly }) => {
         <Button title="Notify" onPress={sendPushNotificationHanlder} />
       </View>
     </View>
-
-
   );
 };
 
@@ -140,7 +160,6 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
   },
 });
-
 
 // <View
 // style={[
@@ -184,7 +203,7 @@ const styles = StyleSheet.create({
 //       <View style={{flex: 1, backgroundColor: 'darkorange'}} >
 //         <IconButton
 //           colorScheme="lightBlue"
-//           onPress={sendPushNotificationHanlder} 
+//           onPress={sendPushNotificationHanlder}
 //           variant="solid"
 //           borderRadius='full'
 //           _icon={{

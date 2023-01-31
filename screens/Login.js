@@ -866,6 +866,7 @@ function Login() {
     const subscription2 = Notifications.addNotificationResponseReceivedListener(
       (response) => {
         console.log("Notification response received");
+       
         //console.log(response)
       }
     );
