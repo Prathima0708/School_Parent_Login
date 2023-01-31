@@ -123,6 +123,7 @@ const TeachersCalendar = () => {
   const [isToDateFocused, setIsToDateFocused] = useState(false);
   const [calendarViewBtnPressed, setCalendarViewBtnPressed] = useState(false);
   const [btn, setBtn] = useState(false);
+  const [receivedNotification, setReceivedNotification] = useState([]);
 
   const [forCalendarList, setForCalendarList] = useState({
     backgroundColor: "#1E84A4",
@@ -244,6 +245,7 @@ const TeachersCalendar = () => {
     const subscription1 = Notifications.addNotificationReceivedListener(
       async (notification) => {
         console.log("Notification received");
+
         //  console.log("id is", specificData.id);
 
         try {
@@ -253,6 +255,7 @@ const TeachersCalendar = () => {
               isNotified: true,
             }
           );
+          // setSpecificData(response.data);
           //  console.log(response.data);
         } catch (error) {
           console.error(error);
@@ -971,6 +974,7 @@ const TeachersCalendar = () => {
   }
 
   function cardPressedHandler(filteredData) {
+    console.log(filteredData.titlee);
     setSpecificData(filteredData);
 
     setOpenCardModal(true);
@@ -1550,7 +1554,8 @@ const TeachersCalendar = () => {
                               // Try setting `flexDirection` to `"row"`.
                               flex: 1,
                               flexDirection: "column",
-                              borderBottomWidth: filteredlist.length>1 ? 1 : 0,
+                              borderBottomWidth:
+                                filteredlist.length > 1 ? 1 : 0,
                               borderBottomColor: "grey",
                             },
                           ]}
@@ -1562,12 +1567,14 @@ const TeachersCalendar = () => {
                                   // Try setting `flexDirection` to `"row"`.
                                   flex: 1,
                                   flexDirection: "row",
-                                  marginVertical:10
+                                  marginVertical: 10,
                                 },
                               ]}
                             >
-                              <View style={{ flex: 0.35 }}>
-                                <Text style={styles.cardTextStyle}>Title :</Text>
+                              <View style={{ flex: 0.35, left: 0 }}>
+                                <Text style={styles.cardTextStyle}>
+                                  Title :
+                                </Text>
                               </View>
                               <View style={{ flex: 1 }}>
                                 <Text style={styles.textStyle}>
@@ -1602,7 +1609,9 @@ const TeachersCalendar = () => {
                                     </Text>
                                   </View>
                                   <View style={{ flex: 1.1 }}>
-                                    <Text style={[styles.textStyle,{left:5}]}>
+                                    <Text
+                                      style={[styles.textStyle, { left: 5 }]}
+                                    >
                                       {moment(data.startdate).format(
                                         "DD/MM/YYYY"
                                       )}
@@ -1621,7 +1630,9 @@ const TeachersCalendar = () => {
                                   ]}
                                 >
                                   <View style={{ flex: 0.8 }}>
-                                    <Text style={styles.cardTextStyle}>To :</Text>
+                                    <Text style={styles.cardTextStyle}>
+                                      To :
+                                    </Text>
                                   </View>
                                   <View style={{ flex: 1 }}>
                                     <Text style={styles.textStyle}>
@@ -1634,7 +1645,7 @@ const TeachersCalendar = () => {
                               </View>
                             </View>
                           </View>
-                          <View style={{ flex: 1,marginVertical:10 }}>
+                          <View style={{ flex: 1, marginVertical: 10 }}>
                             <View
                               style={[
                                 {
