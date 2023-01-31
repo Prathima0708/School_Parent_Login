@@ -11,6 +11,7 @@ import { subURL } from "../../../../components/utils/URL's";
 export var arr = [];
 
 const TeachersNoticeBoard = () => {
+  console.log("in teachers noticeboard");
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -20,9 +21,12 @@ const TeachersNoticeBoard = () => {
           "Content-Type": "application/json; charset=utf-8",
         };
 
-        const res = await axios.get(`${subURL}/Calendar/`, {
-          headers: headers,
-        });
+        const res = await axios.get(
+          `${subURL}/CalendarListByIsnotified/True/`,
+          {
+            headers: headers,
+          }
+        );
 
         // arr = res.data;
 
@@ -39,9 +43,9 @@ const TeachersNoticeBoard = () => {
         const filteredData = res.data.filter(
           (item) => new Date(item.startdate) >= today
         );
-        setData(filteredData);
+        setData(res.data);
 
-        console.log(data);
+        //console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -56,7 +60,7 @@ const TeachersNoticeBoard = () => {
     <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
       <View style={styles.headingView}>
         <Text bold style={styles.textStyle}>
-          Upcoming Events
+          Notifications
         </Text>
       </View>
       <View style={{ flex: 2, backgroundColor: "white" }}>
