@@ -75,6 +75,9 @@ const TeachersCalendar = () => {
   const [placement, setPlacement] = useState(undefined);
   const [open, setOpen] = useState(false);
 
+  const [placementCard, setPlacementCard] = useState(undefined);
+  const [openCardModal, setOpenCardModal] = useState(false);
+
   const [listActive, setListActive] = useState(true);
   const [calendarActive, setCalendarActive] = useState(false);
 
@@ -181,7 +184,8 @@ const TeachersCalendar = () => {
 
   const [filteredData, setFilteredData] = useState([]);
   const [customDatesStyles, setCustomDatesStyles] = useState([]);
-  const [specificEventData, setSpecificEventData] = useState([]);
+  const [specificData, setSpecificData] = useState([]);
+
   const [searchText, setSearchText] = useState("");
   const [filteredlist, setFilteredList] = useState([]);
 
@@ -931,6 +935,14 @@ const TeachersCalendar = () => {
     setListBtnPressed(false);
     setShowListCalOptionBtn(true);
   }
+
+  function cardPressedHandler(filteredData){
+    setSpecificData(filteredData);
+
+    setOpenCardModal(true);
+    setPlacementCard(placementCard);
+  
+  }
   return (
     <>
       {showInitialBtn && (
@@ -1643,6 +1655,7 @@ const TeachersCalendar = () => {
                         filteredData.map((filteredData, key) => (
                           <>
                             <View>
+                              <Pressable onPress={()=>cardPressedHandler(filteredData)}>
                               <Card
                                 style={{
                                   marginVertical: 15,
@@ -1892,6 +1905,7 @@ const TeachersCalendar = () => {
                                   </View>
                                 </Card.Content>
                               </Card>
+                              </Pressable>
                             </View>
                           </>
                         ))
@@ -1899,6 +1913,187 @@ const TeachersCalendar = () => {
                     </View>
                   )}
                 </ScrollView>
+                <Modal
+                  isOpen={openCardModal}
+                  onClose={() => setOpenCardModal(false)}
+                  safeAreaTop={true}
+                  size="full"
+                >
+                  <Modal.Content maxWidth="90%" minHeight="5%">
+                    <Modal.Header
+                      style={{  }}
+                    >
+                      {/* <View style={{ flex: 1 }}>
+                                <View
+                                  style={[
+                                    {
+                                      // Try setting `flexDirection` to `"row"`.
+                                      flex: 1,
+                                      flexDirection: "row",
+                                    },
+                                  ]}
+                                > */}
+                                  {/* <View style={{ flex: 1 }}> */}
+                                    <Text style={[styles.cardTextStyle,{left:0}]}>
+                                      Notify to <Text style={styles.textStyle}>{specificData.viewOnly}</Text>
+                                    </Text>
+                                    
+                                      <NativeButton
+                                        // onPress={() => {
+                                        //   setOpenCardModal(false);
+                                        // }}
+                                        width='16'
+                                        size='md'
+                                        bottom={30}
+                                      left={260}
+                                      >
+                                        Notify
+                                      </NativeButton>
+                                    
+                                  {/* </View> */}
+                                  {/* <View style={{ flex: 1 }}>
+                                    <Text style={styles.textStyle}>
+                                      
+                                    </Text>
+                                  </View>
+                                  <View style={{ flex: 1 }}>
+                                    
+                                  </View> */}
+                                {/* </View>
+                              </View> */}
+                    </Modal.Header>
+
+                    <Modal.Body>
+                    
+                          <ScrollView>
+                            <View
+                              style={[
+                                {
+                                  // Try setting `flexDirection` to `"row"`.
+                                  flex: 1,
+                                  flexDirection: "column",
+                                  borderBottomColor: "grey",
+                                },
+                              ]}
+                            >
+                              <View style={{ flex: 1 ,marginVertical:10}}>
+                                <View
+                                  style={[
+                                    {
+                                      // Try setting `flexDirection` to `"row"`.
+                                      flex: 1,
+                                      flexDirection: "row",
+                                    },
+                                  ]}
+                                >
+                                  <View style={{ flex: 0.3 }}>
+                                    <Text style={[styles.cardTextStyle,{left:0}]}>Title</Text>
+                                  </View>
+                                  <View style={{ flex: 1 }}>
+                                    <Text style={styles.textStyle}>
+                                      {specificData.titlee}
+                                    </Text>
+                                  </View>
+                                </View>
+                              </View>
+                              <View style={{ flex: 1 ,marginVertical:10}}>
+                                <View
+                                  style={[
+                                    {
+                                      // Try setting `flexDirection` to `"row"`.
+                                      flex: 1,
+                                      flexDirection: "column",
+                                    },
+                                  ]}
+                                >
+                                  <View style={{ flex: 1,marginVertical:10 }}>
+                                    <View
+                                      style={[
+                                        {
+                                          // Try setting `flexDirection` to `"row"`.
+                                          flex: 1,
+                                          flexDirection: "row",
+                                        },
+                                      ]}
+                                    >
+                                      <View style={{ flex: 0.3 }}>
+                                        <Text style={[styles.cardTextStyle,{left:0}]}>
+                                          From
+                                        </Text>
+                                      </View>
+                                      <View style={{ flex: 1 }}>
+                                        <Text style={[styles.textStyle,{left:0}]}>
+                                          {moment(specificData.startdate).format(
+                                            "DD/MM/YYYY"
+                                          )}
+                                        </Text>
+                                      </View>
+                                    </View>
+                                  </View>
+                                  <View style={{ flex: 1,marginVertical:10 }}>
+                                    <View
+                                      style={[
+                                        {
+                                          // Try setting `flexDirection` to `"row"`.
+                                          flex: 1,
+                                          flexDirection: "row",
+                                        },
+                                      ]}
+                                    >
+                                      <View style={{ flex: 0.3 }}>
+                                        <Text style={[styles.cardTextStyle,{left:0}]}>To</Text>
+                                      </View>
+                                      <View style={{ flex: 1 }}>
+                                        <Text style={styles.textStyle}>
+                                          {moment(specificData.enddate).format(
+                                            "DD/MM/YYYY"
+                                          )}
+                                        </Text>
+                                      </View>
+                                    </View>
+                                  </View>
+                                </View>
+                              </View>
+                              <View style={{ flex: 1,marginVertical:10 }}>
+                                <View
+                                  style={[
+                                    {
+                                      // Try setting `flexDirection` to `"row"`.
+                                      flex: 1,
+                                      flexDirection: "row",
+                                    },
+                                  ]}
+                                >
+                                  <View style={{ flex: 0.4,left:0 }}>
+                                    <Text style={[styles.cardTextStyle,{left:0}]}>
+                                      Description
+                                    </Text>
+                                  </View>
+                                  <View style={{ flex: 1 }}>
+                                    <Text style={styles.textStyle}>
+                                      {specificData.description}
+                                    </Text>
+                                  </View>
+                                </View>
+                              </View>
+                              
+                            </View>
+                          </ScrollView>
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                      <NativeButton.Group space={2}>
+                        <NativeButton
+                          onPress={() => {
+                            setOpenCardModal(false);
+                          }}
+                        >
+                          Close
+                        </NativeButton>
+                      </NativeButton.Group>
+                    </Modal.Footer>
+                  </Modal.Content>
+                </Modal>
               </View>
               {keyboardStatus == "Keyboard Hidden" && (
                 <View style={{ flex: 1 }}>
