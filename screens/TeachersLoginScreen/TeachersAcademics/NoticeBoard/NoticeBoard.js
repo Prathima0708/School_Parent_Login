@@ -237,7 +237,7 @@ const NoticeBoard = ({ startdate, titlee, description,modifiedDate,enddate }) =>
 
   async function fetchUser() {
     USERNAME = await AsyncStorage.getItem("UserName");
-    console.log("this is the username from aysnc", USERNAME);
+ 
     if (USERNAME !== null) {
       setUser(USERNAME);
     }
@@ -247,7 +247,7 @@ const NoticeBoard = ({ startdate, titlee, description,modifiedDate,enddate }) =>
 
 
   function pressHandler(){
-    console.log("Pressed")
+   
     setOpen(true);
       setPlacement(placement);
   }
