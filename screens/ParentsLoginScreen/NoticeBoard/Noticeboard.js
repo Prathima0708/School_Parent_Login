@@ -525,11 +525,15 @@ const NoticeBoard = () => {
         };
 
         // const res = await axios.get("http://10.0.2.2:8000/school/users/", {
-        const res = await axios.get(`${subURL}/Calendar/`, {
-          headers: headers,
-        });
+          const res = await axios.get(
+            `${subURL}/CalendarListByIsnotified/True/`,
+            {
+              headers: headers,
+            }
+          );
 
         arr = res.data;
+        console.log(arr)
         // for (let i = 0; i < res.data.length; i++) {
         //   arr.push(res.data[i].startdate);
 
@@ -537,18 +541,11 @@ const NoticeBoard = () => {
         //   console.log(arr);
         // }
 
-        function dateComparison(a, b) {
-          const date1 = new Date(a.startdate);
-          const date2 = new Date(b.startdate);
-
-          return date2 - date1;
-        }
-
-        arr.sort(dateComparison);
-
         const today = new Date();
         const filteredData = res.data.filter(
-          (item) => new Date(item.startdate) >= today
+          (item) =>
+            new Date(item.startdate) >= today ||
+            new Date(item.startdate).toDateString() === today.toDateString()
         );
 
         setData(filteredData);
