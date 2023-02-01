@@ -201,7 +201,7 @@ const TeachersCalendar = () => {
   const [anyCheck, setAnyChecked] = useState(true);
   let i = 0;
   const [saveYear, setSaveYear] = useState([]);
-
+var Group
   useEffect(() => {
     async function fetchData() {
       try {
@@ -242,6 +242,14 @@ const TeachersCalendar = () => {
   }, []);
 
   useEffect(() => {
+    async function getGroup() {
+      Group = await AsyncStorage.getItem("datagroup");
+      // console.log(Group);
+    }
+    getGroup();
+  }, []);
+
+  useEffect(() => {
     const subscription1 = Notifications.addNotificationReceivedListener(
       async (notification) => {
         console.log("Notification received");
@@ -267,7 +275,13 @@ const TeachersCalendar = () => {
     const subscription2 = Notifications.addNotificationResponseReceivedListener(
       (response) => {
         console.log("Notification response received");
-        navigation.navigate("TeachersNoticeBoard");
+        if(Group=='staff'){
+          navigation.navigate("TeachersNoticeBoard");
+        }
+        else{
+          navigation.navigate("NoticeBoard");
+        }
+        
       }
     );
     return () => {
@@ -988,6 +1002,7 @@ const TeachersCalendar = () => {
     const response = await axios.get(
       `${subURL}/NotificationByGroup/${specificData.viewOnly}`
     );
+    console.log('************')
     console.log(response.data);
     const filteredData = response.data.filter(
       (item) => item.user_id.groups[0].name === specificData.viewOnly
