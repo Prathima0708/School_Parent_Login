@@ -11,7 +11,7 @@ import { subURL } from "../../../../components/utils/URL's";
 export var arr = [];
 
 const TeachersNoticeBoard = () => {
-  console.log("in teachers noticeboard");
+  
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const TeachersNoticeBoard = () => {
         <ScrollView>
           {data.length <= 0 ? (
             <View style={{ alignItems: "center", marginTop: "5%" }}>
-              <Text style={styles.msgText}>No upcoming events found</Text>
+              <Text style={styles.msgText}>No notifications found</Text>
             </View>
           ) : (
             <Box>

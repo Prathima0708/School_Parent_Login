@@ -245,6 +245,7 @@ const TeachersCalendar = () => {
     const subscription1 = Notifications.addNotificationReceivedListener(
       async (notification) => {
         console.log("Notification received");
+        setOpenCardModal(false);
 
         //  console.log("id is", specificData.id);
 
@@ -255,7 +256,7 @@ const TeachersCalendar = () => {
               isNotified: true,
             }
           );
-          // setSpecificData(response.data);
+          setSpecificData(response.data);
           //  console.log(response.data);
         } catch (error) {
           console.error(error);
@@ -984,12 +985,14 @@ const TeachersCalendar = () => {
   async function sendPushNotificationHanlder() {
     console.log(specificData.viewOnly);
 
-    const response = await axios.get(`${subURL}/Notification/`);
-
+    const response = await axios.get(
+      `${subURL}/NotificationByGroup/${specificData.viewOnly}`
+    );
+    console.log(response.data);
     const filteredData = response.data.filter(
       (item) => item.user_id.groups[0].name === specificData.viewOnly
     );
-    const tokens = filteredData;
+    const tokens = response.data;
     // console.log(tokens);
     // //  console.log(filteredData[0].user_id.groups[0].name);
 
@@ -1030,6 +1033,7 @@ const TeachersCalendar = () => {
         }
       );
     });
+
     // try {
     //   const response = await axios.put(
     //     `${subURL}/Calendar/${specificData.id}/`,
@@ -2036,46 +2040,51 @@ const TeachersCalendar = () => {
                 >
                   <Modal.Content maxWidth="90%" minHeight="5%">
                     {specificData.created_by === USERNAME && (
-                      <Modal.Header style={{height:'15%'}}>
-                         <View
+                      <Modal.Header style={{ height: "15%" }}>
+                        <View
                           style={[
                             {
                               // Try setting `flexDirection` to `"row"`.
-                              flex:1,
-                              flexDirection: 'row',
+                              flex: 1,
+                              flexDirection: "row",
                             },
-                          ]}>
-                          <View style={{flex: 0.5}} >
-                            <Text style={[styles.cardTextStyle,{left:0}]}>Notify to</Text>
+                          ]}
+                        >
+                          <View style={{ flex: 0.5 }}>
+                            <Text style={[styles.cardTextStyle, { left: 0 }]}>
+                              Notify to
+                            </Text>
                           </View>
-                          <View style={{flex: 1}} >
-                            <Text style={styles.textStyle}> {specificData.viewOnly}</Text>
+                          <View style={{ flex: 1 }}>
+                            <Text style={styles.textStyle}>
+                              {" "}
+                              {specificData.viewOnly}
+                            </Text>
                           </View>
-                          <View style={{flex: 0.6,bottom:'2%'}} >
-                          {specificData.isNotified === false ? (
-                          <NativeButton
-                            size="md"
-                            width='20'
-                            onPress={sendPushNotificationHanlder}
-                            style={{
-                              backgroundColor: "#1E84A4",
-                              //borderRadius: 7,
-                              left:15
-                              
-                            }}
-                            rightIcon={
-                              <Icon
-                                as={Ionicons}
-                                name="notifications"
+                          <View style={{ flex: 0.6, bottom: "2%" }}>
+                            {specificData.isNotified === false ? (
+                              <NativeButton
                                 size="md"
-                              />
-                            }
-                          >
-                            Notify
-                          </NativeButton>
-                        ) : (
-                          <Badge colorScheme="success">Notified</Badge>
-                        )}
+                                width="20"
+                                onPress={sendPushNotificationHanlder}
+                                style={{
+                                  backgroundColor: "#1E84A4",
+                                  //borderRadius: 7,
+                                  left: 15,
+                                }}
+                                rightIcon={
+                                  <Icon
+                                    as={Ionicons}
+                                    name="notifications"
+                                    size="md"
+                                  />
+                                }
+                              >
+                                Notify
+                              </NativeButton>
+                            ) : (
+                              <Badge colorScheme="success">Notified</Badge>
+                            )}
                           </View>
                         </View>
                       </Modal.Header>
