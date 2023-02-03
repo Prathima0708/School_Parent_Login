@@ -24,7 +24,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Card } from "react-native-paper";
 import moment from "moment";
-import { subURL } from "../../../../components/utils/URL's";
+import { mainURL, subURL } from "../../../../components/utils/URL's";
 
 const HomeworkScreen = () => {
   const [data, setData] = useState([]);
@@ -239,7 +239,7 @@ const HomeworkScreen = () => {
                 style={styles.img}
                 resizeMode="cover"
                 source={{
-                  uri: `http://10.0.2.2:8000${saveImg}`,
+                  uri: `${mainURL}${saveImg}`,
                 }}
               />
             </Modal.Body>

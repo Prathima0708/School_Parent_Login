@@ -155,15 +155,15 @@ const styles=StyleSheet.create({
         borderRightWidth: 1,
         borderLeftWidth: 1,
         borderTopWidth: 1,
-        backgroundColor: "darkblue",
+        backgroundColor: "#1E84A4",
       },
       headingFont: {
-        // fontFamily: "Hind-SemiBold",
-        fontWeight: "bold",
+         fontFamily: "HindSemiBold",
+        
         // justifyContent:'center',
         //right:'15%',
         color: "white",
-        fontSize: deviceWidth < 370 ? 14 : 14,
+        fontSize: deviceWidth < 370 ? 14 : 16,
       },
       flexrow: {
         flex: 1,

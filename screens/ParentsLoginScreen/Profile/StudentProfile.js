@@ -9,6 +9,7 @@ import {
   Text,
   View,
 } from "react-native";
+import { mainURL } from "../../../components/utils/URL's";
 import ImageSlider from "../ImageSlider";
 
 export var studentId,
@@ -54,7 +55,7 @@ function StudentProfile({
             <View style={styles.imageContainer}>
               <Image
                 source={{
-                  uri: `http://10.0.2.2:8000${student_photo}`,
+                  uri: `${mainURL}${student_photo}`,
                 }}
                 style={styles.image}
                 width="100px"

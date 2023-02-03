@@ -28,7 +28,7 @@ import {
 } from "native-base";
 import TeachersHome from "../BottomTab/TeachersHome";
 import { STD_ID } from "./MyClasses/StudentList";
-import { subURL } from "../../../components/utils/URL's";
+import { mainURL, subURL } from "../../../components/utils/URL's";
 import axios from "axios";
 import moment from "moment";
 
@@ -69,7 +69,7 @@ const TeachersProfile = () => {
       const styleObj = {
         borderWidth: 3,
         borderRadius: 100,
-        borderColor: "#577AFE",
+        borderColor: "white",
       };
       myRef.current.setNativeProps({
         style: styleObj,
@@ -87,7 +87,7 @@ const TeachersProfile = () => {
       >
         <View style={{ flex: 2 }}>
           <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
-            <View style={{ flex: 1, backgroundColor: "#00008b" }}>
+            <View style={{ flex: 1, backgroundColor: "#1E84A4" }}>
               {/* <NativeAvatar
                 bg="purple.600"
                 alignSelf="center"
@@ -101,7 +101,7 @@ const TeachersProfile = () => {
                 borderRadius={100}
                 top="15%"
                 source={{
-                  uri: `http://10.0.2.2:8000${data.student_photo}`,
+                  uri: `${mainURL}${data.student_photo}`,
                 }}
                 alt="Student Image"
                 size="lg"
@@ -109,7 +109,7 @@ const TeachersProfile = () => {
                 resizeMode="contain"
               />
             </View>
-            <View style={{ flex: 1, backgroundColor: "#00008b" }}>
+            <View style={{ flex: 1, backgroundColor: "#1E84A4" }}>
               <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
                 <View style={{ flex: 1, alignItems: "center" }}>
                   <NativeText

@@ -188,9 +188,7 @@ const TeachersLeave = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/LeaveByUsername/${Teacher}/`
-        );
+        const res = await axios.get(`${subURL}/LeaveByUsername/${Teacher}/`);
         //console.log(res.data);
 
         setLeaveByUsername(res.data);
@@ -482,7 +480,7 @@ const TeachersLeave = () => {
 
       async function fetchData() {
         try {
-          const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
+          const res = await axios.get(`${subURL}/Leave/`);
           setData(res.data);
           setFilteredData(res.data);
         } catch (error) {
@@ -687,9 +685,7 @@ const TeachersLeave = () => {
     async function fetchData() {
       console.log("this is the username -", user);
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/LeaveByUsername/${user}/`
-        );
+        const res = await axios.get(`${subURL}/LeaveByUsername/${user}/`);
         //console.log(res.data);
 
         setLeaveByUsername(res.data);
@@ -746,7 +742,7 @@ const TeachersLeave = () => {
           Authorization: "Token " + `${token}`,
         };
         const resLogin = await axios.get(
-          `http://10.0.2.2:8000/school/Leave/`,
+          `${subURL}/Leave/`,
 
           {
             headers: headers,
@@ -803,7 +799,7 @@ const TeachersLeave = () => {
           Authorization: "Token " + `${token}`,
         };
         const resLogin = await axios.get(
-          `http://10.0.2.2:8000/school/Leave/`,
+          `${subURL}/Leave/`,
 
           {
             headers: headers,
@@ -926,9 +922,7 @@ const TeachersLeave = () => {
     console.log(send[0]);
     async function fetchData() {
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/LeaveCS/${send[0]}/${send[1]}/`
-        );
+        const res = await axios.get(`${subURL}/LeaveCS/${send[0]}/${send[1]}/`);
 
         console.log("leave by class section");
         console.log(res.data);

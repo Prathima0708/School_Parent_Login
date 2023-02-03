@@ -156,9 +156,8 @@ import { Dimensions } from "react-native";
 import { useEffect, useState } from "react";
 import { mainURL, subURL } from "../components/utils/URL's";
 import axios from "axios";
-import {Button as NativeButton, Icon,Text as NativeText}from 'native-base'
+import { Button as NativeButton, Icon, Text as NativeText } from "native-base";
 function LandingScreen() {
-
   const [saveImg, setSaveImg] = useState(``);
 
   useFonts({
@@ -175,7 +174,7 @@ function LandingScreen() {
       try {
         // http://10.0.2.2:8000/school/Calendar/
         const res = await axios.get(`${subURL}/Institute/`);
-        setSaveImg(res.data[0].instituteLogo)
+        setSaveImg(res.data[0].instituteLogo);
       } catch (error) {
         console.log(error);
       }
@@ -186,14 +185,14 @@ function LandingScreen() {
 
   return (
     <>
-      <View style={[{flex:1}, {flexDirection: "column"}]}>
-        <View style={{ flex: 35, backgroundColor: "white" }} >
+      <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
+        <View style={{ flex: 35, backgroundColor: "white" }}>
           <Image
-           style={styles.bannerImage}
-          //  source={require("../assets/kinarabg2.png")
-           source={{ uri: `http://10.0.2.2:8000${saveImg}`}} 
-         />
-         <Text
+            style={styles.bannerImage}
+            //  source={require("../assets/kinarabg2.png")
+            source={{ uri: `${mainURL}${saveImg}` }}
+          />
+          <Text
             style={{
               left: 30,
               color: "grey",
@@ -210,47 +209,49 @@ function LandingScreen() {
               fontSize: deviceWidth < 370 ? 24 : 32,
               fontWeight: "900",
               fontFamily: "HindBold",
-              top:'1%'
-             }}
-           >
-             KINARA SCHOOL
-           </Text>
+              top: "1%",
+            }}
+          >
+            KINARA SCHOOL
+          </Text>
 
-           <View style={styles.typeText}>
-             <Text
-               style={{
-                 fontSize: deviceWidth < 370 ? 16 : 18,
-                 margin: 10,
-                 fontFamily: "HindRegular",
-                 top:'3%'
-               }}
-             >
-               We provide qualitative education in a safe and caring environment, 
-               inspiring all our students to reach their true potential and emerge as 
-               responsible participants in a global society.
-             </Text>
-           </View>
+          <View style={styles.typeText}>
+            <Text
+              style={{
+                fontSize: deviceWidth < 370 ? 16 : 18,
+                margin: 10,
+                fontFamily: "HindRegular",
+                top: "3%",
+              }}
+            >
+              We provide qualitative education in a safe and caring environment,
+              inspiring all our students to reach their true potential and
+              emerge as responsible participants in a global society.
+            </Text>
+          </View>
         </View>
-        <View style={{ flex: 5,backgroundColor:'white'}} >
-          <View style={[{flex:1}, {flexDirection: "row"}]}>
-            <View style={{ flex: 2.5 }} >
-
-            </View>
-            <View style={{ flex: 0.8,right:'40%',bottom:'12%' }} >
-            <NativeButton 
-              size='md'
-              onPress={signInBtnHandler}
-              
-              style={{backgroundColor:'#002D62',borderRadius:7}}
-              rightIcon={<Icon as={Ionicons} name="log-in-outline" size="md" />}
-              ><NativeText 
-                fontSize='18' 
-                color='white' 
-                fontFamily='HindBold'
-                top='0.5'
-                left='1'
-                >Login</NativeText>
-            </NativeButton>
+        <View style={{ flex: 5, backgroundColor: "white" }}>
+          <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
+            <View style={{ flex: 2.5 }}></View>
+            <View style={{ flex: 0.8, right: "40%", bottom: "12%" }}>
+              <NativeButton
+                size="md"
+                onPress={signInBtnHandler}
+                style={{ backgroundColor: "#002D62", borderRadius: 7 }}
+                rightIcon={
+                  <Icon as={Ionicons} name="log-in-outline" size="md" />
+                }
+              >
+                <NativeText
+                  fontSize="18"
+                  color="white"
+                  fontFamily="HindBold"
+                  top="0.5"
+                  left="1"
+                >
+                  Login
+                </NativeText>
+              </NativeButton>
             </View>
           </View>
         </View>
@@ -261,7 +262,7 @@ function LandingScreen() {
     //     <Image
     //       style={styles.bannerImage}
     //       //source={require("../assets/kinarabg2.png")
-    //       source={{ uri: `http://10.0.2.2:8000${saveImg}` }} 
+    //       source={{ uri: `http://10.0.2.2:8000${saveImg}` }}
     //     />
     //     {/* <Image style={styles.logo} source={require("../assets/Asset2.png")} /> */}
     //     <View style={styles.textContainer}>

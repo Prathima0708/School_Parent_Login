@@ -196,7 +196,7 @@ function ParentsLoginScreen() {
   const [user, setUser] = useState("");
   const route = useRoute();
   const navigation = useNavigation();
-  const [group,setGroup]=useState("")
+  const [group, setGroup] = useState("");
   //const phone = navigation.getParent("phone");
   async function fetchUser() {
     USERNAME = await AsyncStorage.getItem("UserName");
@@ -265,36 +265,33 @@ function ParentsLoginScreen() {
   useEffect(() => {
     async function getGroup() {
       Group = await AsyncStorage.getItem("datagroup");
-       
-      setGroup(Group)
+
+      setGroup(Group);
     }
     getGroup();
   }, []);
-  
+
   useEffect(() => {
     const subscription1 = Notifications.addNotificationReceivedListener(
       async (notification) => {
         console.log("Notification received");
         console.log(group);
-       // setOpenCardModal(false);
+        // setOpenCardModal(false);
 
         //  console.log("id is", specificData.id);
-
-        
       }
     );
 
     const subscription2 = Notifications.addNotificationResponseReceivedListener(
       (response) => {
         console.log("Notification response received");
-       
-       // if(Group=='staff'){
-          navigation.navigate("NoticeBoard");
-       // }
+
+        // if(Group=='staff'){
+        navigation.navigate("NoticeBoard");
+        // }
         // else{
         //   navigation.navigate("NoticeBoard");
         // }
-        
       }
     );
     return () => {
@@ -369,7 +366,7 @@ function ParentsLoginScreen() {
         <View style={{ flex: 2, top: -10 }}>
           <ImageSlider />
         </View>
-        <View
+        {/* <View
           style={{ flex: 0.5, backgroundColor: "white", right: 20, bottom: 10 }}
         >
           <Pressable
@@ -377,9 +374,9 @@ function ParentsLoginScreen() {
             onPress={() => navigation.navigate("Chat")}
           >
             <Ionicons name="chatbubble-sharp" size={38} color="#368dff" />
-            {/* <Text style={styles.btnText}>Chat</Text> */}
+           
           </Pressable>
-        </View>
+        </View> */}
       </View>
     </>
   );
@@ -388,7 +385,9 @@ function ParentsLoginScreen() {
 export default ParentsLoginScreen;
 const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
-console.log(deviceHieght,deviceWidth)
+
+console.log(deviceHieght)
+console.log(deviceWidth)
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
@@ -396,10 +395,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // padding: deviceWidth < 718 ? 20 : 32,
   },
-  mainHeading:{
-    fontSize:18,
-    fontFamily:'HindSemiBold',
-    left:'33%'
+  mainHeading: {
+    fontSize: 18,
+    fontFamily: "HindSemiBold",
+    left: "33%",
   },
   title: {
     fontSize: 20,

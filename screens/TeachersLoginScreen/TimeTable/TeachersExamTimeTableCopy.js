@@ -109,7 +109,7 @@ const TecahersExamTimeTableCopy = () => {
 
   useEffect(() => {
     axios
-      .get("http://10.0.2.2:8000/school/Studentclass/")
+      .get(`${subURL}/Studentclass/`)
       .then((response) => {
         let newArray = response.data.map((item) => {
           return {
@@ -163,7 +163,7 @@ const TecahersExamTimeTableCopy = () => {
 
     async function fetchData() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Exam/`);
+        const res = await axios.get(`${subURL}/Exam/`);
         setShowExamData(res.data);
       } catch (error) {
         console.log(error);
@@ -341,7 +341,7 @@ const TecahersExamTimeTableCopy = () => {
   function viewExamList() {
     async function viewExamList() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Exam/`);
+        const res = await axios.get(`${subURL}/Exam/`);
         console.log(res.data);
 
         setShowExamData(res.data);
@@ -424,7 +424,7 @@ const TecahersExamTimeTableCopy = () => {
       }
       async function fetchData() {
         try {
-          const res = await axios.get(`http://10.0.2.2:8000/school/Exam/`);
+          const res = await axios.get(`${subURL}/Exam/`);
           // console.log(res.data);
           setShowExamData(res.data);
         } catch (error) {

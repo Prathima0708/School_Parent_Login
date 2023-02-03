@@ -215,7 +215,7 @@ const TeachersHomework = () => {
   useEffect(() => {
     async function fetchStudentClass() {
       axios
-        .get("http://10.0.2.2:8000/school/Studentclass/")
+        .get(`${subURL}/Studentclass/`)
         .then((response) => {
           let newArray = response.data.map((item) => {
             return {
@@ -413,7 +413,7 @@ const TeachersHomework = () => {
 
       async function fetchData() {
         try {
-          const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
+          const res = await axios.get(`${subURL}/Homework/`);
           setHomeworkData(res.data);
         } catch (error) {
           console.log(error);
@@ -630,7 +630,7 @@ const TeachersHomework = () => {
   function showHomework() {
     async function fetchData() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
+        const res = await axios.get(`${subURL}/Homework/`);
         setHomeworkData(res.data);
 
         setForHomeworkForm({
@@ -721,7 +721,7 @@ const TeachersHomework = () => {
       }
       async function fetchData() {
         try {
-          const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
+          const res = await axios.get(`${subURL}/Homework/`);
           // console.log(res.data);
           setHomeworkData(res.data);
         } catch (error) {
