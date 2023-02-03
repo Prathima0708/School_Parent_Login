@@ -55,7 +55,6 @@ const MyClasses = () => {
           setData(response.data);
           setFilteredData(response.data);
           mainData = response.data;
-         
         })
         .catch((e) => {
           console.log(e);
@@ -76,44 +75,34 @@ const MyClasses = () => {
 
   async function fetchClassTeacher() {
     try {
-      const res = await axios.get(
-        `http://10.0.2.2:8000/school/IsClassteacher/${userID}`
-      );
+      const res = await axios.get(`${subURL}/IsClassteacher/${userID}`);
 
       classData = res.data;
       setClassTeacherData(classTeacherData);
       let ids = [];
 
       for (let i = 0; i < mainData.length; i++) {
-    ;
         ids.push(mainData[i].id);
       }
-    
+
       for (let i = 0; i < classData.length; i++) {
         classIds.push(classData[i].id);
       }
-     
-     
+
       let result = mainData.filter((element) =>
         classData.some((ele) => element.id === ele.id)
       );
-
 
       filteredCT = result;
 
       try {
         await AsyncStorage.setItem("classteacher", JSON.stringify(result));
-      } catch (error) {
-      
-      }
-    
+      } catch (error) {}
     } catch (error) {
       console.log(error);
     }
   }
   fetchClassTeacher();
-
- 
 
   function renderClass(itemData) {
     return <DisplayClass {...itemData.item} />;
@@ -165,7 +154,15 @@ const MyClasses = () => {
             ]}
           >
             <View style={{ flex: 0.7, alignItems: "center" }}>
-              <Text style={{ marginVertical: 15 ,fontFamily:'HindBold',fontSize:17}}>Class List</Text>
+              <Text
+                style={{
+                  marginVertical: 15,
+                  fontFamily: "HindBold",
+                  fontSize: 17,
+                }}
+              >
+                Class List
+              </Text>
               <SearchBar
                 style={styles.searchBar}
                 textInputStyle={{
@@ -195,11 +192,13 @@ const MyClasses = () => {
                   >
                     <View style={styles.space} />
                   </View>
-                  <View style={{ 
-                    flex: 1,
-                     alignItems: "flex-start" ,
-                     top: deviceHieght > 800 ? '2%' : '0%'
-                     }}>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: "flex-start",
+                      top: deviceHieght > 800 ? "2%" : "0%",
+                    }}
+                  >
                     <Text
                       style={{
                         fontFamily: "HindSemiBold",
@@ -236,25 +235,16 @@ const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
-
-
-
-
   space: {
     width: 20,
     height: 20,
     backgroundColor: "#DE9317",
-    left:'20%'
+    left: "20%",
   },
- 
 
- 
- 
   searchBar: {
     backgroundColor: "#F0F3F4",
   },
-
-
 });
 
 export default MyClasses;

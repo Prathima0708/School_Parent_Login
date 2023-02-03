@@ -904,6 +904,7 @@ const TeachersCalendar = () => {
   function linkPressedHandler() {
     setShowForm(true);
     setShowList(false);
+    setShowToggleBtn(false);
 
     setForCalendarList({
       color: "white",

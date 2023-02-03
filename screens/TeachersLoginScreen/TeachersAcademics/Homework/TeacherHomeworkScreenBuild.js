@@ -379,7 +379,7 @@ const TeacherHomeworkScreenBuild = () => {
   useEffect(() => {
     async function fetchStudentClass() {
       axios
-        .get("http://10.0.2.2:8000/school/Studentclass/")
+        .get(`${subURL}/Studentclass/`)
         .then((response) => {
           newArray = response.data.map((item) => {
             return {
@@ -579,7 +579,7 @@ const TeacherHomeworkScreenBuild = () => {
       ]);
       async function fetchData() {
         try {
-          const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
+          const res = await axios.get(`${subURL}/Homework/`);
           setHomeworkData(res.data);
           setFilteredData(res.data);
         } catch (error) {
@@ -815,7 +815,7 @@ const TeacherHomeworkScreenBuild = () => {
   function showHomework() {
     async function fetchData() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
+        const res = await axios.get(`${subURL}/Homework/`);
         setHomeworkData(res.data);
         setFilteredData(res.data);
       } catch (error) {
@@ -918,7 +918,7 @@ const TeacherHomeworkScreenBuild = () => {
       }
       async function fetchData() {
         try {
-          const res = await axios.get(`http://10.0.2.2:8000/school/Homework/`);
+          const res = await axios.get(`${subURL}/Homework/`);
 
           setHomeworkData(res.data);
           setFilteredData(res.data);
@@ -950,6 +950,20 @@ const TeacherHomeworkScreenBuild = () => {
       backgroundColor: "#F4F6F6",
       borderRadius: 5,
     });
+    setEnteredSelectedTouched(false);
+    setEnteredSelectedSubTouched(false);
+
+    setEnteredSubjectTouched(false);
+    setEnteredFromDateTouched(false);
+    setEnteredHomeWorkTouched(false);
+    setEnteredRemarkTouched(false);
+    setEnteredtoDateTouched(false);
+    setEnteredImageTouched(false);
+    setIsEdit(false);
+
+    setSubLabel(false);
+    setRemarkLabel(false);
+    setHomeworkLabel(false);
   }
 
   function searchHW() {

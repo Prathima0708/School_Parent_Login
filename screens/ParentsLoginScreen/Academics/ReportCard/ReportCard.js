@@ -23,7 +23,7 @@ import {
   Section,
   StudentPhoto,
 } from "../../../../components/StudentItem/StudentItem";
-import { subURL } from "../../../../components/utils/URL's";
+import { mainURL, subURL } from "../../../../components/utils/URL's";
 var obtMarks = [];
 const ReportCard = () => {
   const [data, setData] = useState([]);
@@ -49,9 +49,9 @@ const ReportCard = () => {
   useEffect(() => {
     if (myRef.current && myRef.current.setNativeProps) {
       const styleObj = {
-        borderWidth: 3,
+        borderWidth: 2,
         //borderRadius: 4,
-        borderColor: "black",
+        borderColor: "white",
       };
       myRef.current.setNativeProps({
         style: styleObj,
@@ -141,7 +141,7 @@ const ReportCard = () => {
               /> */}
             <NativeImage
               source={{
-                uri: `http://10.0.2.2:8000${StudentPhoto}`,
+                uri: `${mainURL}${StudentPhoto}`,
               }}
               alt="Student Image"
               size="lg"
@@ -495,7 +495,7 @@ const ReportCard = () => {
                                   data.kannada_max_mark +
                                   data.computer_max_mark)) *
                               100
-                            ).toFixed(2)}
+                            ).toFixed(2) + "%"}
                           </Text>
                           <Text
                             style={[
@@ -511,7 +511,15 @@ const ReportCard = () => {
                                   : styles.textPassColor,
                               ]}
                             >
-                              {isFail ? "Fail" : " Pass"}
+                              {data.maths_obt_mark < 35 ||
+                              data.english_obt_mark < 35 ||
+                              data.science_obt_mark < 35 ||
+                              data.hindi_obt_mark < 35 ||
+                              data.social_obt_mark < 35 ||
+                              data.kannada_obt_mark < 35 ||
+                              data.computer_obt_mark < 35
+                                ? "Fail"
+                                : "Pass"}
                             </Text>
                           </Text>
                         </View>
@@ -626,7 +634,7 @@ const styles = StyleSheet.create({
     fontFamily: "HindSemiBold",
   },
   textColor: {
-    color: "red",
+    color: "black",
     fontFamily: "HindSemiBold",
   },
   textPassTableColor: {
@@ -634,7 +642,7 @@ const styles = StyleSheet.create({
     fontFamily: "HindSemiBold",
   },
   textPassColor: {
-    color: "green",
+    color: "black",
   },
   space: {
     width: 20,
@@ -656,7 +664,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     marginHorizontal: 20,
     //  backgroundColor: "#3e04c3",
-    backgroundColor: "#f0f0fc",
+    backgroundColor: "darkblue",
     flexDirection: "row",
     alignItems: "center",
 
@@ -664,7 +672,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   textBase: {
-    color: "#1E84A4",
+    color: "white",
     // color: "#0D98BA",
     marginRight: 10,
   },
@@ -679,7 +687,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     padding: 1,
     backgroundColor: "white",
-    borderColor: "black",
+    borderColor: "white",
     borderWidth: 5,
     justifyContent: "center",
     alignItems: "center",

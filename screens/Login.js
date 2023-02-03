@@ -716,7 +716,7 @@ import {
   Button as NativeButton,
 } from "native-base";
 import { value } from "./ParentsLoginScreen/ParentsLoginScreen";
-import { subURL } from "../components/utils/URL's";
+import { mainURL, subURL } from "../components/utils/URL's";
 import * as Notifications from "expo-notifications";
 
 export var Token,
@@ -866,7 +866,7 @@ function Login() {
     const subscription2 = Notifications.addNotificationResponseReceivedListener(
       (response) => {
         console.log("Notification response received");
-       
+
         //console.log(response)
       }
     );
@@ -1193,7 +1193,7 @@ function Login() {
                 // deviceWidth < 370
                 //   ? require("../assets/kinaraui4.png")
                 //   : require("../assets/kinarabg2.png")
-                { uri: `http://10.0.2.2:8000${saveImg}` }
+                { uri: `${mainURL}${saveImg}` }
               }
             />
           )}

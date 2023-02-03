@@ -151,9 +151,7 @@ function EditTeachersTimeTable() {
           onPress: () => {
             async function fetchData() {
               try {
-                const res = await axios.get(
-                  `http://10.0.2.2:8000/school/Exam/`
-                );
+                const res = await axios.get(`${subURL}/Exam/`);
                 // console.log(res.data);
                 setShowExamData(res.data);
                 //   setFilteredData(res.data);

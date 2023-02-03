@@ -21,7 +21,12 @@ import {
   Section,
 } from "../../../../components/StudentItem/StudentItem";
 import moment from "moment";
-import { Button as NativeButton, Divider, VStack, Text as NativeText } from "native-base";
+import {
+  Button as NativeButton,
+  Divider,
+  VStack,
+  Text as NativeText,
+} from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { subURL } from "../../../../components/utils/URL's";
 export var ID;
@@ -88,9 +93,7 @@ const TimeTable = () => {
     setShowTable(false);
     setShowForm(true);
     try {
-      const res = await axios.get(
-        `http://10.0.2.2:8000/school/ExamByClass/${className}/`
-      );
+      const res = await axios.get(`${subURL}/ExamByClass/${className}/`);
       console.log(res.data);
 
       setExamData(res.data);
@@ -281,19 +284,20 @@ const TimeTable = () => {
                 >
                   MON
                 </Button> */}
-                <NativeButton 
-                   size="sm"
-                   variant={!isMonActive ? "outline" : "solid"}
-                   onPress={mondayPressedHandler}>
-                    <Text
-                      style={{
-                        fontSize: 12,
-                        fontFamily: "HindSemiBold",
-                        color: !isMonActive ? "black" : "white"
-                      }}
-                    >
-                      MON
-                    </Text>
+                <NativeButton
+                  size="sm"
+                  variant={!isMonActive ? "outline" : "solid"}
+                  onPress={mondayPressedHandler}
+                >
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      fontFamily: "HindSemiBold",
+                      color: !isMonActive ? "black" : "white",
+                    }}
+                  >
+                    MON
+                  </Text>
                 </NativeButton>
               </View>
               <View style={styles.space} />
@@ -305,19 +309,20 @@ const TimeTable = () => {
                 >
                   TUE
                 </Button> */}
-                <NativeButton 
-                   size="sm"
-                   variant={!isTueActive ? "outline" : "solid"}
-                   onPress={tuesdayPressedHandler}>
-                    <Text
-                      style={{
-                        fontSize: 12,
-                        fontFamily: "HindSemiBold",
-                        color: !isTueActive ? "black" : "white"
-                      }}
-                    >
-                      TUE
-                    </Text>
+                <NativeButton
+                  size="sm"
+                  variant={!isTueActive ? "outline" : "solid"}
+                  onPress={tuesdayPressedHandler}
+                >
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      fontFamily: "HindSemiBold",
+                      color: !isTueActive ? "black" : "white",
+                    }}
+                  >
+                    TUE
+                  </Text>
                 </NativeButton>
               </View>
               <View style={styles.space} />
@@ -329,19 +334,20 @@ const TimeTable = () => {
                 >
                   WED
                 </Button> */}
-                <NativeButton 
-                   size="sm"
-                   variant={!isWedActive ? "outline" : "solid"}
-                   onPress={wednesdayPressedHandler}>
-                    <Text
-                      style={{
-                        fontSize: 12,
-                        fontFamily: "HindSemiBold",
-                        color: !isWedActive ? "black" : "white"
-                      }}
-                    >
-                      WED
-                    </Text>
+                <NativeButton
+                  size="sm"
+                  variant={!isWedActive ? "outline" : "solid"}
+                  onPress={wednesdayPressedHandler}
+                >
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      fontFamily: "HindSemiBold",
+                      color: !isWedActive ? "black" : "white",
+                    }}
+                  >
+                    WED
+                  </Text>
                 </NativeButton>
               </View>
               <View style={styles.space} />
@@ -353,36 +359,38 @@ const TimeTable = () => {
                 >
                   THU
                 </Button> */}
-                <NativeButton 
-                   size="sm"
-                   variant={!isThuActive ? "outline" : "solid"}
-                   onPress={thursdayPressedHandler}>
-                    <Text
-                      style={{
-                        fontSize: 12,
-                        fontFamily: "HindSemiBold",
-                        color: !isThuActive ? "black" : "white"
-                      }}
-                    >
-                      THU
-                    </Text>
+                <NativeButton
+                  size="sm"
+                  variant={!isThuActive ? "outline" : "solid"}
+                  onPress={thursdayPressedHandler}
+                >
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      fontFamily: "HindSemiBold",
+                      color: !isThuActive ? "black" : "white",
+                    }}
+                  >
+                    THU
+                  </Text>
                 </NativeButton>
               </View>
               <View style={styles.space} />
               <View style={{ flex: 1 }}>
-                <NativeButton 
-                size="sm"
+                <NativeButton
+                  size="sm"
                   variant={!isFriActive ? "outline" : "solid"}
-                  onPress={fridayPressedHandler}>
-                    <Text
-                      style={{
-                        fontSize: 12,
-                        fontFamily: "HindSemiBold",
-                        color: !isFriActive ? "black" : "white"
-                      }}
-                    >
-                      FRI
-                    </Text>
+                  onPress={fridayPressedHandler}
+                >
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      fontFamily: "HindSemiBold",
+                      color: !isFriActive ? "black" : "white",
+                    }}
+                  >
+                    FRI
+                  </Text>
                 </NativeButton>
                 {/* <Button
                   size="sm"
@@ -392,7 +400,6 @@ const TimeTable = () => {
                 >
                   FRI
                 </Button> */}
-                
               </View>
               <View style={styles.space} />
               <View style={{ flex: 1 }}>
@@ -403,19 +410,20 @@ const TimeTable = () => {
                 >
                   SAT
                 </Button> */}
-                <NativeButton 
-                size="sm"
+                <NativeButton
+                  size="sm"
                   variant={!isSatActive ? "outline" : "solid"}
-                  onPress={saturdayPressedHandler}>
-                    <Text
-                      style={{
-                        fontSize: 12,
-                        fontFamily: "HindSemiBold",
-                        color: !isSatActive ? "black" : "white"
-                      }}
-                    >
-                      SAT
-                    </Text>
+                  onPress={saturdayPressedHandler}
+                >
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      fontFamily: "HindSemiBold",
+                      color: !isSatActive ? "black" : "white",
+                    }}
+                  >
+                    SAT
+                  </Text>
                 </NativeButton>
               </View>
             </View>
@@ -457,17 +465,21 @@ const TimeTable = () => {
                                             { left: "15%" },
                                           ]}
                                         >
-                                          { moment(data.from_time,"HH:mm").format('LT')}
+                                          {moment(
+                                            data.from_time,
+                                            "HH:mm"
+                                          ).format("LT")}
                                           {/* {moment(
                                             data.from_time,
                                             "HH:mm"
-                                          ).format("hh:mm ")} */}
-                                          {" "}
+                                          ).format("hh:mm ")} */}{" "}
                                           {"-"} {""}
                                           {/* {moment(data.to_time, "HH:mm").format(
                                             "hh:mm "
                                           )} */}
-                                          { moment(data.to_time,"HH:mm").format('LT')}
+                                          {moment(data.to_time, "HH:mm").format(
+                                            "LT"
+                                          )}
                                         </Text>
                                       </View>
                                     </View>
@@ -550,17 +562,21 @@ const TimeTable = () => {
                                             { left: "15%" },
                                           ]}
                                         >
-                                           { moment(data.from_time,"HH:mm").format('LT')}
+                                          {moment(
+                                            data.from_time,
+                                            "HH:mm"
+                                          ).format("LT")}
                                           {/* {moment(
                                             data.from_time,
                                             "HH:mm"
-                                          ).format("hh:mm ")} */}
-                                          {" "}
+                                          ).format("hh:mm ")} */}{" "}
                                           {"-"} {""}
                                           {/* {moment(data.to_time, "HH:mm").format(
                                             "hh:mm "
                                           )} */}
-                                          { moment(data.to_time,"HH:mm").format('LT')}
+                                          {moment(data.to_time, "HH:mm").format(
+                                            "LT"
+                                          )}
                                         </Text>
                                       </View>
                                     </View>
@@ -643,17 +659,21 @@ const TimeTable = () => {
                                             { left: "15%" },
                                           ]}
                                         >
-                                           { moment(data.from_time,"HH:mm").format('LT')}
+                                          {moment(
+                                            data.from_time,
+                                            "HH:mm"
+                                          ).format("LT")}
                                           {/* {moment(
                                             data.from_time,
                                             "HH:mm"
-                                          ).format("hh:mm ")} */}
-                                          {" "}
+                                          ).format("hh:mm ")} */}{" "}
                                           {"-"} {""}
                                           {/* {moment(data.to_time, "HH:mm").format(
                                             "hh:mm "
                                           )} */}
-                                          { moment(data.to_time,"HH:mm").format('LT')}
+                                          {moment(data.to_time, "HH:mm").format(
+                                            "LT"
+                                          )}
                                         </Text>
                                       </View>
                                     </View>
@@ -736,17 +756,21 @@ const TimeTable = () => {
                                             { left: "15%" },
                                           ]}
                                         >
-                                           { moment(data.from_time,"HH:mm").format('LT')}
+                                          {moment(
+                                            data.from_time,
+                                            "HH:mm"
+                                          ).format("LT")}
                                           {/* {moment(
                                             data.from_time,
                                             "HH:mm"
-                                          ).format("hh:mm ")} */}
-                                          {" "}
+                                          ).format("hh:mm ")} */}{" "}
                                           {"-"} {""}
                                           {/* {moment(data.to_time, "HH:mm").format(
                                             "hh:mm "
                                           )} */}
-                                          { moment(data.to_time,"HH:mm").format('LT')}
+                                          {moment(data.to_time, "HH:mm").format(
+                                            "LT"
+                                          )}
                                         </Text>
                                       </View>
                                     </View>
@@ -829,17 +853,21 @@ const TimeTable = () => {
                                             { left: "15%" },
                                           ]}
                                         >
-                                           { moment(data.from_time,"HH:mm").format('LT')}
+                                          {moment(
+                                            data.from_time,
+                                            "HH:mm"
+                                          ).format("LT")}
                                           {/* {moment(
                                             data.from_time,
                                             "HH:mm"
-                                          ).format("hh:mm ")} */}
-                                          {" "}
+                                          ).format("hh:mm ")} */}{" "}
                                           {"-"} {""}
                                           {/* {moment(data.to_time, "HH:mm").format(
                                             "hh:mm "
                                           )} */}
-                                          { moment(data.to_time,"HH:mm").format('LT')}
+                                          {moment(data.to_time, "HH:mm").format(
+                                            "LT"
+                                          )}
                                         </Text>
                                       </View>
                                     </View>
@@ -922,17 +950,21 @@ const TimeTable = () => {
                                             { left: "15%" },
                                           ]}
                                         >
-                                           { moment(data.from_time,"HH:mm").format('LT')}
+                                          {moment(
+                                            data.from_time,
+                                            "HH:mm"
+                                          ).format("LT")}
                                           {/* {moment(
                                             data.from_time,
                                             "HH:mm"
-                                          ).format("hh:mm ")} */}
-                                          {" "}
+                                          ).format("hh:mm ")} */}{" "}
                                           {"-"} {""}
                                           {/* {moment(data.to_time, "HH:mm").format(
                                             "hh:mm "
                                           )} */}
-                                          { moment(data.to_time,"HH:mm").format('LT')}
+                                          {moment(data.to_time, "HH:mm").format(
+                                            "LT"
+                                          )}
                                         </Text>
                                       </View>
                                     </View>
@@ -1352,9 +1384,9 @@ const styles = StyleSheet.create({
     top: "10%",
   },
   cardStyle: {
-    flex: 20,
+      flex: 20,
     backgroundColor: "#D6EAFF",
-    elevation: 5,
+    elevation: 3,
     paddingTop: 10,
     paddingBottom: 10,
     borderRadius: 10,

@@ -101,7 +101,7 @@
 //         {Icons.map((icons) => (
 //           <Image source={icons.uri}  style={styles.card}/>
 //         ))}
-          
+
 //         <View
 //           style={[
 //             styles.cornerLabel,
@@ -168,64 +168,71 @@
 
 // export default ImageSlider;
 
-
-
 //new one
-import React from 'react';
-import {
-  StyleSheet, View, Text, Image, Dimensions,
-} from 'react-native';
-import Carousel, { PaginationLight } from 'react-native-x-carousel';
+import React from "react";
+import { StyleSheet, View, Text, Image, Dimensions } from "react-native";
+import Carousel, { PaginationLight } from "react-native-x-carousel";
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
 const DATA = [
   {
-    coverImageUri: 'http://10.0.2.2:8000/images/Screenshot_2020-09-20_131431_NZm4cPN.png',
+    // coverImageUri: 'http://10.0.2.2:8000/images/Screenshot_2020-09-20_131431_NZm4cPN.png',
+    coverImageUri:
+      "https://kinaraeducation.in/wp-content/uploads/2023/01/WhatsApp-Image-2023-01-18-at-10.19.00-AM.jpeg",
     // cornerLabelColor: '#FFD300',
     // cornerLabelText: 'GOTY',
   },
   {
-    coverImageUri: '../../assets/a2.jpg',
+    coverImageUri:
+      "https://kinaraeducation.in/wp-content/uploads/2023/01/New-Year-celebration-8.jpeg",
     // cornerLabelColor: '#0080ff',
     // cornerLabelText: 'NEW',
   },
   {
-    coverImageUri: '../../assets/a3.jpg',
+    coverImageUri:
+      "https://kinaraeducation.in/wp-content/uploads/2023/01/WhatsApp-Image-2023-01-18-at-10.19.03-AM.jpeg",
     // cornerLabelColor: '#2ECC40',
     // cornerLabelText: '-75%',
   },
   {
-    coverImageUri: '../../assets/a4.jpg',
+    coverImageUri:
+      "https://kinaraeducation.in/wp-content/uploads/2023/01/WhatsApp-Image-2023-01-17-at-10.23.05.jpeg",
+    // cornerLabelColor: '#2ECC40',
+    // cornerLabelText: '-20%',
+  },
+  {
+    coverImageUri: "http://kinaraeducation.in/wp-content/uploads/2021/10/1.jpg",
     // cornerLabelColor: '#2ECC40',
     // cornerLabelText: '-20%',
   },
 ];
 
 const ImageSlider = () => {
-  const renderItem = data => (
-    <View
-      key={data.coverImageUri}
-      style={styles.cardContainer}
-    >
-      <View
-        style={styles.cardWrapper}
-      >
+  const renderItem = (data) => (
+    <View key={data.coverImageUri} style={styles.cardContainer}>
+      <View style={styles.cardWrapper}>
         <Image
           style={styles.card}
-          // source={{ uri: data.coverImageUri }}
-         source={require("../../assets/a1.jpg")}
-         // source={{require:data.coverImageUri}}
+          source={{ uri: data.coverImageUri }}
+          //  source={require("../../assets/kinara1.jpg")}
+          // source={{require:data.coverImageUri}}
         />
+        {/* {DATA.map((image) => (
+          <Image
+            style={styles.card}
+            source={{ uri: image.coverImageUri }}
+            // source={image.coverImageUri}
+            // source={{require:data.coverImageUri}}
+          />
+        ))} */}
         <View
           style={[
             styles.cornerLabel,
             { backgroundColor: data.cornerLabelColor },
           ]}
         >
-          <Text style={styles.cornerLabelText}>
-            { data.cornerLabelText }
-          </Text>
+          <Text style={styles.cornerLabelText}>{data.cornerLabelText}</Text>
         </View>
       </View>
     </View>
@@ -247,33 +254,33 @@ const ImageSlider = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
   cardContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     width,
   },
   cardWrapper: {
     borderRadius: 8,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   card: {
     width: width * 0.9,
     height: width * 0.5,
   },
   cornerLabel: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     right: 0,
     borderTopLeftRadius: 8,
   },
   cornerLabelText: {
     fontSize: 12,
-    color: '#fff',
-    fontWeight: '600',
+    color: "#fff",
+    fontWeight: "600",
     paddingLeft: 5,
     paddingRight: 5,
     paddingTop: 2,

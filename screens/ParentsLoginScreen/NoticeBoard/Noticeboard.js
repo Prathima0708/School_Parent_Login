@@ -672,7 +672,7 @@ const NoticeBoard = () => {
   return (
     <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
       <View style={styles.headingView}>
-        <Text style={styles.textStyle}>Upcoming Events</Text>
+        <Text style={styles.textStyle}>Notifications</Text>
       </View>
       <View style={{ flex: 2, backgroundColor: "white" }}>
         <ScrollView>

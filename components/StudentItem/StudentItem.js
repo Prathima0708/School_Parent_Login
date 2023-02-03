@@ -13,6 +13,7 @@ import { Image as NativeImage } from "native-base";
 import ImageSlider from "../../screens/ParentsLoginScreen/ImageSlider";
 import { useEffect, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { mainURL } from "../utils/URL's";
 export var studentId,
   className,
   StudentRegNo,
@@ -73,7 +74,7 @@ function StudentItem({
     AcademicYear = academic_year;
     StudentPhoto = student_photo;
     console.log(id);
-    
+
     navigation.navigate("Category");
   }
   const myRef = useRef(null);
@@ -113,7 +114,7 @@ function StudentItem({
               width="100px"/> */}
             <NativeImage
               source={{
-                uri: `http://10.0.2.2:8000${student_photo}`,
+                uri: `${mainURL}${student_photo}`,
               }}
               alt="Student Image"
               size="lg"
@@ -190,7 +191,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     marginVertical: 15,
-   backgroundColor: "#f0f0fc",
+    backgroundColor: "#f0f0fc",
     padding: 15,
   },
   studentItem: {

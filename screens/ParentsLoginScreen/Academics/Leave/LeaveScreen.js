@@ -215,9 +215,7 @@ const LeaveScreen = () => {
 
     async function fetchData() {
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/LeaveReg/${StudentRegNo}/`
-        );
+        const res = await axios.get(`${subURL}/LeaveReg/${StudentRegNo}/`);
         console.log(res.data);
 
         setData(res.data);
@@ -474,13 +472,9 @@ const LeaveScreen = () => {
             Authorization: "Token " + `${token}`,
           };
 
-          const resLogin = await axios.post(
-            `http://10.0.2.2:8000/school/Leave/`,
-            FormData,
-            {
-              headers: headers,
-            }
-          );
+          const resLogin = await axios.post(`${subURL}/Leave/`, FormData, {
+            headers: headers,
+          });
 
           console.log("post req response -", resLogin.data);
         } catch (error) {
@@ -663,7 +657,7 @@ const LeaveScreen = () => {
         };
         // const dataForm = FormData;
         const resLogin = await axios.delete(
-          `http://10.0.2.2:8000/school/Leave/${ID}/`,
+          `${subURL}/Leave/${ID}/`,
           // FormData,
           {
             headers: headers,

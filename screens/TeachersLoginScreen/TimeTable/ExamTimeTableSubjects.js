@@ -4,35 +4,42 @@ import axios from "axios";
 import { subURL } from "../../../components/utils/URL's";
 import { Card } from "react-native-paper";
 import { ID } from "./TecahersExamTimeTable";
-import { Alert, Badge, Box, CloseIcon, Heading,HStack,IconButton,Text as NativeText, VStack } from 'native-base';
+import {
+  Alert,
+  Badge,
+  Box,
+  CloseIcon,
+  Heading,
+  HStack,
+  IconButton,
+  Text as NativeText,
+  VStack,
+} from "native-base";
 import moment from "moment";
 import TeachersHome from "../BottomTab/TeachersHome";
 import { useRoute } from "@react-navigation/native";
 
 const ExamTimeTableSubjects = () => {
   const [data, setData] = useState([]);
-  const [dataIsThere,setDataIsThere]=useState(false);
+  const [dataIsThere, setDataIsThere] = useState(false);
   const route = useRoute();
 
   //console.log("this is class name", route.params.className);
 
- //console.log("id -", ID);
+  //console.log("id -", ID);
   useEffect(() => {
     async function viewExamList() {
       try {
         const res = await axios.get(`${subURL}/AddmoreExam_list_by_exam/${ID}`);
-      //  console.log(res.data);
+        //  console.log(res.data);
 
         setData(res.data);
-       
-        if(res.data.length > 0){
-       
+
+        if (res.data.length > 0) {
           setDataIsThere(true);
-        }else{
-          
+        } else {
           setDataIsThere(false);
         }
-
       } catch (error) {
         console.log(error);
       }
@@ -42,167 +49,171 @@ const ExamTimeTableSubjects = () => {
 
   return (
     <>
-    {dataIsThere ? <View style={styles.root}>
-            {/* <View style={{alignItems:'center',marginVertical:20}}>
+      {dataIsThere ? (
+        <View style={styles.root}>
+          {/* <View style={{alignItems:'center',marginVertical:20}}>
                 <Heading fontSize={20}>Exam Time Table</Heading>
             </View> */}
-             <View
+          <View
+            style={[
+              {
+                // Try setting `flexDirection` to `"row"`.
+                flex: 1,
+                flexDirection: "column",
+                padding: 10,
+                marginTop: "10%",
+              },
+            ]}
+          >
+            <View style={{ flex: 1 }}>
+              <View
                 style={[
-
                   {
                     // Try setting `flexDirection` to `"row"`.
-                    flex:1,
-                    flexDirection: 'column',
-                    padding:10,
-                    marginTop:'10%'
+                    flex: 1,
+                    flexDirection: "row",
                   },
-                ]}>
-                <View style={{flex: 1}} >
-                  <View
-                    style={[
-                     
-                      {
-                        // Try setting `flexDirection` to `"row"`.
-                        flex:1,
-                        flexDirection: 'row',
-                      },
-                    ]}>
-                    <View style={{flex: 1,alignItems:'center',marginLeft:'20%'}} >
-                    <Text style={styles.labelFont}>Class name-</Text>
-                    </View>
-                    <View style={{flex: 1}} >
-                    <Text 
-                       
-                       style={[styles.labelFontValue,{}]}>{route.params.className}
-                     </Text>
-                    </View>
-                  </View>
-                </View>
-                <View style={{flex: 1}} >
+                ]}
+              >
                 <View
-                    style={[
-                 
-                      {
-                        // Try setting `flexDirection` to `"row"`.
-                        flex:1,
-                        flexDirection: 'row',
-                      },
-                    ]}>
-                    <View style={{flex: 1,alignItems:'center',marginLeft:'20%'}} >
-                    <Text style={styles.labelFont}>Exam name-</Text>
-                    </View>
-                    <View style={{flex: 1}} >
-                    <Text 
-                          
-                          style={[styles.labelFontValue,{}]}>{route.params.examName}
-                        </Text>
-                    </View>
-                  </View>
+                  style={{ flex: 1, alignItems: "center", marginLeft: "20%" }}
+                >
+                  <Text style={styles.labelFont}>Class name </Text>
                 </View>
-                <View style={{flex: 1}} >
-                <View
-                    style={[
-                  
-                      {
-                        // Try setting `flexDirection` to `"row"`.
-                        flex:1,
-                        flexDirection: 'row',
-                      },
-                    ]}>
-                    <View style={{flex: 1,alignItems:'flex-start',marginLeft:'28%'}} >
-                    <Text style={styles.labelFont}>Hour-</Text>
-                    </View>
-                    <View style={{flex: 1}} >
-                    <Text 
-
-                    style={[styles.labelFontValue,{}]}>{route.params.hour}
-                    </Text>
-                    </View>
-                  </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={[styles.labelFontValue, {}]}>
+                    {route.params.className}
+                  </Text>
                 </View>
               </View>
+            </View>
+            <View style={{ flex: 1 }}>
+              <View
+                style={[
+                  {
+                    // Try setting `flexDirection` to `"row"`.
+                    flex: 1,
+                    flexDirection: "row",
+                  },
+                ]}
+              >
+                <View
+                  style={{ flex: 1, alignItems: "center", marginLeft: "20%" }}
+                >
+                  <Text style={styles.labelFont}>Exam name</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={[styles.labelFontValue, {}]}>
+                    {route.params.examName}
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View style={{ flex: 1 }}>
+              <View
+                style={[
+                  {
+                    // Try setting `flexDirection` to `"row"`.
+                    flex: 1,
+                    flexDirection: "row",
+                  },
+                ]}
+              >
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: "flex-start",
+                    marginLeft: "28%",
+                  }}
+                >
+                  <Text style={styles.labelFont}>Hour</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={[styles.labelFontValue, {}]}>
+                    {route.params.hour}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
 
-              <View style={[styles.tableTopStyle]}>
-                <>
-                  <View style={[{ flexDirection: "row",marginVertical:20 }]}>
-                    <View style={styles.tableHead}>
-                      <Text style={styles.headingFont}>Exam date</Text>
-                    </View>
-                    <View style={styles.tableHead}>
-                      <Text style={styles.headingFont}>Time</Text>
-                    </View>
-                    {/* <View style={styles.tableHead}>
+          <View style={[styles.tableTopStyle]}>
+            <>
+              <View style={[{ flexDirection: "row", marginVertical: 20 }]}>
+                <View style={styles.tableHead}>
+                  <Text style={styles.headingFont}>Exam date</Text>
+                </View>
+                <View style={styles.tableHead}>
+                  <Text style={styles.headingFont}>Time</Text>
+                </View>
+                {/* <View style={styles.tableHead}>
                       <Text style={styles.headingFont}>Hour</Text>
                     </View> */}
-                    <View style={styles.tableHead}>
-                      <Text style={styles.headingFont}>Subject</Text>
-                    </View>
-                  </View>
-                  <View
-                    style={[
-                      { flex: 1 },
-                      { flexDirection: "column", backgroundColor: "white" },
-                    ]}
-                  >
-                    <View style={{ flex: 8, bottom: 20 }}>
-                      <ScrollView>
-                        <View style={[styles.flexrow]}>
-                          <View style={[styles.root,{}]}>
-                            {data &&
-                              data.map((data) => (
-                                <>
-                                  <View
+                <View style={styles.tableHead}>
+                  <Text style={styles.headingFont}>Subject</Text>
+                </View>
+              </View>
+              <View
+                style={[
+                  { flex: 1 },
+                  { flexDirection: "column", backgroundColor: "white" },
+                ]}
+              >
+                <View style={{ flex: 8, bottom: 20 }}>
+                  <ScrollView>
+                    <View style={[styles.flexrow]}>
+                      <View style={[styles.root, {}]}>
+                        {data &&
+                          data.map((data) => (
+                            <>
+                              <View
+                                style={[
+                                  styles.container,
+                                  { flexDirection: "row" },
+                                ]}
+                              >
+                                <View style={[styles.colStyle]}>
+                                  <Text
                                     style={[
-                                      styles.container,
-                                      { flexDirection: "row"},
+                                      styles.tableTitle,
+                                      // { left: "" },
                                     ]}
                                   >
-                                    <View style={[styles.colStyle]}>
-                                      <Text
-                                        style={[
-                                          styles.tableTitle
-                                          // { left: "" },
-                                        ]}
-                                      >
-                                        {moment(data.exam_date).format(
-                                          "DD/MM/YYYY"
-                                        )}
-                                      </Text>
-                                    </View>
-                                  </View>
-                                </>
-                              ))}
-                          </View>
-                          <View style={[styles.root, {}]}>
-                            {data &&
-                              data.map((data) => (
-                                <>
-                                  <View
-                                    style={[
-                                      styles.container,
-                                      { flexDirection: "row" },
-                                    ]}
-                                  >
-                                    <View
-                                      style={[
-                                        styles.colStyle,
-                                        { left: "95%" },
-                                      ]}
-                                    >
-                                      <Text style={[styles.tableTitle]}>
-                                        {/* {moment(data.exam_time).format('hh:mm')} */}
-                                        {moment(
-                                                  data.exam_time,
-                                                  "HH:mm"
-                                                ).format("hh:mm ")}
-                                        {/* {data.exam_time} */}
-                                      </Text>
-                                    </View>
-                                  </View>
-                                </>
-                              ))}
-                          </View>
-                          {/* <View style={[styles.root, {}]}>
+                                    {moment(data.exam_date).format(
+                                      "DD/MM/YYYY"
+                                    )}
+                                  </Text>
+                                </View>
+                              </View>
+                            </>
+                          ))}
+                      </View>
+                      <View style={[styles.root, {}]}>
+                        {data &&
+                          data.map((data) => (
+                            <>
+                              <View
+                                style={[
+                                  styles.container,
+                                  { flexDirection: "row" },
+                                ]}
+                              >
+                                <View
+                                  style={[styles.colStyle, { left: "95%" }]}
+                                >
+                                  <Text style={[styles.tableTitle]}>
+                                    {/* {moment(data.exam_time).format('hh:mm')} */}
+                                    {moment(data.exam_time, "HH:mm").format(
+                                      "hh:mm "
+                                    )}
+                                    {/* {data.exam_time} */}
+                                  </Text>
+                                </View>
+                              </View>
+                            </>
+                          ))}
+                      </View>
+                      {/* <View style={[styles.root, {}]}>
                             {data &&
                               data.map((data) => (
                                 <>
@@ -226,65 +237,73 @@ const ExamTimeTableSubjects = () => {
                                 </>
                               ))}
                           </View> */}
-                          <View style={[styles.root, {}]}>
-                            {data &&
-                              data.map((data) => (
-                                <>
-                                  <View
-                                    style={[
-                                      styles.container,
-                                      { flexDirection: "row" },
-                                    ]}
-                                  >
-                                    <View
-                                      style={[
-                                        styles.colStyle,
-
-                                       { left: "80%" },
-                                      ]}
-                                    >
-                                      <Text style={[styles.tableTitle]}>
-                                        {data.subject}
-                                      </Text>
-                                    </View>
-                                  </View>
-                                </>
-                              ))}
-                          </View>
-                        </View>
-                      </ScrollView>
+                      <View style={[styles.root, {}]}>
+                        {data &&
+                          data.map((data) => (
+                            <>
+                              <View
+                                style={[
+                                  styles.container,
+                                  { flexDirection: "row" },
+                                ]}
+                              >
+                                <View
+                                  style={[styles.colStyle, { left: "80%" }]}
+                                >
+                                  <Text style={[styles.tableTitle]}>
+                                    {data.subject}
+                                  </Text>
+                                </View>
+                              </View>
+                            </>
+                          ))}
+                      </View>
                     </View>
-                  </View>
-                </>
+                  </ScrollView>
+                </View>
               </View>
-          </View> :
-          <View style={styles.alertStyle}>
-          <Alert maxW="1300" status="error" top='30%'>
+            </>
+          </View>
+        </View>
+      ) : (
+        <View style={styles.alertStyle}>
+          <Alert maxW="1300" status="error" top="30%">
             <VStack space={1} flexShrink={1} w="100%">
-              <HStack flexShrink={1} space={2} alignItems="center" justifyContent="space-between">
+              <HStack
+                flexShrink={1}
+                space={2}
+                alignItems="center"
+                justifyContent="space-between"
+              >
                 <HStack flexShrink={1} space={2} alignItems="center">
                   {/* <Alert.Icon /> */}
-                  <NativeText fontSize="md" fontWeight="medium" _dark={{
-                  color: "coolGray.800"
-                }}>
+                  <NativeText
+                    fontSize="md"
+                    fontWeight="medium"
+                    _dark={{
+                      color: "coolGray.800",
+                    }}
+                  >
                     Data not found
                   </NativeText>
                 </HStack>
               </HStack>
-              <Box  _dark={{
-              _text: {
-                color: "coolGray.600"
-              }
-              }}>
+              <Box
+                _dark={{
+                  _text: {
+                    color: "coolGray.600",
+                  },
+                }}
+              >
                 There is no exam time table for selected class
               </Box>
             </VStack>
           </Alert>
         </View>
-        }
-          <View style={{ flex: 0.1 }}>
-            <TeachersHome />
-          </View>
+      )}
+      <View style={{ flex: 0.1 }}>
+        <TeachersHome />
+      </View>
     </>
   );
 };
@@ -293,30 +312,30 @@ export default ExamTimeTableSubjects;
 const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
-  containerView:{
-    flex:2,
+  containerView: {
+    flex: 2,
     flexDirection: "column",
-   // backgroundColor:'#5578E3',
-    marginHorizontal:10,
-    marginRight:'25%',
-    marginVertical:20,
-    top:'1%',
+    // backgroundColor:'#5578E3',
+    marginHorizontal: 10,
+    marginRight: "25%",
+    marginVertical: 20,
+    top: "1%",
   },
-  alertStyle:{
-    backgroundColor:'white',
-    flex:1,
-    paddingHorizontal:20,
+  alertStyle: {
+    backgroundColor: "white",
+    flex: 1,
+    paddingHorizontal: 20,
   },
   tableTopStyle: {
-    flex:4,
+    flex: 4,
     padding: 10,
-     bottom: 35,
-     marginVertical:10
+    bottom: 35,
+    marginVertical: 10,
   },
   tableHead: {
     flex: 1,
     padding: 10,
-    paddingBottom:15,
+    paddingBottom: 15,
     borderRightWidth: 1,
     borderLeftWidth: 1,
     borderTopWidth: 1,
@@ -324,22 +343,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#1E84A4",
   },
-  labelFont:{
-    fontFamily:'HindSemiBold',
+  labelFont: {
+    fontFamily: "HindSemiBold",
     color: "black",
     fontSize: deviceWidth < 370 ? 14 : 17,
   },
-  labelFontValue:{
-fontFamily:'HindMedium',
-color: "black",
+  labelFontValue: {
+    fontFamily: "HindMedium",
+    color: "black",
     fontSize: deviceWidth < 370 ? 14 : 17,
   },
   headingFont: {
     // fontFamily: "Hind-SemiBold",
-    fontFamily:'HindBold',
+    fontFamily: "HindBold",
     //right:'15%',
     color: "white",
-    fontSize: deviceWidth < 370 ? 14 : 14,
+    fontSize: deviceWidth < 370 ? 14 : 16,
   },
   flexrow: {
     flex: 1,
@@ -353,14 +372,15 @@ color: "black",
   },
   colStyle: {
     padding: deviceHieght < 600 ? "5%" : "3%",
-    left:'40%'
+    left: "40%",
     // marginVertical:10
   },
   container: {
     padding: 10,
-    borderWidth: 1
+    borderWidth: 1,
   },
-  tableTitle:{
-    fontFamily:"HindSemiBold",
-  }
+  tableTitle: {
+    fontFamily: "HindRegular",
+    fontSize: 16,
+  },
 });

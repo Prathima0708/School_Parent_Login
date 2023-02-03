@@ -276,9 +276,7 @@ const TeachersLeaveUpdated = () => {
         setUserID(USERID);
       }
       //  console.log("this is the userid in useeffect", userID);
-      const res = await axios.get(
-        `http://10.0.2.2:8000/school/IsClassteacher/${userID}/`
-      );
+      const res = await axios.get(`${subURL}/IsClassteacher/${userID}/`);
       setBgColor(res.data);
     }
     getUserId();
@@ -469,7 +467,7 @@ const TeachersLeaveUpdated = () => {
           };
           const dataForm = FormData;
           const resLogin = await axios.patch(
-            `http://10.0.2.2:8000/school/Leave/${EDT_ID}/`,
+            `${subURL}/Leave/${EDT_ID}/`,
             dataForm,
             {
               headers: headers,
@@ -690,9 +688,7 @@ const TeachersLeaveUpdated = () => {
     async function fetchData() {
       console.log("this is the username -", user);
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/LeaveByUsername/${user}/`
-        );
+        const res = await axios.get(`${subURL}/LeaveByUsername/${user}/`);
         //console.log(res.data);
 
         setLeaveByUsername(res.data);
@@ -760,13 +756,9 @@ const TeachersLeaveUpdated = () => {
           Authorization: "Token " + `${token}`,
         };
         const dataForm = FormData;
-        const resLogin = await axios.patch(
-          `http://10.0.2.2:8000/school/Leave/${ID}/`,
-          dataForm,
-          {
-            headers: headers,
-          }
-        );
+        const resLogin = await axios.patch(`${subURL}/Leave/${ID}/`, dataForm, {
+          headers: headers,
+        });
         // const token = resLogin.data.token;
         // const userId = resLogin.data.user_id;
         console.log(resLogin.data);
@@ -868,7 +860,7 @@ const TeachersLeaveUpdated = () => {
       console.log("inside fetchstudentclass");
       console.log("user id is", userID);
       axios
-        .get(`http://10.0.2.2:8000/school/IsClassteacher/${userID}/`)
+        .get(`${subURL}/IsClassteacher/${userID}/`)
         .then((response) => {
           newArray = response.data.map((item) => {
             return {
@@ -1100,7 +1092,7 @@ const TeachersLeaveUpdated = () => {
         };
         // const dataForm = FormData;
         const resLogin = await axios.delete(
-          `http://10.0.2.2:8000/school/Leave/${id}/`,
+          `${subURL}/Leave/${id}/`,
           // FormData,
           {
             headers: headers,

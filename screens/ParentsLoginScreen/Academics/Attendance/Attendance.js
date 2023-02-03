@@ -402,8 +402,8 @@ function Attendance() {
       // borderRadius:100
     },
     textStyle:{
-      fontFamily:'HindRegular',
-      fontSize:15
+      fontFamily:'HindSemiBold',
+      fontSize:16
     }
   })
   

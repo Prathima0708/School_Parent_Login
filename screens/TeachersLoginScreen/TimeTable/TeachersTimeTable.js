@@ -191,9 +191,7 @@ const TeachersTimetable = () => {
   useEffect(() => {
     async function fetchTimeTable() {
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/AddmoreTimetable_list/`
-        );
+        const res = await axios.get(`${subURL}/AddmoreTimetable_list/`);
         let newArray1 = res.data.map((item) => {
           return {
             value: item.from_time + " - " + item.to_time,
@@ -275,9 +273,7 @@ const TeachersTimetable = () => {
   useEffect(() => {
     async function viewDailyTimeTableList() {
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:8000/school/AddmoreTimetable_list/`
-        );
+        const res = await axios.get(`${subURL}/AddmoreTimetable_list/`);
 
         setShowTimeTableData(res.data);
       } catch (error) {
@@ -483,23 +479,23 @@ const TeachersTimetable = () => {
                 <>
                   {showSelected && (isUndefined || !isIdThere) && (
                     <View
-                    style={{
-                      flex: 1,
-                      alignItems: "center",
-                      // justifyContent: "center",
-                      marginTop:'2%'
-                    }}
-                  >
-                    <Text
                       style={{
-                        fontFamily: "HindSemiBold",
-                        fontSize: 18,
-                        color: "#6B0202",
+                        flex: 1,
+                        alignItems: "center",
+                        // justifyContent: "center",
+                        marginTop: "2%",
                       }}
                     >
-                      No Timetable found
-                    </Text>
-                  </View>
+                      <Text
+                        style={{
+                          fontFamily: "HindSemiBold",
+                          fontSize: 18,
+                          color: "#6B0202",
+                        }}
+                      >
+                        No Timetable found
+                      </Text>
+                    </View>
                   )}
 
                   {showSelected && !isUndefined && isIdThere && (

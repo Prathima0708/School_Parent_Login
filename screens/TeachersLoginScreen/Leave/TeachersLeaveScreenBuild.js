@@ -332,7 +332,7 @@ const TeachersLeaveScreenBuild = () => {
 
       async function fetchData() {
         try {
-          const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
+          const res = await axios.get(`${subURL}/Leave/`);
           setData(res.data);
           setFilteredData(res.data);
         } catch (error) {
@@ -574,7 +574,7 @@ const TeachersLeaveScreenBuild = () => {
     // }, 3000);
     async function fetchData() {
       try {
-        const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
+        const res = await axios.get(`${subURL}/Leave/`);
         //console.log(res.data);
 
         setData(res.data);
@@ -658,7 +658,7 @@ const TeachersLeaveScreenBuild = () => {
       }
       async function fetchData() {
         try {
-          const res = await axios.get(`http://10.0.2.2:8000/school/Leave/`);
+          const res = await axios.get(`${subURL}/Leave/`);
           // console.log(res.data);
           setData(res.data);
           setFilteredData(res.data);

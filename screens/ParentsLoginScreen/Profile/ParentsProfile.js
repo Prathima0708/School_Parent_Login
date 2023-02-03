@@ -35,6 +35,7 @@ import {
 } from "native-base";
 import ParentsHome from "../BottomTab/ParentsHome";
 import moment from "moment";
+import { mainURL } from "../../../components/utils/URL's";
 
 const ParentsProfile = () => {
   const [isActive, setIsActive] = useState(true);
@@ -101,7 +102,7 @@ const ParentsProfile = () => {
               /> */}
                 <NativeImage
                   source={{
-                    uri: `http://10.0.2.2:8000${StudentPhoto}`,
+                    uri: `${mainURL}${StudentPhoto}`,
                   }}
                   alt="Student Image"
                   size="lg"
