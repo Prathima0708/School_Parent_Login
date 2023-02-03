@@ -51,7 +51,7 @@ const ReportCard = () => {
       const styleObj = {
         borderWidth: 3,
         //borderRadius: 4,
-        borderColor: "white",
+        borderColor: "black",
       };
       myRef.current.setNativeProps({
         style: styleObj,
@@ -656,7 +656,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     marginHorizontal: 20,
     //  backgroundColor: "#3e04c3",
-    backgroundColor: "#02196E",
+    backgroundColor: "#f0f0fc",
     flexDirection: "row",
     alignItems: "center",
 
@@ -664,7 +664,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   textBase: {
-    color: "white",
+    color: "#1E84A4",
     // color: "#0D98BA",
     marginRight: 10,
   },

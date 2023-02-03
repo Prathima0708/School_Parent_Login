@@ -21,7 +21,7 @@ import {
   Section,
 } from "../../../../components/StudentItem/StudentItem";
 import moment from "moment";
-import { Button, Divider, VStack, Text as NativeText } from "native-base";
+import { Button as NativeButton, Divider, VStack, Text as NativeText } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 import { subURL } from "../../../../components/utils/URL's";
 export var ID;
@@ -51,12 +51,12 @@ const TimeTable = () => {
   const [forTimeTableList, setForTimeTableList] = useState({
     color: "white",
     backgroundColor: "#1E84A4",
-    borderRadius: 10,
+    borderRadius: 5,
   });
   const [forExamTimeTable, setForExamTimeTable] = useState({
     color: "black",
     backgroundColor: "#F4F6F6",
-    borderRadius: 10,
+    borderRadius: 5,
   });
 
   useEffect(() => {
@@ -78,12 +78,12 @@ const TimeTable = () => {
     setForExamTimeTable({
       color: "white",
       backgroundColor: "#1E84A4",
-      borderRadius: 10,
+      borderRadius: 5,
     });
     setForTimeTableList({
       backgroundColor: "#F4F6F6",
       color: "black",
-      borderRadius: 10,
+      borderRadius: 5,
     });
     setShowTable(false);
     setShowForm(true);
@@ -102,12 +102,12 @@ const TimeTable = () => {
     setForTimeTableList({
       backgroundColor: "#1E84A4",
       color: "white",
-      borderRadius: 10,
+      borderRadius: 5,
     });
     setForExamTimeTable({
       color: "black",
       backgroundColor: "#F4F6F6",
-      borderRadius: 10,
+      borderRadius: 5,
     });
     setShowForm(false);
     setShowTable(true);
@@ -273,64 +273,150 @@ const TimeTable = () => {
               ]}
             >
               <View style={{ flex: 1 }}>
-                <Button
+                {/* <Button
                   size="sm"
                   variant={!isMonActive ? "outline" : "solid"}
                   onPress={mondayPressedHandler}
                   style={{ fontFamily: "HindSemiBold", fontSize: 18 }}
                 >
                   MON
-                </Button>
+                </Button> */}
+                <NativeButton 
+                   size="sm"
+                   variant={!isMonActive ? "outline" : "solid"}
+                   onPress={mondayPressedHandler}>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontFamily: "HindSemiBold",
+                        color: !isMonActive ? "black" : "white"
+                      }}
+                    >
+                      MON
+                    </Text>
+                </NativeButton>
               </View>
               <View style={styles.space} />
               <View style={{ flex: 1 }}>
-                <Button
+                {/* <Button
                   size="sm"
                   variant={!isTueActive ? "outline" : "solid"}
                   onPress={tuesdayPressedHandler}
                 >
                   TUE
-                </Button>
+                </Button> */}
+                <NativeButton 
+                   size="sm"
+                   variant={!isTueActive ? "outline" : "solid"}
+                   onPress={tuesdayPressedHandler}>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontFamily: "HindSemiBold",
+                        color: !isTueActive ? "black" : "white"
+                      }}
+                    >
+                      TUE
+                    </Text>
+                </NativeButton>
               </View>
               <View style={styles.space} />
               <View style={{ flex: 1 }}>
-                <Button
+                {/* <Button
                   size="sm"
                   variant={!isWedActive ? "outline" : "solid"}
                   onPress={wednesdayPressedHandler}
                 >
                   WED
-                </Button>
+                </Button> */}
+                <NativeButton 
+                   size="sm"
+                   variant={!isWedActive ? "outline" : "solid"}
+                   onPress={wednesdayPressedHandler}>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontFamily: "HindSemiBold",
+                        color: !isWedActive ? "black" : "white"
+                      }}
+                    >
+                      WED
+                    </Text>
+                </NativeButton>
               </View>
               <View style={styles.space} />
               <View style={{ flex: 1 }}>
-                <Button
+                {/* <Button
                   size="sm"
                   variant={!isThuActive ? "outline" : "solid"}
                   onPress={thursdayPressedHandler}
                 >
                   THU
-                </Button>
+                </Button> */}
+                <NativeButton 
+                   size="sm"
+                   variant={!isThuActive ? "outline" : "solid"}
+                   onPress={thursdayPressedHandler}>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontFamily: "HindSemiBold",
+                        color: !isThuActive ? "black" : "white"
+                      }}
+                    >
+                      THU
+                    </Text>
+                </NativeButton>
               </View>
               <View style={styles.space} />
               <View style={{ flex: 1 }}>
-                <Button
+                <NativeButton 
+                size="sm"
+                  variant={!isFriActive ? "outline" : "solid"}
+                  onPress={fridayPressedHandler}>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontFamily: "HindSemiBold",
+                        color: !isFriActive ? "black" : "white"
+                      }}
+                    >
+                      FRI
+                    </Text>
+                </NativeButton>
+                {/* <Button
                   size="sm"
                   variant={!isFriActive ? "outline" : "solid"}
                   onPress={fridayPressedHandler}
+                  fontFamily='HindRegular'
                 >
                   FRI
-                </Button>
+                </Button> */}
+                
               </View>
               <View style={styles.space} />
               <View style={{ flex: 1 }}>
-                <Button
+                {/* <Button
                   size="sm"
                   variant={!isSatActive ? "outline" : "solid"}
                   onPress={saturdayPressedHandler}
                 >
                   SAT
-                </Button>
+                </Button> */}
+                <NativeButton 
+                size="sm"
+                  variant={!isSatActive ? "outline" : "solid"}
+                  onPress={saturdayPressedHandler}>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontFamily: "HindSemiBold",
+                        color: !isSatActive ? "black" : "white"
+                      }}
+                    >
+                      SAT
+                    </Text>
+                </NativeButton>
               </View>
             </View>
             {mondayTimeTable && (
@@ -368,17 +454,20 @@ const TimeTable = () => {
                                         <Text
                                           style={[
                                             styles.tableTitle,
-                                            { left: "35%" },
+                                            { left: "15%" },
                                           ]}
                                         >
-                                          {moment(
+                                          { moment(data.from_time,"HH:mm").format('LT')}
+                                          {/* {moment(
                                             data.from_time,
                                             "HH:mm"
-                                          ).format("hh:mm ")}{" "}
+                                          ).format("hh:mm ")} */}
+                                          {" "}
                                           {"-"} {""}
-                                          {moment(data.to_time, "HH:mm").format(
+                                          {/* {moment(data.to_time, "HH:mm").format(
                                             "hh:mm "
-                                          )}
+                                          )} */}
+                                          { moment(data.to_time,"HH:mm").format('LT')}
                                         </Text>
                                       </View>
                                     </View>
@@ -458,17 +547,20 @@ const TimeTable = () => {
                                         <Text
                                           style={[
                                             styles.tableTitle,
-                                            { left: "35%" },
+                                            { left: "15%" },
                                           ]}
                                         >
-                                          {moment(
+                                           { moment(data.from_time,"HH:mm").format('LT')}
+                                          {/* {moment(
                                             data.from_time,
                                             "HH:mm"
-                                          ).format("hh:mm ")}{" "}
+                                          ).format("hh:mm ")} */}
+                                          {" "}
                                           {"-"} {""}
-                                          {moment(data.to_time, "HH:mm").format(
+                                          {/* {moment(data.to_time, "HH:mm").format(
                                             "hh:mm "
-                                          )}
+                                          )} */}
+                                          { moment(data.to_time,"HH:mm").format('LT')}
                                         </Text>
                                       </View>
                                     </View>
@@ -548,17 +640,20 @@ const TimeTable = () => {
                                         <Text
                                           style={[
                                             styles.tableTitle,
-                                            { left: "35%" },
+                                            { left: "15%" },
                                           ]}
                                         >
-                                          {moment(
+                                           { moment(data.from_time,"HH:mm").format('LT')}
+                                          {/* {moment(
                                             data.from_time,
                                             "HH:mm"
-                                          ).format("hh:mm ")}{" "}
+                                          ).format("hh:mm ")} */}
+                                          {" "}
                                           {"-"} {""}
-                                          {moment(data.to_time, "HH:mm").format(
+                                          {/* {moment(data.to_time, "HH:mm").format(
                                             "hh:mm "
-                                          )}
+                                          )} */}
+                                          { moment(data.to_time,"HH:mm").format('LT')}
                                         </Text>
                                       </View>
                                     </View>
@@ -638,17 +733,20 @@ const TimeTable = () => {
                                         <Text
                                           style={[
                                             styles.tableTitle,
-                                            { left: "35%" },
+                                            { left: "15%" },
                                           ]}
                                         >
-                                          {moment(
+                                           { moment(data.from_time,"HH:mm").format('LT')}
+                                          {/* {moment(
                                             data.from_time,
                                             "HH:mm"
-                                          ).format("hh:mm ")}{" "}
+                                          ).format("hh:mm ")} */}
+                                          {" "}
                                           {"-"} {""}
-                                          {moment(data.to_time, "HH:mm").format(
+                                          {/* {moment(data.to_time, "HH:mm").format(
                                             "hh:mm "
-                                          )}
+                                          )} */}
+                                          { moment(data.to_time,"HH:mm").format('LT')}
                                         </Text>
                                       </View>
                                     </View>
@@ -728,17 +826,20 @@ const TimeTable = () => {
                                         <Text
                                           style={[
                                             styles.tableTitle,
-                                            { left: "35%" },
+                                            { left: "15%" },
                                           ]}
                                         >
-                                          {moment(
+                                           { moment(data.from_time,"HH:mm").format('LT')}
+                                          {/* {moment(
                                             data.from_time,
                                             "HH:mm"
-                                          ).format("hh:mm ")}{" "}
+                                          ).format("hh:mm ")} */}
+                                          {" "}
                                           {"-"} {""}
-                                          {moment(data.to_time, "HH:mm").format(
+                                          {/* {moment(data.to_time, "HH:mm").format(
                                             "hh:mm "
-                                          )}
+                                          )} */}
+                                          { moment(data.to_time,"HH:mm").format('LT')}
                                         </Text>
                                       </View>
                                     </View>
@@ -818,17 +919,20 @@ const TimeTable = () => {
                                         <Text
                                           style={[
                                             styles.tableTitle,
-                                            { left: "35%" },
+                                            { left: "15%" },
                                           ]}
                                         >
-                                          {moment(
+                                           { moment(data.from_time,"HH:mm").format('LT')}
+                                          {/* {moment(
                                             data.from_time,
                                             "HH:mm"
-                                          ).format("hh:mm ")}{" "}
+                                          ).format("hh:mm ")} */}
+                                          {" "}
                                           {"-"} {""}
-                                          {moment(data.to_time, "HH:mm").format(
+                                          {/* {moment(data.to_time, "HH:mm").format(
                                             "hh:mm "
-                                          )}
+                                          )} */}
+                                          { moment(data.to_time,"HH:mm").format('LT')}
                                         </Text>
                                       </View>
                                     </View>

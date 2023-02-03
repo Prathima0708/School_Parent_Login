@@ -1007,6 +1007,7 @@ const TeachersCalendar = () => {
     const response = await axios.get(
       `${subURL}/NotificationByGroup/${specificData.viewOnly}`
     );
+    console.log("************");
     console.log(response.data);
     const filteredData = response.data.filter(
       (item) => item.user_id.groups[0].name === specificData.viewOnly
@@ -1414,7 +1415,16 @@ const TeachersCalendar = () => {
                       </View>
                       <View style={{ flex: 0.1 }}>
                         <Checkbox
-                          status={checked ? "checked" : "unchecked"}
+                          status={
+                            isEdit
+                              ? newData.viewOnly === "admin,staff,parents"
+                                ? "checked"
+                                : "unchecked"
+                              : checked
+                              ? "checked"
+                              : "unchecked"
+                          }
+                          //status={checked ? "checked" : "unchecked"}
                           onPress={allCheckHandler}
                           color={"green"}
                           uncheckColor={"red"}
@@ -1437,7 +1447,16 @@ const TeachersCalendar = () => {
                       </View>
                       <View style={{ flex: 0.1, bottom: "2.3%" }}>
                         <Checkbox
-                          status={adminChecked ? "checked" : "unchecked"}
+                          //status={adminChecked ? "checked" : "unchecked"}
+                          status={
+                            isEdit
+                              ? newData.viewOnly === "admin"
+                                ? "checked"
+                                : "unchecked"
+                              : adminChecked
+                              ? "checked"
+                              : "unchecked"
+                          }
                           onPress={() => {
                             setAdminChecked(!adminChecked);
                             //  setTest(true);
@@ -1470,7 +1489,16 @@ const TeachersCalendar = () => {
                       </View>
                       <View style={{ flex: 0.1 }}>
                         <Checkbox
-                          status={teacherChecked ? "checked" : "unchecked"}
+                          //status={ teacherChecked ? "checked" : "unchecked"}
+                          status={
+                            isEdit
+                              ? newData.viewOnly === "staff"
+                                ? "checked"
+                                : "unchecked"
+                              : teacherChecked
+                              ? "checked"
+                              : "unchecked"
+                          }
                           onPress={() => {
                             setTeacherChecked(!teacherChecked);
                             // setTest(true);
@@ -1495,7 +1523,15 @@ const TeachersCalendar = () => {
                       </View>
                       <View style={{ flex: 0.1, bottom: "2.3%" }}>
                         <Checkbox
-                          status={parentChecked ? "checked" : "unchecked"}
+                          status={
+                            isEdit
+                              ? newData.viewOnly === "parents"
+                                ? "checked"
+                                : "unchecked"
+                              : parentChecked
+                              ? "checked"
+                              : "unchecked"
+                          }
                           onPress={() => {
                             setParentChecked(!parentChecked);
                             //  setTest(true);
@@ -1599,13 +1635,15 @@ const TeachersCalendar = () => {
                                 },
                               ]}
                             >
-                              <View style={{ flex: 0.35, left: 0 }}>
-                                <Text style={styles.cardTextStyle}>
+                              <View style={{ flex: 0.2, left: 0 }}>
+                                <Text
+                                  style={[styles.cardTextStyle, { left: 0 }]}
+                                >
                                   Title :
                                 </Text>
                               </View>
                               <View style={{ flex: 1 }}>
-                                <Text style={styles.textStyle}>
+                                <Text style={[styles.textStyle, { left: 0 }]}>
                                   {data.titlee}
                                 </Text>
                               </View>
@@ -1631,14 +1669,19 @@ const TeachersCalendar = () => {
                                     },
                                   ]}
                                 >
-                                  <View style={{ flex: 1.1 }}>
-                                    <Text style={styles.cardTextStyle}>
+                                  <View style={{ flex: 0.7 }}>
+                                    <Text
+                                      style={[
+                                        styles.cardTextStyle,
+                                        { left: 0 },
+                                      ]}
+                                    >
                                       From :
                                     </Text>
                                   </View>
                                   <View style={{ flex: 1.1 }}>
                                     <Text
-                                      style={[styles.textStyle, { left: 5 }]}
+                                      style={[styles.textStyle, { left: 0 }]}
                                     >
                                       {moment(data.startdate).format(
                                         "DD/MM/YYYY"
@@ -1657,13 +1700,20 @@ const TeachersCalendar = () => {
                                     },
                                   ]}
                                 >
-                                  <View style={{ flex: 0.8 }}>
-                                    <Text style={styles.cardTextStyle}>
+                                  <View style={{ flex: 0.3 }}>
+                                    <Text
+                                      style={[
+                                        styles.cardTextStyle,
+                                        { left: 0 },
+                                      ]}
+                                    >
                                       To :
                                     </Text>
                                   </View>
                                   <View style={{ flex: 1 }}>
-                                    <Text style={styles.textStyle}>
+                                    <Text
+                                      style={[styles.textStyle, { left: 0 }]}
+                                    >
                                       {moment(data.enddate).format(
                                         "DD/MM/YYYY"
                                       )}
@@ -1683,14 +1733,16 @@ const TeachersCalendar = () => {
                                 },
                               ]}
                             >
-                              <View style={{ flex: 0.7 }}>
-                                <Text style={styles.cardTextStyle}>
+                              <View style={{ flex: 0.5 }}>
+                                <Text
+                                  style={[styles.cardTextStyle, { left: 0 }]}
+                                >
                                   Description :
                                 </Text>
                               </View>
                               <View style={{ flex: 1 }}>
-                                <Text style={styles.textStyle}>
-                                  {data.description}
+                                <Text style={[styles.textStyle, { left: 0 }]}>
+                                  {[data.description]}
                                 </Text>
                               </View>
                             </View>
@@ -2064,7 +2116,7 @@ const TeachersCalendar = () => {
                 >
                   <Modal.Content maxWidth="90%" minHeight="5%">
                     {specificData.created_by === USERNAME && (
-                      <Modal.Header style={{ height: "15%" }}>
+                      <Modal.Header style={{ height: "19%" }}>
                         <View
                           style={[
                             {
@@ -2074,38 +2126,61 @@ const TeachersCalendar = () => {
                             },
                           ]}
                         >
-                          <View style={{ flex: 0.5 }}>
+                          <View style={{ flex: 0.5, justifyContent: "center" }}>
                             <Text style={[styles.cardTextStyle, { left: 0 }]}>
-                              Notify to
+                              Notify to:
                             </Text>
                           </View>
-                          <View style={{ flex: 1 }}>
+                          <View style={{ flex: 1, justifyContent: "center" }}>
                             <Text style={styles.textStyle}>
                               {" "}
                               {specificData.viewOnly}
                             </Text>
                           </View>
-                          <View style={{ flex: 0.6, bottom: "2%" }}>
+                          <View style={{ flex: 0.5 }}>
                             {badge === false &&
                             specificData.isNotified == false ? (
+                              // <NativeButton
+                              //   size="md"
+                              //   width="20"
+                              //   onPress={sendPushNotificationHanlder}
+                              //   style={{
+                              //     backgroundColor: "#1E84A4",
+                              //     //borderRadius: 7,
+                              //     left: 15,
+                              //   }}
+                              //   rightIcon={
+                              //     <Icon
+                              //       as={Ionicons}
+                              //       name="notifications"
+                              //       size="md"
+                              //     />
+                              //   }
+                              // >
+                              //   Notify
+                              // </NativeButton>
                               <NativeButton
-                                size="md"
-                                width="20"
-                                onPress={sendPushNotificationHanlder}
-                                style={{
-                                  backgroundColor: "#1E84A4",
-                                  //borderRadius: 7,
-                                  left: 15,
-                                }}
+                                size="sm"
+                                //variant={!isTueActive ? "outline" : "solid"}
                                 rightIcon={
                                   <Icon
                                     as={Ionicons}
                                     name="notifications"
-                                    size="md"
+                                    size="sm"
                                   />
                                 }
+                                onPress={sendPushNotificationHanlder}
                               >
-                                Notify
+                                <Text
+                                  style={{
+                                    fontSize: 16,
+                                    fontFamily: "HindSemiBold",
+                                    color: "white",
+                                    //color: !isTueActive ? "black" : "white"
+                                  }}
+                                >
+                                  Notify
+                                </Text>
                               </NativeButton>
                             ) : (
                               <Badge colorScheme="success">Notified</Badge>
@@ -2127,7 +2202,7 @@ const TeachersCalendar = () => {
                             },
                           ]}
                         >
-                          <View style={{ flex: 1, marginVertical: 10 }}>
+                          <View style={{ flex: 1, marginVertical: 5 }}>
                             <View
                               style={[
                                 {
@@ -2137,11 +2212,11 @@ const TeachersCalendar = () => {
                                 },
                               ]}
                             >
-                              <View style={{ flex: 0.3 }}>
+                              <View style={{ flex: 0.16 }}>
                                 <Text
                                   style={[styles.cardTextStyle, { left: 0 }]}
                                 >
-                                  Title
+                                  Title:
                                 </Text>
                               </View>
                               <View style={{ flex: 1 }}>
@@ -2151,17 +2226,17 @@ const TeachersCalendar = () => {
                               </View>
                             </View>
                           </View>
-                          <View style={{ flex: 1, marginVertical: 10 }}>
+                          <View style={{ flex: 1, marginVertical: 5 }}>
                             <View
                               style={[
                                 {
                                   // Try setting `flexDirection` to `"row"`.
                                   flex: 1,
-                                  flexDirection: "column",
+                                  flexDirection: "row",
                                 },
                               ]}
                             >
-                              <View style={{ flex: 1, marginVertical: 10 }}>
+                              <View style={{ flex: 1, marginVertical: 5 }}>
                                 <View
                                   style={[
                                     {
@@ -2171,14 +2246,14 @@ const TeachersCalendar = () => {
                                     },
                                   ]}
                                 >
-                                  <View style={{ flex: 0.3 }}>
+                                  <View style={{ flex: 0.4 }}>
                                     <Text
                                       style={[
                                         styles.cardTextStyle,
                                         { left: 0 },
                                       ]}
                                     >
-                                      From
+                                      From:
                                     </Text>
                                   </View>
                                   <View style={{ flex: 1 }}>
@@ -2192,7 +2267,7 @@ const TeachersCalendar = () => {
                                   </View>
                                 </View>
                               </View>
-                              <View style={{ flex: 1, marginVertical: 10 }}>
+                              <View style={{ flex: 1, marginVertical: 5 }}>
                                 <View
                                   style={[
                                     {
@@ -2202,14 +2277,14 @@ const TeachersCalendar = () => {
                                     },
                                   ]}
                                 >
-                                  <View style={{ flex: 0.3 }}>
+                                  <View style={{ flex: 0.2 }}>
                                     <Text
                                       style={[
                                         styles.cardTextStyle,
                                         { left: 0 },
                                       ]}
                                     >
-                                      To
+                                      To:
                                     </Text>
                                   </View>
                                   <View style={{ flex: 1 }}>
@@ -2223,7 +2298,7 @@ const TeachersCalendar = () => {
                               </View>
                             </View>
                           </View>
-                          <View style={{ flex: 1, marginVertical: 10 }}>
+                          <View style={{ flex: 1, marginVertical: 5 }}>
                             <View
                               style={[
                                 {
@@ -2237,7 +2312,7 @@ const TeachersCalendar = () => {
                                 <Text
                                   style={[styles.cardTextStyle, { left: 0 }]}
                                 >
-                                  Description
+                                  Description:
                                 </Text>
                               </View>
                               <View style={{ flex: 1 }}>
@@ -2258,7 +2333,7 @@ const TeachersCalendar = () => {
                             setOpenCardModal(false);
                           }}
                         >
-                          Close
+                          Okay
                         </NativeButton>
                       </NativeButton.Group>
                     </Modal.Footer>
@@ -2322,7 +2397,7 @@ const styles = StyleSheet.create({
   },
 
   btnSubmit: {
-    marginTop: deviceHieght < 600 ? "5%" : "20%",
+    marginTop: deviceHieght < 600 ? "5%" : "18%",
     width: "60%",
     marginLeft: 175,
     padding: "3%",

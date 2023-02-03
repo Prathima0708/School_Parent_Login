@@ -78,10 +78,12 @@ function ExamTimeTable(){
                                           // { left: "35%" },
                                         ]}
                                       >
-                                        {moment(
+                                        {/* {moment(
                                                   data.exam_time,
                                                   "HH:mm"
-                                                ).format("hh:mm ")}
+                                                ).format("hh:mm ")} */}
+                                        
+                                        { moment(data.exam_time,"HH:mm").format('LT')}
                                       </Text>
                                     </View>
                                   </View>

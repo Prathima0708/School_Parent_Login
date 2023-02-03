@@ -174,6 +174,7 @@ import {
 import StudentItem from "../../components/StudentItem/StudentItem";
 import axios from "axios";
 import { useEffect } from "react";
+import * as Notifications from "expo-notifications";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useLayoutEffect } from "react";
@@ -189,12 +190,13 @@ export var studentList = [];
 export var value, phno;
 export var PHONE;
 export var phonenumber, USERNAME;
-
+var Group;
 function ParentsLoginScreen() {
   const [students, setStudents] = useState([]);
   const [user, setUser] = useState("");
   const route = useRoute();
   const navigation = useNavigation();
+  const [group,setGroup]=useState("")
   //const phone = navigation.getParent("phone");
   async function fetchUser() {
     USERNAME = await AsyncStorage.getItem("UserName");
@@ -259,6 +261,46 @@ function ParentsLoginScreen() {
         );
       },
     });
+  }, []);
+  useEffect(() => {
+    async function getGroup() {
+      Group = await AsyncStorage.getItem("datagroup");
+       
+      setGroup(Group)
+    }
+    getGroup();
+  }, []);
+  
+  useEffect(() => {
+    const subscription1 = Notifications.addNotificationReceivedListener(
+      async (notification) => {
+        console.log("Notification received");
+        console.log(group);
+       // setOpenCardModal(false);
+
+        //  console.log("id is", specificData.id);
+
+        
+      }
+    );
+
+    const subscription2 = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        console.log("Notification response received");
+       
+       // if(Group=='staff'){
+          navigation.navigate("NoticeBoard");
+       // }
+        // else{
+        //   navigation.navigate("NoticeBoard");
+        // }
+        
+      }
+    );
+    return () => {
+      subscription1.remove();
+      subscription2.remove();
+    };
   }, []);
 
   useEffect(() => {

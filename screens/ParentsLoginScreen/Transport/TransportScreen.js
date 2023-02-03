@@ -36,9 +36,11 @@ const TransportScreen = () => {
     fontWeight: "bold",
   });
 
-  const [showMap,setShowMap]=useState(false);
   const [showTable, setShowTable] = useState(true);
   const [data, setData] = useState([]);
+
+  const [isMapActive,setIsMapActive]=useState(true);
+  const [isPhoneActive,setIsPhoneActive]=useState(false);
 
   const myRef = useRef(null);
 
@@ -79,11 +81,12 @@ const TransportScreen = () => {
   }, []);
 
   function mapViewPressedHandler(){
-    setShowMap(true);
+    setIsMapActive(true);
   }
 
   function callBtnPressedHandler(mobile_number){
-    console.log(mobile_number)
+    console.log(mobile_number);
+   
    // phoneNumber = mobile_number.replace(/[^0-9]/g, '');
     Linking.openURL(`tel:${mobile_number}`);
   }
@@ -245,7 +248,7 @@ const TransportScreen = () => {
           ))}
         </View>
         <View style={{flex:1,backgroundColor:'white',paddingBottom:40}} >
-          {showMap && <MapView style={[styles.map]} />}
+          {isMapActive && <MapView style={[styles.map]} />}
         </View>
         <View style={{flex: 0.1}} >
           <ParentsHome />
