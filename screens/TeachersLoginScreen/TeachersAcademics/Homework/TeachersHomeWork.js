@@ -25,7 +25,7 @@ import { UserId } from "../../../Login";
 import BgButton from "../../../../components/UI/BgButton";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect } from "react";
-import TeachersHome from "../../TeachersHome";
+import TeachersHome from "../../BottomTab/TeachersHome";
 import Input from "../../../../components/UI/Input";
 import VerticalLine from "../../../../components/UI/VerticalLine";
 import { DataTable } from "react-native-paper";

@@ -657,9 +657,10 @@ const TeacherHomeworkScreenBuild = () => {
       return;
     }
 
-    if (!enteredHomeWorkIsValid) {
-      return;
-    } else {
+    // if (!enteredHomeWorkIsValid) {
+    //   return;
+    // }
+    else {
       let filteredlist = newArray.filter((ele) => ele.key == selected);
 
       var formdata = {
@@ -668,8 +669,8 @@ const TeacherHomeworkScreenBuild = () => {
         subject: selectedSubject,
         homework_date: FROMDATE,
         remark: remark,
-        homework_photo: image,
-        homework: "empty",
+        //   homework_photo: null,
+        homework: "",
         due_date: TODATE,
         description: hw,
       };
@@ -703,11 +704,11 @@ const TeacherHomeworkScreenBuild = () => {
           //   // "Content-Type": "multipart/form-data",
           //   Authorization: "Token " + `${token}`,
           // };
-          let headers = new Headers({
+          let headers = {
             // 'Content-Type': 'application/json',
             "Content-Type": "multipart/form-data",
             Authorization: "Token " + `${token}`,
-          });
+          };
           // console.log(formData)
           const resLogin = await axios.post(`${subURL}/Homework/`, formdata, {
             headers: headers,
@@ -1300,7 +1301,7 @@ const TeacherHomeworkScreenBuild = () => {
                   <Text style={styles.errorText}>Enter homework</Text>
                 )}
               </View>
-              <View style={{ flexDirection: "row" }}>
+              {/* <View style={{ flexDirection: "row" }}>
                 <View style={styles.uploadImgBtn}>
                   <NativeButton
                     backgroundColor="#1E84A4"
@@ -1334,9 +1335,9 @@ const TeacherHomeworkScreenBuild = () => {
                       No image taken yet
                     </Text>
                   )}
-                  {/* <Btn title="Upload Image" onPress={PickImage} /> */}
+              
                 </View>
-              </View>
+              </View> */}
               <View
                 // style={
                 //   imageInputIsInValid ? styles.imageError : styles.imagePreView

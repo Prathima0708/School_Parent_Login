@@ -27,6 +27,7 @@ import { Heading, Spinner, Text as NativeText } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
 
 export var ID;
+var USERID;
 
 const TeachersTransport = () => {
   const navigation = useNavigation();
@@ -141,12 +142,29 @@ const TeachersTransport = () => {
   const [searchText, setSearchText] = useState("");
 
   const [loading, setLoading] = useState(false);
+  const [userid, setUserid] = useState("");
   let i = 0;
+  async function fetchUserId() {
+    USERID = await AsyncStorage.getItem("key");
 
+    if (USERID !== null) {
+      setUserid(USERID);
+    }
+  }
+  fetchUserId();
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(`${subURL}/Transportreport/`);
+        const staffRes = await axios.get(`${subURL}/Staff`);
+        //console.log(staffRes.data);
+        console.log("userid is", userid);
+        const filteredRes = staffRes.data.filter(
+          (item) => item.user_id.id == userid
+        );
+        console.log(filteredRes[0].busnumber);
+        const res = await axios.get(
+          `${subURL}/TransportreportDetailList/${filteredRes[0]?.busnumber}`
+        );
         setData(res.data);
         setFilteredData(res.data);
         let test = 0;
@@ -168,7 +186,7 @@ const TeachersTransport = () => {
       // setLoading(false);
     }
     fetchData();
-  }, []);
+  }, [userid]);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -785,9 +803,7 @@ const TeachersTransport = () => {
                     </View>
                     <View style={styles.flexStyleRow}>
                       <View style={styles.flexData1}>
-                        <Text style={[styles.cardTextStyle]}>
-                          route name
-                        </Text>
+                        <Text style={[styles.cardTextStyle]}>route name</Text>
                       </View>
                       <View style={styles.flexData}>
                         <Text style={styles.cardData}>{data.route_name}</Text>
@@ -795,9 +811,7 @@ const TeachersTransport = () => {
                     </View>
                     <View style={styles.flexStyleRow}>
                       <View style={styles.flexData1}>
-                        <Text style={[styles.cardTextStyle]}>
-                          Stop name
-                        </Text>
+                        <Text style={[styles.cardTextStyle]}>Stop name</Text>
                       </View>
                       <View style={styles.flexData}>
                         <Text style={styles.cardData}>{data.stop_name}</Text>

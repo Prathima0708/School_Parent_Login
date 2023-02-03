@@ -54,6 +54,7 @@ import BackButton from "../../../components/UI/BackButton";
 export var ID;
 var FROMDATE, TODATE;
 var USERNAME, TOKEN;
+var Group, NotificationId;
 const TeachersCalendar = () => {
   const [checked, setChecked] = useState(false);
   const [adminChecked, setAdminChecked] = useState(false);
@@ -201,6 +202,10 @@ const TeachersCalendar = () => {
   const [anyCheck, setAnyChecked] = useState(true);
   let i = 0;
   const [saveYear, setSaveYear] = useState([]);
+  const [group, setGroup] = useState("");
+  const [notificationId, setNotificationId] = useState(0);
+  const [viewOnly, setViewOnly] = useState("");
+  const [badge, setBadge] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -242,39 +247,67 @@ const TeachersCalendar = () => {
   }, []);
 
   useEffect(() => {
+    async function getGroup() {
+      Group = await AsyncStorage.getItem("datagroup");
+      // console.log(Group);
+      setGroup(Group);
+    }
+    getGroup();
+  }, []);
+
+  async function updateData() {
+    try {
+      const response = await axios.patch(
+        `${subURL}/Calendar/${notificationId}/`,
+        {
+          isNotified: true,
+        }
+      );
+      console.log(response.data);
+      setBadge(true);
+
+      // const getres = await axios.get(`${subURL}/Calendar/${notificationId}/`);
+      // setReceivedNotification(getres.data);
+
+      setSpecificData(response.data);
+      //  console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  useEffect(() => {
     const subscription1 = Notifications.addNotificationReceivedListener(
       async (notification) => {
+        console.log(notification.request.content.data.id);
+        console.log(notification.request.content.data.viewOnly);
+        //  NotificationId = notification.request.content.data.id;
+        setNotificationId(notification.request.content.data.id);
+        setViewOnly(notification.request.content.data.viewOnly);
+
         console.log("Notification received");
         setOpenCardModal(false);
 
         //  console.log("id is", specificData.id);
-
-        try {
-          const response = await axios.patch(
-            `${subURL}/Calendar/${specificData.id}/`,
-            {
-              isNotified: true,
-            }
-          );
-          setSpecificData(response.data);
-          //  console.log(response.data);
-        } catch (error) {
-          console.error(error);
-        }
       }
     );
+    updateData();
 
     const subscription2 = Notifications.addNotificationResponseReceivedListener(
       (response) => {
-        console.log("Notification response received");
-        navigation.navigate("TeachersNoticeBoard");
+        console.log(response.notification.request);
+        console.log("group is", group);
+        if (group == "staff") {
+          navigation.navigate("TeachersNoticeBoard");
+        } else {
+          navigation.navigate("NoticeBoard");
+        }
       }
     );
     return () => {
       subscription1.remove();
       subscription2.remove();
     };
-  }, [specificData]);
+  }, [notificationId, viewOnly]);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -395,20 +428,6 @@ const TeachersCalendar = () => {
       viewOnlyData.push("parents");
     }
     setUpdateBtnPressed(true);
-
-    var viewOnlyData = [];
-
-    if (adminChecked) {
-      viewOnlyData.push("admin");
-    }
-
-    if (teacherChecked) {
-      viewOnlyData.push("teacher");
-    }
-
-    if (parentChecked) {
-      viewOnlyData.push("parent");
-    }
 
     const FormData = {
       description: description,
@@ -1025,6 +1044,11 @@ const TeachersCalendar = () => {
           to: token.notification_token,
           title: specificData.titlee,
           body: specificData.description,
+
+          data: {
+            id: specificData.id,
+            viewOnly: specificData.viewOnly,
+          },
         },
         {
           headers: {
@@ -2062,7 +2086,8 @@ const TeachersCalendar = () => {
                             </Text>
                           </View>
                           <View style={{ flex: 0.6, bottom: "2%" }}>
-                            {specificData.isNotified === false ? (
+                            {badge === false &&
+                            specificData.isNotified == false ? (
                               <NativeButton
                                 size="md"
                                 width="20"

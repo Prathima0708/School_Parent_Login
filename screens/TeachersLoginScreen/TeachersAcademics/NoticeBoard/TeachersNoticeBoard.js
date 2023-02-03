@@ -11,7 +11,6 @@ import { subURL } from "../../../../components/utils/URL's";
 export var arr = [];
 
 const TeachersNoticeBoard = () => {
-  
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -45,7 +44,7 @@ const TeachersNoticeBoard = () => {
             new Date(item.startdate) >= today ||
             new Date(item.startdate).toDateString() === today.toDateString()
         );
-        setData(filteredData);
+        setData(filteredData.reverse());
 
         //console.log(data);
       } catch (error) {
