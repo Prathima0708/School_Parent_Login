@@ -386,7 +386,9 @@ function ParentsLoginScreen() {
 }
 
 export default ParentsLoginScreen;
-const deviceWidth = Dimensions.get("window").height;
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
+console.log(deviceHieght,deviceWidth)
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
@@ -426,7 +428,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   studInfoStyle: {
-    flex: 1.4,
+    flex: 1,
     padding: 20,
     backgroundColor: "white",
     margin: 20,

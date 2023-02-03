@@ -90,10 +90,10 @@ const HomeworkScreen = () => {
                               styles.subDesign,
                             ]}
                           >
-                            <View style={{ flex: 2 }}>
+                            <View style={{ flex: 2,marginLeft:'5%' }}>
                               <Text style={styles.labelStyle}>Subject</Text>
                             </View>
-                            <View style={{ flex: 5 }}>
+                            <View style={{ flex: 5 ,alignItems:'flex-end',marginRight:'16%'}}>
                               <Text style={styles.textStyle}>
                                 {item.subject}
                               </Text>
@@ -150,10 +150,10 @@ const HomeworkScreen = () => {
                           <View
                             style={[
                               { flex: 1 },
-                              { flexDirection: "row", marginHorizontal: 10 },
+                              { flexDirection: "row", marginHorizontal: 15 },
                             ]}
                           >
-                            <View style={{ flex: 1, left: "30%" }}>
+                            <View style={{ flex: 1 }}>
                               <Text
                                 style={[styles.textStyle, { color: "black" }]}
                               >
@@ -172,7 +172,7 @@ const HomeworkScreen = () => {
                               { flexDirection: "row", marginVertical: 10 },
                             ]}
                           >
-                            <View style={{ flex: 3, right: "40%" }}>
+                            <View style={{ flex: 2 }}>
                               <Text
                                 style={[styles.textStyle, { color: "black" }]}
                               >
@@ -185,9 +185,9 @@ const HomeworkScreen = () => {
                               </Text>
                             </View>
                           </View>
-                          <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
+                          {/* <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
                             <View style={{ flex: 6 }}>
-                              {/* <Text>Remark</Text> */}
+                             
                             </View>
                             <View style={{ flex: 1, right: "75%" }}>
                               <IconButton
@@ -206,7 +206,7 @@ const HomeworkScreen = () => {
                                 }}
                               />
                             </View>
-                          </View>
+                          </View> */}
                         </Card.Content>
                       </Card>
                     );

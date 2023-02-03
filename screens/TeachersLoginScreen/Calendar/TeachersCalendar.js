@@ -92,7 +92,7 @@ const TeachersCalendar = () => {
   const scrollY = new Animated.Value(0);
 
   const diffClamp = Animated.diffClamp(scrollY, 0, 100);
-
+  const [newData,setnewData]=useState([])
   const headermax = 100;
   const headermin = 10;
 
@@ -757,7 +757,7 @@ const TeachersCalendar = () => {
 
     const filteredDummuyData = data.find((data) => data.id == id);
     console.log(filteredDummuyData);
-
+    setnewData(filteredDummuyData)
     setEnteredDescription(filteredDummuyData.description);
 
     setFromText(moment(filteredDummuyData.startdate).format("DD/MM/YYYY"));
@@ -1408,12 +1408,8 @@ const TeachersCalendar = () => {
                         },
                       ]}
                     >
-                      <View style={{ flex: 0.3, alignItems: "center" }}>
-                        <Text style={[styles.labelStyle, { marginTop: 5 }]}>
-                          All
-                        </Text>
-                      </View>
-                      <View style={{ flex: 0.1 }}>
+                      
+                      <View style={{ flex: 0.3 }}>
                         <Checkbox
                           status={
                             isEdit
@@ -1430,6 +1426,11 @@ const TeachersCalendar = () => {
                           uncheckColor={"red"}
                         />
                       </View>
+                      <View style={{ flex: 0.3 }}>
+                        <Text style={[styles.labelStyle, { marginTop: 5 }]}>
+                          All
+                        </Text>
+                      </View>
                     </View>
 
                     <View
@@ -1442,15 +1443,13 @@ const TeachersCalendar = () => {
                         },
                       ]}
                     >
-                      <View style={{ flex: 0.5, alignItems: "center" }}>
-                        <Text style={styles.labelStyle}>Admin</Text>
-                      </View>
-                      <View style={{ flex: 0.1, bottom: "2.3%" }}>
+                      
+                      <View style={{ flex: 0.3 }}>
                         <Checkbox
                           //status={adminChecked ? "checked" : "unchecked"}
                           status={
                             isEdit
-                              ? newData.viewOnly === "admin"
+                              ? newData.viewOnly === "admin" || newData.viewOnly === "admin,staff,parents"
                                 ? "checked"
                                 : "unchecked"
                               : adminChecked
@@ -1470,6 +1469,9 @@ const TeachersCalendar = () => {
                           uncheckColor={"red"}
                         />
                       </View>
+                      <View style={{ flex: 0.5,top:'5%'}}>
+                        <Text style={styles.labelStyle}>Admin</Text>
+                      </View>
                     </View>
                   </View>
                   <View style={{ flex: 1, marginRight: "30%" }}>
@@ -1482,17 +1484,13 @@ const TeachersCalendar = () => {
                         },
                       ]}
                     >
-                      <View style={{ flex: 0.6, alignItems: "center" }}>
-                        <Text style={[styles.labelStyle, { marginTop: 5 }]}>
-                          Teacher
-                        </Text>
-                      </View>
-                      <View style={{ flex: 0.1 }}>
+                      
+                      <View style={{ flex: 0.3 }}>
                         <Checkbox
                           //status={ teacherChecked ? "checked" : "unchecked"}
                           status={
                             isEdit
-                              ? newData.viewOnly === "staff"
+                              ? newData.viewOnly === "staff" || newData.viewOnly === "admin,staff,parents"
                                 ? "checked"
                                 : "unchecked"
                               : teacherChecked
@@ -1507,6 +1505,11 @@ const TeachersCalendar = () => {
                           uncheckColor={"red"}
                         />
                       </View>
+                      <View style={{ flex: 0.6 }}>
+                        <Text style={[styles.labelStyle, { marginTop: 5 }]}>
+                          Teacher
+                        </Text>
+                      </View>
                     </View>
 
                     <View
@@ -1518,14 +1521,12 @@ const TeachersCalendar = () => {
                         },
                       ]}
                     >
-                      <View style={{ flex: 0.6, alignItems: "center" }}>
-                        <Text style={styles.labelStyle}>Parent</Text>
-                      </View>
-                      <View style={{ flex: 0.1, bottom: "2.3%" }}>
+                      
+                      <View style={{ flex: 0.3 }}>
                         <Checkbox
                           status={
                             isEdit
-                              ? newData.viewOnly === "parents"
+                              ? newData.viewOnly === "parents" || newData.viewOnly === "admin,staff,parents"
                                 ? "checked"
                                 : "unchecked"
                               : parentChecked
@@ -1539,6 +1540,9 @@ const TeachersCalendar = () => {
                           color={"green"}
                           uncheckColor={"red"}
                         />
+                      </View>
+                      <View style={{ flex: 0.6,top:'5%' }}>
+                        <Text style={styles.labelStyle}>Parent</Text>
                       </View>
                     </View>
                   </View>
@@ -1760,7 +1764,7 @@ const TeachersCalendar = () => {
                         setOpen(false);
                       }}
                     >
-                      Close
+                      Okay
                     </NativeButton>
                   </NativeButton.Group>
                 </Modal.Footer>

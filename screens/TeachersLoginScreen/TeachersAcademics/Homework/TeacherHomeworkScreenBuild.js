@@ -227,18 +227,18 @@ const TeacherHomeworkScreenBuild = () => {
     };
   }, []);
 
-  useEffect(() => {
-    async function imageHandler() {
-      if (Platform.OS !== "web") {
-        const { status } =
-          await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== "granted") {
-          alert("Permission denied!");
-        }
-      }
-    }
-    imageHandler();
-  }, []);
+  // useEffect(() => {
+  //   async function imageHandler() {
+  //     if (Platform.OS !== "web") {
+  //       const { status } =
+  //         await ImagePicker.requestMediaLibraryPermissionsAsync();
+  //       if (status !== "granted") {
+  //         alert("Permission denied!");
+  //       }
+  //     }
+  //   }
+  //   imageHandler();
+  // }, []);
 
   async function fetchToken() {
     TOKEN = await AsyncStorage.getItem("token");

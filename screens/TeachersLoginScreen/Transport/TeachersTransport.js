@@ -7,12 +7,15 @@ import {
   Dimensions,
   Animated,
   ActivityIndicator,
+  Linking,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Button from "../../../components/UI/Button";
 import axios from "axios";
 import { Keyboard } from "react-native";
-
+import {
+  Image as NativeImage,
+} from "native-base";
 import BgButton from "../../../components/UI/BgButton";
 import TeachersHome from "../BottomTab/TeachersHome";
 import Input from "../../../components/UI/Input";
@@ -20,11 +23,12 @@ import Input from "../../../components/UI/Input";
 import { Card } from "react-native-paper";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Ionicons } from "@expo/vector-icons";
+import { Entypo, Ionicons } from "@expo/vector-icons";
 import SearchBar from "react-native-dynamic-search-bar";
 import { useNavigation } from "@react-navigation/native";
-import { Heading, Spinner, Text as NativeText } from "native-base";
+import { Heading, IconButton, Spinner, Text as NativeText } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
+import MapView from "react-native-maps";
 
 export var ID;
 var USERID;
@@ -132,6 +136,9 @@ const TeachersTransport = () => {
   const busnumberInputIsInValid =
     !enteredBusnumberIsValid && enteredBusnumberTouched;
 
+    const [isMapActive,setIsMapActive]=useState(true);
+    const [isPhoneActive,setIsPhoneActive]=useState(false);
+
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [data, setData] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
@@ -166,6 +173,7 @@ const TeachersTransport = () => {
           `${subURL}/TransportreportDetailList/${filteredRes[0]?.busnumber}`
         );
         setData(res.data);
+       
         setFilteredData(res.data);
         let test = 0;
         const value = await AsyncStorage.getItem("key");
@@ -187,7 +195,7 @@ const TeachersTransport = () => {
     }
     fetchData();
   }, [userid]);
-
+  console.log(data)
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -223,6 +231,22 @@ const TeachersTransport = () => {
   function busNumberChangeHandler(enteredValue) {
     setEnteredBusNumber(enteredValue);
   }
+
+  
+  const myRef = useRef(null);
+
+  useEffect(() => {
+    if (myRef.current && myRef.current.setNativeProps) {
+      const styleObj = {
+        //borderWidth: 3,
+        borderRadius: 100,
+        //borderColor: "#577AFE",
+      };
+      myRef.current.setNativeProps({
+        style: styleObj,
+      });
+    }
+  }, [myRef]);
 
   function updateHandler() {
     setShowInitialBtn(true);
@@ -734,99 +758,196 @@ const TeachersTransport = () => {
       setShowInitialBtn(true);
     }
   }
+  function mapViewPressedHandler(){
+    setIsMapActive(true);
+  }
 
+  function callBtnPressedHandler(mobile_number){
+    console.log(mobile_number);
+  
+    Linking.openURL(`tel:${mobile_number}`);
+  }
   return (
     <>
-      <View style={[styles.mainContainer]}>
-        <View
-          style={[
-            styles.headingView,
-            keyboardStatus == "Keyboard Shown" && styles.headingViewNew,
-          ]}
-        >
-          <Text bold style={styles.textStyle}>
-            Bus and Driver Details
-          </Text>
-        </View>
-        <View style={{ flex: 2, backgroundColor: "white" }}>
-          <SearchBar
-            style={styles.searchBar}
-            textInputStyle={{
-              fontFamily: "HindRegular",
-              fontSize: 18,
-            }}
-            placeholder="Search here"
-            onChangeText={(text) => searchFilter(text)}
-            value={searchText}
-          />
-          <ScrollView>
-            {filteredData &&
-              filteredData.map((data, key) => (
-                <Card style={[styles.card]}>
-                  <Card.Content style={{ marginTop: 0 }}>
-                    <View style={styles.flexStyleRow}>
-                      <View style={styles.flexData1}>
-                        <Text style={[styles.cardTextStyle]}>Driver Name</Text>
-                      </View>
-                      <View style={styles.flexData}>
-                        <Text style={styles.cardData}>{data.driver_name}</Text>
-                      </View>
-                    </View>
-                    <View style={styles.flexStyleRow}>
-                      <View style={styles.flexData1}>
-                        <Text style={[styles.cardTextStyle]}>Bus Number</Text>
-                      </View>
-                      <View style={styles.flexData}>
-                        <Text style={styles.cardData}>{data.busnumber}</Text>
-                      </View>
-                    </View>
-                    <View style={styles.flexStyleRow}>
-                      <View style={styles.flexData1}>
-                        <Text style={[styles.cardTextStyle]}>
-                          Vehicle Number
-                        </Text>
-                      </View>
-                      <View style={styles.flexData}>
-                        <Text style={styles.cardData}>{data.vehicleno}</Text>
-                      </View>
-                    </View>
+      <View
+        style={[
+          {
+            // Try setting `flexDirection` to `"row"`.
+            flex:1,
+            flexDirection: 'column',
+          },
+        ]}>
+        <View style={{flex: 0.36, backgroundColor: '#1E84A4'}} >
 
-                    <View style={styles.flexStyleRow}>
-                      <View style={styles.flexData1}>
-                        <Text style={[styles.cardTextStyle]}>
-                          Contact Number
-                        </Text>
-                      </View>
-                      <View style={styles.flexData}>
-                        <Text style={styles.cardData}>{data.emp_mobile}</Text>
-                      </View>
-                    </View>
-                    <View style={styles.flexStyleRow}>
-                      <View style={styles.flexData1}>
-                        <Text style={[styles.cardTextStyle]}>route name</Text>
-                      </View>
-                      <View style={styles.flexData}>
-                        <Text style={styles.cardData}>{data.route_name}</Text>
-                      </View>
-                    </View>
-                    <View style={styles.flexStyleRow}>
-                      <View style={styles.flexData1}>
-                        <Text style={[styles.cardTextStyle]}>Stop name</Text>
-                      </View>
-                      <View style={styles.flexData}>
-                        <Text style={styles.cardData}>{data.stop_name}</Text>
-                      </View>
-                    </View>
-                  </Card.Content>
-                </Card>
-              ))}
-          </ScrollView>
         </View>
-        {keyboardStatus == "Keyboard Hidden" && (
-          <View style={{ flex: 0.2, backgroundColor: "white" }}>
-            <TeachersHome />
-          </View>
-        )}
+        <View style={{flex: 0.4,backgroundColor:'white'}} >
+          {filteredData &&
+            filteredData.map((data)=>(
+              <View
+                style={[
+                  {
+                    // Try setting `flexDirection` to `"row"`.
+                    flex:1,
+                    flexDirection: 'row',
+                    bottom:'16%',
+                    marginHorizontal:10,
+                    backgroundColor:'#E0E0E0',
+                    borderRadius:10
+                  },
+                ]}>
+                <View style={{flex: 0.7}} >
+                  <View
+                    style={[
+                      {
+                        // Try setting `flexDirection` to `"row"`.
+                        flex:1,
+                        flexDirection: 'column',
+                      },
+                    ]}>
+                    <View style={{flex: 1,justifyContent:'center'}} >
+                      <NativeImage
+                        //alignSelf="center"
+                        left={5}
+                        borderRadius={100}
+                        
+                        source={{
+                          uri: `https://img.icons8.com/arcade/64/null/gender-neutral-user--v1.png`,
+                        }}
+                        alt="Student Image"
+                        size="md"
+                        ref={myRef}
+                        resizeMode="contain"
+                      />
+                    </View>
+                    <View style={{flex: 0.3,left:30,bottom:7}} >
+                      {/* <Text style={styles.cardTextStyle}>{StudentName}</Text> */}
+                    </View>
+                  </View>
+                </View>
+                <View style={{flex: 1}} >
+                  <View
+                    style={[
+                      {
+                        // Try setting `flexDirection` to `"row"`.
+                        flex:1,
+                        flexDirection: 'column',
+                      },
+                    ]}>
+                    <View style={{flex: 1}} >
+                      <View
+                        style={[
+                          {
+                            // Try setting `flexDirection` to `"row"`.
+                            flex:1,
+                            flexDirection: 'row',
+                          },
+                        ]}>
+                        <View style={{flex: 0.5,justifyContent:'center'}} >
+                          <Text style={styles.lableStyle}>Bus No.</Text>
+                        </View>
+                        <View style={{flex: 1,justifyContent:'center'}} >
+                          <Text style={styles.textStyle}>{data.busnumber}</Text>
+                        </View>
+                      </View>
+                      <View
+                        style={[
+                          {
+                            // Try setting `flexDirection` to `"row"`.
+                            flex:1,
+                            flexDirection: 'row',
+                          },
+                        ]}>
+                        <View style={{flex: 1}} >
+                          <Text style={[styles.textStyle,{fontFamily:'HindRegular'}]}>Left From School At 2.00pm</Text>
+                        </View>
+                        {/* <View style={{flex: 1}} >
+                          <Text>{data.busnumber}</Text>
+                        </View> */}
+                      </View>
+                      <View
+                        style={[
+                          {
+                            // Try setting `flexDirection` to `"row"`.
+                            flex:1,
+                            flexDirection: 'row',
+                            top:10
+                          },
+                        ]}>
+                        <View style={{flex: 0.5}} >
+                          <Text style={styles.cardTextStyle}>Current:</Text>
+                        </View>
+                        <View style={{flex: 1}} >
+                          <Text style={styles.cardTextStyle}>Udupi bus stop</Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+                <View style={{flex: 0.3}} >
+                  <View
+                    style={[
+                      {
+                        // Try setting `flexDirection` to `"row"`.
+                        flex:1,
+                        flexDirection: 'column',
+                        
+                      },
+                    ]}>
+                    <View style={{flex: 1,alignItems:'center',justifyContent:'center'}} > 
+                      <IconButton
+                        colorScheme="lightBlue"
+                        onPress={() =>
+                          callBtnPressedHandler(data.emp_mobile)
+                        }
+                        variant="solid"
+                        borderRadius='full'
+                        _icon={{
+                          as: Ionicons,
+                          name: "call",
+                      }}/>
+                    </View>
+                    <View style={{flex: 1,alignItems:'center',justifyContent:'center'}} >
+                      <IconButton
+                        colorScheme="lightBlue"
+                        onPress={mapViewPressedHandler}
+                        variant="solid"
+                        borderRadius='full'
+                        _icon={{
+                          as: Ionicons,
+                          name: "location",
+                      }}/>
+                    </View>
+                  </View>
+
+                </View>
+              </View>
+          ))}
+        </View>
+        <View style={{flex:1,backgroundColor:'white',paddingBottom:40}} >
+          {isMapActive && 
+            <View
+              style={[
+                {
+                  // Try setting `flexDirection` to `"row"`.
+                  flex:1,
+                  flexDirection: 'row',
+                  justifyContent:'center',
+                  marginTop:'5%'
+                },
+              ]}>
+              <View style={{flex: 0.2,alignItems:'center'}} >
+                <Entypo name="location" size={24} color="black" />
+              </View>
+              <View style={{flex: 1}} >
+                <Text style={styles.labelStyle}>Live location tracking coming soon...</Text>
+              </View>
+            </View>
+          }
+          {/* {isMapActive && <MapView style={[styles.map]} />} */}
+        </View>
+        <View style={{flex: 0.1}} >
+          <TeachersHome />
+        </View>
       </View>
     </>
   );
@@ -1157,283 +1278,63 @@ const deviceWidth = Dimensions.get("window").width;
 const deviceHieght = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    flexDirection: "column",
-    backgroundColor: "white",
-  },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-  },
-  flexData: {
-    flex: 2,
-    left: 40,
-    top: 5,
-  },
-  flexData1: {
-    flex: 2,
-    left: 20,
-    top: 5,
-  },
-  edititem: {
-    flex: 1,
-    top: 5,
-    left: deviceWidth < 370 ? 190 : 200,
-  },
-  card: {
-    margin: 5,
-    marginVertical: 15,
-    marginHorizontal: 25,
-    elevation: 5,
-    borderRadius: 10,
-  },
-  BtnContainer: {
-    fontSize: 24,
-    flexDirection: "row",
-    // marginHorizontal: 10,
-    width: "100%",
-    //height:'100%',
-    backgroundColor: "#FDFEFE",
-  },
   container: {
-    marginTop: "1%",
-    padding: "1%",
-  },
-
-  btnSubmit1: {
-    marginLeft: "50%",
-    width: "50%",
-  },
-  cancel: {
-    marginTop: -110,
-    marginBottom: 10,
-    marginLeft: -15,
-    width: "50%",
-  },
-  type: {
-    left: 30,
-  },
-  root: {
-    // backgroundColor: "#EBECFO",
+    flex: 5,
     backgroundColor: "white",
+    // alignItems: 'center',
+    // justifyContent: 'center',
+  },
+  map: {
+    //width: Dimensions.get("window").width,
     height: "100%",
-    //  top: 10,
-  },
-  inputForm: {
-    padding: "5%",
-    paddingTop: "1%",
-    backgroundColor: "white",
-    height: "100%",
-    //marginTop: -15,
-  },
-  errorBorderColor: {
-    borderColor: "red",
-  },
-
-  btnSubmit: {
-    marginTop: "2%",
-    marginBottom: 30,
-
-    marginLeft: "35%",
-    width: "70%",
-  },
-  cardData: {
-    fontSize: deviceWidth < 370 ? 14 : 16,
-    fontFamily: "HindSemiBold",
-    color: "grey",
-  },
-
-  cardTextStyle: {
-    fontFamily: "HindSemiBold",
-    fontSize: deviceWidth < 370 ? 14 : 16,
-  },
-  submit: {
-    padding: "3%",
-    backgroundColor: "#00B8AC",
-    borderRadius: 10,
-    borderWidth: 1,
-    top: "10%",
-    borderColor: "#fff",
-    left: "10%",
-    width: deviceWidth < 370 ? "50%" : "50%",
-  },
-  delete: {
-    padding: "3%",
-    backgroundColor: "#00B8AC",
-    borderRadius: 10,
-    borderWidth: 1,
-    top: "10%",
-    borderColor: "#fff",
-    width: deviceWidth < 370 ? "50%" : "50%",
-  },
-  searchBar: {
-    marginTop: 10,
-    marginBottom: 20,
-    // backgroundColor: "white",
-    backgroundColor: "#F0F3F4",
-    // height:deviceWidth < 370 ? "6%" : "6%",
-  },
-  focusStyle: {
-    borderColor: "blue",
-  },
-  normal: {
-    position: "absolute",
-    top: deviceWidth < 370 ? 27 : 30,
-    left: deviceWidth < 370 ? 40 : 50,
-  },
-  up: {
-    position: "absolute",
-    top: deviceWidth < 370 ? 2 : 7,
-    left: deviceWidth < 370 ? 40 : 50,
-    fontFamily: "HindRegular",
-  },
-  errorLabel: {
-    color: "red",
-    //  backgroundColor: "#F2F2F2",
-    backgroundColor: "white",
-    paddingHorizontal: 5,
-    fontSize: deviceWidth < 370 ? 13 : 17,
-    fontFamily: "HindRegular",
-  },
-  normalLabel: {
-    // color: "#A7ADAD",
-    color: "#AEB6BF",
-    // backgroundColor: "#F2F2F2",
-    backgroundColor: "white",
-    paddingHorizontal: 5,
-    fontSize: deviceWidth < 370 ? 13 : 16,
-    letterSpacing: 0.5,
-  },
-
-  normalVeh: {
-    position: "absolute",
-    top: deviceWidth < 370 ? 23 : 27,
-    left: deviceWidth < 370 ? 20 : 30,
-    fontFamily: "HindRegular",
-  },
-  upVeh: {
-    top: deviceWidth < 370 ? 15 : 25,
-    width: deviceWidth < 370 ? 100 : 129,
-    left: deviceWidth < 370 ? 20 : 30,
-    color: "black",
-    height: 20,
-    fontFamily: "HindRegular",
-  },
-  vehError: {
-    bottom: deviceWidth < 370 ? 15 : 3,
-    color: "red",
-    //  backgroundColor: "#F2F2F2",
-    backgroundColor: "white",
-    paddingHorizontal: 5,
-    fontSize: deviceWidth < 370 ? 13 : 16,
-    fontFamily: "HindRegular",
-  },
-
-  normalType: {
-    position: "absolute",
-    top: deviceWidth < 370 ? 23 : 27,
-    left: deviceWidth < 370 ? 20 : 30,
-    fontFamily: "HindRegular",
-  },
-  upType: {
-    top: deviceHieght > 800 ? 30 : 27,
-    width: deviceWidth > 400 ? 130 : 130,
-    left: deviceWidth < 370 ? 20 : 30,
-    fontFamily: "HindRegular",
-  },
-
-  normalDriver: {
-    position: "absolute",
-    top: 26,
-    left: deviceWidth < 370 ? 20 : 30,
-    fontFamily: "HindRegular",
-  },
-  upDriver: {
-    top: deviceHieght > 800 ? 30 : 25,
-    width: deviceWidth < 370 ? 90 : 110,
-    left: deviceWidth < 370 ? 20 : 35,
-    fontFamily: "HindRegular",
-  },
-
-  normalMob: {
-    position: "absolute",
-    top: deviceWidth < 370 ? 23 : 27,
-    left: deviceWidth < 370 ? 20 : 30,
-    fontFamily: "HindRegular",
-  },
-  upMob: {
-    top: deviceWidth < 370 ? 15 : 25,
-    width: deviceWidth > 400 ? 130 : 130,
-    left: deviceWidth < 370 ? 20 : 30,
-    fontFamily: "HindRegular",
-  },
-
-  normalRoot: {
-    position: "absolute",
-    top: deviceWidth < 370 ? 23 : 27,
-    left: deviceWidth < 370 ? 20 : 30,
-    fontFamily: "HindRegular",
-  },
-  upRoot: {
-    top: deviceWidth < 370 ? 15 : 33,
-    left: deviceWidth < 370 ? 20 : 30,
-    width: deviceWidth > 400 ? 107 : 100,
-    fontFamily: "HindRegular",
-  },
-
-  normalStop: {
-    position: "absolute",
-    top: deviceWidth < 370 ? 22 : 27,
-    left: deviceWidth < 370 ? 20 : 30,
-    fontFamily: "HindRegular",
-  },
-  upStop: {
-    // position:'absolute',
-    top: deviceWidth < 370 ? 15 : 27,
-    left: deviceWidth < 370 ? 25 : 37,
-    width: deviceWidth < 370 ? 80 : 95,
-    fontFamily: "HindRegular",
-  },
-
-  commonErrorMsg: {
-    color: "red",
-    left: 20,
-    fontFamily: "HindRegular",
-    fontSize: deviceWidth < 370 ? 14 : 17,
-  },
-  flexStyleCol: {
-    flex: 1,
-    flexDirection: "column",
-  },
-  flexStyleRow: {
-    flex: 1,
-    flexDirection: "row",
-  },
-  spinnerTextStyle: {
-    color: "#FFF",
-  },
-  headingView: {
-    flex: 0.2,
-    backgroundColor: "white",
-    alignItems: "center",
-    marginVertical: 17,
-  },
-  headingViewNew: {
-    flex: 0.5,
-    backgroundColor: "white",
-    alignItems: "center",
-    marginVertical: 27,
+    bottom:'5%',
+    marginHorizontal:13,
   },
   textStyle: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: "HindSemiBold",
-    color: "#34495E",
-
-    backgroundColor: "#E5E7E9",
-    padding: 15,
-    borderRadius: 5,
+  },
+  cardTextStyle: {
+    fontFamily: "HindBold",
+    fontSize: 16,
+  },
+  lableStyle: {
+    fontFamily: "HindSemiBold",
+    fontSize: 16,
+  },
+  iconStyle: {
+    flex: 0.2,
+    alignItems: "center",
+    justifyContent: "center",
+    //top: deviceWidth < 370 ? 20 : 25,
+  },
+  labelStyle: {
+    fontFamily: "HindSemiBold",
+    fontSize: 18,
+    color:'red'
+  },
+  itemStyle: {
+    flex: 0.1,
+    flexDirection: "row",
+    backgroundColor: "#275932",
+    top: 10,
+    borderRadius: 20,
+    paddingVertical: 10,
+    marginHorizontal: 20,
+  },
+  locationView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  cardStyle: {
+    flex: 0.5,
+    flexDirection: "column",
+    backgroundColor: "white",
+    padding: 5,
+    top: deviceWidth < 370 ? 20 : 25,
+    borderRadius: 20,
+    marginHorizontal: 20,
+    elevation: 5,
   },
 });
