@@ -549,6 +549,7 @@ const NoticeBoard = () => {
         );
 
         setData(filteredData);
+        console.log(data)
       } catch (error) {
         console.log(error);
       }

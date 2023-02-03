@@ -11,8 +11,12 @@ import {
   Pressable,
   ActivityIndicator,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-import FloatLabelTextInput from "react-native-floating-label-text-input";
+import SelectList from "react-native-dropdown-select-list";
+import * as Notifications from "expo-notifications";
+
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import { Checkbox } from "react-native-paper";
+
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../../components/UI/Button";
 import axios from "axios";
@@ -23,24 +27,69 @@ import SearchBar from "react-native-dynamic-search-bar";
 import { Ionicons } from "@expo/vector-icons";
 import TeachersHome from "../BottomTab/TeachersHome";
 import Input from "../../../components/UI/Input";
-import { getMomentsAsync } from "expo-media-library";
+
 import moment from "moment";
 
-import { Card, DataTable } from "react-native-paper";
+import { Card } from "react-native-paper";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import { Animated } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import EditCalendar from "./EditCalendar";
-import { HStack } from "native-base";
+
+import {
+  HStack,
+  IconButton,
+  Radio,
+  Button as NativeButton,
+  Text as NativeText,
+  Icon,
+  Modal,
+  Badge,
+} from "native-base";
+var NotificationID,NotificationObject
 import { subURL } from "../../../components/utils/URL's";
-// import { Label } from "react-native-form-component";
+import CalendarPicker from "react-native-calendar-picker";
+import BackButton from "../../../components/UI/BackButton";
 
 export var ID;
-export var FROMDATE, TODATE;
-const TeachersCalendarScreenBuild = () => {
+var Group
+var FROMDATE, TODATE;
+var USERNAME, TOKEN;
+const TeachersCalendar = () => {
+  const [checked, setChecked] = useState(false);
+  const [adminChecked, setAdminChecked] = useState(false);
+  const [teacherChecked, setTeacherChecked] = useState(false);
+  const [parentChecked, setParentChecked] = useState(false);
+
+  const [selectedTouched, setSelectedTouched] = useState(false);
+  const checkedIsInvalid =
+    !adminChecked && !parentChecked && !teacherChecked && !checked;
+
+  const [user, setUser] = useState("");
+  const [token, setToken] = useState("");
+
+  const [test, setTest] = useState(false);
+  const [value, setValue] = useState("");
+  const [isSelected, setSelection] = useState(false);
+
+  const [listData, setListData] = useState(["All", "Teacher", "Parent"]);
   const navigation = useNavigation();
+
+  const [placement, setPlacement] = useState(undefined);
+  const [open, setOpen] = useState(false);
+
+  const [placementCard, setPlacementCard] = useState(undefined);
+  const [openCardModal, setOpenCardModal] = useState(false);
+
+  const [listActive, setListActive] = useState(true);
+  const [calendarActive, setCalendarActive] = useState(false);
+
+  const [eventTitle, setEventTitle] = useState("");
+  const [eventStartDate, setEventStartDate] = useState("");
+  const [eventEndDate, setEventEndDate] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
+
   const scrollY = new Animated.Value(0);
 
   const diffClamp = Animated.diffClamp(scrollY, 0, 100);
@@ -62,31 +111,39 @@ const TeachersCalendarScreenBuild = () => {
   const br = "\n";
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
+  const [showSearchBar, setShowSearchBar] = useState(false);
 
   const [label, setLabel] = useState(false);
   const [descriptionLabel, setDescriptionLabel] = useState(false);
   const [startDateLabel, setstartDateLabel] = useState(false);
   const [endDateLabel, setendDateLabel] = useState(false);
+  const [showSpeacificData, setShowSpeacificData] = useState(false);
 
   const [isTitleFocused, setIsTitleFocused] = useState(false);
   const [isDescFocused, setIsDescFocused] = useState(false);
   const [isFromDateFocused, setIsFromDateFocused] = useState(false);
   const [isToDateFocused, setIsToDateFocused] = useState(false);
-
+  const [calendarViewBtnPressed, setCalendarViewBtnPressed] = useState(false);
   const [btn, setBtn] = useState(false);
+  const [receivedNotification, setReceivedNotification] = useState([]);
 
   const [forCalendarList, setForCalendarList] = useState({
-    backgroundColor: "#0C60F4",
+    backgroundColor: "#1E84A4",
     color: "white",
-    borderRadius: 10,
+    borderRadius: 5,
   });
   const [forCalendarForm, setForCalendarForm] = useState({
     color: "black",
     backgroundColor: "#F4F6F6",
-    borderRadius: 10,
+    borderRadius: 5,
   });
+  const [listBtnPressed, setListBtnPressed] = useState(false);
+  const [updateBtnPressed, setUpdateBtnPressed] = useState(false);
 
-  //maintianing states for all the fields to accept form values and form validation
+  const [selected, setSelected] = useState("");
+  const [enteredSelectedTouched, setEnteredSelectedTouched] = useState(false);
+  const enteredSelcetdIsValid = selected.trim() !== "";
+  const selectInputIsInValid = !enteredSelcetdIsValid && enteredSelectedTouched;
 
   const [title, setEnteredTitle] = useState("");
   const [enteredTitleTouched, setEnteredTitleTouched] = useState(false);
@@ -130,43 +187,57 @@ const TeachersCalendarScreenBuild = () => {
   const [isDelete, setIsDelete] = useState(false);
   const [isSame, SetIsSame] = useState(false);
 
-  //states for search functionality
   const [filteredData, setFilteredData] = useState([]);
+  const [customDatesStyles, setCustomDatesStyles] = useState([]);
+  const [specificData, setSpecificData] = useState([]);
+
   const [searchText, setSearchText] = useState("");
+  const [filteredlist, setFilteredList] = useState([]);
 
   const [showInitialBtn, setShowInitialBtn] = useState(true);
-
-  const [isActive, setActive] = useState(false);
+  const [showToggleBtn, setShowToggleBtn] = useState(false);
+  const [showListCalOptionBtn, setShowListCalOptionBtn] = useState(false);
+  const [backAndSearchBar, setBackAndSearchBar] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const [anyCheck, setAnyChecked] = useState(true);
   let i = 0;
+  const [saveYear, setSaveYear] = useState([]);
+  const [group,setGroup]=useState("")
+  const [parentNotification,setParentNotification]=useState([])
+  const [newData,setnewData]=useState([])
+  
 
-  //to fetch data on page load
   useEffect(() => {
     async function fetchData() {
       try {
         const res = await axios.get(`${subURL}/Calendar/`);
-        console.log(res.data);
-        // var mapped = res.data.map((item) => ({ [item.key]: item.value }));
-        // var newObj = Object.assign({}, ...mapped);
-        // console.log(newObj);
-        const keys = Object.keys(res.data);
-        console.log("keys -", keys);
-        console.log("created by-", res.data[0].created_by);
+
+        const keys = Object.keys(res.data[0]);
+
         setData(res.data);
         setFilteredData(res.data);
+        //console.log(res.data);
+        setCustomDatesStyles(
+          res.data.map((d) => ({
+            date: d.startdate,
+            style: { backgroundColor: "#00B8AC" },
+            textStyle: { color: "white" },
+            containerStyle: [],
+          }))
+        );
+        var newArray = res.data.map((item) => {
+          return {
+            key: item.id,
+
+            value: moment(res.data.startdate).format("YYYY"),
+          };
+        });
+
+        setSaveYear(newArray);
         let test = 0;
 
-        const value = await AsyncStorage.getItem("key");
-        for (i = 0; i < res.data.length; i++) {
-          if (value == res.data[i].created_by) {
-            test = res.data[i].created_by;
-          } else {
-            console.log("false");
-          }
-        }
         if (test == value) {
-          console.log("is same");
           SetIsSame(true);
         }
       } catch (error) {
@@ -176,17 +247,69 @@ const TeachersCalendarScreenBuild = () => {
     fetchData();
   }, []);
 
-  // const variable=data.createdby === AsyncStorage.getItem('key')
-  // const value=AsyncStorage.getItem('key')
-  // try {
-  //   const value = await AsyncStorage.getItem("key");
+  useEffect(() => {
+    async function getGroup() {
+      Group = await AsyncStorage.getItem("datagroup");
+      // console.log(Group);
+      setGroup(Group)
+    }
+    getGroup();
+  }, []);
 
-  //   if (value !== null) {
-  //     console.log("This is the token :" + value);
-  //   }
-  // } catch (error) {
-  //   // Error retrieving data
-  // }
+  useEffect(() => {
+    const subscription1 = Notifications.addNotificationReceivedListener(
+      async (notification) => {
+       console.log(notification)
+      console.log("jhdgsiyc*****************");
+      console.log("Notification received");
+      console.log("jhdgsiyc*****************");
+        
+        console.log("some msg",specificData.id)
+        setOpenCardModal(false);
+
+       
+        //  console.log("id is", specificData.id);
+
+        // if(Group=='staff'){
+          try {
+       
+            const response = await axios.put(
+              `${subURL}/Calendar/${specificData.id}/`,
+              {
+                isNotified: true,
+              }
+            );
+            console.log(response.data)
+         //   setSpecificData(response.data);
+            //  console.log(response.data);
+          } catch (error) {
+            console.error(error);
+          }
+        //}
+
+     
+     
+     }
+    );
+
+    const subscription2 = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        console.log("Notification response received");
+        console.log('group is',group)
+        if(Group=='staff'){
+          navigation.navigate("TeachersNoticeBoard");
+        }
+        else{
+          navigation.navigate("NoticeBoard");
+        }
+        
+      }
+    );
+    return () => {
+      subscription1.remove();
+      subscription2.remove();
+    };
+  }, [specificData,parentNotification]);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -202,6 +325,19 @@ const TeachersCalendarScreenBuild = () => {
     };
   }, []);
 
+  // useLayoutEffect(() => {
+
+  //   if (showList) {
+  //     navigation.setOptions({ headerShown: false });
+  //   }else if(calendarViewBtnPressed){
+  //     navigation.setOptions({ headerShown: false });
+  //   }
+  //   else {
+  //     navigation.setOptions({ headerShown: true });
+  //   }
+
+  // }, [showList,calendarViewBtnPressed]);
+
   const showFromMode = (currentFromMode) => {
     setFromShow(true);
 
@@ -215,7 +351,6 @@ const TeachersCalendarScreenBuild = () => {
     setToMode(currentToMode);
   };
 
-  //function for datetimepicker
   const fromDateChangeHandler = (event, selectedFromDate) => {
     const currentFromDate = selectedFromDate;
     FROMDATE = selectedFromDate;
@@ -247,7 +382,7 @@ const TeachersCalendarScreenBuild = () => {
     setToDate(currentToDate);
 
     let tempToDate = new Date(currentToDate);
-    console.log(tempToDate);
+
     let tDate =
       tempToDate.getDate() +
       "/" +
@@ -270,9 +405,6 @@ const TeachersCalendarScreenBuild = () => {
     setEnteredDescription(enteredValue);
   }
 
-  function createdByChangeHandler(enteredValue) {
-    setEnteredcreatedby(enteredValue);
-  }
   function frmDateHandler(enteredValue) {
     setFromDate(enteredValue);
     setenteredfrmdate(enteredValue);
@@ -282,19 +414,39 @@ const TeachersCalendarScreenBuild = () => {
     setenteredtodate(enteredValue);
   }
 
-  //update function
   function updateHandler() {
-    setShowInitialBtn(true);
+    //setShowInitialBtn(true);
+    var viewOnlyData = [];
+
+    if (adminChecked) {
+      viewOnlyData.push("admin");
+    }
+
+    if (teacherChecked) {
+      viewOnlyData.push("staff");
+    }
+
+    if (parentChecked) {
+      viewOnlyData.push("parents");
+    }
+    setUpdateBtnPressed(true);
+
+  
+
     const FormData = {
       description: description,
-      // created_by:createdby,
+      viewOnly: viewOnlyData.toString(),
       startdate: FROMDATE,
       enddate: TODATE,
       titlee: title,
+      viewOnly: viewOnlyData.toString(),
     };
-    //console.log(FormData);
 
-    if (!enteredTitleIsValid || !enteredDescriptionIsValid) {
+    if (
+      !enteredTitleIsValid ||
+      !enteredDescriptionIsValid ||
+      checkedIsInvalid
+    ) {
       Alert.alert("Please enter all fields");
     } else {
       async function updateData() {
@@ -310,8 +462,6 @@ const TeachersCalendarScreenBuild = () => {
               headers: headers,
             }
           );
-          // const token = resLogin.data.token;
-          // const userId = resLogin.data.user_id;
         } catch (error) {
           console.log(error);
         }
@@ -322,6 +472,13 @@ const TeachersCalendarScreenBuild = () => {
           text: "OK",
           onPress: () => {
             showCalendar();
+            setShowListCalOptionBtn(false);
+            //setShowInitialBtn(false);
+            setShowInitialBtn(true);
+            setShowToggleBtn(true);
+            setShowList(true);
+            setShowForm(false);
+            //  setShowList(true);
           },
         },
       ]);
@@ -332,83 +489,68 @@ const TeachersCalendarScreenBuild = () => {
       setToText("");
       setShowForm(false);
       setShowList(true);
+      setBackAndSearchBar(true);
+      setShowInitialBtn(true);
       setForCalendarList({
         backgroundColor: "#F4F6F6",
         color: "black",
-        borderRadius: 10,
+        borderRadius: 5,
       });
       setForCalendarForm({
         color: "white",
-        backgroundColor: "#1E8449",
-        borderRadius: 10,
+        backgroundColor: "#1E84A4",
+        borderRadius: 5,
       });
     }
   }
 
-  //posting data to backend
   function buttonPressedHandler() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
     }, 3000);
     setBtn(true);
+
+    var viewOnlyData = [];
+
+    if (adminChecked) {
+      viewOnlyData.push("admin");
+    }
+
+    if (teacherChecked) {
+      viewOnlyData.push("staff");
+    }
+
+    if (parentChecked) {
+      viewOnlyData.push("parents");
+    }
+
     const FormData = {
       description: description,
-      // created_by:createdby,
+      created_by: user,
+
       startdate: FROMDATE,
       enddate: TODATE,
       titlee: title,
+      viewOnly: viewOnlyData.toString(),
     };
-
-    // var dateFromValidate = fromText || frmdate;
-    // var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
-    // if (!isValid) {
-    //   Alert.alert(
-    //     "Format Error",
-    //     "It seems to be you entered wrong date format please follow D/M/YYYY format ",
-    //     [
-    //       {
-    //         text: "Cancel",
-    //         onPress: () => console.log("Cancel Pressed"),
-    //         style: "cancel",
-    //       },
-    //       { text: "OK", onPress: () => console.log("OK Pressed") },
-    //     ]
-    //   );
-    // }
-
-    // var dateToValidate = toText || todate;
-    // var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
-    // if (!isValid) {
-    //   Alert.alert(
-    //     "Format Error",
-    //     "It seems to be you entered wrong date format please follow D/M/YYYY format",
-    //     [
-    //       {
-    //         text: "Cancel",
-    //         onPress: () => console.log("Cancel Pressed"),
-    //         style: "cancel",
-    //       },
-    //       { text: "OK", onPress: () => console.log("OK Pressed") },
-    //     ]
-    //   );
-    // }
 
     const formIsValid =
       enteredTitleIsValid &&
       enteredDescriptionIsValid &&
       enteredFromDateIsValid &&
       enteredtoDateIsValid;
-    if (formIsValid) {
-    }
 
     setEnteredTitleTouched(true);
     setEnteredDescriptionTouched(true);
-
+    setSelectedTouched(true);
     setEnteredFromDateTouched(true);
     setEnteredtoDateTouched(true);
 
     if (!enteredTitleIsValid) {
+      return;
+    }
+    if (checkedIsInvalid) {
       return;
     }
     if (!enteredDescriptionIsValid) {
@@ -422,6 +564,7 @@ const TeachersCalendarScreenBuild = () => {
     if (!enteredtoDateIsValid) {
       return;
     }
+
     async function getData() {
       try {
         const res = await axios.get(`${subURL}/Calendar/`);
@@ -429,66 +572,67 @@ const TeachersCalendarScreenBuild = () => {
         let filteredlist = res.data.filter(
           (ele) => ele.description == description
         );
-        if (filteredlist.length > 0) {
-          Alert.alert("Data already exists", "please enter a new data", [
-            {
-              text: "OK",
+        // if (filteredlist.length > 0) {
 
-              style: "cancel",
-            },
-          ]);
-        } else {
-          async function storeData() {
-            try {
-              let headers = {
-                "Content-Type": "application/json; charset=utf-8",
-              };
-              const dataForm = FormData;
+        //   Alert.alert("Data already exists", "please enter a new data", [
+        //     {
+        //       text: "OK",
 
-              const resLogin = await axios.post(
-                `${subURL}/Calendar/`,
-                dataForm,
-                {
-                  headers: headers,
-                }
-              );
-            } catch (error) {
-              console.log(error);
-            }
+        //       style: "cancel",
+        //     },
+        //   ]);
+        // } else {
+
+        async function storeData() {
+          try {
+            let headers = {
+              "Content-Type": "application/json; charset=utf-8",
+              Authorization: "Token " + `${token}`,
+            };
+            const dataForm = FormData;
+
+            const resLogin = await axios.post(`${subURL}/Calendar/`, dataForm, {
+              headers: headers,
+            });
+          } catch (error) {
+            console.log(error);
           }
-          storeData();
-          Alert.alert("Saved Data", "Saved Data successfully", [
-            {
-              text: "OK",
-              onPress: () => {
-                setShowForm(false);
-                showCalendar();
-              },
-            },
-          ]);
-          setEnteredDescription("");
-          setEnteredTitle("");
-          setFromText("");
-          setToText("");
-          setEnteredTitleTouched(false);
-          setEnteredDescriptionTouched(false);
-
-          setEnteredFromDateTouched(false);
-          setEnteredtoDateTouched(false);
-          setForCalendarList({
-            backgroundColor: "#F4F6F6",
-            color: "black",
-            borderRadius: 10,
-          });
-          setForCalendarForm({
-            color: "white",
-            backgroundColor: "#1E8449",
-            borderRadius: 10,
-          });
-
-          setShowForm(false);
-          setShowList(true);
         }
+        storeData();
+        Alert.alert("Saved Data", "Saved Data successfully", [
+          {
+            text: "OK",
+            onPress: () => {
+              setShowForm(false);
+              showCalendar();
+            },
+          },
+        ]);
+
+        setEnteredDescription("");
+        setEnteredTitle("");
+        setFromText("");
+        setToText("");
+        setEnteredTitleTouched(false);
+        setEnteredDescriptionTouched(false);
+
+        setEnteredFromDateTouched(false);
+        setEnteredtoDateTouched(false);
+
+        setForCalendarList({
+          backgroundColor: "#F4F6F6",
+          color: "black",
+          borderRadius: 5,
+        });
+        setForCalendarForm({
+          color: "white",
+          backgroundColor: "#1E84A4",
+          borderRadius: 5,
+        });
+
+        setShowForm(false);
+        setShowList(true);
+        // }
       } catch (error) {
         console.log(error);
       }
@@ -496,7 +640,6 @@ const TeachersCalendarScreenBuild = () => {
     getData();
   }
 
-  //functions for form validation
   function titleBlurHandler() {
     setEnteredTitleTouched(true);
     setIsTitleFocused(false);
@@ -539,14 +682,14 @@ const TeachersCalendarScreenBuild = () => {
 
   function showCalendarForm() {
     setForCalendarList({
-      backgroundColor: "#0C60F4",
+      backgroundColor: "#1E84A4",
       color: "white",
-      borderRadius: 10,
+      borderRadius: 5,
     });
     setForCalendarForm({
       color: "black",
       backgroundColor: "#F4F6F6",
-      borderRadius: 10,
+      borderRadius: 5,
     });
     setShowForm(true);
     setShowList(false);
@@ -554,6 +697,7 @@ const TeachersCalendarScreenBuild = () => {
     setEnteredTitleTouched(false);
     setEnteredtoDateTouched(false);
     setEnteredFromDateTouched(false);
+    setSelectedTouched(false);
     setIsEdit(false);
 
     setEnteredDescription("");
@@ -565,84 +709,59 @@ const TeachersCalendarScreenBuild = () => {
     setDescriptionLabel(false);
     setIsTitleFocused(false);
     setIsDescFocused(false);
+    setShowToggleBtn(false);
+    setChecked(false);
+    setAdminChecked(false);
+    setTeacherChecked(false);
+    setParentChecked(false);
+    //setCalendarViewBtnPressed(false);
+    setShowListCalOptionBtn(false);
+    setShowSearchBar(false);
   }
-
   function showCalendar() {
     async function fetchData() {
       try {
         const res = await axios.get(`${subURL}/Calendar/`);
-        console.log(res.data);
-        console.log("created by-", res.data.created_by);
+
         setData(res.data);
         setFilteredData(res.data);
-
-        setForCalendarForm({
-          color: "white",
-          backgroundColor: "#1E8449",
-          borderRadius: 10,
-        });
-        setForCalendarList({
-          backgroundColor: "#F4F6F6",
-          color: "black",
-          borderRadius: 10,
-        });
-        setShowForm(false);
-        setShowList(true);
       } catch (error) {
         console.log(error);
       }
     }
     fetchData();
+
+    setForCalendarForm({
+      color: "white",
+      backgroundColor: "#1E84A4",
+      borderRadius: 5,
+    });
+    setForCalendarList({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 5,
+    });
+    setShowForm(false);
+    setShowList(true);
+    setShowToggleBtn(true);
+    setCalendarViewBtnPressed(false);
+    //setAnyChecked(false);
+    setListActive(true);
+    setCalendarActive(false);
+    // setShowListCalOptionBtn(true);
+    //setShowSearchBar(true)
   }
 
-  // function editItem(id) {
-  //   // setShowInitialBtn(false);
-
-  //   setLabel(true);
-  //   setDescriptionLabel(true);
-  //   ID = id;
-  //   // console.log(id);
-  //   const filteredDummuyData = data.find((data) => data.id == id);
-  //   navigation.navigate("EditCalendar", {
-  //     id: id,
-  //     title: filteredDummuyData.titlee,
-  //     desc: filteredDummuyData.description,
-  //     fromtext: moment(filteredDummuyData.startdate).format("DD/MM/YYYY"),
-  //     totext: moment(filteredDummuyData.enddate).format("DD/MM/YYYY"),
-  //     cancel: cancelHandler.bind(this),
-  //   });
-
-  //   setEnteredDescription(filteredDummuyData.description);
-  //   //  setEnteredcreatedby(filteredDummuyData.created_by);
-  //   setFromText(moment(filteredDummuyData.startdate).format("DD/MM/YYYY"));
-  //   setToText(moment(filteredDummuyData.enddate).format("DD/MM/YYYY"));
-  //   setEnteredTitle(filteredDummuyData.titlee);
-  //   //  setEnteredMobile(filteredDummuyData.exam_name);
-  //   //  setEnteredRouteName(filteredDummuyData.hour);
-
-  //   setForCalendarList({
-  //     backgroundColor: "#F4F6F6",
-  //     color: "black",
-  //     borderRadius: 10,
-  //   });
-  //   setForCalendarForm({
-  //     color: "white",
-  //     backgroundColor: "#1E8449",
-  //     borderRadius: 10,
-  //   });
-  //   // setShowForm(true);
-  //   // setShowList(false);
-  //   setIsEdit(true);
-  // }
-
-  //edit function
   function editItem(id) {
     setShowInitialBtn(false);
     setLabel(true);
     setDescriptionLabel(true);
+    setCalendarViewBtnPressed(false);
     ID = id;
-    console.log(id);
+
     const filteredDummuyData = data.find((data) => data.id == id);
+    setnewData(filteredDummuyData)
+    console.log(filteredDummuyData.viewOnly);
 
     setEnteredDescription(filteredDummuyData.description);
 
@@ -650,22 +769,49 @@ const TeachersCalendarScreenBuild = () => {
     setToText(moment(filteredDummuyData.enddate).format("DD/MM/YYYY"));
     setEnteredTitle(filteredDummuyData.titlee);
 
+    // setParentChecked(parentChecked);
+    // if (filteredDummuyData.viewOnly === "staff") {
+    //   setTeacherChecked(!teacherChecked);
+    //   // setParentChecked(parentChecked);
+    //   // setAdminChecked(adminChecked);
+    //   // setChecked(checked);
+    // } else if (filteredDummuyData.viewOnly === "parents") {
+    //   console.log("else part")
+      
+    //   // setTeacherChecked(teacherChecked);
+
+    //   // setAdminChecked(adminChecked);
+    //   // setChecked(checked);
+    // } else if (filteredDummuyData.viewOnly === "admin") {
+    //   setAdminChecked(!adminChecked);
+    //   // setTeacherChecked(teacherChecked);
+    //   // setParentChecked(parentChecked);
+
+    //   // setChecked(checked);
+    // } else {
+    //   setChecked(!checked);
+    //   setTeacherChecked(!teacherChecked);
+    //   setParentChecked(!parentChecked);
+    //   setAdminChecked(!adminChecked);
+    // }
+    // setAdminChecked(filteredDummuyData.viewOnly === "admin");
+    // setTeacherChecked(filteredDummuyData.viewOnly === "teacher");
+    // setParentChecked(filteredDummuyData.viewOnly === "parent");
+
     setForCalendarList({
       backgroundColor: "#F4F6F6",
       color: "black",
-      borderRadius: 10,
+      borderRadius: 5,
     });
     setForCalendarForm({
       color: "white",
-      backgroundColor: "#1E8449",
-      borderRadius: 10,
+      backgroundColor: "#1E84A4",
+      borderRadius: 5,
     });
     setShowForm(true);
     setShowList(false);
     setIsEdit(true);
   }
-
-  //delete function
   function deleteItem(id) {
     Alert.alert("Confirm Deletion", "You are about to delete this row!", [
       {
@@ -707,9 +853,7 @@ const TeachersCalendarScreenBuild = () => {
     }
   }
 
-  //search function
   const searchFilter = (text) => {
-    console.log("search function");
     if (text) {
       const newData = data.filter((item) => {
         const itemData = item.titlee
@@ -726,34 +870,378 @@ const TeachersCalendarScreenBuild = () => {
     }
   };
 
-  //cancel button function
   function cancelHandler() {
     setShowInitialBtn(true);
+    setShowToggleBtn(true);
     setShowList(true);
     setShowForm(false);
+    setAdminChecked(adminChecked);
+    setParentChecked(parentChecked);
+    setTeacherChecked(teacherChecked);
+    setChecked(checked);
   }
+
+  async function fetchUser() {
+    USERNAME = await AsyncStorage.getItem("UserName");
+
+    if (USERNAME !== null) {
+      setUser(USERNAME);
+    }
+  }
+  fetchUser();
+
+  async function fetchToken() {
+    TOKEN = await AsyncStorage.getItem("token");
+
+    if (TOKEN !== null) {
+      setToken(TOKEN);
+    }
+  }
+  fetchToken();
+
+  function allCheckHandler() {
+    //setTest(true);
+
+    setChecked(!checked);
+    setTeacherChecked(!teacherChecked);
+    setAdminChecked(!adminChecked);
+    setParentChecked(!parentChecked);
+  }
+
+  function linkPressedHandler() {
+    setShowForm(true);
+    setShowList(false);
+
+    setForCalendarList({
+      color: "white",
+      backgroundColor: "#1E84A4",
+      borderRadius: 5,
+    });
+    setForCalendarForm({
+      backgroundColor: "#F4F6F6",
+      color: "black",
+      borderRadius: 5,
+    });
+  }
+
+  function calendarViewPressHandler() {
+    setCalendarViewBtnPressed(true);
+    setShowList(false);
+    setCalendarActive(true);
+    setListActive(false);
+  }
+
+  function listViewPressHandler() {
+    setShowList(true);
+    setListActive(true);
+    setCalendarActive(false);
+    setCalendarViewBtnPressed(false);
+    async function fetchData() {
+      try {
+        const res = await axios.get(`${subURL}/Calendar/`);
+
+        setData(res.data);
+        setFilteredData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }
+
+  function handleDayPress(day) {
+    // const filteredData = data.
+    // filter((data) =>
+    //   moment(data.startdate).format("YYYY-MM-DD") == moment(day).format("YYYY-MM-DD")
+    // );
+    // setFilteredData(filteredData)
+
+    let allHavePropertiesWithValues = data.some(
+      (obj) =>
+        moment(obj.startdate).format("YYYY-MM-DD") ===
+        moment(day).format("YYYY-MM-DD")
+    );
+
+    let filteredList = data.filter(
+      (obj) =>
+        moment(obj.startdate).format("YYYY-MM-DD") ===
+        moment(day).format("YYYY-MM-DD")
+    );
+
+    if (filteredList === undefined) {
+      return;
+    } else {
+      // setEventTitle(filteredList.titlee);
+      // setEventStartDate(filteredList.startdate);
+      // setEventEndDate(filteredList.enddate);
+      // setEventDescription(filteredList.description);
+      setFilteredList(filteredList);
+    }
+
+    if (allHavePropertiesWithValues) {
+      setOpen(true);
+      setPlacement(placement);
+    } else {
+      setOpen(false);
+    }
+  }
+
+  function backCalendarBtnHandler() {
+    setShowList(false);
+    setListBtnPressed(false);
+    setShowInitialBtn(true);
+    setShowListCalOptionBtn(true);
+    setCalendarViewBtnPressed(false);
+  }
+  function backButtonHandler() {
+    setShowList(false);
+    setShowInitialBtn(true);
+    setListBtnPressed(false);
+    setShowListCalOptionBtn(true);
+  }
+
+  function cardPressedHandler(filteredData) {
+     
+    
+    setSpecificData(filteredData)
+    // NotificationID=filteredData.id
+    // console.log("this from cardpreesseds",filteredData.id);
+    // if(filteredData.viewOnly==='staff'){
+    //   setSpecificData(filteredData);
+    // }else{
+    //   setParentNotification(filteredData)
+    // }
+
+    
+
+    setOpenCardModal(true);
+    setPlacementCard(placementCard);
+  }
+
+  async function sendPushNotificationHanlder() {
+    console.log('when clicking modal',specificData.viewOnly);
+
+    const response = await axios.get(
+      `${subURL}/NotificationByGroup/${specificData.viewOnly}`
+    );
+    console.log('************')
+    console.log(response.data);
+    // const filteredData = response.data.filter(
+    //   (item) => item.user_id.groups[0].name === specificData.viewOnly
+    // );
+    const tokens = response.data;
+    console.log(token)
+    // console.log(tokens);
+    // //  console.log(filteredData[0].user_id.groups[0].name);
+
+    // // Loop through the array of tokens and send a notification to each one
+    // // tokens.forEach(async (token) => {
+    // //   //  console.log("token", token.notification_token);
+    // //   // Send the notification to the current token
+    // //   await fetch("https://exp.host/--/api/v2/push/send", {
+    // //     method: "POST",
+    // //     headers: {
+    // //       "Content-Type": "application/json",
+    // //     },
+
+    // //     body: JSON.stringify({
+    // //       to: token.notification_token,
+
+    // //       title: titlee,
+    // //       body: description,
+    // //     }),
+    // //   });
+    // // });
+
+    tokens.forEach(async (token) => {
+      // Send the notification to the current token
+
+      //  console.log(filteredData);
+      await axios.post(
+        "https://exp.host/--/api/v2/push/send",
+        {
+          to: token.notification_token,
+          title: specificData.titlee,
+          body: specificData.description,
+          data:{
+            id:specificData.id
+          }
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    });
+
+    // try {
+    //   const response = await axios.put(
+    //     `${subURL}/Calendar/${specificData.id}/`,
+    //     {
+    //       isNotified: true,
+    //     }
+    //   );
+    //   console.log(response.data);
+    // } catch (error) {
+    //   console.error(error);
+    // }
+  }
+
   return (
     <>
       {showInitialBtn && (
-        <Animated.View
+        <>
+          <Animated.View
+            style={[
+              {
+                height: animateHeaderHeight,
+                backgroundColor: animateHeaderBackGround,
+              },
+            ]}
+          >
+            <View style={styles.BtnContainer}>
+              <BgButton onPress={showCalendarForm} style={forCalendarList}>
+                Add Event
+              </BgButton>
+
+              <BgButton onPress={showCalendar} style={forCalendarForm}>
+                Show Event
+              </BgButton>
+            </View>
+          </Animated.View>
+          {showToggleBtn && (
+            <View
+              style={[
+                {
+                  // Try setting `flexDirection` to `"row"`.
+                  flex: 0.09,
+                  flexDirection: "row",
+                  backgroundColor: "white",
+                  paddingBottom: "5%",
+                },
+              ]}
+            >
+              <View style={styles.space} />
+              <View style={{ flex: 0.5 }}>
+                {/* <IconButton
+                    colorScheme="blue"
+                    onPress={listViewPressHandler}
+                    variant="subtle"
+                    _icon={{
+                      as: Ionicons,
+                      name: "list",
+                  }}/> */}
+              </View>
+              <View style={styles.spaceBetween} />
+              <View style={{ flex: 0.5 }}>
+                {/* <IconButton
+                    colorScheme="blue"
+                    onPress={listViewPressHandler}
+                    variant="subtle"
+                    _icon={{
+                      as: Ionicons,
+                      name: "list",
+                  }}/> */}
+              </View>
+              <View style={{ flex: 0.5 }}>
+                <IconButton
+                  colorScheme={listActive ? "blue" : "coolGray"}
+                  onPress={listViewPressHandler}
+                  variant="subtle"
+                  _icon={{
+                    as: Ionicons,
+                    name: "list",
+                  }}
+                />
+              </View>
+              <View style={styles.space} />
+              <View style={{ flex: 0.5 }}>
+                <IconButton
+                  colorScheme={calendarActive ? "blue" : "coolGray"}
+                  onPress={calendarViewPressHandler}
+                  variant="subtle"
+                  _icon={{
+                    as: Ionicons,
+                    name: "calendar",
+                  }}
+                />
+              </View>
+              <View style={styles.space} />
+            </View>
+          )}
+        </>
+      )}
+
+      {/* {showListCalOptionBtn && (
+        <View
           style={[
-            {
-              height: animateHeaderHeight,
-              backgroundColor: animateHeaderBackGround,
-            },
+            { flex: 1 },
+            { flexDirection: "column", backgroundColor: "white" },
           ]}
         >
-          <View style={styles.BtnContainer}>
-            <BgButton onPress={showCalendarForm} style={forCalendarList}>
-              Add Event
-            </BgButton>
-
-            <BgButton onPress={showCalendar} style={forCalendarForm}>
-              Show Event
-            </BgButton>
+          <View style={{ flex: 1, marginHorizontal: "20%", top: "10%" }}>
+            <Pressable onPress={listViewPressHandler}>
+              <Card style={styles.cardStyle}>
+                <Card.Content style={{ margin: 1, marginTop: 0 }}>
+                  <View style={{ alignItems: "center" }}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontFamily: "HindSemiBold",
+                        color: "white",
+                      }}
+                    >
+                      List
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontFamily: "HindSemiBold",
+                        color: "white",
+                      }}
+                    >
+                      View
+                    </Text>
+                  </View>
+                </Card.Content>
+              </Card>
+            </Pressable>
           </View>
-        </Animated.View>
-      )}
+
+          <View style={{ flex: 1, marginHorizontal: "20%" }}>
+            <Pressable onPress={calendarViewPressHandler}>
+              <Card style={styles.cardStyle}>
+                <Card.Content style={{ margin: 1, marginTop: 0 }}>
+                  <View style={{ alignItems: "center" }}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontFamily: "HindSemiBold",
+                        color: "white",
+                      }}
+                    >
+                      Calendar
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontFamily: "HindSemiBold",
+                        color: "white",
+                      }}
+                    >
+                      View
+                    </Text>
+                  </View>
+                </Card.Content>
+              </Card>
+            </Pressable>
+          </View>
+          <View style={{ flex: 0.2 }}>
+            <TeachersHome />
+          </View>
+        </View>
+      )} */}
       {showForm && (
         <>
           <ScrollView style={{ backgroundColor: "white" }}>
@@ -772,8 +1260,6 @@ const TeachersCalendarScreenBuild = () => {
                 </Text>
               </View>
               <Input
-                // keyboardType="number-pad"
-                // placeholder="Title"
                 onChangeText={titleChangeHandler}
                 blur={titleBlurHandler}
                 onFocus={onFocusTitleHandler}
@@ -812,7 +1298,6 @@ const TeachersCalendarScreenBuild = () => {
                 </Text>
               </View>
               <Input
-                // placeholder="Description"
                 onChangeText={descriptionChangeHandler}
                 blur={descriptionBlurHandler}
                 onFocus={onFocusDescHandler}
@@ -885,13 +1370,8 @@ const TeachersCalendarScreenBuild = () => {
                     />
                   </View>
                   <UnderlinedInput
-                    // value={moment(toText).format('DD/MM/YYYY') || moment(toDate).format('DD/MM/YYYY')}
                     value={toText || todate}
-                    // value={
-                    //   moment(toText).format("DD/MM/YYYY") ||
-                    //   moment(todate).format("DD/MM/YYYY")
-                    // }
-                    placeholder="   End date"
+                    placeholder="  End date"
                     onSubmitEditing={Keyboard.dismiss}
                     style={
                       isToDateFocused
@@ -914,248 +1394,941 @@ const TeachersCalendarScreenBuild = () => {
                       is24Hour={true}
                       display="default"
                       onChange={toDateChangeHandler}
-                      //  minimumDate={fromDate}
+                      minimumDate={fromDate}
                     />
                   )}
                 </View>
               </View>
+              <View style={styles.selectDropDownStyle}>
+                <View style={{ flex: 0.5, left: "3%" }}>
+                  <Text style={[styles.labelStyle]}>
+                    Send Notification to :
+                  </Text>
+                </View>
+                <View
+                  style={[
+                    { flex: 1 },
+                    {
+                      flexDirection: "row",
+                    },
+                  ]}
+                >
+                  <View style={{ flex: 1 }}>
+                    <View
+                      style={[
+                        { flex: 1 },
+                        {
+                          flexDirection: "row",
+                          marginLeft: "10%",
+                          marginTop: "3%",
+                        },
+                      ]}
+                    >
+                      <View style={{ flex: 0.3, alignItems: "center" }}>
+                        <Text style={[styles.labelStyle, { marginTop: 5 }]}>
+                          All
+                        </Text>
+                      </View>
+                      <View style={{ flex: 0.1 }}>
+                        <Checkbox
+                        status={isEdit ? newData.viewOnly==='admin,staff,parents' ? "checked" : "unchecked" :
+                        checked ? "checked" : "unchecked" 
+                        }
+                         //status={checked ? "checked" : "unchecked"}
+                          onPress={allCheckHandler}
+                          color={"green"}
+                          uncheckColor={"red"}
+                        />
+                      </View>
+                    </View>
+
+                    <View
+                      style={[
+                        { flex: 1 },
+                        {
+                          flexDirection: "row",
+                          marginLeft: "10%",
+                          marginTop: "3%",
+                        },
+                      ]}
+                    >
+                      <View style={{ flex: 0.5, alignItems: "center" }}>
+                        <Text style={styles.labelStyle}>Admin</Text>
+                      </View>
+                      <View style={{ flex: 0.1, bottom: "2.3%" }}>
+                        <Checkbox
+                          //status={adminChecked ? "checked" : "unchecked"}
+                          status={isEdit ? newData.viewOnly==='admin' ? "checked" : "unchecked" :
+                          adminChecked ? "checked" : "unchecked" 
+                          }
+                          onPress={() => {
+                            setAdminChecked(!adminChecked);
+                            //  setTest(true);
+                            if (!adminChecked) {
+                              console.log("check");
+                            } else {
+                              console.log("uncheck");
+                            }
+                          }}
+                          color={"green"}
+                          uncheckColor={"red"}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                  <View style={{ flex: 1, marginRight: "30%" }}>
+                    <View
+                      style={[
+                        { flex: 1 },
+                        {
+                          flexDirection: "row",
+                          marginTop: "3%",
+                        },
+                      ]}
+                    >
+                      <View style={{ flex: 0.6, alignItems: "center" }}>
+                        <Text style={[styles.labelStyle, { marginTop: 5 }]}>
+                          Teacher
+                        </Text>
+                      </View>
+                      <View style={{ flex: 0.1 }}>
+                        <Checkbox
+                          //status={ teacherChecked ? "checked" : "unchecked"}
+                          status={isEdit ? newData.viewOnly==='staff' ? "checked" : "unchecked" :
+                          teacherChecked ? "checked" : "unchecked" 
+                        }
+                          onPress={() => {
+                            setTeacherChecked(!teacherChecked);
+                            // setTest(true);
+                          }}
+                          color={"green"}
+                          uncheckColor={"red"}
+                        />
+                      </View>
+                    </View>
+
+                    <View
+                      style={[
+                        { flex: 1 },
+                        {
+                          flexDirection: "row",
+                          marginTop: "3%",
+                        },
+                      ]}
+                    >
+                      <View style={{ flex: 0.6, alignItems: "center" }}>
+                        <Text style={styles.labelStyle}>Parent</Text>
+                      </View>
+                      <View style={{ flex: 0.1, bottom: "2.3%" }}>
+                        <Checkbox
+                          status={isEdit ? newData.viewOnly==='parents' ? "checked" : "unchecked" :
+                          parentChecked ? "checked" : "unchecked" 
+                        }
+                          onPress={() => {
+                            setParentChecked(!parentChecked);
+                            //  setTest(true);
+                          }}
+                          color={"green"}
+                          uncheckColor={"red"}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                </View>
+                {/* {checkedIsInvalid && selectedTouched && (
+                  <Text style={styles.errorLabel}>
+                    Please select atleast one
+                  </Text>
+                )} */}
+              </View>
               {!isEdit && (
-                <View style={styles.btnSubmit}>
+                <View style={[btn ? styles.btnSubmitNew : styles.btnSubmit]}>
                   <Button onPress={buttonPressedHandler}>Add Event</Button>
                 </View>
               )}
               {isEdit && (
-                <View style={styles.btnSubmit1}>
-                  <Button onPress={updateHandler}>Update</Button>
-                </View>
-              )}
-              {isEdit && (
-                <View style={styles.cancel}>
-                  <Button onPress={cancelHandler}>Cancel</Button>
+                <View
+                  style={[
+                    {
+                      flex: 1,
+                      flexDirection: "row",
+                      marginTop: "30%",
+                    },
+                  ]}
+                >
+                  <View style={{ flex: 1 }}>
+                    <Button onPress={cancelHandler}>Cancel</Button>
+                  </View>
+                  <View style={{ flex: 1 }}>
+                    <Button onPress={updateHandler}>Update</Button>
+                  </View>
                 </View>
               )}
             </View>
           </ScrollView>
           {keyboardStatus == "Keyboard Hidden" && (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 0.3 }}>
               <TeachersHome />
             </View>
           )}
         </>
       )}
 
-      {showList && (
+      {calendarViewBtnPressed && (
         <View
           style={[
-            { backgroundColor: "white" },
-            //    { transform: [{ translateY: translateY }] },
-            // { elevation: 4, zIndex: 100 },
+            { flex: 1.7, flexDirection: "column", backgroundColor: "white" },
           ]}
         >
-          <SearchBar
-            // style={
-            //   keyboardStatus == "Keyboard Shown"
-            //     ? styles.upSearch
-            //     : styles.searchBar
-            // }
-            style={styles.searchBar}
-            textInputStyle={{
-              fontFamily: "HindRegular",
-              fontSize: 18,
-            }}
-            placeholder="Search here"
-            onChangeText={(text) => searchFilter(text)}
-            value={searchText}
-          />
-        </View>
-      )}
-      {showList && (
-        <View
-          style={[
-            { flex: 1 },
-            { flexDirection: "column", backgroundColor: "white" },
-          ]}
-        >
-          <View style={{ flex: 8, bottom: 10 }}>
-            <ScrollView
-              // onScroll={(e) => {
-              //   scrollY.setValue(e.nativeEvent.contentOffset.y);
-              // }}
-              scrollEventThrottle={25}
-              onScroll={Animated.event(
-                [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-                { useNativeDriver: false }
-              )}
+          <View style={{ flex: 1 }}>
+            <CalendarPicker
+              onDateChange={(day) => handleDayPress(day)}
+              customDatesStyles={customDatesStyles}
+              selectedDayStyle={{}}
+              textStyle={{ fontFamily: "HindRegular" }}
+            />
+            <Modal
+              isOpen={open}
+              onClose={() => setOpen(false)}
+              safeAreaTop={true}
+              size="full"
             >
-              <View style={styles.root}>
-                {loading ? (
-                  <HStack space={8} justifyContent="center" alignItems="center">
-                    <ActivityIndicator
-                      size={40}
-                      visible={loading}
-                      textContent={"Loading..."}
-                      textStyle={styles.spinnerTextStyle}
-                    />
-                  </HStack>
-                ) : (
-                  filteredData.map((filteredData, key) => (
-                    <>
-                      <View>
-                        <Card
-                          // key={key}
-                          style={{
-                            marginVertical: 15,
-                            marginHorizontal: 20,
-                            elevation: 5,
-                            borderRadius: 10,
-                            paddingBottom: 20,
-                          }}
-                        >
-                          <Card.Content style={{ margin: 5, marginTop: 0 }}>
-                            <Text style={styles.eventName}>
-                              {filteredData.titlee}
-                            </Text>
+              <Modal.Content maxWidth="90%" minHeight="5%">
+                {/* <Modal.Header
+                  style={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  Events
+                </Modal.Header> */}
 
-                            <View style={[{ flexDirection: "row" }]}>
-                              <View style={{ flex: 2, marginLeft: 5 }}>
-                                <Ionicons
-                                  name="calendar"
-                                  size={25}
-                                  color="#D4AC0D"
-                                  style={{
-                                    position: "absolute",
-                                    left: 5,
-                                  }}
-                                />
-                                <Text style={styles.cardTextStyle}>
-                                  Start Date
+                <Modal.Body>
+                  {filteredlist &&
+                    filteredlist.map((data) => (
+                      <ScrollView>
+                        <View
+                          style={[
+                            {
+                              // Try setting `flexDirection` to `"row"`.
+                              flex: 1,
+                              flexDirection: "column",
+                              borderBottomWidth:
+                                filteredlist.length > 1 ? 1 : 0,
+                              borderBottomColor: "grey",
+                            },
+                          ]}
+                        >
+                          <View style={{ flex: 1 }}>
+                            <View
+                              style={[
+                                {
+                                  // Try setting `flexDirection` to `"row"`.
+                                  flex: 1,
+                                  flexDirection: "row",
+                                  marginVertical: 10,
+                                },
+                              ]}
+                            >
+                              <View style={{ flex: 0.2, left: 0 }}>
+                                <Text style={[styles.cardTextStyle,{left:0}]}>
+                                  Title :
                                 </Text>
                               </View>
-                              <View style={{ flex: 2 }}>
-                                <View style={{ flex: 2 }}>
-                                  <Ionicons
-                                    name="calendar"
-                                    size={25}
-                                    color="#D4AC0D"
-                                    style={{
-                                      position: "absolute",
-                                      left: 5,
-                                    }}
-                                  />
-                                  <Text style={styles.cardTextStyle}>
-                                    End Date
-                                  </Text>
+                              <View style={{ flex: 1 }}>
+                                <Text style={[styles.textStyle,{left:0}]}>
+                                  {data.titlee}
+                                </Text>
+                              </View>
+                            </View>
+                          </View>
+                          <View style={{ flex: 1 }}>
+                            <View
+                              style={[
+                                {
+                                  // Try setting `flexDirection` to `"row"`.
+                                  flex: 1,
+                                  flexDirection: "row",
+                                },
+                              ]}
+                            >
+                              <View style={{ flex: 1 }}>
+                                <View
+                                  style={[
+                                    {
+                                      // Try setting `flexDirection` to `"row"`.
+                                      flex: 1,
+                                      flexDirection: "row",
+                                    },
+                                  ]}
+                                >
+                                  <View style={{ flex: 0.7 }}>
+                                    <Text style={[styles.cardTextStyle,{left:0}]}>
+                                      From :
+                                    </Text>
+                                  </View>
+                                  <View style={{ flex: 1.1 }}>
+                                    <Text
+                                      style={[styles.textStyle, { left: 0 }]}
+                                    >
+                                      {moment(data.startdate).format(
+                                        "DD/MM/YYYY"
+                                      )}
+                                    </Text>
+                                  </View>
+                                </View>
+                              </View>
+                              <View style={{ flex: 1 }}>
+                                <View
+                                  style={[
+                                    {
+                                      // Try setting `flexDirection` to `"row"`.
+                                      flex: 1,
+                                      flexDirection: "row",
+                                    },
+                                  ]}
+                                >
+                                  <View style={{ flex: 0.3 }}>
+                                    <Text style={[styles.cardTextStyle,{left:0}]}>
+                                      To :
+                                    </Text>
+                                  </View>
+                                  <View style={{ flex: 1 }}>
+                                    <Text style={[styles.textStyle,{left:0}]}>
+                                      {moment(data.enddate).format(
+                                        "DD/MM/YYYY"
+                                      )}
+                                    </Text>
+                                  </View>
                                 </View>
                               </View>
                             </View>
-                            <View style={[{ flexDirection: "row" }]}>
-                              <View style={{ flex: 2, left: 45 }}>
-                                <Text
-                                  style={{
-                                    fontSize: deviceWidth < 370 ? 13 : 15,
-                                    fontFamily: "HindSemiBold",
-                                    color: "grey",
-                                  }}
-                                >
-                                  {moment(filteredData.startdate).format(
-                                    "DD/MM/YYYY"
-                                  )}
+                          </View>
+                          <View style={{ flex: 1, marginVertical: 10 }}>
+                            <View
+                              style={[
+                                {
+                                  // Try setting `flexDirection` to `"row"`.
+                                  flex: 1,
+                                  flexDirection: "row",
+                                },
+                              ]}
+                            >
+                              <View style={{ flex: 0.5 }}>
+                                <Text style={[styles.cardTextStyle,{left:0}]}>
+                                  Description :
                                 </Text>
                               </View>
-                              <View style={{ flex: 2, left: 120 }}>
-                                <Text
-                                  style={{
-                                    fontSize: deviceWidth < 370 ? 13 : 15,
-                                    fontFamily: "HindSemiBold",
-                                    color: "grey",
-                                  }}
-                                >
-                                  {moment(filteredData.enddate).format(
-                                    "DD/MM/YYYY"
-                                  )}
+                              <View style={{ flex: 1 }}>
+                                <Text style={[styles.textStyle,{left:0}]}>
+                                  {[data.description]}
                                 </Text>
-                              </View>
-
-                              <View
-                                style={{
-                                  flex: 2,
-                                  left: deviceWidth < 370 ? 100 : 110,
-                                  bottom: -50,
-                                }}
-                              >
-                                <Ionicons
-                                  name="md-pencil-sharp"
-                                  size={24}
-                                  color="green"
-                                  onPress={() => editItem(filteredData.id)}
-                                />
-                              </View>
-
-                              <View
-                                style={{
-                                  flex: 2,
-                                  left: 60,
-                                  bottom: -50,
-                                }}
-                              >
-                                <Ionicons
-                                  name="trash"
-                                  size={24}
-                                  color="red"
-                                  onPress={() => deleteItem(filteredData.id)}
-                                />
                               </View>
                             </View>
-                            <View style={[{ flexDirection: "row", flex: 1 }]}>
-                              <View style={{ flex: 2, left: -20, top: 5 }}>
-                                <Text
-                                  style={[
-                                    styles.cardTextStyle,
-                                    { fontWeight: "bold" },
-                                  ]}
-                                >
-                                  Description:
-                                </Text>
-                              </View>
-                              <View
-                                style={{
-                                  flex: 2,
-                                  left: deviceWidth < 370 ? -20 : -40,
-                                  top: 5,
-                                }}
+                          </View>
+                        </View>
+                        {/* <View style={styles.space} /> */}
+                      </ScrollView>
+                    ))}
+                </Modal.Body>
+
+                <Modal.Footer>
+                  <NativeButton.Group space={2}>
+                    <NativeButton
+                      onPress={() => {
+                        setOpen(false);
+                      }}
+                    >
+                      Close
+                    </NativeButton>
+                  </NativeButton.Group>
+                </Modal.Footer>
+              </Modal.Content>
+            </Modal>
+            <View style={{ flex: 1 }}>
+              <TeachersHome />
+            </View>
+          </View>
+        </View>
+      )}
+
+      {showList && (
+        <View
+          style={[
+            { flex: 1, flexDirection: "column", backgroundColor: "white" },
+          ]}
+        >
+          {/* {backAndSearchBar &&
+          <View style={{flex: 0.1,paddingTop:20}} >
+            <BackButton onPress={backButtonHandler} />
+          </View>} */}
+          <View style={{ flex: 1 }}>
+            {backAndSearchBar && (
+              <SearchBar
+                style={styles.searchBar}
+                textInputStyle={{
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+                placeholder="Search here"
+                onChangeText={(text) => searchFilter(text)}
+                value={searchText}
+              />
+            )}
+
+            <View
+              style={[
+                { flex: 1 },
+                { flexDirection: "column", backgroundColor: "white" },
+              ]}
+            >
+              <View style={{ flex: 8, bottom: 13 }}>
+                <ScrollView
+                  scrollEventThrottle={25}
+                  onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                    { useNativeDriver: false }
+                  )}
+                >
+                  {filteredData.length <= 0 ? (
+                    <View style={{ alignItems: "center", marginTop: "15%" }}>
+                      <Text style={styles.msgText}>
+                        No events found,
+                        <Text
+                          style={styles.linkText}
+                          onPress={linkPressedHandler}
+                        >
+                          Start adding here
+                        </Text>
+                      </Text>
+                    </View>
+                  ) : (
+                    <View style={[styles.root]}>
+                      {loading ? (
+                        <HStack
+                          space={8}
+                          justifyContent="center"
+                          alignItems="center"
+                        >
+                          <ActivityIndicator
+                            size={40}
+                            visible={loading}
+                            textContent={"Loading..."}
+                            textStyle={styles.spinnerTextStyle}
+                          />
+                        </HStack>
+                      ) : (
+                        filteredData &&
+                        filteredData.map((filteredData, key) => (
+                          <>
+                            <View>
+                              <Pressable
+                                onPress={() => cardPressedHandler(filteredData)}
                               >
+                                <Card
+                                  style={{
+                                    marginVertical: 15,
+                                    marginHorizontal: 20,
+                                    elevation: 5,
+                                    borderRadius: 10,
+                                    paddingBottom: 20,
+                                  }}
+                                >
+                                  <Card.Content>
+                                    <Text style={styles.eventName}>
+                                      {filteredData.titlee}
+                                    </Text>
+                                    <View
+                                      style={[
+                                        { flex: 1 },
+                                        {
+                                          flexDirection: "row",
+                                        },
+                                      ]}
+                                    >
+                                      <View style={{ flex: 1 }}>
+                                        <View
+                                          style={[
+                                            { flex: 1 },
+                                            {
+                                              flexDirection: "row",
+                                            },
+                                          ]}
+                                        >
+                                          <View style={{ flex: 0.2 }}>
+                                            <Ionicons
+                                              name="calendar"
+                                              size={25}
+                                              color="#D4AC0D"
+                                              style={{}}
+                                            />
+                                          </View>
+                                          <View style={{ flex: 1 }}>
+                                            <Text
+                                              style={[
+                                                styles.cardTextStyle,
+                                                { left: 5 },
+                                              ]}
+                                            >
+                                              Start Date
+                                            </Text>
+                                          </View>
+                                        </View>
+                                      </View>
+                                      <View style={{ flex: 1 }}>
+                                        <View
+                                          style={[
+                                            { flex: 1 },
+                                            {
+                                              flexDirection: "row",
+                                            },
+                                          ]}
+                                        >
+                                          <View style={{ flex: 0.3 }}>
+                                            <Ionicons
+                                              name="calendar"
+                                              size={25}
+                                              color="#D4AC0D"
+                                              style={{}}
+                                            />
+                                          </View>
+                                          <View
+                                            style={{
+                                              flex: 1,
+                                              alignItems: "flex-start",
+                                              left: "1%",
+                                            }}
+                                          >
+                                            <Text
+                                              style={[
+                                                styles.cardTextStyle,
+                                                { left: 5 },
+                                              ]}
+                                            >
+                                              End Date
+                                            </Text>
+                                          </View>
+                                        </View>
+                                      </View>
+                                    </View>
+
+                                    <View
+                                      style={[
+                                        { flex: 1 },
+                                        {
+                                          flexDirection: "row",
+                                        },
+                                      ]}
+                                    >
+                                      <View style={{ flex: 1 }}>
+                                        <View
+                                          style={[
+                                            { flex: 1 },
+                                            {
+                                              flexDirection: "row",
+                                            },
+                                          ]}
+                                        >
+                                          <View style={{ flex: 0.3 }}></View>
+                                          <View
+                                            style={{
+                                              flex: 1,
+                                              alignItems: "flex-start",
+                                              left: "1%",
+                                            }}
+                                          >
+                                            <Text style={styles.textStyle}>
+                                              {moment(
+                                                filteredData.startdate
+                                              ).format("DD/MM/YYYY")}
+                                            </Text>
+                                          </View>
+                                        </View>
+                                      </View>
+                                      <View style={{ flex: 1 }}>
+                                        <View
+                                          style={[
+                                            { flex: 1 },
+                                            {
+                                              flexDirection: "row",
+                                            },
+                                          ]}
+                                        >
+                                          <View style={{ flex: 0.3 }}></View>
+                                          <View
+                                            style={{
+                                              flex: 1,
+                                              alignItems: "flex-start",
+                                              left: "1%",
+                                            }}
+                                          >
+                                            <Text style={styles.textStyle}>
+                                              {moment(
+                                                filteredData.enddate
+                                              ).format("DD/MM/YYYY")}
+                                            </Text>
+                                          </View>
+                                        </View>
+                                      </View>
+                                    </View>
+
+                                    <View
+                                      style={[
+                                        { flex: 1, top: "3%" },
+                                        {
+                                          flexDirection: "row",
+                                        },
+                                      ]}
+                                    >
+                                      <View style={{ flex: 1 }}>
+                                        <View
+                                          style={[
+                                            { flex: 1 },
+                                            {
+                                              flexDirection: "column",
+                                            },
+                                          ]}
+                                        >
+                                          <View style={{ flex: 1 }}>
+                                            <View
+                                              style={[
+                                                { flex: 1 },
+                                                {
+                                                  flexDirection: "row",
+                                                },
+                                              ]}
+                                            >
+                                              <View style={{ flex: 0.8 }}>
+                                                <Text
+                                                  style={styles.cardTextStyle}
+                                                >
+                                                  Description:
+                                                </Text>
+                                              </View>
+                                              <View style={{ flex: 1 }}>
+                                                <Text style={styles.textStyle}>
+                                                  {filteredData.description.substring(
+                                                    0,
+                                                    10
+                                                  ) + "..."}
+                                                </Text>
+                                              </View>
+                                            </View>
+                                          </View>
+                                        </View>
+
+                                        <View
+                                          style={[
+                                            {
+                                              flex: 1,
+                                              top: "4%",
+                                              marginLeft: "70%",
+                                            },
+                                            {
+                                              flexDirection: "row",
+                                            },
+                                          ]}
+                                        >
+                                          {filteredData.created_by ==
+                                            USERNAME && (
+                                            <View
+                                              style={{ flex: 1, bottom: "1%" }}
+                                            >
+                                              <View
+                                                style={[
+                                                  { flex: 1 },
+                                                  {
+                                                    flexDirection: "row",
+                                                  },
+                                                ]}
+                                              >
+                                                <View style={{ flex: 0.4 }}>
+                                                  <IconButton
+                                                    colorScheme="success"
+                                                    onPress={() =>
+                                                      editItem(filteredData.id)
+                                                    }
+                                                    variant="subtle"
+                                                    _icon={{
+                                                      as: Ionicons,
+                                                      name: "md-pencil-sharp",
+                                                    }}
+                                                  />
+                                                </View>
+                                                <View style={styles.space} />
+                                                <View style={{ flex: 0.4 }}>
+                                                  <IconButton
+                                                    colorScheme="danger"
+                                                    onPress={() =>
+                                                      deleteItem(
+                                                        filteredData.id
+                                                      )
+                                                    }
+                                                    variant="subtle"
+                                                    _icon={{
+                                                      as: Ionicons,
+                                                      name: "trash",
+                                                    }}
+                                                  />
+                                                </View>
+                                              </View>
+                                            </View>
+                                          )}
+                                        </View>
+                                      </View>
+                                    </View>
+                                  </Card.Content>
+                                </Card>
+                              </Pressable>
+                            </View>
+                          </>
+                        ))
+                      )}
+                    </View>
+                  )}
+                </ScrollView>
+                <Modal
+                  isOpen={openCardModal}
+                  onClose={() => setOpenCardModal(false)}
+                  safeAreaTop={true}
+                  size="full"
+                >
+                  <Modal.Content maxWidth="90%" minHeight="5%">
+                    {specificData.created_by === USERNAME && (
+                      <Modal.Header style={{ height: "19%" }}>
+                        <View
+                          style={[
+                            {
+                              // Try setting `flexDirection` to `"row"`.
+                              flex: 1,
+                              flexDirection: "row",
+                            },
+                          ]}
+                        >
+                          <View style={{ flex: 0.5,justifyContent:'center' }}>
+                            <Text style={[styles.cardTextStyle, { left: 0 }]}>
+                              Notify to:
+                            </Text>
+                          </View>
+                          <View style={{ flex: 1 ,justifyContent:'center'}}>
+                            <Text style={styles.textStyle}>
+                              {" "}
+                              {specificData.viewOnly}
+                            </Text>
+                          </View>
+                          <View style={{ flex: 0.5}}>
+                            {specificData.isNotified === false ? (
+                              // <NativeButton
+                              //   size="md"
+                              //   width="20"
+                              //   onPress={sendPushNotificationHanlder}
+                              //   style={{
+                              //     backgroundColor: "#1E84A4",
+                              //     //borderRadius: 7,
+                              //     left: 15,
+                              //   }}
+                              //   rightIcon={
+                              //     <Icon
+                              //       as={Ionicons}
+                              //       name="notifications"
+                              //       size="md"
+                              //     />
+                              //   }
+                              // >
+                              //   Notify
+                              // </NativeButton>
+                               <NativeButton 
+                               size="sm"
+                               //variant={!isTueActive ? "outline" : "solid"}
+                               rightIcon={
+                                <Icon
+                                  as={Ionicons}
+                                  name="notifications"
+                                  size="sm"
+                                />
+                              }
+                               onPress={sendPushNotificationHanlder}>
                                 <Text
                                   style={{
                                     fontSize: 16,
                                     fontFamily: "HindSemiBold",
-                                    color: "grey",
+                                    color:'white'
+                                    //color: !isTueActive ? "black" : "white"
                                   }}
                                 >
-                                  {filteredData.description}
+                                  Notify
+                                </Text>
+                                
+                            </NativeButton>
+                            ) : (
+                              <Badge colorScheme="success">Notified</Badge>
+                            )}
+                          </View>
+                        </View>
+                      </Modal.Header>
+                    )}
+
+                    <Modal.Body>
+                      <ScrollView>
+                        <View
+                          style={[
+                            {
+                              // Try setting `flexDirection` to `"row"`.
+                              flex: 1,
+                              flexDirection: "column",
+                              borderBottomColor: "grey",
+                            },
+                          ]}
+                        >
+                          <View style={{ flex: 1, marginVertical: 5 }}>
+                            <View
+                              style={[
+                                {
+                                  // Try setting `flexDirection` to `"row"`.
+                                  flex: 1,
+                                  flexDirection: "row",
+                                },
+                              ]}
+                            >
+                              <View style={{ flex: 0.16 }}>
+                                <Text
+                                  style={[styles.cardTextStyle, { left: 0 }]}
+                                >
+                                  Title:
+                                </Text>
+                              </View>
+                              <View style={{ flex: 1 }}>
+                                <Text style={styles.textStyle}>
+                                  {specificData.titlee}
                                 </Text>
                               </View>
                             </View>
-                          </Card.Content>
-                        </Card>
-                      </View>
-                    </>
-                  ))
-                )}
+                          </View>
+                          <View style={{ flex: 1, marginVertical: 5 }}>
+                            <View
+                              style={[
+                                {
+                                  // Try setting `flexDirection` to `"row"`.
+                                  flex: 1,
+                                  flexDirection: "row",
+                                },
+                              ]}
+                            >
+                              <View style={{ flex: 1, marginVertical: 5 }}>
+                                <View
+                                  style={[
+                                    {
+                                      // Try setting `flexDirection` to `"row"`.
+                                      flex: 1,
+                                      flexDirection: "row",
+                                    },
+                                  ]}
+                                >
+                                  <View style={{ flex: 0.4 }}>
+                                    <Text
+                                      style={[
+                                        styles.cardTextStyle,
+                                        { left: 0 },
+                                      ]}
+                                    >
+                                      From:
+                                    </Text>
+                                  </View>
+                                  <View style={{ flex: 1 }}>
+                                    <Text
+                                      style={[styles.textStyle, { left: 0 }]}
+                                    >
+                                      {moment(specificData.startdate).format(
+                                        "DD/MM/YYYY"
+                                      )}
+                                    </Text>
+                                  </View>
+                                </View>
+                              </View>
+                              <View style={{ flex: 1, marginVertical: 5 }}>
+                                <View
+                                  style={[
+                                    {
+                                      // Try setting `flexDirection` to `"row"`.
+                                      flex: 1,
+                                      flexDirection: "row",
+                                    },
+                                  ]}
+                                >
+                                  <View style={{ flex: 0.2 }}>
+                                    <Text
+                                      style={[
+                                        styles.cardTextStyle,
+                                        { left: 0 },
+                                      ]}
+                                    >
+                                      To:
+                                    </Text>
+                                  </View>
+                                  <View style={{ flex: 1 }}>
+                                    <Text style={styles.textStyle}>
+                                      {moment(specificData.enddate).format(
+                                        "DD/MM/YYYY"
+                                      )}
+                                    </Text>
+                                  </View>
+                                </View>
+                              </View>
+                            </View>
+                          </View>
+                          <View style={{ flex: 1, marginVertical:5 }}>
+                            <View
+                              style={[
+                                {
+                                  // Try setting `flexDirection` to `"row"`.
+                                  flex: 1,
+                                  flexDirection: "row",
+                                },
+                              ]}
+                            >
+                              <View style={{ flex: 0.4, left: 0 }}>
+                                <Text
+                                  style={[styles.cardTextStyle, { left: 0 }]}
+                                >
+                                  Description:
+                                </Text>
+                              </View>
+                              <View style={{ flex: 1 }}>
+                                <Text style={styles.textStyle}>
+                                  {specificData.description}
+                                </Text>
+                              </View>
+                            </View>
+                          </View>
+                        </View>
+                      </ScrollView>
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                      <NativeButton.Group space={2}>
+                        <NativeButton
+                          onPress={() => {
+                            setOpenCardModal(false);
+                          }}
+                        >
+                          Okay
+                        </NativeButton>
+                      </NativeButton.Group>
+                    </Modal.Footer>
+                  </Modal.Content>
+                </Modal>
               </View>
-            </ScrollView>
-          </View>
-          {keyboardStatus == "Keyboard Hidden" && (
-            <View style={{ flex: 1 }}>
-              <TeachersHome />
+              {keyboardStatus == "Keyboard Hidden" && (
+                <View style={{ flex: 1 }}>
+                  <TeachersHome />
+                </View>
+              )}
             </View>
-          )}
+          </View>
         </View>
       )}
     </>
   );
 };
 
-export default TeachersCalendarScreenBuild;
+export default TeachersCalendar;
 const deviceWidth = Dimensions.get("window").width;
 const deviceHieght = Dimensions.get("window").height;
 
@@ -1168,17 +2341,11 @@ const styles = StyleSheet.create({
 
     backgroundColor: "white",
   },
-  labelInput: {
-    color: "#673AB7",
-    fontSize: 20,
-  },
-  formInput: {
-    borderBottomWidth: 1.5,
-    marginLeft: 20,
-    borderColor: "#333",
-  },
-  input: {
-    borderWidth: 0,
+  viewContainer: {
+    fontSize: 24,
+    flexDirection: "row",
+    width: "100%",
+    backgroundColor: "white",
   },
   eventName: {
     fontFamily: "HindSemiBold",
@@ -1186,19 +2353,16 @@ const styles = StyleSheet.create({
     margin: 10,
     marginTop: 0,
   },
-  home: {
-    marginTop: 29,
-  },
+
   root: {
-    // backgroundColor: "#EBECFO",
-    backgroundColor: "white",
+    // backgroundColor: "whi",
     height: "100%",
   },
   inputForm: {
     padding: 20,
     paddingTop: 5,
     backgroundColor: "white",
-    height: "200%",
+    height: "220%",
   },
   errorBorderColor: {
     borderColor: "red",
@@ -1208,7 +2372,14 @@ const styles = StyleSheet.create({
   },
 
   btnSubmit: {
-    marginTop: deviceHieght < 600 ? "5%" : "30%",
+    marginTop: deviceHieght < 600 ? "5%" : "18%",
+    width: "60%",
+    marginLeft: 175,
+    padding: "3%",
+  },
+  btnSubmitNew: {
+    marginTop: deviceHieght < 600 ? "5%" : "5%",
+    bottom: "1.5%",
     width: "50%",
     marginLeft: 180,
   },
@@ -1216,48 +2387,15 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
   },
-  th: {
-    padding: 5,
-
-    //fontSize: 24,
-  },
-  tableHeader: {
-    backgroundColor: "skyblue",
-
-    height: 50,
-    fontWeight: "bold",
-  },
-  tableTitle: {
-    // padding: 5,
-    margin: 7,
-    fontFamily: "MonsterratBold",
-    fontSize: 16,
-  },
-  flexStyleCol: {
-    flex: 1,
-    flexDirection: "column",
-  },
-  tableCell: {
+  spaceBetween: {
     width: 50,
-    //  fontFamily: "Montserrat_600SemiBold",
-    left: 10,
-
-    maxWidth: 200,
-  },
-
-  tableRow: {
-    height: "9%",
-    borderBottomColor: "black",
-    borderBottomWidth: 2,
-    whiteSpace: "pre-line",
+    height: 20,
   },
   searchBar: {
     marginTop: 10,
     marginBottom: 20,
-    // backgroundColor: "white",
-    backgroundColor: "#F0F3F4",
 
-    // height:deviceWidth < 370 ? "6%" : "6%",
+    backgroundColor: "#F0F3F4",
   },
   errorLabel: {
     color: "red",
@@ -1267,12 +2405,11 @@ const styles = StyleSheet.create({
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
   normalLabel: {
-    // color: "#A7ADAD",
     color: "#AEB6BF",
-    // backgroundColor: "#F2F2F2",
+
     backgroundColor: "white",
     paddingHorizontal: 5,
-    // bottom: 0,
+
     fontSize: deviceWidth < 370 ? 13 : 16,
     letterSpacing: 0.5,
   },
@@ -1291,7 +2428,7 @@ const styles = StyleSheet.create({
     width: "50%",
   },
   cancel: {
-    marginTop: -140,
+    marginTop: -130,
     marginLeft: -15,
     width: "50%",
   },
@@ -1337,10 +2474,48 @@ const styles = StyleSheet.create({
     color: "red",
     left: 20,
     fontFamily: "HindRegular",
-    fontSize: deviceWidth < 370 ? 16 : 18,
+    fontSize: deviceWidth < 370 ? 16 : 16,
     top: deviceHieght > 800 ? -3 : 1,
   },
   spinnerTextStyle: {
     color: "#FFF",
+  },
+  selectDropDownStyle: {
+    width: "100%",
+    top: "2%",
+    left: "2%",
+    flexDirection: "column",
+  },
+  labelStyle: {
+    fontFamily: "HindRegular",
+    fontSize: 18,
+  },
+
+  linkText: {
+    fontFamily: "HindSemiBold",
+    color: "#02BFC4",
+    fontSize: 18,
+    textDecorationLine: "underline",
+    textDecorationColor: "#02BFC4",
+    cursor: "pointer",
+  },
+  msgText: {
+    fontSize: 18,
+    fontFamily: "HindSemiBold",
+    color: "#6B0000",
+  },
+  textStyle: {
+    fontSize: deviceWidth < 370 ? 14 : 16,
+    fontFamily: "HindSemiBold",
+    color: "grey",
+  },
+  cardStyle: {
+    marginVertical: 15,
+    marginHorizontal: 27,
+    elevation: 5,
+    borderRadius: 10,
+    padding: 10,
+    backgroundColor: "#1E84A4",
+    width: "80%",
   },
 });

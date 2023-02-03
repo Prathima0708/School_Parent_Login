@@ -866,7 +866,7 @@ const LeaveScreen = () => {
                         ]}
                         editable={false}
                         selectTextOnFocus={false}
-                        //value={StudentRegNo.toString()}
+                        value={StudentRegNo.toString()}
                       />
                     </View>
                   </View>
@@ -1558,10 +1558,10 @@ const styles = StyleSheet.create({
     height: 10,
   },
   btnSubmit: {
-    width: "70%",
+    width: "50%",
     // marginTop: deviceWidth < 370 ? "3%" : "1%",
     bottom: "4%",
-    marginLeft: deviceWidth < 370 ? "35%" : "35%",
+    marginLeft: deviceWidth < 370 ? "35%" : "55%",
   },
   imagePreView: {
     width: "100%",
