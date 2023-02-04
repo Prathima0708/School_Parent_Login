@@ -92,7 +92,7 @@ const TeachersCalendar = () => {
   const scrollY = new Animated.Value(0);
 
   const diffClamp = Animated.diffClamp(scrollY, 0, 100);
-  const [newData,setnewData]=useState([])
+  const [newData, setnewData] = useState([]);
   const headermax = 100;
   const headermin = 10;
 
@@ -757,7 +757,7 @@ const TeachersCalendar = () => {
 
     const filteredDummuyData = data.find((data) => data.id == id);
     console.log(filteredDummuyData);
-    setnewData(filteredDummuyData)
+    setnewData(filteredDummuyData);
     setEnteredDescription(filteredDummuyData.description);
 
     setFromText(moment(filteredDummuyData.startdate).format("DD/MM/YYYY"));
@@ -1409,7 +1409,6 @@ const TeachersCalendar = () => {
                         },
                       ]}
                     >
-                      
                       <View style={{ flex: 0.3 }}>
                         <Checkbox
                           status={
@@ -1444,13 +1443,13 @@ const TeachersCalendar = () => {
                         },
                       ]}
                     >
-                      
                       <View style={{ flex: 0.3 }}>
                         <Checkbox
                           //status={adminChecked ? "checked" : "unchecked"}
                           status={
                             isEdit
-                              ? newData.viewOnly === "admin" || newData.viewOnly === "admin,staff,parents"
+                              ? newData.viewOnly === "admin" ||
+                                newData.viewOnly === "admin,staff,parents"
                                 ? "checked"
                                 : "unchecked"
                               : adminChecked
@@ -1470,7 +1469,7 @@ const TeachersCalendar = () => {
                           uncheckColor={"red"}
                         />
                       </View>
-                      <View style={{ flex: 0.5,top:'5%'}}>
+                      <View style={{ flex: 0.5, top: "5%" }}>
                         <Text style={styles.labelStyle}>Admin</Text>
                       </View>
                     </View>
@@ -1485,13 +1484,13 @@ const TeachersCalendar = () => {
                         },
                       ]}
                     >
-                      
                       <View style={{ flex: 0.3 }}>
                         <Checkbox
                           //status={ teacherChecked ? "checked" : "unchecked"}
                           status={
                             isEdit
-                              ? newData.viewOnly === "staff" || newData.viewOnly === "admin,staff,parents"
+                              ? newData.viewOnly === "staff" ||
+                                newData.viewOnly === "admin,staff,parents"
                                 ? "checked"
                                 : "unchecked"
                               : teacherChecked
@@ -1522,12 +1521,12 @@ const TeachersCalendar = () => {
                         },
                       ]}
                     >
-                      
                       <View style={{ flex: 0.3 }}>
                         <Checkbox
                           status={
                             isEdit
-                              ? newData.viewOnly === "parents" || newData.viewOnly === "admin,staff,parents"
+                              ? newData.viewOnly === "parents" ||
+                                newData.viewOnly === "admin,staff,parents"
                                 ? "checked"
                                 : "unchecked"
                               : parentChecked
@@ -1542,17 +1541,17 @@ const TeachersCalendar = () => {
                           uncheckColor={"red"}
                         />
                       </View>
-                      <View style={{ flex: 0.6,top:'5%' }}>
+                      <View style={{ flex: 0.6, top: "5%" }}>
                         <Text style={styles.labelStyle}>Parent</Text>
                       </View>
                     </View>
                   </View>
                 </View>
-                {/* {checkedIsInvalid && selectedTouched && (
+                {checkedIsInvalid && selectedTouched && (
                   <Text style={styles.errorLabel}>
                     Please select atleast one
                   </Text>
-                )} */}
+                )}
               </View>
               {!isEdit && (
                 <View style={[btn ? styles.btnSubmitNew : styles.btnSubmit]}>

@@ -13,9 +13,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Button from "../../../components/UI/Button";
 import axios from "axios";
 import { Keyboard } from "react-native";
-import {
-  Image as NativeImage,
-} from "native-base";
+import { Image as NativeImage } from "native-base";
 import BgButton from "../../../components/UI/BgButton";
 import TeachersHome from "../BottomTab/TeachersHome";
 import Input from "../../../components/UI/Input";
@@ -136,8 +134,8 @@ const TeachersTransport = () => {
   const busnumberInputIsInValid =
     !enteredBusnumberIsValid && enteredBusnumberTouched;
 
-    const [isMapActive,setIsMapActive]=useState(true);
-    const [isPhoneActive,setIsPhoneActive]=useState(false);
+  const [isMapActive, setIsMapActive] = useState(true);
+  const [isPhoneActive, setIsPhoneActive] = useState(false);
 
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [data, setData] = useState([]);
@@ -173,7 +171,7 @@ const TeachersTransport = () => {
           `${subURL}/TransportreportDetailList/${filteredRes[0]?.busnumber}`
         );
         setData(res.data);
-       
+
         setFilteredData(res.data);
         let test = 0;
         const value = await AsyncStorage.getItem("key");
@@ -195,7 +193,7 @@ const TeachersTransport = () => {
     }
     fetchData();
   }, [userid]);
-  console.log(data)
+  console.log(data);
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -232,7 +230,6 @@ const TeachersTransport = () => {
     setEnteredBusNumber(enteredValue);
   }
 
-  
   const myRef = useRef(null);
 
   useEffect(() => {
@@ -758,13 +755,13 @@ const TeachersTransport = () => {
       setShowInitialBtn(true);
     }
   }
-  function mapViewPressedHandler(){
+  function mapViewPressedHandler() {
     setIsMapActive(true);
   }
 
-  function callBtnPressedHandler(mobile_number){
+  function callBtnPressedHandler(mobile_number) {
     console.log(mobile_number);
-  
+
     Linking.openURL(`tel:${mobile_number}`);
   }
   return (
@@ -773,43 +770,43 @@ const TeachersTransport = () => {
         style={[
           {
             // Try setting `flexDirection` to `"row"`.
-            flex:1,
-            flexDirection: 'column',
+            flex: 1,
+            flexDirection: "column",
           },
-        ]}>
-        <View style={{flex: 0.36, backgroundColor: '#1E84A4'}} >
-
-        </View>
-        <View style={{flex: 0.4,backgroundColor:'white'}} >
+        ]}
+      >
+        <View style={{ flex: 0.36, backgroundColor: "#1E84A4" }}></View>
+        <View style={{ flex: 0.4, backgroundColor: "white" }}>
           {filteredData &&
-            filteredData.map((data)=>(
+            filteredData.map((data) => (
               <View
                 style={[
                   {
                     // Try setting `flexDirection` to `"row"`.
-                    flex:1,
-                    flexDirection: 'row',
-                    bottom:'16%',
-                    marginHorizontal:10,
-                    backgroundColor:'#E0E0E0',
-                    borderRadius:10
+                    flex: 1,
+                    flexDirection: "row",
+                    bottom: "16%",
+                    marginHorizontal: 10,
+                    backgroundColor: "#E0E0E0",
+                    borderRadius: 10,
                   },
-                ]}>
-                <View style={{flex: 0.7}} >
+                ]}
+              >
+                <View style={{ flex: 0.7 }}>
                   <View
                     style={[
                       {
                         // Try setting `flexDirection` to `"row"`.
-                        flex:1,
-                        flexDirection: 'column',
+                        flex: 1,
+                        flexDirection: "column",
                       },
-                    ]}>
-                    <View style={{flex: 1,justifyContent:'center'}} >
+                    ]}
+                  >
+                    <View style={{ flex: 1, justifyContent: "center" }}>
                       <NativeImage
                         //alignSelf="center"
                         left={5}
                         borderRadius={100}
-                        
                         source={{
                           uri: `https://img.icons8.com/arcade/64/null/gender-neutral-user--v1.png`,
                         }}
@@ -819,33 +816,35 @@ const TeachersTransport = () => {
                         resizeMode="contain"
                       />
                     </View>
-                    <View style={{flex: 0.3,left:30,bottom:7}} >
+                    <View style={{ flex: 0.3, left: 30, bottom: 7 }}>
                       {/* <Text style={styles.cardTextStyle}>{StudentName}</Text> */}
                     </View>
                   </View>
                 </View>
-                <View style={{flex: 1}} >
+                <View style={{ flex: 1 }}>
                   <View
                     style={[
                       {
                         // Try setting `flexDirection` to `"row"`.
-                        flex:1,
-                        flexDirection: 'column',
+                        flex: 1,
+                        flexDirection: "column",
                       },
-                    ]}>
-                    <View style={{flex: 1}} >
+                    ]}
+                  >
+                    <View style={{ flex: 1 }}>
                       <View
                         style={[
                           {
                             // Try setting `flexDirection` to `"row"`.
-                            flex:1,
-                            flexDirection: 'row',
+                            flex: 1,
+                            flexDirection: "row",
                           },
-                        ]}>
-                        <View style={{flex: 0.5,justifyContent:'center'}} >
-                          <Text style={styles.lableStyle}>Bus No.</Text>
+                        ]}
+                      >
+                        <View style={{ flex: 0.5, justifyContent: "center" }}>
+                          <Text style={styles.lableStyle}>Bus No:</Text>
                         </View>
-                        <View style={{flex: 1,justifyContent:'center'}} >
+                        <View style={{ flex: 1, justifyContent: "center" }}>
                           <Text style={styles.textStyle}>{data.busnumber}</Text>
                         </View>
                       </View>
@@ -853,12 +852,20 @@ const TeachersTransport = () => {
                         style={[
                           {
                             // Try setting `flexDirection` to `"row"`.
-                            flex:1,
-                            flexDirection: 'row',
+                            flex: 1,
+                            flexDirection: "row",
                           },
-                        ]}>
-                        <View style={{flex: 1}} >
-                          <Text style={[styles.textStyle,{fontFamily:'HindRegular'}]}>Left From School At 2.00pm</Text>
+                        ]}
+                      >
+                        <View style={{ flex: 1 }}>
+                          <Text
+                            style={[
+                              styles.textStyle,
+                              { fontFamily: "HindRegular" },
+                            ]}
+                          >
+                            Left From School At 2.00pm
+                          </Text>
                         </View>
                         {/* <View style={{flex: 1}} >
                           <Text>{data.busnumber}</Text>
@@ -868,84 +875,101 @@ const TeachersTransport = () => {
                         style={[
                           {
                             // Try setting `flexDirection` to `"row"`.
-                            flex:1,
-                            flexDirection: 'row',
-                            top:10
+                            flex: 1,
+                            flexDirection: "row",
+                            top: 10,
                           },
-                        ]}>
-                        <View style={{flex: 0.5}} >
+                        ]}
+                      >
+                        <View style={{ flex: 0.5 }}>
                           <Text style={styles.cardTextStyle}>Current:</Text>
                         </View>
-                        <View style={{flex: 1}} >
-                          <Text style={styles.cardTextStyle}>Udupi bus stop</Text>
+                        <View style={{ flex: 1 }}>
+                          <Text style={styles.cardTextStyle}>
+                            Udupi bus stop
+                          </Text>
                         </View>
                       </View>
                     </View>
                   </View>
                 </View>
-                <View style={{flex: 0.3}} >
+                <View style={{ flex: 0.3 }}>
                   <View
                     style={[
                       {
                         // Try setting `flexDirection` to `"row"`.
-                        flex:1,
-                        flexDirection: 'column',
-                        
+                        flex: 1,
+                        flexDirection: "column",
                       },
-                    ]}>
-                    <View style={{flex: 1,alignItems:'center',justifyContent:'center'}} > 
+                    ]}
+                  >
+                    <View
+                      style={{
+                        flex: 1,
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
                       <IconButton
                         colorScheme="lightBlue"
-                        onPress={() =>
-                          callBtnPressedHandler(data.emp_mobile)
-                        }
+                        onPress={() => callBtnPressedHandler(data.emp_mobile)}
                         variant="solid"
-                        borderRadius='full'
+                        borderRadius="full"
                         _icon={{
                           as: Ionicons,
                           name: "call",
-                      }}/>
+                        }}
+                      />
                     </View>
-                    <View style={{flex: 1,alignItems:'center',justifyContent:'center'}} >
+                    <View
+                      style={{
+                        flex: 1,
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
                       <IconButton
                         colorScheme="lightBlue"
                         onPress={mapViewPressedHandler}
                         variant="solid"
-                        borderRadius='full'
+                        borderRadius="full"
                         _icon={{
                           as: Ionicons,
                           name: "location",
-                      }}/>
+                        }}
+                      />
                     </View>
                   </View>
-
                 </View>
               </View>
-          ))}
+            ))}
         </View>
-        <View style={{flex:1,backgroundColor:'white',paddingBottom:40}} >
-          {isMapActive && 
+        <View style={{ flex: 1, backgroundColor: "white", paddingBottom: 40 }}>
+          {isMapActive && (
             <View
               style={[
                 {
                   // Try setting `flexDirection` to `"row"`.
-                  flex:1,
-                  flexDirection: 'row',
-                  justifyContent:'center',
-                  marginTop:'5%'
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  marginTop: "5%",
                 },
-              ]}>
-              <View style={{flex: 0.2,alignItems:'center'}} >
+              ]}
+            >
+              <View style={{ flex: 0.2, alignItems: "center" }}>
                 <Entypo name="location" size={24} color="black" />
               </View>
-              <View style={{flex: 1}} >
-                <Text style={styles.labelStyle}>Live location tracking coming soon...</Text>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.labelStyle}>
+                  Live location tracking coming soon...
+                </Text>
               </View>
             </View>
-          }
+          )}
           {/* {isMapActive && <MapView style={[styles.map]} />} */}
         </View>
-        <View style={{flex: 0.1}} >
+        <View style={{ flex: 0.1 }}>
           <TeachersHome />
         </View>
       </View>
@@ -1287,8 +1311,8 @@ const styles = StyleSheet.create({
   map: {
     //width: Dimensions.get("window").width,
     height: "100%",
-    bottom:'5%',
-    marginHorizontal:13,
+    bottom: "5%",
+    marginHorizontal: 13,
   },
   textStyle: {
     fontSize: 16,
@@ -1311,7 +1335,7 @@ const styles = StyleSheet.create({
   labelStyle: {
     fontFamily: "HindSemiBold",
     fontSize: 18,
-    color:'red'
+    color: "red",
   },
   itemStyle: {
     flex: 0.1,
