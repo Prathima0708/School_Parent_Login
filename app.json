@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "SchoolParentApp",
-    "slug": "SchoolParentApp",
+    "name": "Kinara School",
+    "slug": "KinaraSchool",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/Asset2.png",
+    "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
