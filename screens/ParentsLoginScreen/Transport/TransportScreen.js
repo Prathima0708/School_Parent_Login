@@ -20,7 +20,7 @@ import {
   StudentName,
   StudentPhoto,
 } from "../../../components/StudentItem/StudentItem";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
 import { Image as NativeImage } from "native-base";
 import { mainURL, subURL } from "../../../components/utils/URL's";
 import { Linking } from "react-native";
@@ -277,7 +277,26 @@ const TransportScreen = () => {
             ))}
         </View>
         <View style={{ flex: 1, backgroundColor: "white", paddingBottom: 40 }}>
-          {isMapActive && <MapView style={[styles.map]} />}
+        {isMapActive && 
+            <View
+              style={[
+                {
+                  // Try setting `flexDirection` to `"row"`.
+                  flex:1,
+                  flexDirection: 'row',
+                  justifyContent:'center',
+                  marginTop:'5%'
+                },
+              ]}>
+              <View style={{flex: 0.2,alignItems:'center'}} >
+                <Entypo name="location" size={24} color="black" />
+              </View>
+              <View style={{flex: 1}} >
+                <Text style={styles.labelStyle}>Live location tracking coming soon...</Text>
+              </View>
+            </View>
+          }
+          {/* {isMapActive && <MapView style={[styles.map]} />} */}
         </View>
         <View style={{ flex: 0.1 }}>
           <ParentsHome />
@@ -506,6 +525,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     //top: deviceWidth < 370 ? 20 : 25,
+  },
+  labelStyle: {
+    fontFamily: "HindSemiBold",
+    fontSize: 18,
+    color:'red'
   },
   itemStyle: {
     flex: 0.1,
