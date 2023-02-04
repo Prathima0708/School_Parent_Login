@@ -148,6 +148,10 @@ const CalenderScreen = () => {
 
   }
 
+  function changeMonthHandler(){
+    setShowEvent([])
+  }
+
   return (
     <>
       <View
@@ -165,6 +169,7 @@ const CalenderScreen = () => {
             customDatesStyles={customDatesStyles}
             selectedDayStyle={{}}
             textStyle={{fontFamily:"HindRegular"}}
+            onMonthChange={changeMonthHandler}
           />
            
         </View>

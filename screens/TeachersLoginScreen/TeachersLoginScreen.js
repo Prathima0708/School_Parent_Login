@@ -19,7 +19,7 @@ import axios from "axios";
 import { subURL } from "../../components/utils/URL's";
 import { Image as NativeImage } from "native-base";
 import TeachersHome from "./BottomTab/TeachersHome";
-var USERNAME, value, USERID;
+var USERNAME, value, USERID, removeGrp;
 let i;
 const TeachersLoginScreen = ({ navigation }) => {
   const [user, setUser] = useState("");
@@ -28,6 +28,8 @@ const TeachersLoginScreen = ({ navigation }) => {
   async function logoutHandler() {
     try {
       value = await AsyncStorage.removeItem("token");
+      removeGrp = await AsyncStorage.removeItem("datagroup");
+
       if (value == null) {
         console.log("Data removed");
         navigation.navigate("Login");

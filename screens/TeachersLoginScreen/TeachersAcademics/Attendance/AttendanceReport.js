@@ -6,6 +6,7 @@ import {
   ScrollView,
   Pressable,
   TouchableHighlight,
+  Keyboard,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { useRoute } from "@react-navigation/native";
@@ -38,16 +39,16 @@ const AttendanceReport = () => {
   const enteredFromDateIsValid = fromText !== "";
   const fromDateInputIsInValid =
     !enteredFromDateIsValid && enteredFromDateTouched;
-
+  const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [forYearlyReport, setForYearlyReport] = useState({
     color: "white",
     backgroundColor: "#1E84A4",
-    borderRadius: 10,
+    borderRadius: 5,
   });
   const [forMonthlyReport, setForMonthlyReport] = useState({
     color: "black",
     backgroundColor: "#F4F6F6",
-    borderRadius: 10,
+    borderRadius: 5,
   });
   const route = useRoute();
   const [token, setToken] = useState("");
@@ -108,6 +109,21 @@ const AttendanceReport = () => {
     }
   }
   fetchToken();
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardStatus("Keyboard Shown");
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardStatus("Keyboard Hidden");
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
   // useEffect(() => {
   //   const request_model = {
   //     student_id: route.params.id,
@@ -262,12 +278,12 @@ const AttendanceReport = () => {
     setForYearlyReport({
       backgroundColor: "#1E84A4",
       color: "white",
-      borderRadius: 10,
+      borderRadius: 5,
     });
     setForMonthlyReport({
       color: "black",
       backgroundColor: "#F4F6F6",
-      borderRadius: 10,
+      borderRadius: 5,
     });
   }
   function monthlyReport() {
@@ -279,12 +295,12 @@ const AttendanceReport = () => {
     setForMonthlyReport({
       color: "white",
       backgroundColor: "#1E84A4",
-      borderRadius: 10,
+      borderRadius: 5,
     });
     setForYearlyReport({
       backgroundColor: "#F4F6F6",
       color: "black",
-      borderRadius: 10,
+      borderRadius: 5,
     });
   }
   function viewYearMonthReport() {
@@ -347,12 +363,12 @@ const AttendanceReport = () => {
     setForMonthlyReport({
       color: "white",
       backgroundColor: "#1E84A4",
-      borderRadius: 10,
+      borderRadius: 5,
     });
     setForYearlyReport({
       backgroundColor: "#F4F6F6",
       color: "black",
-      borderRadius: 10,
+      borderRadius: 5,
     });
 
     const request_model = {
@@ -448,6 +464,7 @@ const AttendanceReport = () => {
                   value={fromText || moment(FROMDATE).format("YYYY")}
                   placeholder="Select Year"
                   blur={fromDateBlurHandler}
+                  onSubmitEditing={Keyboard.dismiss}
                   onFocus={onFocusFromHandler}
                   onChangeText={frmDateHandler}
                   onPressIn={() => showFromMode("date")}
@@ -633,6 +650,11 @@ const AttendanceReport = () => {
               ]}
             >
               <View style={{ flex: 8, bottom: 2 }}>
+                {Object.entries(monthlyCount).length <= 0 && (
+                  <View style={{ alignItems: "center", marginVertical: 10 }}>
+                    <Text style={styles.errText}>No Data found.</Text>
+                  </View>
+                )}
                 <ScrollView>
                   {Object.entries(monthlyCount).map(([month, counts]) => (
                     <TouchableHighlight
@@ -723,10 +745,11 @@ const AttendanceReport = () => {
               </View>
             </View>
           </View>
-
-          <View style={{ flex: 0.2 }}>
-            <TeachersHome />
-          </View>
+          {keyboardStatus == "Keyboard Hidden" && (
+            <View style={{ flex: 0.3 }}>
+              <TeachersHome />
+            </View>
+          )}
         </View>
       )}
 
@@ -762,6 +785,7 @@ const AttendanceReport = () => {
                   placeholder="Select Year"
                   blur={fromDateBlurHandler}
                   onFocus={onFocusFromHandler}
+                  onSubmitEditing={Keyboard.dismiss}
                   onChangeText={frmDateHandler}
                   onPressIn={() => showFromMode("date")}
                 />
@@ -944,7 +968,15 @@ const AttendanceReport = () => {
       )}
       {showMonthReport && (
         <View style={{ flex: 1, backgroundColor: "white" }}>
-          <View style={[styles.tableHeader, { marginTop: 20 }]}>
+          <View
+            style={[
+              styles.tableHeader,
+              {
+                marginTop: 20,
+                flex: keyboardStatus == "Keyboard Hidden" ? 0.1 : 0.2,
+              },
+            ]}
+          >
             <View
               style={{
                 flex: 1,
@@ -977,6 +1009,11 @@ const AttendanceReport = () => {
             ]}
           >
             <View style={{ flex: 8, bottom: 2 }}>
+              {Object.entries(dailyAttendance).length <= 0 && (
+                <View style={{ alignItems: "center", marginVertical: 10 }}>
+                  <Text style={styles.errText}>No Data found.</Text>
+                </View>
+              )}
               <ScrollView>
                 {Object.entries(dailyAttendance).map(([day, status]) => (
                   <View
@@ -1030,9 +1067,11 @@ const AttendanceReport = () => {
               </ScrollView>
             </View>
           </View>
-          <View style={{ flex: 0.3 }}>
-            <TeachersHome />
-          </View>
+          {keyboardStatus == "Keyboard Hidden" && (
+            <View style={{ flex: 0.3 }}>
+              <TeachersHome />
+            </View>
+          )}
         </View>
       )}
     </>
@@ -1050,7 +1089,11 @@ const styles = StyleSheet.create({
 
     backgroundColor: "#FDFEFE",
   },
-
+  errText: {
+    fontFamily: "HindSemiBold",
+    fontSize: 18,
+    color: "#6B0202",
+  },
   tableHeader: {
     flex: 0.1,
     flexDirection: "row",

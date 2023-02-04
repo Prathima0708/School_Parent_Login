@@ -26,6 +26,8 @@ import {
   Country,
   Pincode,
   AcademicYear,
+  ContactNumber,
+  AlternateNumber,
 } from "../../../components/StudentItem/StudentItem";
 import {
   Button as NativeButton,
@@ -307,12 +309,13 @@ const ParentsProfile = () => {
                     {
                       flexDirection: "column",
                       top: "1%",
+                      
                     },
                   ]}
                 >
-                  <View style={{ flex: 1 }}>
+                  <View style={{ flex: 1, padding:'5%'}}>
                     <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
-                      <View style={{ flex: 1 }}>
+                      {/* <View style={{ flex: 1 }}>
                         <View
                           style={[
                             { flex: 1 },
@@ -337,19 +340,24 @@ const ParentsProfile = () => {
                             </Text>
                           </View>
                         </View>
-                      </View>
+                      </View> */}
                       <View style={{ flex: 1 }}>
                         <View
-                          style={[{ flex: 1 }, { flexDirection: "column" }]}
+                          style={[
+                            { flex: 1 },
+                            { flexDirection: "column", alignItems: "center" },
+                          ]}
                         >
-                          <View style={{ flex: 1 }}>
-                            <Text style={styles.labelStyle}>ABCD</Text>
+                          <View style={{ flex: 1 ,right:'10%' }}>
+                            <Text style={styles.labelStyle}>
+                              Father Name : {FatherName}
+                            </Text>
                           </View>
+                          <View style={styles.space} />
                           <View style={{ flex: 1 }}>
-                            <Text style={styles.labelStyle}>9018212345</Text>
-                          </View>
-                          <View style={{ flex: 1 }}>
-                            <Text style={styles.labelStyle}>Lawyer</Text>
+                            <Text style={styles.labelStyle}>
+                              Conatct Number : {ContactNumber}{" "}
+                            </Text>
                           </View>
                         </View>
                       </View>
@@ -365,7 +373,7 @@ const ParentsProfile = () => {
                   <View style={styles.space} />
                   <View style={{ flex: 1 }}>
                     <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
-                      <View style={{ flex: 1 }}>
+                      {/* <View style={{ flex: 1 }}>
                         <View
                           style={[
                             { flex: 1 },
@@ -390,19 +398,21 @@ const ParentsProfile = () => {
                             </Text>
                           </View>
                         </View>
-                      </View>
-                      <View style={{ flex: 1 }}>
+                      </View> */}
+                      <View style={{ flex: 1 ,padding:'5%'}}>
                         <View
-                          style={[{ flex: 1 }, { flexDirection: "column" }]}
+                          style={[{ flex: 1 }, { flexDirection: "column",alignItems:'center' }]}
                         >
-                          <View style={{ flex: 1 }}>
-                            <Text style={styles.labelStyle}>PQR</Text>
+                          <View style={{ flex: 1,right:'10%'}}>
+                            <Text style={styles.labelStyle}>
+                              Mother name : {MotherName}
+                            </Text>
                           </View>
+                          <View style={styles.space} />
                           <View style={{ flex: 1 }}>
-                            <Text style={styles.labelStyle}>0978231323</Text>
-                          </View>
-                          <View style={{ flex: 1 }}>
-                            <Text style={styles.labelStyle}>Teacher</Text>
+                            <Text style={styles.labelStyle}>
+                              Contact Number : {AlternateNumber}
+                            </Text>
                           </View>
                         </View>
                       </View>
@@ -416,7 +426,7 @@ const ParentsProfile = () => {
                     style={{}}
                   />
                   <View style={styles.space} />
-                  <View style={{ flex: 1 }}>
+                  {/* <View style={{ flex: 1 }}>
                     <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
                       <View style={{ flex: 1 }}>
                         <View
@@ -458,7 +468,7 @@ const ParentsProfile = () => {
                         </View>
                       </View>
                     </View>
-                  </View>
+                  </View> */}
                 </View>
               </ScrollView>
             </View>

@@ -14,6 +14,7 @@ function UnderlinedInput({
   maxLength,
   onKeyPress,
   ref,
+  onSubmitEditing,
 }) {
   const [isActive, setActive] = useState(false);
 
@@ -31,6 +32,7 @@ function UnderlinedInput({
         onPressIn={onPressIn}
         maxLength={maxLength}
         ref={ref}
+        onSubmitEditing={onSubmitEditing}
       />
     </View>
   );

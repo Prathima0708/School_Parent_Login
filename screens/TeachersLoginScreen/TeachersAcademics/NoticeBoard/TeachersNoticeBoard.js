@@ -44,16 +44,15 @@ const TeachersNoticeBoard = () => {
             new Date(item.startdate) >= today ||
             new Date(item.startdate).toDateString() === today.toDateString()
         );
-        setData(filteredData.reverse());
 
-        //console.log(data);
+        setData(filteredData.reverse());
       } catch (error) {
         console.log(error);
       }
     }
     fetchData();
   }, []);
-
+  console.log(data);
   function renderNotice(itemData) {
     return <NoticeBoard {...itemData.item} />;
   }

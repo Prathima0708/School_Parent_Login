@@ -187,7 +187,7 @@ import { Heading } from "native-base";
 import { PHONENO } from "../Login";
 import { subURL } from "../../components/utils/URL's";
 export var studentList = [];
-export var value, phno;
+export var value, phno,removeGrp;
 export var PHONE;
 export var phonenumber, USERNAME;
 var Group;
@@ -212,6 +212,7 @@ function ParentsLoginScreen() {
       // const value = await AsyncStorage.getItem('token');
       const value = await AsyncStorage.removeItem("token");
       const ph = await AsyncStorage.removeItem("Phone");
+       removeGrp = await AsyncStorage.removeItem("datagroup");
       console.log("ph", ph);
       // const studlist = await AsyncStorage.removeItem("studentlist");
       // console.log("studentlist", studlist);

@@ -31,7 +31,9 @@ export var studentId,
   Country,
   Pincode,
   AcademicYear,
-  StudentPhoto;
+  StudentPhoto,
+  ContactNumber,
+  AlternateNumber;
 function StudentItem({
   student_name,
   class_name,
@@ -51,6 +53,8 @@ function StudentItem({
   pincode,
   academic_year,
   student_photo,
+  contact_num,
+  alter_num,
 }) {
   const navigation = useNavigation();
   function navigateHandler() {
@@ -73,6 +77,8 @@ function StudentItem({
     Pincode = pincode;
     AcademicYear = academic_year;
     StudentPhoto = student_photo;
+    ContactNumber = contact_num;
+    AlternateNumber = alter_num;
     console.log(id);
 
     navigation.navigate("Category");

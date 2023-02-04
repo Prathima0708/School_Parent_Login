@@ -68,6 +68,9 @@ const TeachersAttendanceBuild = () => {
   const [fromDate, setFromDate] = useState(new Date());
   const [fromShow, setFromShow] = useState(false);
 
+  const [presentActive, setPresentActive] = useState(false);
+  const [absentActive, setAbsentActive] = useState(false);
+
   const [isFromDateFocused, setIsFromDateFocused] = useState(false);
   const [fromText, setFromText] = useState("");
   const [enteredFromDateTouched, setEnteredFromDateTouched] = useState(false);
@@ -871,9 +874,21 @@ const TeachersAttendanceBuild = () => {
 
   function updatePresentButton(data) {
     let updatedStatus = "P";
+
+    const filteredDummuyData = saveAttendanceDataByDCS.find(
+      (item) => item.student.id == data.student.id
+    );
+    console.log(filteredDummuyData.student.id);
+    console.log(data.student.id);
+    if (filteredDummuyData.student.id === data.student.id) {
+      //  console.log("true");
+      setPresentActive(true);
+      setAbsentActive(false);
+    }
+
     // changeColorUpdate(data.student.id, 'P');
 
-    console.log("in update present button");
+    // console.log("in update present button");
 
     const object = {
       student: data.student.id,
@@ -884,7 +899,7 @@ const TeachersAttendanceBuild = () => {
       description: "",
       id: data.id,
     };
-    console.log(object);
+    // console.log(object);
     const existingItem = updateArray.find(
       (item) => item.student === object.student
     );
@@ -907,10 +922,19 @@ const TeachersAttendanceBuild = () => {
     }
   }
   function updateAbsentButton(data) {
+    const filteredDummuyData = saveAttendanceDataByDCS.find(
+      (item) => item.student.id == data.student.id
+    );
+    //  console.log(filteredDummuyData);
+    if (filteredDummuyData.student.id === data.student.id) {
+      console.log("true");
+      setPresentActive(false);
+      setAbsentActive(true);
+    }
     let updatedStatus = "A";
     // changeColorUpdate(data.student.id, 'A');
 
-    console.log("in update absent button");
+    //console.log("in update absent button");
 
     const object = {
       student: data.student.id,
@@ -921,7 +945,7 @@ const TeachersAttendanceBuild = () => {
       description: "",
       id: data.id,
     };
-    console.log(object);
+    // console.log(object);
     const existingItem = updateArray.find(
       (item) => item.student === object.student
     );
@@ -1090,9 +1114,11 @@ const TeachersAttendanceBuild = () => {
               </Card>
             </Pressable>
           </View>
-          <View style={{ flex: 0.2 }}>
-            <TeachersHome />
-          </View>
+          {keyboardStatus == "Keyboard Hidden" && (
+            <View style={{ flex: 0.3 }}>
+              <TeachersHome />
+            </View>
+          )}
         </View>
       )}
       {showCalendar && (
@@ -1197,6 +1223,7 @@ const TeachersAttendanceBuild = () => {
                           : fromDateInputIsInValid &&
                             styles.errorBorderColorDate
                       }
+                      onSubmitEditing={Keyboard.dismiss}
                       blur={fromDateBlurHandler}
                       onFocus={onFocusFromHandler}
                       onChangeText={frmDateHandler}
@@ -1442,9 +1469,11 @@ const TeachersAttendanceBuild = () => {
               </View>
             )}
           </View>
-          <View style={{ flex: 0.1 }}>
-            <TeachersHome />
-          </View>
+          {keyboardStatus == "Keyboard Hidden" && (
+            <View style={{ flex: 0.1 }}>
+              <TeachersHome />
+            </View>
+          )}
         </View>
       )}
 
@@ -1875,7 +1904,7 @@ const TeachersAttendanceBuild = () => {
                               <Text
                                 style={[styles.textBase, styles.description]}
                               >
-                                {data.student.reg_number}
+                                {data.student.reg_number} {data.student.id}
                               </Text>
                             </View>
                             <View
@@ -1930,7 +1959,7 @@ const TeachersAttendanceBuild = () => {
                                     //   data.student.id,
                                     //   "P"
                                     // )}
-
+                                    //  color={presentActive ? "green" : "grey"}
                                     title="P"
                                   />
                                 </View>
@@ -1951,6 +1980,7 @@ const TeachersAttendanceBuild = () => {
                                     //   data.student.id,
                                     //   "A"
                                     // )}
+                                    //  color={absentActive ? "red" : "grey"}
                                     title="A"
                                   />
                                 </View>
@@ -2063,9 +2093,11 @@ const TeachersAttendanceBuild = () => {
               <View style={styles.space} />
             </View>
           )}
-          <View style={{ flex: 0.2 }}>
-            <TeachersHome />
-          </View>
+          {keyboardStatus == "Keyboard Hidden" && (
+            <View style={{ flex: 0.3 }}>
+              <TeachersHome />
+            </View>
+          )}
         </View>
       )}
     </>

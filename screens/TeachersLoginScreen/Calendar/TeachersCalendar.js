@@ -1003,7 +1003,26 @@ const TeachersCalendar = () => {
   }
 
   async function sendPushNotificationHanlder() {
-    console.log(specificData.viewOnly);
+    console.log(specificData.startdate);
+
+    const today = new Date();
+    console.log(today);
+    const sendAlert =
+      moment(specificData.startdate).format("DD-MM-YYYY") >=
+      moment(today).format("DD-MM-YYYY");
+    // const sendAlert =
+    //   new Date(moment(specificData.startdate).format("DD-MM-YYYY")) >=
+    //   moment(today).format("DD-MM-YYYY")
+    //    ||
+    // new Date(
+    //   moment(specificData.startdate).format("DD-MM-YYYY")
+    // ).toDateString() === moment(today).format("DD-MM-YYYY").toDateString();
+    console.log(sendAlert);
+
+    if (sendAlert == false) {
+      Alert.alert("Event already occured");
+      return;
+    }
 
     const response = await axios.get(
       `${subURL}/NotificationByGroup/${specificData.viewOnly}`
@@ -2120,7 +2139,7 @@ const TeachersCalendar = () => {
                 >
                   <Modal.Content maxWidth="90%" minHeight="5%">
                     {specificData.created_by === USERNAME && (
-                      <Modal.Header style={{ height: "19%" }}>
+                      <Modal.Header style={{ height: "20%" }}>
                         <View
                           style={[
                             {
