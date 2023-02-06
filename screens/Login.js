@@ -1205,7 +1205,14 @@ function Login() {
                 ? styles.test
                 : styles.lowerPartView
               : expandHight
-              ? styles.AccountTypeBtn
+              ? [styles.AccountTypeBtn,{...Platform.select({
+                ios: {
+                  left: keyboardStatus=='Keyboard Hidden' ? "9%" : "5%",
+                },
+                android: {
+                  left: deviceWidth < 370 ? "10%" : "5%",
+                },
+              })}]
               : styles.AccountTypeBtnDown
           }
         >
@@ -1217,7 +1224,14 @@ function Login() {
           >
             Choose account type
           </Text>
-          <View style={styles.buttonContainer}>
+          <View style={[styles.buttonContainer,{...Platform.select({
+              ios: {
+                left: keyboardStatus=='Keyboard Hidden' ? "9%" : "6%",
+              },
+              android: {
+                left: deviceWidth < 370 ? "15%" : "10%",
+              },
+            })}]}>
             <AccountTypeBtn
               onPress={toggleTeachers}
               style={[forTeacherBackground]}
@@ -1243,9 +1257,10 @@ function Login() {
           <NativeInput
             type="text"
             w="80%"
-            left="11%"
+            left={Platform.OS=='android' ? "11%": 
+            keyboardStatus=='Keyboard Hidden' ? "9%" : "6%"} 
             top="6"
-            height={deviceHieght < 800 ? "16%" : "13%"}
+            //height={deviceHieght < 800 && "14%"}
             borderWidth={2}
             onChangeText={userInputHandler}
             value={enteredUser}
@@ -1276,9 +1291,10 @@ function Login() {
           <NativeInput
             type={showPassword ? "text" : "password"}
             w="80%"
-            left="11%"
+            left={Platform.OS=='android' ? "11%":
+            keyboardStatus=='Keyboard Hidden' ? "9%" : "6%"} 
             top="9"
-            height={deviceHieght < 800 ? "16%" : "13%"}
+            //height={deviceHieght < 800 ? "16%" : "13%"}
             borderWidth={1}
             onChangeText={passwordInputHandler}
             value={enteredPassword}
@@ -1342,10 +1358,12 @@ function Login() {
                 type="number"
                 w="80%"
                 keyboardType="number-pad"
-                left="11%"
+                left={Platform.OS=='android' ? "11%":
+                 keyboardStatus=='Keyboard Hidden' ? "9%" : "6%"} 
+               alignItems='center'
                 borderWidth={1}
                 top="12"
-                height={deviceHieght < 800 ? "14%" : "13%"}
+                //height={deviceHieght < 800 ? "14%" : "13%"}
                 onChangeText={phoneInputHandler}
                 value={enteredPhone}
                 style={styles.inputStyle}
@@ -1355,7 +1373,14 @@ function Login() {
             </>
           )}
           <TouchableHighlight
-            style={styles.submit}
+            style={[styles.submit,{...Platform.select({
+              ios: {
+                top: keyboardStatus=='Keyboard Hidden' ? "15%" : "9%",
+              },
+              android: {
+                top: deviceWidth < 370 ? "18%" : "15%",
+              },
+            })}]}
             onPress={login}
             underlayColor="#4FA3C4"
           >
@@ -1433,6 +1458,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 10,
     height: "50%",
+    shadowColor: "black",
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
   test: {
     flex: 2,
@@ -1442,6 +1472,11 @@ const styles = StyleSheet.create({
     width: deviceWidth < 370 ? "80%" : "90%",
     left: deviceWidth < 370 ? "10%" : "5%",
     borderRadius: 10,
+    shadowColor: "black",
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    overflow: Platform.OS === "android" ? "hidden" : "visible",
     elevation: 10,
     height: deviceHieght < 600 ? "60%" : "55%",
   },
@@ -1464,7 +1499,8 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: "row",
-    left: deviceWidth < 370 ? "15%" : "10%",
+    
+   
     width: deviceWidth < 370 ? "80%" : "80%",
     top: "5%",
   },
@@ -1493,18 +1529,14 @@ const styles = StyleSheet.create({
     top: -40,
   },
   inputStyle: {
-    // color: "black",
-    // borderWidth: 2,
-    // borderColor: "#dddddd",
-    // paddingHorizontal: "5%",
-    // paddingVertical: deviceWidth < 370 ? "1%" : "2%",
-    // borderRadius: 7,
-    // fontSize: deviceWidth < 370 ? 16 : 20,
-    // fontFamily: "HindRegular",
-    // margin: "2%",
-    // top: "7%",
-    // left: deviceWidth < 370 ? "8%" : "8%",
-    // width: deviceWidth < 370 ? "80%" : "80%",
+    ...Platform.select({
+      ios: {
+        
+      },
+      android: {
+        
+      },
+    }),
     fontSize: deviceWidth < 370 ? 16 : 20,
     fontFamily: "HindRegular",
   },
@@ -1514,7 +1546,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#1E84A4",
     borderRadius: 10,
     borderWidth: 1,
-    top: deviceWidth < 370 ? "18%" : "15%",
+   
+    
     borderColor: "#fff",
     left: deviceWidth < 370 ? "10%" : "10%",
     width: deviceWidth < 370 ? "80%" : "80%",
@@ -1531,21 +1564,48 @@ const styles = StyleSheet.create({
     top: deviceHieght < 600 ? "5%" : "7%",
     backgroundColor: "white",
     width: deviceWidth < 370 ? "80%" : "90%",
-    left: deviceWidth < 370 ? "10%" : "5%",
+
     borderRadius: 10,
     elevation: 10,
     height: deviceHieght < 600 ? "100%" : "90%",
+    shadowColor: "black",
+    backgroundColor: "white",
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
   },
+  // inputBoxLeft:{
+  //   ...Platform.select({
+  //     ios: {
+  //       '5%'
+  //     },
+  //     android: {
+  //       '5%'
+  //     },
+  //   }),
+  // },
   AccountTypeBtnDown: {
     flex: 2,
     position: "absolute",
     top: deviceHieght < 600 ? "5%" : "7%",
     backgroundColor: "white",
     width: deviceWidth < 370 ? "80%" : "90%",
-    left: deviceWidth < 370 ? "10%" : "5%",
+    ...Platform.select({
+      ios: {
+        left: "5%",
+      },
+      android: {
+        left: deviceWidth < 370 ? "5%" : "5%",
+      },
+    }),
     borderRadius: 10,
     elevation: 10,
     height: deviceHieght < 600 ? "100%" : "80%",
+    shadowColor: "black",
+    backgroundColor: "white",
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
   },
   setAccTypeStyle: {
     top: 10,
