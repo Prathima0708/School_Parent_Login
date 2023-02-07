@@ -172,6 +172,8 @@ const TeachersMarksheet = () => {
   const [empty, setEmpty] = useState(false);
   const [cancelState, setIsCancelState] = useState(false);
 
+  const [studentList, setStudentList] = useState([]);
+
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -727,7 +729,7 @@ const TeachersMarksheet = () => {
     setShowAddForm(true);
 
     const filteredDummuyData = studList.find((data) => data.id == id);
-    // console.log(filteredDummuyData.student_name);
+
     StudentList = filteredDummuyData;
     // console.log(filteredDummuyData);
     const studentregno = StudentList.reg_number;
@@ -741,8 +743,8 @@ const TeachersMarksheet = () => {
         );
         console.log(res.data);
         setFilteredMarks(res.data);
-        if (filteredlist.length === 0) {
-          console.log("empty");
+        if (res.data.length === 0) {
+          //  console.log("empty");
           // setEmpty(true);
           // setShowForm(true);
           // setShowBtn(true);
@@ -987,7 +989,7 @@ const TeachersMarksheet = () => {
                     fontSize: 15,
                     fontFamily: "HindRegular",
                   }}
-                  inputStyles={{ fontSize: 25, fontFamily: "HindRegular" }}
+                  inputStyles={{ fontSize: 15, fontFamily: "HindRegular" }}
                   onSelect={viewStudentList}
                 />
               )}
@@ -1185,9 +1187,7 @@ const TeachersMarksheet = () => {
                                   paddingVertical: 20,
                                 }}
                               >
-                                <Text
-                                  style={styles.headerTextValue}
-                                >
+                                <Text style={styles.headerTextValue}>
                                   {filteredData.reg_number}
                                 </Text>
                               </View>
@@ -1198,9 +1198,7 @@ const TeachersMarksheet = () => {
                                   paddingVertical: 20,
                                 }}
                               >
-                                <Text
-                                 style={styles.headerTextValue}
-                                >
+                                <Text style={styles.headerTextValue}>
                                   {filteredData.student_name}
                                 </Text>
                               </View>
@@ -1211,9 +1209,7 @@ const TeachersMarksheet = () => {
                                   paddingVertical: 20,
                                 }}
                               >
-                                <Text
-                                  style={styles.headerTextValue}
-                                >
+                                <Text style={styles.headerTextValue}>
                                   {filteredData.class_name} -{" "}
                                   {filteredData.section}
                                 </Text>
@@ -1373,7 +1369,7 @@ const TeachersMarksheet = () => {
                 { flex: 1 },
                 {
                   flexDirection: "column",
-                  backgroundColor: "darkblue",
+                  //  backgroundColor: "darkblue",
                   marginHorizontal: 20,
                   marginVertical: 60,
                   bottom: "5%",
@@ -1399,7 +1395,7 @@ const TeachersMarksheet = () => {
                     <Text
                       style={[
                         styles.headingFont,
-                        { fontSize: 18, color: "white" },
+                        { fontSize: 18, color: "black" },
                       ]}
                     >
                       Roll no
@@ -1410,7 +1406,7 @@ const TeachersMarksheet = () => {
                       <Text
                         style={[
                           styles.headingFont,
-                          { fontSize: 18, color: "white" },
+                          { fontSize: 18, color: "black" },
                         ]}
                       >
                         {StudentList.reg_number}
@@ -1432,7 +1428,7 @@ const TeachersMarksheet = () => {
                     <Text
                       style={[
                         styles.headingFont,
-                        { fontSize: 18, color: "white" },
+                        { fontSize: 18, color: "black" },
                       ]}
                     >
                       Student name
@@ -1443,7 +1439,7 @@ const TeachersMarksheet = () => {
                       <Text
                         style={[
                           styles.headingFont,
-                          { fontSize: 18, color: "white" },
+                          { fontSize: 18, color: "black" },
                         ]}
                       >
                         {" "}
@@ -1564,7 +1560,7 @@ const TeachersMarksheet = () => {
             </View>
 
             <View style={styles.btnCancel}>
-              <Button onPress={cancelPressHandler}> Cancel</Button>
+              <Button onPress={cancelPressHandler}> Back</Button>
             </View>
             {keyboardStatus == "Keyboard Hidden" && (
               <View style={{ flex: 1 }}>
@@ -1583,8 +1579,8 @@ const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   headingFont: {
-    // fontFamily: "Hind-SemiBold",
-    fontWeight: "bold",
+    fontFamily: "HindSemiBold",
+
     fontSize: deviceWidth < 370 ? 14 : 14,
     paddingVertical: 10,
   },

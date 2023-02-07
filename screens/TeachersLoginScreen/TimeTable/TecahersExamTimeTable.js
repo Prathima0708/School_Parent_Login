@@ -30,7 +30,7 @@ import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import { Badge, Button as NativeBtn, IconButton } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
 import { useNavigation } from "@react-navigation/native";
-import {Text as NativeText} from "native-base"
+import { Text as NativeText } from "native-base";
 export var ID;
 export var FROMDATE, TODATE;
 const TecahersExamTimeTable = () => {
@@ -629,7 +629,7 @@ const TecahersExamTimeTable = () => {
 
   function viewExamList() {
     async function login() {
-      console.log('selected is ',selected)
+      console.log("selected is ", selected);
       let selectedData = selected.split(" - ");
       let class_name = selectedData[0];
       let section = selectedData[1];
@@ -678,10 +678,10 @@ const TecahersExamTimeTable = () => {
 
     const fetchData = filteredData.find((data) => data.id == id);
 
-    navigation.navigate("ExamSubjects",{
-      className:fetchData.class_name,
-      examName:fetchData.exam_name,
-      hour:fetchData.hour
+    navigation.navigate("ExamSubjects", {
+      className: fetchData.class_name,
+      examName: fetchData.exam_name,
+      hour: fetchData.hour,
     });
   }
   return (
@@ -718,17 +718,35 @@ const TecahersExamTimeTable = () => {
                 fontSize: 20,
                 // marginTop: 13,
                 margin: 10,
-                left:20,
-                marginTop:'4%',
-                flexDirection:'row'
+                left: 20,
+                marginTop: "4%",
+                flexDirection: "row",
               },
             ]}
           >
-            <Text style={{fontFamily:'HindSemiBold',fontSize:17,top:'3%',marginLeft:10}}>Select class</Text>
-            <View style={styles.space}/>
-            <View style={styles.space}/>
-            <Text style={{fontFamily:'HindBold',fontSize:20,top: "3%",right:'2%'}}>-</Text>
-            <View style={styles.space}/>
+            <Text
+              style={{
+                fontFamily: "HindSemiBold",
+                fontSize: 17,
+                top: "3%",
+                marginLeft: 10,
+              }}
+            >
+              Select class
+            </Text>
+            <View style={styles.space} />
+            <View style={styles.space} />
+            <Text
+              style={{
+                fontFamily: "HindBold",
+                fontSize: 20,
+                top: "3%",
+                right: "2%",
+              }}
+            >
+              -
+            </Text>
+            <View style={styles.space} />
             <SelectList
               //  defaultOption={{ key: "1", value: "Second-A" }}
               setSelected={setSelected}
@@ -738,8 +756,7 @@ const TecahersExamTimeTable = () => {
               boxStyles={{ borderRadius: 10 }}
               dropdownTextStyles={{ fontSize: 15, fontFamily: "HindRegular" }}
               inputStyles={{ fontSize: 15, fontFamily: "HindRegular" }}
-            //  dropdownStyles={{width:'120%'}}
-              
+              //  dropdownStyles={{width:'120%'}}
             />
           </View>
           {/* <View
@@ -757,19 +774,21 @@ const TecahersExamTimeTable = () => {
       )}
       {showExamList && (
         <>
-          <View style={{ backgroundColor: "white",marginVertical:10 }}>
-            <SearchBar
-              onSubmitEditing={Keyboard.dismiss}
-              style={styles.searchBar}
-              textInputStyle={{
-                fontFamily: "HindRegular",
-                fontSize: 18,
-              }}
-              placeholder="Search here"
-              onChangeText={(text) => searchFilter(text)}
-              value={searchText}
-            />
-          </View>
+          {filteredData.length > 0 && (
+            <View style={{ backgroundColor: "white", marginVertical: 10 }}>
+              <SearchBar
+                onSubmitEditing={Keyboard.dismiss}
+                style={styles.searchBar}
+                textInputStyle={{
+                  fontFamily: "HindRegular",
+                  fontSize: 18,
+                }}
+                placeholder="Search here"
+                onChangeText={(text) => searchFilter(text)}
+                value={searchText}
+              />
+            </View>
+          )}
           <View
             style={[
               { flex: 1 },
@@ -784,189 +803,234 @@ const TecahersExamTimeTable = () => {
                   { useNativeDriver: false }
                 )}
               >
-                {filteredData.length > 0 ?
-                <View style={styles.root}>
-                  {loading ? (
-                    <ActivityIndicator
-                      size="large"
-                      visible={loading}
-                      textContent={"Loading..."}
-                      // textStyle={styles.spinnerTextStyle}
-                    />
-                  ) : (
-                    
-                    filteredData.map((data, key) => (
-                      <>
-                        <Pressable
-                          onPress={
-                            navigateHandler.bind(
-                              this, 
-                              data.id,
-                            )}>
-                          <Card
-                            style={{
-                              marginTop: 20,
-                              marginVertical: 1,
-                              marginHorizontal: 20,
-                              elevation: 5,
-                              borderRadius: 10,
-                            }}
-                            key={key}
+                {filteredData.length > 0 ? (
+                  <View style={styles.root}>
+                    {loading ? (
+                      <ActivityIndicator
+                        size="large"
+                        visible={loading}
+                        textContent={"Loading..."}
+                        // textStyle={styles.spinnerTextStyle}
+                      />
+                    ) : (
+                      filteredData.map((data, key) => (
+                        <>
+                          <Pressable
+                            onPress={navigateHandler.bind(this, data.id)}
                           >
-                            <Card.Content>
-                              <View
-                                style={[{ flex: 1 }, { flexDirection: "row" }]}
-                              >
-                                <View style={{ flex: 2 }}>
-                                  <View
-                                    style={[
-                                      { flex: 1 },
-                                      { flexDirection: "column", top: "10%" },
-                                    ]}
-                                  >
-                                    <View style={{ flex: 2,paddingHorizontal:10,right:'4%' }}>
-                                      <Text
-                                        style={[
-                                          styles.cardTextStyle,
-                                          {
-                                            color: "black",
-                                            fontFamily:"HindBold",
-                                            fontSize:
-                                              deviceWidth < 370 ? 14 : 16,
-                                          },
-                                        ]}
+                            <Card
+                              style={{
+                                marginTop: 20,
+                                marginVertical: 1,
+                                marginHorizontal: 20,
+                                elevation: 5,
+                                borderRadius: 10,
+                              }}
+                              key={key}
+                            >
+                              <Card.Content>
+                                <View
+                                  style={[
+                                    { flex: 1 },
+                                    { flexDirection: "row" },
+                                  ]}
+                                >
+                                  <View style={{ flex: 2 }}>
+                                    <View
+                                      style={[
+                                        { flex: 1 },
+                                        { flexDirection: "column", top: "10%" },
+                                      ]}
+                                    >
+                                      <View
+                                        style={{
+                                          flex: 2,
+                                          paddingHorizontal: 10,
+                                          right: "4%",
+                                        }}
                                       >
-                                        {moment(data.start_date).format(
-                                          "DD/MM/YYYY"
-                                        )}
-                                      </Text>
-                                      {/* <Badge colorScheme="info" variant='solid'>
+                                        <Text
+                                          style={[
+                                            styles.cardTextStyle,
+                                            {
+                                              color: "black",
+                                              fontFamily: "HindBold",
+                                              fontSize:
+                                                deviceWidth < 370 ? 14 : 16,
+                                            },
+                                          ]}
+                                        >
+                                          {moment(data.start_date).format(
+                                            "DD/MM/YYYY"
+                                          )}
+                                        </Text>
+                                        {/* <Badge colorScheme="info" variant='solid'>
                                       {moment(data.start_date).format(
                                           "DD/MM/YYYY"
                                         )}
                                         </Badge> */}
-                                    </View>
-                                    <View
-                                      style={{
-                                        left: "36%",
-                                        position: "absolute",
-                                        top: "24%",
-                                      }}
-                                    >
-                                      <Text
+                                      </View>
+                                      <View
                                         style={{
-                                          fontFamily: "HindRegular",
-                                          fontSize: 18,
-                                          color: "grey",
-                                          fontWeight: "bold",
+                                          left: "36%",
+                                          position: "absolute",
+                                          top: "24%",
                                         }}
                                       >
-                                        to
-                                      </Text>
-                                    </View>
-                                    <View style={{ flex: 2,paddingHorizontal:10,right:'4%' }}>
-                                      <Text
-                                        style={[
-                                          styles.cardTextStyle,
-                                          {
-                                            color: "black",
-                                            fontSize:
-                                              deviceWidth < 370 ? 14 : 16,
-                                          },
-                                        ]}
+                                        <Text
+                                          style={{
+                                            fontFamily: "HindRegular",
+                                            fontSize: 18,
+                                            color: "grey",
+                                            fontWeight: "bold",
+                                          }}
+                                        >
+                                          to
+                                        </Text>
+                                      </View>
+                                      <View
+                                        style={{
+                                          flex: 2,
+                                          paddingHorizontal: 10,
+                                          right: "4%",
+                                        }}
                                       >
-                                        {moment(data.end_date).format(
-                                          "DD/MM/YYYY"
-                                        )}
-                                      </Text>
-                                      {/* <Badge colorScheme="info" variant='solid'>
+                                        <Text
+                                          style={[
+                                            styles.cardTextStyle,
+                                            {
+                                              color: "black",
+                                              fontSize:
+                                                deviceWidth < 370 ? 14 : 16,
+                                            },
+                                          ]}
+                                        >
+                                          {moment(data.end_date).format(
+                                            "DD/MM/YYYY"
+                                          )}
+                                        </Text>
+                                        {/* <Badge colorScheme="info" variant='solid'>
                                         {moment(data.end_date).format(
                                           "DD/MM/YYYY"
                                         )}
                                       </Badge> */}
+                                      </View>
                                     </View>
                                   </View>
-                                </View>
-                                <View style={{ flex: 2, }}>
-                                  <Text style={[styles.cardTextStyle,{marginVertical:5}]}>
-                                    Class name
-                                  </Text>
-                                  <Text style={[styles.cardTextStyle,{marginVertical:5}]}>
-                                    Exam name
-                                  </Text>
-                                  <Text style={[styles.cardTextStyle,{marginVertical:5}]}>
-                                    Total marks
-                                  </Text>
-                                  <Text style={[styles.cardTextStyle,{marginVertical:5}]}>Hour</Text>
-                                </View>
-                                <View style={{ flex: 2 }}>
-                                  <Text
-                                    style={[
-                                      [styles.cardTextStyle,{marginVertical:5}],
-                                      {
-                                        color: "grey",
-                                        fontSize: deviceWidth < 370 ? 14 : 16,
-                                      },
-                                    ]}
-                                  >
-                                    {data.class_name}
-                                  </Text>
-                                  <Text
-                                    style={[
-                                      [styles.cardTextStyle,{marginVertical:5}],
-                                      {
-                                        width: "120%",
-                                        color: "grey",
-                                        fontSize: deviceWidth < 370 ? 14 : 16,
-                                      },
-                                    ]}
-                                  >
-                                    {data.exam_name}
-                                  </Text>
-                                  <Text
-                                    style={[
-                                      [styles.cardTextStyle,{marginVertical:5}],
-                                      {
-                                        color: "grey",
-                                        fontSize: deviceWidth < 370 ? 14 : 16,
-                                      },
-                                    ]}
-                                  >
-                                    {data.Total_marks}
-                                  </Text>
-                                  {/* <Badge 
+                                  <View style={{ flex: 2 }}>
+                                    <Text
+                                      style={[
+                                        styles.cardTextStyle,
+                                        { marginVertical: 5 },
+                                      ]}
+                                    >
+                                      Class name
+                                    </Text>
+                                    <Text
+                                      style={[
+                                        styles.cardTextStyle,
+                                        { marginVertical: 5 },
+                                      ]}
+                                    >
+                                      Exam name
+                                    </Text>
+                                    <Text
+                                      style={[
+                                        styles.cardTextStyle,
+                                        { marginVertical: 5 },
+                                      ]}
+                                    >
+                                      Total marks
+                                    </Text>
+                                    <Text
+                                      style={[
+                                        styles.cardTextStyle,
+                                        { marginVertical: 5 },
+                                      ]}
+                                    >
+                                      Hour
+                                    </Text>
+                                  </View>
+                                  <View style={{ flex: 2 }}>
+                                    <Text
+                                      style={[
+                                        [
+                                          styles.cardTextStyle,
+                                          { marginVertical: 5 },
+                                        ],
+                                        {
+                                          color: "grey",
+                                          fontSize: deviceWidth < 370 ? 14 : 16,
+                                        },
+                                      ]}
+                                    >
+                                      {data.class_name}
+                                    </Text>
+                                    <Text
+                                      style={[
+                                        [
+                                          styles.cardTextStyle,
+                                          { marginVertical: 5 },
+                                        ],
+                                        {
+                                          width: "120%",
+                                          color: "grey",
+                                          fontSize: deviceWidth < 370 ? 14 : 16,
+                                        },
+                                      ]}
+                                    >
+                                      {data.exam_name}
+                                    </Text>
+                                    <Text
+                                      style={[
+                                        [
+                                          styles.cardTextStyle,
+                                          { marginVertical: 5 },
+                                        ],
+                                        {
+                                          color: "grey",
+                                          fontSize: deviceWidth < 370 ? 14 : 16,
+                                        },
+                                      ]}
+                                    >
+                                      {data.Total_marks}
+                                    </Text>
+                                    {/* <Badge 
                                     colorScheme="info"
                                     variant='solid'
                                     style={{marginVertical:7,marginHorizontal:20,right:'12%'}}>
                                       {data.Total_marks}</Badge> */}
-                                  <Text
-                                    style={[
-                                      [styles.cardTextStyle,{marginVertical:5}],
-                                      {
-                                        color: "grey",
-                                        fontSize: deviceWidth < 370 ? 14 : 16,
-                                      },
-                                    ]}
-                                  >
-                                    {data.hour}
-                                  </Text>
-                                  {/* <Badge 
+                                    <Text
+                                      style={[
+                                        [
+                                          styles.cardTextStyle,
+                                          { marginVertical: 5 },
+                                        ],
+                                        {
+                                          color: "grey",
+                                          fontSize: deviceWidth < 370 ? 14 : 16,
+                                        },
+                                      ]}
+                                    >
+                                      {data.hour}
+                                    </Text>
+                                    {/* <Badge 
                                     colorScheme="info" 
                                     variant='solid'
                                     style={{marginHorizontal:20,right:'12%'}}>{data.hour}</Badge> */}
+                                  </View>
                                 </View>
-                              </View>
-                              <View
-                                style={[
-                                  { flex: 1 },
-                                  {
-                                    flexDirection: "row",
-                                    left: "100%",
-                                    //  top: "2%",
-                                  },
-                                ]}
-                              >
-                                {/* <View
+                                <View
+                                  style={[
+                                    { flex: 1 },
+                                    {
+                                      flexDirection: "row",
+                                      left: "100%",
+                                      //  top: "2%",
+                                    },
+                                  ]}
+                                >
+                                  {/* <View
                                 style={{
                                   flex: 2,
                                   left: deviceWidth < 370 ? "400%" : "450%",
@@ -979,7 +1043,7 @@ const TecahersExamTimeTable = () => {
                                   onPress={() => editItem(data.id)}
                                 />
                               </View> */}
-                                {/* <View style={{ flex: 2, left: -10 }}>
+                                  {/* <View style={{ flex: 2, left: -10 }}>
                                 <Ionicons
                                   name="trash"
                                   size={24}
@@ -987,33 +1051,34 @@ const TecahersExamTimeTable = () => {
                                   onPress={() => deleteItem(data.id)}
                                 />
                               </View> */}
-                              </View>
-                            </Card.Content>
-                          </Card>
-                        </Pressable>
-                      </>
-                    ))
-                  )}
-                </View> :
-                <View
-                style={{
-                  flex: 1,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginTop:'9%'
-                }}
-              >
-                <Text
-                  style={{
-                    fontFamily: "HindSemiBold",
-                    fontSize: 18,
-                    color: "#6B0202",
-                  }}
-                >
-                  No exam timetable found
-                </Text>
-              </View>
-              }
+                                </View>
+                              </Card.Content>
+                            </Card>
+                          </Pressable>
+                        </>
+                      ))
+                    )}
+                  </View>
+                ) : (
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginTop: "9%",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily: "HindSemiBold",
+                        fontSize: 18,
+                        color: "#6B0202",
+                      }}
+                    >
+                      No exam timetable found
+                    </Text>
+                  </View>
+                )}
               </ScrollView>
             </View>
             {keyboardStatus == "Keyboard Hidden" && (

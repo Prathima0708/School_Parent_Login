@@ -50,7 +50,6 @@ const MyClasses = () => {
               value: item.class_name + " - " + item.section,
             };
           });
-          console.log(response.data);
 
           setData(response.data);
           setFilteredData(response.data);
@@ -69,7 +68,6 @@ const MyClasses = () => {
     if (USERID !== null) {
       setUserID(USERID);
     }
-    console.log(userID);
   }
   fetchUserId();
 
@@ -176,7 +174,7 @@ const MyClasses = () => {
               {keyboardStatus == "Keyboard Hidden" && (
                 <View
                   style={[
-                    { flex: 1 },
+                    { flex: 1.1 },
                     {
                       flexDirection: "row",
                       marginVertical: 17,
@@ -185,7 +183,7 @@ const MyClasses = () => {
                 >
                   <View
                     style={{
-                      flex: 0.2,
+                      flex: 0.3,
                       alignItems: "center",
                       justifyContent: "center",
                     }}

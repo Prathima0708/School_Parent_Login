@@ -206,6 +206,8 @@ const TeachersLeaveUpdated = () => {
   const [bgColor, setBgColor] = useState([]);
   const [showDefault, setShowDefault] = useState(false);
 
+  const [showNotfoundMsg, setShowNotFoundMsg] = useState(false);
+
   let i = 0;
 
   useEffect(() => {
@@ -933,36 +935,23 @@ const TeachersLeaveUpdated = () => {
   function selecteHandler() {}
 
   function classsectionSelectHandler() {
-    console.log("pressed");
     setShowDefault(true);
-    console.log("selected");
-    console.log(selectedClassSection);
-    //  console.log("new array-", newArray);
-    // console.log(selectedClassSection.split(" - "));
+
     let filteredlist = newArray?.filter(
       (ele) => ele.key == selectedClassSection
     );
-    console.log("filtered list-", filteredlist);
-    console.log("--------------------------------");
-    // console.log(filteredlist[0].classname);
+
     let class_name = filteredlist[0]?.classname;
     let section = filteredlist[0]?.section;
-    // let send = selectedClassSection.split(" - ");
-    // // // console.log(send[0]);
+
     async function fetchData() {
       try {
         const res = await axios.get(
           `${subURL}/LeaveCS/${class_name}/${section}`
         );
 
-        console.log("leave by class section");
-        //  console.log(res.data);
-
         setLeaveByClassSection(res.data);
         setFilteredData(res.data);
-        // if (res.data.length == 0) {
-        //   Alert.alert("No data found");
-        // }
       } catch (error) {
         console.log(error);
       }
@@ -980,7 +969,7 @@ const TeachersLeaveUpdated = () => {
     EDT_ID = id;
 
     const filteredDummuyData = leaveByUsername.find((data) => data.id == id);
-    console.log(filteredDummuyData);
+
     let filteredlist = leaveTypeData.filter(
       (ele) => ele.value == filteredDummuyData.leave_type
     );
@@ -988,8 +977,6 @@ const TeachersLeaveUpdated = () => {
     KEY = filteredlist[0].key;
     VALUE = filteredlist[0].value;
 
-    // setSelected(filteredDummuyData.leave_type);
-    //  setEnteredcreatedby(filteredDummuyData.created_by);
     setFromText(moment(filteredDummuyData.startdate).format("DD/MM/YYYY"));
     setToText(moment(filteredDummuyData.enddate).format("DD/MM/YYYY"));
     setEnteredLeaveReason(filteredDummuyData.leave_reason);
@@ -2013,12 +2000,15 @@ const TeachersLeaveUpdated = () => {
               </Text>
               <View style={styles.space} />
               <SelectList
+                defaultOption={{
+                  key: String(KEY),
+                  value: String(VALUE),
+                }}
                 setSelected={setSelectedClassSection}
                 data={classTeacherData}
                 //dropdownStyles={{ marginTop: "-5%" }}
                 onSelect={classsectionSelectHandler}
                 placeholder="Select class"
-                boxStyles={[]}
                 dropdownTextStyles={{
                   fontSize: 15,
                   fontFamily: "HindRegular",
@@ -2027,7 +2017,7 @@ const TeachersLeaveUpdated = () => {
                 save="key"
               />
             </View>
-            {showDefault && (
+            {leaveByClassSection.length > 0 && (
               // <SearchBar
               //   onSubmitEditing={Keyboard.dismiss}
               //   style={styles.searchBarNew}
@@ -2188,7 +2178,7 @@ const TeachersLeaveUpdated = () => {
                             color: "#6B0202",
                           }}
                         >
-                          Select class to view Student leaves
+                          Data not found
                         </Text>
                       </View>
                     ) : (

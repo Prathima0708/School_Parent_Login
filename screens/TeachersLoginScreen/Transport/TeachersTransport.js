@@ -858,12 +858,7 @@ const TeachersTransport = () => {
                         ]}
                       >
                         <View style={{ flex: 1 }}>
-                          <Text
-                            style={[
-                              styles.textStyle,
-                              { fontFamily: "HindRegular" },
-                            ]}
-                          >
+                          <Text style={styles.textStyle}>
                             Left From School At 2.00pm
                           </Text>
                         </View>
@@ -885,9 +880,7 @@ const TeachersTransport = () => {
                           <Text style={styles.cardTextStyle}>Current:</Text>
                         </View>
                         <View style={{ flex: 1 }}>
-                          <Text style={styles.cardTextStyle}>
-                            Udupi bus stop
-                          </Text>
+                          <Text style={styles.textStyle}>Udupi bus stop</Text>
                         </View>
                       </View>
                     </View>
@@ -1316,10 +1309,10 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontSize: 16,
-    fontFamily: "HindSemiBold",
+    fontFamily: "HindMedium",
   },
   cardTextStyle: {
-    fontFamily: "HindBold",
+    fontFamily: "HindSemiBold",
     fontSize: 16,
   },
   lableStyle: {

@@ -212,6 +212,19 @@ const TeachersCalendar = () => {
       try {
         const res = await axios.get(`${subURL}/Calendar/`);
 
+        // const filtredRes = res.data.filter((event) => {
+        //   const viewOnly = event.viewOnly;
+        //   return (
+        //     viewOnly.includes("staff") &&
+        //     (viewOnly === "admin,parents,staff" || viewOnly === "parents,staff")
+        //   );
+        // });
+        const filtredRes = res.data.filter((event) =>
+          event.viewOnly.includes("staff")
+        );
+
+        console.log(filtredRes);
+
         const keys = Object.keys(res.data[0]);
 
         setData(res.data);
@@ -1807,18 +1820,16 @@ const TeachersCalendar = () => {
             <BackButton onPress={backButtonHandler} />
           </View>} */}
           <View style={{ flex: 1 }}>
-            {backAndSearchBar && (
-              <SearchBar
-                style={styles.searchBar}
-                textInputStyle={{
-                  fontFamily: "HindRegular",
-                  fontSize: 18,
-                }}
-                placeholder="Search here"
-                onChangeText={(text) => searchFilter(text)}
-                value={searchText}
-              />
-            )}
+            <SearchBar
+              style={styles.searchBar}
+              textInputStyle={{
+                fontFamily: "HindRegular",
+                fontSize: 18,
+              }}
+              placeholder="Search here"
+              onChangeText={(text) => searchFilter(text)}
+              value={searchText}
+            />
 
             <View
               style={[
