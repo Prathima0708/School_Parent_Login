@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     elevation: 3,
     shadowColor: "black",
-    shadowOpacity: 0.75,
+    shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
     overflow: Platform.OS === "android" ? "hidden" : "visible",
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 50,
     height: 50,
-    borderWidth: 3,
+    //borderWidth: 3,
     top: 15,
     left: 10,
   },

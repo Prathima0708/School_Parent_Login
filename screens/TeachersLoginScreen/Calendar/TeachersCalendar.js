@@ -10,6 +10,7 @@ import {
   LogBox,
   Pressable,
   ActivityIndicator,
+  Platform,
 } from "react-native";
 import SelectList from "react-native-dropdown-select-list";
 import * as Notifications from "expo-notifications";
@@ -726,6 +727,7 @@ const TeachersCalendar = () => {
     //setCalendarViewBtnPressed(false);
     setShowListCalOptionBtn(false);
     setShowSearchBar(false);
+    setCalendarViewBtnPressed(false)
   }
   function showCalendar() {
     async function fetchData() {
@@ -1110,6 +1112,7 @@ const TeachersCalendar = () => {
       {showInitialBtn && (
         <>
           <Animated.View
+          
             style={[
               {
                 height: animateHeaderHeight,
@@ -1443,6 +1446,7 @@ const TeachersCalendar = () => {
                     >
                       <View style={{ flex: 0.3 }}>
                         <Checkbox
+                          
                           status={
                             isEdit
                               ? newData.viewOnly === "admin,staff,parents"
@@ -1457,6 +1461,7 @@ const TeachersCalendar = () => {
                           color={"green"}
                           uncheckColor={"red"}
                         />
+                        
                       </View>
                       <View style={{ flex: 0.3 }}>
                         <Text style={[styles.labelStyle, { marginTop: 5 }]}>
@@ -1887,6 +1892,11 @@ const TeachersCalendar = () => {
                                     elevation: 5,
                                     borderRadius: 10,
                                     paddingBottom: 20,
+                                    shadowColor: "black",
+                                    shadowOpacity: 0.1,
+                                    shadowOffset: { width: 0, height: 2 },
+                                    shadowRadius: 8,
+                                    overflow: Platform.OS === "android" ? "hidden" : "visible",
                                   }}
                                 >
                                   <Card.Content>
@@ -2503,6 +2513,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: deviceWidth < 370 ? 2 : 10,
     left: deviceWidth < 370 ? 40 : 50,
+    zIndex:100
   },
   testSuccess: {
     position: "absolute",
@@ -2513,10 +2524,19 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: deviceWidth < 370 ? 68 : 87,
     left: deviceWidth < 370 ? 40 : 50,
+    zIndex:100
   },
   descriptionDown: {
     position: "absolute",
-    top: deviceWidth < 370 ? 93 : 107,
+    ...Platform.select({
+      ios: {
+        top: deviceWidth < 370 ? 93 : 110,
+      },
+      android: {
+        top: deviceWidth < 370 ? 93 : 107,
+      },
+    }),
+    
     left: 50,
   },
   descriptionUpExtra: {

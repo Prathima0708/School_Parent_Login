@@ -1981,6 +1981,7 @@ const styles = StyleSheet.create({
     top: deviceWidth < 370 ? 15 : 26,
     left: deviceWidth < 370 ? 20 : 30,
     width: deviceWidth > 400 ? 70 : 70,
+    zIndex:100
   },
   normalRemark: {
     position: "absolute",
@@ -1992,6 +1993,7 @@ const styles = StyleSheet.create({
     width: deviceWidth > 400 ? 70 : 70,
     left: deviceWidth < 370 ? 20 : 30,
     height: deviceHieght > 800 ? 25 : 25,
+    zIndex:100
   },
   normalHomework: {
     position: "absolute",
@@ -2002,6 +2004,7 @@ const styles = StyleSheet.create({
     top: deviceWidth < 370 ? 15 : 24,
     left: deviceWidth < 370 ? 20 : 30,
     width: deviceWidth > 400 ? 100 : 95,
+    zIndex:100
   },
   errorLabel: {
     color: "red",

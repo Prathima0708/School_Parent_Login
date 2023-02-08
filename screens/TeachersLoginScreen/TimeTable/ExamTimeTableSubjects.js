@@ -149,7 +149,7 @@ const ExamTimeTableSubjects = () => {
                 {/* <View style={styles.tableHead}>
                       <Text style={styles.headingFont}>Hour</Text>
                     </View> */}
-                <View style={styles.tableHead}>
+                <View style={[styles.tableHead,{right:'1%'}]}>
                   <Text style={styles.headingFont}>Subject</Text>
                 </View>
               </View>
@@ -182,8 +182,8 @@ const ExamTimeTableSubjects = () => {
                                     {/* {moment(data.exam_date).format(
                                       "DD/MM/YYYY"
                                     )} */}
-                                    {moment(data.exam_date, "HH:mm").format(
-                                            "LT"
+                                    {moment(data.exam_date).format(
+                                            "DD-MM-YYYY"
                                           )}
                                   </Text>
                                 </View>
@@ -243,7 +243,7 @@ const ExamTimeTableSubjects = () => {
                                 </>
                               ))}
                           </View> */}
-                      <View style={[styles.root, {}]}>
+                      <View style={[styles.root, {right:'1%'}]}>
                         {data &&
                           data.map((data) => (
                             <>
