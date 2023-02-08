@@ -243,14 +243,14 @@ function Login() {
         let filteredNotification = getNotificationRes.data.filter(
           (ele) => ele.notification_token == PushToken
         );
-        // if (filteredNotification.length > 0) {
-        //   console.log("token existing");
-        // } else {
-        //   const notificationRes = await axios.post(
-        //     `${subURL}/Notification/`,
-        //     formData
-        //   );
-        // }
+        if (filteredNotification.length > 0) {
+          console.log("token existing");
+        } else {
+          const notificationRes = await axios.post(
+            `${subURL}/Notification/`,
+            formData
+          );
+        }
 
         const res = await axios.get(`${subURL}/Student/`);
         const staffres = await axios.get(`${subURL}/Staff`);
