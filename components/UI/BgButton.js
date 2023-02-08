@@ -31,15 +31,13 @@
 //   },
 // });
 
-import { Text } from "native-base";
+import { Text } from "react-native";
 import { Dimensions, Pressable, StyleSheet, View } from "react-native";
 
 function BgButton({ children, onPress, style }) {
   return (
     <Pressable style={[style, styles.button]} onPress={onPress}>
-      <Text  bold style={[style, styles.buttonText]}>
-        {children}
-      </Text>
+      <Text style={[style, styles.buttonText]}>{children}</Text>
     </Pressable>
   );
 }
@@ -74,10 +72,11 @@ const styles = StyleSheet.create({
 
   buttonText: {
     //fontFamily: "LunchTypeItalic",
-    fontFamily: "HindRegular",
+    fontFamily: "HindBold",
     textAlign: "center",
     fontSize: deviceWidth < 370 ? 16 : 20,
-    padding: 9,
+  //  top: "5%",
+    padding: 5,
 
     //margin: 15,
   },

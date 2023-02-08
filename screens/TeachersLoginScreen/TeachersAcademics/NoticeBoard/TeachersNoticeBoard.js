@@ -8,10 +8,21 @@ import axios from "axios";
 import NoticeBoard from "./NoticeBoard";
 import TeachersHome from "../../BottomTab/TeachersHome";
 import { subURL } from "../../../../components/utils/URL's";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export var arr = [];
+var Group;
 
 const TeachersNoticeBoard = () => {
   const [data, setData] = useState([]);
+  const [group, setGroup] = useState("");
+  useEffect(() => {
+    async function getGroup() {
+      Group = await AsyncStorage.getItem("datagroup");
+      // console.log(Group);
+      setGroup(Group);
+    }
+    getGroup();
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -20,13 +31,14 @@ const TeachersNoticeBoard = () => {
           "Content-Type": "application/json; charset=utf-8",
         };
 
-        const res = await axios.get(
-          `${subURL}/CalendarListByIsnotified/True/staff`,
-          {
-            headers: headers,
-          }
-        );
+        const res = await axios.get(`${subURL}/CalendarListByIsnotified/True`, {
+          headers: headers,
+        });
 
+        const filtredRes = res.data.filter((event) =>
+          event.viewOnly.includes(Group)
+        );
+        console.log(filtredRes);
         // arr = res.data;
 
         // function dateComparison(a, b) {
@@ -39,7 +51,7 @@ const TeachersNoticeBoard = () => {
         // arr.sort(dateComparison);
 
         const today = new Date();
-        const filteredData = res.data.filter(
+        const filteredData = filtredRes.filter(
           (item) =>
             new Date(item.startdate) >= today ||
             new Date(item.startdate).toDateString() === today.toDateString()
@@ -52,7 +64,7 @@ const TeachersNoticeBoard = () => {
     }
     fetchData();
   }, []);
-  console.log(data);
+
   function renderNotice(itemData) {
     return <NoticeBoard {...itemData.item} />;
   }

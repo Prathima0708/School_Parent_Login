@@ -619,12 +619,23 @@ import ParentsHome from "../BottomTab/ParentsHome";
 import { subURL } from "../../../components/utils/URL's";
 export var arr = [];
 var sortedArr = [];
+var Group;
 const NoticeBoard = () => {
   const [data, setData] = useState([]);
+  const [group, setGroup] = useState("");
   // const [sortedArr, setSortedArr] = useState([]);
   // const [sortedData, setSortedData] = useState([]);
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    async function getGroup() {
+      Group = await AsyncStorage.getItem("datagroup");
+      // console.log(Group);
+      setGroup(Group);
+    }
+    getGroup();
+  }, []);
   useEffect(() => {
     async function fetchData() {
       try {
@@ -633,33 +644,33 @@ const NoticeBoard = () => {
           // Authorization: "Token " + `${Token}`,
         };
 
-        // const res = await axios.get("http://10.0.2.2:8000/school/users/", {
-        const res = await axios.get(
-          `${subURL}/CalendarListByIsnotified/True/parents`,
-          {
-            headers: headers,
-          }
+        const res = await axios.get(`${subURL}/CalendarListByIsnotified/True`, {
+          headers: headers,
+        });
+
+        const filtredRes = res.data.filter((event) =>
+          event.viewOnly.includes(Group)
         );
-        console.log(res.data);
-
+        console.log(filtredRes);
         // arr = res.data;
-        // console.log(arr);
-        // for (let i = 0; i < res.data.length; i++) {
-        //   arr.push(res.data[i].startdate);
 
-        //   console.log("before sorting");
-        //   console.log(arr);
+        // function dateComparison(a, b) {
+        //   const date1 = new Date(a.startdate);
+        //   const date2 = new Date(b.startdate);
+
+        //   return date2 - date1;
         // }
 
+        // arr.sort(dateComparison);
+
         const today = new Date();
-        const filteredData = res.data.filter(
+        const filteredData = filtredRes.filter(
           (item) =>
             new Date(item.startdate) >= today ||
             new Date(item.startdate).toDateString() === today.toDateString()
         );
 
-        setData(filteredData);
-        console.log(data);
+        setData(filteredData.reverse());
       } catch (error) {
         console.log(error);
       }
