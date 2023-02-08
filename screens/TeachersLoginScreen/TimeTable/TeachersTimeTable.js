@@ -493,14 +493,20 @@ const TeachersTimetable = () => {
                           color: "#6B0202",
                         }}
                       >
-                        No Timetable found
+                        No timetable found
                       </Text>
                     </View>
                   )}
 
                   {showSelected && !isUndefined && isIdThere && (
                     <>
-                      <View style={{ flex: 8, bottom: 10 }}>
+                      <View
+                        style={{
+                          //  backgroundColor: "red",
+                          bottom: 10,
+                          height: "170%",
+                        }}
+                      >
                         <View style={[styles.root]}>
                           <ScrollView>
                             <ScrollView horizontal={true}>
@@ -659,7 +665,7 @@ const TeachersTimetable = () => {
                                       style={{
                                         flex: 1,
                                         marginHorizontal: 10,
-                                        left: "3%",
+                                        left: "5%",
                                       }}
                                     >
                                       {filteredTimeTable &&
@@ -687,7 +693,7 @@ const TeachersTimetable = () => {
                                       style={{
                                         flex: 1,
                                         marginHorizontal: 10,
-                                        right: "1%",
+                                        left: "5%",
                                       }}
                                     >
                                       {filteredTimeTable &&
@@ -715,7 +721,7 @@ const TeachersTimetable = () => {
                                       style={{
                                         flex: 1,
                                         marginHorizontal: 10,
-                                        right: "5%",
+                                        left: "5%",
                                       }}
                                     >
                                       {filteredTimeTable &&
@@ -742,7 +748,7 @@ const TeachersTimetable = () => {
                                       style={{
                                         flex: 1,
                                         marginHorizontal: 10,
-                                        right: "8%",
+                                        left: "5%",
                                       }}
                                     >
                                       {filteredTimeTable &&
@@ -770,7 +776,7 @@ const TeachersTimetable = () => {
                                       style={{
                                         flex: 1,
                                         marginHorizontal: 10,
-                                        right: "12%",
+                                        left: "3%",
                                       }}
                                     >
                                       {filteredTimeTable &&

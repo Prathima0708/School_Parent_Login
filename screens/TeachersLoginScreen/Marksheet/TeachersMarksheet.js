@@ -739,7 +739,7 @@ const TeachersMarksheet = () => {
     setShowAddForm(true);
 
     const filteredDummuyData = studList.find((data) => data.id == id);
-    // console.log(filteredDummuyData.student_name);
+
     StudentList = filteredDummuyData;
     // console.log(filteredDummuyData);
     const studentregno = StudentList.reg_number;
@@ -753,25 +753,25 @@ const TeachersMarksheet = () => {
         );
         console.log(res.data);
         setFilteredMarks(res.data);
-        // if (filteredlist.length === 0) {
-        //   console.log("empty");
-        //   // setEmpty(true);
-        //   // setShowForm(true);
-        //   // setShowBtn(true);
-        //   // setIsEdit(true);
-        //   // setShowMarksheet(false);
-        //   Alert.alert(
-        //     "Data not found",
-        //     `No marks added for the student ${StudentList.student_name}`,
-        //     [{ text: "OK" }]
-        //   );
-        // } else {
+        if (res.data.length === 0) {
+          //  console.log("empty");
+          // setEmpty(true);
+          // setShowForm(true);
+          // setShowBtn(true);
+          // setIsEdit(true);
+          // setShowMarksheet(false);
+          Alert.alert(
+            "Data not found",
+            `No marks added for the student ${StudentList.student_name}`,
+            [{ text: "OK" }]
+          );
+        } else {
           setEmpty(false);
           setShowForm(false);
           setShowBtn(false);
           setIsEdit(false);
           setShowMarksheet(true);
-        // }
+        }
       } catch (error) {
         console.log(error);
       }
@@ -1016,7 +1016,7 @@ const TeachersMarksheet = () => {
                     fontSize: 15,
                     fontFamily: "HindRegular",
                   }}
-                  inputStyles={{ fontSize: 25, fontFamily: "HindRegular" }}
+                  inputStyles={{ fontSize: 15, fontFamily: "HindRegular" }}
                   onSelect={viewStudentList}
                 />
               )}
@@ -1214,9 +1214,7 @@ const TeachersMarksheet = () => {
                                   paddingVertical: 20,
                                 }}
                               >
-                                <Text
-                                  style={styles.headerTextValue}
-                                >
+                                <Text style={styles.headerTextValue}>
                                   {filteredData.reg_number}
                                 </Text>
                               </View>
@@ -1227,9 +1225,7 @@ const TeachersMarksheet = () => {
                                   paddingVertical: 20,
                                 }}
                               >
-                                <Text
-                                 style={styles.headerTextValue}
-                                >
+                                <Text style={styles.headerTextValue}>
                                   {filteredData.student_name}
                                 </Text>
                               </View>
@@ -1240,9 +1236,7 @@ const TeachersMarksheet = () => {
                                   paddingVertical: 20,
                                 }}
                               >
-                                <Text
-                                  style={styles.headerTextValue}
-                                >
+                                <Text style={styles.headerTextValue}>
                                   {filteredData.class_name} -{" "}
                                   {filteredData.section}
                                 </Text>

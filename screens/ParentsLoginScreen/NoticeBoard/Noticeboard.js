@@ -635,14 +635,15 @@ const NoticeBoard = () => {
 
         // const res = await axios.get("http://10.0.2.2:8000/school/users/", {
         const res = await axios.get(
-          `${subURL}/CalendarListByIsnotified/True/`,
+          `${subURL}/CalendarListByIsnotified/True/parents`,
           {
             headers: headers,
           }
         );
+        console.log(res.data);
 
-        arr = res.data;
-        console.log(arr);
+        // arr = res.data;
+        // console.log(arr);
         // for (let i = 0; i < res.data.length; i++) {
         //   arr.push(res.data[i].startdate);
 

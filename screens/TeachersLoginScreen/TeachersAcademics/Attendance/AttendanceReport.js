@@ -212,7 +212,6 @@ const AttendanceReport = () => {
           }
         });
         setMonthlyCount(counts);
-        console.log(monthlyCount);
       } catch (error) {
         console.log(error);
       }
@@ -240,7 +239,7 @@ const AttendanceReport = () => {
     let tempFromDate = new Date(currentFromDate);
 
     let year = moment(tempFromDate).format("YYYY");
-    console.log("year is ", year);
+
     let fDate =
       tempFromDate.getDate() +
       "/" +
@@ -250,6 +249,7 @@ const AttendanceReport = () => {
 
     if (event.type == "set") {
       setFromText(year);
+      setShowFirstOption(true);
       viewList();
     } else {
       // if (event?.type === "dismissed") {
@@ -257,7 +257,6 @@ const AttendanceReport = () => {
       //   return;
       // }
     }
-    console.log("fromtext", fromText);
   };
 
   const showFromMode = (currentFromMode) => {
@@ -270,8 +269,6 @@ const AttendanceReport = () => {
     setFromDate(enteredValue);
   }
   function yearlyReport() {
-    setFromText("");
-
     setShowYearReport(true);
     setShowMonthReport(false);
 
@@ -287,8 +284,6 @@ const AttendanceReport = () => {
     });
   }
   function monthlyReport() {
-    setFromText("");
-
     setShowYearReport(false);
     setShowMonthReport(true);
 
@@ -325,7 +320,7 @@ const AttendanceReport = () => {
         );
         //   console.log(res.data);
         //setYearMonthReport(res.data);
-        console.log("selected value is", selected);
+
         // const filteredAttendance = res.data.filter(
         //   (item) => new Date(item.attendance_date).getMonth() === selected
         // );
@@ -652,7 +647,7 @@ const AttendanceReport = () => {
               <View style={{ flex: 8, bottom: 2 }}>
                 {Object.entries(monthlyCount).length <= 0 && (
                   <View style={{ alignItems: "center", marginVertical: 10 }}>
-                    <Text style={styles.errText}>No Data found.</Text>
+                    <Text style={styles.errText}>No Data found</Text>
                   </View>
                 )}
                 <ScrollView>
@@ -818,10 +813,10 @@ const AttendanceReport = () => {
               </View>
               <View style={{ flex: 1, paddingRight: 27 }}>
                 <SelectList
-                  defaultOption={{
-                    key: KEY,
-                    value: VALUE,
-                  }}
+                  // defaultOption={{
+                  //   key: KEY,
+                  //   value: VALUE,
+                  // }}
                   setSelected={setSelected}
                   data={months}
                   onSelect={viewYearMonthReport}
@@ -851,10 +846,17 @@ const AttendanceReport = () => {
               </View>
               <View style={{ flex: 1, paddingRight: 27 }}>
                 <SelectList
-                  defaultOption={{
-                    key: singleReportKey,
-                    value: singleReportValue,
-                  }}
+                  defaultOption={
+                    !showFirstOption
+                      ? {
+                          key: singleReportKey,
+                          value: singleReportValue,
+                        }
+                      : {
+                          key: "",
+                          value: "",
+                        }
+                  }
                   setSelected={setSelected}
                   data={months}
                   onSelect={viewYearMonthReport}
@@ -1011,7 +1013,7 @@ const AttendanceReport = () => {
             <View style={{ flex: 8, bottom: 2 }}>
               {Object.entries(dailyAttendance).length <= 0 && (
                 <View style={{ alignItems: "center", marginVertical: 10 }}>
-                  <Text style={styles.errText}>No Data found.</Text>
+                  <Text style={styles.errText}>No Data found</Text>
                 </View>
               )}
               <ScrollView>

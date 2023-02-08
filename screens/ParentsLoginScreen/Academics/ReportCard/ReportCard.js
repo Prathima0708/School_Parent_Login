@@ -23,7 +23,7 @@ import {
   Section,
   StudentPhoto,
 } from "../../../../components/StudentItem/StudentItem";
-import { mainURL, subURL } from "../../../../components/utils/URL's";
+import { subURL } from "../../../../components/utils/URL's";
 var obtMarks = [];
 const ReportCard = () => {
   const [data, setData] = useState([]);
@@ -49,7 +49,7 @@ const ReportCard = () => {
   useEffect(() => {
     if (myRef.current && myRef.current.setNativeProps) {
       const styleObj = {
-        borderWidth: 2,
+        borderWidth: 3,
         //borderRadius: 4,
         borderColor: "white",
       };
@@ -59,31 +59,31 @@ const ReportCard = () => {
     }
   }, [myRef]);
 
-  // useEffect(() => {
-  //   for (i = 0; i < data.length; i++) {
-  //     if (data[i].maths_obt_mark < 35) {
-  //       setIsFail(true);
-  //     }
-  //     if (data[i].english_obt_mark < 35) {
-  //       setIsFail(true);
-  //     }
-  //     if (data[i].science_obt_mark < 35) {
-  //       setIsFail(true);
-  //     }
-  //     if (data[i].hindi_obt_mark < 35) {
-  //       setIsFail(true);
-  //     }
-  //     if (data[i].social_obt_mark < 35) {
-  //       setIsFail(true);
-  //     }
-  //     if (data[i].kannada_obt_mark < 35) {
-  //       setIsFail(true);
-  //     }
-  //     if (data[i].computer_obt_mark < 35) {
-  //       setIsFail(true);
-  //     }
-  //   }
-  // }, []);
+  useEffect(() => {
+    for (i = 0; i < data.length; i++) {
+      if (data[i].maths_obt_mark < 35) {
+        setIsFail(true);
+      }
+      if (data[i].english_obt_mark < 35) {
+        setIsFail(true);
+      }
+      if (data[i].science_obt_mark < 35) {
+        setIsFail(true);
+      }
+      if (data[i].hindi_obt_mark < 35) {
+        setIsFail(true);
+      }
+      if (data[i].social_obt_mark < 35) {
+        setIsFail(true);
+      }
+      if (data[i].kannada_obt_mark < 35) {
+        setIsFail(true);
+      }
+      if (data[i].computer_obt_mark < 35) {
+        setIsFail(true);
+      }
+    }
+  }, [data]);
 
   return (
     <>
@@ -141,7 +141,7 @@ const ReportCard = () => {
               /> */}
             <NativeImage
               source={{
-                uri: `${mainURL}${StudentPhoto}`,
+                uri: `http://10.0.2.2:8000${StudentPhoto}`,
               }}
               alt="Student Image"
               size="lg"
@@ -281,42 +281,28 @@ const ReportCard = () => {
                             </View>
                             <View style={styles.root}>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>
-                                  {data.maths_max_marks}
-                                </Text>
+                                <Text>{data.maths_max_marks}</Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>
-                                  {data.english_max_marks}
-                                </Text>
+                                <Text>{data.english_max_marks}</Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>
-                                  {data.science_max_mark}
-                                </Text>
+                                <Text>{data.science_max_mark}</Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>
-                                  {data.hindi_max_mark}
-                                </Text>
+                                <Text>{data.hindi_max_mark}</Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>
-                                  {data.social_max_mark}
-                                </Text>
+                                <Text>{data.social_max_mark}</Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>
-                                  {data.kannada_max_mark}
-                                </Text>
+                                <Text>{data.kannada_max_mark}</Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>
-                                  {data.computer_max_mark}
-                                </Text>
+                                <Text>{data.computer_max_mark}</Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>
+                                <Text>
                                   {data.maths_max_marks +
                                     data.english_max_marks +
                                     data.science_max_mark +
@@ -333,42 +319,28 @@ const ReportCard = () => {
                             </View>
                             <View style={styles.root}>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>
-                                  {data.maths_min_mark}
-                                </Text>
+                                <Text>{data.maths_min_mark}</Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>
-                                  {data.english_min_mark}
-                                </Text>
+                                <Text>{data.english_min_mark}</Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>
-                                  {data.science_min_mark}
-                                </Text>
+                                <Text>{data.science_min_mark}</Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>
-                                  {data.hindi_min_mark}
-                                </Text>
+                                <Text>{data.hindi_min_mark}</Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>
-                                  {data.social_min_mark}
-                                </Text>
+                                <Text>{data.social_min_mark}</Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>
-                                  {data.kannada_min_mark}
-                                </Text>
+                                <Text>{data.kannada_min_mark}</Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>
-                                  {data.computer_min_mark}
-                                </Text>
+                                <Text>{data.computer_min_mark}</Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>
+                                <Text>
                                   {data.maths_min_mark +
                                     data.english_min_mark +
                                     data.science_min_mark +
@@ -383,9 +355,7 @@ const ReportCard = () => {
                               <View style={[styles.colStyle]}>
                                 <Text
                                   style={
-                                    isFail
-                                      ? styles.textColor
-                                      : styles.textPassTableColor
+                                    data.maths_obt_mark < 35 && styles.textColor
                                   }
                                 >
                                   {data.maths_obt_mark}
@@ -394,9 +364,8 @@ const ReportCard = () => {
                               <View style={[styles.colStyle]}>
                                 <Text
                                   style={
-                                    isFail
-                                      ? styles.textColor
-                                      : styles.textPassTableColor
+                                    data.english_obt_mark < 35 &&
+                                    styles.textColor
                                   }
                                 >
                                   {data.english_obt_mark}
@@ -405,9 +374,8 @@ const ReportCard = () => {
                               <View style={[styles.colStyle]}>
                                 <Text
                                   style={
-                                    isFail
-                                      ? styles.textColor
-                                      : styles.textPassTableColor
+                                    data.science_obt_mark < 35 &&
+                                    styles.textColor
                                   }
                                 >
                                   {data.science_obt_mark}
@@ -416,9 +384,7 @@ const ReportCard = () => {
                               <View style={[styles.colStyle]}>
                                 <Text
                                   style={
-                                    isFail
-                                      ? styles.textColor
-                                      : styles.textPassTableColor
+                                    data.hindi_obt_mark < 35 && styles.textColor
                                   }
                                 >
                                   {data.hindi_obt_mark}
@@ -427,9 +393,8 @@ const ReportCard = () => {
                               <View style={[styles.colStyle]}>
                                 <Text
                                   style={
-                                    isFail
-                                      ? styles.textColor
-                                      : styles.textPassTableColor
+                                    data.social_obt_mark < 35 &&
+                                    styles.textColor
                                   }
                                 >
                                   {data.social_obt_mark}
@@ -438,9 +403,8 @@ const ReportCard = () => {
                               <View style={[styles.colStyle]}>
                                 <Text
                                   style={
-                                    isFail
-                                      ? styles.textColor
-                                      : styles.textPassTableColor
+                                    data.kannada_obt_mark < 35 &&
+                                    styles.textColor
                                   }
                                 >
                                   {data.kannada_obt_mark}
@@ -449,16 +413,15 @@ const ReportCard = () => {
                               <View style={[styles.colStyle]}>
                                 <Text
                                   style={
-                                    isFail
-                                      ? styles.textColor
-                                      : styles.textPassTableColor
+                                    data.computer_obt_mark < 35 &&
+                                    styles.textColor
                                   }
                                 >
                                   {data.computer_obt_mark}
                                 </Text>
                               </View>
                               <View style={styles.colStyle}>
-                                <Text style={styles.marksStyle}>
+                                <Text>
                                   {data.maths_obt_mark +
                                     data.english_obt_mark +
                                     data.science_obt_mark +
@@ -511,15 +474,7 @@ const ReportCard = () => {
                                   : styles.textPassColor,
                               ]}
                             >
-                              {data.maths_obt_mark < 35 ||
-                              data.english_obt_mark < 35 ||
-                              data.science_obt_mark < 35 ||
-                              data.hindi_obt_mark < 35 ||
-                              data.social_obt_mark < 35 ||
-                              data.kannada_obt_mark < 35 ||
-                              data.computer_obt_mark < 35
-                                ? "Fail"
-                                : "Pass"}
+                              {isFail ? "Fail" : " Pass"}
                             </Text>
                           </Text>
                         </View>
@@ -547,7 +502,6 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "white",
   },
   flexrow: {
     flex: 1,
@@ -600,13 +554,14 @@ const styles = StyleSheet.create({
     padding: deviceHieght < 600 ? "5%" : "10%",
   },
   headingFirstCol: {
-    fontFamily: "HindSemiBold",
+    // fontFamily: "Hind-SemiBold",
+    fontWeight: "bold",
     fontSize: deviceWidth < 370 ? 14 : 14,
     // color: "white",
   },
   headingFont: {
     // fontFamily: "Hind-SemiBold",
-    fontFamily: "HindSemiBold",
+    fontWeight: "bold",
     fontSize: deviceWidth < 370 ? 14 : 14,
   },
   tableTopStyle: {
@@ -624,25 +579,17 @@ const styles = StyleSheet.create({
     // left: 10,
   },
   description: {
-    fontSize: deviceWidth < 370 ? 18 : 17,
-    fontFamily: "HindSemiBold",
+    fontSize: deviceWidth < 370 ? 18 : 20,
+    fontFamily: "HindRegular",
     marginBottom: 4,
-
+    fontWeight: "bold",
     // fontWeight: "bold",
   },
-  marksStyle: {
-    fontFamily: "HindSemiBold",
-  },
   textColor: {
-    color: "black",
-    fontFamily: "HindSemiBold",
-  },
-  textPassTableColor: {
-    color: "black",
-    fontFamily: "HindSemiBold",
+    color: "red",
   },
   textPassColor: {
-    color: "black",
+    color: "green",
   },
   space: {
     width: 20,
@@ -664,7 +611,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     marginHorizontal: 20,
     //  backgroundColor: "#3e04c3",
-    backgroundColor: "darkblue",
+    backgroundColor: "#02196E",
     flexDirection: "row",
     alignItems: "center",
 
@@ -676,7 +623,13 @@ const styles = StyleSheet.create({
     // color: "#0D98BA",
     marginRight: 10,
   },
+  description: {
+    fontSize: deviceWidth < 370 ? 20 : 17,
 
+    marginBottom: 4,
+    // fontWeight: "bold",
+    fontFamily: "HindSemiBold",
+  },
   textStyleStudInfo: {
     fontSize: deviceWidth < 370 ? 20 : 17,
 
@@ -687,7 +640,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     padding: 1,
     backgroundColor: "white",
-    borderColor: "white",
+    borderColor: "black",
     borderWidth: 5,
     justifyContent: "center",
     alignItems: "center",

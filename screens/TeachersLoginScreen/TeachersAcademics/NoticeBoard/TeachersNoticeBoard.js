@@ -21,7 +21,7 @@ const TeachersNoticeBoard = () => {
         };
 
         const res = await axios.get(
-          `${subURL}/CalendarListByIsnotified/True/`,
+          `${subURL}/CalendarListByIsnotified/True/staff`,
           {
             headers: headers,
           }
