@@ -219,11 +219,11 @@ const TeachersCalendar = () => {
         //     (viewOnly === "admin,parents,staff" || viewOnly === "parents,staff")
         //   );
         // });
-        const filtredRes = res.data.filter((event) =>
-          event.viewOnly.includes("staff")
-        );
+        // const filtredRes = res.data.filter((event) =>
+        //   event.viewOnly.includes("staff")
+        // );
 
-        console.log(filtredRes);
+        //  console.log(filtredRes);
 
         const keys = Object.keys(res.data[0]);
 
