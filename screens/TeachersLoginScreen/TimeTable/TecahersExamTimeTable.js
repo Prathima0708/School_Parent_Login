@@ -674,15 +674,32 @@ const TecahersExamTimeTable = () => {
 
   function navigateHandler(id) {
     ID = id;
-    console.log(id);
 
+    let fetchedData=[];
     const fetchData = filteredData.find((data) => data.id == id);
 
-    navigation.navigate("ExamSubjects",{
-      className:fetchData.class_name,
-      examName:fetchData.exam_name,
-      hour:fetchData.hour
-    });
+    async function viewExamList() {
+      try {
+        const res = await axios.get(`${subURL}/AddmoreExam_list_by_exam/${ID}`);
+        fetchedData=res.data;
+
+        if(fetchedData.length > 0){
+          navigation.navigate("ExamSubjects",{
+            className:fetchData.class_name,
+            examName:fetchData.exam_name,
+            hour:fetchData.hour
+          });
+        }else{
+          Alert.alert("No exam timetable for selected class");
+          return;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    viewExamList();
+   
+    
   }
   return (
     <>

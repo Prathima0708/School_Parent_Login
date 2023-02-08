@@ -49,7 +49,7 @@ const ExamTimeTableSubjects = () => {
 
   return (
     <>
-      {dataIsThere ? (
+      
         <View style={styles.root}>
           {/* <View style={{alignItems:'center',marginVertical:20}}>
                 <Heading fontSize={20}>Exam Time Table</Heading>
@@ -179,9 +179,12 @@ const ExamTimeTableSubjects = () => {
                                       // { left: "" },
                                     ]}
                                   >
-                                    {moment(data.exam_date).format(
+                                    {/* {moment(data.exam_date).format(
                                       "DD/MM/YYYY"
-                                    )}
+                                    )} */}
+                                    {moment(data.exam_date, "HH:mm").format(
+                                            "LT"
+                                          )}
                                   </Text>
                                 </View>
                               </View>
@@ -203,9 +206,12 @@ const ExamTimeTableSubjects = () => {
                                 >
                                   <Text style={[styles.tableTitle]}>
                                     {/* {moment(data.exam_time).format('hh:mm')} */}
-                                    {moment(data.exam_time, "HH:mm").format(
+                                    {/* {moment(data.exam_time, "HH:mm").format(
                                       "hh:mm "
-                                    )}
+                                    )} */}
+                                    {moment(data.exam_time, "HH:mm").format(
+                                            "LT"
+                                          )}
                                     {/* {data.exam_time} */}
                                   </Text>
                                 </View>
@@ -265,42 +271,7 @@ const ExamTimeTableSubjects = () => {
             </>
           </View>
         </View>
-      ) : (
-        <View style={styles.alertStyle}>
-          <Alert maxW="1300" status="error" top="30%">
-            <VStack space={1} flexShrink={1} w="100%">
-              <HStack
-                flexShrink={1}
-                space={2}
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <HStack flexShrink={1} space={2} alignItems="center">
-                  {/* <Alert.Icon /> */}
-                  <NativeText
-                    fontSize="md"
-                    fontWeight="medium"
-                    _dark={{
-                      color: "coolGray.800",
-                    }}
-                  >
-                    Data not found
-                  </NativeText>
-                </HStack>
-              </HStack>
-              <Box
-                _dark={{
-                  _text: {
-                    color: "coolGray.600",
-                  },
-                }}
-              >
-                There is no exam time table for selected class
-              </Box>
-            </VStack>
-          </Alert>
-        </View>
-      )}
+      
       <View style={{ flex: 0.1 }}>
         <TeachersHome />
       </View>

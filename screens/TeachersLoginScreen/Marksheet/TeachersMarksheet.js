@@ -10,7 +10,7 @@ import {
   Animated,
   ActivityIndicator,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import Button from "../../../components/UI/Button";
 import axios from "axios";
 import { Keyboard } from "react-native";
@@ -29,6 +29,8 @@ import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import { subURL } from "../../../components/utils/URL's";
 import { style } from "@mui/system";
 import { IconButton, Text as NativeText } from "native-base";
+import BackButton from "../../../components/UI/BackButton";
+import { useNavigation } from "@react-navigation/native";
 export var ID;
 export var StudentList = [];
 var newArray, firstData, KEY, VALUE, CANCELKEY, CANCELVALUE;
@@ -171,7 +173,17 @@ const TeachersMarksheet = () => {
 
   const [empty, setEmpty] = useState(false);
   const [cancelState, setIsCancelState] = useState(false);
-
+  const navigation = useNavigation();
+  useLayoutEffect(() => {
+    if (showForm) {
+      navigation.setOptions({ headerShown: true });
+    }
+    if (showMarksheet) {
+      navigation.setOptions({ headerShown: false });
+    }
+  
+  }, [showMarksheet,showForm]);
+  
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -741,25 +753,25 @@ const TeachersMarksheet = () => {
         );
         console.log(res.data);
         setFilteredMarks(res.data);
-        if (filteredlist.length === 0) {
-          console.log("empty");
-          // setEmpty(true);
-          // setShowForm(true);
-          // setShowBtn(true);
-          // setIsEdit(true);
-          // setShowMarksheet(false);
-          Alert.alert(
-            "Data not found",
-            `No marks added for the student ${StudentList.student_name}`,
-            [{ text: "OK" }]
-          );
-        } else {
+        // if (filteredlist.length === 0) {
+        //   console.log("empty");
+        //   // setEmpty(true);
+        //   // setShowForm(true);
+        //   // setShowBtn(true);
+        //   // setIsEdit(true);
+        //   // setShowMarksheet(false);
+        //   Alert.alert(
+        //     "Data not found",
+        //     `No marks added for the student ${StudentList.student_name}`,
+        //     [{ text: "OK" }]
+        //   );
+        // } else {
           setEmpty(false);
           setShowForm(false);
           setShowBtn(false);
           setIsEdit(false);
           setShowMarksheet(true);
-        }
+        // }
       } catch (error) {
         console.log(error);
       }
@@ -869,6 +881,23 @@ const TeachersMarksheet = () => {
         }
       }
       fetchData();
+    }
+  }
+
+  function backHandler(){
+    setIsCancelState(true);
+    console.log("from cancel handler", selected);
+    let filteredlist = newArray.filter((ele) => ele.key == selected);
+    console.log(filteredlist[0].value);
+    CANCELKEY = filteredlist[0].key;
+    CANCELVALUE = filteredlist[0].value;
+    setShowInitialBtn(true);
+    setShowBtn(true);
+    setShowForm(true);
+    setShowAddForm(false);
+    setShowMarksheet(false);
+    {
+      isEdit && showMarksheetList(true);
     }
   }
 
@@ -1332,245 +1361,247 @@ const TeachersMarksheet = () => {
         )}
         {showMarksheet && !empty && (
           <>
-            {/* <View
-              style={[
-                { flex: 1 },
-                { flexDirection: "column", alignItems: "center" },
-              ]}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: "center",
-                  backgroundColor: "darkblue",
-                  
-                  // marginHorizontal: 20,
-                }}
-              >
-                <Text
-                  style={[styles.headingFont, { fontSize: 18, color: "white" }]}
-                >
-                  Roll no
-                </Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: "center",
-                  backgroundColor: "darkblue",
-                  // marginHorizontal: 20,
-                }}
-              >
-                <Text
-                  style={[styles.headingFont, { fontSize: 18, color: "white" }]}
-                >
-                  Student name
-                </Text>
-              </View>
-            </View> */}
             <View
               style={[
                 { flex: 1 },
                 {
                   flexDirection: "column",
-                  backgroundColor: "darkblue",
-                  marginHorizontal: 20,
-                  marginVertical: 60,
-                  bottom: "5%",
+                  backgroundColor: "white",
                 },
               ]}
             >
-              <View style={{ flex: 1 }}>
-                <View
-                  style={[
-                    { flex: 1 },
-                    {
-                      flexDirection: "row",
-                    },
-                  ]}
-                >
+              <View style={{ flex: 1, top: "10%" }}>
+                <BackButton  onPress={backHandler}/>
+              </View>
+              <View style={{ flex: 2 }}>
+                <View style={{ flex: 0.4 }}>
                   <View
-                    style={{
-                      flex: 1,
-                      marginHorizontal: 60,
-                      marginVertical: 10,
-                    }}
+                    style={[
+                      { flex: 1 },
+                      {
+                        flexDirection: "row",
+                        
+                        marginTop:'10%'
+                        
+                      },
+                    ]}
                   >
-                    <Text
-                      style={[
-                        styles.headingFont,
-                        { fontSize: 18, color: "white" },
-                      ]}
-                    >
-                      Roll no
-                    </Text>
-                  </View>
-                  <View style={{ flex: 1, marginVertical: 10 }}>
-                    {filteredMarks.map((data, key) => (
-                      <Text
-                        style={[
-                          styles.headingFont,
-                          { fontSize: 18, color: "white" },
-                        ]}
-                      >
-                        {StudentList.reg_number}
-                      </Text>
-                    ))}
-                  </View>
-                </View>
-              </View>
-              <View style={{ flex: 1 }}>
-                <View
-                  style={[
-                    { flex: 1 },
-                    {
-                      flexDirection: "row",
-                    },
-                  ]}
-                >
-                  <View style={{ flex: 1, marginHorizontal: 60 }}>
-                    <Text
-                      style={[
-                        styles.headingFont,
-                        { fontSize: 18, color: "white" },
-                      ]}
-                    >
-                      Student name
-                    </Text>
-                  </View>
-                  <View style={{ flex: 1 }}>
-                    {filteredMarks.map((data, key) => (
-                      <Text
-                        style={[
-                          styles.headingFont,
-                          { fontSize: 18, color: "white" },
-                        ]}
-                      >
-                        {" "}
-                        {data.student_name}
-                      </Text>
-                    ))}
-                  </View>
-                </View>
-              </View>
-            </View>
-            <View
-              style={[
-                { flex: 0.34 },
-                {
-                  flexDirection: "row",
-                  marginHorizontal: 20,
-                  bottom: "15%",
-                },
-              ]}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: "center",
-                  borderRightWidth: 1,
-                  borderLeftWidth: 1,
-                  borderTopWidth: 1,
-                  backgroundColor: "#59b8dd",
-                }}
-              >
-                <Text style={[styles.headingFont, { color: "white" }]}>
-                  Subject
-                </Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: "center",
-                  borderRightWidth: 1,
-                  borderLeftWidth: 1,
-                  borderTopWidth: 1,
-                  backgroundColor: "#59b8dd",
-                }}
-              >
-                <Text style={[styles.headingFont, { color: "white" }]}>
-                  Obtained marks
-                </Text>
-              </View>
-            </View>
-            <View
-              style={[
-                { flex: 2.3 },
-                {
-                  flexDirection: "row",
-                  borderWidth: 1,
-                  marginHorizontal: 20,
-                  bottom: "15%",
-                },
-              ]}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  borderRightWidth: 1,
-                  alignItems: "center",
-                  paddingBottom: 10,
-                }}
-              >
-                <View>
-                  <Text style={styles.headingFont}>MATHS</Text>
-                </View>
-                <View>
-                  <Text style={styles.headingFont}>ENG</Text>
-                </View>
-                <View>
-                  <Text style={styles.headingFont}>SCI</Text>
-                </View>
-                <View>
-                  <Text style={styles.headingFont}>HIN</Text>
-                </View>
-                <View>
-                  <Text style={styles.headingFont}>SOC</Text>
-                </View>
-                <View>
-                  <Text style={styles.headingFont}>KAN</Text>
-                </View>
-                <View>
-                  <Text style={styles.headingFont}>COMP</Text>
-                </View>
-              </View>
-              <View style={{ flex: 1, alignItems: "center" }}>
-                {filteredMarks.map((data, key) => (
-                  <>
-                    <Text style={styles.headingFont}>
-                      {data.maths_obt_mark}
-                    </Text>
-                    <Text style={styles.headingFont}>
-                      {data.english_obt_mark}
-                    </Text>
-                    <Text style={styles.headingFont}>
-                      {data.science_obt_mark}
-                    </Text>
-                    <Text style={styles.headingFont}>
-                      {data.hindi_obt_mark}
-                    </Text>
-                    <Text style={styles.headingFont}>
-                      {data.social_obt_mark}
-                    </Text>
-                    <Text style={styles.headingFont}>
-                      {data.kannada_obt_mark}
-                    </Text>
-                    <Text style={styles.headingFont}>
-                      {data.computer_obt_mark}
-                    </Text>
-                  </>
-                ))}
-              </View>
-            </View>
+                   
+                    <View
+                      style={{
+                        flex: 0.6,
+                        
+                        marginLeft:'20%'
+                        // marginHorizontal: 60,
+                        // marginVertical: 10,
 
-            <View style={styles.btnCancel}>
-              <Button onPress={cancelPressHandler}> Cancel</Button>
-            </View>
-            {keyboardStatus == "Keyboard Hidden" && (
-              <View style={{ flex: 1 }}>
-                <TeachersHome />
+                      }}
+                    >
+                      <Text
+                        style={[
+                          styles.headingFont,
+                          { fontSize: 18 },
+                        ]}
+                      >
+                        Roll no
+                      </Text>
+                    </View>
+                    <View style={{ flex: 1}}>
+                      {filteredMarks.map((data, key) => (
+                        <Text
+                          style={[
+                            styles.headingFont,
+                            { fontSize: 18,fontFamily:'HindRegular' },
+                          ]}
+                        >
+                          {StudentList.reg_number}
+                        </Text>
+                      ))}
+                    </View>
+                  </View>
+                </View>
+                <View style={{ flex: 0.2 }}>
+                  <View
+                    style={[
+                      { flex: 1 },
+                      {
+                        flexDirection: "row",
+                      
+                      },
+                    ]}
+                  >
+                    <View style={{ flex: 1, marginLeft:'20%'}}>
+                      <Text
+                        style={[
+                          styles.headingFont,
+                          { fontSize: 18, color: "black" },
+                        ]}
+                      >
+                        Student name
+                      </Text>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      {filteredMarks.map((data, key) => (
+                        <Text
+                          style={[
+                            styles.headingFont,
+                            { fontSize: 18, fontFamily:'HindRegular' },
+                          ]}
+                        >
+                          {" "}
+                          {data.student_name}
+                        </Text>
+                      ))}
+                    </View>
+                  </View>
+                </View>
               </View>
-            )}
+              <View style={[styles.tableTopStyle]}>
+                <>
+                  <View style={[{ flexDirection: "row" ,bottom:'2%'}]}>
+                    <View style={[styles.tableHead, { alignItems: "center" }]}>
+                      <Text style={[styles.headingFont,{color:'white',fontSize:16}]}>Subject</Text>
+                    </View>
+                    <View style={[styles.tableHead, { alignItems: "center" }]}>
+                      <Text style={[styles.headingFont,{color:'white',fontSize:16}]}>Obtained marks</Text>
+                    </View>
+                  </View>
+                  <View
+                    style={[
+                      { flex: 1 },
+                      { flexDirection: "column", backgroundColor: "white" },
+                    ]}
+                  >
+                    <View style={{ flex: 8, bottom: 10 }}>
+                      <ScrollView>
+                        {/* {timeTable.length > 0 ? ( */}
+                          <View style={[styles.flexrow]}>
+                            <View style={[styles.rootMarkTable]}>
+                                  <>
+                                    <View
+                                      style={[
+                                        styles.containerMarkTable,
+                                        { flexDirection: "row" },
+                                      ]}
+                                    >
+                                      <View style={[styles.colStyle]}>
+                                        <Text
+                                          style={[
+                                            styles.tableTitleMarksTable,
+                                            { left: "100%" },
+                                          ]}
+                                        >
+                                          MATHS
+                                        </Text>
+                                        <Text
+                                          style={[
+                                            styles.tableTitleMarksTable,
+                                            { left: "100%" },
+                                          ]}
+                                        >
+                                          ENG
+                                        </Text>
+                                        <Text
+                                          style={[
+                                            styles.tableTitleMarksTable,
+                                            { left: "100%" },
+                                          ]}
+                                        >
+                                          SCI
+                                        </Text>
+                                        <Text
+                                          style={[
+                                            styles.tableTitleMarksTable,
+                                            { left: "100%" },
+                                          ]}
+                                        >
+                                          SOC
+                                        </Text>
+                                        <Text
+                                          style={[
+                                            styles.tableTitleMarksTable,
+                                            { left: "100%" },
+                                          ]}
+                                        >
+                                          HINDI
+                                        </Text>
+                                        <Text
+                                          style={[
+                                            styles.tableTitleMarksTable,
+                                            { left: "100%" },
+                                          ]}
+                                        >
+                                          KAN
+                                        </Text>
+                                        <Text
+                                          style={[
+                                            styles.tableTitleMarksTable,
+                                            { left: "100%" },
+                                          ]}
+                                        >
+                                          COMP
+                                        </Text>
+                                      
+                                        
+                                      </View>
+                                    </View>
+                                  </>
+                              
+                            </View>
+                            <View style={[styles.rootMarkTable]}>
+                              {filteredMarks &&
+                                filteredMarks.map((data) => (
+                                  <>
+                                    <View
+                                      style={[
+                                        styles.containerMarkTable,
+                                        { flexDirection: "row" },
+                                      ]}
+                                    >
+                                      <View
+                                        style={[
+                                          styles.colStyle,
+                                          // { left: "10%" },
+                                        ]}
+                                      >
+                                        <Text style={[styles.tableTitleMarksTable, { marginLeft: "60%" }]}>
+                                            {data.maths_obt_mark}
+                                          </Text>
+                                          <Text style={[styles.tableTitleMarksTable, { left: "60%" }]}>
+                                            {data.english_obt_mark}
+                                          </Text>
+                                          <Text style={[styles.tableTitleMarksTable, { left: "60%" }]}>
+                                            {data.science_obt_mark}
+                                          </Text>
+                                          <Text style={[styles.tableTitleMarksTable, { left: "60%" }]}>
+                                            {data.hindi_obt_mark}
+                                          </Text>
+                                          <Text style={[styles.tableTitleMarksTable, { left: "60%" }]}>
+                                            {data.social_obt_mark}
+                                          </Text>
+                                          <Text style={[styles.tableTitleMarksTable, { left: "60%" }]}>
+                                            {data.kannada_obt_mark}
+                                          </Text>
+                                          <Text style={[styles.tableTitleMarksTable, { left: "60%" }]}>
+                                            {data.computer_obt_mark}
+                                          </Text>
+                                      </View>
+                                    </View>
+                                  </>
+                                ))}
+                            </View>
+                          </View>
+                      </ScrollView>
+                    </View>
+                  </View>
+                </>
+              </View>
+              {keyboardStatus == "Keyboard Hidden" && (
+                <View style={{ flex: 0.1 }}>
+                  <TeachersHome />
+                </View>
+              )}
+            </View>
           </>
         )}
       </View>
@@ -1584,9 +1615,9 @@ const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   headingFont: {
     // fontFamily: "Hind-SemiBold",
-    fontWeight: "bold",
-    fontSize: deviceWidth < 370 ? 14 : 14,
-    paddingVertical: 10,
+    fontFamily: "HindSemiBold",
+    fontSize: deviceWidth < 370 ? 14 : 16,
+
   },
   BtnContainer: {
     fontSize: 24,
@@ -1595,6 +1626,9 @@ const styles = StyleSheet.create({
     width: "100%",
 
     // backgroundColor: "#FDFEFE",
+  },
+  colStyle: {
+    padding: deviceHieght < 600 ? "5%" : "3%",
   },
   tableBtn: {
     marginLeft: -15,
@@ -1606,6 +1640,19 @@ const styles = StyleSheet.create({
     padding: 10,
     top: "15%",
   },
+  tableTopStyle: {
+    flex: 4,
+    padding: 10,
+    bottom: 35,
+  },
+  containerMarkTable: {
+    // padding: 10,
+    borderWidth: 1,
+  },
+  containerMarkTableOBT:{
+    // padding: 16,
+    borderWidth: 1,
+  },
   home: {
     marginTop: 29,
   },
@@ -1615,6 +1662,14 @@ const styles = StyleSheet.create({
   root: {
     // backgroundColor: "#EBECFO",
     backgroundColor: "white",
+  },
+  tableHead: {
+    flex: 1,
+    padding: 5,
+    borderRightWidth: 1,
+    borderLeftWidth: 1,
+    borderTopWidth: 1,
+    backgroundColor: "#3F96B8",
   },
   tableText: {
     flex: 1,
@@ -1669,6 +1724,14 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     backgroundColor: "#1E84A4",
   },
+  tableHeaderForMark: {
+    flex: 0.1,
+    flexDirection: "row",
+    top: "10%",
+    borderWidth: 1,
+    marginHorizontal: 20,
+    backgroundColor: "#1E84A4",
+  },
   headerText: {
     fontFamily: "HindSemiBold",
     fontSize: 16,
@@ -1685,12 +1748,23 @@ const styles = StyleSheet.create({
     fontFamily: "HindMedium",
     fontSize: deviceWidth < 370 ? 16 : 20,
   },
+  tableTitleMarksTable: {
+    fontFamily: "HindMedium",
+    fontSize: deviceWidth < 370 ? 16 : 16,
+    marginVertical:5
+  },
+
   tableCell: {
     width: 110,
 
     marginLeft: 35,
   },
-
+  rootMarkTable: {
+    flex: 1,
+    flexDirection: "column",
+    backgroundColor: "white",
+    borderRadius: 1,
+  },
   tableMarks: {
     width: 10,
 
@@ -1807,6 +1881,10 @@ const styles = StyleSheet.create({
 
     justifyContent: "space-between",
     borderRadius: 10,
+  },
+  flexrow: {
+    flex: 1,
+    flexDirection: "row",
   },
   textStyleStudInfo: {
     fontSize: deviceWidth < 370 ? 20 : 17,
