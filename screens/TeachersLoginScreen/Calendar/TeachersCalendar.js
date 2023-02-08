@@ -73,7 +73,6 @@ const TeachersCalendar = () => {
   const [value, setValue] = useState("");
   const [isSelected, setSelection] = useState(false);
 
-  const [listData, setListData] = useState(["All", "Teacher", "Parent"]);
   const navigation = useNavigation();
 
   const [placement, setPlacement] = useState(undefined);
@@ -204,8 +203,8 @@ const TeachersCalendar = () => {
   let i = 0;
   const [saveYear, setSaveYear] = useState([]);
   const [group, setGroup] = useState("");
-  const [notificationId, setNotificationId] = useState(0);
-  const [viewOnly, setViewOnly] = useState("");
+  const [notificationId, setNotificationId] = useState();
+  const [viewOnlyGrp, setViewOnlyGrp] = useState("");
   const [badge, setBadge] = useState(false);
 
   useEffect(() => {
@@ -220,11 +219,12 @@ const TeachersCalendar = () => {
         //     (viewOnly === "admin,parents,staff" || viewOnly === "parents,staff")
         //   );
         // });
-        // const filtredRes = res.data.filter((event) =>
-        //   event.viewOnly.includes("staff")
-        // );
 
-        //  console.log(filtredRes);
+        const filtredRes = res.data.filter((event) =>
+          event.viewOnly.includes("staff")
+        );
+
+        console.log(filtredRes);
 
         const keys = Object.keys(res.data[0]);
 
@@ -269,7 +269,30 @@ const TeachersCalendar = () => {
     getGroup();
   }, []);
 
-  async function updateData() {
+  async function updateDataTeacher() {
+    console.log("notification id is", notificationId);
+    try {
+      const response = await axios.patch(
+        `${subURL}/Calendar/${notificationId}/`,
+        {
+          isNotified: true,
+        }
+      );
+      console.log(response.data);
+      setBadge(true);
+
+      // const getres = await axios.get(`${subURL}/Calendar/${notificationId}/`);
+      // setReceivedNotification(getres.data);
+
+      setSpecificData(response.data);
+      //  console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function updateDataParent() {
+    console.log("notification id is", notificationId);
     try {
       const response = await axios.patch(
         `${subURL}/Calendar/${notificationId}/`,
@@ -296,7 +319,7 @@ const TeachersCalendar = () => {
         console.log(notification.request.content.data.viewOnly);
         //  NotificationId = notification.request.content.data.id;
         setNotificationId(notification.request.content.data.id);
-        setViewOnly(notification.request.content.data.viewOnly);
+        setViewOnlyGrp(notification.request.content.data.viewOnly);
 
         console.log("Notification received");
         setOpenCardModal(false);
@@ -304,7 +327,10 @@ const TeachersCalendar = () => {
         //  console.log("id is", specificData.id);
       }
     );
-    updateData();
+    updateDataTeacher();
+    // if (viewOnlyGrp == "parents") {
+    //   updateDataParent();
+    // }
 
     const subscription2 = Notifications.addNotificationResponseReceivedListener(
       (response) => {
@@ -321,7 +347,7 @@ const TeachersCalendar = () => {
       subscription1.remove();
       subscription2.remove();
     };
-  }, [notificationId, viewOnly]);
+  }, [notificationId, viewOnlyGrp]);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -1010,7 +1036,6 @@ const TeachersCalendar = () => {
   }
 
   function cardPressedHandler(filteredData) {
-    console.log(filteredData.titlee);
     setSpecificData(filteredData);
 
     setOpenCardModal(true);
@@ -1018,7 +1043,8 @@ const TeachersCalendar = () => {
   }
 
   async function sendPushNotificationHanlder() {
-    console.log(specificData.startdate);
+    console.log(specificData.id);
+    setNotificationId(specificData.id);
 
     const today = new Date();
     console.log(today);
@@ -1043,7 +1069,7 @@ const TeachersCalendar = () => {
       `${subURL}/NotificationByGroup/${specificData.viewOnly}`
     );
     console.log("************");
-    console.log(response.data);
+
     const filteredData = response.data.filter(
       (item) => item.user_id.groups[0].name === specificData.viewOnly
     );
@@ -1082,7 +1108,7 @@ const TeachersCalendar = () => {
           body: specificData.description,
 
           data: {
-            id: specificData.id,
+            id: specificData.id || notificationId,
             viewOnly: specificData.viewOnly,
           },
         },
