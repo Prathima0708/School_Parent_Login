@@ -31,18 +31,9 @@ const TeachersLoginScreen = ({ navigation }) => {
       removeGrp = await AsyncStorage.removeItem("datagroup");
 
       if (value == null) {
-        console.log("Data removed");
         navigation.navigate("Login");
       } else {
-        console.log("Data not removed");
       }
-
-      // if (value == null) {
-      //   console.log("Token is removed"+value)
-      //   //  AsyncStorage.removeItem("token");
-      //   //  console.log(value)
-      //   //  navigation.navigate("Login");
-      // }
     } catch (error) {
       console.log(error);
     }
@@ -65,7 +56,7 @@ const TeachersLoginScreen = ({ navigation }) => {
 
   async function fetchUser() {
     USERNAME = await AsyncStorage.getItem("UserName");
-    console.log("this is the username from aysnc", USERNAME);
+
     if (USERNAME !== null) {
       setUser(USERNAME);
     }
@@ -89,25 +80,11 @@ const TeachersLoginScreen = ({ navigation }) => {
       try {
         const res = await axios.get(`${subURL}/IsClassteacher/${userId}`);
 
-        // console.log(res.data);
-        // var classes = [];
-        // var section = [];
-        // for (i = 0; i < res.data.length; i++) {
-        //   console.log(res.data[i].class_name);
-        //   classes.push(res.data[i].class_name);
-        // }
-        // for (i = 0; i < res.data.length; i++) {
-        //   console.log(res.data[i].section);
-        //   section.push(res.data[i].section);
-        // }
-        // console.log(classes);
-        // console.log(section);
         let newArray = res.data.map((item) => {
           return {
             value: item.class_name + " - " + item.section,
           };
         });
-        console.log(newArray);
       } catch (error) {
         console.log(error);
       }
@@ -131,7 +108,6 @@ const TeachersLoginScreen = ({ navigation }) => {
   }, []);
 
   function renderCategoryItem(itemData) {
-    // console.log(itemData)
     function pressHandler() {
       if (itemData.item.id === "c1") {
         navigation.navigate("TeachersTransport");
@@ -259,14 +235,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     //padding: 32,
   },
-  leftStyle:{
+  leftStyle: {
     ...Platform.select({
       ios: {
-        marginRight:'2%'
+        marginRight: "2%",
       },
-      android: {
-        
-      },
+      android: {},
     }),
   },
   title: {

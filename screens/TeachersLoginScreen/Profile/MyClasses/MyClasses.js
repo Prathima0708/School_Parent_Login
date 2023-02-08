@@ -122,7 +122,7 @@ const MyClasses = () => {
   }, []);
 
   const searchFilter = (text) => {
-    console.log("search function");
+  
     if (text) {
       const newData = data.filter((item) => {
         const itemData = item.class_name

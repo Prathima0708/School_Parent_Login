@@ -181,9 +181,8 @@ const TeachersMarksheet = () => {
     if (showMarksheet) {
       navigation.setOptions({ headerShown: false });
     }
-  
-  }, [showMarksheet,showForm]);
-  
+  }, [showMarksheet, showForm]);
+
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -321,7 +320,6 @@ const TeachersMarksheet = () => {
     setKanLabel(true);
     setCompLabel(true);
 
-    console.log(ID);
     const FormData = {
       // student_name: StudentList.student_name,
       // class_name: StudentList.class_name,
@@ -370,7 +368,6 @@ const TeachersMarksheet = () => {
       computer_tot_mark: 0,
       computer_percentg: 0,
     };
-    // console.log(FormData);
 
     async function updateData() {
       try {
@@ -384,9 +381,6 @@ const TeachersMarksheet = () => {
             headers: headers,
           }
         );
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
-        //   console.log(resLogin.data);
       } catch (error) {
         console.log(error);
       }
@@ -482,11 +476,6 @@ const TeachersMarksheet = () => {
       computer_percentg: 0,
     };
 
-    //console.log(FormData);
-
-    // setEnteredOverallPercentageTouched(true);
-    // setEnteredReamrkTouched(true);
-
     const formIsValid =
       enteredMathsMarksIsValid &&
       engMarksInputIsInValid &&
@@ -531,7 +520,6 @@ const TeachersMarksheet = () => {
     }
 
     async function storeData() {
-      console.log(FormData);
       try {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
@@ -540,9 +528,6 @@ const TeachersMarksheet = () => {
         const resLogin = await axios.post(`${subURL}/Marksheet/`, FormData, {
           headers: headers,
         });
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
-        //   console.log(resLogin.data);
       } catch (error) {
         console.log(error);
       }
@@ -636,7 +621,7 @@ const TeachersMarksheet = () => {
     async function fetchData() {
       try {
         const res = await axios.get(`${subURL}/Marksheet/`);
-        // console.log(res.data);
+
         setMarksheetData(res.data);
         setFilteredData(res.data);
         setFilteredMarks(res.data);
@@ -663,7 +648,6 @@ const TeachersMarksheet = () => {
         newArray.sort(function (obj1, obj2) {
           return obj1.value.localeCompare(obj2.value);
         });
-        console.log(newArray[0]);
 
         firstData = newArray[0];
         KEY = firstData.key;
@@ -677,7 +661,6 @@ const TeachersMarksheet = () => {
 
   useEffect(() => {
     setDefaultClass(firstData);
-    console.log(defaultClass);
   }, []);
 
   function viewStudentList() {
@@ -685,20 +668,13 @@ const TeachersMarksheet = () => {
     setShowForm(true);
 
     async function login() {
-      console.log(selected);
-      console.log(newArray);
       let filteredlist = newArray.filter((ele) => ele.key == selected);
-      console.log("filteredlist", filteredlist);
-      // let selectedData = selected.split(" - ");
-      // console.log(selectedData);
+
       let class_name = filteredlist[0].classname;
       let section = filteredlist[0].section;
-      // let selectedData = selected.split(" - ");
-      // let class_name = selectedData[0];
-      // let section = selectedData[1];
+
       try {
         const res = await axios.get(`${subURL}/Student/`);
-        //console.log(class_name, section);
 
         let filteredclass = res.data.filter(
           (ele) => ele.class_name == class_name
@@ -712,22 +688,10 @@ const TeachersMarksheet = () => {
           (ele) => ele.class_name == class_name
         );
 
-        // const id = filteredc.map((id) => id.reg_number);
-        // console.log(id);
-
-        // console.log(filteredc);
-        // StudentList = filteredc;
-        // console.log(StudentList);
-
         if (filteredc) {
-          //console.log(studList);
           setStudList(filteredc);
           setFilteredData(filteredc);
         }
-
-        // if (filteredc.length == 0) {
-        //   Alert.alert("No data found", "No data found for respective search");
-        // }
       } catch (error) {
         console.log(error);
       }
@@ -735,15 +699,14 @@ const TeachersMarksheet = () => {
     login();
   }
   function addForm(id) {
-    console.log("i am pressed");
     setShowAddForm(true);
 
     const filteredDummuyData = studList.find((data) => data.id == id);
 
     StudentList = filteredDummuyData;
-    // console.log(filteredDummuyData);
+
     const studentregno = StudentList.reg_number;
-    console.log(StudentList.reg_number);
+
     async function getData() {
       try {
         const res = await axios.get(`${subURL}/MarksheetReg/${studentregno}`);
@@ -751,15 +714,9 @@ const TeachersMarksheet = () => {
         let filteredlist = res.data.filter(
           (ele) => ele.Roll_no == StudentList.reg_number
         );
-        console.log(res.data);
+
         setFilteredMarks(res.data);
         if (res.data.length === 0) {
-          //  console.log("empty");
-          // setEmpty(true);
-          // setShowForm(true);
-          // setShowBtn(true);
-          // setIsEdit(true);
-          // setShowMarksheet(false);
           Alert.alert(
             "Data not found",
             `No marks added for the student ${StudentList.student_name}`,
@@ -781,9 +738,9 @@ const TeachersMarksheet = () => {
 
   function cancelPressHandler() {
     setIsCancelState(true);
-    console.log("from cancel handler", selected);
+
     let filteredlist = newArray.filter((ele) => ele.key == selected);
-    console.log(filteredlist[0].value);
+
     CANCELKEY = filteredlist[0].key;
     CANCELVALUE = filteredlist[0].value;
     setShowInitialBtn(true);
@@ -812,7 +769,7 @@ const TeachersMarksheet = () => {
     setHindiLabel(true);
     setCompLabel(true);
     setKanLabel(true);
-    console.log(id);
+
     ID = id;
     const filteredDummuyData = marksheetData.find((data) => data.id == id);
     setMathsMarks(filteredDummuyData.maths_obt_mark);
@@ -838,12 +795,10 @@ const TeachersMarksheet = () => {
   }
 
   function deleteItem(id) {
-    console.log(id);
-    // const newFilteredData=data.filter((data)=>data.id != id);
     Alert.alert("Confirm Deletion", "You are about to delete this row!", [
       {
         text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
+
         style: "cancel",
       },
       {
@@ -859,21 +814,18 @@ const TeachersMarksheet = () => {
         // const dataForm = FormData;
         const resLogin = await axios.delete(
           `${subURL}/Marksheet/${id}/`,
-          // FormData,
+
           {
             headers: headers,
           }
         );
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
-        console.log(resLogin.data);
       } catch (error) {
         console.log(error);
       }
       async function fetchData() {
         try {
           const res = await axios.get(`${subURL}/Marksheet/`);
-          // console.log(res.data);
+
           setMarksheetData(res.data);
           setFilteredMarks(res.data);
         } catch (error) {
@@ -884,11 +836,11 @@ const TeachersMarksheet = () => {
     }
   }
 
-  function backHandler(){
+  function backHandler() {
     setIsCancelState(true);
-    console.log("from cancel handler", selected);
+
     let filteredlist = newArray.filter((ele) => ele.key == selected);
-    console.log(filteredlist[0].value);
+
     CANCELKEY = filteredlist[0].key;
     CANCELVALUE = filteredlist[0].value;
     setShowInitialBtn(true);
@@ -1365,7 +1317,7 @@ const TeachersMarksheet = () => {
               ]}
             >
               <View style={{ flex: 1, top: "10%" }}>
-                <BackButton  onPress={backHandler}/>
+                <BackButton onPress={backHandler} />
               </View>
               <View style={{ flex: 1.5 }}>
                 <View style={{ flex: 0.4 }}>
@@ -1374,38 +1326,30 @@ const TeachersMarksheet = () => {
                       { flex: 1 },
                       {
                         flexDirection: "row",
-                        
-                        marginTop:'10%'
-                        
+
+                        marginTop: "10%",
                       },
                     ]}
                   >
-                   
                     <View
                       style={{
                         flex: 0.6,
-                        
-                        marginLeft:'20%'
+
+                        marginLeft: "20%",
                         // marginHorizontal: 60,
                         // marginVertical: 10,
-
                       }}
                     >
-                      <Text
-                        style={[
-                          styles.headingFont,
-                          { fontSize: 18 },
-                        ]}
-                      >
+                      <Text style={[styles.headingFont, { fontSize: 18 }]}>
                         Roll no:
                       </Text>
                     </View>
-                    <View style={{ flex: 1}}>
+                    <View style={{ flex: 1 }}>
                       {filteredMarks.map((data, key) => (
                         <Text
                           style={[
                             styles.headingFont,
-                            { fontSize: 18,fontFamily:'HindRegular' },
+                            { fontSize: 18, fontFamily: "HindRegular" },
                           ]}
                         >
                           {StudentList.reg_number}
@@ -1420,11 +1364,10 @@ const TeachersMarksheet = () => {
                       { flex: 1 },
                       {
                         flexDirection: "row",
-                      
                       },
                     ]}
                   >
-                    <View style={{ flex: 1, marginLeft:'20%'}}>
+                    <View style={{ flex: 1, marginLeft: "20%" }}>
                       <Text
                         style={[
                           styles.headingFont,
@@ -1439,7 +1382,7 @@ const TeachersMarksheet = () => {
                         <Text
                           style={[
                             styles.headingFont,
-                            { fontSize: 18, fontFamily:'HindRegular' },
+                            { fontSize: 18, fontFamily: "HindRegular" },
                           ]}
                         >
                           {" "}
@@ -1452,12 +1395,26 @@ const TeachersMarksheet = () => {
               </View>
               <View style={[styles.tableTopStyle]}>
                 <>
-                  <View style={[{ flexDirection: "row" ,bottom:'2%'}]}>
+                  <View style={[{ flexDirection: "row", bottom: "2%" }]}>
                     <View style={[styles.tableHead, { alignItems: "center" }]}>
-                      <Text style={[styles.headingFont,{color:'white',fontSize:16}]}>Subject</Text>
+                      <Text
+                        style={[
+                          styles.headingFont,
+                          { color: "white", fontSize: 16 },
+                        ]}
+                      >
+                        Subject
+                      </Text>
                     </View>
                     <View style={[styles.tableHead, { alignItems: "center" }]}>
-                      <Text style={[styles.headingFont,{color:'white',fontSize:16}]}>Obtained marks</Text>
+                      <Text
+                        style={[
+                          styles.headingFont,
+                          { color: "white", fontSize: 16 },
+                        ]}
+                      >
+                        Obtained marks
+                      </Text>
                     </View>
                   </View>
                   <View
@@ -1469,122 +1426,154 @@ const TeachersMarksheet = () => {
                     <View style={{ flex: 8, bottom: 10 }}>
                       <ScrollView>
                         {/* {timeTable.length > 0 ? ( */}
-                          <View style={[styles.flexrow]}>
-                            <View style={[styles.rootMarkTable]}>
-                                  <>
+                        <View style={[styles.flexrow]}>
+                          <View style={[styles.rootMarkTable]}>
+                            <>
+                              <View
+                                style={[
+                                  styles.containerMarkTable,
+                                  { flexDirection: "row" },
+                                ]}
+                              >
+                                <View style={[styles.colStyle]}>
+                                  <Text
+                                    style={[
+                                      styles.tableTitleMarksTable,
+                                      { left: "100%" },
+                                    ]}
+                                  >
+                                    MATHS
+                                  </Text>
+                                  <Text
+                                    style={[
+                                      styles.tableTitleMarksTable,
+                                      { left: "100%" },
+                                    ]}
+                                  >
+                                    ENG
+                                  </Text>
+                                  <Text
+                                    style={[
+                                      styles.tableTitleMarksTable,
+                                      { left: "100%" },
+                                    ]}
+                                  >
+                                    SCI
+                                  </Text>
+                                  <Text
+                                    style={[
+                                      styles.tableTitleMarksTable,
+                                      { left: "100%" },
+                                    ]}
+                                  >
+                                    SOC
+                                  </Text>
+                                  <Text
+                                    style={[
+                                      styles.tableTitleMarksTable,
+                                      { left: "100%" },
+                                    ]}
+                                  >
+                                    HINDI
+                                  </Text>
+                                  <Text
+                                    style={[
+                                      styles.tableTitleMarksTable,
+                                      { left: "100%" },
+                                    ]}
+                                  >
+                                    KAN
+                                  </Text>
+                                  <Text
+                                    style={[
+                                      styles.tableTitleMarksTable,
+                                      { left: "100%" },
+                                    ]}
+                                  >
+                                    COMP
+                                  </Text>
+                                </View>
+                              </View>
+                            </>
+                          </View>
+                          <View style={[styles.rootMarkTable]}>
+                            {filteredMarks &&
+                              filteredMarks.map((data) => (
+                                <>
+                                  <View
+                                    style={[
+                                      styles.containerMarkTable,
+                                      { flexDirection: "row" },
+                                    ]}
+                                  >
                                     <View
                                       style={[
-                                        styles.containerMarkTable,
-                                        { flexDirection: "row" },
+                                        styles.colStyle,
+                                        // { left: "10%" },
                                       ]}
                                     >
-                                      <View style={[styles.colStyle]}>
-                                        <Text
-                                          style={[
-                                            styles.tableTitleMarksTable,
-                                            { left: "100%" },
-                                          ]}
-                                        >
-                                          MATHS
-                                        </Text>
-                                        <Text
-                                          style={[
-                                            styles.tableTitleMarksTable,
-                                            { left: "100%" },
-                                          ]}
-                                        >
-                                          ENG
-                                        </Text>
-                                        <Text
-                                          style={[
-                                            styles.tableTitleMarksTable,
-                                            { left: "100%" },
-                                          ]}
-                                        >
-                                          SCI
-                                        </Text>
-                                        <Text
-                                          style={[
-                                            styles.tableTitleMarksTable,
-                                            { left: "100%" },
-                                          ]}
-                                        >
-                                          SOC
-                                        </Text>
-                                        <Text
-                                          style={[
-                                            styles.tableTitleMarksTable,
-                                            { left: "100%" },
-                                          ]}
-                                        >
-                                          HINDI
-                                        </Text>
-                                        <Text
-                                          style={[
-                                            styles.tableTitleMarksTable,
-                                            { left: "100%" },
-                                          ]}
-                                        >
-                                          KAN
-                                        </Text>
-                                        <Text
-                                          style={[
-                                            styles.tableTitleMarksTable,
-                                            { left: "100%" },
-                                          ]}
-                                        >
-                                          COMP
-                                        </Text>
-                                      
-                                        
-                                      </View>
-                                    </View>
-                                  </>
-                              
-                            </View>
-                            <View style={[styles.rootMarkTable]}>
-                              {filteredMarks &&
-                                filteredMarks.map((data) => (
-                                  <>
-                                    <View
-                                      style={[
-                                        styles.containerMarkTable,
-                                        { flexDirection: "row" },
-                                      ]}
-                                    >
-                                      <View
+                                      <Text
                                         style={[
-                                          styles.colStyle,
-                                          // { left: "10%" },
+                                          styles.tableTitleMarksTable,
+                                          { marginLeft: "60%" },
                                         ]}
                                       >
-                                        <Text style={[styles.tableTitleMarksTable, { marginLeft: "60%" }]}>
-                                            {data.maths_obt_mark}
-                                          </Text>
-                                          <Text style={[styles.tableTitleMarksTable, { left: "60%" }]}>
-                                            {data.english_obt_mark}
-                                          </Text>
-                                          <Text style={[styles.tableTitleMarksTable, { left: "60%" }]}>
-                                            {data.science_obt_mark}
-                                          </Text>
-                                          <Text style={[styles.tableTitleMarksTable, { left: "60%" }]}>
-                                            {data.hindi_obt_mark}
-                                          </Text>
-                                          <Text style={[styles.tableTitleMarksTable, { left: "60%" }]}>
-                                            {data.social_obt_mark}
-                                          </Text>
-                                          <Text style={[styles.tableTitleMarksTable, { left: "60%" }]}>
-                                            {data.kannada_obt_mark}
-                                          </Text>
-                                          <Text style={[styles.tableTitleMarksTable, { left: "60%" }]}>
-                                            {data.computer_obt_mark}
-                                          </Text>
-                                      </View>
+                                        {data.maths_obt_mark}
+                                      </Text>
+                                      <Text
+                                        style={[
+                                          styles.tableTitleMarksTable,
+                                          { left: "60%" },
+                                        ]}
+                                      >
+                                        {data.english_obt_mark}
+                                      </Text>
+                                      <Text
+                                        style={[
+                                          styles.tableTitleMarksTable,
+                                          { left: "60%" },
+                                        ]}
+                                      >
+                                        {data.science_obt_mark}
+                                      </Text>
+                                      <Text
+                                        style={[
+                                          styles.tableTitleMarksTable,
+                                          { left: "60%" },
+                                        ]}
+                                      >
+                                        {data.hindi_obt_mark}
+                                      </Text>
+                                      <Text
+                                        style={[
+                                          styles.tableTitleMarksTable,
+                                          { left: "60%" },
+                                        ]}
+                                      >
+                                        {data.social_obt_mark}
+                                      </Text>
+                                      <Text
+                                        style={[
+                                          styles.tableTitleMarksTable,
+                                          { left: "60%" },
+                                        ]}
+                                      >
+                                        {data.kannada_obt_mark}
+                                      </Text>
+                                      <Text
+                                        style={[
+                                          styles.tableTitleMarksTable,
+                                          { left: "60%" },
+                                        ]}
+                                      >
+                                        {data.computer_obt_mark}
+                                      </Text>
                                     </View>
-                                  </>
-                                ))}
-                            </View>
+                                  </View>
+                                </>
+                              ))}
                           </View>
+                        </View>
                       </ScrollView>
                     </View>
                   </View>
@@ -1611,7 +1600,6 @@ const styles = StyleSheet.create({
     // fontFamily: "Hind-SemiBold",
     fontFamily: "HindSemiBold",
     fontSize: deviceWidth < 370 ? 14 : 16,
-
   },
   BtnContainer: {
     fontSize: 24,
@@ -1643,7 +1631,7 @@ const styles = StyleSheet.create({
     // padding: 10,
     borderWidth: 1,
   },
-  containerMarkTableOBT:{
+  containerMarkTableOBT: {
     // padding: 16,
     borderWidth: 1,
   },
@@ -1745,7 +1733,7 @@ const styles = StyleSheet.create({
   tableTitleMarksTable: {
     fontFamily: "HindMedium",
     fontSize: deviceWidth < 370 ? 16 : 16,
-    marginVertical:5
+    marginVertical: 5,
   },
 
   tableCell: {

@@ -372,8 +372,7 @@ const TeachersAttendanceBuild = () => {
                 setShowEditBtn(true);
                 showAttendance();
                 setEditBtnPressed(false);
-                // setshowSavedData(false);
-                // //showAttendance();
+                
               },
             },
           ]);
@@ -525,7 +524,7 @@ const TeachersAttendanceBuild = () => {
   }
 
   function saveAttendance() {
-    //  console.log("finalList", array);
+  
 
     async function getData() {
       try {
@@ -538,7 +537,7 @@ const TeachersAttendanceBuild = () => {
             );
           });
         });
-        // console.log(isSameDataPresent)
+   
 
         if (isSameDataPresent == true) {
           // Alert.alert("Attendance already marked","",  [
@@ -573,7 +572,7 @@ const TeachersAttendanceBuild = () => {
                     headers: headers,
                   }
                 );
-                //console.log(resLogin.data);
+              
               } catch (error) {
                 console.log(error);
               }
@@ -594,49 +593,31 @@ const TeachersAttendanceBuild = () => {
                 },
               },
             ]);
-            console.log("ids  marked");
+           
             setMissedID(false);
           } else {
             Alert.alert("Please mark attendance for all students");
-            console.log("ids not  marked");
+          
             setMissedID(true);
           }
 
           IDSet = [...mainId].filter((x) => !selectedId.has(x));
 
           IDSETARRAY = IDSet;
-          //console.log("IDSETARRAY", IDSETARRAY);
+          
           IDSet.forEach((value, index, set) => {
             if (mainId.has(value)) {
-              // console.log('ids  marked')
+           
               setTest(true);
             } else {
-              // console.log('ids not marked')
+           
               setTest(false);
             }
           });
 
-          // if(missedID==true){
-
-          //   Alert.alert("Please mark attendance for all students")
-          // }
-          // if(missedID==false){
-          // var selectedID = IDSETARRAY.filter((item) => item === id);
-
-          // if (IDSETARRAY.length > 0) {
-          //   if (selectedID.length > 0) {
-          //     Alert.alert("please mark attendance for all students")
-          //   } else {
-          //     Alert.alert("please mark attendance for all students")
-          //   }
-          // } else {
-
-          //   }
-
-          //}
+        
         }
 
-        // const resStudent = await axios.get(`${subURL}/Student/`);
       } catch (error) {
         console.log(error);
       }
@@ -721,29 +702,7 @@ const TeachersAttendanceBuild = () => {
       if (selectedData.length > 0) {
         var isPresent = false;
         var isAbsent = false;
-        // var saveattendanceData = [];
-        // saveattendanceData = saveAttendanceDataByDCS.filter(
-        //   (item) => item.student.id === id
-        // );
-        // var initialPresent = false;
-        // var initialAbsent = false;
-        // if (saveattendanceData[0].student.id === id && !editBtnPressed) {
-        //   initialPresent = true;
-        //   initialAbsent = true;
-        //   if (initialPresent) {
-        //     return "green";
-        //   } else if (initialAbsent) {
-        //     return "red";
-        //   } else {
-        //     return "grey";
-        //   }
-        // }
-        // console.log(
-        //   "saveattendanceData",
-        //   saveattendanceData[0].attendance_status,
-        //   saveattendanceData[0].student.id
-        // );
-
+      
         isPresent = selectedData.map(
           (data, key) => data.attendance_status === "present"
         )[0];
@@ -814,7 +773,7 @@ const TeachersAttendanceBuild = () => {
       setOpen(false);
 
       array.length = 0;
-      console.log("inside done button");
+  
       for (i = 0; i < data.length; i++) {
         const object = {
           student: data[i].id,
@@ -830,8 +789,7 @@ const TeachersAttendanceBuild = () => {
       }
       viewStudentList();
 
-      console.log(array);
-
+    
       IDSETARRAY = [];
       async function storeData() {
         try {
@@ -843,7 +801,7 @@ const TeachersAttendanceBuild = () => {
           const resLogin = await axios.post(`${subURL}/Attendance/`, array, {
             headers: headers,
           });
-          //console.log(resLogin.data);
+      
         } catch (error) {
           console.log(error);
         }
@@ -873,22 +831,19 @@ const TeachersAttendanceBuild = () => {
   }
 
   function updatePresentButton(data) {
-    let updatedStatus = "P";
+   
 
     const filteredDummuyData = saveAttendanceDataByDCS.find(
       (item) => item.student.id == data.student.id
     );
-    console.log(filteredDummuyData.student.id);
-    console.log(data.student.id);
+   
     if (filteredDummuyData.student.id === data.student.id) {
-      //  console.log("true");
+   
       setPresentActive(true);
       setAbsentActive(false);
     }
 
-    // changeColorUpdate(data.student.id, 'P');
-
-    // console.log("in update present button");
+   
 
     const object = {
       student: data.student.id,
@@ -899,7 +854,7 @@ const TeachersAttendanceBuild = () => {
       description: "",
       id: data.id,
     };
-    // console.log(object);
+  
     const existingItem = updateArray.find(
       (item) => item.student === object.student
     );
@@ -925,16 +880,13 @@ const TeachersAttendanceBuild = () => {
     const filteredDummuyData = saveAttendanceDataByDCS.find(
       (item) => item.student.id == data.student.id
     );
-    //  console.log(filteredDummuyData);
+  
     if (filteredDummuyData.student.id === data.student.id) {
-      console.log("true");
+   
       setPresentActive(false);
       setAbsentActive(true);
     }
-    let updatedStatus = "A";
-    // changeColorUpdate(data.student.id, 'A');
-
-    //console.log("in update absent button");
+   
 
     const object = {
       student: data.student.id,
@@ -945,7 +897,7 @@ const TeachersAttendanceBuild = () => {
       description: "",
       id: data.id,
     };
-    // console.log(object);
+  
     const existingItem = updateArray.find(
       (item) => item.student === object.student
     );
@@ -979,8 +931,7 @@ const TeachersAttendanceBuild = () => {
           headers: headers,
         });
 
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
+        
       } catch (error) {
         console.log(error);
       }
@@ -1023,30 +974,7 @@ const TeachersAttendanceBuild = () => {
       name: filteredData.student_name,
       regno: filteredData.reg_number,
     });
-    // const request_model = {
-    //   student_id: id,
-    //   year: "2023",
-    // };
-    // async function getData() {
-    //   try {
-    //     let headers = {
-    //       "Content-Type": "application/json; charset=utf-8",
-    //       Authorization: "Token " + `${token}`,
-    //     };
-    //     const res = await axios.post(
-    //       `${subURL}/AttendanceDetailByStudentIDYear/`,
-    //       request_model,
-    //       {
-    //         headers: headers,
-    //       }
-    //     );
-
-    //     console.log(res.data);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
-    // getData();
+  
   }
   return (
     <>
@@ -1242,6 +1170,7 @@ const TeachersAttendanceBuild = () => {
                         is24Hour={true}
                         display="default"
                         onChange={fromDateChangeHandler}
+                        maximumDate={fromDate}
                       />
                     )}
                   </View>

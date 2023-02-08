@@ -216,74 +216,17 @@ const TeachersLeaveUpdated = () => {
     ]);
   }, []);
 
-  //   useEffect(() => {
-  //     async function fetchData() {
-  //       try {
-  //         const res = await axios.get(
-  //           `http://10.0.2.2:8000/school/LeaveByUsername/${Teacher}/`
-  //         );
-  //         //console.log(res.data);
-
-  //         setLeaveByUsername(res.data);
-  //       } catch (error) {
-  //         console.log(error);
-  //       }
-  //     }
-  //     fetchData();
-  //   }, []);
-
-  // console.log("reg numbers"+StudentRegNo)
-
-  // useEffect(() => {
-  //   console.log(userID);
-  //   async function fetchStudentClass() {
-  //     axios
-  //       .get(`http://10.0.2.2:8000/school/IsClassteacher/${userID}/`)
-  //       .then((response) => {
-  //         console.log(response.data);
-  //         newArray = response.data.map((item) => {
-  //           return {
-  //             key: item.id,
-  //             value: item.class_name + " - " + item.section,
-  //             classname: item.class_name,
-  //             section: item.section,
-  //           };
-  //         });
-
-  //         setClassTeacherData(newArray);
-  //       })
-  //       .catch((e) => {
-  //         console.log(e);
-  //       });
-  //   }
-  //   fetchStudentClass();
-  // }, []);
-
-  // classTeacherData &&
-  //   classTeacherData.map((data,key)=>(
-  //     // CLASSNAME=data.class_name,
-  //     // SECTION=data.section
-  //     newArray.push({
-  //       'CLASSNAME': data.class_name,
-  //       'SECTION': data.section
-  //     })
-  //   ))
-
-  // newArray - dropdown
-  // selected clas and sec sen in LeaveCS API
   useEffect(() => {
     async function getUserId() {
       USERID = await AsyncStorage.getItem("key");
       if (USERID !== null) {
         setUserID(USERID);
       }
-      //  console.log("this is the userid in useeffect", userID);
+
       const res = await axios.get(`${subURL}/IsClassteacher/${userID}/`);
       setBgColor(res.data);
     }
     getUserId();
-
-    //  showLeaveList();
   }, [userID]);
 
   useLayoutEffect(() => {
@@ -330,7 +273,6 @@ const TeachersLeaveUpdated = () => {
     USERNAME = await AsyncStorage.getItem("UserName");
     USERROLE = await AsyncStorage.getItem("datagroup");
     USERID = await AsyncStorage.getItem("key");
-    // console.log("this is the userid from aysnc", USERID);
 
     if (USERNAME !== null) {
       setUser(USERNAME);
@@ -375,10 +317,7 @@ const TeachersLeaveUpdated = () => {
     if (event.type == "set") {
       setFromText(fDate);
     } else {
-      //cancel button clicked
     }
-
-    //console.log(fDate);
   };
 
   const toDateChangeHandler = (event, selectedToDate) => {
@@ -388,7 +327,7 @@ const TeachersLeaveUpdated = () => {
     setToDate(currentToDate);
 
     let tempToDate = new Date(currentToDate);
-    console.log(tempToDate);
+
     let tDate =
       tempToDate.getDate() +
       "/" +
@@ -399,14 +338,10 @@ const TeachersLeaveUpdated = () => {
     if (event.type == "set") {
       setToText(tDate);
     } else {
-      //cancel button clicked
     }
-    // console.log(fDate);
   };
 
   function frmDateHandler(enteredValue) {
-    // setFromText(enteredValue);
-    // setEnteredFromDate(enteredValue);
     setFromDate(enteredValue);
     setenteredfrmdate(enteredValue);
   }
@@ -435,12 +370,10 @@ const TeachersLeaveUpdated = () => {
   }
 
   function updateHandler() {
-    console.log("inside update", selected);
     let filteredlist = leaveTypeData.filter((ele) => ele.value == selected);
     if (selected.toString() == selected) {
-      console.log("true");
     }
-    console.log(filteredlist);
+
     setShowInitialBtn(true);
     const FormData = {
       leave_type: selected,
@@ -449,9 +382,6 @@ const TeachersLeaveUpdated = () => {
       leave_to: TODATE,
       email: email,
     };
-
-    console.log("edited" + FormData);
-    // console.log(FormData);
 
     if (
       !enteredLeaveReasonIsValid ||
@@ -475,9 +405,6 @@ const TeachersLeaveUpdated = () => {
               headers: headers,
             }
           );
-          // const token = resLogin.data.token;
-          // const userId = resLogin.data.user_id;
-          console.log(resLogin.data);
         } catch (error) {
           console.log(error);
         }
@@ -488,18 +415,6 @@ const TeachersLeaveUpdated = () => {
         { text: "OK", onPress: () => myLeaveList() },
       ]);
 
-      // async function fetchData() {
-      //   try {
-      //     const res = await axios.get(`http://10.0.2.2:8000/school/LeaveByUsername/${user}/`);
-      //     //setData(res.data);
-      //     setLeaveByUsername(res.data);
-      //   } catch (error) {
-      //     console.log(error);
-      //   }
-      // }
-      // fetchData();
-
-      // setEnteredLeaveType("");
       setEnteredLeaveReason("");
       setFromText("");
       setToText("");
@@ -525,7 +440,6 @@ const TeachersLeaveUpdated = () => {
     }
   }
   function buttonPressedHandler() {
-    console.log(email);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -560,14 +474,9 @@ const TeachersLeaveUpdated = () => {
       !enteredSelcetdIsValid ||
       !enteredEmailIsValid
     ) {
-      console.log("if part");
       return;
     } else {
-      console.log("else part");
       async function storeData() {
-        console.log("post req to /leave");
-        console.log(FormData);
-        console.log(token);
         try {
           let headers = {
             "Content-Type": "application/json; charset=utf-8",
@@ -577,8 +486,6 @@ const TeachersLeaveUpdated = () => {
           const resLogin = await axios.post(`${subURL}/Leave/`, FormData, {
             headers: headers,
           });
-
-          console.log("post req response -", resLogin.data);
         } catch (error) {
           console.log(error);
         }
@@ -688,10 +595,8 @@ const TeachersLeaveUpdated = () => {
 
   function showLeave() {
     async function fetchData() {
-      console.log("this is the username -", user);
       try {
         const res = await axios.get(`${subURL}/LeaveByUsername/${user}/`);
-        //console.log(res.data);
 
         setLeaveByUsername(res.data);
       } catch (error) {
@@ -707,18 +612,10 @@ const TeachersLeaveUpdated = () => {
     ID = id;
 
     const fetchedData = data.find((data) => data.id == id);
-    //console.log(fetchedData.leave_form)
 
     const FormData = {
-      // leave_form: fetchedData.leave_form,
-      // leave_to: fetchedData.leave_to,
-      // leave_type: fetchedData.leave_type,
-      // leave_reason: fetchedData.leave_reason,
-      // student_reg_number:11,
       leave_status: "Approved",
     };
-
-    // console.log(FormData);
 
     async function updateData() {
       try {
@@ -730,9 +627,6 @@ const TeachersLeaveUpdated = () => {
         const resLogin = await axios.patch(`${subURL}/Leave/${ID}/`, dataForm, {
           headers: headers,
         });
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
-        // console.log(resLogin.data);
       } catch (error) {
         console.log(error);
       }
@@ -761,9 +655,6 @@ const TeachersLeaveUpdated = () => {
         const resLogin = await axios.patch(`${subURL}/Leave/${ID}/`, dataForm, {
           headers: headers,
         });
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
-        console.log(resLogin.data);
       } catch (error) {
         console.log(error);
       }
@@ -774,7 +665,6 @@ const TeachersLeaveUpdated = () => {
   }
 
   const searchFilter = (text) => {
-    console.log("search function");
     if (text) {
       const newData = leaveByClassSection.filter((item) => {
         const itemData = item.leave_type
@@ -796,19 +686,6 @@ const TeachersLeaveUpdated = () => {
     setShowForm(false);
     setIsEdit(false);
   }
-
-  // function scrollHandler(event) {
-  //   // console.log(event.nativeEvent.contentOffset.y);
-  //     let currentOffset = event.nativeEvent.contentOffset.y;
-  //     let direction = currentOffset > offset ? 'down' : 'up';
-  //     SetOffset(currentOffset);
-
-  //     if(direction=='down'){
-  //       setShowInitialBtn(false);
-  //     }else{
-  //       setShowInitialBtn(true)
-  //     }
-  // };
 
   function applyLeave() {
     setShowForm(true);
@@ -848,19 +725,12 @@ const TeachersLeaveUpdated = () => {
   }
 
   function showLeaveList() {
-    console.log("show leave lisr fun");
-    // setShowList(true);
-    // setShowForm(false);
-    // setShowChoice(false);
-    // setLoading(true);
     setShowDefault(false);
     setTimeout(() => {
       setLoading(false);
     }, 5000);
     setBtn(true);
     async function fetchStudentClass() {
-      console.log("inside fetchstudentclass");
-      console.log("user id is", userID);
       axios
         .get(`${subURL}/IsClassteacher/${userID}/`)
         .then((response) => {
@@ -872,12 +742,8 @@ const TeachersLeaveUpdated = () => {
               section: item.section,
             };
           });
-          console.log(newArray);
-
-          //  console.log("new array length", newArray.length);
 
           if (bgColor.length >= 1) {
-            // setBgColor(true);
             setShowList(true);
             setShowForm(false);
             setShowChoice(false);
@@ -898,7 +764,6 @@ const TeachersLeaveUpdated = () => {
     }
     fetchStudentClass();
   }
-  // console.log("new array length outside", newArray?.length);
 
   function backHandler() {
     setShowChoice(true);
@@ -960,7 +825,6 @@ const TeachersLeaveUpdated = () => {
   }
 
   function editItem(id) {
-    console.log(id);
     setIsEdit(true);
     setShowForm(true);
     setShowTeachersList(false);
@@ -973,7 +837,7 @@ const TeachersLeaveUpdated = () => {
     let filteredlist = leaveTypeData.filter(
       (ele) => ele.value == filteredDummuyData.leave_type
     );
-    console.log(filteredlist[0].value);
+
     KEY = filteredlist[0].key;
     VALUE = filteredlist[0].value;
 
@@ -987,7 +851,6 @@ const TeachersLeaveUpdated = () => {
     async function fetchData() {
       let filtered = newArray?.filter((ele) => ele.key == selectedClassSection);
 
-      // console.log(filteredlist[0].classname);
       let class_name = filtered[0].classname;
       let section = filtered[0].section;
       try {
@@ -1014,7 +877,6 @@ const TeachersLeaveUpdated = () => {
     async function fetchData() {
       let filtered = newArray?.filter((ele) => ele.key == selectedClassSection);
 
-      // console.log(filteredlist[0].classname);
       let class_name = filtered[0].classname;
       let section = filtered[0].section;
       try {
@@ -1039,7 +901,6 @@ const TeachersLeaveUpdated = () => {
     async function fetchData() {
       let filtered = newArray?.filter((ele) => ele.key == selectedClassSection);
 
-      // console.log(filteredlist[0].classname);
       let class_name = filtered[0].classname;
       let section = filtered[0].section;
       try {
@@ -1064,7 +925,7 @@ const TeachersLeaveUpdated = () => {
     Alert.alert("Confirm Deletion", "You are about to delete this row!", [
       {
         text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
+
         style: "cancel",
       },
       {
@@ -1093,7 +954,7 @@ const TeachersLeaveUpdated = () => {
       async function fetchData() {
         try {
           const res = await axios.get(`${subURL}/LeaveByUsername/${user}/`);
-          // console.log(res.data);
+
           setLeaveByUsername(res.data);
         } catch (error) {
           console.log(error);

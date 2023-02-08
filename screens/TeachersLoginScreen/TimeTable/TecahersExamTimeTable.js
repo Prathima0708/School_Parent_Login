@@ -131,11 +131,9 @@ const TecahersExamTimeTable = () => {
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
-      // console.log(keyboardStatus);
     });
     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
       setKeyboardStatus("Keyboard Hidden");
-      //  console.log(keyboardStatus);
     });
 
     return () => {
@@ -165,7 +163,6 @@ const TecahersExamTimeTable = () => {
     async function viewExamList() {
       try {
         const res = await axios.get(`${subURL}/Exam/`);
-        console.log(res.data);
 
         setShowExamData(res.data);
         setFilteredData(res.data);
@@ -205,7 +202,6 @@ const TecahersExamTimeTable = () => {
       hour: hour,
       //class_name: class_name,
     };
-    // console.log(FormData);
 
     async function storeData() {
       try {
@@ -218,7 +214,7 @@ const TecahersExamTimeTable = () => {
         });
         const token = resLogin.data.token;
         const userId = resLogin.data.user_id;
-        console.log(token);
+
         // Token = token;
         // UserId = userId;
       } catch (error) {
@@ -298,7 +294,6 @@ const TecahersExamTimeTable = () => {
       hour: hour,
       class_name: class_name,
     };
-    console.log(FormData);
 
     setEnteredExamNameTouched(true);
     setEnteredFromDateTouched(true);
@@ -354,7 +349,7 @@ const TecahersExamTimeTable = () => {
           });
           const token = resLogin.data.token;
           const userId = resLogin.data.user_id;
-          console.log(token);
+
           // Token = token;
           // UserId = userId;
         } catch (error) {
@@ -405,8 +400,6 @@ const TecahersExamTimeTable = () => {
     setDateMode(currentToMode);
   };
   const fromDateChangeHandler = (event, selectedFromDate) => {
-    // console.log(selectedFromDate);
-    // console.log(fromDate);
     FROMDATE = selectedFromDate;
     const currentFromDate = selectedFromDate;
     setFromShow(Platform.OS === "ios");
@@ -422,8 +415,6 @@ const TecahersExamTimeTable = () => {
     if (event.type == "set") {
       setFromText(fDate);
     }
-
-    //console.log(fDate);
   };
 
   const toDateChangeHandler = (event, selectedToDate) => {
@@ -442,8 +433,6 @@ const TecahersExamTimeTable = () => {
     if (event.type == "set") {
       setToText(tDate);
     }
-
-    // console.log(fDate);
   };
 
   function viewExam() {
@@ -472,7 +461,6 @@ const TecahersExamTimeTable = () => {
     async function viewExamList() {
       try {
         const res = await axios.get(`${subURL}/Exam/`);
-        console.log(res.data);
 
         setShowExamData(res.data);
         setFilteredData(res.data);
@@ -538,7 +526,7 @@ const TecahersExamTimeTable = () => {
     setTotalLabel(true);
     setHourLabel(true);
     ID = id;
-    console.log(id);
+
     const filteredDummuyData = showExamData.find((data) => data.id == id);
 
     setEnteredExamName(filteredDummuyData.exam_name);
@@ -556,12 +544,11 @@ const TecahersExamTimeTable = () => {
     setIsEdit(true);
   }
   function deleteItem(id) {
-    console.log(id);
     // const newFilteredData=data.filter((data)=>data.id != id);
     Alert.alert("Confirm Deletion", "You are about to delete this row!", [
       {
         text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
+
         style: "cancel",
       },
       {
@@ -582,16 +569,13 @@ const TecahersExamTimeTable = () => {
             headers: headers,
           }
         );
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
-        console.log(resLogin.data);
       } catch (error) {
         console.log(error);
       }
       async function fetchData() {
         try {
           const res = await axios.get(`${subURL}/Exam/`);
-          // console.log(res.data);
+
           setShowExamData(res.data);
           setFilteredData(res.data);
         } catch (error) {
@@ -610,7 +594,6 @@ const TecahersExamTimeTable = () => {
   }
 
   const searchFilter = (text) => {
-    console.log("search function");
     if (text) {
       const newData = showExamData.filter((item) => {
         const itemData = item.exam_name
@@ -629,13 +612,11 @@ const TecahersExamTimeTable = () => {
 
   function viewExamList() {
     async function login() {
-      console.log("selected is ", selected);
       let selectedData = selected.split(" - ");
       let class_name = selectedData[0];
       let section = selectedData[1];
       try {
         const res = await axios.get(`${subURL}/Exam/`);
-        //console.log(class_name, section);
 
         let filteredclass = res.data.filter(
           (ele) => ele.class_name == class_name
@@ -675,21 +656,21 @@ const TecahersExamTimeTable = () => {
   function navigateHandler(id) {
     ID = id;
 
-    let fetchedData=[];
+    let fetchedData = [];
     const fetchData = filteredData.find((data) => data.id == id);
 
     async function viewExamList() {
       try {
         const res = await axios.get(`${subURL}/AddmoreExam_list_by_exam/${ID}`);
-        fetchedData=res.data;
+        fetchedData = res.data;
 
-        if(fetchedData.length > 0){
-          navigation.navigate("ExamSubjects",{
-            className:fetchData.class_name,
-            examName:fetchData.exam_name,
-            hour:fetchData.hour
+        if (fetchedData.length > 0) {
+          navigation.navigate("ExamSubjects", {
+            className: fetchData.class_name,
+            examName: fetchData.exam_name,
+            hour: fetchData.hour,
           });
-        }else{
+        } else {
           Alert.alert("No exam timetable for selected class");
           return;
         }
@@ -698,8 +679,6 @@ const TecahersExamTimeTable = () => {
       }
     }
     viewExamList();
-   
-    
   }
   return (
     <>

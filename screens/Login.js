@@ -169,8 +169,6 @@ function Login() {
 
       const pushTokenData = await Notifications.getExpoPushTokenAsync().then(
         (pushToken) => {
-          console.log(pushToken.data);
-          //setPushTkn(pushToken);
           PushToken = pushToken.data;
 
           if (Platform.OS === "android") {
@@ -187,32 +185,10 @@ function Login() {
   }, []);
 
   useEffect(() => {
-    const subscription1 = Notifications.addNotificationReceivedListener(
-      (notification) => {
-        console.log("Notification received");
-        // console.log("token",notification)
-      }
-    );
-
-    const subscription2 = Notifications.addNotificationResponseReceivedListener(
-      (response) => {
-        console.log("Notification response received");
-
-        //console.log(response)
-      }
-    );
-    return () => {
-      subscription1.remove();
-      subscription2.remove();
-    };
-  }, []);
-
-  useEffect(() => {
     async function fetchData() {
       try {
-        // http://10.0.2.2:8000/school/Calendar/
         const res = await axios.get(`${subURL}/Institute/`);
-        // console.log(res.data[0].instituteLogo)
+
         setSaveImg(res.data[0].instituteLogo);
       } catch (error) {
         console.log(error);
@@ -267,31 +243,21 @@ function Login() {
         let filteredNotification = getNotificationRes.data.filter(
           (ele) => ele.notification_token == PushToken
         );
-        if (filteredNotification.length > 0) {
-          console.log("token existing");
-        } else {
-          const notificationRes = await axios.post(
-            `${subURL}/Notification/`,
-            formData
-          );
-        }
-
-        // console.log(notificationRes.data);
+        // if (filteredNotification.length > 0) {
+        //   console.log("token existing");
+        // } else {
+        //   const notificationRes = await axios.post(
+        //     `${subURL}/Notification/`,
+        //     formData
+        //   );
+        // }
 
         const res = await axios.get(`${subURL}/Student/`);
         const staffres = await axios.get(`${subURL}/Staff`);
-        //   console.log(staffres.data);
-        // let filteredStaff = staffres.data.filter(
-        //   (ele) => ele.user_id.username == enteredUser
-        // );
-        // console.log(filteredStaff);
-        // console.log("this is staff photo-", filteredStaff[0].staff_photo);
-        // StaffPhoto = filteredStaff[0].staff_photo;
+
         let filteredlist = res.data.filter(
           (ele) => ele.contact_num == enteredPhone
         );
-        console.log("from login page");
-        console.log(filteredlist);
 
         const token = resLogin.data.token;
         const userId = resLogin.data.user_id;
@@ -300,11 +266,8 @@ function Login() {
         UserId = userId;
         TeacherGroup = resLogin.data.groups[0] == "staff";
         ParentGroup = resLogin.data.groups[0] == "parents";
-        console.log("teacher group is :", TeacherGroup);
-        console.log("parent group is :", ParentGroup);
-        Teacher = user.username;
 
-        console.log("this is the username from console log", Teacher);
+        Teacher = user.username;
 
         try {
           await AsyncStorage.setItem("UserName", Teacher);
@@ -325,8 +288,6 @@ function Login() {
 
         try {
           PHONENO = await AsyncStorage.getItem("Phone");
-
-          console.log("this is the ph value from login", PHONENO);
         } catch (error) {}
 
         // if (PHONENO !== enteredPhone) {
@@ -345,20 +306,15 @@ function Login() {
             setEnteredPhone("");
             return;
           }
-          console.log("group name -", resLogin.data.groups[0]);
-          console.log(PHONENO);
+
           // <WelcomeScreen />;
 
           navigation.navigate("ParentsLoginScreen", {
             phone: PHONENO,
           });
         } else if (resLogin.data.groups.includes("staff")) {
-          console.log(resLogin.data.groups[0]);
-          // console.log("TEACHERS PAGE");
-          navigation.navigate("TeachersLogin", {
-            //   username: UserName,
-          });
-        } 
+          navigation.navigate("TeachersLogin", {});
+        }
 
         setEnteredUser("");
         setEnteredPassword("");
@@ -377,12 +333,8 @@ function Login() {
       try {
         const value = await AsyncStorage.getItem("token");
         VALUE = value;
-        // if (value == null) {
-        //   await AsyncStorage.removeItem("Phone");
-        //   console.log("this is the ph value after logout", PHONENO);
-        // }
+
         if (value !== null) {
-          console.log("This is the token :" + value);
         }
       } catch (error) {
         // Error retrieving data
@@ -397,25 +349,8 @@ function Login() {
           console.log(err);
         } else {
           JSON.parse(value); // boolean false
-          console.log("this is the userid:" + value);
         }
       });
-
-      // AsyncStorage.setItem("Phone", enteredPhone);
-      // //  console.log(Group);
-
-      // let Phone = AsyncStorage.getItem("Phone");
-      // console.log(Phone);
-
-      // try {
-      //   const value = await AsyncStorage.getItem("Phone");
-
-      //   if (value !== null) {
-      //     console.log("This is the Phone of login page:" + value);
-      //   }
-      // } catch (error) {
-      //   // Error retrieving data
-      // }
     }
   }
   function toggleParents() {

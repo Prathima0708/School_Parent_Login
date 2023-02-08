@@ -25,14 +25,6 @@ import { Image as NativeImage } from "native-base";
 import { mainURL, subURL } from "../../../components/utils/URL's";
 import { Linking } from "react-native";
 const TransportScreen = () => {
-  // useEffect(()=>{
-  //   async function getToken(){
-  //     const value= await AsyncStorage.getItem('token')
-  //     console.log(value)
-  //   }
-  //   getToken()
-  //     },[]);
-
   const [forTransportList, setForTransportList] = useState({
     color: "black",
     fontWeight: "bold",
@@ -65,19 +57,11 @@ const TransportScreen = () => {
         const res = await axios.get(
           `${subURL}/TransportreportDetailList/${busNumber}`
         );
-        console.log(res.data);
-        console.log(busNumber);
+
         setData(res.data);
       } catch (error) {
         console.log(error);
       }
-      // try {
-      //   // const value = await AsyncStorage.getItem('token');
-      // const value=  await AsyncStorage.getItem('token')
-      // console.log(value)
-      // } catch (error) {
-      //   // Error retrieving data
-      // }
     }
     fetchData();
   }, []);
@@ -87,9 +71,6 @@ const TransportScreen = () => {
   }
 
   function callBtnPressedHandler(mobile_number) {
-    console.log(mobile_number);
-
-    // phoneNumber = mobile_number.replace(/[^0-9]/g, '');
     Linking.openURL(`tel:${mobile_number}`);
   }
 
@@ -214,14 +195,9 @@ const TransportScreen = () => {
                           <Text style={styles.cardTextStyle}>Current:</Text>
                         </View>
                         <View style={{ flex: 1 }}>
-                          <Text style={styles.textStyle}>
-                            Udupi 
-                          </Text>
+                          <Text style={styles.textStyle}>Udupi</Text>
                         </View>
                       </View>
-
-
-                      
                     </View>
                   </View>
                 </View>
@@ -277,25 +253,28 @@ const TransportScreen = () => {
             ))}
         </View>
         <View style={{ flex: 1, backgroundColor: "white", paddingBottom: 40 }}>
-        {isMapActive && 
+          {isMapActive && (
             <View
               style={[
                 {
                   // Try setting `flexDirection` to `"row"`.
-                  flex:1,
-                  flexDirection: 'row',
-                  justifyContent:'center',
-                  marginTop:'5%'
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  marginTop: "5%",
                 },
-              ]}>
-              <View style={{flex: 0.2,alignItems:'center'}} >
+              ]}
+            >
+              <View style={{ flex: 0.2, alignItems: "center" }}>
                 <Entypo name="location" size={24} color="black" />
               </View>
-              <View style={{flex: 1}} >
-                <Text style={styles.labelStyle}>Live location tracking coming soon...</Text>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.labelStyle}>
+                  Live location tracking coming soon...
+                </Text>
               </View>
             </View>
-          }
+          )}
           {/* {isMapActive && <MapView style={[styles.map]} />} */}
         </View>
         <View style={{ flex: 0.1 }}>
@@ -529,7 +508,7 @@ const styles = StyleSheet.create({
   labelStyle: {
     fontFamily: "HindSemiBold",
     fontSize: 18,
-    color:'red'
+    color: "red",
   },
   itemStyle: {
     flex: 0.1,
