@@ -352,7 +352,6 @@ const TeacherHomeworkScreenBuild = () => {
     localUri = result.uri;
     filename = localUri.split("/").pop();
     path = FileSystem.documentDirectory + filename;
-    console.log(path);
 
     match = /\.(\w+)$/.exec(filename);
     type = match ? `image/${match[1]}` : `image`;
@@ -412,7 +411,6 @@ const TeacherHomeworkScreenBuild = () => {
       axios
         .get(`${subURL}/StudentclassSubjectDetail/${selected}`)
         .then((response) => {
-          console.log("subjects", response.data);
           for (var i = 0; i < response.data.length; i++) {
             response.data[i] =
               response.data[i].charAt(0).toUpperCase() +
@@ -467,12 +465,11 @@ const TeacherHomeworkScreenBuild = () => {
   const toDateChangeHandler = (event, selectedToDate) => {
     const currentToDate = selectedToDate;
     TODATE = selectedToDate;
-    console.log("to date inside function:", TODATE);
+
     setToShow(Platform.OS === "ios");
     setToDate(currentToDate);
 
     let tempToDate = new Date(currentToDate);
-    console.log(tempToDate);
     let tDate =
       tempToDate.getDate() +
       "/" +
@@ -483,9 +480,8 @@ const TeacherHomeworkScreenBuild = () => {
     if (event.type == "set") {
       setToText(tDate);
     } else {
-      //cancel button clicked
     }
-    // console.log(fDate);
+
     TODATE = selectedToDate;
   };
 
@@ -523,10 +519,8 @@ const TeacherHomeworkScreenBuild = () => {
   }
 
   function updateHandler() {
-    console.log("selected inside update", selected);
     let filteredlist = newArray.filter((ele) => ele.key == selected);
-    console.log("filetred list inside update", filteredlist);
-    console.log("inside update ", selectedSubject);
+
     let uploaduri = image;
 
     const formdata = {
@@ -540,7 +534,6 @@ const TeacherHomeworkScreenBuild = () => {
 
       due_date: TODATE,
     };
-    console.log(formdata);
 
     if (
       !enteredFromDateIsValid ||
@@ -563,8 +556,6 @@ const TeacherHomeworkScreenBuild = () => {
               headers: headers,
             }
           );
-
-          console.log(resLogin.data);
         } catch (error) {
           console.log(error);
         }
@@ -616,7 +607,7 @@ const TeacherHomeworkScreenBuild = () => {
       Alert.alert("Data saved", "Data saved successfully", [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
+
           style: "cancel",
         },
         {
@@ -675,8 +666,6 @@ const TeacherHomeworkScreenBuild = () => {
         description: hw,
       };
 
-      console.log(formdata);
-
       //   var formData = new FormData();
       //  console.log(FROMDATE)
       //   formData.append('class_name', filteredlist[0].classname);
@@ -709,12 +698,10 @@ const TeacherHomeworkScreenBuild = () => {
             "Content-Type": "multipart/form-data",
             Authorization: "Token " + `${token}`,
           };
-          // console.log(formData)
+
           const resLogin = await axios.post(`${subURL}/Homework/`, formdata, {
             headers: headers,
           });
-          console.log("response", resLogin.data);
-          debugger;
         } catch (error) {
           console.log(error);
         }
@@ -838,18 +825,13 @@ const TeacherHomeworkScreenBuild = () => {
   }
 
   function editItem(id) {
-    console.log("edit button clicked");
     ID = id;
-
-    console.log(id);
 
     setRemarkLabel(true);
     setHomeworkLabel(true);
     setShowInitialBtn(false);
 
     const filteredDummuyData = homeworkData.find((data) => data.id == id);
-
-    console.log(filteredDummuyData);
 
     VALUE =
       filteredDummuyData.class_name +
@@ -885,12 +867,10 @@ const TeacherHomeworkScreenBuild = () => {
   }
 
   function deleteItem(id) {
-    console.log("i am pressed");
-
     Alert.alert("Confirm Deletion", "You are about to delete this row!", [
       {
         text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
+
         style: "cancel",
       },
       {
@@ -911,8 +891,6 @@ const TeacherHomeworkScreenBuild = () => {
             headers: headers,
           }
         );
-
-        console.log(resLogin.data);
       } catch (error) {
         console.log(error);
       }

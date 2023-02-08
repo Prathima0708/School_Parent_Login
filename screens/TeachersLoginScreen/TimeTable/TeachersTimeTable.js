@@ -137,12 +137,9 @@ const TeachersTimetable = () => {
         newArray.sort(function (obj1, obj2) {
           return obj1.value.localeCompare(obj2.value);
         });
-        // console.log(details);
-
-        //console.log(newArray[0]);
 
         firstData = newArray[0];
-        //console.log("key -", firstData.key);
+
         KEY = firstData.key;
         VALUE = firstData.value;
         // if (firstData == undefined) {
@@ -167,10 +164,6 @@ const TeachersTimetable = () => {
     }
     fetchClass();
   }, []);
-
-  console.log("default option outside -", firstData);
-  console.log("KEY -", KEY);
-  console.log("VALUE -", VALUE);
 
   // if (KEY == undefined) {
   //   console.log("undefined key");
@@ -284,18 +277,11 @@ const TeachersTimetable = () => {
   }, []);
 
   function viewTimeTableList() {
-    // console.log(newArray[0][1]);
-    //  console.log(selected);
     setShowDefaultList(false);
     setShowSelected(true);
     async function login() {
-      console.log("***********");
-      // console.log(selected);
-      console.log("new array is -", newArray);
       let filteredlist = newArray?.filter((ele) => ele.key == selected);
-      console.log("filteredlist", filteredlist);
-      // let selectedData = selected.split(" - ");
-      // console.log(selectedData);
+
       let class_name = filteredlist[0].classname;
       let section = filteredlist[0].section;
 
@@ -303,9 +289,6 @@ const TeachersTimetable = () => {
         const res = await axios.get(
           `${subURL}/Timetable_by_sec/${class_name}/${section}`
         );
-        console.log("*****");
-        //console.log(res.data[0].id);
-        console.log(res.data[0]);
 
         if (res.data[0] == undefined) {
           setIsUndefined(true);
@@ -316,14 +299,9 @@ const TeachersTimetable = () => {
             `${subURL}/AddmoreTimetable_list_by_timetab/${TimeTabID}`
           );
           arr = timetableres.data;
-          console.log(timetableres.data[0]);
-          console.log("before sorting");
-          // console.log(arr);
 
-          console.log("after sorting");
           arr.reverse();
-          // console.log(arr);
-          //  console.log(timetableres.data);
+
           if (timetableres.data[0] == undefined) {
             setIsIdThere(false);
           } else {

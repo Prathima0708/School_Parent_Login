@@ -161,12 +161,11 @@ const TeachersTransport = () => {
     async function fetchData() {
       try {
         const staffRes = await axios.get(`${subURL}/Staff`);
-        //console.log(staffRes.data);
-        console.log("userid is", userid);
+
         const filteredRes = staffRes.data.filter(
           (item) => item.user_id.id == userid
         );
-        console.log(filteredRes[0].busnumber);
+
         const res = await axios.get(
           `${subURL}/TransportreportDetailList/${filteredRes[0]?.busnumber}`
         );
@@ -179,11 +178,9 @@ const TeachersTransport = () => {
           if (value == res.data[i].created_by) {
             test = res.data[i].created_by;
           } else {
-            // console.log('false')
           }
         }
         if (test == value) {
-          // console.log("is same")
           SetIsSame(true);
         }
       } catch (error) {
@@ -193,7 +190,7 @@ const TeachersTransport = () => {
     }
     fetchData();
   }, [userid]);
-  console.log(data);
+
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -281,8 +278,6 @@ const TeachersTransport = () => {
               headers: headers,
             }
           );
-
-          console.log(resLogin.data);
         } catch (error) {
           console.log(error);
         }
@@ -319,8 +314,6 @@ const TeachersTransport = () => {
       route_name: routename,
       stop_name: stopname,
     };
-
-    //  console.log(FormData);
 
     setEnteredBusnumberTouched(true);
     setEnteredVehicleNoTouched(true);
@@ -392,8 +385,6 @@ const TeachersTransport = () => {
                   headers: headers,
                 }
               );
-
-              console.log(resLogin.data);
             } catch (error) {
               console.log(error);
             }
@@ -402,7 +393,7 @@ const TeachersTransport = () => {
           Alert.alert("Saved Data", "Saved Data successfully", [
             {
               text: "Cancel",
-              onPress: () => console.log("Cancel Pressed"),
+
               style: "cancel",
             },
             {
@@ -581,7 +572,6 @@ const TeachersTransport = () => {
     async function fetchData() {
       try {
         const res = await axios.get(`${subURL}/Transportreport/`);
-        console.log(res.data);
 
         setFilteredData(res.data);
 
@@ -655,7 +645,7 @@ const TeachersTransport = () => {
     setRootLabel(true);
     setStopLabel(true);
     ID = id;
-    console.log(id);
+
     const filteredDummuyData = data.find((data) => data.id == id);
 
     setEnteredBusNumber(filteredDummuyData.busnumber);
@@ -681,11 +671,10 @@ const TeachersTransport = () => {
   }
 
   function deleteItem(busnumber) {
-    console.log(busnumber);
     Alert.alert("Confirm Deletion", "You are about to delete this row!", [
       {
         text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
+
         style: "cancel",
       },
       {
@@ -704,7 +693,6 @@ const TeachersTransport = () => {
             headers: headers,
           }
         );
-        console.log(resLogin.data);
       } catch (error) {
         console.log(error);
       }
@@ -729,7 +717,6 @@ const TeachersTransport = () => {
   }
 
   const searchFilter = (text) => {
-    console.log("search function");
     if (text) {
       const newData = data.filter((item) => {
         const itemData = item.driver_name
@@ -760,8 +747,6 @@ const TeachersTransport = () => {
   }
 
   function callBtnPressedHandler(mobile_number) {
-    console.log(mobile_number);
-
     Linking.openURL(`tel:${mobile_number}`);
   }
   return (
