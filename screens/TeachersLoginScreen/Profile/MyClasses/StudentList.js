@@ -140,7 +140,7 @@ const StudentList = () => {
             { flex: 1 },
             {
               flexDirection: "column",
-              top: keyboardStatus == "Keyboard Hidden" ? "11.5%" : "18%",
+              top: keyboardStatus == "Keyboard Hidden" ? "10%" : "18%",
               paddingHorizontal: 10,
               marginHorizontal: 10,
             },

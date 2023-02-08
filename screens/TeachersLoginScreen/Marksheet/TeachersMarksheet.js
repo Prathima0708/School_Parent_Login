@@ -1367,7 +1367,7 @@ const TeachersMarksheet = () => {
               <View style={{ flex: 1, top: "10%" }}>
                 <BackButton  onPress={backHandler}/>
               </View>
-              <View style={{ flex: 2 }}>
+              <View style={{ flex: 1.5 }}>
                 <View style={{ flex: 0.4 }}>
                   <View
                     style={[
@@ -1397,7 +1397,7 @@ const TeachersMarksheet = () => {
                           { fontSize: 18 },
                         ]}
                       >
-                        Roll no
+                        Roll no:
                       </Text>
                     </View>
                     <View style={{ flex: 1}}>
@@ -1431,7 +1431,7 @@ const TeachersMarksheet = () => {
                           { fontSize: 18, color: "black" },
                         ]}
                       >
-                        Student name
+                        Student name:
                       </Text>
                     </View>
                     <View style={{ flex: 1 }}>

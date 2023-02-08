@@ -179,6 +179,11 @@ export default function App() {
     return (
       <Stack.Navigator>
         <Stack.Screen
+          name="TeachersLogin"
+          component={TeachersLoginScreen}
+          options={{ title: "Dashboard" }}
+        />
+        <Stack.Screen
           name="LadingScreen"
           component={LandingScreen}
           options={{ title: "Welcome Screen" }}
@@ -188,11 +193,7 @@ export default function App() {
           component={Login}
           options={{ title: "Kinara" }}
         />
-        <Stack.Screen
-          name="TeachersLogin"
-          component={TeachersLoginScreen}
-          options={{ title: "Dashboard" }}
-        />
+        
 
         <Stack.Screen
           name="ParentsLoginScreen"

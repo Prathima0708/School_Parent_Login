@@ -5,6 +5,7 @@ import { Heading, Text as NativeText } from "native-base";
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -194,7 +195,15 @@ const MyClasses = () => {
                     style={{
                       flex: 1,
                       alignItems: "flex-start",
-                      top: deviceHieght > 800 ? "2%" : "0%",
+                      
+                      ...Platform.select({
+                        ios: {
+                          top: "4%",
+                        },
+                        android: {
+                          top: deviceHieght > 800 ? "2%" : "0%",
+                        },
+                      }),
                     }}
                   >
                     <Text

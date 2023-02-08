@@ -1,5 +1,5 @@
-import { Text } from "native-base";
-import { Dimensions, Pressable, StyleSheet, View } from "react-native";
+// import { Text } from "native-base";
+import { Dimensions, Pressable, StyleSheet, View ,Text} from "react-native";
 
 function Button({ children, onPress }) {
   return (
@@ -8,7 +8,7 @@ function Button({ children, onPress }) {
       onPress={onPress}
     >
       <View>
-        <Text bold style={styles.buttonText}>
+        <Text style={styles.buttonText}>
           {children}
         </Text>
       </View>
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     fontSize: deviceWidth < 370 ? 16 : 18,
-    padding:'3%',
+    //padding:5,
     fontFamily: "HindSemiBold",
   },
 });
