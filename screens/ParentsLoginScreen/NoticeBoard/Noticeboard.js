@@ -670,7 +670,17 @@ const NoticeBoard = () => {
             new Date(item.startdate).toDateString() === today.toDateString()
         );
 
-        setData(filteredData.reverse());
+        arr = filteredData;
+
+        function dateComparison(a, b) {
+          const date1 = new Date(a.modifiedDate);
+          const date2 = new Date(b.modifiedDate);
+
+          return date2 - date1;
+        }
+
+        arr.sort(dateComparison);
+        setData(arr);
       } catch (error) {
         console.log(error);
       }
