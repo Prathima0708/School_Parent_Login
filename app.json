@@ -22,7 +22,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/logo.png",
+        "foregroundImage": "./assets/images/logo512.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.mohammadzeeyan.SchoolParentApp"
