@@ -760,9 +760,21 @@ const TeachersTransport = () => {
           },
         ]}
       >
-        <View style={{ flex: 0.36, backgroundColor: "#1E84A4" }}></View>
+        {filteredData.length > 0 && (
+          <View style={{ flex: 0.36, backgroundColor: "#1E84A4" }}></View>
+        )}
         <View style={{ flex: 0.4, backgroundColor: "white" }}>
-          {filteredData &&
+          {filteredData.length <= 0 ? (
+            <View
+              style={{
+                alignItems: "center",
+              
+                marginTop: "15%",
+              }}
+            >
+              <Text style={styles.msgText}>No transport record found</Text>
+            </View>
+          ) : (
             filteredData.map((data) => (
               <View
                 style={[
@@ -920,7 +932,8 @@ const TeachersTransport = () => {
                   </View>
                 </View>
               </View>
-            ))}
+            ))
+          )}
         </View>
         <View style={{ flex: 1, backgroundColor: "white", paddingBottom: 40 }}>
           {isMapActive && (
@@ -1338,5 +1351,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginHorizontal: 20,
     elevation: 5,
+  },
+  msgText: {
+    fontSize: 18,
+    fontFamily: "HindSemiBold",
+    color: "#6B0000",
   },
 });

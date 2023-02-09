@@ -597,7 +597,13 @@ const TeachersTimetable = () => {
                                               <Text
                                                 style={styles.headingFirstCol}
                                               >
-                                                {moment(
+                                                    {moment(data.from_time, "HH:mm").format(
+                                            "LT"
+                                          )}{" "}
+                                          {"-"} {""} {moment(data.to_time, "HH:mm").format(
+                                            "LT"
+                                          )}
+                                                {/* {moment(
                                                   data.from_time,
                                                   "HH:mm"
                                                 ).format("hh:mm ")}{" "}
@@ -605,7 +611,7 @@ const TeachersTimetable = () => {
                                                 {moment(
                                                   data.to_time,
                                                   "HH:mm"
-                                                ).format("hh:mm ")}
+                                                ).format("hh:mm ")} */}
                                               </Text>
                                             </View>
                                           </View>

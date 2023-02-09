@@ -85,9 +85,21 @@ const TransportScreen = () => {
           },
         ]}
       >
-        <View style={{ flex: 0.36, backgroundColor: "#1E84A4" }}></View>
+        {data.length > 0 && (
+          <View style={{ flex: 0.36, backgroundColor: "#1E84A4" }}></View>
+        )}
         <View style={{ flex: 0.4, backgroundColor: "white" }}>
-          {data &&
+          {data.length <= 0 ? (
+            <View
+              style={{
+                alignItems: "center",
+
+                marginTop: "15%",
+              }}
+            >
+              <Text style={styles.msgText}>No transport record found</Text>
+            </View>
+          ) : (
             data.map((data) => (
               <View
                 style={[
@@ -250,7 +262,8 @@ const TransportScreen = () => {
                   </View>
                 </View>
               </View>
-            ))}
+            ))
+          )}
         </View>
         <View style={{ flex: 1, backgroundColor: "white", paddingBottom: 40 }}>
           {isMapActive && (
@@ -533,5 +546,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginHorizontal: 20,
     elevation: 5,
+  },
+  msgText: {
+    fontSize: 18,
+    fontFamily: "HindSemiBold",
+    color: "#6B0000",
   },
 });

@@ -643,9 +643,9 @@ const TecahersExamTimeTable = () => {
           setFilteredData(filteredc);
         }
 
-        if (filteredc.length == 0) {
-          Alert.alert("No data found", "No data found for respective search");
-        }
+        // if (filteredc.length == 0) {
+        //   Alert.alert("No data found", "No data found for respective search");
+        // }
       } catch (error) {
         console.log(error);
       }
@@ -671,7 +671,7 @@ const TecahersExamTimeTable = () => {
             hour: fetchData.hour,
           });
         } else {
-          Alert.alert("No exam timetable for selected class");
+          Alert.alert("No exam timetable scheduled for selected class");
           return;
         }
       } catch (error) {

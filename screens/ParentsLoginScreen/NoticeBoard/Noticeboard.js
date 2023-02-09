@@ -735,14 +735,26 @@ const NoticeBoard = () => {
   }
   return (
     <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
-      <View style={styles.headingView}>
-        <Text style={styles.textStyle}>Notifications</Text>
-      </View>
+      {/* <View style={styles.headingView}>
+        <Text style={styles.textStyle}>No new notifications found</Text>
+      </View> */}
       <View style={{ flex: 2, backgroundColor: "white" }}>
         <ScrollView>
-          <Box>
-            <FlatList data={data} padding={2} renderItem={renderNotice} />
-          </Box>
+          {data.length <= 0 ? (
+            <View
+              style={{
+                alignItems: "center",
+
+                marginTop: "15%",
+              }}
+            >
+              <Text style={styles.msgText}>No new notifications found</Text>
+            </View>
+          ) : (
+            <Box>
+              <FlatList data={data} padding={2} renderItem={renderNotice} />
+            </Box>
+          )}
         </ScrollView>
       </View>
       <View style={{ flex: 0.2, backgroundColor: "white" }}>
@@ -769,5 +781,10 @@ const styles = StyleSheet.create({
     // backgroundColor: "#DEE4FF",
     // padding: 10,
     borderRadius: 10,
+  },
+  msgText: {
+    fontSize: 18,
+    fontFamily: "HindSemiBold",
+    color: "#6B0000",
   },
 });

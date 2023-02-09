@@ -309,11 +309,10 @@ const ParentsProfile = () => {
                     {
                       flexDirection: "column",
                       top: "1%",
-                      
                     },
                   ]}
                 >
-                  <View style={{ flex: 1, padding:'5%'}}>
+                  <View style={{ flex: 1, padding: "5%" }}>
                     <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
                       {/* <View style={{ flex: 1 }}>
                         <View
@@ -348,7 +347,7 @@ const ParentsProfile = () => {
                             { flexDirection: "column", alignItems: "center" },
                           ]}
                         >
-                          <View style={{ flex: 1 ,right:'10%' }}>
+                          <View style={{ flex: 1, right: "10%" }}>
                             <Text style={styles.labelStyle}>
                               Father Name : {FatherName}
                             </Text>
@@ -399,11 +398,14 @@ const ParentsProfile = () => {
                           </View>
                         </View>
                       </View> */}
-                      <View style={{ flex: 1 ,padding:'5%'}}>
+                      <View style={{ flex: 1, padding: "5%" }}>
                         <View
-                          style={[{ flex: 1 }, { flexDirection: "column",alignItems:'center' }]}
+                          style={[
+                            { flex: 1 },
+                            { flexDirection: "column", alignItems: "center" },
+                          ]}
                         >
-                          <View style={{ flex: 1,right:'10%'}}>
+                          <View style={{ flex: 1, right: "10%" }}>
                             <Text style={styles.labelStyle}>
                               Mother name : {MotherName}
                             </Text>
@@ -475,7 +477,7 @@ const ParentsProfile = () => {
           </View>
         )}
       </View>
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 0.3 }}>
         <ParentsHome />
       </View>
     </>

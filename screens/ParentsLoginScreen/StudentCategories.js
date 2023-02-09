@@ -16,7 +16,7 @@ function StudentCategories({ navigation }) {
       const value = await AsyncStorage.removeItem("token");
       if (value == null) {
         console.log("Data removed");
-        navigation.navigate("Login");
+        navigation.navigate("LadingScreen");
       } else {
         console.log("Data not removed");
       }
@@ -83,8 +83,8 @@ function StudentCategories({ navigation }) {
     );
   }
   return (
-    <View style={[{flex:1,flexDirection:"column"}]}>
-      <View style={{flex: 2, backgroundColor: 'white',alignItems:"center"}}>
+    <View style={[{ flex: 1, flexDirection: "column" }]}>
+      <View style={{ flex: 2, backgroundColor: "white", alignItems: "center" }}>
         <FlatList
           style={styles.test}
           data={CATEGORIES}
@@ -93,7 +93,7 @@ function StudentCategories({ navigation }) {
           numColumns={2}
         />
       </View>
-      <View style={{flex: 0.1}}>
+      <View style={{ flex: 0.1 }}>
         <ParentsHome />
       </View>
     </View>
@@ -104,7 +104,7 @@ export default StudentCategories;
 const styles = StyleSheet.create({
   rootContainer: {
     //flex: 1,
-    marginTop:'3%',
+    marginTop: "3%",
     // justifyContent: "center",
     // alignItems: "center",
     //padding: 32,

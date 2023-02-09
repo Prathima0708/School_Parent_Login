@@ -1,4 +1,3 @@
-
 //new one
 import {
   Alert,
@@ -27,7 +26,7 @@ import { Heading } from "native-base";
 import { PHONENO } from "../Login";
 import { subURL } from "../../components/utils/URL's";
 export var studentList = [];
-export var value, phno,removeGrp;
+export var value, phno, removeGrp;
 export var PHONE;
 export var phonenumber, USERNAME;
 var Group;
@@ -40,7 +39,7 @@ function ParentsLoginScreen() {
   //const phone = navigation.getParent("phone");
   async function fetchUser() {
     USERNAME = await AsyncStorage.getItem("UserName");
-    
+
     if (USERNAME !== null) {
       setUser(USERNAME);
     }
@@ -52,20 +51,13 @@ function ParentsLoginScreen() {
       // const value = await AsyncStorage.getItem('token');
       const value = await AsyncStorage.removeItem("token");
       const ph = await AsyncStorage.removeItem("Phone");
-       removeGrp = await AsyncStorage.removeItem("datagroup");
-    
-     
-      if (value == null) {
-     
-        navigation.navigate("Login");
-      } else {
-       
-      }
+      removeGrp = await AsyncStorage.removeItem("datagroup");
 
-     
-    } catch (error) {
-      
-    }
+      if (value == null) {
+        navigation.navigate("LadingScreen");
+      } else {
+      }
+    } catch (error) {}
   }
 
   async function fetchPhone() {
@@ -73,8 +65,6 @@ function ParentsLoginScreen() {
     if (value == null) {
       await AsyncStorage.removeItem("Phone");
     }
-
-    
   }
   fetchPhone();
 
@@ -101,21 +91,14 @@ function ParentsLoginScreen() {
     getGroup();
   }, []);
 
-
-
   useEffect(() => {
     async function login() {
-      
-
       try {
-       
-
         const res = await axios.get(`${subURL}/Student/`);
-       
+
         let filteredlist = res.data.filter((ele) => ele.contact_num == value);
         setStudents(filteredlist);
-      
-       
+
         studentList = filteredlist;
 
         if (filteredlist.length == 0) {
@@ -123,7 +106,6 @@ function ParentsLoginScreen() {
           navigation.navigate("Login");
           // return;
         } else {
-         
         }
       } catch (error) {
         console.log(error);
@@ -178,8 +160,8 @@ export default ParentsLoginScreen;
 const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 
-console.log(deviceHieght)
-console.log(deviceWidth)
+console.log(deviceHieght);
+console.log(deviceWidth);
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,

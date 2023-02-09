@@ -159,6 +159,7 @@ import axios from "axios";
 import { Button as NativeButton, Icon, Text as NativeText } from "native-base";
 function LandingScreen() {
   const [saveImg, setSaveImg] = useState(``);
+  const [schoolName, setSchoolName] = useState("");
 
   useFonts({
     Inter_900Black,
@@ -175,6 +176,7 @@ function LandingScreen() {
         // http://10.0.2.2:8000/school/Calendar/
         const res = await axios.get(`${subURL}/Institute/`);
         setSaveImg(res.data[0].instituteLogo);
+        setSchoolName(res.data[0].instituteName);
       } catch (error) {
         console.log(error);
       }
@@ -212,7 +214,7 @@ function LandingScreen() {
               top: "1%",
             }}
           >
-            KINARA SCHOOL
+            {schoolName.toUpperCase()}
           </Text>
 
           <View style={styles.typeText}>

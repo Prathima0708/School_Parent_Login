@@ -2457,7 +2457,7 @@ const TeachersLeaveUpdated = () => {
               </View>
             </View>
           </View>
-          <View style={{ flex: 0.1, backgroundColor: "green" }}>
+          <View style={{ flex: 0.1 }}>
             <TeachersHome />
           </View>
         </View>

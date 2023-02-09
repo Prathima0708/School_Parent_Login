@@ -184,7 +184,17 @@ const ReportCard = () => {
         </View>
         <View style={styles.tableTopStyle}>
           {/* <ScrollView> */}
-          {data &&
+          {data.length <= 0 ? (
+            <View
+              style={{
+                alignItems: "center",
+
+                marginTop: "15%",
+              }}
+            >
+              <Text style={styles.msgText}>No report card found</Text>
+            </View>
+          ) : (
             data.map((data, key) => (
               <>
                 <View style={styles.root}>
@@ -483,7 +493,8 @@ const ReportCard = () => {
                   </View>
                 </View>
               </>
-            ))}
+            ))
+          )}
           {/* </ScrollView> */}
         </View>
         <View style={{ flex: 0.2, backgroundColor: "green" }}>
@@ -502,6 +513,7 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     flexDirection: "column",
+    backgroundColor: "white",
   },
   flexrow: {
     flex: 1,
@@ -650,5 +662,10 @@ const styles = StyleSheet.create({
   image: {
     height: 85,
     width: 75,
+  },
+  msgText: {
+    fontSize: 18,
+    fontFamily: "HindSemiBold",
+    color: "#6B0000",
   },
 });

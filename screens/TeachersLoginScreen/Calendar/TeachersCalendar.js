@@ -336,7 +336,7 @@ const TeachersCalendar = () => {
       (response) => {
         console.log(response.notification.request);
         console.log("group is", group);
-        if (group == "staff"|| group=='admin') {
+        if (group == "staff" || group == "admin") {
           navigation.navigate("TeachersNoticeBoard");
         } else {
           navigation.navigate("NoticeBoard");
@@ -2186,7 +2186,7 @@ const TeachersCalendar = () => {
                   size="full"
                 >
                   <Modal.Content maxWidth="90%" minHeight="5%">
-                    {specificData.created_by === USERNAME && (
+                    {/* {specificData.created_by === USERNAME && (
                       <Modal.Header style={{ height: "20%" }}>
                         <View
                           style={[
@@ -2208,57 +2208,10 @@ const TeachersCalendar = () => {
                               {specificData.viewOnly}
                             </Text>
                           </View>
-                          <View style={{ flex: 0.5 }}>
-                            {specificData.isNotified == false ? (
-                              // <NativeButton
-                              //   size="md"
-                              //   width="20"
-                              //   onPress={sendPushNotificationHanlder}
-                              //   style={{
-                              //     backgroundColor: "#1E84A4",
-                              //     //borderRadius: 7,
-                              //     left: 15,
-                              //   }}
-                              //   rightIcon={
-                              //     <Icon
-                              //       as={Ionicons}
-                              //       name="notifications"
-                              //       size="md"
-                              //     />
-                              //   }
-                              // >
-                              //   Notify
-                              // </NativeButton>
-                              <NativeButton
-                                size="sm"
-                                //variant={!isTueActive ? "outline" : "solid"}
-                                rightIcon={
-                                  <Icon
-                                    as={Ionicons}
-                                    name="notifications"
-                                    size="sm"
-                                  />
-                                }
-                                onPress={sendPushNotificationHanlder}
-                              >
-                                <Text
-                                  style={{
-                                    fontSize: 16,
-                                    fontFamily: "HindSemiBold",
-                                    color: "white",
-                                    //color: !isTueActive ? "black" : "white"
-                                  }}
-                                >
-                                  Notify
-                                </Text>
-                              </NativeButton>
-                            ) : (
-                              <Badge colorScheme="success">Notified</Badge>
-                            )}
-                          </View>
+                          
                         </View>
                       </Modal.Header>
-                    )}
+                    )} */}
 
                     <Modal.Body>
                       <ScrollView>
