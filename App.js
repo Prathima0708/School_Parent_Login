@@ -179,11 +179,6 @@ export default function App() {
     return (
       <Stack.Navigator>
         <Stack.Screen
-          name="TeachersLogin"
-          component={TeachersLoginScreen}
-          options={{ title: "Dashboard" }}
-        />
-        <Stack.Screen
           name="LadingScreen"
           component={LandingScreen}
           options={{ title: "Welcome Screen" }}
@@ -193,7 +188,11 @@ export default function App() {
           component={Login}
           options={{ title: "Kinara" }}
         />
-        
+        <Stack.Screen
+          name="TeachersLogin"
+          component={TeachersLoginScreen}
+          options={{ title: "Dashboard" }}
+        />
 
         <Stack.Screen
           name="ParentsLoginScreen"
@@ -767,6 +766,7 @@ export default function App() {
       <NavigationContainer>
         {value == null && <AuthStack />}
         {value !== null && Group == "staff" && <AuthenticatedT />}
+        {value !== null && Group == "admin" && <AuthenticatedT />}
         {value !== null && Group == "parents" && <AuthenticatedP />}
       </NavigationContainer>
     );

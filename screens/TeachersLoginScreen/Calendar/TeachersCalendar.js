@@ -336,7 +336,7 @@ const TeachersCalendar = () => {
       (response) => {
         console.log(response.notification.request);
         console.log("group is", group);
-        if (group == "staff") {
+        if (group == "staff"|| group=='admin') {
           navigation.navigate("TeachersNoticeBoard");
         } else {
           navigation.navigate("NoticeBoard");
@@ -2208,7 +2208,7 @@ const TeachersCalendar = () => {
                             </Text>
                           </View>
                           <View style={{ flex: 0.5 }}>
-                            {badge === false &&
+                            {
                             specificData.isNotified == false ? (
                               // <NativeButton
                               //   size="md"

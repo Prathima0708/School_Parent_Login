@@ -1,4 +1,4 @@
-import { StyleSheet, FlatList, View, Dimensions, Platform } from "react-native";
+import { StyleSheet, FlatList, View, Dimensions } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 
 import CategoryGridTile from "../../components/StudentItem/CategoryGridTile";
@@ -123,7 +123,6 @@ const TeachersLoginScreen = ({ navigation }) => {
             onPress={logoutHandler}
             icon="log-out-outline"
             size={30}
-            style={styles.leftStyle}
           />
         );
       },
@@ -259,16 +258,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     //padding: 32,
   },
-  leftStyle:{
-    ...Platform.select({
-      ios: {
-        marginRight:'2%'
-      },
-      android: {
-        
-      },
-    }),
-  },
+
   title: {
     fontSize: deviceWidth < 370 ? 16 : 18,
     // fontWeight: "500",

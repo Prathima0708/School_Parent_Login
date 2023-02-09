@@ -617,6 +617,7 @@ import axios from "axios";
 import NoticeBoardList from "./NoticeBoardList";
 import ParentsHome from "../BottomTab/ParentsHome";
 import { subURL } from "../../../components/utils/URL's";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export var arr = [];
 var sortedArr = [];
 var Group;
@@ -636,12 +637,53 @@ const NoticeBoard = () => {
     }
     getGroup();
   }, []);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       let headers = {
+  //         "Content-Type": "application/json; charset=utf-8",
+  //         // Authorization: "Token " + `${Token}`,
+  //       };
+
+  //       const res = await axios.get(`${subURL}/CalendarListByIsnotified/True`, {
+  //         headers: headers,
+  //       });
+
+  //       const filtredRes = res.data.filter((event) =>
+  //         event.viewOnly.includes(Group)
+  //       );
+  //       console.log(filtredRes);
+  //       // arr = res.data;
+
+  //       // function dateComparison(a, b) {
+  //       //   const date1 = new Date(a.startdate);
+  //       //   const date2 = new Date(b.startdate);
+
+  //       //   return date2 - date1;
+  //       // }
+
+  //       // arr.sort(dateComparison);
+
+  //       const today = new Date();
+  //       const filteredData = filtredRes.filter(
+  //         (item) =>
+  //           new Date(item.startdate) >= today ||
+  //           new Date(item.startdate).toDateString() === today.toDateString()
+  //       );
+
+  //       setData(filtredRes);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  //   fetchData();
+  // }, []);
+
   useEffect(() => {
     async function fetchData() {
       try {
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
-          // Authorization: "Token " + `${Token}`,
         };
 
         const res = await axios.get(`${subURL}/CalendarListByIsnotified/True`, {
