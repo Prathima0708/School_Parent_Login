@@ -790,6 +790,7 @@ const TeachersCalendar = () => {
   }
 
   function editItem(id) {
+    setSelectedTouched(false);
     setShowInitialBtn(false);
     setLabel(true);
     setDescriptionLabel(true);

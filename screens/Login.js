@@ -1066,7 +1066,7 @@ function Login() {
           console.log(err);
         } else {
           JSON.parse(value); // boolean false
-          console.log("this is the userid:" + value);
+          // console.log("this is the userid:" + value);
         }
       });
 
