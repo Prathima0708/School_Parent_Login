@@ -40,14 +40,12 @@ const TeachersProfile = () => {
 
   const route = useRoute();
 
-  //console.log("id -", ID);
   useEffect(() => {
     async function displayStudInfo() {
       try {
         const res = await axios.get(
           `${subURL}/Student/${route.params.studentid}`
         );
-        //  console.log(res.data);
 
         setData(res.data[0]);
       } catch (error) {

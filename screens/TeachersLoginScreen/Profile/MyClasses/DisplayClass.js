@@ -38,7 +38,7 @@ const DisplayClass = ({ class_name, section, id }) => {
   function getBg(ID) {
    
     let result = classData.filter((ele) => ele.id == ID);
-    console.log(result);
+    
    
   }
   let result = filteredCT?.filter((ele) => ele.id == ID);

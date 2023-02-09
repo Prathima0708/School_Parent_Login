@@ -70,7 +70,6 @@ const TimeTable = () => {
         const res = await axios.get(
           `${subURL}/AddmoreTimetable_list/${className}`
         );
-        console.log(res.data);
 
         setTimeTable(res.data);
       } catch (error) {
@@ -94,7 +93,6 @@ const TimeTable = () => {
     setShowForm(true);
     try {
       const res = await axios.get(`${subURL}/ExamByClass/${className}/`);
-      console.log(res.data);
 
       setExamData(res.data);
     } catch (error) {
@@ -119,7 +117,6 @@ const TimeTable = () => {
       const res = await axios.get(
         `${subURL}/AddmoreTimetable_list/${className}`
       );
-      console.log(res.data);
 
       setTimeTable(res.data);
     } catch (error) {
@@ -219,7 +216,7 @@ const TimeTable = () => {
 
   function navigateHandler(id) {
     ID = id;
-    console.log(id);
+
     navigation.navigate("ExamTimeTable");
   }
   return (
@@ -1384,7 +1381,7 @@ const styles = StyleSheet.create({
     top: "10%",
   },
   cardStyle: {
-      flex: 20,
+    flex: 20,
     backgroundColor: "#D6EAFF",
     elevation: 3,
     paddingTop: 10,

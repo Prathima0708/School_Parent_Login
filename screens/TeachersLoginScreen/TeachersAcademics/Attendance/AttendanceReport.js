@@ -124,52 +124,6 @@ const AttendanceReport = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   const request_model = {
-  //     student_id: route.params.id,
-  //     year: moment(FROMDATE).format("YYYY"),
-  //   };
-
-  //   async function getData() {
-  //     try {
-  //       let headers = {
-  //         "Content-Type": "application/json; charset=utf-8",
-  //         //   Authorization: "Token " + `${token}`,
-  //       };
-  //       const res = await axios.post(
-  //         `${subURL}/AttendanceDetailByStudentIDYear/`,
-  //         request_model,
-  //         {
-  //           headers: headers,
-  //         }
-  //       );
-
-  //       setYearReport(res.data);
-  //       let counts = {};
-  //       res.data.map((item) => {
-  //         const date = new Date(item.attendance_date);
-  //         const month = date.getMonth();
-  //         if (!counts[month]) {
-  //           counts[month] = { present: 0, absent: 0, holiday: 0 };
-  //         }
-  //         if (item.attendance_status === "present") {
-  //           counts[month].present++;
-  //         }
-  //         if (item.attendance_status === "absent") {
-  //           counts[month].absent++;
-  //         }
-  //         if (item.attendance_status === "holiday") {
-  //           counts[month].holiday++;
-  //         }
-  //       });
-  //       setMonthlyCount(counts);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  //   getData();
-  // }, []);
-
   useEffect(() => {
     viewList();
   }, []);
@@ -318,12 +272,7 @@ const AttendanceReport = () => {
             headers: headers,
           }
         );
-        //   console.log(res.data);
-        //setYearMonthReport(res.data);
 
-        // const filteredAttendance = res.data.filter(
-        //   (item) => new Date(item.attendance_date).getMonth() === selected
-        // );
         const filteredAttendance = res.data.filter((item) => {
           const date = new Date(item.attendance_date);
           return date.getMonth() + 1 === parseInt(selected);
@@ -332,13 +281,12 @@ const AttendanceReport = () => {
         filteredAttendance.map((item) => {
           const date = new Date(item.attendance_date);
           const day = date.getDate();
-          // console.log("day is", day);
+
           if (!counts[day]) {
             counts[day] = item.attendance_status;
           }
         });
         setDailyAttendance(counts);
-        // console.log(dailyAttendance);
       } catch (error) {
         console.log(error);
       }
@@ -392,13 +340,12 @@ const AttendanceReport = () => {
         filteredAttendance.map((item) => {
           const date = new Date(item.attendance_date);
           const day = date.getDate();
-          // console.log("day is", day);
+
           if (!counts[day]) {
             counts[day] = item.attendance_status;
           }
         });
         setDailyAttendance(counts);
-        // console.log(dailyAttendance);
       } catch (error) {
         console.log(error);
       }

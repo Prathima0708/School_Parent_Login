@@ -1028,13 +1028,6 @@ function Login() {
             //   username: UserName,
           });
         }
-        else if (resLogin.data.groups.includes("admin")) {
-          console.log(resLogin.data.groups[0]);
-          // console.log("TEACHERS PAGE");
-          navigation.navigate("TeachersLogin", {
-            //   username: UserName,
-          });
-        }
 
         setEnteredUser("");
         setEnteredPassword("");
