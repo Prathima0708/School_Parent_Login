@@ -214,7 +214,7 @@ function LandingScreen() {
               top: "1%",
             }}
           >
-            {schoolName.toUpperCase()}
+            {schoolName.toUpperCase() + " " + "SCHOOL"}
           </Text>
 
           <View style={styles.typeText}>

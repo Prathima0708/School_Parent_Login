@@ -475,13 +475,14 @@ const TeachersCalendar = () => {
       startdate: FROMDATE,
       enddate: TODATE,
       titlee: title,
-      viewOnly: viewOnlyData.toString(),
+      viewOnly: "",
+      //viewOnly: viewOnlyData.toString(),
     };
 
     if (
       !enteredTitleIsValid ||
-      !enteredDescriptionIsValid ||
-      checkedIsInvalid
+      !enteredDescriptionIsValid
+      //  checkedIsInvalid
     ) {
       Alert.alert("Please enter all fields");
     } else {
@@ -568,7 +569,8 @@ const TeachersCalendar = () => {
       startdate: FROMDATE,
       enddate: TODATE,
       titlee: title,
-      viewOnly: viewOnlyData.toString(),
+      viewOnly: "",
+      //viewOnly: viewOnlyData.toString(),
     };
 
     const formIsValid =
@@ -586,9 +588,9 @@ const TeachersCalendar = () => {
     if (!enteredTitleIsValid) {
       return;
     }
-    if (checkedIsInvalid) {
-      return;
-    }
+    // if (checkedIsInvalid) {
+    //   return;
+    // }
     if (!enteredDescriptionIsValid) {
       return;
     }
@@ -1445,7 +1447,7 @@ const TeachersCalendar = () => {
                   )}
                 </View>
               </View>
-              <View style={styles.selectDropDownStyle}>
+              {/* <View style={styles.selectDropDownStyle}>
                 <View style={{ flex: 0.5, left: "3%" }}>
                   <Text style={[styles.labelStyle]}>
                     Send Notification to :
@@ -1613,7 +1615,7 @@ const TeachersCalendar = () => {
                     Please select atleast one
                   </Text>
                 )}
-              </View>
+              </View> */}
               {!isEdit && (
                 <View style={[btn ? styles.btnSubmitNew : styles.btnSubmit]}>
                   <Button onPress={buttonPressedHandler}>Add Event</Button>
@@ -2208,7 +2210,34 @@ const TeachersCalendar = () => {
                               {specificData.viewOnly}
                             </Text>
                           </View>
-                          
+                          <View style={{ flex: 0.5 }}>
+                            {specificData.isNotified == false ? (
+                              <NativeButton
+                                size="sm"
+                                //variant={!isTueActive ? "outline" : "solid"}
+                                rightIcon={
+                                  <Icon
+                                    as={Ionicons}
+                                    name="notifications"
+                                    size="sm"
+                                  />
+                                }
+                                onPress={sendPushNotificationHanlder}
+                              >
+                                <Text
+                                  style={{
+                                    fontSize: 16,
+                                    fontFamily: "HindSemiBold",
+                                    color: "white",
+                                  }}
+                                >
+                                  Notify
+                                </Text>
+                              </NativeButton>
+                            ) : (
+                              <Badge colorScheme="success">Notified</Badge>
+                            )}
+                          </View>
                         </View>
                       </Modal.Header>
                     )} */}

@@ -54,7 +54,7 @@ function ParentsLoginScreen() {
       removeGrp = await AsyncStorage.removeItem("datagroup");
 
       if (value == null) {
-        navigation.navigate("LadingScreen");
+        navigation.navigate("Login");
       } else {
       }
     } catch (error) {}

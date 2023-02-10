@@ -16,7 +16,7 @@ function StudentCategories({ navigation }) {
       const value = await AsyncStorage.removeItem("token");
       if (value == null) {
         console.log("Data removed");
-        navigation.navigate("LadingScreen");
+        navigation.navigate("Login");
       } else {
         console.log("Data not removed");
       }
