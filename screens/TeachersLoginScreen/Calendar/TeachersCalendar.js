@@ -1478,7 +1478,7 @@ const TeachersCalendar = () => {
                             isEdit
                               ? newData.viewOnly === "admin,staff,parents"
                                 ? "checked"
-                                : "unchecked"
+                                : isEdit && !checked ? "unchecked" :"checked"
                               : checked
                               ? "checked"
                               : "unchecked"
@@ -1513,8 +1513,8 @@ const TeachersCalendar = () => {
                             isEdit
                               ? newData.viewOnly === "admin" ||
                                 newData.viewOnly === "admin,staff,parents"
-                                ? "checked"
-                                : "unchecked"
+                                ?  "checked"
+                                : isEdit && !adminChecked ? "unchecked" :"checked"
                               : adminChecked
                               ? "checked"
                               : "unchecked"
@@ -1555,7 +1555,7 @@ const TeachersCalendar = () => {
                               ? newData.viewOnly === "staff" ||
                                 newData.viewOnly === "admin,staff,parents"
                                 ? "checked"
-                                : "unchecked"
+                                : isEdit && !teacherChecked ? "unchecked" :"checked"
                               : teacherChecked
                               ? "checked"
                               : "unchecked"
@@ -1591,7 +1591,7 @@ const TeachersCalendar = () => {
                               ? newData.viewOnly === "parents" ||
                                 newData.viewOnly === "admin,staff,parents"
                                 ? "checked"
-                                : "unchecked"
+                                : isEdit && !parentChecked ? "unchecked" :"checked"
                               : parentChecked
                               ? "checked"
                               : "unchecked"
