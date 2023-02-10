@@ -1,4 +1,4 @@
-import { StyleSheet, FlatList, View, Dimensions } from "react-native";
+import { StyleSheet, FlatList, View, Dimensions, Alert } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 
 import CategoryGridTile from "../../components/StudentItem/CategoryGridTile";
@@ -26,17 +26,29 @@ const TeachersLoginScreen = ({ navigation }) => {
   const [userId, setUserId] = useState("");
   const route = useRoute();
   async function logoutHandler() {
-    try {
-      value = await AsyncStorage.removeItem("token");
-      removeGrp = await AsyncStorage.removeItem("datagroup");
+    Alert.alert("Logout", "Are you sure you want to logout?", [
+      {
+        text: "Cancel",
 
-      if (value == null) {
-        navigation.navigate("Login", { headerShown: false });
-      } else {
-      }
-    } catch (error) {
-      console.log(error);
-    }
+        style: "cancel",
+      },
+      {
+        text: "Yes",
+        onPress: async () => {
+          try {
+            value = await AsyncStorage.removeItem("token");
+            removeGrp = await AsyncStorage.removeItem("datagroup");
+
+            if (value == null) {
+              navigation.navigate("Login", { headerShown: false });
+            } else {
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        },
+      },
+    ]);
   }
   const myRef = useRef(null);
 

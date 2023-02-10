@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, View } from "react-native";
+import { Alert, FlatList, StyleSheet, View } from "react-native";
 import CategoryGridTile from "../../components/StudentItem/CategoryGridTile";
 import { CATEGORIES } from "../../components/utils/DummyData";
 import IconButton from "../../components/UI/IconButton";
@@ -10,26 +10,51 @@ import MainTab from "../ParentsLoginScreen/BottomTab/MainTab";
 import ParentsHome from "./BottomTab/ParentsHome";
 
 function StudentCategories({ navigation }) {
-  async function logoutHandler() {
-    try {
-      // const value = await AsyncStorage.getItem('token');
-      const value = await AsyncStorage.removeItem("token");
-      if (value == null) {
-        console.log("Data removed");
-        navigation.navigate("Login");
-      } else {
-        console.log("Data not removed");
-      }
+  // async function logoutHandler() {
+  //   try {
+  //     // const value = await AsyncStorage.getItem('token');
+  //     const value = await AsyncStorage.removeItem("token");
+  //     if (value == null) {
+  //       console.log("Data removed");
+  //       navigation.navigate("LadingScreen");
+  //     } else {
+  //       console.log("Data not removed");
+  //     }
 
-      // if (value == null) {
-      //   console.log("Token is removed"+value)
-      //   //  AsyncStorage.removeItem("token");
-      //   //  console.log(value)
-      //   //  navigation.navigate("Login");
-      // }
-    } catch (error) {
-      // Error retrieving data
-    }
+  //     // if (value == null) {
+  //     //   console.log("Token is removed"+value)
+  //     //   //  AsyncStorage.removeItem("token");
+  //     //   //  console.log(value)
+  //     //   //  navigation.navigate("Login");
+  //     // }
+  //   } catch (error) {
+  //     // Error retrieving data
+  //   }
+  // }
+
+  async function logoutHandler() {
+    Alert.alert("Logout", "Are you sure you want to logout?", [
+      {
+        text: "Cancel",
+
+        style: "cancel",
+      },
+      {
+        text: "Yes",
+        onPress: async () => {
+          try {
+            const value = await AsyncStorage.removeItem("token");
+
+            if (value == null) {
+              navigation.navigate("Login");
+            } else {
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        },
+      },
+    ]);
   }
 
   useLayoutEffect(() => {

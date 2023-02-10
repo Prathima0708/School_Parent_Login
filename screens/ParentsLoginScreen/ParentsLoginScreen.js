@@ -46,18 +46,45 @@ function ParentsLoginScreen() {
   }
 
   fetchUser();
-  async function logoutHandler() {
-    try {
-      // const value = await AsyncStorage.getItem('token');
-      const value = await AsyncStorage.removeItem("token");
-      const ph = await AsyncStorage.removeItem("Phone");
-      removeGrp = await AsyncStorage.removeItem("datagroup");
+  // async function logoutHandler() {
+  //   try {
+  //     // const value = await AsyncStorage.getItem('token');
+  //     const value = await AsyncStorage.removeItem("token");
+  //     const ph = await AsyncStorage.removeItem("Phone");
+  //     removeGrp = await AsyncStorage.removeItem("datagroup");
 
-      if (value == null) {
-        navigation.navigate("Login");
-      } else {
-      }
-    } catch (error) {}
+  //     if (value == null) {
+  //       navigation.navigate("Login");
+  //     } else {
+  //     }
+  //   } catch (error) {}
+  // }
+
+  async function logoutHandler() {
+    Alert.alert("Logout", "Are you sure you want to logout?", [
+      {
+        text: "Cancel",
+
+        style: "cancel",
+      },
+      {
+        text: "Yes",
+        onPress: async () => {
+          try {
+            const value = await AsyncStorage.removeItem("token");
+            const ph = await AsyncStorage.removeItem("Phone");
+            removeGrp = await AsyncStorage.removeItem("datagroup");
+
+            if (value == null) {
+              navigation.navigate("Login");
+            } else {
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        },
+      },
+    ]);
   }
 
   async function fetchPhone() {

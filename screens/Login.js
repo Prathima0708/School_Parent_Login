@@ -818,7 +818,6 @@ function Login() {
       hideSubscription.remove();
     };
   }, []);
-
   // useEffect(() => {
   //   async function configurePushNotifications() {
   //     const { status } = await Notifications.getPermissionsAsync();

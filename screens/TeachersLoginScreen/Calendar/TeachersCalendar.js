@@ -475,8 +475,8 @@ const TeachersCalendar = () => {
       startdate: FROMDATE,
       enddate: TODATE,
       titlee: title,
-      viewOnly: "",
-      //viewOnly: viewOnlyData.toString(),
+      //viewOnly: "",
+      viewOnly: viewOnlyData.toString(),
     };
 
     if (
@@ -569,8 +569,8 @@ const TeachersCalendar = () => {
       startdate: FROMDATE,
       enddate: TODATE,
       titlee: title,
-      viewOnly: "",
-      //viewOnly: viewOnlyData.toString(),
+      //viewOnly: "",
+      viewOnly: viewOnlyData.toString(),
     };
 
     const formIsValid =
@@ -1447,7 +1447,7 @@ const TeachersCalendar = () => {
                   )}
                 </View>
               </View>
-              {/* <View style={styles.selectDropDownStyle}>
+              <View style={styles.selectDropDownStyle}>
                 <View style={{ flex: 0.5, left: "3%" }}>
                   <Text style={[styles.labelStyle]}>
                     Send Notification to :
@@ -1610,12 +1610,12 @@ const TeachersCalendar = () => {
                     </View>
                   </View>
                 </View>
-                {checkedIsInvalid && selectedTouched && (
+                {/* {checkedIsInvalid && selectedTouched && (
                   <Text style={styles.errorLabel}>
                     Please select atleast one
                   </Text>
-                )}
-              </View> */}
+                )} */}
+              </View>
               {!isEdit && (
                 <View style={[btn ? styles.btnSubmitNew : styles.btnSubmit]}>
                   <Button onPress={buttonPressedHandler}>Add Event</Button>
@@ -2188,7 +2188,7 @@ const TeachersCalendar = () => {
                   size="full"
                 >
                   <Modal.Content maxWidth="90%" minHeight="5%">
-                    {/* {specificData.created_by === USERNAME && (
+                    {specificData.created_by === USERNAME && (
                       <Modal.Header style={{ height: "20%" }}>
                         <View
                           style={[
@@ -2240,7 +2240,7 @@ const TeachersCalendar = () => {
                           </View>
                         </View>
                       </Modal.Header>
-                    )} */}
+                    )}
 
                     <Modal.Body>
                       <ScrollView>
