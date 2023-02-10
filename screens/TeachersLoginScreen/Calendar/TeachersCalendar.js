@@ -808,29 +808,29 @@ const TeachersCalendar = () => {
     setToText(moment(filteredDummuyData.enddate).format("DD/MM/YYYY"));
     setEnteredTitle(filteredDummuyData.titlee);
 
-    if (filteredDummuyData.viewOnly === "staff") {
-      setTeacherChecked(!teacherChecked);
-      // setParentChecked(parentChecked);
-      // setAdminChecked(adminChecked);
-      // setChecked(checked);
-    } else if (filteredDummuyData.viewOnly === "parents") {
-      setParentChecked(!parentChecked);
-      // setTeacherChecked(teacherChecked);
+    // if (filteredDummuyData.viewOnly === "staff") {
+    //   setTeacherChecked(!teacherChecked);
+    //   // setParentChecked(parentChecked);
+    //   // setAdminChecked(adminChecked);
+    //   // setChecked(checked);
+    // } else if (filteredDummuyData.viewOnly === "parents") {
+    //   setParentChecked(!parentChecked);
+    //   // setTeacherChecked(teacherChecked);
 
-      // setAdminChecked(adminChecked);
-      // setChecked(checked);
-    } else if (filteredDummuyData.viewOnly === "admin") {
-      setAdminChecked(!adminChecked);
-      // setTeacherChecked(teacherChecked);
-      // setParentChecked(parentChecked);
+    //   // setAdminChecked(adminChecked);
+    //   // setChecked(checked);
+    // } else if (filteredDummuyData.viewOnly === "admin") {
+    //   setAdminChecked(!adminChecked);
+    //   // setTeacherChecked(teacherChecked);
+    //   // setParentChecked(parentChecked);
 
-      // setChecked(checked);
-    } else {
-      setChecked(!checked);
-      setTeacherChecked(!teacherChecked);
-      setParentChecked(!parentChecked);
-      setAdminChecked(!adminChecked);
-    }
+    //   // setChecked(checked);
+    // } else {
+    //   setChecked(!checked);
+    //   setTeacherChecked(!teacherChecked);
+    //   setParentChecked(!parentChecked);
+    //   setAdminChecked(!adminChecked);
+    // }
     // setAdminChecked(filteredDummuyData.viewOnly === "admin");
     // setTeacherChecked(filteredDummuyData.viewOnly === "teacher");
     // setParentChecked(filteredDummuyData.viewOnly === "parent");

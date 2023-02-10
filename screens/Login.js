@@ -731,7 +731,7 @@ export var Token,
   UserName,
   StaffPhoto;
 export var studentList = [];
-var PushToken;
+var PushToken, NotificationUserId;
 
 Notifications.setNotificationHandler({
   handleNotification: async () => {
@@ -818,42 +818,61 @@ function Login() {
       hideSubscription.remove();
     };
   }, []);
-  // useEffect(() => {
-  //   async function configurePushNotifications() {
-  //     const { status } = await Notifications.getPermissionsAsync();
-  //     let finalStatus = status;
 
-  //     if (finalStatus !== "granted") {
-  //       const { status } = await Notifications.requestPermissionsAsync();
-  //       finalStatus = status;
-  //     }
+  useEffect(() => {
+    async function configurePushNotifications() {
+      const { status } = await Notifications.getPermissionsAsync();
+      let finalStatus = status;
 
-  //     if (finalStatus !== "granted") {
-  //       Alert.alert(
-  //         "permission required",
-  //         "Push notifications need the appropriate permissions."
-  //       );
-  //       return;
-  //     }
+      if (finalStatus !== "granted") {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
 
-  //     const pushTokenData = await Notifications.getExpoPushTokenAsync().then(
-  //       (pushToken) => {
-  //         console.log(pushToken.data);
-  //         //setPushTkn(pushToken);
-  //         PushToken = pushToken.data;
+      console.log("final status is", finalStatus);
 
-  //         if (Platform.OS === "android") {
-  //           Notifications.setNotificationChannelAsync("default", {
-  //             name: "default",
-  //             importance: Notifications.AndroidImportance.DEFAULT,
-  //           });
-  //         }
-  //       }
-  //     );
-  //   }
+      if (finalStatus !== "granted") {
+        Alert.alert(
+          "permission required",
+          "Push notifications need the appropriate permissions."
+        );
+        return;
+      }
+      console.log("final status is", finalStatus);
 
-  //   configurePushNotifications();
-  // }, []);
+      // const pushTokenData = await Notifications.getExpoPushTokenAsync().then(
+      //   (pushToken) => {
+      //     console.log(pushToken.data);
+      //     //setPushTkn(pushToken);
+      //     PushToken = pushToken.data;
+
+      //     if (Platform.OS === "android") {
+      //       Notifications.setNotificationChannelAsync("default", {
+      //         name: "default",
+      //         importance: Notifications.AndroidImportance.DEFAULT,
+      //       });
+      //     }
+      //   }
+      // );
+
+      const pushTokenData = await Notifications.getExpoPushTokenAsync().then(
+        (pushToken) => {
+          console.log(pushToken);
+          PushToken = pushToken.data;
+          //  setPushTkn(pushToken);
+
+          if (Platform.OS === "android") {
+            Notifications.setNotificationChannelAsync("default", {
+              name: "default",
+              importance: Notifications.AndroidImportance.DEFAULT,
+            });
+          }
+        }
+      );
+    }
+
+    configurePushNotifications();
+  }, []);
 
   useEffect(() => {
     const subscription1 = Notifications.addNotificationReceivedListener(
@@ -927,25 +946,24 @@ function Login() {
             headers: headers,
           }
         );
-        // const formData = {
-        //   user_id: resLogin.data.user_id,
+        const formData = {
+          user_id: resLogin.data.user_id,
 
-        //   notification_token: PushToken,
-        // };
-        // const getNotificationRes = await axios.get(`${subURL}/Notification/`);
-        // let filteredNotification = getNotificationRes.data.filter(
-        //   (ele) => ele.notification_token == PushToken
-        // );
-        // if (filteredNotification.length > 0) {
-        //   console.log("token existing");
-        // } else {
-        //   const notificationRes = await axios.post(
-        //     `${subURL}/Notification/`,
-        //     formData
-        //   );
-        // }
-
-        // console.log(notificationRes.data);
+          notification_token: PushToken,
+        };
+        const getNotificationRes = await axios.get(`${subURL}/Notification/`);
+        let filteredNotification = getNotificationRes.data.filter(
+          (ele) => ele.user_id.id == NotificationUserId
+        );
+        if (filteredNotification.length > 0) {
+          console.log("token existing");
+        } else {
+          const notificationRes = await axios.post(
+            `${subURL}/Notification/`,
+            formData
+          );
+          console.log(notificationRes.data);
+        }
 
         const res = await axios.get(`${subURL}/Student/`);
         const staffres = await axios.get(`${subURL}/Staff`);
