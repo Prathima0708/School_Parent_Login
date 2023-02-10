@@ -946,6 +946,7 @@ function Login() {
             headers: headers,
           }
         );
+        NotificationUserId = resLogin.data.user_id;
         const formData = {
           user_id: resLogin.data.user_id,
 
