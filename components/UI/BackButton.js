@@ -15,7 +15,7 @@ function BackButton({children,onPress}){
                 />
             </View>
             <View style={{ flex: 1 }} onTouchStart={onPress}>
-                <NativeText bold fontSize={16}>Back</NativeText>
+                <NativeText bold fontSize={16} bottom={0.5}>Back</NativeText>
             </View>
         </View>
     )

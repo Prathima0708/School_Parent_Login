@@ -755,6 +755,7 @@ const TeachersAttendanceBuild = () => {
   function backMarkHandler() {
     setShowCalendar(false);
     setShowStartingPage(true);
+    setFromText("")
   }
 
   function backReportHandler() {
@@ -1051,47 +1052,33 @@ const TeachersAttendanceBuild = () => {
       )}
       {showCalendar && (
         <View
-          style={[
-            { flex: 1 },
-            {
-              flexDirection: "column",
-              backgroundColor: "white",
-              marginTop: "10%",
-            },
-          ]}
-        >
-          <View
-            style={{
-              flex: 0.1,
-              paddingTop: 30,
-            }}
-          >
-            <BackButton onPress={backMarkHandler} />
-          </View>
-          {/* <View
-            style={[
-              { flex: 0.9 },
-              { flexDirection: "row", alignItems: "center" },
-            ]}
-          >
-            <BackButton onPress={backMarkHandler} />
-          </View> */}
-          <View style={[styles.inputForm]}>
-            <ScrollView persistentScrollbar={false}>
-              <View
+        style={[
+          {
+            // Try setting `flexDirection` to `"row"`.
+            flex:1,
+            flexDirection: 'column',
+          },
+        ]}>
+        <View style={{flex: 0.4,paddingTop:50}} >
+        <BackButton onPress={backMarkHandler} />
+        </View>
+        <View style={{flex: 3,paddingTop:'30%'}} >
+          <ScrollView persistentScrollbar={false}>
+            <View
                 style={{
-                  top: "3%",
-                  left: "3%",
+                  // top: "3%",
+                  // left: "3%",
+                  alignItems:'center',
                   flexDirection: "row",
-                  marginVertical: 10,
+                  // marginVertical: 10,
                 }}
               >
                 <Text
                   style={{
                     fontFamily: "HindSemiBold",
                     fontSize: 17,
-                    top: "3%",
-                    //marginLeft: 10,
+                    //top: "3%",
+                    marginLeft: 30,
                   }}
                 >
                   Select Class
@@ -1135,6 +1122,7 @@ const TeachersAttendanceBuild = () => {
                       fontFamily: "HindSemiBold",
                       fontSize: 17,
                       top: "3%",
+                      marginLeft:30
                     }}
                   >
                     Select Date
@@ -1178,9 +1166,10 @@ const TeachersAttendanceBuild = () => {
                 <View
                   style={{
                     flex: 1.5,
-                    width: "50%",
-                    marginLeft: "27%",
+                    //width: "50%",
+                   // marginLeft: "27%",
                     marginTop: "10%",
+                    alignItems:'center',
                   }}
                 >
                   <NativeButton size="md" onPress={buttonPressedHandler}>
@@ -1198,13 +1187,12 @@ const TeachersAttendanceBuild = () => {
               </View>
             </ScrollView>
           </View>
-
-          {keyboardStatus == "Keyboard Hidden" && (
-            <View style={{ flex: 0.2, backgroundColor: "white" }}>
+        {keyboardStatus == "Keyboard Hidden" && (
+            <View style={{ flex: 0.2}}>
               <TeachersHome />
             </View>
           )}
-        </View>
+      </View>
       )}
 
       {showReports && (
@@ -1214,13 +1202,14 @@ const TeachersAttendanceBuild = () => {
               flex: 1,
               flexDirection: "column",
               backgroundColor: "white",
+              
             },
           ]}
         >
           <View
             style={[
-              { flex: 0.7 },
-              { flexDirection: "row", alignItems: "center" },
+              { flex: 0.4 },
+              { flexDirection: "row",alignItems:'center' },
             ]}
           >
             <BackButton onPress={backReportHandler} />
@@ -2066,6 +2055,7 @@ const styles = StyleSheet.create({
   },
   dateContainer: {
     flex: 2,
+    bottom:'3%'
     //right: "5%",
   },
   studentItem: {
@@ -2097,9 +2087,9 @@ const styles = StyleSheet.create({
     flex: 2,
     paddingHorizontal: 20,
 
-    marginTop: "30%",
+    // marginTop: "30%",
     //paddingTop: '5%',
-    backgroundColor: "white",
+    backgroundColor: "red",
     // height: "100%",
   },
   description: {
