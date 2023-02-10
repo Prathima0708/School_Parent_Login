@@ -1057,6 +1057,7 @@ const TeachersAttendanceBuild = () => {
             // Try setting `flexDirection` to `"row"`.
             flex:1,
             flexDirection: 'column',
+            backgroundColor:"white"
           },
         ]}>
         <View style={{flex: 0.4,paddingTop:50}} >
