@@ -808,29 +808,29 @@ const TeachersCalendar = () => {
     setToText(moment(filteredDummuyData.enddate).format("DD/MM/YYYY"));
     setEnteredTitle(filteredDummuyData.titlee);
 
-    if (filteredDummuyData.viewOnly === "staff") {
-      setTeacherChecked(!teacherChecked);
-      // setParentChecked(parentChecked);
-      // setAdminChecked(adminChecked);
-      // setChecked(checked);
-    } else if (filteredDummuyData.viewOnly === "parents") {
-      setParentChecked(!parentChecked);
-      // setTeacherChecked(teacherChecked);
+    // if (filteredDummuyData.viewOnly === "staff") {
+    //   setTeacherChecked(!teacherChecked);
+    //   // setParentChecked(parentChecked);
+    //   // setAdminChecked(adminChecked);
+    //   // setChecked(checked);
+    // } else if (filteredDummuyData.viewOnly === "parents") {
+    //   setParentChecked(!parentChecked);
+    //   // setTeacherChecked(teacherChecked);
 
-      // setAdminChecked(adminChecked);
-      // setChecked(checked);
-    } else if (filteredDummuyData.viewOnly === "admin") {
-      setAdminChecked(!adminChecked);
-      // setTeacherChecked(teacherChecked);
-      // setParentChecked(parentChecked);
+    //   // setAdminChecked(adminChecked);
+    //   // setChecked(checked);
+    // } else if (filteredDummuyData.viewOnly === "admin") {
+    //   setAdminChecked(!adminChecked);
+    //   // setTeacherChecked(teacherChecked);
+    //   // setParentChecked(parentChecked);
 
-      // setChecked(checked);
-    } else {
-      setChecked(!checked);
-      setTeacherChecked(!teacherChecked);
-      setParentChecked(!parentChecked);
-      setAdminChecked(!adminChecked);
-    }
+    //   // setChecked(checked);
+    // } else {
+    //   setChecked(!checked);
+    //   setTeacherChecked(!teacherChecked);
+    //   setParentChecked(!parentChecked);
+    //   setAdminChecked(!adminChecked);
+    // }
     // setAdminChecked(filteredDummuyData.viewOnly === "admin");
     // setTeacherChecked(filteredDummuyData.viewOnly === "teacher");
     // setParentChecked(filteredDummuyData.viewOnly === "parent");
@@ -1478,7 +1478,7 @@ const TeachersCalendar = () => {
                             isEdit
                               ? newData.viewOnly === "admin,staff,parents"
                                 ? "checked"
-                                : "unchecked"
+                                : isEdit && !checked ? "unchecked" :"checked"
                               : checked
                               ? "checked"
                               : "unchecked"
@@ -1513,8 +1513,8 @@ const TeachersCalendar = () => {
                             isEdit
                               ? newData.viewOnly === "admin" ||
                                 newData.viewOnly === "admin,staff,parents"
-                                ? "checked"
-                                : "unchecked"
+                                ?  "checked"
+                                : isEdit && !adminChecked ? "unchecked" :"checked"
                               : adminChecked
                               ? "checked"
                               : "unchecked"
@@ -1555,7 +1555,7 @@ const TeachersCalendar = () => {
                               ? newData.viewOnly === "staff" ||
                                 newData.viewOnly === "admin,staff,parents"
                                 ? "checked"
-                                : "unchecked"
+                                : isEdit && !teacherChecked ? "unchecked" :"checked"
                               : teacherChecked
                               ? "checked"
                               : "unchecked"
@@ -1591,7 +1591,7 @@ const TeachersCalendar = () => {
                               ? newData.viewOnly === "parents" ||
                                 newData.viewOnly === "admin,staff,parents"
                                 ? "checked"
-                                : "unchecked"
+                                : isEdit && !parentChecked ? "unchecked" :"checked"
                               : parentChecked
                               ? "checked"
                               : "unchecked"
