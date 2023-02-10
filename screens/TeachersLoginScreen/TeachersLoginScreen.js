@@ -31,7 +31,7 @@ const TeachersLoginScreen = ({ navigation }) => {
       removeGrp = await AsyncStorage.removeItem("datagroup");
 
       if (value == null) {
-        navigation.navigate("LadingScreen");
+        navigation.navigate("Login", { headerShown: false });
       } else {
       }
     } catch (error) {

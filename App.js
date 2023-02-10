@@ -389,7 +389,7 @@ export default function App() {
         <Stack.Screen
           name="Login"
           component={Login}
-          options={{ title: "Kinara" }}
+          options={{ title: "Kinara", headerBackVisible: false }}
         />
         <Stack.Screen
           name="Category"
@@ -582,7 +582,7 @@ export default function App() {
         <Stack.Screen
           name="Login"
           component={Login}
-          options={{ title: "Kinara" }}
+          options={{ title: "Kinara", headerBackVisible: false }}
         />
 
         <Stack.Screen

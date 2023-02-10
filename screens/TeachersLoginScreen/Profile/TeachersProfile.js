@@ -37,6 +37,7 @@ const TeachersProfile = () => {
   const [showList, setShowList] = useState(true);
 
   const [data, setData] = useState([]);
+  const [image, setImage] = useState("");
 
   const route = useRoute();
 
@@ -48,6 +49,7 @@ const TeachersProfile = () => {
         );
 
         setData(res.data[0]);
+        setImage(res.data[0].student_photo);
       } catch (error) {
         console.log(error);
       }
@@ -99,13 +101,23 @@ const TeachersProfile = () => {
                 borderRadius={100}
                 top="15%"
                 source={{
-                  uri: `${mainURL}${data.student_photo}`,
+                  uri: `${mainURL}${image}`,
                 }}
                 alt="Student Image"
                 size="lg"
                 ref={myRef}
+                style={{ color: "white" }}
                 resizeMode="contain"
               />
+              {/* <NativeImage
+                source={{
+                  uri: `${mainURL}${image}`,
+                }}
+                alt="Student Image"
+                size="lg"
+                resizeMode="contain"
+                ref={myRef}
+              /> */}
             </View>
             <View style={{ flex: 1, backgroundColor: "#1E84A4" }}>
               <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
