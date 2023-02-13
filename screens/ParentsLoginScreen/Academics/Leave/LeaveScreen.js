@@ -8,6 +8,7 @@ import {
   Dimensions,
   Animated,
   ActivityIndicator,
+  Platform,
 } from "react-native";
 import { Badge, Button as NativeButton, Icon, IconButton } from "native-base";
 import React, { useState } from "react";
@@ -1387,12 +1388,12 @@ const LeaveScreen = () => {
                                             },
                                           ]}
                                         >
-                                          <View style={{ flex: 0.7 }}>
+                                          <View style={{ flex: 0.8 }}>
                                             <Text style={styles.cardTextStyle}>
                                               Status:
                                             </Text>
                                           </View>
-                                          <View style={{ flex: 1.5 }}>
+                                          <View style={{ flex: 1.6 }}>
                                             {data.leave_status == "Approved" ? (
                                               <Badge
                                                 colorScheme="success"
@@ -1553,9 +1554,20 @@ const styles = StyleSheet.create({
   },
   btnSubmit: {
     width: "50%",
+    ...Platform.select({
+      android:{
+        width: "50%",
+        marginLeft: deviceWidth < 370 ? "35%" : "55%",
+      },
+      ios:{
+        width: "65%",
+        marginLeft: deviceWidth < 370 ? "25%" : "35%",
+      }
+      
+    }),
     // marginTop: deviceWidth < 370 ? "3%" : "1%",
     bottom: "4%",
-    marginLeft: deviceWidth < 370 ? "35%" : "55%",
+
   },
   imagePreView: {
     width: "100%",
@@ -1656,10 +1668,20 @@ const styles = StyleSheet.create({
     left: deviceWidth < 370 ? 20 : 30,
   },
   upRemark: {
-    top: deviceHieght > 800 ? 26 : 25,
+    
+    ...Platform.select({
+      android:{
+        top: deviceHieght > 800 ? 26 : 25,
+      },
+      ios:{
+        top: deviceHieght > 800 ? 30 : 30,
+      }
+      
+    }),
     width: deviceWidth > 400 ? 130 : 120,
     left: deviceWidth < 370 ? 20 : 30,
     height: deviceHieght > 800 ? 25 : 25,
+    zIndex:100
   },
   labelStyle: {
     fontFamily: "HindRegular",
@@ -1674,6 +1696,7 @@ const styles = StyleSheet.create({
     top: deviceWidth < 370 ? 15 : 24,
     left: deviceWidth < 370 ? 20 : 30,
     width: deviceWidth > 400 ? 100 : 95,
+    zIndex:100
   },
   errorLabel: {
     color: "red",

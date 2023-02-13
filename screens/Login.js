@@ -1236,7 +1236,11 @@ function Login() {
           >
             Choose account type
           </Text>
-          <View style={styles.buttonContainer}>
+          <View style={[styles.buttonContainer,{...Platform.select({
+            ios:{
+              marginRight:'7%'
+            }
+          })}]}>
             <AccountTypeBtn
               onPress={toggleTeachers}
               style={[forTeacherBackground]}
@@ -1262,9 +1266,9 @@ function Login() {
           <NativeInput
             type="text"
             w="80%"
-            left="11%"
+            left={keyboardStatus=='Keyboard Shown' && Platform.OS=='ios' ? "7%" :  '11%'} 
             top="6"
-            height={deviceHieght < 800 ? "16%" : "13%"}
+            //height={deviceHieght < 800 ? "16%" : "13%"}
             borderWidth={2}
             onChangeText={userInputHandler}
             value={enteredUser}
@@ -1295,9 +1299,9 @@ function Login() {
           <NativeInput
             type={showPassword ? "text" : "password"}
             w="80%"
-            left="11%"
+            left={keyboardStatus=='Keyboard Shown' && Platform.OS=='ios' ? "7%" :  '11%'} 
             top="9"
-            height={deviceHieght < 800 ? "16%" : "13%"}
+            //height={deviceHieght < 800 ? "16%" : "13%"}
             borderWidth={1}
             onChangeText={passwordInputHandler}
             value={enteredPassword}
@@ -1361,10 +1365,10 @@ function Login() {
                 type="number"
                 w="80%"
                 keyboardType="number-pad"
-                left="11%"
+                left={keyboardStatus=='Keyboard Shown' && Platform.OS=='ios' ? "7%" :  '11%'} 
                 borderWidth={1}
                 top="12"
-                height={deviceHieght < 800 ? "14%" : "13%"}
+                //height={deviceHieght < 800 ? "14%" : "13%"}
                 onChangeText={phoneInputHandler}
                 value={enteredPhone}
                 style={styles.inputStyle}
@@ -1452,6 +1456,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 10,
     height: "50%",
+    shadowColor: "black",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
   test: {
     flex: 2,
@@ -1463,6 +1472,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 10,
     height: deviceHieght < 600 ? "60%" : "55%",
+    shadowColor: "black",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
   container: {
     flex: 1,
@@ -1500,11 +1514,12 @@ const styles = StyleSheet.create({
     left: "5%",
 
     elevation: 11,
-    shadowColor: "black",
     backgroundColor: "white",
-    shadowOpacity: 0.75,
+    shadowColor: "black",
+    shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
+    overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
   accTypeText: {
     justifyContent: "center",
@@ -1554,6 +1569,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 10,
     height: deviceHieght < 600 ? "100%" : "90%",
+    shadowColor: "black",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
   AccountTypeBtnDown: {
     flex: 2,
@@ -1565,6 +1585,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 10,
     height: deviceHieght < 600 ? "100%" : "80%",
+    shadowColor: "black",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
   setAccTypeStyle: {
     top: 10,

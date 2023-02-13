@@ -194,6 +194,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    
     // padding: deviceWidth < 718 ? 20 : 32,
   },
   mainHeading: {
@@ -233,9 +234,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     margin: 20,
     borderRadius: 10,
+    elevation: 3,
     shadowColor: "black",
-    elevation: 10,
-    shadowOpacity: 0.95,
+    shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
     overflow: Platform.OS === "android" ? "hidden" : "visible",

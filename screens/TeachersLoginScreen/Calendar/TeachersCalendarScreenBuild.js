@@ -10,6 +10,7 @@ import {
   LogBox,
   Pressable,
   ActivityIndicator,
+  Platform,
 } from "react-native";
 import SelectList from "react-native-dropdown-select-list";
 import * as Notifications from "expo-notifications";
@@ -1430,15 +1431,18 @@ const TeachersCalendar = () => {
                         </Text>
                       </View>
                       <View style={{ flex: 0.1 }}>
-                        <Checkbox
-                        status={isEdit ? newData.viewOnly==='admin,staff,parents' ? "checked" : "unchecked" :
-                        checked ? "checked" : "unchecked" 
-                        }
-                         //status={checked ? "checked" : "unchecked"}
-                          onPress={allCheckHandler}
-                          color={"green"}
-                          uncheckColor={"red"}
-                        />
+                         
+                          <Checkbox
+                          status={isEdit ? newData.viewOnly==='admin,staff,parents' ? "checked" : "unchecked" :
+                          checked ? "checked" : "unchecked" 
+                          }
+                           //status={checked ? "checked" : "unchecked"}
+                            onPress={allCheckHandler}
+                            color={"green"}
+                            uncheckColor={"red"}
+                          /> 
+                          
+                        
                       </View>
                     </View>
 
