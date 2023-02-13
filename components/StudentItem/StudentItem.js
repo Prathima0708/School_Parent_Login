@@ -9,9 +9,9 @@ import {
   Text,
   View,
 } from "react-native";
-import { Image as NativeImage } from "native-base";
+import { Center, Image as NativeImage, Skeleton } from "native-base";
 import ImageSlider from "../../screens/ParentsLoginScreen/ImageSlider";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { mainURL } from "../utils/URL's";
 export var studentId,
@@ -57,6 +57,7 @@ function StudentItem({
   alter_num,
 }) {
   const navigation = useNavigation();
+  const [loading, setIsLoading] = useState(true);
   function navigateHandler() {
     StudentRegNo = reg_number;
     StudentName = student_name;
@@ -83,6 +84,9 @@ function StudentItem({
 
     navigation.navigate("Category");
   }
+  setTimeout(() => {
+    setIsLoading(false);
+  }, 3000);
   const myRef = useRef(null);
 
   // async function fetchData() {
@@ -105,28 +109,34 @@ function StudentItem({
         style: styleObj,
       });
     }
-  }, [myRef]);
+  }, [myRef, loading]);
 
   return (
     <>
       <Pressable onPress={navigateHandler.bind(this, id)}>
         <View style={[styles.container]}>
           <View style={{ flex: 0.53 }}>
-            {/* <Image
-              source={{
-                uri: `http://10.0.2.2:8000${student_photo}`,
-              }}
-              style={styles.image}
-              width="100px"/> */}
-            <NativeImage
-              source={{
-                uri: `${mainURL}${student_photo}`,
-              }}
-              alt="Student Image"
-              size="lg"
-              resizeMode="contain"
-              ref={myRef}
-            />
+            {loading && (
+              <Center w="100%">
+                <Skeleton
+                  borderWidth={1}
+                  borderColor="coolGray.200"
+                  endColor="warmGray.50"
+                  size="20"
+                />
+              </Center>
+            )}
+            {!loading && (
+              <NativeImage
+                source={{
+                  uri: `${mainURL}${student_photo}`,
+                }}
+                alt="Student Image"
+                size="lg"
+                resizeMode="contain"
+                ref={myRef}
+              />
+            )}
           </View>
           <View style={{ flex: 1 }}>
             <View

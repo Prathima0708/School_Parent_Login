@@ -25,6 +25,8 @@ import {
   Text as NativeText,
   Image as NativeImage,
   Divider,
+  Center,
+  Skeleton,
 } from "native-base";
 import TeachersHome from "../BottomTab/TeachersHome";
 import { STD_ID } from "./MyClasses/StudentList";
@@ -35,7 +37,7 @@ import moment from "moment";
 const TeachersProfile = () => {
   const [showForm, setShowForm] = useState(false);
   const [showList, setShowList] = useState(true);
-
+  const [loading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
   const [image, setImage] = useState("");
 
@@ -56,7 +58,9 @@ const TeachersProfile = () => {
     }
     displayStudInfo();
   }, []);
-
+  setTimeout(() => {
+    setIsLoading(false);
+  }, 3000);
   function editItem() {
     setShowForm(true);
     setShowList(false);
@@ -96,19 +100,33 @@ const TeachersProfile = () => {
                 
                 source={{ uri: `http://10.0.2.2:8000${data.student_photo}` }}
               ></NativeAvatar> */}
-              <NativeImage
-                alignSelf="center"
-                borderRadius={100}
-                top="15%"
-                source={{
-                  uri: `${mainURL}${image}`,
-                }}
-                alt="Student Image"
-                size="lg"
-                ref={myRef}
-                style={{ color: "white" }}
-                resizeMode="contain"
-              />
+              {loading && (
+                <Center w="100%">
+                  <Skeleton
+                    borderWidth={1}
+                    borderColor="coolGray.200"
+                    endColor="warmGray.50"
+                    size="20"
+                    rounded="full"
+                    mt={10}
+                  />
+                </Center>
+              )}
+              {!loading && (
+                <NativeImage
+                  alignSelf="center"
+                  borderRadius={100}
+                  top="15%"
+                  source={{
+                    uri: `${mainURL}${data.student_photo}`,
+                  }}
+                  alt="Student Image"
+                  size="lg"
+                  ref={myRef}
+                  style={{ color: "white" }}
+                  resizeMode="contain"
+                />
+              )}
               {/* <NativeImage
                 source={{
                   uri: `${mainURL}${image}`,
