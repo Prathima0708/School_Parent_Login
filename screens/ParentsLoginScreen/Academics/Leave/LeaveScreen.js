@@ -33,7 +33,7 @@ import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 import { StudentRegNo } from "../../../../components/StudentItem/StudentItem";
 import { subURL } from "../../../../components/utils/URL's";
 var ID;
-var FROMDATE, TODATE;
+var FROMDATE, TODATE, KEY, VALUE;
 
 var newArray, USERNAME, USERID, USERROLE, TOKEN;
 const LeaveScreen = () => {
@@ -365,6 +365,7 @@ const LeaveScreen = () => {
       leave_form: FROMDATE,
       leave_to: TODATE,
       email: email,
+      leave_type: selected,
     };
 
     console.log("edited" + FormData);
@@ -612,11 +613,18 @@ const LeaveScreen = () => {
   }
   function editItem(id) {
     ID = id;
+    setIsEdit(true);
     setShowInitialBtn(false);
     setReasonLabel(true);
     setEmailLabel(true);
 
     const filteredDummuyData = data.find((data) => data.id == ID);
+    let filteredlist = leaveTypeData.filter(
+      (ele) => ele.value == filteredDummuyData.leave_type
+    );
+
+    KEY = filteredlist[0].key;
+    VALUE = filteredlist[0].value;
     setFromText(moment(filteredDummuyData.startdate).format("DD/MM/YYYY"));
     setToText(moment(filteredDummuyData.enddate).format("DD/MM/YYYY"));
     setEnteredLeaveReason(filteredDummuyData.leave_reason);
@@ -686,6 +694,7 @@ const LeaveScreen = () => {
     setShowInitialBtn(true);
     setShowList(true);
     setShowForm(false);
+    setIsEdit(false);
   }
 
   const searchFilter = (text) => {
@@ -868,7 +877,7 @@ const LeaveScreen = () => {
                 </View>
               </View>
 
-              {!isEdit && (
+              {/* {!isEdit && (
                 <>
                   <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
                     <View style={{ flex: 1 }}>
@@ -913,6 +922,88 @@ const LeaveScreen = () => {
                     </View>
                   </View>
                 </>
+              )} */}
+
+              {!isEdit && (
+                <View
+                  style={[
+                    { flex: 1 },
+                    { flexDirection: "row", marginVertical: 10 },
+                  ]}
+                >
+                  <View style={{ flex: 1 }}>
+                    <Text style={[styles.labelStyle, { left: "9%" }]}>
+                      Leave Type
+                    </Text>
+                  </View>
+                  <View style={{ flex: 1, paddingRight: 20 }}>
+                    <SelectList
+                      //setSelected={(val) => setSelected(val)}
+                      setSelected={setSelected}
+                      data={leaveTypeData}
+                      save="value"
+                      boxStyles={[
+                        selectInputIsInValid && styles.errorSelectedColor,
+                      ]}
+                      dropdownTextStyles={{
+                        fontSize: 15,
+                        fontFamily: "HindRegular",
+                      }}
+                      inputStyles={{ fontSize: 15, fontFamily: "HindRegular" }}
+                    />
+                    {selectInputIsInValid && (
+                      <Text style={styles.commonErrorMsg}>
+                        Select leave type
+                      </Text>
+                    )}
+                  </View>
+                </View>
+              )}
+
+              {isEdit && (
+                <View
+                  style={{
+                    top: "3%",
+                    left: "3%",
+                    flexDirection: "row",
+                    marginVertical: 10,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: "HindRegular",
+                      fontSize: 15,
+                      top: "3%",
+                      //marginLeft: 10,
+                    }}
+                  >
+                    Leave Type
+                  </Text>
+                  <View style={{ width: 80, height: 10 }} />
+
+                  <SelectList
+                    //setSelected={(val) => setSelected(val)}
+                    setSelected={setSelected}
+                    defaultOption={{
+                      key: String(KEY),
+                      value: String(VALUE),
+                    }}
+                    data={leaveTypeData}
+                    save="value"
+                    //placeholder="Select Leave Type"
+                    boxStyles={[
+                      selectInputIsInValid && styles.errorSelectedColor,
+                      { bottom: "5%" },
+                      // { marginHorizontal: 15, marginVertical: 10 },
+                    ]}
+                    dropdownTextStyles={{
+                      fontSize: 15,
+                      fontFamily: "HindRegular",
+                      //marginHorizontal: 25,
+                    }}
+                    inputStyles={{ fontSize: 15, fontFamily: "HindRegular" }}
+                  />
+                </View>
               )}
 
               <View style={[{ flexDirection: "row", marginVertical: 10 }]}>
@@ -1555,19 +1646,17 @@ const styles = StyleSheet.create({
   btnSubmit: {
     width: "50%",
     ...Platform.select({
-      android:{
+      android: {
         width: "50%",
         marginLeft: deviceWidth < 370 ? "35%" : "55%",
       },
-      ios:{
+      ios: {
         width: "65%",
         marginLeft: deviceWidth < 370 ? "25%" : "35%",
-      }
-      
+      },
     }),
     // marginTop: deviceWidth < 370 ? "3%" : "1%",
     bottom: "4%",
-
   },
   imagePreView: {
     width: "100%",
@@ -1668,20 +1757,18 @@ const styles = StyleSheet.create({
     left: deviceWidth < 370 ? 20 : 30,
   },
   upRemark: {
-    
     ...Platform.select({
-      android:{
+      android: {
         top: deviceHieght > 800 ? 26 : 25,
       },
-      ios:{
+      ios: {
         top: deviceHieght > 800 ? 30 : 30,
-      }
-      
+      },
     }),
     width: deviceWidth > 400 ? 130 : 120,
     left: deviceWidth < 370 ? 20 : 30,
     height: deviceHieght > 800 ? 25 : 25,
-    zIndex:100
+    zIndex: 100,
   },
   labelStyle: {
     fontFamily: "HindRegular",
@@ -1696,7 +1783,7 @@ const styles = StyleSheet.create({
     top: deviceWidth < 370 ? 15 : 24,
     left: deviceWidth < 370 ? 20 : 30,
     width: deviceWidth > 400 ? 100 : 95,
-    zIndex:100
+    zIndex: 100,
   },
   errorLabel: {
     color: "red",
