@@ -1654,7 +1654,7 @@ import {
 import { value } from "./ParentsLoginScreen/ParentsLoginScreen";
 import { mainURL, subURL } from "../components/utils/URL's";
 import * as Notifications from "expo-notifications";
-import * as Device from "expo-device";
+import * as Device from 'expo-device';
 
 export var Token,
   UserId,
@@ -1679,15 +1679,20 @@ Notifications.setNotificationHandler({
 });
 
 async function registerForPushNotificationsAsync() {
+
+
   let token;
   if (Device.isDevice) {
+    console.log("device is",Device.isDevice)
     const { status: existingStatus } =
       await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
+    console.log("existing status",existingStatus)
     if (existingStatus !== "granted") {
       const { status } = await Notifications.requestPermissionsAsync();
       finalStatus = status;
     }
+    console.log("status is",finalStatus)
     if (finalStatus !== "granted") {
       alert("Failed to get push token for push notification!");
       return;
@@ -1697,6 +1702,7 @@ async function registerForPushNotificationsAsync() {
   } else {
     alert("Must use physical device for Push Notifications");
   }
+
 
   if (Platform.OS === "android") {
     Notifications.setNotificationChannelAsync("default", {
@@ -1776,6 +1782,8 @@ function Login() {
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
+
+ 
 
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) =>
