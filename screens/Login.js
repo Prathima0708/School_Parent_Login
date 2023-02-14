@@ -2243,7 +2243,7 @@ function Login() {
           </Text>
           <View style={[styles.buttonContainer,{...Platform.select({
             ios:{
-              marginRight:'7%'
+              marginRight:'10%'
             }
           })}]}>
             <AccountTypeBtn

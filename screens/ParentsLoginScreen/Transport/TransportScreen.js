@@ -278,11 +278,11 @@ const TransportScreen = () => {
                 },
               ]}
             >
-              <View style={{ flex: 0.2, alignItems: "center" }}>
-                <Entypo name="location" size={24} color="black" />
-              </View>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.labelStyle}>
+              {/* <View style={{ flex: 0.2, alignItems: "center",backgroundColor:'red' }}>
+                
+              </View> */}
+              <View style={{ flex: 1,alignItems:'center' }}>
+              <Entypo name="location" size={24} color="black" /><Text style={styles.labelStyle}>
                   Live location tracking coming soon...
                 </Text>
               </View>
@@ -522,6 +522,7 @@ const styles = StyleSheet.create({
     fontFamily: "HindSemiBold",
     fontSize: 18,
     color: "red",
+    top:'2%'
   },
   itemStyle: {
     flex: 0.1,

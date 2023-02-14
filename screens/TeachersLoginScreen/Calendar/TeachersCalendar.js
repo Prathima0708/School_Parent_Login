@@ -338,7 +338,8 @@ const TeachersCalendar = () => {
         console.log("group is", group);
         if (group == "staff") {
           navigation.navigate("TeachersNoticeBoard");
-        } else if(group=='parents'){
+        } else if(group == "parents"){
+          console.log("group is",group)
           navigation.navigate("NoticeBoard");
         }
       }
@@ -1050,23 +1051,25 @@ const TeachersCalendar = () => {
     setNotificationId(specificData.id);
 
     const today = new Date();
-    console.log(today);
-    const sendAlert =
-      moment(specificData.startdate).format("DD-MM-YYYY") >=
-      moment(today).format("DD-MM-YYYY");
+    // console.log(today);
     // const sendAlert =
-    //   new Date(moment(specificData.startdate).format("DD-MM-YYYY")) >=
-    //   moment(today).format("DD-MM-YYYY")
-    //    ||
-    // new Date(
-    //   moment(specificData.startdate).format("DD-MM-YYYY")
-    // ).toDateString() === moment(today).format("DD-MM-YYYY").toDateString();
-    console.log(sendAlert);
+    //   moment(specificData.startdate).format("DD-MM-YYYY") <
+    //   moment(today).format("DD-MM-YYYY");
+   
+    // console.log(sendAlert);
 
-    if (sendAlert == false) {
-      Alert.alert("Event already occured");
-      return;
-    }
+   
+
+
+        const sendAlert = 
+            new Date(specificData.startdate) >= today ||
+            new Date(specificData.startdate).toDateString() === today.toDateString()
+        
+
+        if (sendAlert == false) {
+          Alert.alert("Event already occured");
+          return;
+        }
 
     const response = await axios.get(
       `${subURL}/NotificationByGroup/${specificData.viewOnly}`
@@ -2372,7 +2375,7 @@ const TeachersCalendar = () => {
                                 },
                               ]}
                             >
-                              <View style={{ flex: 0.4, left: 0 }}>
+                              <View style={{ flex: 0.5, left: 0 }}>
                                 <Text
                                   style={[styles.cardTextStyle, { left: 0 }]}
                                 >
@@ -2553,7 +2556,7 @@ const styles = StyleSheet.create({
         top: deviceWidth < 370 ? 93 : 110,
       },
       android: {
-        top: deviceWidth < 370 ? 93 : 107,
+        top: 107,
       },
     }),
 
