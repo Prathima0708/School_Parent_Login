@@ -2502,7 +2502,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: "row",
-    left: deviceWidth < 370 ? "15%" : "10%",
+    left: deviceWidth < 370 ? "10%" : "10%",
     width: deviceWidth < 370 ? "80%" : "80%",
     top: "5%",
   },
@@ -2573,7 +2573,7 @@ const styles = StyleSheet.create({
     left: deviceWidth < 370 ? "10%" : "5%",
     borderRadius: 10,
     elevation: 10,
-    height: deviceHieght < 600 ? "100%" : "90%",
+    height: deviceHieght < 600 ? "100%" : "100%",
     shadowColor: "black",
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },

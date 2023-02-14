@@ -2219,7 +2219,7 @@ const TeachersCalendar = () => {
                             style={{
                               flex: 1,
                               justifyContent: "center",
-                              backgroundColor: "purple",
+                              
                             }}
                           >
                             <Text style={styles.textStyle}>
@@ -2227,7 +2227,7 @@ const TeachersCalendar = () => {
                               {specificData.viewOnly}
                             </Text>
                           </View>
-                          <View style={{ flex: 0.7, backgroundColor: "red" }}>
+                          <View style={{ flex: 0.7 }}>
                             {specificData.isNotified == false ? (
                               <NativeButton
                                 size="sm"
@@ -2251,14 +2251,8 @@ const TeachersCalendar = () => {
                                   Notify
                                 </Text>
                               </NativeButton>
-                            ) : new Date(specificData.startdate) < new Date() ||
-                              new Date(
-                                specificData.startdate
-                              ).toDateString() === new Date().toDateString() ? (
-                              <Badge colorScheme="success" height="10">
-                                Event already occured
-                              </Badge>
-                            ) : (
+                            ) : 
+                              (
                               <Badge colorScheme="success">Notified</Badge>
                             )}
                           </View>
