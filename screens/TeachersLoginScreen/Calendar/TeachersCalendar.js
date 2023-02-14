@@ -338,8 +338,8 @@ const TeachersCalendar = () => {
         console.log("group is", group);
         if (group == "staff") {
           navigation.navigate("TeachersNoticeBoard");
-        } else if(group == "parents"){
-          console.log("group is",group)
+        } else if (group == "parents") {
+          console.log("group is", group);
           navigation.navigate("NoticeBoard");
         }
       }
@@ -764,7 +764,7 @@ const TeachersCalendar = () => {
 
         setData(res.data);
         setFilteredData(res.data);
-      //  setSpecificData(res.data)
+        //  setSpecificData(res.data)
       } catch (error) {
         console.log(error);
       }
@@ -1055,21 +1055,17 @@ const TeachersCalendar = () => {
     // const sendAlert =
     //   moment(specificData.startdate).format("DD-MM-YYYY") <
     //   moment(today).format("DD-MM-YYYY");
-   
+
     // console.log(sendAlert);
 
-   
+    const sendAlert =
+      new Date(specificData.startdate) >= today ||
+      new Date(specificData.startdate).toDateString() === today.toDateString();
 
-
-        const sendAlert = 
-            new Date(specificData.startdate) >= today ||
-            new Date(specificData.startdate).toDateString() === today.toDateString()
-        
-
-        if (sendAlert == false) {
-          Alert.alert("Event already occured");
-          return;
-        }
+    if (sendAlert == false) {
+      Alert.alert("Event already occured");
+      return;
+    }
 
     const response = await axios.get(
       `${subURL}/NotificationByGroup/${specificData.viewOnly}`
@@ -2219,13 +2215,19 @@ const TeachersCalendar = () => {
                               Notify to:
                             </Text>
                           </View>
-                          <View style={{ flex: 1, justifyContent: "center" }}>
+                          <View
+                            style={{
+                              flex: 1,
+                              justifyContent: "center",
+                              backgroundColor: "purple",
+                            }}
+                          >
                             <Text style={styles.textStyle}>
                               {" "}
                               {specificData.viewOnly}
                             </Text>
                           </View>
-                          <View style={{ flex: 0.5 }}>
+                          <View style={{ flex: 0.7, backgroundColor: "red" }}>
                             {specificData.isNotified == false ? (
                               <NativeButton
                                 size="sm"
@@ -2249,6 +2251,13 @@ const TeachersCalendar = () => {
                                   Notify
                                 </Text>
                               </NativeButton>
+                            ) : new Date(specificData.startdate) < new Date() ||
+                              new Date(
+                                specificData.startdate
+                              ).toDateString() === new Date().toDateString() ? (
+                              <Badge colorScheme="success" height="10">
+                                Event already occured
+                              </Badge>
                             ) : (
                               <Badge colorScheme="success">Notified</Badge>
                             )}
