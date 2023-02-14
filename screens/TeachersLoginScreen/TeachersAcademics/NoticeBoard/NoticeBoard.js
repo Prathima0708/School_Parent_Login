@@ -228,7 +228,7 @@ import {
 import moment from "moment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const NoticeBoard = ({ startdate, titlee, description,modifiedDate,enddate }) => {
+const NoticeBoard = ({ startdate, titlee, description,modifiedDate,enddate,created_by }) => {
   const navigation = useNavigation();
   const [user, setUser] = useState("");
 
@@ -302,7 +302,7 @@ const NoticeBoard = ({ startdate, titlee, description,modifiedDate,enddate }) =>
               fontFamily="HindSemiBold"
               fontSize={16}
             >
-               {user.charAt(0).toUpperCase() + user.slice(1)}
+               {created_by.charAt(0).toUpperCase() + created_by.slice(1)}
             </Text>
             <Text
               color="coolGray.600"

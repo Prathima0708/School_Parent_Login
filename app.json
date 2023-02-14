@@ -5,6 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/logo512.png",
+    "notifications": true,
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/images/Kinarascreenlogo3.png",
@@ -26,6 +27,9 @@
         "foregroundImage": "./assets/images/logo512.png",
         "backgroundColor": "#FFFFFF"
       },
+      "googleServicesFile": "./google-services.json",
+    
+      "useNextNotificationsApi":true,
       "package": "com.mohammadzeeyan.SchoolParentApp"
     },
     "web": {

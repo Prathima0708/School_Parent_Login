@@ -36,7 +36,7 @@ const TeachersNoticeBoard = () => {
         });
 
         const filtredRes = res.data.filter((event) =>
-          event.viewOnly.includes("staff")
+          event.viewOnly.includes(Group)
         );
         console.log(filtredRes);
         // arr = res.data;

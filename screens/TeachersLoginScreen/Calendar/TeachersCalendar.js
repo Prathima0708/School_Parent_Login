@@ -336,9 +336,9 @@ const TeachersCalendar = () => {
       (response) => {
         console.log(response.notification.request);
         console.log("group is", group);
-        if (group == "staff" || group == "admin") {
+        if (group == "staff") {
           navigation.navigate("TeachersNoticeBoard");
-        } else {
+        } else if(group=='parents'){
           navigation.navigate("NoticeBoard");
         }
       }
@@ -763,6 +763,7 @@ const TeachersCalendar = () => {
 
         setData(res.data);
         setFilteredData(res.data);
+      //  setSpecificData(res.data)
       } catch (error) {
         console.log(error);
       }

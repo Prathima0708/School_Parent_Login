@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "886940297089",
+    "project_id": "kinaraschool-e7258",
+    "storage_bucket": "kinaraschool-e7258.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886940297089:android:620a9956f32e117e12ea80",
+        "android_client_info": {
+          "package_name": "com.mohammadzeeyan.SchoolParentApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "886940297089-1i4215emhh6hu25s887ponshcorgrpr6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAToz_8w7f3-FgWP3Ohb8G8XDGfsEWsZ-A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "886940297089-1i4215emhh6hu25s887ponshcorgrpr6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
