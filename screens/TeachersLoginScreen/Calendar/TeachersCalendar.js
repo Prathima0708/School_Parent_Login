@@ -340,9 +340,6 @@ const TeachersCalendar = () => {
         if (currgroup == "staff") {
           console.log("currgroup is", currgroup);
           navigation.navigate("TeachersNoticeBoard");
-        } else if (currgroup == "parents") {
-          console.log("currgroup is", currgroup);
-          navigation.navigate("NoticeBoard");
         }
       }
     );
