@@ -214,7 +214,7 @@ const ImageSlider = () => {
 
   setTimeout(() => {
     setIsLoading(false);
-  }, 3000);
+  }, 4000);
   const renderItem = (data) => (
     <View key={data.coverImageUri} style={styles.cardContainer}>
       <View style={styles.cardWrapper}>
