@@ -372,7 +372,6 @@ const TeachersAttendanceBuild = () => {
                 setShowEditBtn(true);
                 showAttendance();
                 setEditBtnPressed(false);
-                
               },
             },
           ]);
@@ -524,8 +523,6 @@ const TeachersAttendanceBuild = () => {
   }
 
   function saveAttendance() {
-  
-
     async function getData() {
       try {
         const resAttendance = await axios.get(`${subURL}/Attendance/`);
@@ -537,7 +534,6 @@ const TeachersAttendanceBuild = () => {
             );
           });
         });
-   
 
         if (isSameDataPresent == true) {
           // Alert.alert("Attendance already marked","",  [
@@ -572,7 +568,6 @@ const TeachersAttendanceBuild = () => {
                     headers: headers,
                   }
                 );
-              
               } catch (error) {
                 console.log(error);
               }
@@ -593,31 +588,26 @@ const TeachersAttendanceBuild = () => {
                 },
               },
             ]);
-           
+
             setMissedID(false);
           } else {
             Alert.alert("Please mark attendance for all students");
-          
+
             setMissedID(true);
           }
 
           IDSet = [...mainId].filter((x) => !selectedId.has(x));
 
           IDSETARRAY = IDSet;
-          
+
           IDSet.forEach((value, index, set) => {
             if (mainId.has(value)) {
-           
               setTest(true);
             } else {
-           
               setTest(false);
             }
           });
-
-        
         }
-
       } catch (error) {
         console.log(error);
       }
@@ -702,7 +692,7 @@ const TeachersAttendanceBuild = () => {
       if (selectedData.length > 0) {
         var isPresent = false;
         var isAbsent = false;
-      
+
         isPresent = selectedData.map(
           (data, key) => data.attendance_status === "present"
         )[0];
@@ -755,7 +745,7 @@ const TeachersAttendanceBuild = () => {
   function backMarkHandler() {
     setShowCalendar(false);
     setShowStartingPage(true);
-    setFromText("")
+    setFromText("");
   }
 
   function backReportHandler() {
@@ -774,7 +764,7 @@ const TeachersAttendanceBuild = () => {
       setOpen(false);
 
       array.length = 0;
-  
+
       for (i = 0; i < data.length; i++) {
         const object = {
           student: data[i].id,
@@ -790,7 +780,6 @@ const TeachersAttendanceBuild = () => {
       }
       viewStudentList();
 
-    
       IDSETARRAY = [];
       async function storeData() {
         try {
@@ -802,7 +791,6 @@ const TeachersAttendanceBuild = () => {
           const resLogin = await axios.post(`${subURL}/Attendance/`, array, {
             headers: headers,
           });
-      
         } catch (error) {
           console.log(error);
         }
@@ -832,19 +820,14 @@ const TeachersAttendanceBuild = () => {
   }
 
   function updatePresentButton(data) {
-   
-
     const filteredDummuyData = saveAttendanceDataByDCS.find(
       (item) => item.student.id == data.student.id
     );
-   
+
     if (filteredDummuyData.student.id === data.student.id) {
-   
       setPresentActive(true);
       setAbsentActive(false);
     }
-
-   
 
     const object = {
       student: data.student.id,
@@ -855,7 +838,7 @@ const TeachersAttendanceBuild = () => {
       description: "",
       id: data.id,
     };
-  
+
     const existingItem = updateArray.find(
       (item) => item.student === object.student
     );
@@ -881,13 +864,11 @@ const TeachersAttendanceBuild = () => {
     const filteredDummuyData = saveAttendanceDataByDCS.find(
       (item) => item.student.id == data.student.id
     );
-  
+
     if (filteredDummuyData.student.id === data.student.id) {
-   
       setPresentActive(false);
       setAbsentActive(true);
     }
-   
 
     const object = {
       student: data.student.id,
@@ -898,7 +879,7 @@ const TeachersAttendanceBuild = () => {
       description: "",
       id: data.id,
     };
-  
+
     const existingItem = updateArray.find(
       (item) => item.student === object.student
     );
@@ -931,8 +912,6 @@ const TeachersAttendanceBuild = () => {
         const resLogin = await axios.put(`${subURL}/Attendance/`, updateArray, {
           headers: headers,
         });
-
-        
       } catch (error) {
         console.log(error);
       }
@@ -975,7 +954,6 @@ const TeachersAttendanceBuild = () => {
       name: filteredData.student_name,
       regno: filteredData.reg_number,
     });
-  
   }
   return (
     <>
@@ -1052,24 +1030,25 @@ const TeachersAttendanceBuild = () => {
       )}
       {showCalendar && (
         <View
-        style={[
-          {
-            // Try setting `flexDirection` to `"row"`.
-            flex:1,
-            flexDirection: 'column',
-            backgroundColor:"white"
-          },
-        ]}>
-        <View style={{flex: 0.4,paddingTop:50}} >
-        <BackButton onPress={backMarkHandler} />
-        </View>
-        <View style={{flex: 3,paddingTop:'30%'}} >
-          <ScrollView persistentScrollbar={false}>
-            <View
+          style={[
+            {
+              // Try setting `flexDirection` to `"row"`.
+              flex: 1,
+              flexDirection: "column",
+              backgroundColor: "white",
+            },
+          ]}
+        >
+          <View style={{ flex: 0.4, paddingTop: 50 }}>
+            <BackButton onPress={backMarkHandler} />
+          </View>
+          <View style={{ flex: 3, paddingTop: "30%" }}>
+            <ScrollView persistentScrollbar={false}>
+              <View
                 style={{
                   // top: "3%",
                   // left: "3%",
-                  alignItems:'center',
+                  alignItems: "center",
                   flexDirection: "row",
                   // marginVertical: 10,
                 }}
@@ -1123,7 +1102,7 @@ const TeachersAttendanceBuild = () => {
                       fontFamily: "HindSemiBold",
                       fontSize: 17,
                       top: "3%",
-                      marginLeft:30
+                      marginLeft: 30,
                     }}
                   >
                     Select Date
@@ -1168,9 +1147,9 @@ const TeachersAttendanceBuild = () => {
                   style={{
                     flex: 1.5,
                     //width: "50%",
-                   // marginLeft: "27%",
+                    // marginLeft: "27%",
                     marginTop: "10%",
-                    alignItems:'center',
+                    alignItems: "center",
                   }}
                 >
                   <NativeButton size="md" onPress={buttonPressedHandler}>
@@ -1188,12 +1167,12 @@ const TeachersAttendanceBuild = () => {
               </View>
             </ScrollView>
           </View>
-        {keyboardStatus == "Keyboard Hidden" && (
-            <View style={{ flex: 0.2}}>
+          {keyboardStatus == "Keyboard Hidden" && (
+            <View style={{ flex: 0.2 }}>
               <TeachersHome />
             </View>
           )}
-      </View>
+        </View>
       )}
 
       {showReports && (
@@ -1203,14 +1182,13 @@ const TeachersAttendanceBuild = () => {
               flex: 1,
               flexDirection: "column",
               backgroundColor: "white",
-              
             },
           ]}
         >
           <View
             style={[
               { flex: 0.4 },
-              { flexDirection: "row",alignItems:'center' },
+              { flexDirection: "row", alignItems: "center" },
             ]}
           >
             <BackButton onPress={backReportHandler} />
@@ -1433,7 +1411,11 @@ const TeachersAttendanceBuild = () => {
                 ]}
               >
                 <View style={{ flex: 1 }}>
-                  <NativeButton onPress={presentAllHandler} colorScheme="green">
+                  <NativeButton
+                    onPress={presentAllHandler}
+                    colorScheme="green"
+                    disabled={data.length <= 0 ? true : false}
+                  >
                     <Text
                       style={{
                         fontSize: 15,
@@ -1447,7 +1429,11 @@ const TeachersAttendanceBuild = () => {
                 </View>
                 <View style={styles.space} />
                 <View style={{ flex: 1 }}>
-                  <NativeButton onPress={absentAllHandler} colorScheme="red">
+                  <NativeButton
+                    onPress={absentAllHandler}
+                    colorScheme="red"
+                    disabled={data.length <= 0 ? true : false}
+                  >
                     <Text
                       style={{
                         fontSize: 15,
@@ -1464,6 +1450,7 @@ const TeachersAttendanceBuild = () => {
                   <NativeButton
                     onPress={() => holidayForAllHandler("top")}
                     colorScheme="yellow"
+                    disabled={data.length <= 0 ? true : false}
                   >
                     <Text
                       style={{
@@ -1567,7 +1554,18 @@ const TeachersAttendanceBuild = () => {
           <View style={{ flex: 2, bottom: "5%" }}>
             {
               <ScrollView>
-                {data &&
+                {data.length <= 0 ? (
+                  <View
+                    style={{
+                      alignItems: "center",
+
+                      marginTop: "15%",
+                    }}
+                  >
+                    <Text style={styles.msgText}>No students found</Text>
+                  </View>
+                ) : (
+                  data &&
                   showFirstStudList &&
                   data.map((data, key) => (
                     <View style={changeBorderColor(data.id)}>
@@ -1660,7 +1658,8 @@ const TeachersAttendanceBuild = () => {
                         </View>
                       </View>
                     </View>
-                  ))}
+                  ))
+                )}
 
                 {showDCSData &&
                   saveAttendanceDataByDCS.map((data, key) => (
@@ -1767,24 +1766,6 @@ const TeachersAttendanceBuild = () => {
                                     )}
                                   </View>
                                 </View>
-
-                                {/* <View style={{ flex: 0.7 }}>
-                                  <IconButton
-                                    colorScheme="success"
-                                    onPress={() =>
-                                      editItem(
-                                        data.student.id,
-                                        data.student.reg_number,
-                                        data.student.student_name
-                                      )
-                                    }
-                                    variant="subtle"
-                                    _icon={{
-                                      as: Ionicons,
-                                      name: "md-pencil-sharp",
-                                    }}
-                                  />
-                                </View> */}
                               </View>
                             </View>
                           </View>
@@ -1994,6 +1975,7 @@ const TeachersAttendanceBuild = () => {
               <View style={{ flex: 1 }}>
                 <NativeButton
                   size="md"
+                  disabled={data.length <= 0 ? true : false}
                   onPress={editBtnPressed ? updateHandler : saveAttendance}
                   //w={editBtnPressed ? "1/3" : "3/4"}
                   right={editBtnPressed ? "0" : "20"}
@@ -2056,7 +2038,7 @@ const styles = StyleSheet.create({
   },
   dateContainer: {
     flex: 2,
-    bottom:'3%'
+    bottom: "3%",
     //right: "5%",
   },
   studentItem: {
@@ -2210,5 +2192,10 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "#1E84A4",
     width: "80%",
+  },
+  msgText: {
+    fontSize: 18,
+    fontFamily: "HindSemiBold",
+    color: "#6B0000",
   },
 });
