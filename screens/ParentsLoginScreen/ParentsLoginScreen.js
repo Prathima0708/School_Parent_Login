@@ -59,7 +59,14 @@ function ParentsLoginScreen() {
   //     }
   //   } catch (error) {}
   // }
+  useEffect(() => {
+    async function getGroup() {
+      Group = await AsyncStorage.getItem("datagroup");
 
+      setGroup(Group);
+    }
+    getGroup();
+  }, []);
   async function logoutHandler() {
     Alert.alert("Logout", "Are you sure you want to logout?", [
       {
@@ -86,7 +93,23 @@ function ParentsLoginScreen() {
       },
     ]);
   }
+  useEffect(() => {
+   
+    const subscription2 = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        console.log(response.notification.request);
+  const currgroup=Group
+        if (currgroup == "parents") {
+          console.log("currgroup is", currgroup);
+          navigation.navigate("NoticeBoard");
+        } 
+      }
+    );
+    return () => {
 
+      subscription2.remove();
+    };
+  }, [ ]);
   async function fetchPhone() {
     value = await AsyncStorage.getItem("Phone");
     if (value == null) {
@@ -109,14 +132,7 @@ function ParentsLoginScreen() {
       },
     });
   }, []);
-  useEffect(() => {
-    async function getGroup() {
-      Group = await AsyncStorage.getItem("datagroup");
 
-      setGroup(Group);
-    }
-    getGroup();
-  }, []);
 
   useEffect(() => {
     async function login() {

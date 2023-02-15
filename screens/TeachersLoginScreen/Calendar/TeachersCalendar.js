@@ -265,6 +265,7 @@ const TeachersCalendar = () => {
       Group = await AsyncStorage.getItem("datagroup");
       // console.log(Group);
       setGroup(Group);
+      console.log("group is",group)
     }
     getGroup();
   }, []);
@@ -335,11 +336,12 @@ const TeachersCalendar = () => {
     const subscription2 = Notifications.addNotificationResponseReceivedListener(
       (response) => {
         console.log(response.notification.request);
-        console.log("group is", group);
-        if (group == "staff") {
+  const currgroup=Group
+        if (currgroup == "staff") {
+          console.log("currgroup is", currgroup);
           navigation.navigate("TeachersNoticeBoard");
-        } else if (group == "parents") {
-          console.log("group is", group);
+        } else if (currgroup == "parents") {
+          console.log("currgroup is", currgroup);
           navigation.navigate("NoticeBoard");
         }
       }
@@ -348,7 +350,7 @@ const TeachersCalendar = () => {
       subscription1.remove();
       subscription2.remove();
     };
-  }, [notificationId, viewOnlyGrp]);
+  }, [notificationId, viewOnlyGrp,navigation]);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
