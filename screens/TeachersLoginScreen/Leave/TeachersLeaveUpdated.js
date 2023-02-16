@@ -57,6 +57,7 @@ var firstData,
   VALUE,
   newArray = [],
   checkCT = [];
+var fisrtOption, firstKey, firstValue;
 const TeachersLeaveUpdated = () => {
   const [user, setUser] = useState("");
   const [userRole, setUserRole] = useState("");
@@ -102,6 +103,10 @@ const TeachersLeaveUpdated = () => {
     { key: "Casual Leave", value: "Casual Leave" },
     { key: "Maternity Leave", value: "Maternity Leave" },
   ];
+
+  fisrtOption = leaveTypeData[0];
+  firstKey = leaveTypeData[0].key;
+  firstValue = leaveTypeData[0].value;
 
   const [offset, SetOffset] = useState(0);
   const [typeLabel, setTypeLabel] = useState(false);
@@ -1208,6 +1213,10 @@ const TeachersLeaveUpdated = () => {
                   </View>
                   <View style={{ flex: 1, paddingRight: 20 }}>
                     <SelectList
+                      defaultOption={{
+                        key: String(firstKey),
+                        value: String(firstValue),
+                      }}
                       //setSelected={(val) => setSelected(val)}
                       setSelected={setSelected}
                       data={leaveTypeData}
@@ -1767,7 +1776,7 @@ const TeachersLeaveUpdated = () => {
                                           </Text>
                                         </View>
                                         <View style={{ flex: 1 }}>
-                                          {data.leave_status == "approved" ? (
+                                          {data.leave_status == "Approved" ? (
                                             <Badge
                                               colorScheme="success"
                                               style={{ width: "55%" }}
