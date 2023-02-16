@@ -1847,12 +1847,11 @@ const TeachersLeaveUpdated = () => {
             {
               flex: 1,
               flexDirection: "column",
-              marginTop: "10%",
               backgroundColor: "white",
             },
           ]}
         >
-          <View style={{ flex: 0.1, paddingTop: 20 }}>
+          <View style={{ flex: 0.1,top:'3%', marginVertical: 10,left:'3%' }}>
             <BackButton onPress={leaveBackHandler} />
           </View>
           <View style={{ flex: 1 }}>

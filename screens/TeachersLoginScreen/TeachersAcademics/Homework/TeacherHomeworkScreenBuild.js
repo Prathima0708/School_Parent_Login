@@ -536,10 +536,9 @@ const TeacherHomeworkScreenBuild = () => {
     };
 
     if (
-      !enteredFromDateIsValid ||
-      !enteredtoDateIsValid ||
-      !enteredRemarkIsValid ||
-      !enteredHomeWorkIsValid
+      !enteredSelcetdIsValid || !enteredSelcetdSubIsValid || 
+      !enteredFromDateIsValid || !enteredtoDateIsValid ||
+      !enteredHomeWorkIsValid || !enteredRemarkIsValid
     ) {
       Alert.alert("Please enter all fields");
     } else {
@@ -549,25 +548,27 @@ const TeacherHomeworkScreenBuild = () => {
             "Content-Type": "application/json; charset=utf-8",
           };
 
-          const resLogin = await axios.patch(
-            `${subURL}/Homework/${ID}/`,
-            formdata,
-            {
-              headers: headers,
+          await axios.patch(`${subURL}/Homework/${ID}/`,formdata,{headers: headers}).then((res)=>{
+            if(res.status===200){
+              Alert.alert("Successfully updated", "", [
+                {
+                  text: "OK",
+                  onPress: () => {},
+                },
+              ]);
+              setLoading(true);
+              setTimeout(() => {
+                setLoading(false);
+              }, 2000);
             }
-          );
+          });
         } catch (error) {
           console.log(error);
         }
       }
 
       updateData();
-      Alert.alert("Successfully updated", "", [
-        {
-          text: "OK",
-          onPress: () => {},
-        },
-      ]);
+      
       async function fetchData() {
         try {
           const res = await axios.get(`${subURL}/Homework/`);
@@ -591,152 +592,66 @@ const TeacherHomeworkScreenBuild = () => {
       setShowInitialBtn(true);
     }
   }
-
-  function buttonPressedHandler() {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-    setBtn(true);
-    setSubBtn(true);
-
-    var dateFromValidate = fromText;
-    var isValid = moment(dateFromValidate, "D/M/YYYY", true).isValid();
-
-    if (isValid) {
-      Alert.alert("Data saved", "Data saved successfully", [
-        {
-          text: "Cancel",
-
-          style: "cancel",
-        },
-        {
-          text: "OK",
-          onPress: () => {
-            setShowForm(false);
-            showHomework();
-          },
-        },
-      ]);
-    }
-
-    var dateToValidate = toText;
-    var isValid = moment(dateToValidate, "D/M/YYYY", true).isValid();
+  function buttonPressedHandler(){
 
     setEnteredSelectedTouched(true);
     setEnteredSelectedSubTouched(true);
-    setEnteredSubjectTouched(true);
     setEnteredFromDateTouched(true);
     setEnteredtoDateTouched(true);
     setEnteredRemarkTouched(true);
     setEnteredHomeWorkTouched(true);
-    setEnteredImageTouched(true);
+    // setEnteredImageTouched(true);
 
-    if (!enteredSelcetdIsValid) {
-      return;
+    let filteredlist = newArray.filter((ele) => ele.key == selected);
+
+    var formData = {
+      class_name: filteredlist[0]?.classname,
+      section: filteredlist[0]?.section,
+      subject: selectedSubject,
+      homework_date: FROMDATE,
+      remark: remark,
+      //   homework_photo: null,
+      homework: "",
+      due_date: TODATE,
+      description: hw,
+    };
+
+    if(!enteredSelcetdIsValid || !enteredSelcetdSubIsValid || 
+      !enteredFromDateIsValid || !enteredtoDateIsValid ||
+      !enteredHomeWorkIsValid || !enteredRemarkIsValid){
+        return;
     }
 
-    if (!enteredFromDateIsValid) {
-      return;
-    }
+    async function storeData() {
+      try {
+        let headers = {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Token " + `${token}`,
+        };
 
-    if (!enteredtoDateIsValid) {
-      return;
-    }
-
-    if (!enteredRemarkIsValid) {
-      return;
-    }
-
-    // if (!enteredHomeWorkIsValid) {
-    //   return;
-    // }
-    else {
-      let filteredlist = newArray.filter((ele) => ele.key == selected);
-
-      var formdata = {
-        class_name: filteredlist[0].classname,
-        section: filteredlist[0].section,
-        subject: selectedSubject,
-        homework_date: FROMDATE,
-        remark: remark,
-        //   homework_photo: null,
-        homework: "",
-        due_date: TODATE,
-        description: hw,
-      };
-
-      //   var formData = new FormData();
-      //  console.log(FROMDATE)
-      //   formData.append('class_name', filteredlist[0].classname);
-      //   formData.append('section', filteredlist[0].section);
-      //   // formData.append('startedYear', value.startedYear);
-      //   formData.append('subject', selectedSubject);
-      //   formData.append('homework_date', FROMDATE);
-      //   formData.append('remark', remark);
-      //   console.log(formData)
-      //   formData.append('homework_photo',image,image.name);
-      //   formData.append('homework', "");
-      //   formData.append('due_date', TODATE);
-      //   formData.append('description', hw);
-
-      //  console.log(formData)
-      // console.log(formData.homework_date)
-      // console.log(formData._parts[7][1]);
-      // console.log(formData.subject)
-      async function storeData() {
-        try {
-          //  debugger
-          // let headers = {
-          //   //  Accept: "application/json",
-          //   //"Content-Type": "application/json; charset=utf-8;",
-          //   // "Content-Type": "multipart/form-data",
-          //   Authorization: "Token " + `${token}`,
-          // };
-          let headers = {
-            // 'Content-Type': 'application/json',
-            "Content-Type": "multipart/form-data",
-            Authorization: "Token " + `${token}`,
-          };
-
-          const resLogin = await axios.post(`${subURL}/Homework/`, formdata, {
-            headers: headers,
-          });
-        } catch (error) {
-          console.log(error);
-        }
+        await axios.post(`${subURL}/Homework/`, formData, {
+          headers: headers,
+        }).then((res)=>{
+          if(res.status===201){
+            setShowForm(false);
+          
+            Alert.alert("Data Saved", "Homework Added Successfully");
+            setLoading(true);
+            setTimeout(() => {
+              setLoading(false);
+            }, 2000);
+            showHomework();
+            setShowList(true);
+          }else{
+            Alert.alert("Something went wrong", "Please try again later");
+          }
+        });
+      } catch (error) {
+        console.log(error);
       }
-
-      storeData();
-
-      setEnteredSubject("");
-      setFromText("");
-      setToText("");
-      setPickedImage("");
-      setEnteredRemark("");
-      setHW("");
-      setEnteredSelectedTouched(false);
-      setEnteredSelectedSubTouched(false);
-
-      setEnteredSubjectTouched(false);
-      setEnteredFromDateTouched(false);
-      setEnteredHomeWorkTouched(false);
-      setEnteredRemarkTouched(false);
-      setEnteredtoDateTouched(false);
-      setEnteredImageTouched(false);
-      setShowForm(false);
-      setShowList(true);
-      setForHomeworkList({
-        backgroundColor: "#1E84A4",
-        color: "white",
-        borderRadius: 5,
-      });
-      setForHomeworkForm({
-        color: "white",
-        backgroundColor: "#1E84A4",
-        borderRadius: 5,
-      });
     }
+    storeData();
+
   }
 
   function onSubjectFocusHandler() {
@@ -786,15 +701,12 @@ const TeacherHomeworkScreenBuild = () => {
     setShowList(false);
     setEnteredSelectedTouched(false);
     setEnteredSelectedSubTouched(false);
-
-    setEnteredSubjectTouched(false);
     setEnteredFromDateTouched(false);
-    setEnteredHomeWorkTouched(false);
-    setEnteredRemarkTouched(false);
     setEnteredtoDateTouched(false);
-    setEnteredImageTouched(false);
+    setEnteredRemarkTouched(false);
+    setEnteredHomeWorkTouched(false);
     setIsEdit(false);
-
+    
     setSubLabel(false);
     setRemarkLabel(false);
     setHomeworkLabel(false);
@@ -822,6 +734,7 @@ const TeacherHomeworkScreenBuild = () => {
     });
     setShowForm(false);
     setShowList(true);
+
   }
 
   function editItem(id) {

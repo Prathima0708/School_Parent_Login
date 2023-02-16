@@ -2610,7 +2610,7 @@ const styles = StyleSheet.create({
     fontSize: deviceWidth < 370 ? 16 : 20,
     fontFamily: "HindRegular",
     justifyContent: "center",
-    left: "25%",
+    left: deviceHieght < 850 ? deviceWidth * 0.2 : deviceWidth*0.27,
     top: 5,
   },
   focusedBorderColor: {

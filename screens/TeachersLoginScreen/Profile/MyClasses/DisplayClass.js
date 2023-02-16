@@ -1,4 +1,4 @@
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Card } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
@@ -76,7 +76,7 @@ const DisplayClass = ({ class_name, section, id }) => {
               <View style={{ top: 10 }}>
                 <Text
                   style={{
-                    fontSize: 15,
+                    fontSize: deviceHieght * 0.017,
                     fontFamily: "HindSemiBold",
                     color: "white",
                   }}
@@ -93,7 +93,8 @@ const DisplayClass = ({ class_name, section, id }) => {
 };
 
 export default DisplayClass;
-
+const deviceHieght = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   space: {
     width: 40,
