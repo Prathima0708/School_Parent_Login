@@ -2547,7 +2547,7 @@ const styles = StyleSheet.create({
   },
   descriptionUp: {
     position: "absolute",
-    top: deviceWidth < 370 ? 68 : 87,
+    top: deviceWidth < 340 ? 68 : 87,
     left: deviceWidth < 370 ? 40 : 50,
     zIndex: 100,
   },
@@ -2566,7 +2566,7 @@ const styles = StyleSheet.create({
   },
   descriptionUpExtra: {
     position: "absolute",
-    top: deviceWidth < 370 ? 90 : 115,
+    top: deviceWidth < 340 ? 90 : 110,
     left: deviceWidth < 370 ? 40 : 50,
   },
   descriptionDownExtra: {
