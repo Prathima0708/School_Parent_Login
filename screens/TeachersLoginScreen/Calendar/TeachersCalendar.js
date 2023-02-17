@@ -1483,7 +1483,15 @@ const TeachersCalendar = () => {
                           //     ? "checked"
                           //     : "unchecked"
                           // }
-                          status={checked ? "checked" : "unchecked"}
+                          status={
+                            isEdit &&
+                            newData.viewOnly.includes("parents,staff,admin")
+                              ? setChecked(true)
+                              : checked
+                              ? "checked"
+                              : "unchecked"
+                          }
+                          //status={checked ? "checked" : "unchecked"}
                           onPress={allCheckHandler}
                           color={"green"}
                           uncheckColor={"red"}
@@ -1508,7 +1516,15 @@ const TeachersCalendar = () => {
                     >
                       <View style={{ flex: 0.3 }}>
                         <Checkbox
-                          status={adminChecked ? "checked" : "unchecked"}
+                        status={
+                          isEdit &&
+                          newData.viewOnly.includes("admin")
+                            ? setAdminChecked(true)
+                            : adminChecked
+                            ? "checked"
+                            : "unchecked"
+                        }
+                          //status={adminChecked ? "checked" : "unchecked"}
                           // status={
                           //   isEdit
                           //     ? newData.viewOnly === "admin" ||
@@ -1552,7 +1568,15 @@ const TeachersCalendar = () => {
                     >
                       <View style={{ flex: 0.3 }}>
                         <Checkbox
-                          status={teacherChecked ? "checked" : "unchecked"}
+                        status={
+                          isEdit &&
+                          newData.viewOnly.includes("staff")
+                            ? setTeacherChecked(true)
+                            : teacherChecked
+                            ? "checked"
+                            : "unchecked"
+                        }
+                          //status={teacherChecked ? "checked" : "unchecked"}
                           // status={
                           //   isEdit
                           //     ? newData.viewOnly === "staff" ||
@@ -1592,6 +1616,14 @@ const TeachersCalendar = () => {
                     >
                       <View style={{ flex: 0.3 }}>
                         <Checkbox
+                        status={
+                          isEdit &&
+                          newData.viewOnly.includes("parents")
+                            ? setParentChecked(true)
+                            : parentChecked
+                            ? "checked"
+                            : "unchecked"
+                        }
                           // status={
                           //   isEdit
                           //     ? newData.viewOnly === "parents" ||
@@ -1604,7 +1636,7 @@ const TeachersCalendar = () => {
                           //     ? "checked"
                           //     : "unchecked"
                           // }
-                          status={parentChecked ? "checked" : "unchecked"}
+                          //status={parentChecked ? "checked" : "unchecked"}
                           onPress={() => {
                             // setIsEdit(!isEdit);
                             setParentChecked(!parentChecked);

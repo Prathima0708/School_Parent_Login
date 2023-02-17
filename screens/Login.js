@@ -1620,6 +1620,7 @@ import {
   Image,
   Keyboard,
   TouchableHighlight,
+  Switch,
 } from "react-native";
 import {
   HStack,
@@ -1638,7 +1639,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import LgButton from "../components/UI/LgButton";
 import { TouchableWithoutFeedback } from "react-native";
 import { Platform } from "react-native";
-
+import * as SecureStore from 'expo-secure-store';
 import { useFonts } from "expo-font";
 import { validateYupSchema } from "formik";
 import { formikFieldApplyYupTransforms } from "formik-yup";
@@ -1722,6 +1723,8 @@ function Login() {
   //   Roboto: require("../assets/fonts/Roboto-Black.ttf"),
   //   RobotoBold: require("../assets/fonts/Roboto-Bold.ttf"),
   // });
+  const [rememberMe, setRememberMe] = useState(false);
+
   const [isOpen, setIsOpen] = useState(false);
   const cancelRef = useRef(null);
   const navigation = useNavigation();
@@ -2111,6 +2114,37 @@ function Login() {
       // }
     }
   }
+
+  useEffect(() => {
+    const getLoginCredentials = async () => {
+      const storedEmail = await SecureStore.getItemAsync('email');
+      const storedPassword = await SecureStore.getItemAsync('password');
+      const storedPhone = await SecureStore.getItemAsync('phone');
+      
+      if (storedEmail && storedPassword) {
+        setEnteredUser(storedEmail);
+        setEnteredPassword(storedPassword);
+        setEnteredPhone(storedPhone);
+        setRememberMe(true);
+      }
+    };
+
+    getLoginCredentials();
+  }, []);
+
+
+  const handleRememberMe = async (email, password,phone, rememberMe) => {
+    if (rememberMe) {
+      await SecureStore.setItemAsync('email', email);
+      await SecureStore.setItemAsync('password', password);
+      await SecureStore.setItemAsync('phone', phone);
+    } else {
+      await SecureStore.deleteItemAsync('email');
+      await SecureStore.deleteItemAsync('password');
+      await SecureStore.deleteItemAsync('phone');
+    }
+  };
+
   function toggleParents() {
     setShow(true);
     setExpandHieght(true);
@@ -2209,7 +2243,7 @@ function Login() {
   return (
     <>
       <View style={{ flex: 1 }}>
-        <View style={styles.upperPartView}>
+        <View style={styles.imageContainer}>
           {keyboardStatus == "Keyboard Hidden" && (
             <Image
               style={styles.bannerImage}
@@ -2241,9 +2275,9 @@ function Login() {
           >
             Choose account type
           </Text>
-          <View style={[styles.buttonContainer,{...Platform.select({
+          <View style={[styles.buttonContainer,keyboardStatus == "Keyboard Shown" && {...Platform.select({
             ios:{
-              marginRight:'10%'
+             left:'7%'
             }
           })}]}>
             <AccountTypeBtn
@@ -2260,119 +2294,83 @@ function Login() {
               Parents
             </AccountTypeBtn>
           </View>
-          {/* <TextInput
-            onChangeText={userInputHandler}
-            style={userNameFocused ? styles.focusedBorderColor : styles.inputStyle}
-            value={enteredUser}
-            placeholder="Username"
-            onFocus={userNameFocusHandler}
-            onBlur={userNameBlurHandler}
-          /> */}
-          <NativeInput
-            type="text"
-            w="80%"
-            left={keyboardStatus=='Keyboard Shown' && Platform.OS=='ios' ? "7%" :  '11%'} 
-            top="6"
-            //height={deviceHieght < 800 ? "16%" : "13%"}
-            borderWidth={2}
-            onChangeText={userInputHandler}
-            value={enteredUser}
-            style={styles.inputStyle}
-            // py="0"
-            placeholder="Username"
-          />
-          {/* <Ionicons
-                name={showPassword ? "eye-outline" : "eye-off-outline"}
-                size={28}
-                color="black"
-                style={{
-                  position: "absolute",
-                  top: deviceHieght < 600 ? "17%" : "20%",
-                }}
-                onPress={iconPressed}
+          <View
+            style={[
+              {
+                // Try setting `flexDirection` to `"row"`.
+                flex:1,
+                flexDirection: 'column',
+              },
+            ]}>
+            <View style={[{ flex: 1,
+              justifyContent:'center',
+              alignItems:'center'},keyboardStatus == "Keyboard Shown" && {...Platform.select({
+                ios:{
+                 flex:0.3
+                }
+              })} ]} >
+              <NativeInput
+                type="text"
+                w="80%"
+                //left={keyboardStatus=='Keyboard Shown' && Platform.OS=='ios' ? "7%" :  '11%'} 
+                //top="6"
+                //height={deviceHieght < 800 ? "16%" : "13%"}
+                borderWidth={2}
+                onChangeText={userInputHandler}
+                value={enteredUser}
+                style={styles.inputStyle}
+                // py="0"
+                placeholder="Username"
+              />
+            </View>
+            <View style={[{flex: 0.6,justifyContent:'flex-start',alignItems:'center'},
+              keyboardStatus == "Keyboard Shown" && {...Platform.select({
+                ios:{
+                flex:0.2
+                }
+              })}]} >
+              <NativeInput
+                type={showPassword ? "text" : "password"}
+                w="80%"
+                //left={keyboardStatus=='Keyboard Shown' && Platform.OS=='ios' ? "7%" :  '11%'} 
+                //top="9"
+                //height={deviceHieght < 800 ? "16%" : "13%"}
+                borderWidth={1}
+                onChangeText={passwordInputHandler}
+                value={enteredPassword}
+                // py="0"
+                style={styles.inputStyle}
+                InputRightElement={
+                  <NativeButton
+                    size="xs"
+                    rounded="none"
+                    w="1/5"
+                    h="full"
+                    onPress={handleClick}
+                  >
+                    {showPassword ? (
+                      <Ionicons name="eye-outline" size={24} color="white" />
+                    ) : (
+                      <Ionicons name="eye-off-outline" size={24} color="white" />
+                    )}
+                  </NativeButton>
+                }
+                placeholder="Password"
             />
-          <TextInput
-            secureTextEntry={true}
-            onChangeText={passwordInputHandler}
-            style={passwordFocused ? styles.focusedBorderColor : styles.inputStyle}
-            value={enteredPassword}
-            placeholder="Password"
-            onFocus={passwordFocusHandler}
-            onBlur={passwordBlurHandler}
-            
-          /> */}
-          <NativeInput
-            type={showPassword ? "text" : "password"}
-            w="80%"
-            left={keyboardStatus=='Keyboard Shown' && Platform.OS=='ios' ? "7%" :  '11%'} 
-            top="9"
-            //height={deviceHieght < 800 ? "16%" : "13%"}
-            borderWidth={1}
-            onChangeText={passwordInputHandler}
-            value={enteredPassword}
-            // py="0"
-            style={styles.inputStyle}
-            InputRightElement={
-              <NativeButton
-                size="xs"
-                rounded="none"
-                w="1/5"
-                h="full"
-                onPress={handleClick}
-              >
-                {showPassword ? (
-                  <Ionicons name="eye-outline" size={24} color="white" />
-                ) : (
-                  <Ionicons name="eye-off-outline" size={24} color="white" />
-                )}
-              </NativeButton>
-            }
-            placeholder="Password"
-          />
-          {/* <Input
-            variant="outline"
-            w={{
-              base: "75%",
-              md: "25%",
-            }}
-            marginTop={5}
-            ml={39}
-            fontSize={18}
-            type={show1 ? "text" : "password"}
-            InputRightElement={
-              <Pressable onPress={() => setShow1(!show1)}>
-                <Icon
-                  as={
-                    <MaterialIcons
-                      name={show1 ? "visibility" : "visibility-off"}
-                    />
-                  }
-                  size={5}
-                  mr="2"
-                  color="muted.400"
-                />
-              </Pressable>
-            }
-            placeholder="Password"
-          /> */}
-          {show && (
-            <>
-              {/* <TextInput
-                onChangeText={phoneInputHandler}
-                style={numberFocused ? styles.focusedBorderColor : styles.inputStyle}
-                value={enteredPhone}
-                keyboardType="number-pad"
-                placeholder="Registered Phone Number"
-                onFocus={numberFocusHandler}
-                onBlur={numberBlurHandler}
-              /> */}
+            </View>
+            {show &&
+            <View style={[{flex: 1,alignItems:'center',justifyContent:'center',},keyboardStatus == "Keyboard Shown" && {...Platform.select({
+              ios:{
+              flex:0.2
+              }
+            })}]} >
               <NativeInput
                 type="number"
                 w="80%"
                 keyboardType="number-pad"
-                left={keyboardStatus=='Keyboard Shown' && Platform.OS=='ios' ? "7%" :  '11%'} 
+                //left={keyboardStatus=='Keyboard Shown' && Platform.OS=='ios' ? "7%" :  '11%'} 
                 borderWidth={1}
-                top="12"
+                //top="12"
                 //height={deviceHieght < 800 ? "14%" : "13%"}
                 onChangeText={phoneInputHandler}
                 value={enteredPhone}
@@ -2380,15 +2378,56 @@ function Login() {
                 // py="0"
                 placeholder="Registered phone number"
               />
-            </>
-          )}
-          <TouchableHighlight
-            style={styles.submit}
-            onPress={login}
-            underlayColor="#4FA3C4"
-          >
-            <Text style={[styles.submitText]}>Login</Text>
-          </TouchableHighlight>
+            </View>}
+            <View style={{flex: 0.4}} >
+              <View
+                style={[
+                  {
+                    // Try setting `flexDirection` to `"row"`.
+                    flex:1,
+                    flexDirection: 'row',
+                  },
+                ]}>
+                <View style={[styles.radioStyle,keyboardStatus == "Keyboard Shown" && {justifyContent:'space-around'}]}>
+                  <Switch
+                    style={styles.switch}
+                    value={rememberMe}
+                    onValueChange={(value) => {
+                      setRememberMe(value);
+                      handleRememberMe(enteredUser, enteredPassword, enteredPhone,value);
+                    }}
+                  />
+                </View>
+                <View style={[styles.checkText, keyboardStatus == "Keyboard Shown" && {...Platform.select({
+                ios:{
+                 justifyContent:'center',
+                 marginBottom:'8%'
+                }
+              })}]}>
+                  <Text style={[styles.rememberMeText]}>Remember me</Text>
+                </View>
+                <View style={{flex: 0.3}}>
+                
+                </View>
+              </View>
+            </View>
+            <View style={[{flex: 1,justifyContent:'flex-start',alignItems:'center'},keyboardStatus == "Keyboard Shown" &&
+             {...Platform.select({
+                ios:{
+                 paddingBottom:'10%'
+                }
+              })}]} >
+            <TouchableHighlight
+              style={styles.submit}
+              onPress={login}
+              underlayColor="#4FA3C4"
+            >
+              <Text style={[styles.submitText]}>Login</Text>
+            </TouchableHighlight>
+            </View>
+          </View>
+
+          
           {/* {invalidPassword && <Text>You have to enter at least 6 digit</Text>} */}
 
           <AlertDialog
@@ -2447,14 +2486,14 @@ const deviceWidth = Dimensions.get("window").width;
 console.log("hieght" + deviceHieght);
 console.log("width" + deviceWidth);
 const styles = StyleSheet.create({
-  upperPartView: {
+  imageContainer: {
     flex: 2,
     backgroundColor: "white",
   },
   lowerPartView: {
     flex: 2,
     position: "absolute",
-    top: deviceHieght < 600 ? "40%" : "40%",
+    top: deviceHieght < 600 ? "40%" : "35%",
     backgroundColor: "white",
     width: deviceWidth < 370 ? "80%" : "90%",
     left: deviceWidth < 370 ? "10%" : "5%",
@@ -2466,6 +2505,48 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
     overflow: Platform.OS === "android" ? "hidden" : "visible",
+  },
+  rememberMeText:{
+    fontFamily:'HindRegular'
+  },
+
+  radioStyle:{
+    flex: 0.5,
+    justifyContent:'flex-end',
+    alignItems:'flex-start',
+    marginLeft:'10%',
+    ...Platform.select({
+      
+      ios:{
+        bottom:'3%'
+      }
+    })
+
+  },
+  rememberMeContainer: {
+    // flexDirection: 'row',
+    // alignItems: 'center',
+    // marginBottom: 20,
+    // flex:1,
+    flexDirection:'row'
+  },
+  switch: {
+    // marginRight: 10,
+    // marginTop:'7%'
+  },
+  checkText:{
+    flex: 2,
+    justifyContent:'flex-start',
+    alignItems:"flex-start",
+    ...Platform.select({
+      android:{
+        top:'1%'
+      },
+      ios:{
+        top:'1%'
+      }
+    })
+ 
   },
   test: {
     flex: 2,
@@ -2553,9 +2634,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#1E84A4",
     borderRadius: 10,
     borderWidth: 1,
-    top: deviceWidth < 370 ? "18%" : "15%",
+   // top: deviceWidth < 370 ? "18%" : "15%",
     borderColor: "#fff",
-    left: deviceWidth < 370 ? "10%" : "10%",
+    //left: deviceWidth < 370 ? "10%" : "10%",
     width: deviceWidth < 370 ? "80%" : "80%",
   },
   submitText: {
