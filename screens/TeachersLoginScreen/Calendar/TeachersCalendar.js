@@ -69,9 +69,7 @@ const TeachersCalendar = () => {
   const [user, setUser] = useState("");
   const [token, setToken] = useState("");
 
-  const [test, setTest] = useState(false);
   const [value, setValue] = useState("");
-  const [isSelected, setSelection] = useState(false);
 
   const navigation = useNavigation();
 
@@ -83,11 +81,6 @@ const TeachersCalendar = () => {
 
   const [listActive, setListActive] = useState(true);
   const [calendarActive, setCalendarActive] = useState(false);
-
-  const [eventTitle, setEventTitle] = useState("");
-  const [eventStartDate, setEventStartDate] = useState("");
-  const [eventEndDate, setEventEndDate] = useState("");
-  const [eventDescription, setEventDescription] = useState("");
 
   const scrollY = new Animated.Value(0);
 
@@ -116,7 +109,6 @@ const TeachersCalendar = () => {
   const [descriptionLabel, setDescriptionLabel] = useState(false);
   const [startDateLabel, setstartDateLabel] = useState(false);
   const [endDateLabel, setendDateLabel] = useState(false);
-  const [showSpeacificData, setShowSpeacificData] = useState(false);
 
   const [isTitleFocused, setIsTitleFocused] = useState(false);
   const [isDescFocused, setIsDescFocused] = useState(false);
@@ -124,7 +116,6 @@ const TeachersCalendar = () => {
   const [isToDateFocused, setIsToDateFocused] = useState(false);
   const [calendarViewBtnPressed, setCalendarViewBtnPressed] = useState(false);
   const [btn, setBtn] = useState(false);
-  const [receivedNotification, setReceivedNotification] = useState([]);
 
   const [forCalendarList, setForCalendarList] = useState({
     backgroundColor: "#1E84A4",
@@ -141,7 +132,7 @@ const TeachersCalendar = () => {
 
   const [selected, setSelected] = useState("");
   const [enteredSelectedTouched, setEnteredSelectedTouched] = useState(false);
-  const enteredSelcetdIsValid = selected.trim() !== "";
+  const enteredSelcetdIsValid = selected.toString().trim() !== "";
   const selectInputIsInValid = !enteredSelcetdIsValid && enteredSelectedTouched;
 
   const [title, setEnteredTitle] = useState("");
@@ -199,13 +190,15 @@ const TeachersCalendar = () => {
   const [backAndSearchBar, setBackAndSearchBar] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [anyCheck, setAnyChecked] = useState(true);
   let i = 0;
   const [saveYear, setSaveYear] = useState([]);
   const [group, setGroup] = useState("");
   const [notificationId, setNotificationId] = useState();
   const [viewOnlyGrp, setViewOnlyGrp] = useState("");
   const [badge, setBadge] = useState(false);
+
+  const [classData, setClassData] = useState([]);
+  const [showParentClass, setShowParentClass] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -261,11 +254,35 @@ const TeachersCalendar = () => {
   }, []);
 
   useEffect(() => {
+    async function fetchStudentClass() {
+      axios
+        .get(`${subURL}/Studentclass/`)
+        .then((response) => {
+          newArray = response.data.map((item) => {
+            return {
+              key: item.id,
+
+              value: item.class_name + " - " + item.section,
+              classname: item.class_name,
+              section: item.section,
+            };
+          });
+
+          setClassData(newArray);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+    fetchStudentClass();
+  }, []);
+
+  useEffect(() => {
     async function getGroup() {
       Group = await AsyncStorage.getItem("datagroup");
       // console.log(Group);
       setGroup(Group);
-      console.log("group is",group)
+      console.log("group is", group);
     }
     getGroup();
   }, []);
@@ -336,7 +353,7 @@ const TeachersCalendar = () => {
     const subscription2 = Notifications.addNotificationResponseReceivedListener(
       (response) => {
         console.log(response.notification.request);
-  const currgroup=Group
+        const currgroup = Group;
         if (currgroup == "staff") {
           console.log("currgroup is", currgroup);
           navigation.navigate("TeachersNoticeBoard");
@@ -347,7 +364,7 @@ const TeachersCalendar = () => {
       subscription1.remove();
       subscription2.remove();
     };
-  }, [notificationId, viewOnlyGrp,navigation]);
+  }, [notificationId, viewOnlyGrp, navigation]);
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -1483,6 +1500,7 @@ const TeachersCalendar = () => {
                           //     ? "checked"
                           //     : "unchecked"
                           // }
+
                           status={checked ? "checked" : "unchecked"}
                           onPress={allCheckHandler}
                           color={"green"}
@@ -1604,10 +1622,11 @@ const TeachersCalendar = () => {
                           //     ? "checked"
                           //     : "unchecked"
                           // }
+
                           status={parentChecked ? "checked" : "unchecked"}
                           onPress={() => {
-                            // setIsEdit(!isEdit);
                             setParentChecked(!parentChecked);
+                            setShowParentClass(!showParentClass);
                             //  setTest(true);
                           }}
                           color={"green"}
@@ -1620,11 +1639,22 @@ const TeachersCalendar = () => {
                     </View>
                   </View>
                 </View>
-                {/* {checkedIsInvalid && selectedTouched && (
-                  <Text style={styles.errorLabel}>
-                    Please select atleast one
-                  </Text>
-                )} */}
+                {showParentClass && (
+                  <>
+                    <SelectList
+                      setSelected={setSelected}
+                      data={classData}
+                      save="key"
+                      placeholder="Select class"
+                      // boxStyles={
+                      //   selectInputIsInValid && styles.errorSelectedColor
+                      // }
+                      // dropdownTextStyles={styles.dropText}
+                      // inputStyles={styles.dropText}
+                      // onSelect={fetchSubjects}
+                    />
+                  </>
+                )}
               </View>
               {!isEdit && (
                 <View style={[btn ? styles.btnSubmitNew : styles.btnSubmit]}>
@@ -2218,7 +2248,6 @@ const TeachersCalendar = () => {
                             style={{
                               flex: 1,
                               justifyContent: "center",
-                              
                             }}
                           >
                             <Text style={styles.textStyle}>
@@ -2250,8 +2279,7 @@ const TeachersCalendar = () => {
                                   Notify
                                 </Text>
                               </NativeButton>
-                            ) : 
-                              (
+                            ) : (
                               <Badge colorScheme="success">Notified</Badge>
                             )}
                           </View>
