@@ -1514,16 +1514,15 @@ const TeachersCalendar = () => {
                         { flex: 1 },
                         {
                           flexDirection: "row",
-                          marginLeft: "10%",
-                          marginTop: "3%",
                         },
                       ]}
                     >
-                      <View style={{ flex: 0.3 }}>
+                      <View style={{ flex: 0.3,justifyContent:"center",alignItems:'center' }}>
                         <Checkbox
                           value={isAllChecked}
                           onValueChange={allCheckedHandler}
                           color={isAllChecked ? '#4630EB' : undefined}
+                          
                         />
                       </View>
                       <View style={{ flex: 0.3 }}>
@@ -1537,13 +1536,11 @@ const TeachersCalendar = () => {
                       style={[
                         { flex: 1 },
                         {
-                          flexDirection: "row",
-                          marginLeft: "10%",
-                          marginTop: "3%",
+                          flexDirection: "row"
                         },
                       ]}
                     >
-                      <View style={{ flex: 0.3 }}>
+                      <View style={{ flex: 0.3,justifyContent:"center",alignItems:'center',top:'3%' }}>
                         <Checkbox
                           value={adminChecked}
                           onValueChange={adminCheckedHandler}
@@ -1561,11 +1558,11 @@ const TeachersCalendar = () => {
                         { flex: 1 },
                         {
                           flexDirection: "row",
-                          marginTop: "3%",
+                          // marginTop: "3%",
                         },
                       ]}
                     >
-                      <View style={{ flex: 0.3 }}>
+                      <View style={{ flex: 0.3,justifyContent:"center",alignItems:'center'  }}>
                         <Checkbox
                           value={teacherChecked}
                           onValueChange={teacherCheckedHandler}
@@ -1584,11 +1581,11 @@ const TeachersCalendar = () => {
                         { flex: 1 },
                         {
                           flexDirection: "row",
-                          marginTop: "3%",
+                          // marginTop: "3%",
                         },
                       ]}
                     >
-                      <View style={{ flex: 0.3 }}>
+                      <View style={{ flex: 0.3,justifyContent:"center",alignItems:'center',top:'3%' }}>
                         <Checkbox
                           value={parentChecked}
                           onValueChange={parentCheckedHandler}
