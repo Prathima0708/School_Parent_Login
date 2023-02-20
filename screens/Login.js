@@ -100,7 +100,6 @@ async function registerForPushNotificationsAsync() {
 
 function Login() {
   const [rememberMe, setRememberMe] = useState(false);
-  
 
   const [isOpen, setIsOpen] = useState(false);
   const cancelRef = useRef(null);
@@ -638,59 +637,57 @@ function Login() {
               </View>
             )}
 
-            {show && (
-              <View style={{ flex: 0.4 }}>
+            <View style={{ flex: 0.4 }}>
+              <View
+                style={[
+                  {
+                    flex: 1,
+                    flexDirection: "row",
+                  },
+                ]}
+              >
                 <View
                   style={[
-                    {
-                      flex: 1,
-                      flexDirection: "row",
+                    styles.radioStyle,
+                    keyboardStatus == "Keyboard Shown" && {
+                      justifyContent: "space-around",
                     },
                   ]}
                 >
-                  <View
-                    style={[
-                      styles.radioStyle,
-                      keyboardStatus == "Keyboard Shown" && {
-                        justifyContent: "space-around",
-                      },
-                    ]}
-                  >
-                    <Switch
-                      value={rememberMe}
-                      onValueChange={(value) => {
-                        setRememberMe(value);
-                        handleRememberMe(
-                          enteredUser,
-                          enteredPassword,
-                          enteredPhone,
-                          value,
-                          loginType
-                        );
-                      }}
-                    />
-                  </View>
-                  <View
-                    style={[
-                      styles.checkText,
-                      keyboardStatus == "Keyboard Shown" && {
-                        ...Platform.select({
-                          ios: {
-                            justifyContent: "center",
-                            marginBottom: "8%",
-                          },
-                        }),
-                      },
-                    ]}
-                  >
-                    <Text style={[styles.rememberMeText]}>Remember P</Text>
-                  </View>
-                  <View style={{ flex: 0.3 }}></View>
+                  <Switch
+                    value={rememberMe}
+                    onValueChange={(value) => {
+                      setRememberMe(value);
+                      handleRememberMe(
+                        enteredUser,
+                        enteredPassword,
+                        enteredPhone,
+                        value,
+                        loginType
+                      );
+                    }}
+                  />
                 </View>
+                <View
+                  style={[
+                    styles.checkText,
+                    keyboardStatus == "Keyboard Shown" && {
+                      ...Platform.select({
+                        ios: {
+                          justifyContent: "center",
+                          marginBottom: "8%",
+                        },
+                      }),
+                    },
+                  ]}
+                >
+                  <Text style={[styles.rememberMeText]}>Remember Me</Text>
+                </View>
+                <View style={{ flex: 0.3 }}></View>
               </View>
-            )}
+            </View>
 
-            {!show && (
+            {/* {!show && (
               <View style={{ flex: 0.4 }}>
                 <View
                   style={[
@@ -740,7 +737,7 @@ function Login() {
                   <View style={{ flex: 0.3 }}></View>
                 </View>
               </View>
-            )}
+            )} */}
 
             <View
               style={[

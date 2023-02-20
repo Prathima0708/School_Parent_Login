@@ -135,6 +135,11 @@ const TeachersLoginScreen = ({ navigation }) => {
       if (itemData.item.id === "c5") {
         navigation.navigate("MyClasses");
       }
+      if (itemData.item.id === "c6") {
+        navigation.navigate("TeachersLeave", {
+          stdId: itemData.item.id,
+        });
+      }
     }
 
     return (
