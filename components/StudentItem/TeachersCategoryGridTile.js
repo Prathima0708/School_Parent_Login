@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
   icon: {
-    width: 50,
+    width: 60,
     height: 50,
     //borderWidth: 3,
     top: 15,

@@ -14,9 +14,9 @@ import {
 } from "react-native";
 import SelectList from "react-native-dropdown-select-list";
 import * as Notifications from "expo-notifications";
-
+import Checkbox from 'expo-checkbox';
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { Checkbox } from "react-native-paper";
+// import { CheckBox } from "react-native";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../../components/UI/Button";
@@ -57,14 +57,15 @@ var FROMDATE, TODATE;
 var USERNAME, TOKEN;
 var Group, NotificationId;
 const TeachersCalendar = () => {
-  const [checked, setChecked] = useState(false);
+
+  const [isAllChecked, setAllChecked] = useState(false);
   const [adminChecked, setAdminChecked] = useState(false);
   const [teacherChecked, setTeacherChecked] = useState(false);
   const [parentChecked, setParentChecked] = useState(false);
 
   const [selectedTouched, setSelectedTouched] = useState(false);
-  const checkedIsInvalid =
-    !adminChecked && !parentChecked && !teacherChecked && !checked;
+  // const checkedIsInvalid =
+  //   !adminChecked && !parentChecked && !teacherChecked && !checked;
 
   const [user, setUser] = useState("");
   const [token, setToken] = useState("");
@@ -176,7 +177,7 @@ const TeachersCalendar = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [isSame, SetIsSame] = useState(false);
-
+  const [isSelected, setSelection] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const [customDatesStyles, setCustomDatesStyles] = useState([]);
   const [specificData, setSpecificData] = useState([]);
@@ -764,7 +765,7 @@ const TeachersCalendar = () => {
     setIsTitleFocused(false);
     setIsDescFocused(false);
     setShowToggleBtn(false);
-    setChecked(false);
+    //setChecked(false);
     setAdminChecked(false);
     setTeacherChecked(false);
     setParentChecked(false);
@@ -932,7 +933,7 @@ const TeachersCalendar = () => {
     setAdminChecked(adminChecked);
     setParentChecked(parentChecked);
     setTeacherChecked(teacherChecked);
-    setChecked(checked);
+    //setChecked(checked);
   }
 
   async function fetchUser() {
@@ -956,7 +957,7 @@ const TeachersCalendar = () => {
   function allCheckHandler() {
     //setTest(true);
 
-    setChecked(!checked);
+    //setChecked(!checked);
     setTeacherChecked(!teacherChecked);
     setAdminChecked(!adminChecked);
     setParentChecked(!parentChecked);
@@ -1149,6 +1150,37 @@ const TeachersCalendar = () => {
     // } catch (error) {
     //   console.error(error);
     // }
+  }
+
+  useEffect(() => {
+    if (newData.viewOnly?.includes("admin,staff,parents")) {
+      setAllChecked(true);
+    }
+    if (newData.viewOnly?.includes("admin")) {
+      setAdminChecked(true);
+    }
+    if (newData.viewOnly?.includes("staff")) {
+      setTeacherChecked(true);
+    }
+    if (newData.viewOnly?.includes("parents")) {
+      setParentChecked(true);
+    }
+  }, [newData.viewOnly]);
+  
+  function adminCheckedHandler() {
+    setAdminChecked(!adminChecked);
+  }
+  function allCheckedHandler() {
+    setAllChecked(!isAllChecked);
+    setAdminChecked(!adminChecked);
+    setTeacherChecked(!teacherChecked);
+    setParentChecked(!parentChecked);
+  }
+  function teacherCheckedHandler() {
+    setTeacherChecked(!teacherChecked);
+  }
+  function parentCheckedHandler() {
+    setParentChecked(!parentChecked);
   }
 
   return (
@@ -1489,22 +1521,9 @@ const TeachersCalendar = () => {
                     >
                       <View style={{ flex: 0.3 }}>
                         <Checkbox
-                          // status={
-                          //   isEdit
-                          //     ? newData.viewOnly === "admin,staff,parents"
-                          //       ? "checked"
-                          //       : isEdit && !checked
-                          //       ? "unchecked"
-                          //       : "checked"
-                          //     : checked
-                          //     ? "checked"
-                          //     : "unchecked"
-                          // }
-
-                          status={checked ? "checked" : "unchecked"}
-                          onPress={allCheckHandler}
-                          color={"green"}
-                          uncheckColor={"red"}
+                          value={isAllChecked}
+                          onValueChange={allCheckedHandler}
+                          color={isAllChecked ? '#4630EB' : undefined}
                         />
                       </View>
                       <View style={{ flex: 0.3 }}>
@@ -1526,39 +1545,9 @@ const TeachersCalendar = () => {
                     >
                       <View style={{ flex: 0.3 }}>
                         <Checkbox
-                        status={
-                          isEdit &&
-                          newData.viewOnly.includes("admin")
-                            ? setAdminChecked(true)
-                            : adminChecked
-                            ? "checked"
-                            : "unchecked"
-                        }
-                          //status={adminChecked ? "checked" : "unchecked"}
-                          // status={
-                          //   isEdit
-                          //     ? newData.viewOnly === "admin" ||
-                          //       newData.viewOnly === "admin,staff,parents"
-                          //       ? "checked"
-                          //       : isEdit && !adminChecked
-                          //       ? "unchecked"
-                          //       : "checked"
-                          //     : adminChecked
-                          //     ? "checked"
-                          //     : "unchecked"
-                          // }
-                          onPress={() => {
-                            // setIsEdit(false);
-                            setAdminChecked(!adminChecked);
-                            //  setTest(true);
-                            if (!adminChecked) {
-                              console.log("check");
-                            } else {
-                              console.log("uncheck");
-                            }
-                          }}
-                          color={"green"}
-                          uncheckColor={"red"}
+                          value={adminChecked}
+                          onValueChange={adminCheckedHandler}
+                          color={adminChecked ? '#4630EB' : undefined}
                         />
                       </View>
                       <View style={{ flex: 0.5, top: "5%" }}>
@@ -1578,34 +1567,9 @@ const TeachersCalendar = () => {
                     >
                       <View style={{ flex: 0.3 }}>
                         <Checkbox
-                        status={
-                          isEdit &&
-                          newData.viewOnly.includes("staff")
-                            ? setTeacherChecked(true)
-                            : teacherChecked
-                            ? "checked"
-                            : "unchecked"
-                        }
-                          //status={teacherChecked ? "checked" : "unchecked"}
-                          // status={
-                          //   isEdit
-                          //     ? newData.viewOnly === "staff" ||
-                          //       newData.viewOnly === "admin,staff,parents"
-                          //       ? "checked"
-                          //       : isEdit && !teacherChecked
-                          //       ? "unchecked"
-                          //       : "checked"
-                          //     : teacherChecked
-                          //     ? "checked"
-                          //     : "unchecked"
-                          // }
-                          onPress={() => {
-                            // setIsEdit(!isEdit);
-                            setTeacherChecked(!teacherChecked);
-                            // setTest(true);
-                          }}
-                          color={"green"}
-                          uncheckColor={"red"}
+                          value={teacherChecked}
+                          onValueChange={teacherCheckedHandler}
+                          color={teacherChecked ? '#4630EB' : undefined}
                         />
                       </View>
                       <View style={{ flex: 0.6 }}>
@@ -1626,28 +1590,9 @@ const TeachersCalendar = () => {
                     >
                       <View style={{ flex: 0.3 }}>
                         <Checkbox
-                        
-                          // status={
-                          //   isEdit
-                          //     ? newData.viewOnly === "parents" ||
-                          //       newData.viewOnly === "admin,staff,parents"
-                          //       ? "checked"
-                          //       : isEdit && !parentChecked
-                          //       ? "unchecked"
-                          //       : "checked"
-                          //     : parentChecked
-                          //     ? "checked"
-                          //     : "unchecked"
-                          // }
-
-                          status={parentChecked ? "checked" : "unchecked"}
-                          onPress={() => {
-                            setParentChecked(!parentChecked);
-                            setShowParentClass(!showParentClass);
-                            //  setTest(true);
-                          }}
-                          color={"green"}
-                          uncheckColor={"red"}
+                          value={parentChecked}
+                          onValueChange={parentCheckedHandler}
+                          color={parentChecked ? '#4630EB' : undefined}
                         />
                       </View>
                       <View style={{ flex: 0.6, top: "5%" }}>
