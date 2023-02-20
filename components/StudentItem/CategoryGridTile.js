@@ -31,7 +31,7 @@ const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   gridItem: {
     flex: 1,
-    marginHorizontal: deviceHieght > 800 ? 20 : 10,
+    marginHorizontal: deviceHieght > 800 ? 13 : 10,
     marginVertical: deviceHieght > 800 ? 20 : 10,
     padding: 7,
     paddingTop: 0,
@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
     overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
   icon: {
-    width: 70,
-    height: 50,
+    width: 65,
+    height: 56,
     // borderWidth: 3,
     top: 15,
     left: 10,

@@ -93,6 +93,10 @@ function StudentCategories({ navigation }) {
         navigation.navigate("Academics", {
           stdId: itemData.item.id,
         });
+      } else if (itemData.item.id === "c6") {
+        navigation.navigate("Leave", {
+          stdId: itemData.item.id,
+        });
       }
     }
     return (

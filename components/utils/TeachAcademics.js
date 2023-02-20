@@ -38,7 +38,7 @@ export const TEACHERSACADEMICS = [
   new Category(
     "c1",
     "Homework",
-    "#F1F6FF",
+    "#F3FCFC",
 
     "https://img.icons8.com/nolan/96/00C6FF/0072FF/saving-book.png",
     // "#3559EA"
@@ -47,7 +47,7 @@ export const TEACHERSACADEMICS = [
   new Category(
     "c2",
     "Timetable",
-    "#FFFFF1",
+    "#FFFAED",
     "https://img.icons8.com/nolan/96/D9E021/FB872B/timeline-week.png",
     "#FB872B"
   ),
@@ -55,7 +55,7 @@ export const TEACHERSACADEMICS = [
   new Category(
     "c3",
     "Attendance",
-    "#feedee",
+    "#FEF1F1",
     "https://img.icons8.com/nolan/96/FF8177/B12A5B/checklist.png",
     "#B12A5B"
   ),
@@ -63,18 +63,18 @@ export const TEACHERSACADEMICS = [
     "c4",
     "Marksheet",
 
-    "#EFFFFD",
+    "#F0FCF9",
 
     "https://img.icons8.com/nolan/96/7DE3C3/0BA360/report-card.png",
     "#0BA360"
   ),
 
-  new Category(
-    "c5",
-    "Leave",
-    "#F1F6FF",
+  // new Category(
+  //   "c5",
+  //   "Leave",
+  //   "#F3FCFC",
 
-    "https://img.icons8.com/nolan/64/00C6FF/0072FF/leave.png",
-    "#3559EA"
-  ),
+  //   "https://img.icons8.com/nolan/64/00C6FF/0072FF/leave.png",
+  //   "#3559EA"
+  // ),
 ];
