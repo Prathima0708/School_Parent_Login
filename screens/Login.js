@@ -1,1648 +1,32 @@
-// // import { useEffect, useState } from "react";
-// // import Test from "../components/UI/LgButton";
-// // import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-// // import KeyboardAccessory from "react-native-sticky-keyboard-accessory";
-// // import {
-// //   Alert,
-// //   FlatList,
-// //   Text,
-// //   TextInput,
-// //   View,
-// //   Button as Btn,
-// //   KeyboardAvoidingView,
-// //   ScrollView,
-// //   Image,
-// //   Keyboard,
-// //   TouchableHighlight,
-// // } from "react-native";
-// // import Button from "../components/UI/Button";
-// // import axios from "axios";
-// // import { Colors } from "../components/constants/styles";
-// // import { useNavigation } from "@react-navigation/native";
-// // import { AsyncStorageStatic } from "react-native";
-// // import WelcomeScreen from "./WelcomeScreen";
-// // import AsyncStorage from "@react-native-async-storage/async-storage";
-// // import LgButton from "../components/UI/LgButton";
-// // import { TouchableWithoutFeedback } from "react-native";
-// // import { Platform } from "react-native";
-
-// // import { useFonts } from "expo-font";
-// // import { validateYupSchema } from "formik";
-// // import { formikFieldApplyYupTransforms } from "formik-yup";
-// // import { StyleSheet } from "react-native";
-// // import AccountTypeBtn from "../components/UI/AccountTypeBtn";
-// // import { Dimensions } from "react-native";
-// // import {
-// //   Icon as NativeIcon,
-// //   Input as NativeInput,
-// //   Pressable,
-// //   Button as NativeButton,
-// // } from "native-base";
-
-// // export var Token,
-// //   UserId,
-// //   LoginResponse,
-// //   Teacher,
-// //   TeacherEmail,
-// //   TeacherGroup,
-// //   ParentGroup;
-// // function Login() {
-// //   // const [fontsLoaded] = useFonts({
-// //   //   Roboto: require("../assets/fonts/Roboto-Black.ttf"),
-// //   //   RobotoBold: require("../assets/fonts/Roboto-Bold.ttf"),
-// //   // });
-// //   const navigation = useNavigation();
-// //   const [enteredUser, setEnteredUser] = useState("");
-// //   const [enteredPassword, setEnteredPassword] = useState("");
-// //   const [enteredPhone, setEnteredPhone] = useState("");
-// //   const [students, setStudents] = useState([]);
-// //   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
-// //   const [authToken, setAuthToken] = useState();
-
-// //   const [userNameFocused, setUserNameFocused] = useState(false);
-// //   const [passwordFocused, setPasswordFocused] = useState(false);
-// //   const [numberFocused, setNumberFocused] = useState(false);
-
-// //   const [userNameBlur, setUserNameBlur] = useState(false);
-// //   const [passwordBlur, setPasswordBlur] = useState(false);
-// //   const [numberBlur, setNumberBlur] = useState(false);
-
-// //   const [show, setShow] = useState(false);
-// //   const [show1, setShow1] = useState(false);
-// //   const [forPartentBackground, setForPartentBackground] = useState({
-// //     color: "#d9dffc",
-// //     borderTopColor: "#d9dffc",
-// //     borderBottomWidth: 0,
-// //     borderLeftWidth: 0,
-// //     borderRightWidth: 0,
-// //     fontFamily: "welcomeMsg",
-// //   });
-
-// //   const [forTeacherBackground, setForTeacherBackground] = useState({
-// //     color: "#3d4590",
-// //     borderTopColor: "#3d4590",
-// //     borderBottomWidth: 0,
-// //     borderLeftWidth: 0,
-// //     borderRightWidth: 0,
-// //     fontFamily: "welcomeMsg",
-// //   });
-// //   const [expandHight, setExpandHieght] = useState(false);
-
-// //   const [showPassword, setShowPassword] = useState(false);
-
-// //   // function login() {
-// //   //   //fun call get stdent  --  [{ctnum},{}]
-// //   //   // filter ctnum -- enteredPhone  ----- fitertedstdData = [{},{}] || []
-// //   //   // local storage  fitertedstdData  window.localstorage.setItem(stdentList, fitertedstdData)
-// //   //   // if fitertedstdData.length == 0 ? errMsg : Dashboard redirection (  window.localstorage.getItem(stdentList) )
-// //   // }
-
-// //   useEffect(() => {
-// //     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
-// //       setKeyboardStatus("Keyboard Shown");
-// //     });
-// //     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
-// //       setKeyboardStatus("Keyboard Hidden");
-// //     });
-
-// //     return () => {
-// //       showSubscription.remove();
-// //       hideSubscription.remove();
-// //     };
-// //   }, []);
-
-// //   async function login() {
-// //     try {
-// //       //  const token = "c4e8c2613ea3f60e47de0bd593ec2d71357e934b";
-// //       let headers = {
-// //         "Content-Type": "application/json; charset=utf-8",
-// //       };
-// //       const user = { username: enteredUser, password: enteredPassword };
-// //       Teacher = user.username;
-// //       const resLogin = await axios.post(
-// //         "http://10.0.2.2:8000/school/api-token-auth/",
-// //         user,
-
-// //         {
-// //           headers: headers,
-// //         }
-// //       );
-// //       // LoginResponse = resLogin;
-// //       const token = resLogin.data.token;
-// //       const userId = resLogin.data.user_id;
-// //       TeacherEmail = resLogin.data.email;
-// //       Token = token;
-// //       UserId = userId;
-// //       TeacherGroup = resLogin.data.groups[0] == "staff";
-// //       ParentGroup = resLogin.data.groups[0] == "parents";
-// //       console.log("teacher group is :", TeacherGroup);
-// //       console.log("parent group is :", ParentGroup);
-
-// //       try {
-// //         await AsyncStorage.setItem("datagroup", resLogin.data.groups[0]);
-// //         // await AsyncStorage.setItem("datagroupParent", resLogin.data.groups[1]);
-// //       } catch (error) {
-// //         // Error saving data
-// //       }
-
-// //       // setStudents(resLogin.data);
-
-// //       // let filteredlist = res.data.filter((ele) => ele.username == enteredPhone);
-// //       // studentList = filteredlist;
-// //       // console.log(filteredlist);
-// //       // if (filteredlist.length == 0) {
-// //       //   Alert.alert("Invalid Input", "Please enter valid credentials");
-// //       //   setEnteredPhone("");
-// //       // } else {
-
-// //       if (resLogin.data.groups[0] === "parents") {
-// //         // <WelcomeScreen />;
-
-// //         navigation.navigate("ParentsLoginScreen", {
-// //           phone: enteredPhone,
-// //         });
-// //       } else {
-// //         // console.log("TEACHERS PAGE");
-// //         navigation.navigate("TeachersLogin");
-// //       }
-
-// //       setEnteredUser("");
-// //       setEnteredPassword("");
-// //       setEnteredPhone("");
-// //       // }
-// //     } catch (error) {
-// //       console.log(error);
-// //     }
-// //     try {
-// //       await AsyncStorage.setItem("token", Token);
-// //     } catch (error) {
-// //       // Error saving data
-// //     }
-
-// //     try {
-// //       const value = await AsyncStorage.getItem("token");
-
-// //       if (value !== null) {
-// //         console.log("This is the token :" + value);
-// //       }
-// //     } catch (error) {
-// //       // Error retrieving data
-// //     }
-
-// //     // Saves to storage as a JSON-string
-// //     AsyncStorage.setItem("key", JSON.stringify(UserId));
-
-// //     // Retrieves from storage as boolean
-// //     AsyncStorage.getItem("key", (err, value) => {
-// //       if (err) {
-// //         console.log(err);
-// //       } else {
-// //         JSON.parse(value); // boolean false
-// //         console.log("this is the userid:" + value);
-// //       }
-// //     });
-
-// //     // AsyncStorage.setItem("Phone", enteredPhone);
-// //     // //  console.log(Group);
-
-// //     // let Phone = AsyncStorage.getItem("Phone");
-// //     // console.log(Phone);
-
-// //     AsyncStorage.setItem("Phone", JSON.stringify(enteredPhone));
-
-// //     // try {
-// //     //   const value = await AsyncStorage.getItem("Phone");
-
-// //     //   if (value !== null) {
-// //     //     console.log("This is the Phone of login page:" + value);
-// //     //   }
-// //     // } catch (error) {
-// //     //   // Error retrieving data
-// //     // }
-// //   }
-// //   function toggleParents() {
-// //     setShow(true);
-// //     setExpandHieght(true);
-// //     setForTeacherBackground({
-// //       color: "#d9dffc",
-// //       borderTopColor: "#d9dffc",
-// //       borderBottomWidth: 0,
-// //       borderLeftWidth: 0,
-// //       borderRightWidth: 0,
-// //     });
-
-// //     setForPartentBackground({
-// //       color: "#3d4590",
-// //       borderTopColor: "#3d4590",
-// //       borderBottomWidth: 0,
-// //       borderLeftWidth: 0,
-// //       borderRightWidth: 0,
-// //     });
-
-// //     if (enteredUser != null) {
-// //       setEnteredUser("");
-// //     }
-// //     if (enteredPassword != null) {
-// //       setEnteredPassword("");
-// //     }
-// //     //navigation.navigate("TeachersLogin");
-// //   }
-// //   function userInputHandler(enteredValue) {
-// //     setEnteredUser(enteredValue);
-// //   }
-// //   function passwordInputHandler(enteredValue) {
-// //     setEnteredPassword(enteredValue);
-// //   }
-// //   function phoneInputHandler(enteredValue) {
-// //     setEnteredPhone(enteredValue);
-// //   }
-
-// //   function toggleTeachers() {
-// //     setShow(false);
-// //     setExpandHieght(false);
-// //     setForPartentBackground({
-// //       color: "#d9dffc",
-// //       borderTopColor: "#d9dffc",
-// //       borderBottomWidth: 0,
-// //       borderLeftWidth: 0,
-// //       borderRightWidth: 0,
-// //     });
-// //     setForTeacherBackground({
-// //       color: "#3d4590",
-// //       borderTopColor: "#3d4590",
-// //       borderBottomWidth: 0,
-// //       borderLeftWidth: 0,
-// //       borderRightWidth: 0,
-// //     });
-
-// //     if (enteredUser != null) {
-// //       setEnteredUser("");
-// //     }
-// //     if (enteredPassword != null) {
-// //       setEnteredPassword("");
-// //     }
-// //     if (enteredPhone != null) {
-// //       setEnteredPhone("");
-// //     }
-// //   }
-
-// //   function userNameFocusHandler() {
-// //     setUserNameFocused(true);
-// //     setUserNameBlur(false);
-// //   }
-// //   function userNameBlurHandler() {
-// //     setUserNameBlur(true);
-// //     setUserNameFocused(false);
-// //   }
-
-// //   function passwordFocusHandler() {
-// //     setPasswordFocused(true);
-// //     setPasswordBlur(false);
-// //   }
-// //   function passwordBlurHandler() {
-// //     setPasswordBlur(true);
-// //     setPasswordFocused(false);
-// //   }
-
-// //   function numberFocusHandler() {
-// //     setNumberFocused(true);
-// //     setNumberBlur(false);
-// //   }
-// //   function numberBlurHandler() {
-// //     setNumberBlur(true);
-// //     setNumberFocused(false);
-// //   }
-
-// //   const handleClick = () => setShowPassword(!showPassword);
-
-// //   return (
-// //     <>
-// //       <View style={{ flex: 1 }}>
-// //         <View style={styles.upperPartView}>
-// //           {keyboardStatus == "Keyboard Hidden" && (
-// //             <Image
-// //               style={styles.bannerImage}
-// //               source={
-// //                 deviceWidth < 370
-// //                   ? require("../assets/kinaraui4.png")
-// //                   : require("../assets/kinarabg2.png")
-// //               }
-// //             />
-// //           )}
-// //         </View>
-// //         <View
-// //           style={
-// //             keyboardStatus == "Keyboard Hidden"
-// //               ? expandHight
-// //                 ? styles.test
-// //                 : styles.lowerPartView
-// //               : expandHight
-// //               ? styles.AccountTypeBtn
-// //               : styles.AccountTypeBtnDown
-// //           }
-// //         >
-// //           <Text
-// //             style={[
-// //               styles.subheading,
-// //               keyboardStatus == "Keyboard Shown" && styles.setAccTypeStyle,
-// //             ]}
-// //           >
-// //             Choose account type
-// //           </Text>
-// //           <View style={styles.buttonContainer}>
-// //             <AccountTypeBtn
-// //               onPress={toggleTeachers}
-// //               style={[forTeacherBackground]}
-// //             >
-// //               Teachers
-// //             </AccountTypeBtn>
-// //             <View style={styles.space} />
-// //             <AccountTypeBtn
-// //               onPress={toggleParents}
-// //               style={forPartentBackground}
-// //             >
-// //               Parents
-// //             </AccountTypeBtn>
-// //           </View>
-// //           {/* <TextInput
-// //             onChangeText={userInputHandler}
-// //             style={userNameFocused ? styles.focusedBorderColor : styles.inputStyle}
-// //             value={enteredUser}
-// //             placeholder="Username"
-// //             onFocus={userNameFocusHandler}
-// //             onBlur={userNameBlurHandler}
-// //           /> */}
-// //           <NativeInput
-// //             type="text"
-// //             w="80%"
-// //             left="11%"
-// //             top="6"
-// //             borderWidth={2}
-// //             onChangeText={userInputHandler}
-// //             value={enteredUser}
-// //             style={styles.inputStyle}
-// //             // py="0"
-// //             placeholder="Username"
-// //           />
-// //           {/* <Ionicons
-// //                 name={showPassword ? "eye-outline" : "eye-off-outline"}
-// //                 size={28}
-// //                 color="black"
-// //                 style={{
-// //                   position: "absolute",
-// //                   top: deviceHieght < 600 ? "17%" : "20%",
-// //                 }}
-// //                 onPress={iconPressed}
-// //             />
-// //           <TextInput
-// //             secureTextEntry={true}
-// //             onChangeText={passwordInputHandler}
-// //             style={passwordFocused ? styles.focusedBorderColor : styles.inputStyle}
-// //             value={enteredPassword}
-// //             placeholder="Password"
-// //             onFocus={passwordFocusHandler}
-// //             onBlur={passwordBlurHandler}
-
-// //           /> */}
-// //           <NativeInput
-// //             type={showPassword ? "text" : "password"}
-// //             w="80%"
-// //             left="11%"
-// //             top="9"
-// //             borderWidth={1}
-// //             onChangeText={passwordInputHandler}
-// //             value={enteredPassword}
-// //             // py="0"
-// //             style={styles.inputStyle}
-// //             InputRightElement={
-// //               <NativeButton
-// //                 size="xs"
-// //                 rounded="none"
-// //                 w="1/5"
-// //                 h="full"
-// //                 onPress={handleClick}
-// //               >
-// //                 {showPassword ? (
-// //                   <Ionicons name="eye-outline" size={24} color="white" />
-// //                 ) : (
-// //                   <Ionicons name="eye-off-outline" size={24} color="white" />
-// //                 )}
-// //               </NativeButton>
-// //             }
-// //             placeholder="Password"
-// //           />
-// //           {/* <Input
-// //             variant="outline"
-// //             w={{
-// //               base: "75%",
-// //               md: "25%",
-// //             }}
-// //             marginTop={5}
-// //             ml={39}
-// //             fontSize={18}
-// //             type={show1 ? "text" : "password"}
-// //             InputRightElement={
-// //               <Pressable onPress={() => setShow1(!show1)}>
-// //                 <Icon
-// //                   as={
-// //                     <MaterialIcons
-// //                       name={show1 ? "visibility" : "visibility-off"}
-// //                     />
-// //                   }
-// //                   size={5}
-// //                   mr="2"
-// //                   color="muted.400"
-// //                 />
-// //               </Pressable>
-// //             }
-// //             placeholder="Password"
-// //           /> */}
-// //           {show && (
-// //             <>
-// //               {/* <TextInput
-// //                 onChangeText={phoneInputHandler}
-// //                 style={numberFocused ? styles.focusedBorderColor : styles.inputStyle}
-// //                 value={enteredPhone}
-// //                 keyboardType="number-pad"
-// //                 placeholder="Registered Phone Number"
-// //                 onFocus={numberFocusHandler}
-// //                 onBlur={numberBlurHandler}
-// //               /> */}
-// //               <NativeInput
-// //                 type="number"
-// //                 w="80%"
-// //                 keyboardType="number-pad"
-// //                 left="11%"
-// //                 borderWidth={1}
-// //                 top="12"
-// //                 onChangeText={phoneInputHandler}
-// //                 value={enteredPhone}
-// //                 style={styles.inputStyle}
-// //                 // py="0"
-// //                 placeholder="Registered phone number"
-// //               />
-// //             </>
-// //           )}
-// //           <TouchableHighlight
-// //             style={styles.submit}
-// //             onPress={login}
-// //             underlayColor="#4FA3C4"
-// //           >
-// //             <Text style={[styles.submitText]}>Login</Text>
-// //           </TouchableHighlight>
-// //         </View>
-// //       </View>
-// //     </>
-// //   );
-// // }
-
-// // export default Login;
-// // const deviceHieght = Dimensions.get("window").height;
-// // const deviceWidth = Dimensions.get("window").width;
-// // console.log("hieght" + deviceHieght);
-// // console.log("width" + deviceWidth);
-// // const styles = StyleSheet.create({
-// //   upperPartView: {
-// //     flex: 2,
-// //     backgroundColor: "white",
-// //   },
-// //   lowerPartView: {
-// //     flex: 2,
-// //     position: "absolute",
-// //     top: deviceHieght < 600 ? "40%" : "40%",
-// //     backgroundColor: "white",
-// //     width: deviceWidth < 370 ? "80%" : "90%",
-// //     left: deviceWidth < 370 ? "10%" : "5%",
-// //     borderRadius: 10,
-// //     elevation: 10,
-// //     height: "50%",
-// //   },
-// //   test: {
-// //     flex: 2,
-// //     position: "absolute",
-// //     top: deviceHieght < 600 ? "38%" : "40%",
-// //     backgroundColor: "white",
-// //     width: deviceWidth < 370 ? "80%" : "90%",
-// //     left: deviceWidth < 370 ? "10%" : "5%",
-// //     borderRadius: 10,
-// //     elevation: 10,
-// //     height: deviceHieght < 600 ? "60%" : "55%",
-// //   },
-// //   container: {
-// //     flex: 1,
-// //     backgroundColor: "red",
-// //   },
-// //   lateralContainer: {
-// //     height: "100%",
-// //   },
-// //   bannerImage: {
-// //     width: "100%",
-// //     height: 300,
-// //     position: "absolute",
-// //     top: deviceHieght < 600 ? -50 : -35,
-// //   },
-// //   loginTypeText: {
-// //     justifyContent: "center",
-// //     alignItems: "center",
-// //   },
-// //   buttonContainer: {
-// //     flexDirection: "row",
-// //     left: deviceWidth < 370 ? "15%" : "10%",
-// //     width: deviceWidth < 370 ? "80%" : "80%",
-// //     top: "5%",
-// //   },
-
-// //   inputContainer: {
-// //     position: "absolute",
-// //     top: "60%",
-
-// //     borderTopWidth: 0,
-
-// //     padding: "10%",
-// //     paddingTop: "5%",
-// //     width: deviceWidth < 370 ? "70%" : "100%",
-// //     left: "5%",
-
-// //     elevation: 11,
-// //     shadowColor: "black",
-// //     backgroundColor: "white",
-// //     shadowOpacity: 0.75,
-// //     shadowOffset: { width: 0, height: 2 },
-// //     shadowRadius: 8,
-// //   },
-// //   accTypeText: {
-// //     justifyContent: "center",
-// //     alignItems: "center",
-// //     top: -40,
-// //   },
-// //   inputStyle: {
-// //     // color: "black",
-// //     // borderWidth: 2,
-// //     // borderColor: "#dddddd",
-// //     // paddingHorizontal: "5%",
-// //     // paddingVertical: deviceWidth < 370 ? "1%" : "2%",
-// //     // borderRadius: 7,
-// //     // fontSize: deviceWidth < 370 ? 16 : 20,
-// //     // fontFamily: "HindRegular",
-// //     // margin: "2%",
-// //     // top: "7%",
-// //     // left: deviceWidth < 370 ? "8%" : "8%",
-// //     // width: deviceWidth < 370 ? "80%" : "80%",
-// //     fontSize: deviceWidth < 370 ? 16 : 20,
-// //     fontFamily: "HindRegular",
-// //   },
-
-// //   submit: {
-// //     padding: "3%",
-// //     backgroundColor: "#59b8dd",
-// //     borderRadius: 10,
-// //     borderWidth: 1,
-// //     top: "15%",
-// //     borderColor: "#fff",
-// //     left: deviceWidth < 370 ? "10%" : "10%",
-// //     width: deviceWidth < 370 ? "80%" : "80%",
-// //   },
-// //   submitText: {
-// //     color: "#fff",
-// //     textAlign: "center",
-// //     fontSize: deviceWidth < 370 ? 16 : 20,
-// //     fontFamily: "HindSemiBold",
-// //   },
-// //   AccountTypeBtn: {
-// //     flex: 2,
-// //     position: "absolute",
-// //     top: deviceHieght < 600 ? "5%" : "7%",
-// //     backgroundColor: "white",
-// //     width: deviceWidth < 370 ? "80%" : "90%",
-// //     left: deviceWidth < 370 ? "10%" : "5%",
-// //     borderRadius: 10,
-// //     elevation: 10,
-// //     height: deviceHieght < 600 ? "100%" : "90%",
-// //   },
-// //   AccountTypeBtnDown: {
-// //     flex: 2,
-// //     position: "absolute",
-// //     top: deviceHieght < 600 ? "5%" : "7%",
-// //     backgroundColor: "white",
-// //     width: deviceWidth < 370 ? "80%" : "90%",
-// //     left: deviceWidth < 370 ? "10%" : "5%",
-// //     borderRadius: 10,
-// //     elevation: 10,
-// //     height: deviceHieght < 600 ? "100%" : "80%",
-// //   },
-// //   setAccTypeStyle: {
-// //     top: 10,
-// //   },
-// //   showInputCont: {
-// //     top: 100,
-// //   },
-// //   showTypeBtnCont: {
-// //     top: 50,
-// //   },
-// //   subheading: {
-// //     color: "grey",
-// //     fontSize: deviceWidth < 370 ? 16 : 20,
-// //     fontFamily: "HindRegular",
-// //     justifyContent: "center",
-// //     left: "25%",
-// //     top: 5,
-// //   },
-// //   focusedBorderColor: {
-// //     borderColor: "#484EFF",
-// //     color: "black",
-// //     borderWidth: 2,
-// //     paddingHorizontal: "5%",
-// //     paddingVertical: deviceWidth < 370 ? "1%" : "2%",
-// //     borderRadius: 7,
-// //     fontSize: deviceWidth < 370 ? 16 : 20,
-// //     fontFamily: "HindRegular",
-// //     margin: "2%",
-// //     top: "7%",
-// //     left: deviceWidth < 370 ? "8%" : "8%",
-// //     width: deviceWidth < 370 ? "80%" : "80%",
-// //   },
-// //   showText: {
-// //     color: "white",
-// //     fontSize: 11.9,
-// //   },
-// // });
-
-// import { useEffect, useState, useRef } from "react";
-
-// import Test from "../components/UI/LgButton";
-// import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-// import KeyboardAccessory from "react-native-sticky-keyboard-accessory";
-// import {
-//   Alert,
-//   FlatList,
-//   Text,
-//   TextInput,
-//   View,
-//   Button as Btn,
-//   KeyboardAvoidingView,
-//   ScrollView,
-//   Image,
-//   Keyboard,
-//   TouchableHighlight,
-// } from "react-native";
-// import {
-//   HStack,
-//   VStack,
-//   Alert as NativeAlert,
-//   Text as NativeText,
-//   AlertDialog,
-// } from "native-base";
-// import Button from "../components/UI/Button";
-// import axios from "axios";
-// import { Colors } from "../components/constants/styles";
-// import { useNavigation } from "@react-navigation/native";
-// import { AsyncStorageStatic } from "react-native";
-// import WelcomeScreen from "./WelcomeScreen";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-// import LgButton from "../components/UI/LgButton";
-// import { TouchableWithoutFeedback } from "react-native";
-// import { Platform } from "react-native";
-
-// import { useFonts } from "expo-font";
-// import { validateYupSchema } from "formik";
-// import { formikFieldApplyYupTransforms } from "formik-yup";
-// import { StyleSheet } from "react-native";
-// import AccountTypeBtn from "../components/UI/AccountTypeBtn";
-// import { Dimensions } from "react-native";
-// import {
-//   Icon as NativeIcon,
-//   Input as NativeInput,
-//   Pressable,
-//   Button as NativeButton,
-// } from "native-base";
-// import { value } from "./ParentsLoginScreen/ParentsLoginScreen";
-// import { mainURL, subURL } from "../components/utils/URL's";
-// import * as Notifications from "expo-notifications";
-
-// export var Token,
-//   UserId,
-//   LoginResponse,
-//   Teacher,
-//   TeacherEmail,
-//   TeacherGroup,
-//   PHONENO,
-//   VALUE,
-//   ParentGroup,
-//   UserName,
-//   StaffPhoto;
-// export var studentList = [];
-// var PushToken, NotificationUserId;
-
-// Notifications.setNotificationHandler({
-//   handleNotification: async () => {
-//     return {
-//       shouldPlaySound: false,
-//       shouldSetBadge: false,
-//       shouldShowAlert: true,
-//       title: "Custom",
-//     };
-//   },
-// });
-// function Login() {
-//   // const [fontsLoaded] = useFonts({
-//   //   Roboto: require("../assets/fonts/Roboto-Black.ttf"),
-//   //   RobotoBold: require("../assets/fonts/Roboto-Bold.ttf"),
-//   // });
-//   const [isOpen, setIsOpen] = useState(false);
-//   const cancelRef = useRef(null);
-//   const navigation = useNavigation();
-//   const [enteredUser, setEnteredUser] = useState("");
-//   const [enteredPassword, setEnteredPassword] = useState("");
-//   const [enteredPhone, setEnteredPhone] = useState("");
-
-//   const [invalidPassword, setInValidPassword] = useState(false);
-//   const [invalidUserName, setInValidUserName] = useState(false);
-//   const [invalidForm, setInValidForm] = useState(false);
-//   const [staff, setStaff] = useState([]);
-
-//   const [students, setStudents] = useState([]);
-//   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
-//   const [authToken, setAuthToken] = useState();
-
-//   const [userNameFocused, setUserNameFocused] = useState(false);
-//   const [passwordFocused, setPasswordFocused] = useState(false);
-//   const [numberFocused, setNumberFocused] = useState(false);
-
-//   const [userNameBlur, setUserNameBlur] = useState(false);
-//   const [passwordBlur, setPasswordBlur] = useState(false);
-//   const [numberBlur, setNumberBlur] = useState(false);
-
-//   const [show, setShow] = useState(false);
-//   const [show1, setShow1] = useState(false);
-//   const [forPartentBackground, setForPartentBackground] = useState({
-//     color: "#d9dffc",
-//     borderTopColor: "#d9dffc",
-//     borderBottomWidth: 0,
-//     borderLeftWidth: 0,
-//     borderRightWidth: 0,
-//     fontFamily: "welcomeMsg",
-//   });
-
-//   const [forTeacherBackground, setForTeacherBackground] = useState({
-//     color: "#3d4590",
-//     borderTopColor: "#3d4590",
-//     borderBottomWidth: 0,
-//     borderLeftWidth: 0,
-//     borderRightWidth: 0,
-//     fontFamily: "welcomeMsg",
-//   });
-//   const [expandHight, setExpandHieght] = useState(false);
-
-//   const [showPassword, setShowPassword] = useState(false);
-//   const [pushTkn, setPushTkn] = useState();
-//   const onClose = () => setIsOpen(false);
-//   // function login() {
-//   //   //fun call get stdent  --  [{ctnum},{}]
-//   //   // filter ctnum -- enteredPhone  ----- fitertedstdData = [{},{}] || []
-//   //   // local storage  fitertedstdData  window.localstorage.setItem(stdentList, fitertedstdData)
-//   //   // if fitertedstdData.length == 0 ? errMsg : Dashboard redirection (  window.localstorage.getItem(stdentList) )
-//   // }
-
-//   const [saveImg, setSaveImg] = useState(``);
-
-//   useEffect(() => {
-//     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
-//       setKeyboardStatus("Keyboard Shown");
-//     });
-//     const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
-//       setKeyboardStatus("Keyboard Hidden");
-//     });
-
-//     return () => {
-//       showSubscription.remove();
-//       hideSubscription.remove();
-//     };
-//   }, []);
-
-//   useEffect(() => {
-//     async function configurePushNotifications() {
-//       const { status } = await Notifications.getPermissionsAsync();
-//       let finalStatus = status;
-
-//       if (finalStatus !== "granted") {
-//         const { status } = await Notifications.requestPermissionsAsync();
-//         finalStatus = status;
-//       }
-
-//       console.log("final status is", finalStatus);
-
-//       if (finalStatus !== "granted") {
-//         Alert.alert(
-//           "permission required",
-//           "Push notifications need the appropriate permissions."
-//         );
-//         return;
-//       }
-//       console.log("final status is", finalStatus);
-
-//       // const pushTokenData = await Notifications.getExpoPushTokenAsync().then(
-//       //   (pushToken) => {
-//       //     console.log(pushToken.data);
-//       //     //setPushTkn(pushToken);
-//       //     PushToken = pushToken.data;
-
-//       //     if (Platform.OS === "android") {
-//       //       Notifications.setNotificationChannelAsync("default", {
-//       //         name: "default",
-//       //         importance: Notifications.AndroidImportance.DEFAULT,
-//       //       });
-//       //     }
-//       //   }
-//       // );
-
-//       const pushTokenData = await Notifications.getExpoPushTokenAsync().then(
-//         (pushToken) => {
-//           console.log(pushToken.data);
-//           PushToken = pushToken.data;
-//           //  setPushTkn(pushToken);
-
-//           if (Platform.OS === "android") {
-//             Notifications.setNotificationChannelAsync("default", {
-//               name: "default",
-//               importance: Notifications.AndroidImportance.DEFAULT,
-//             });
-//           }
-//         }
-//       );
-//     }
-
-//     configurePushNotifications();
-//   }, []);
-
-//   useEffect(() => {
-//     const subscription1 = Notifications.addNotificationReceivedListener(
-//       (notification) => {
-//         console.log("Notification received");
-//         // console.log("token",notification)
-//       }
-//     );
-
-//     const subscription2 = Notifications.addNotificationResponseReceivedListener(
-//       (response) => {
-//         console.log("Notification response received");
-
-//         //console.log(response)
-//       }
-//     );
-//     return () => {
-//       subscription1.remove();
-//       subscription2.remove();
-//     };
-//   }, []);
-
-//   useEffect(() => {
-//     async function fetchData() {
-//       try {
-//         // http://10.0.2.2:8000/school/Calendar/
-//         const res = await axios.get(`${subURL}/Institute/`);
-//         // console.log(res.data[0].instituteLogo)
-//         setSaveImg(res.data[0].instituteLogo);
-//       } catch (error) {
-//         console.log(error);
-//       }
-//       // setLoading(false);
-//     }
-//     fetchData();
-//   }, []);
-
-//   async function login() {
-//     if (enteredUser.length <= 0) {
-//       setInValidUserName(true);
-//       setInValidPassword(false);
-//       setInValidForm(false);
-//       setIsOpen(!isOpen);
-//     }
-//     if (enteredPassword.length <= 0) {
-//       setInValidPassword(true);
-//       setInValidUserName(false);
-//       setInValidForm(false);
-//       setIsOpen(!isOpen);
-//     }
-//     if (enteredUser.length <= 0 && enteredPassword.length <= 0) {
-//       setIsOpen(!isOpen);
-//       setInValidUserName(false);
-//       setInValidPassword(false);
-//       setInValidForm(true);
-//     } else {
-//       try {
-//         //  const token = "c4e8c2613ea3f60e47de0bd593ec2d71357e934b";
-
-//         let headers = {
-//           "Content-Type": "application/json; charset=utf-8",
-//         };
-
-//         const user = { username: enteredUser, password: enteredPassword };
-
-//         const resLogin = await axios.post(
-//           `${subURL}/api-token-auth/`,
-//           user,
-
-//           {
-//             headers: headers,
-//           }
-//         );
-//         NotificationUserId = resLogin.data.user_id;
-//         const formData = {
-//           user_id: resLogin.data.user_id,
-
-//           notification_token: PushToken,
-//         };
-//         const getNotificationRes = await axios.get(`${subURL}/Notification/`);
-//         let filteredNotification = getNotificationRes.data.filter(
-//           (ele) => ele.user_id.id == NotificationUserId
-//         );
-//         if (filteredNotification.length > 0) {
-//           console.log("token existing");
-//         } else {
-//           const notificationRes = await axios.post(
-//             `${subURL}/Notification/`,
-//             formData
-//           );
-//           console.log(notificationRes.data);
-//         }
-
-//         const res = await axios.get(`${subURL}/Student/`);
-//         const staffres = await axios.get(`${subURL}/Staff`);
-//         //   console.log(staffres.data);
-//         // let filteredStaff = staffres.data.filter(
-//         //   (ele) => ele.user_id.username == enteredUser
-//         // );
-//         // console.log(filteredStaff);
-//         // console.log("this is staff photo-", filteredStaff[0].staff_photo);
-//         // StaffPhoto = filteredStaff[0].staff_photo;
-//         let filteredlist = res.data.filter(
-//           (ele) => ele.contact_num == enteredPhone
-//         );
-//         console.log("from login page");
-//         console.log(filteredlist);
-
-//         const token = resLogin.data.token;
-//         const userId = resLogin.data.user_id;
-//         TeacherEmail = resLogin.data.email;
-//         Token = token;
-//         UserId = userId;
-//         TeacherGroup = resLogin.data.groups[0] == "staff";
-//         ParentGroup = resLogin.data.groups[0] == "parents";
-//         console.log("teacher group is :", TeacherGroup);
-//         console.log("parent group is :", ParentGroup);
-//         Teacher = user.username;
-
-//         console.log("this is the username from console log", Teacher);
-
-//         try {
-//           await AsyncStorage.setItem("UserName", Teacher);
-//           // await AsyncStorage.setItem("datagroupParent", resLogin.data.groups[1]);
-//         } catch (error) {
-//           // Error saving data
-//         }
-
-//         try {
-//           await AsyncStorage.setItem("datagroup", resLogin.data.groups[0]);
-//           // await AsyncStorage.setItem("datagroupParent", resLogin.data.groups[1]);
-//         } catch (error) {
-//           // Error saving data
-//         }
-//         try {
-//           await AsyncStorage.setItem("Phone", enteredPhone);
-//         } catch (error) {}
-
-//         try {
-//           PHONENO = await AsyncStorage.getItem("Phone");
-
-//           console.log("this is the ph value from login", PHONENO);
-//         } catch (error) {}
-
-//         // if (PHONENO !== enteredPhone) {
-//         //   Alert.alert("Invalid no");
-//         // }
-//         // if (filteredlist.length == 0) {
-//         //   Alert.alert("Invalid Input", "Please enter a valid phone number");
-//         //   navigation.navigate("Login");
-//         // }
-//         // if (resLogin.data.groups[0] === "parents") {
-//         if (resLogin.data.groups.includes("parents")) {
-//           if (filteredlist.length == 0) {
-//             Alert.alert("Invalid Input", "Please enter a valid phone number");
-//             setEnteredUser("");
-//             setEnteredPassword("");
-//             setEnteredPhone("");
-//             return;
-//           }
-//           console.log("group name -", resLogin.data.groups[0]);
-//           console.log(PHONENO);
-//           // <WelcomeScreen />;
-
-//           navigation.navigate("ParentsLoginScreen", {
-//             phone: PHONENO,
-//           });
-//         } else if (resLogin.data.groups.includes("staff")) {
-//           console.log(resLogin.data.groups[0]);
-//           // console.log("TEACHERS PAGE");
-//           navigation.navigate("TeachersLogin", {
-//             //   username: UserName,
-//           });
-//         }
-
-//         setEnteredUser("");
-//         setEnteredPassword("");
-//         setEnteredPhone("");
-//         // }
-//       } catch (error) {
-//         console.log(error);
-//       }
-
-//       try {
-//         await AsyncStorage.setItem("token", Token);
-//       } catch (error) {
-//         // Error saving data
-//       }
-
-//       try {
-//         const value = await AsyncStorage.getItem("token");
-//         VALUE = value;
-//         // if (value == null) {
-//         //   await AsyncStorage.removeItem("Phone");
-//         //   console.log("this is the ph value after logout", PHONENO);
-//         // }
-//         if (value !== null) {
-//           console.log("This is the token :" + value);
-//         }
-//       } catch (error) {
-//         // Error retrieving data
-//       }
-
-//       // Saves to storage as a JSON-string
-//       AsyncStorage.setItem("key", JSON.stringify(UserId));
-
-//       // Retrieves from storage as boolean
-//       AsyncStorage.getItem("key", (err, value) => {
-//         if (err) {
-//           console.log(err);
-//         } else {
-//           JSON.parse(value); // boolean false
-//           // console.log("this is the userid:" + value);
-//         }
-//       });
-
-//       // AsyncStorage.setItem("Phone", enteredPhone);
-//       // //  console.log(Group);
-
-//       // let Phone = AsyncStorage.getItem("Phone");
-//       // console.log(Phone);
-
-//       // try {
-//       //   const value = await AsyncStorage.getItem("Phone");
-
-//       //   if (value !== null) {
-//       //     console.log("This is the Phone of login page:" + value);
-//       //   }
-//       // } catch (error) {
-//       //   // Error retrieving data
-//       // }
-//     }
-//   }
-//   function toggleParents() {
-//     setShow(true);
-//     setExpandHieght(true);
-//     setForTeacherBackground({
-//       color: "#d9dffc",
-//       borderTopColor: "#d9dffc",
-//       borderBottomWidth: 0,
-//       borderLeftWidth: 0,
-//       borderRightWidth: 0,
-//     });
-
-//     setForPartentBackground({
-//       color: "#3d4590",
-//       borderTopColor: "#3d4590",
-//       borderBottomWidth: 0,
-//       borderLeftWidth: 0,
-//       borderRightWidth: 0,
-//     });
-
-//     if (enteredUser != null) {
-//       setEnteredUser("");
-//     }
-//     if (enteredPassword != null) {
-//       setEnteredPassword("");
-//     }
-//     //navigation.navigate("TeachersLogin");
-//   }
-//   function userInputHandler(enteredValue) {
-//     setEnteredUser(enteredValue);
-//   }
-//   function passwordInputHandler(enteredValue) {
-//     setEnteredPassword(enteredValue);
-//   }
-//   function phoneInputHandler(enteredValue) {
-//     setEnteredPhone(enteredValue);
-//   }
-
-//   function toggleTeachers() {
-//     setShow(false);
-//     setExpandHieght(false);
-//     setForPartentBackground({
-//       color: "#d9dffc",
-//       borderTopColor: "#d9dffc",
-//       borderBottomWidth: 0,
-//       borderLeftWidth: 0,
-//       borderRightWidth: 0,
-//     });
-//     setForTeacherBackground({
-//       color: "#3d4590",
-//       borderTopColor: "#3d4590",
-//       borderBottomWidth: 0,
-//       borderLeftWidth: 0,
-//       borderRightWidth: 0,
-//     });
-
-//     if (enteredUser != null) {
-//       setEnteredUser("");
-//     }
-//     if (enteredPassword != null) {
-//       setEnteredPassword("");
-//     }
-//     if (enteredPhone != null) {
-//       setEnteredPhone("");
-//     }
-//   }
-
-//   function userNameFocusHandler() {
-//     setUserNameFocused(true);
-//     setUserNameBlur(false);
-//   }
-//   function userNameBlurHandler() {
-//     setUserNameBlur(true);
-//     setUserNameFocused(false);
-//   }
-
-//   function passwordFocusHandler() {
-//     setPasswordFocused(true);
-//     setPasswordBlur(false);
-//   }
-//   function passwordBlurHandler() {
-//     setPasswordBlur(true);
-//     setPasswordFocused(false);
-//   }
-
-//   function numberFocusHandler() {
-//     setNumberFocused(true);
-//     setNumberBlur(false);
-//   }
-//   function numberBlurHandler() {
-//     setNumberBlur(true);
-//     setNumberFocused(false);
-//   }
-
-//   const handleClick = () => setShowPassword(!showPassword);
-
-//   return (
-//     <>
-//       <View style={{ flex: 1 }}>
-//         <View style={styles.upperPartView}>
-//           {keyboardStatus == "Keyboard Hidden" && (
-//             <Image
-//               style={styles.bannerImage}
-//               source={
-//                 // deviceWidth < 370
-//                 //   ? require("../assets/kinaraui4.png")
-//                 //   : require("../assets/kinarabg2.png")
-//                 { uri: `${mainURL}${saveImg}` }
-//               }
-//             />
-//           )}
-//         </View>
-//         <View
-//           style={
-//             keyboardStatus == "Keyboard Hidden"
-//               ? expandHight
-//                 ? styles.test
-//                 : styles.lowerPartView
-//               : expandHight
-//               ? styles.AccountTypeBtn
-//               : styles.AccountTypeBtnDown
-//           }
-//         >
-//           <Text
-//             style={[
-//               styles.subheading,
-//               keyboardStatus == "Keyboard Shown" && styles.setAccTypeStyle,
-//             ]}
-//           >
-//             Choose account type
-//           </Text>
-//           <View style={styles.buttonContainer}>
-//             <AccountTypeBtn
-//               onPress={toggleTeachers}
-//               style={[forTeacherBackground]}
-//             >
-//               Teachers
-//             </AccountTypeBtn>
-//             <View style={styles.space} />
-//             <AccountTypeBtn
-//               onPress={toggleParents}
-//               style={forPartentBackground}
-//             >
-//               Parents
-//             </AccountTypeBtn>
-//           </View>
-//           {/* <TextInput
-//             onChangeText={userInputHandler}
-//             style={userNameFocused ? styles.focusedBorderColor : styles.inputStyle}
-//             value={enteredUser}
-//             placeholder="Username"
-//             onFocus={userNameFocusHandler}
-//             onBlur={userNameBlurHandler}
-//           /> */}
-//           <NativeInput
-//             type="text"
-//             w="80%"
-//             left="11%"
-//             top="6"
-//             height={deviceHieght < 800 ? "16%" : "13%"}
-//             borderWidth={2}
-//             onChangeText={userInputHandler}
-//             value={enteredUser}
-//             style={styles.inputStyle}
-//             // py="0"
-//             placeholder="Username"
-//           />
-//           {/* <Ionicons
-//                 name={showPassword ? "eye-outline" : "eye-off-outline"}
-//                 size={28}
-//                 color="black"
-//                 style={{
-//                   position: "absolute",
-//                   top: deviceHieght < 600 ? "17%" : "20%",
-//                 }}
-//                 onPress={iconPressed}
-//             />
-//           <TextInput
-//             secureTextEntry={true}
-//             onChangeText={passwordInputHandler}
-//             style={passwordFocused ? styles.focusedBorderColor : styles.inputStyle}
-//             value={enteredPassword}
-//             placeholder="Password"
-//             onFocus={passwordFocusHandler}
-//             onBlur={passwordBlurHandler}
-
-//           /> */}
-//           <NativeInput
-//             type={showPassword ? "text" : "password"}
-//             w="80%"
-//             left="11%"
-//             top="9"
-//             height={deviceHieght < 800 ? "16%" : "13%"}
-//             borderWidth={1}
-//             onChangeText={passwordInputHandler}
-//             value={enteredPassword}
-//             // py="0"
-//             style={styles.inputStyle}
-//             InputRightElement={
-//               <NativeButton
-//                 size="xs"
-//                 rounded="none"
-//                 w="1/5"
-//                 h="full"
-//                 onPress={handleClick}
-//               >
-//                 {showPassword ? (
-//                   <Ionicons name="eye-outline" size={24} color="white" />
-//                 ) : (
-//                   <Ionicons name="eye-off-outline" size={24} color="white" />
-//                 )}
-//               </NativeButton>
-//             }
-//             placeholder="Password"
-//           />
-//           {/* <Input
-//             variant="outline"
-//             w={{
-//               base: "75%",
-//               md: "25%",
-//             }}
-//             marginTop={5}
-//             ml={39}
-//             fontSize={18}
-//             type={show1 ? "text" : "password"}
-//             InputRightElement={
-//               <Pressable onPress={() => setShow1(!show1)}>
-//                 <Icon
-//                   as={
-//                     <MaterialIcons
-//                       name={show1 ? "visibility" : "visibility-off"}
-//                     />
-//                   }
-//                   size={5}
-//                   mr="2"
-//                   color="muted.400"
-//                 />
-//               </Pressable>
-//             }
-//             placeholder="Password"
-//           /> */}
-//           {show && (
-//             <>
-//               {/* <TextInput
-//                 onChangeText={phoneInputHandler}
-//                 style={numberFocused ? styles.focusedBorderColor : styles.inputStyle}
-//                 value={enteredPhone}
-//                 keyboardType="number-pad"
-//                 placeholder="Registered Phone Number"
-//                 onFocus={numberFocusHandler}
-//                 onBlur={numberBlurHandler}
-//               /> */}
-//               <NativeInput
-//                 type="number"
-//                 w="80%"
-//                 keyboardType="number-pad"
-//                 left="11%"
-//                 borderWidth={1}
-//                 top="12"
-//                 height={deviceHieght < 800 ? "14%" : "13%"}
-//                 onChangeText={phoneInputHandler}
-//                 value={enteredPhone}
-//                 style={styles.inputStyle}
-//                 // py="0"
-//                 placeholder="Registered phone number"
-//               />
-//             </>
-//           )}
-//           <TouchableHighlight
-//             style={styles.submit}
-//             onPress={login}
-//             underlayColor="#4FA3C4"
-//           >
-//             <Text style={[styles.submitText]}>Login</Text>
-//           </TouchableHighlight>
-//           {/* {invalidPassword && <Text>You have to enter at least 6 digit</Text>} */}
-
-//           <AlertDialog
-//             leastDestructiveRef={cancelRef}
-//             isOpen={isOpen}
-//             top="5%"
-//             onClose={onClose}
-//           >
-//             <AlertDialog.Content>
-//               {invalidUserName && (
-//                 <>
-//                   {/* <AlertDialog.Header>Please enter all fields</AlertDialog.Header> */}
-//                   <AlertDialog.Body>
-//                     You have to enter all the fields
-//                   </AlertDialog.Body>
-//                 </>
-//               )}
-//               {invalidPassword && (
-//                 <>
-//                   {/* <AlertDialog.Header>Please enter all fields</AlertDialog.Header> */}
-//                   <AlertDialog.Body>
-//                     You have to enter all the fields
-//                   </AlertDialog.Body>
-//                 </>
-//               )}
-//               {invalidForm && (
-//                 <>
-//                   {/* <AlertDialog.Header>Please enter all fields</AlertDialog.Header> */}
-//                   <AlertDialog.Body>
-//                     You have to enter all the fields
-//                   </AlertDialog.Body>
-//                 </>
-//               )}
-//               <AlertDialog.Footer>
-//                 <NativeButton.Group space={2}>
-//                   <NativeButton
-//                     colorScheme="primary"
-//                     onPress={onClose}
-//                     size="xs"
-//                   >
-//                     Okay
-//                   </NativeButton>
-//                 </NativeButton.Group>
-//               </AlertDialog.Footer>
-//             </AlertDialog.Content>
-//           </AlertDialog>
-//         </View>
-//       </View>
-//     </>
-//   );
-// }
-
-// export default Login;
-// const deviceHieght = Dimensions.get("window").height;
-// const deviceWidth = Dimensions.get("window").width;
-// console.log("hieght" + deviceHieght);
-// console.log("width" + deviceWidth);
-// const styles = StyleSheet.create({
-//   upperPartView: {
-//     flex: 2,
-//     backgroundColor: "white",
-//   },
-//   lowerPartView: {
-//     flex: 2,
-//     position: "absolute",
-//     top: deviceHieght < 600 ? "40%" : "40%",
-//     backgroundColor: "white",
-//     width: deviceWidth < 370 ? "80%" : "90%",
-//     left: deviceWidth < 370 ? "10%" : "5%",
-//     borderRadius: 10,
-//     elevation: 10,
-//     height: "50%",
-//   },
-//   test: {
-//     flex: 2,
-//     position: "absolute",
-//     top: deviceHieght < 600 ? "38%" : "40%",
-//     backgroundColor: "white",
-//     width: deviceWidth < 370 ? "80%" : "90%",
-//     left: deviceWidth < 370 ? "10%" : "5%",
-//     borderRadius: 10,
-//     elevation: 10,
-//     height: deviceHieght < 600 ? "60%" : "55%",
-//   },
-//   container: {
-//     flex: 1,
-//     backgroundColor: "red",
-//   },
-//   lateralContainer: {
-//     height: "100%",
-//   },
-//   bannerImage: {
-//     width: "100%",
-//     height: 300,
-//     position: "absolute",
-//     top: deviceHieght < 600 ? -50 : -35,
-//   },
-//   loginTypeText: {
-//     justifyContent: "center",
-//     alignItems: "center",
-//   },
-//   buttonContainer: {
-//     flexDirection: "row",
-//     left: deviceWidth < 370 ? "15%" : "10%",
-//     width: deviceWidth < 370 ? "80%" : "80%",
-//     top: "5%",
-//   },
-
-//   inputContainer: {
-//     position: "absolute",
-//     top: "60%",
-
-//     borderTopWidth: 0,
-
-//     padding: "10%",
-//     paddingTop: "5%",
-//     width: deviceWidth < 370 ? "70%" : "100%",
-//     left: "5%",
-
-//     elevation: 11,
-//     shadowColor: "black",
-//     backgroundColor: "white",
-//     shadowOpacity: 0.75,
-//     shadowOffset: { width: 0, height: 2 },
-//     shadowRadius: 8,
-//   },
-//   accTypeText: {
-//     justifyContent: "center",
-//     alignItems: "center",
-//     top: -40,
-//   },
-//   inputStyle: {
-//     // color: "black",
-//     // borderWidth: 2,
-//     // borderColor: "#dddddd",
-//     // paddingHorizontal: "5%",
-//     // paddingVertical: deviceWidth < 370 ? "1%" : "2%",
-//     // borderRadius: 7,
-//     // fontSize: deviceWidth < 370 ? 16 : 20,
-//     // fontFamily: "HindRegular",
-//     // margin: "2%",
-//     // top: "7%",
-//     // left: deviceWidth < 370 ? "8%" : "8%",
-//     // width: deviceWidth < 370 ? "80%" : "80%",
-//     fontSize: deviceWidth < 370 ? 16 : 20,
-//     fontFamily: "HindRegular",
-//   },
-
-//   submit: {
-//     padding: "3%",
-//     backgroundColor: "#1E84A4",
-//     borderRadius: 10,
-//     borderWidth: 1,
-//     top: deviceWidth < 370 ? "18%" : "15%",
-//     borderColor: "#fff",
-//     left: deviceWidth < 370 ? "10%" : "10%",
-//     width: deviceWidth < 370 ? "80%" : "80%",
-//   },
-//   submitText: {
-//     color: "#fff",
-//     textAlign: "center",
-//     fontSize: deviceWidth < 370 ? 16 : 20,
-//     fontFamily: "HindSemiBold",
-//   },
-//   AccountTypeBtn: {
-//     flex: 2,
-//     position: "absolute",
-//     top: deviceHieght < 600 ? "5%" : "7%",
-//     backgroundColor: "white",
-//     width: deviceWidth < 370 ? "80%" : "90%",
-//     left: deviceWidth < 370 ? "10%" : "5%",
-//     borderRadius: 10,
-//     elevation: 10,
-//     height: deviceHieght < 600 ? "100%" : "90%",
-//   },
-//   AccountTypeBtnDown: {
-//     flex: 2,
-//     position: "absolute",
-//     top: deviceHieght < 600 ? "5%" : "7%",
-//     backgroundColor: "white",
-//     width: deviceWidth < 370 ? "80%" : "90%",
-//     left: deviceWidth < 370 ? "10%" : "5%",
-//     borderRadius: 10,
-//     elevation: 10,
-//     height: deviceHieght < 600 ? "100%" : "80%",
-//   },
-//   setAccTypeStyle: {
-//     top: 10,
-//   },
-//   showInputCont: {
-//     top: 100,
-//   },
-//   showTypeBtnCont: {
-//     top: 50,
-//   },
-//   subheading: {
-//     color: "grey",
-//     fontSize: deviceWidth < 370 ? 16 : 20,
-//     fontFamily: "HindRegular",
-//     justifyContent: "center",
-//     left: "25%",
-//     top: 5,
-//   },
-//   focusedBorderColor: {
-//     borderColor: "#484EFF",
-//     color: "black",
-//     borderWidth: 2,
-//     paddingHorizontal: "5%",
-//     paddingVertical: deviceWidth < 370 ? "1%" : "2%",
-//     borderRadius: 7,
-//     fontSize: deviceWidth < 370 ? 16 : 20,
-//     fontFamily: "HindRegular",
-//     margin: "2%",
-//     top: "7%",
-//     left: deviceWidth < 370 ? "8%" : "8%",
-//     width: deviceWidth < 370 ? "80%" : "80%",
-//   },
-//   showText: {
-//     color: "white",
-//     fontSize: 11.9,
-//   },
-// });
-
 import { useEffect, useState, useRef } from "react";
 
-import Test from "../components/UI/LgButton";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import KeyboardAccessory from "react-native-sticky-keyboard-accessory";
+
 import {
   Alert,
-  FlatList,
   Text,
-  TextInput,
   View,
   Button as Btn,
-  KeyboardAvoidingView,
-  ScrollView,
   Image,
   Keyboard,
   TouchableHighlight,
   Switch,
 } from "react-native";
 import {
-  HStack,
-  VStack,
   Alert as NativeAlert,
   Text as NativeText,
   AlertDialog,
 } from "native-base";
-import Button from "../components/UI/Button";
+
 import axios from "axios";
-import { Colors } from "../components/constants/styles";
+
 import { useNavigation } from "@react-navigation/native";
-import { AsyncStorageStatic } from "react-native";
-import WelcomeScreen from "./WelcomeScreen";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import LgButton from "../components/UI/LgButton";
-import { TouchableWithoutFeedback } from "react-native";
+
 import { Platform } from "react-native";
-import * as SecureStore from 'expo-secure-store';
-import { useFonts } from "expo-font";
-import { validateYupSchema } from "formik";
-import { formikFieldApplyYupTransforms } from "formik-yup";
+import * as SecureStore from "expo-secure-store";
+
 import { StyleSheet } from "react-native";
 import AccountTypeBtn from "../components/UI/AccountTypeBtn";
 import { Dimensions } from "react-native";
@@ -1652,10 +36,10 @@ import {
   Pressable,
   Button as NativeButton,
 } from "native-base";
-import { value } from "./ParentsLoginScreen/ParentsLoginScreen";
+
 import { mainURL, subURL } from "../components/utils/URL's";
 import * as Notifications from "expo-notifications";
-import * as Device from 'expo-device';
+import * as Device from "expo-device";
 
 export var Token,
   UserId,
@@ -1669,7 +53,7 @@ export var Token,
   UserName,
   StaffPhoto;
 export var studentList = [];
-var PushToken, NotificationUserId;
+var NotificationUserId;
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -1680,31 +64,27 @@ Notifications.setNotificationHandler({
 });
 
 async function registerForPushNotificationsAsync() {
-
-
   let token;
   if (Device.isDevice) {
-    console.log("device is",Device.isDevice)
+    console.log("device is", Device.isDevice);
     const { status: existingStatus } =
       await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
-    console.log("existing status",existingStatus)
+    console.log("existing status", existingStatus);
     if (existingStatus !== "granted") {
       const { status } = await Notifications.requestPermissionsAsync();
       finalStatus = status;
     }
-    console.log("status is",finalStatus)
+    console.log("status is", finalStatus);
     if (finalStatus !== "granted") {
       alert("Failed to get push token for push notification!");
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
     console.log(token);
-  } 
-  else {
+  } else {
     alert("Must use physical device for Push Notifications");
   }
-
 
   if (Platform.OS === "android") {
     Notifications.setNotificationChannelAsync("custom", {
@@ -1719,11 +99,8 @@ async function registerForPushNotificationsAsync() {
 }
 
 function Login() {
-  // const [fontsLoaded] = useFonts({
-  //   Roboto: require("../assets/fonts/Roboto-Black.ttf"),
-  //   RobotoBold: require("../assets/fonts/Roboto-Bold.ttf"),
-  // });
   const [rememberMe, setRememberMe] = useState(false);
+  
 
   const [isOpen, setIsOpen] = useState(false);
   const cancelRef = useRef(null);
@@ -1735,11 +112,8 @@ function Login() {
   const [invalidPassword, setInValidPassword] = useState(false);
   const [invalidUserName, setInValidUserName] = useState(false);
   const [invalidForm, setInValidForm] = useState(false);
-  const [staff, setStaff] = useState([]);
 
-  const [students, setStudents] = useState([]);
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
-  const [authToken, setAuthToken] = useState();
 
   const [userNameFocused, setUserNameFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
@@ -1750,7 +124,7 @@ function Login() {
   const [numberBlur, setNumberBlur] = useState(false);
 
   const [show, setShow] = useState(false);
-  const [show1, setShow1] = useState(false);
+  const [loginType, setLoginType] = useState("teacher");
   const [forPartentBackground, setForPartentBackground] = useState({
     color: "#d9dffc",
     borderTopColor: "#d9dffc",
@@ -1771,23 +145,16 @@ function Login() {
   const [expandHight, setExpandHieght] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
-  const [pushTkn, setPushTkn] = useState();
+
   const onClose = () => setIsOpen(false);
-  // function login() {
-  //   //fun call get stdent  --  [{ctnum},{}]
-  //   // filter ctnum -- enteredPhone  ----- fitertedstdData = [{},{}] || []
-  //   // local storage  fitertedstdData  window.localstorage.setItem(stdentList, fitertedstdData)
-  //   // if fitertedstdData.length == 0 ? errMsg : Dashboard redirection (  window.localstorage.getItem(stdentList) )
-  // }
 
   const [saveImg, setSaveImg] = useState(``);
 
   const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(false);
+
   const notificationListener = useRef();
   const responseListener = useRef();
-
- 
 
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) =>
@@ -1826,93 +193,15 @@ function Login() {
     };
   }, []);
 
-  // useEffect(() => {
-  //   async function configurePushNotifications() {
-  //     const { status } = await Notifications.getPermissionsAsync();
-  //     let finalStatus = status;
-
-  //     if (finalStatus !== "granted") {
-  //       const { status } = await Notifications.requestPermissionsAsync();
-  //       finalStatus = status;
-  //     }
-
-  //     console.log("final status is", finalStatus);
-
-  //     if (finalStatus !== "granted") {
-  //       Alert.alert(
-  //         "permission required",
-  //         "Push notifications need the appropriate permissions."
-  //       );
-  //       return;
-  //     }
-  //     console.log("final status is", finalStatus);
-
-  //     // const pushTokenData = await Notifications.getExpoPushTokenAsync().then(
-  //     //   (pushToken) => {
-  //     //     console.log(pushToken.data);
-  //     //     //setPushTkn(pushToken);
-  //     //     PushToken = pushToken.data;
-
-  //     //     if (Platform.OS === "android") {
-  //     //       Notifications.setNotificationChannelAsync("default", {
-  //     //         name: "default",
-  //     //         importance: Notifications.AndroidImportance.DEFAULT,
-  //     //       });
-  //     //     }
-  //     //   }
-  //     // );
-
-  //     const pushTokenData = await Notifications.getExpoPushTokenAsync().then(
-  //       (pushToken) => {
-  //         console.log(pushToken);
-  //         PushToken = pushToken.data;
-  //         //  setPushTkn(pushToken);
-
-  //         if (Platform.OS === "android") {
-  //           Notifications.setNotificationChannelAsync("default", {
-  //             name: "default",
-  //             importance: Notifications.AndroidImportance.DEFAULT,
-  //           });
-  //         }
-  //       }
-  //     );
-  //   }
-
-  //   configurePushNotifications();
-  // }, []);
-
-  // useEffect(() => {
-  //   const subscription1 = Notifications.addNotificationReceivedListener(
-  //     (notification) => {
-  //       console.log("Notification received");
-  //       // console.log("token",notification)
-  //     }
-  //   );
-
-  //   const subscription2 = Notifications.addNotificationResponseReceivedListener(
-  //     (response) => {
-  //       console.log("Notification response received");
-
-  //       //console.log(response)
-  //     }
-  //   );
-  //   return () => {
-  //     subscription1.remove();
-  //     subscription2.remove();
-  //   };
-  // }, []);
-
   useEffect(() => {
     async function fetchData() {
       try {
-        // http://10.0.2.2:8000/school/Calendar/
         const res = await axios.get(`${subURL}/Institute/`);
-        // console.log(res.data[0].instituteLogo)
+
         setSaveImg(res.data[0].instituteLogo);
       } catch (error) {
         console.log(error);
       }
-      // setLoading(false);
     }
     fetchData();
   }, []);
@@ -1937,8 +226,6 @@ function Login() {
       setInValidForm(true);
     } else {
       try {
-        //  const token = "c4e8c2613ea3f60e47de0bd593ec2d71357e934b";
-
         let headers = {
           "Content-Type": "application/json; charset=utf-8",
         };
@@ -1976,13 +263,7 @@ function Login() {
 
         const res = await axios.get(`${subURL}/Student/`);
         const staffres = await axios.get(`${subURL}/Staff`);
-        //   console.log(staffres.data);
-        // let filteredStaff = staffres.data.filter(
-        //   (ele) => ele.user_id.username == enteredUser
-        // );
-        // console.log(filteredStaff);
-        // console.log("this is staff photo-", filteredStaff[0].staff_photo);
-        // StaffPhoto = filteredStaff[0].staff_photo;
+
         let filteredlist = res.data.filter(
           (ele) => ele.contact_num == enteredPhone
         );
@@ -2004,17 +285,11 @@ function Login() {
 
         try {
           await AsyncStorage.setItem("UserName", Teacher);
-          // await AsyncStorage.setItem("datagroupParent", resLogin.data.groups[1]);
-        } catch (error) {
-          // Error saving data
-        }
+        } catch (error) {}
 
         try {
           await AsyncStorage.setItem("datagroup", resLogin.data.groups[0]);
-          // await AsyncStorage.setItem("datagroupParent", resLogin.data.groups[1]);
-        } catch (error) {
-          // Error saving data
-        }
+        } catch (error) {}
         try {
           await AsyncStorage.setItem("Phone", enteredPhone);
         } catch (error) {}
@@ -2025,14 +300,6 @@ function Login() {
           console.log("this is the ph value from login", PHONENO);
         } catch (error) {}
 
-        // if (PHONENO !== enteredPhone) {
-        //   Alert.alert("Invalid no");
-        // }
-        // if (filteredlist.length == 0) {
-        //   Alert.alert("Invalid Input", "Please enter a valid phone number");
-        //   navigation.navigate("Login");
-        // }
-        // if (resLogin.data.groups[0] === "parents") {
         if (resLogin.data.groups.includes("parents")) {
           if (filteredlist.length == 0) {
             Alert.alert("Invalid Input", "Please enter a valid phone number");
@@ -2041,112 +308,109 @@ function Login() {
             setEnteredPhone("");
             return;
           }
-          console.log("group name -", resLogin.data.groups[0]);
-          console.log(PHONENO);
-          // <WelcomeScreen />;
 
           navigation.navigate("ParentsLoginScreen", {
             phone: PHONENO,
           });
         } else if (resLogin.data.groups.includes("staff")) {
-          console.log(resLogin.data.groups[0]);
-          // console.log("TEACHERS PAGE");
-          navigation.navigate("TeachersLogin", {
-            //   username: UserName,
-          });
+          navigation.navigate("TeachersLogin", {});
         }
 
         setEnteredUser("");
         setEnteredPassword("");
         setEnteredPhone("");
-        // }
       } catch (error) {
         console.log(error);
       }
 
       try {
         await AsyncStorage.setItem("token", Token);
-      } catch (error) {
-        // Error saving data
-      }
+      } catch (error) {}
 
       try {
         const value = await AsyncStorage.getItem("token");
         VALUE = value;
-        // if (value == null) {
-        //   await AsyncStorage.removeItem("Phone");
-        //   console.log("this is the ph value after logout", PHONENO);
-        // }
+
         if (value !== null) {
           console.log("This is the token :" + value);
         }
-      } catch (error) {
-        // Error retrieving data
-      }
+      } catch (error) {}
 
-      // Saves to storage as a JSON-string
       AsyncStorage.setItem("key", JSON.stringify(UserId));
 
-      // Retrieves from storage as boolean
       AsyncStorage.getItem("key", (err, value) => {
         if (err) {
           console.log(err);
         } else {
-          JSON.parse(value); // boolean false
-          // console.log("this is the userid:" + value);
+          JSON.parse(value);
         }
       });
-
-      // AsyncStorage.setItem("Phone", enteredPhone);
-      // //  console.log(Group);
-
-      // let Phone = AsyncStorage.getItem("Phone");
-      // console.log(Phone);
-
-      // try {
-      //   const value = await AsyncStorage.getItem("Phone");
-
-      //   if (value !== null) {
-      //     console.log("This is the Phone of login page:" + value);
-      //   }
-      // } catch (error) {
-      //   // Error retrieving data
-      // }
     }
   }
 
   useEffect(() => {
     const getLoginCredentials = async () => {
-      const storedEmail = await SecureStore.getItemAsync('email');
-      const storedPassword = await SecureStore.getItemAsync('password');
-      const storedPhone = await SecureStore.getItemAsync('phone');
-      
+      const storedEmail = await SecureStore.getItemAsync("email");
+      const storedPassword = await SecureStore.getItemAsync("password");
+      const storedLoginType = await SecureStore.getItemAsync("loginType");
+      const storedPhone =
+        storedLoginType === "parent"
+          ? await SecureStore.getItemAsync("phone")
+          : "";
+
       if (storedEmail && storedPassword) {
-        setEnteredUser(storedEmail);
-        setEnteredPassword(storedPassword);
+        loginType === "teacher"
+          ? setEnteredUser(storedEmail)
+          : setEnteredUser("");
+
+        loginType === "teacher"
+          ? setEnteredPassword(storedPassword)
+          : setEnteredPassword("");
+
+        setRememberMe(true);
+      }
+
+      if (storedEmail && storedPassword && storedPhone) {
+        loginType === "parent"
+          ? setEnteredUser(storedEmail)
+          : setEnteredUser("");
+
+        loginType === "parent"
+          ? setEnteredPassword(storedPassword)
+          : setEnteredPassword("");
         setEnteredPhone(storedPhone);
         setRememberMe(true);
       }
     };
 
     getLoginCredentials();
-  }, []);
-
-
-  const handleRememberMe = async (email, password,phone, rememberMe) => {
+  }, [loginType, show]);
+  const handleRememberMe = async (
+    email,
+    password,
+    phone,
+    rememberMe,
+    loginType
+  ) => {
     if (rememberMe) {
-      await SecureStore.setItemAsync('email', email);
-      await SecureStore.setItemAsync('password', password);
-      await SecureStore.setItemAsync('phone', phone);
+      await SecureStore.setItemAsync("email", email);
+      await SecureStore.setItemAsync("password", password);
+      await SecureStore.setItemAsync("loginType", loginType);
+      if (loginType === "parent") {
+        await SecureStore.setItemAsync("phone", phone);
+      }
     } else {
-      await SecureStore.deleteItemAsync('email');
-      await SecureStore.deleteItemAsync('password');
-      await SecureStore.deleteItemAsync('phone');
+      await SecureStore.deleteItemAsync("email");
+      await SecureStore.deleteItemAsync("password");
+      await SecureStore.deleteItemAsync("loginType");
+      if (loginType === "parent") {
+        await SecureStore.deleteItemAsync("phone");
+      }
     }
   };
-
   function toggleParents() {
     setShow(true);
+    setLoginType("parent");
     setExpandHieght(true);
     setForTeacherBackground({
       color: "#d9dffc",
@@ -2170,7 +434,6 @@ function Login() {
     if (enteredPassword != null) {
       setEnteredPassword("");
     }
-    //navigation.navigate("TeachersLogin");
   }
   function userInputHandler(enteredValue) {
     setEnteredUser(enteredValue);
@@ -2184,6 +447,7 @@ function Login() {
 
   function toggleTeachers() {
     setShow(false);
+    setLoginType("teacher");
     setExpandHieght(false);
     setForPartentBackground({
       color: "#d9dffc",
@@ -2211,33 +475,6 @@ function Login() {
     }
   }
 
-  function userNameFocusHandler() {
-    setUserNameFocused(true);
-    setUserNameBlur(false);
-  }
-  function userNameBlurHandler() {
-    setUserNameBlur(true);
-    setUserNameFocused(false);
-  }
-
-  function passwordFocusHandler() {
-    setPasswordFocused(true);
-    setPasswordBlur(false);
-  }
-  function passwordBlurHandler() {
-    setPasswordBlur(true);
-    setPasswordFocused(false);
-  }
-
-  function numberFocusHandler() {
-    setNumberFocused(true);
-    setNumberBlur(false);
-  }
-  function numberBlurHandler() {
-    setNumberBlur(true);
-    setNumberFocused(false);
-  }
-
   const handleClick = () => setShowPassword(!showPassword);
 
   return (
@@ -2247,12 +484,7 @@ function Login() {
           {keyboardStatus == "Keyboard Hidden" && (
             <Image
               style={styles.bannerImage}
-              source={
-                // deviceWidth < 370
-                //   ? require("../assets/kinaraui4.png")
-                //   : require("../assets/kinarabg2.png")
-                { uri: `${mainURL}${saveImg}` }
-              }
+              source={{ uri: `${mainURL}${saveImg}` }}
             />
           )}
         </View>
@@ -2275,11 +507,18 @@ function Login() {
           >
             Choose account type
           </Text>
-          <View style={[styles.buttonContainer,keyboardStatus == "Keyboard Shown" && {...Platform.select({
-            ios:{
-             left:'7%'
-            }
-          })}]}>
+          <View
+            style={[
+              styles.buttonContainer,
+              keyboardStatus == "Keyboard Shown" && {
+                ...Platform.select({
+                  ios: {
+                    left: "7%",
+                  },
+                }),
+              },
+            ]}
+          >
             <AccountTypeBtn
               onPress={toggleTeachers}
               style={[forTeacherBackground]}
@@ -2297,48 +536,55 @@ function Login() {
           <View
             style={[
               {
-                // Try setting `flexDirection` to `"row"`.
-                flex:1,
-                flexDirection: 'column',
+                flex: 1,
+                flexDirection: "column",
               },
-            ]}>
-            <View style={[{ flex: 1,
-              justifyContent:'center',
-              alignItems:'center'},keyboardStatus == "Keyboard Shown" && {...Platform.select({
-                ios:{
-                 flex:0.3
-                }
-              })} ]} >
+            ]}
+          >
+            <View
+              style={[
+                { flex: 1, justifyContent: "center", alignItems: "center" },
+                keyboardStatus == "Keyboard Shown" && {
+                  ...Platform.select({
+                    ios: {
+                      flex: 0.3,
+                    },
+                  }),
+                },
+              ]}
+            >
               <NativeInput
                 type="text"
                 w="80%"
-                //left={keyboardStatus=='Keyboard Shown' && Platform.OS=='ios' ? "7%" :  '11%'} 
-                //top="6"
-                //height={deviceHieght < 800 ? "16%" : "13%"}
                 borderWidth={2}
                 onChangeText={userInputHandler}
                 value={enteredUser}
                 style={styles.inputStyle}
-                // py="0"
                 placeholder="Username"
               />
             </View>
-            <View style={[{flex: 0.6,justifyContent:'flex-start',alignItems:'center'},
-              keyboardStatus == "Keyboard Shown" && {...Platform.select({
-                ios:{
-                flex:0.2
-                }
-              })}]} >
+            <View
+              style={[
+                {
+                  flex: 0.6,
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                },
+                keyboardStatus == "Keyboard Shown" && {
+                  ...Platform.select({
+                    ios: {
+                      flex: 0.2,
+                    },
+                  }),
+                },
+              ]}
+            >
               <NativeInput
                 type={showPassword ? "text" : "password"}
                 w="80%"
-                //left={keyboardStatus=='Keyboard Shown' && Platform.OS=='ios' ? "7%" :  '11%'} 
-                //top="9"
-                //height={deviceHieght < 800 ? "16%" : "13%"}
                 borderWidth={1}
                 onChangeText={passwordInputHandler}
                 value={enteredPassword}
-                // py="0"
                 style={styles.inputStyle}
                 InputRightElement={
                   <NativeButton
@@ -2351,84 +597,172 @@ function Login() {
                     {showPassword ? (
                       <Ionicons name="eye-outline" size={24} color="white" />
                     ) : (
-                      <Ionicons name="eye-off-outline" size={24} color="white" />
+                      <Ionicons
+                        name="eye-off-outline"
+                        size={24}
+                        color="white"
+                      />
                     )}
                   </NativeButton>
                 }
                 placeholder="Password"
-            />
-            </View>
-            {show &&
-            <View style={[{flex: 1,alignItems:'center',justifyContent:'center',},keyboardStatus == "Keyboard Shown" && {...Platform.select({
-              ios:{
-              flex:0.2
-              }
-            })}]} >
-              <NativeInput
-                type="number"
-                w="80%"
-                keyboardType="number-pad"
-                //left={keyboardStatus=='Keyboard Shown' && Platform.OS=='ios' ? "7%" :  '11%'} 
-                borderWidth={1}
-                //top="12"
-                //height={deviceHieght < 800 ? "14%" : "13%"}
-                onChangeText={phoneInputHandler}
-                value={enteredPhone}
-                style={styles.inputStyle}
-                // py="0"
-                placeholder="Registered phone number"
               />
-            </View>}
-            <View style={{flex: 0.4}} >
+            </View>
+            {show && loginType === "parent" && (
               <View
                 style={[
                   {
-                    // Try setting `flexDirection` to `"row"`.
-                    flex:1,
-                    flexDirection: 'row',
+                    flex: 1,
+                    alignItems: "center",
+                    justifyContent: "center",
                   },
-                ]}>
-                <View style={[styles.radioStyle,keyboardStatus == "Keyboard Shown" && {justifyContent:'space-around'}]}>
-                  <Switch
-                    style={styles.switch}
-                    value={rememberMe}
-                    onValueChange={(value) => {
-                      setRememberMe(value);
-                      handleRememberMe(enteredUser, enteredPassword, enteredPhone,value);
-                    }}
-                  />
-                </View>
-                <View style={[styles.checkText, keyboardStatus == "Keyboard Shown" && {...Platform.select({
-                ios:{
-                 justifyContent:'center',
-                 marginBottom:'8%'
-                }
-              })}]}>
-                  <Text style={[styles.rememberMeText]}>Remember me</Text>
-                </View>
-                <View style={{flex: 0.3}}>
-                
+                  keyboardStatus == "Keyboard Shown" && {
+                    ...Platform.select({
+                      ios: {
+                        flex: 0.2,
+                      },
+                    }),
+                  },
+                ]}
+              >
+                <NativeInput
+                  type="number"
+                  w="80%"
+                  keyboardType="number-pad"
+                  borderWidth={1}
+                  onChangeText={phoneInputHandler}
+                  value={enteredPhone}
+                  style={styles.inputStyle}
+                  placeholder="Registered phone number"
+                />
+              </View>
+            )}
+
+            {show && (
+              <View style={{ flex: 0.4 }}>
+                <View
+                  style={[
+                    {
+                      flex: 1,
+                      flexDirection: "row",
+                    },
+                  ]}
+                >
+                  <View
+                    style={[
+                      styles.radioStyle,
+                      keyboardStatus == "Keyboard Shown" && {
+                        justifyContent: "space-around",
+                      },
+                    ]}
+                  >
+                    <Switch
+                      value={rememberMe}
+                      onValueChange={(value) => {
+                        setRememberMe(value);
+                        handleRememberMe(
+                          enteredUser,
+                          enteredPassword,
+                          enteredPhone,
+                          value,
+                          loginType
+                        );
+                      }}
+                    />
+                  </View>
+                  <View
+                    style={[
+                      styles.checkText,
+                      keyboardStatus == "Keyboard Shown" && {
+                        ...Platform.select({
+                          ios: {
+                            justifyContent: "center",
+                            marginBottom: "8%",
+                          },
+                        }),
+                      },
+                    ]}
+                  >
+                    <Text style={[styles.rememberMeText]}>Remember P</Text>
+                  </View>
+                  <View style={{ flex: 0.3 }}></View>
                 </View>
               </View>
-            </View>
-            <View style={[{flex: 1,justifyContent:'flex-start',alignItems:'center'},keyboardStatus == "Keyboard Shown" &&
-             {...Platform.select({
-                ios:{
-                 paddingBottom:'10%'
-                }
-              })}]} >
-            <TouchableHighlight
-              style={styles.submit}
-              onPress={login}
-              underlayColor="#4FA3C4"
+            )}
+
+            {!show && (
+              <View style={{ flex: 0.4 }}>
+                <View
+                  style={[
+                    {
+                      flex: 1,
+                      flexDirection: "row",
+                    },
+                  ]}
+                >
+                  <View
+                    style={[
+                      styles.radioStyle,
+                      keyboardStatus == "Keyboard Shown" && {
+                        justifyContent: "space-around",
+                      },
+                    ]}
+                  >
+                    <Switch
+                      value={rememberMe}
+                      onValueChange={(value) => {
+                        setRememberMe(value);
+                        handleRememberMe(
+                          enteredUser,
+                          enteredPassword,
+
+                          value,
+                          loginType
+                        );
+                      }}
+                    />
+                  </View>
+                  <View
+                    style={[
+                      styles.checkText,
+                      keyboardStatus == "Keyboard Shown" && {
+                        ...Platform.select({
+                          ios: {
+                            justifyContent: "center",
+                            marginBottom: "8%",
+                          },
+                        }),
+                      },
+                    ]}
+                  >
+                    <Text style={[styles.rememberMeText]}>Remember T</Text>
+                  </View>
+                  <View style={{ flex: 0.3 }}></View>
+                </View>
+              </View>
+            )}
+
+            <View
+              style={[
+                { flex: 1, justifyContent: "flex-start", alignItems: "center" },
+                keyboardStatus == "Keyboard Shown" && {
+                  ...Platform.select({
+                    ios: {
+                      paddingBottom: "10%",
+                    },
+                  }),
+                },
+              ]}
             >
-              <Text style={[styles.submitText]}>Login</Text>
-            </TouchableHighlight>
+              <TouchableHighlight
+                style={styles.submit}
+                onPress={login}
+                underlayColor="#4FA3C4"
+              >
+                <Text style={[styles.submitText]}>Login</Text>
+              </TouchableHighlight>
             </View>
           </View>
-
-          
-          {/* {invalidPassword && <Text>You have to enter at least 6 digit</Text>} */}
 
           <AlertDialog
             leastDestructiveRef={cancelRef}
@@ -2439,7 +773,6 @@ function Login() {
             <AlertDialog.Content>
               {invalidUserName && (
                 <>
-                  {/* <AlertDialog.Header>Please enter all fields</AlertDialog.Header> */}
                   <AlertDialog.Body>
                     You have to enter all the fields
                   </AlertDialog.Body>
@@ -2447,7 +780,6 @@ function Login() {
               )}
               {invalidPassword && (
                 <>
-                  {/* <AlertDialog.Header>Please enter all fields</AlertDialog.Header> */}
                   <AlertDialog.Body>
                     You have to enter all the fields
                   </AlertDialog.Body>
@@ -2455,7 +787,6 @@ function Login() {
               )}
               {invalidForm && (
                 <>
-                  {/* <AlertDialog.Header>Please enter all fields</AlertDialog.Header> */}
                   <AlertDialog.Body>
                     You have to enter all the fields
                   </AlertDialog.Body>
@@ -2506,47 +837,44 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     overflow: Platform.OS === "android" ? "hidden" : "visible",
   },
-  rememberMeText:{
-    fontFamily:'HindRegular'
+  rememberMeText: {
+    fontFamily: "HindRegular",
   },
 
-  radioStyle:{
+  radioStyle: {
     flex: 0.5,
-    justifyContent:'flex-end',
-    alignItems:'flex-start',
-    marginLeft:'10%',
+    justifyContent: "flex-end",
+    alignItems: "flex-start",
+    marginLeft: "10%",
     ...Platform.select({
-      
-      ios:{
-        bottom:'3%'
-      }
-    })
-
+      ios: {
+        bottom: "3%",
+      },
+    }),
   },
   rememberMeContainer: {
     // flexDirection: 'row',
     // alignItems: 'center',
     // marginBottom: 20,
     // flex:1,
-    flexDirection:'row'
+    flexDirection: "row",
   },
   switch: {
     // marginRight: 10,
     // marginTop:'7%'
   },
-  checkText:{
+  checkText: {
     flex: 2,
-    justifyContent:'flex-start',
-    alignItems:"flex-start",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
     ...Platform.select({
-      android:{
-        top:'1%'
+      android: {
+        top: "1%",
       },
-      ios:{
-        top:'1%'
-      }
-    })
- 
+      ios: {
+        top: "1%",
+      },
+    }),
   },
   test: {
     flex: 2,
@@ -2634,7 +962,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#1E84A4",
     borderRadius: 10,
     borderWidth: 1,
-   // top: deviceWidth < 370 ? "18%" : "15%",
+    // top: deviceWidth < 370 ? "18%" : "15%",
     borderColor: "#fff",
     //left: deviceWidth < 370 ? "10%" : "10%",
     width: deviceWidth < 370 ? "80%" : "80%",
@@ -2691,7 +1019,7 @@ const styles = StyleSheet.create({
     fontSize: deviceWidth < 370 ? 16 : 20,
     fontFamily: "HindRegular",
     justifyContent: "center",
-    left: deviceHieght < 850 ? deviceWidth * 0.2 : deviceWidth*0.27,
+    left: deviceHieght < 850 ? deviceWidth * 0.2 : deviceWidth * 0.27,
     top: 5,
   },
   focusedBorderColor: {
