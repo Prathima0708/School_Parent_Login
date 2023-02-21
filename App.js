@@ -383,7 +383,7 @@ export default function App() {
         <Stack.Screen
           name="LadingScreen"
           component={LandingScreen}
-          options={{ title: "Welcome Screen" }}
+          options={{ title: "Welcome Screen", headerBackVisible: false }}
         />
 
         <Stack.Screen
@@ -577,7 +577,7 @@ export default function App() {
         <Stack.Screen
           name="LadingScreen"
           component={LandingScreen}
-          options={{ title: "Welcome Screen" }}
+          options={{ title: "Welcome Screen", headerBackVisible: false }}
         />
         <Stack.Screen
           name="Login"
