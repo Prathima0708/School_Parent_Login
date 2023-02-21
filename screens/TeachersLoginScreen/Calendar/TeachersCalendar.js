@@ -199,6 +199,7 @@ const TeachersCalendar = () => {
 
   const [classData, setClassData] = useState([]);
   const [showParentClass, setShowParentClass] = useState(false);
+  var sendAlert;
 
   useEffect(() => {
     async function fetchData() {
@@ -297,39 +298,13 @@ const TeachersCalendar = () => {
         }
       );
       console.log(response.data);
-      setBadge(true);
-
-      // const getres = await axios.get(`${subURL}/Calendar/${notificationId}/`);
-      // setReceivedNotification(getres.data);
 
       setSpecificData(response.data);
-      //  console.log(response.data);
     } catch (error) {
       console.error(error);
     }
   }
 
-  async function updateDataParent() {
-    console.log("notification id is", notificationId);
-    try {
-      const response = await axios.patch(
-        `${subURL}/Calendar/${notificationId}/`,
-        {
-          isNotified: true,
-        }
-      );
-      console.log(response.data);
-      setBadge(true);
-
-      // const getres = await axios.get(`${subURL}/Calendar/${notificationId}/`);
-      // setReceivedNotification(getres.data);
-
-      setSpecificData(response.data);
-      //  console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
   useEffect(() => {
     const subscription1 = Notifications.addNotificationReceivedListener(
       async (notification) => {
@@ -340,12 +315,18 @@ const TeachersCalendar = () => {
         setViewOnlyGrp(notification.request.content.data.viewOnly);
 
         console.log("Notification received");
+
         setOpenCardModal(false);
 
         //  console.log("id is", specificData.id);
       }
     );
-    updateDataTeacher();
+    console.log("id is", specificData.id);
+    new Date(specificData.startdate) >= new Date() ||
+      (new Date(specificData.startdate).toDateString() ===
+        new Date().toDateString() &&
+        updateDataTeacher());
+
     // if (viewOnlyGrp == "parents") {
     //   updateDataParent();
     // }
@@ -1074,7 +1055,7 @@ const TeachersCalendar = () => {
 
     // console.log(sendAlert);
 
-    const sendAlert =
+    sendAlert =
       new Date(specificData.startdate) >= today ||
       new Date(specificData.startdate).toDateString() === today.toDateString();
 
@@ -2081,7 +2062,7 @@ const TeachersCalendar = () => {
                                                 <Text style={styles.textStyle}>
                                                   {filteredData.description.substring(
                                                     0,
-                                                    10
+                                                    7
                                                   ) + "..."}
                                                 </Text>
                                               </View>

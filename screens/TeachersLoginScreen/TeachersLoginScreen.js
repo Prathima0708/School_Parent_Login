@@ -24,74 +24,166 @@ let i;
 const TeachersLoginScreen = ({ navigation }) => {
   const [user, setUser] = useState("");
   const [userId, setUserId] = useState("");
+
+  const [showLogoutAlert, setShowLogoutAlert] = useState(true);
   const route = useRoute();
-  async function logoutHandler() {
-    Alert.alert("Logout", "Are you sure you want to logout?", [
-      {
-        text: "Cancel",
+  const myRef = useRef(null);
 
-        style: "cancel",
-      },
-      {
-        text: "Yes",
-        onPress: async () => {
+  // async function logoutHandler() {
+  //   Alert.alert("Logout", "Are you sure you want to logout?", [
+  //     {
+  //       text: "Cancel",
+
+  //       style: "cancel",
+  //     },
+  //     {
+  //       text: "Yes",
+  //       onPress: async () => {
+  //         try {
+  //           value = await AsyncStorage.removeItem("token");
+  //           removeGrp = await AsyncStorage.removeItem("datagroup");
+
+  //           if (value == null) {
+  //             navigation.navigate("Login", { headerShown: false });
+  //           } else {
+  //           }
+  //         } catch (error) {
+  //           console.log(error);
+  //         }
+  //       },
+  //     },
+  //   ]);
+  // }
+
+  // useEffect(
+  //   () =>
+  //     navigation.addListener('beforeRemove', (e) => {
+  //       const action = e.data.action;
+
+  //       // if (!hasUnsavedChanges) {
+  //       //   return;
+  //       // }
+
+  //       e.preventDefault();
+
+  //       Alert.alert(
+  //         'Logout?',
+  //         'Are you sure you want to logout?',
+  //         [
+  //           { text: "Cancel", style: 'cancel', onPress: () => {} },
+  //           {
+  //             text: 'Confirm',
+  //             style: 'destructive',
+  //             onPress: async () => {
+  //               try {
+  //                 value = await AsyncStorage.removeItem("token");
+  //                 removeGrp = await AsyncStorage.removeItem("datagroup");
+
+  //                 if (value == null) {
+  //                   navigation.dispatch(action)
+  //                 } else {
+  //                 }
+  //               } catch (error) {
+  //                 console.log(error);
+  //               }
+
+  //             },
+  //           },
+  //         ]
+  //       );
+  //     }),
+  //   [navigation]
+  // );
+  useEffect(() => {
+    const beforeRemoveHandler = async (e) => {
+      const action = e.data.action;
+
+      e.preventDefault();
+
+      if (showLogoutAlert) {
+        setShowLogoutAlert(false);
+        Alert.alert("Logout", "Are you sure you want to logout?", [
+          {
+            text: "Cancel",
+            style: "cancel",
+            onPress: () => {
+              setShowLogoutAlert(true);
+            },
+          },
+          {
+            text: "Yes",
+            onPress: async () => {
+              try {
+                await AsyncStorage.removeItem("token");
+                await AsyncStorage.removeItem("datagroup");
+                navigation.dispatch(action);
+              } catch (error) {
+                console.log(error);
+              }
+            },
+            style: "destructive",
+          },
+        ]);
+      } else {
+        (async () => {
           try {
-            value = await AsyncStorage.removeItem("token");
-            removeGrp = await AsyncStorage.removeItem("datagroup");
-
-            if (value == null) {
-              navigation.navigate("Login", { headerShown: false });
-            } else {
-            }
+            await AsyncStorage.removeItem("token");
+            await AsyncStorage.removeItem("datagroup");
+            navigation.dispatch(action);
           } catch (error) {
             console.log(error);
           }
+        })();
+      }
+    };
+
+    const removeListener = navigation.addListener(
+      "beforeRemove",
+      beforeRemoveHandler
+    );
+
+    return () => {
+      removeListener();
+    };
+  }, [navigation, showLogoutAlert]);
+
+  const logoutHandler = () => {
+    if (showLogoutAlert) {
+      setShowLogoutAlert(false);
+      Alert.alert("Logout", "Are you sure you want to logout?", [
+        {
+          text: "Cancel",
+          style: "cancel",
+          onPress: () => {
+            setShowLogoutAlert(true);
+          },
         },
-      },
-    ]);
-  }
-  const myRef = useRef(null);
-
-  
-  useEffect(
-    () =>
-      navigation.addListener('beforeRemove', (e) => {
-        const action = e.data.action;
-        
-        // if (!hasUnsavedChanges) {
-        //   return;
-        // }
-
-        e.preventDefault();
-
-        Alert.alert(
-          'Logout?',
-          'Are you sure you want to logout?',
-          [
-            { text: "Cancel", style: 'cancel', onPress: () => {} },
-            {
-              text: 'Confirm',
-              style: 'destructive',
-              onPress: async () => {
-                try {
-                  value = await AsyncStorage.removeItem("token");
-                  removeGrp = await AsyncStorage.removeItem("datagroup");
-      
-                  if (value == null) {
-                    navigation.dispatch(action)
-                  } else {
-                  }
-                } catch (error) {
-                  console.log(error);
-                }
-                
-              },
-            },
-          ]
-        );
-      }),
-    [navigation]
-  );
+        {
+          text: "Yes",
+          onPress: async () => {
+            try {
+              await AsyncStorage.removeItem("token");
+              await AsyncStorage.removeItem("datagroup");
+              navigation.navigate("LadingScreen", { headerShown: false });
+            } catch (error) {
+              console.log(error);
+            }
+          },
+          style: "destructive",
+        },
+      ]);
+    } else {
+      (async () => {
+        try {
+          await AsyncStorage.removeItem("token");
+          await AsyncStorage.removeItem("datagroup");
+          navigation.navigate("Login", { headerShown: false });
+        } catch (error) {
+          console.log(error);
+        }
+      })();
+    }
+  };
 
   useEffect(() => {
     if (myRef.current && myRef.current.setNativeProps) {
