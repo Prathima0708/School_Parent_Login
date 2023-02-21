@@ -116,7 +116,8 @@
     "rn-calendar-component": "^0.5.1",
     "rn-keyboard-sticky-view": "^1.0.4",
     "searchable-flatlist": "^0.0.4",
-    "tailwindcss-react-native": "^1.7.10"
+    "tailwindcss-react-native": "^1.7.10",
+    "expo-location": "~14.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

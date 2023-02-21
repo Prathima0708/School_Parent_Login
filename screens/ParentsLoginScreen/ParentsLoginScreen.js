@@ -33,6 +33,7 @@ var Group;
 function ParentsLoginScreen() {
   const [students, setStudents] = useState([]);
   const [user, setUser] = useState("");
+  const [showLogoutAlert, setShowLogoutAlert] = useState(true);
   const route = useRoute();
   const navigation = useNavigation();
   const [group, setGroup] = useState("");
@@ -67,32 +68,124 @@ function ParentsLoginScreen() {
     }
     getGroup();
   }, []);
-  async function logoutHandler() {
-    Alert.alert("Logout", "Are you sure you want to logout?", [
-      {
-        text: "Cancel",
+  // async function logoutHandler() {
+  //   Alert.alert("Logout", "Are you sure you want to logout?", [
+  //     {
+  //       text: "Cancel",
 
-        style: "cancel",
-      },
-      {
-        text: "Yes",
-        onPress: async () => {
+  //       style: "cancel",
+  //     },
+  //     {
+  //       text: "Yes",
+  //       onPress: async () => {
+  //         try {
+  //           const value = await AsyncStorage.removeItem("token");
+  //           const ph = await AsyncStorage.removeItem("Phone");
+  //           removeGrp = await AsyncStorage.removeItem("datagroup");
+
+  //           if (value == null) {
+  //             navigation.navigate("Login");
+  //           } else {
+  //           }
+  //         } catch (error) {
+  //           console.log(error);
+  //         }
+  //       },
+  //     },
+  //   ]);
+  // }
+
+  useEffect(() => {
+    const beforeRemoveHandler = async (e) => {
+      const action = e.data.action;
+
+      e.preventDefault();
+
+      if (showLogoutAlert) {
+        setShowLogoutAlert(false);
+        Alert.alert("Logout", "Are you sure you want to logout?", [
+          {
+            text: "Cancel",
+            style: "cancel",
+            onPress: () => {
+              setShowLogoutAlert(true);
+            },
+          },
+          {
+            text: "Yes",
+            onPress: async () => {
+              try {
+                await AsyncStorage.removeItem("token");
+                await AsyncStorage.removeItem("datagroup");
+                navigation.dispatch(action);
+              } catch (error) {
+                console.log(error);
+              }
+            },
+            style: "destructive",
+          },
+        ]);
+      } else {
+        (async () => {
           try {
-            const value = await AsyncStorage.removeItem("token");
-            const ph = await AsyncStorage.removeItem("Phone");
-            removeGrp = await AsyncStorage.removeItem("datagroup");
-
-            if (value == null) {
-              navigation.navigate("Login");
-            } else {
-            }
+            await AsyncStorage.removeItem("token");
+            await AsyncStorage.removeItem("datagroup");
+            navigation.dispatch(action);
           } catch (error) {
             console.log(error);
           }
+        })();
+      }
+    };
+
+    const removeListener = navigation.addListener(
+      "beforeRemove",
+      beforeRemoveHandler
+    );
+
+    return () => {
+      removeListener();
+    };
+  }, [navigation, showLogoutAlert]);
+
+  const logoutHandler = () => {
+    if (showLogoutAlert) {
+      setShowLogoutAlert(false);
+      Alert.alert("Logout", "Are you sure you want to logout?", [
+        {
+          text: "Cancel",
+          style: "cancel",
+          onPress: () => {
+            setShowLogoutAlert(true);
+          },
         },
-      },
-    ]);
-  }
+        {
+          text: "Yes",
+          onPress: async () => {
+            try {
+              await AsyncStorage.removeItem("token");
+              await AsyncStorage.removeItem("datagroup");
+              navigation.navigate("LadingScreen", { headerShown: false });
+            } catch (error) {
+              console.log(error);
+            }
+          },
+          style: "destructive",
+        },
+      ]);
+    } else {
+      (async () => {
+        try {
+          await AsyncStorage.removeItem("token");
+          await AsyncStorage.removeItem("datagroup");
+          navigation.navigate("Login", { headerShown: false });
+        } catch (error) {
+          console.log(error);
+        }
+      })();
+    }
+  };
+
   useEffect(() => {
    
     const subscription2 = Notifications.addNotificationResponseReceivedListener(

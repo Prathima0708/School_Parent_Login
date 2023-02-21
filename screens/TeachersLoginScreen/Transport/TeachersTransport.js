@@ -12,6 +12,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import Button from "../../../components/UI/Button";
 import axios from "axios";
+import * as Location from 'expo-location';
 import { Keyboard } from "react-native";
 import { Image as NativeImage } from "native-base";
 import BgButton from "../../../components/UI/BgButton";
@@ -26,7 +27,7 @@ import SearchBar from "react-native-dynamic-search-bar";
 import { useNavigation } from "@react-navigation/native";
 import { Heading, IconButton, Spinner, Text as NativeText } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
-import MapView from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 
 export var ID;
 var USERID;
@@ -64,6 +65,11 @@ const TeachersTransport = () => {
   const [btn, setBtn] = useState(false);
 
   const [offset, SetOffset] = useState(0);
+
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
 
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
@@ -157,6 +163,7 @@ const TeachersTransport = () => {
     }
   }
   fetchUserId();
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -172,6 +179,7 @@ const TeachersTransport = () => {
         setData(res.data);
 
         setFilteredData(res.data);
+        console.log(res.data)
         let test = 0;
         const value = await AsyncStorage.getItem("key");
         for (i = 0; i < res.data.length; i++) {
@@ -226,6 +234,22 @@ const TeachersTransport = () => {
   function busNumberChangeHandler(enteredValue) {
     setEnteredBusNumber(enteredValue);
   }
+
+  useEffect(() => {
+    (async () => {
+      
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+      
+      let location = await Location.getCurrentPositionAsync({});
+      setLatitude(location.coords.latitude)
+      setLongitude(location.coords.longitude);
+      setLocation(location.coords);
+    })();
+  }, [latitude,longitude]);
 
   const myRef = useRef(null);
 
@@ -936,7 +960,7 @@ const TeachersTransport = () => {
           )}
         </View>
         <View style={{ flex: 1, backgroundColor: "white", paddingBottom: 40 }}>
-          {isMapActive && (
+          {/* {isMapActive && (
             <View
               style={[
                 {
@@ -957,8 +981,24 @@ const TeachersTransport = () => {
                 </Text>
               </View>
             </View>
-          )}
-          {/* {isMapActive && <MapView style={[styles.map]} />} */}
+          )} */}
+          {isMapActive && 
+            <MapView 
+              style={[styles.map]}
+              region={{
+                latitude: latitude,
+                longitude: longitude,
+                latitudeDelta: 0.015,
+                longitudeDelta: 0.0121,
+              }} >
+                <Marker
+                  coordinate={{
+                    latitude: latitude ? latitude : 0,
+                    longitude: longitude ? longitude : 0,
+                  }}
+                />
+            </MapView>
+            }
         </View>
         <View style={{ flex: 0.1 }}>
           <TeachersHome />
