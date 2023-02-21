@@ -52,6 +52,47 @@ const TeachersLoginScreen = ({ navigation }) => {
   }
   const myRef = useRef(null);
 
+  
+  useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e) => {
+        const action = e.data.action;
+        
+        // if (!hasUnsavedChanges) {
+        //   return;
+        // }
+
+        e.preventDefault();
+
+        Alert.alert(
+          'Logout?',
+          'Are you sure you want to logout?',
+          [
+            { text: "Cancel", style: 'cancel', onPress: () => {} },
+            {
+              text: 'Confirm',
+              style: 'destructive',
+              onPress: async () => {
+                try {
+                  value = await AsyncStorage.removeItem("token");
+                  removeGrp = await AsyncStorage.removeItem("datagroup");
+      
+                  if (value == null) {
+                    navigation.dispatch(action)
+                  } else {
+                  }
+                } catch (error) {
+                  console.log(error);
+                }
+                
+              },
+            },
+          ]
+        );
+      }),
+    [navigation]
+  );
+
   useEffect(() => {
     if (myRef.current && myRef.current.setNativeProps) {
       const styleObj = {
