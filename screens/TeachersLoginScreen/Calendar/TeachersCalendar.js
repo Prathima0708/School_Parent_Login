@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import SelectList from "react-native-dropdown-select-list";
 import * as Notifications from "expo-notifications";
-import Checkbox from 'expo-checkbox';
+import Checkbox from "expo-checkbox";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 // import { CheckBox } from "react-native";
 
@@ -57,7 +57,6 @@ var FROMDATE, TODATE;
 var USERNAME, TOKEN;
 var Group, NotificationId;
 const TeachersCalendar = () => {
-
   const [isAllChecked, setAllChecked] = useState(false);
   const [adminChecked, setAdminChecked] = useState(false);
   const [teacherChecked, setTeacherChecked] = useState(false);
@@ -1166,7 +1165,7 @@ const TeachersCalendar = () => {
       setParentChecked(true);
     }
   }, [newData.viewOnly]);
-  
+
   function adminCheckedHandler() {
     setAdminChecked(!adminChecked);
   }
@@ -1502,44 +1501,22 @@ const TeachersCalendar = () => {
                 </View>
                 <View
                   style={[
-                    { flex: 1 },
                     {
+                      // Try setting `flexDirection` to `"row"`.
+                      flex: 1,
                       flexDirection: "row",
+                      left: "15%",
+                      marginTop: "5%",
                     },
                   ]}
                 >
                   <View style={{ flex: 1 }}>
                     <View
                       style={[
-                        { flex: 1 },
                         {
+                          // Try setting `flexDirection` to `"row"`.
+                          flex: 1,
                           flexDirection: "row",
-                          marginLeft: "10%",
-                          marginTop: "3%",
-                        },
-                      ]}
-                    >
-                      <View style={{ flex: 0.3 }}>
-                        <Checkbox
-                          value={isAllChecked}
-                          onValueChange={allCheckedHandler}
-                          color={isAllChecked ? '#4630EB' : undefined}
-                        />
-                      </View>
-                      <View style={{ flex: 0.3 }}>
-                        <Text style={[styles.labelStyle, { marginTop: 5 }]}>
-                          All
-                        </Text>
-                      </View>
-                    </View>
-
-                    <View
-                      style={[
-                        { flex: 1 },
-                        {
-                          flexDirection: "row",
-                          marginLeft: "10%",
-                          marginTop: "3%",
                         },
                       ]}
                     >
@@ -1547,21 +1524,21 @@ const TeachersCalendar = () => {
                         <Checkbox
                           value={adminChecked}
                           onValueChange={adminCheckedHandler}
-                          color={adminChecked ? '#4630EB' : undefined}
+                          color={adminChecked ? "#2874A6" : undefined}
                         />
                       </View>
-                      <View style={{ flex: 0.5, top: "5%" }}>
+                      <View style={{ flex: 1 }}>
                         <Text style={styles.labelStyle}>Admin</Text>
                       </View>
                     </View>
                   </View>
-                  <View style={{ flex: 1, marginRight: "30%" }}>
+                  <View style={{ flex: 1 }}>
                     <View
                       style={[
-                        { flex: 1 },
                         {
+                          // Try setting `flexDirection` to `"row"`.
+                          flex: 1,
                           flexDirection: "row",
-                          marginTop: "3%",
                         },
                       ]}
                     >
@@ -1569,22 +1546,21 @@ const TeachersCalendar = () => {
                         <Checkbox
                           value={teacherChecked}
                           onValueChange={teacherCheckedHandler}
-                          color={teacherChecked ? '#4630EB' : undefined}
+                          color={teacherChecked ? "#2874A6" : undefined}
                         />
                       </View>
-                      <View style={{ flex: 0.6 }}>
-                        <Text style={[styles.labelStyle, { marginTop: 5 }]}>
-                          Teacher
-                        </Text>
+                      <View style={{ flex: 1 }}>
+                        <Text style={styles.labelStyle}>Teacher</Text>
                       </View>
                     </View>
-
+                  </View>
+                  <View style={{ flex: 1 }}>
                     <View
                       style={[
-                        { flex: 1 },
                         {
+                          // Try setting `flexDirection` to `"row"`.
+                          flex: 1,
                           flexDirection: "row",
-                          marginTop: "3%",
                         },
                       ]}
                     >
@@ -1592,10 +1568,10 @@ const TeachersCalendar = () => {
                         <Checkbox
                           value={parentChecked}
                           onValueChange={parentCheckedHandler}
-                          color={parentChecked ? '#4630EB' : undefined}
+                          color={parentChecked ? "#2874A6" : undefined}
                         />
                       </View>
-                      <View style={{ flex: 0.6, top: "5%" }}>
+                      <View style={{ flex: 1 }}>
                         <Text style={styles.labelStyle}>Parent</Text>
                       </View>
                     </View>
