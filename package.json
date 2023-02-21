@@ -33,6 +33,7 @@
     "expo-app-loading": "~2.0.0",
     "expo-calendar": "~10.2.0",
     "expo-calendar-helper": "^0.2.4",
+    "expo-checkbox": "~2.1.0",
     "expo-cli": "^6.2.1",
     "expo-constants": "~13.1.1",
     "expo-device": "~4.2.0",
@@ -115,8 +116,7 @@
     "rn-calendar-component": "^0.5.1",
     "rn-keyboard-sticky-view": "^1.0.4",
     "searchable-flatlist": "^0.0.4",
-    "tailwindcss-react-native": "^1.7.10",
-    "expo-checkbox": "~2.1.0"
+    "tailwindcss-react-native": "^1.7.10"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
