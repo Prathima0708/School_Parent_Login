@@ -28,8 +28,6 @@ import { mainURL, subURL } from "../../../../components/utils/URL's";
 
 const HomeworkScreen = () => {
   const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
   const [placement, setPlacement] = useState(undefined);
   const [open, setOpen] = useState(false);
   const [saveImg, setSaveImg] = useState(``);
@@ -46,8 +44,6 @@ const HomeworkScreen = () => {
         const res = await axios.get(
           `${subURL}/HomeworkListByClass/${className}/${Section}`
         );
-       
-        setIsLoading(false);
         var Homeworkdata = [];
         Homeworkdata.push(res.data);
         setData(res.data);
@@ -57,13 +53,7 @@ const HomeworkScreen = () => {
     }
     fetchData();
   }, []);
-  useEffect(() => {
-    LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
-    LogBox.ignoreLogs([
-      "Warning: Async Storage has been extracted from react-native core",
-    ]);
-  }, []);
-
+  
   return (
     <>
       <View
@@ -260,51 +250,6 @@ const HomeworkScreen = () => {
           <ParentsHome />
         </View>
       </View>
-      {/* <ScrollView>
-        <View style={styles.root}>
-          <FlatList
-            data={data}
-            renderItem={({ item }) => {
-              return (
-                <View style={styles.card}>
-                  <View style={styles.imgContainer}></View>
-                  <View>
-                    <View style={styles.bio}>
-                      <Text style={styles.homewrk}>
-                        Remark : {item.homework}
-                      </Text>
-                      <Text style={styles.homewrk}>
-                        Subject: {item.subject}
-                      </Text>
-                    </View>
-
-                    <View style={styles.main}>
-                      <Image
-                        style={styles.img}
-                        resizeMode="cover"
-                        source={{
-                          uri: `http://10.0.2.2:8000${item.homework_photo}`,
-                        }}
-                      />
-                      <View
-                        style={{
-                          marginLeft: -140,
-                        }}
-                      >
-                        <Text style={styles.remark}>{item.remark}</Text>
-                      </View>
-                    </View>
-                  </View>
-                </View>
-              );
-            }}
-          />
-        </View>
-      </ScrollView> */}
-
-      {/* <View>
-        <ParentsHome />
-      </View> */}
     </>
   );
 };
@@ -314,67 +259,20 @@ const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
-  card: {
-    width: deviceWidth < 370 ? "100%" : "100%",
-    borderRadius: 25,
-    //marginVertical: 20,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-  },
-  home: {
-    marginTop: 620,
-  },
   img: {
     minHeight: 260,
     width: 330,
-  },
-  homewrk: {
-    fontFamily: "HindRegular",
-    marginHorizontal: 10,
-    // padding: 5,
-    color: "black",
-    fontSize: deviceWidth < 370 ? 16 : 20,
-  },
-  main: {
-    width: "100%",
-    padding: 15,
-    // backgroundColor: "#b696d7",
-    backgroundColor: "lightgrey",
-    display: "flex",
-    // justifyContent: "center",
-    // alignItems: "center",
-  },
-  imgContainer: {
-    padding: 10,
-  },
-  bio: {
-    // width: "100%",
-    //display: "flex",
-    //flexDirection: "row",
-    // alignItems: "center",
-    //  justifyContent: "space-between",
-    backgroundColor: "purple",
-    //  paddingVertical: 10,
   },
   root: {
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 30,
   },
-  remark: {
-    fontSize: deviceWidth < 370 ? 16 : 20,
-    fontFamily: "HindRegular",
-    marginTop: 10,
-  },
-  // new design
   cardStyle: {
     marginVertical: 15,
     marginHorizontal: 20,
     elevation: 5,
-    // borderRadius: 10,
     top: 10,
-    // paddingBottom: 20,
   },
   cardContentStyle: {
     paddingTop: 0,
@@ -383,8 +281,6 @@ const styles = StyleSheet.create({
   subDesign: {
     backgroundColor: "darkblue",
     padding: 5,
-    // borderTopLeftRadius: 10,
-    //  borderTopRightRadius: 10,
   },
   labelStyle: {
     color: "white",

@@ -6,16 +6,10 @@ import {
   Pressable,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-
-import { DataTable } from "react-native-paper";
-
 import axios from "axios";
 import BgButton from "../../../../components/UI/BgButton";
-import VerticalLine from "../../../../components/UI/VerticalLine";
 import { Text } from "react-native";
 import ParentsHome from "../../BottomTab/ParentsHome";
-import { Image } from "react-native";
-import { FlatList } from "react-native";
 import {
   className,
   Section,
@@ -24,7 +18,6 @@ import moment from "moment";
 import {
   Button as NativeButton,
   Divider,
-  VStack,
   Text as NativeText,
 } from "native-base";
 import { useNavigation } from "@react-navigation/native";
@@ -48,11 +41,9 @@ const TimeTable = () => {
   const [thursdayTimeTable, setThursdayTimeTable] = useState(false);
   const [fridayTimeTable, setFridayTimeTable] = useState(false);
   const [saturdayTimeTable, setSaturdayTimeTable] = useState(false);
-  // const [data, setData] = useState();
-
   const [examData, setExamData] = useState([]);
-
   const [timeTable, setTimeTable] = useState([]);
+
   const [forTimeTableList, setForTimeTableList] = useState({
     color: "white",
     backgroundColor: "#1E84A4",
@@ -78,6 +69,7 @@ const TimeTable = () => {
     }
     fetchData();
   }, []);
+
   async function viewExam() {
     setForExamTimeTable({
       color: "white",
@@ -99,6 +91,7 @@ const TimeTable = () => {
       console.log(error);
     }
   }
+
   async function timeTableList() {
     setForTimeTableList({
       backgroundColor: "#1E84A4",
@@ -240,7 +233,6 @@ const TimeTable = () => {
                     <Text
                       style={[
                         styles.description,
-                        //  styles.bottomLine,
                         {
                           justifyContent: "center",
                           alignItems: "center",
@@ -273,14 +265,6 @@ const TimeTable = () => {
               ]}
             >
               <View style={{ flex: 1 }}>
-                {/* <Button
-                  size="sm"
-                  variant={!isMonActive ? "outline" : "solid"}
-                  onPress={mondayPressedHandler}
-                  style={{ fontFamily: "HindSemiBold", fontSize: 18 }}
-                >
-                  MON
-                </Button> */}
                 <NativeButton
                   size="sm"
                   variant={!isMonActive ? "outline" : "solid"}
@@ -299,13 +283,6 @@ const TimeTable = () => {
               </View>
               <View style={styles.space} />
               <View style={{ flex: 1 }}>
-                {/* <Button
-                  size="sm"
-                  variant={!isTueActive ? "outline" : "solid"}
-                  onPress={tuesdayPressedHandler}
-                >
-                  TUE
-                </Button> */}
                 <NativeButton
                   size="sm"
                   variant={!isTueActive ? "outline" : "solid"}
@@ -324,13 +301,6 @@ const TimeTable = () => {
               </View>
               <View style={styles.space} />
               <View style={{ flex: 1 }}>
-                {/* <Button
-                  size="sm"
-                  variant={!isWedActive ? "outline" : "solid"}
-                  onPress={wednesdayPressedHandler}
-                >
-                  WED
-                </Button> */}
                 <NativeButton
                   size="sm"
                   variant={!isWedActive ? "outline" : "solid"}
@@ -349,13 +319,6 @@ const TimeTable = () => {
               </View>
               <View style={styles.space} />
               <View style={{ flex: 1 }}>
-                {/* <Button
-                  size="sm"
-                  variant={!isThuActive ? "outline" : "solid"}
-                  onPress={thursdayPressedHandler}
-                >
-                  THU
-                </Button> */}
                 <NativeButton
                   size="sm"
                   variant={!isThuActive ? "outline" : "solid"}
@@ -389,24 +352,9 @@ const TimeTable = () => {
                     FRI
                   </Text>
                 </NativeButton>
-                {/* <Button
-                  size="sm"
-                  variant={!isFriActive ? "outline" : "solid"}
-                  onPress={fridayPressedHandler}
-                  fontFamily='HindRegular'
-                >
-                  FRI
-                </Button> */}
               </View>
               <View style={styles.space} />
               <View style={{ flex: 1 }}>
-                {/* <Button
-                  size="sm"
-                  variant={!isSatActive ? "outline" : "solid"}
-                  onPress={saturdayPressedHandler}
-                >
-                  SAT
-                </Button> */}
                 <NativeButton
                   size="sm"
                   variant={!isSatActive ? "outline" : "solid"}
@@ -441,7 +389,7 @@ const TimeTable = () => {
                       { flexDirection: "column", backgroundColor: "white" },
                     ]}
                   >
-                    <View style={{ flex: 8, bottom: 1 }}>
+                    <View style={{ flex: 8, bottom: 10 }}>
                       <ScrollView>
                         {timeTable.length > 0 ? (
                           <View style={[styles.flexrow]}>
@@ -465,15 +413,7 @@ const TimeTable = () => {
                                           {moment(
                                             data.from_time,
                                             "HH:mm"
-                                          ).format("LT")}
-                                          {/* {moment(
-                                            data.from_time,
-                                            "HH:mm"
-                                          ).format("hh:mm ")} */}{" "}
-                                          {"-"} {""}
-                                          {/* {moment(data.to_time, "HH:mm").format(
-                                            "hh:mm "
-                                          )} */}
+                                          ).format("LT")} - 
                                           {moment(data.to_time, "HH:mm").format(
                                             "LT"
                                           )}
@@ -483,7 +423,7 @@ const TimeTable = () => {
                                   </>
                                 ))}
                             </View>
-                            <View style={[styles.root, {}]}>
+                            <View style={[styles.root]}>
                               {timeTable &&
                                 timeTable.map((data) => (
                                   <>
@@ -562,15 +502,7 @@ const TimeTable = () => {
                                           {moment(
                                             data.from_time,
                                             "HH:mm"
-                                          ).format("LT")}
-                                          {/* {moment(
-                                            data.from_time,
-                                            "HH:mm"
-                                          ).format("hh:mm ")} */}{" "}
-                                          {"-"} {""}
-                                          {/* {moment(data.to_time, "HH:mm").format(
-                                            "hh:mm "
-                                          )} */}
+                                          ).format("LT")} - 
                                           {moment(data.to_time, "HH:mm").format(
                                             "LT"
                                           )}
@@ -580,7 +512,7 @@ const TimeTable = () => {
                                   </>
                                 ))}
                             </View>
-                            <View style={[styles.root, {}]}>
+                            <View style={[styles.root]}>
                               {timeTable &&
                                 timeTable.map((data) => (
                                   <>
@@ -659,15 +591,7 @@ const TimeTable = () => {
                                           {moment(
                                             data.from_time,
                                             "HH:mm"
-                                          ).format("LT")}
-                                          {/* {moment(
-                                            data.from_time,
-                                            "HH:mm"
-                                          ).format("hh:mm ")} */}{" "}
-                                          {"-"} {""}
-                                          {/* {moment(data.to_time, "HH:mm").format(
-                                            "hh:mm "
-                                          )} */}
+                                          ).format("LT")} - 
                                           {moment(data.to_time, "HH:mm").format(
                                             "LT"
                                           )}
@@ -677,7 +601,7 @@ const TimeTable = () => {
                                   </>
                                 ))}
                             </View>
-                            <View style={[styles.root, {}]}>
+                            <View style={[styles.root]}>
                               {timeTable &&
                                 timeTable.map((data) => (
                                   <>
@@ -756,15 +680,7 @@ const TimeTable = () => {
                                           {moment(
                                             data.from_time,
                                             "HH:mm"
-                                          ).format("LT")}
-                                          {/* {moment(
-                                            data.from_time,
-                                            "HH:mm"
-                                          ).format("hh:mm ")} */}{" "}
-                                          {"-"} {""}
-                                          {/* {moment(data.to_time, "HH:mm").format(
-                                            "hh:mm "
-                                          )} */}
+                                          ).format("LT")} - 
                                           {moment(data.to_time, "HH:mm").format(
                                             "LT"
                                           )}
@@ -774,7 +690,7 @@ const TimeTable = () => {
                                   </>
                                 ))}
                             </View>
-                            <View style={[styles.root, {}]}>
+                            <View style={[styles.root]}>
                               {timeTable &&
                                 timeTable.map((data) => (
                                   <>
@@ -853,15 +769,7 @@ const TimeTable = () => {
                                           {moment(
                                             data.from_time,
                                             "HH:mm"
-                                          ).format("LT")}
-                                          {/* {moment(
-                                            data.from_time,
-                                            "HH:mm"
-                                          ).format("hh:mm ")} */}{" "}
-                                          {"-"} {""}
-                                          {/* {moment(data.to_time, "HH:mm").format(
-                                            "hh:mm "
-                                          )} */}
+                                          ).format("LT")} - 
                                           {moment(data.to_time, "HH:mm").format(
                                             "LT"
                                           )}
@@ -871,7 +779,7 @@ const TimeTable = () => {
                                   </>
                                 ))}
                             </View>
-                            <View style={[styles.root, {}]}>
+                            <View style={[styles.root]}>
                               {timeTable &&
                                 timeTable.map((data) => (
                                   <>
@@ -950,15 +858,7 @@ const TimeTable = () => {
                                           {moment(
                                             data.from_time,
                                             "HH:mm"
-                                          ).format("LT")}
-                                          {/* {moment(
-                                            data.from_time,
-                                            "HH:mm"
-                                          ).format("hh:mm ")} */}{" "}
-                                          {"-"} {""}
-                                          {/* {moment(data.to_time, "HH:mm").format(
-                                            "hh:mm "
-                                          )} */}
+                                          ).format("LT")} - 
                                           {moment(data.to_time, "HH:mm").format(
                                             "LT"
                                           )}
@@ -968,7 +868,7 @@ const TimeTable = () => {
                                   </>
                                 ))}
                             </View>
-                            <View style={[styles.root, {}]}>
+                            <View style={[styles.root]}>
                               {timeTable &&
                                 timeTable.map((data) => (
                                   <>
@@ -1203,43 +1103,7 @@ const styles = StyleSheet.create({
 
     backgroundColor: "white",
   },
-  studentItem: {
-    width: "90%",
-    marginRight: 20,
-    marginLeft: 20,
-    marginTop: 10,
-    alignItems: "center",
-    // paddingTop: 0,
-    paddingBottom: 9,
-    flexDirection: "row",
-    //backgroundColor: "skyblue",
-    borderRadius: 10,
-    justifyContent: "space-between",
-  },
-  textBase: {
-    color: "black",
-    //textAlign: "center",
-  },
-  // description: {
-  //   fontSize: deviceWidth < 370 ? 16 : 20,
 
-  //   marginBottom: 4,
-  //   fontFamily: "HindRegular",
-  // },
-  imageContainer: {
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    backgroundColor: "white",
-
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 4,
-    //minWidth: 80,
-  },
-  image: {
-    height: 80,
-    width: 80,
-  },
   errText: {
     fontFamily: "HindSemiBold",
     fontSize: 18,
@@ -1249,48 +1113,10 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
   },
-  type: {
-    marginLeft: 10,
-  },
-  th: {
-    padding: 3,
-    marginRight: 13,
-    fontSize: 24,
-  },
-  tableHeader: {
-    backgroundColor: "skyblue",
 
-    height: 45,
-    fontWeight: "bold",
-  },
   tableTitle: {
     fontFamily: "HindMedium",
     fontSize: deviceWidth < 370 ? 16 : 16,
-  },
-  tableCell: {
-    width: 20,
-
-    marginLeft: 35,
-  },
-
-  tableRow: {
-    height: "9%",
-    borderBottomColor: "black",
-    // borderBottomWidth: 2,
-  },
-  inputForm: {
-    padding: 20,
-  },
-  inputStyle: {
-    borderWidth: 1,
-    borderColor: "grey",
-    borderRadius: 5,
-  },
-  labels: {
-    marginTop: 2,
-  },
-  btnSubmit: {
-    marginTop: 5,
   },
   //new one
   root: {
@@ -1310,10 +1136,7 @@ const styles = StyleSheet.create({
     marginLeft: "5%",
     top: "5%",
   },
-  studInfoTopLeftStyle2: {
-    marginLeft: "5%",
-    top: "1%",
-  },
+
   flexrow: {
     flex: 1,
     flexDirection: "row",
@@ -1326,26 +1149,16 @@ const styles = StyleSheet.create({
     fontFamily: "HindSemiBold",
     marginBottom: 4,
   },
-  bottomLine: {
-    borderBottomColor: "#130BF0",
-    borderBottomWidth: 2,
-    borderBottomLeftRadius: 5,
-    borderBottomRightRadius: 5,
-    // borderRadius:5,
-    // backgroundColor: "#CEE7FF",
-    alignSelf: "center",
-    paddingHorizontal: "12%",
-  },
+
   textInfo: {
     fontSize: deviceWidth < 370 ? 18 : 18,
     fontFamily: "HindRegular",
     color: "black",
-    // left: 10,
   },
   tableTopStyle: {
     flex: 4,
     padding: 10,
-    bottom: 30,
+    bottom: 5,
   },
   tableHead: {
     flex: 1,
@@ -1356,7 +1169,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#3F96B8",
   },
   headingFont: {
-    // fontFamily: "Hind-SemiBold",
     fontFamily: "HindBold",
     color: "white",
     fontSize: deviceWidth < 370 ? 14 : 15,
@@ -1389,7 +1201,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   space: {
-    width: 9, // or whatever size you need
+    width: 9,
     height: 20,
   },
   buttonGroup: {

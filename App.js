@@ -15,7 +15,6 @@ import CalenderScreen from "./screens/ParentsLoginScreen/Calendar/CalenderScreen
 import Academics from "./screens/ParentsLoginScreen/Academics/Academics";
 import HomeworkScreen from "./screens/ParentsLoginScreen/Academics/Homework/HomeworkScreen";
 import StudentCategories from "./screens/ParentsLoginScreen/StudentCategories";
-import StudentsOverviewScreen from "./screens/ParentsLoginScreen/StudentsOverviewScreen";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
@@ -48,7 +47,6 @@ import TeachersLeaveScreenBuild from "./screens/TeachersLoginScreen/Leave/Teache
 import { LogBox } from "react-native";
 
 import { NativeBaseProvider, extendTheme } from "native-base";
-import StudentDetails from "./screens/ParentsLoginScreen/Profile/StudentDetails";
 
 import ChatHeader from "./components/ChatApplication/ChatUI/ChatHeader";
 import MyClasses from "./screens/TeachersLoginScreen/Profile/MyClasses/MyClasses";
@@ -273,10 +271,7 @@ export default function App() {
           component={StudentCategories}
           options={{ title: "Dashboard" }}
         />
-        <Stack.Screen
-          name="StudentsOverview"
-          component={StudentsOverviewScreen}
-        />
+
         <Stack.Screen
           name="Leave"
           component={LeaveScreen}
@@ -342,7 +337,6 @@ export default function App() {
           component={Academics}
           options={{ title: "Academics" }}
         />
-        <Stack.Screen name="StudentDetails" component={StudentDetails} />
         <Stack.Screen
           name="Homework"
           component={HomeworkScreen}
@@ -395,10 +389,7 @@ export default function App() {
           component={StudentCategories}
           options={{ title: "Dashboard" }}
         />
-        <Stack.Screen
-          name="StudentsOverview"
-          component={StudentsOverviewScreen}
-        />
+
         <Stack.Screen
           name="Leave"
           component={LeaveScreen}
@@ -458,7 +449,6 @@ export default function App() {
           options={{ title: "" }}
         />
         <Stack.Screen name="Academics" component={Academics} />
-        <Stack.Screen name="StudentDetails" component={StudentDetails} />
         <Stack.Screen name="Homework" component={HomeworkScreen} />
         <Stack.Screen
           name="ExamTimeTable"
@@ -686,10 +676,7 @@ export default function App() {
           component={StudentCategories}
           options={{ title: "Dashboard" }}
         />
-        <Stack.Screen
-          name="StudentsOverview"
-          component={StudentsOverviewScreen}
-        />
+
         <Stack.Screen
           name="Leave"
           component={LeaveScreen}
@@ -749,7 +736,7 @@ export default function App() {
           options={{ title: "" }}
         />
         <Stack.Screen name="Academics" component={Academics} />
-        <Stack.Screen name="StudentDetails" component={StudentDetails} />
+
         <Stack.Screen name="Homework" component={HomeworkScreen} />
         <Stack.Screen
           name="ExamTimeTable"

@@ -1,20 +1,14 @@
 import {
   View,
   StyleSheet,
-  TextInput,
   Text,
   ScrollView,
   Dimensions,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Image as NativeImage } from "native-base";
-import { Col, Row, Grid } from "react-native-easy-grid";
-import { Card, DataTable, Paragraph, Title } from "react-native-paper";
-import { Divider } from "react-native-paper";
 import axios from "axios";
-
 import ParentsHome from "../../BottomTab/ParentsHome";
-import { Image } from "react-native";
 import {
   className,
   studentId,
@@ -24,18 +18,16 @@ import {
   StudentPhoto,
 } from "../../../../components/StudentItem/StudentItem";
 import { mainURL, subURL } from "../../../../components/utils/URL's";
-var obtMarks = [];
+
 const ReportCard = () => {
   const [data, setData] = useState([]);
   const [isFail, setIsFail] = useState(false);
-  const [maxMarks, setMaxMarks] = useState([]);
+
   let i;
   useEffect(() => {
     async function fetchData() {
       try {
         const res = await axios.get(`${subURL}/MarksheetReg/${StudentRegNo}`);
-        console.log(res.data);
-
         setData(res.data);
       } catch (error) {
         console.log(error);
@@ -50,7 +42,6 @@ const ReportCard = () => {
     if (myRef.current && myRef.current.setNativeProps) {
       const styleObj = {
         borderWidth: 3,
-        //borderRadius: 4,
         borderColor: "white",
       };
       myRef.current.setNativeProps({
@@ -88,57 +79,8 @@ const ReportCard = () => {
   return (
     <>
       <View style={styles.root}>
-        {/* <View style={styles.flex}>
-          <View style={[styles.studInfo, styles.studInfoTopLeftStyle1]}>
-            <View style={styles.flexrow}>
-              <View style={{ flex: 0.5 }}>
-                <Text
-                  style={[
-                    styles.description,
-                    styles.bottomLine,
-                    { justifyContent: "center", alignItems: "center" },
-                  ]}
-                >
-                  Name : <Text style={styles.textInfo}>{StudentName}</Text>
-                </Text>
-              </View>
-              <View style={styles.space} />
-              <View style={{ flex: 0.5, marginRight: "5%" }}>
-                <Text style={[styles.description, styles.bottomLine]}>
-                  Class: <Text style={styles.textInfo}>{className}</Text>
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View style={[styles.studInfo, styles.studInfoTopLeftStyle2]}>
-            <View style={{ flex: 1, flexDirection: "row" }}>
-              <View style={styles.flex}>
-                <Text style={[styles.description, styles.bottomLine]}>
-                  Class: <Text style={styles.textInfo}>{className}</Text>
-                </Text>
-              </View>
-              <View style={styles.space} />
-              <View style={{ flex: 1, marginRight: "5%" }}>
-                <View style={styles.flex}>
-                  <Text style={[styles.description, styles.bottomLine]}>
-                    Section: <Text style={styles.textInfo}>{Section}</Text>
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View> */}
-
         <View style={styles.studentItem}>
-          {/* <View style={styles.studentItem}> */}
           <View style={{ flex: 0.53 }}>
-            {/* <Image
-                source={{
-                  uri: `http://10.0.2.2:8000${StudentPhoto}`,
-                }}
-                style={styles.image}
-                width="100px"
-              /> */}
             <NativeImage
               source={{
                 uri: `${mainURL}${StudentPhoto}`,
@@ -179,11 +121,9 @@ const ReportCard = () => {
                 {StudentRegNo}
               </Text>
             </View>
-            {/* </View> */}
           </View>
         </View>
         <View style={styles.tableTopStyle}>
-          {/* <ScrollView> */}
           {data.length <= 0 ? (
             <View
               style={{
@@ -285,9 +225,6 @@ const ReportCard = () => {
                                   Total
                                 </Text>
                               </View>
-                              {/* <View style={styles.colStyle}>
-                                  <Text style={styles.headingFont}>Percentage</Text>
-                                </View> */}
                             </View>
                             <View style={styles.root}>
                               <View style={styles.colStyle}>
@@ -322,10 +259,6 @@ const ReportCard = () => {
                                     data.computer_max_mark}
                                 </Text>
                               </View>
-                              {/* <View style={styles.colStyle}>
-                                  <Text>
-                                  </Text>
-                                </View> */}
                             </View>
                             <View style={styles.root}>
                               <View style={styles.colStyle}>
@@ -495,7 +428,6 @@ const ReportCard = () => {
               </>
             ))
           )}
-          {/* </ScrollView> */}
         </View>
         <View style={{ flex: 0.2, backgroundColor: "green" }}>
           <ParentsHome />
@@ -531,20 +463,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 1.5,
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: "#00B8AC",
     backgroundColor: "#02196E",
-  },
-  studInfo: {
-    flex: 1,
-    flexDirection: "row",
-  },
-  studInfoTopLeftStyle1: {
-    marginLeft: "5%",
-    top: "5%",
-  },
-  studInfoTopLeftStyle2: {
-    marginLeft: "5%",
-    top: "1%",
   },
   colStyle: {
     borderRightWidth: 1,
@@ -558,7 +477,6 @@ const styles = StyleSheet.create({
   firstCol: {
     borderRightWidth: 1,
     backgroundColor: "#FFFFE4",
-    //borderRightColor: "white",
     borderLeftWidth: 1,
     borderBottomWidth: 1.5,
     justifyContent: "center",
@@ -566,36 +484,16 @@ const styles = StyleSheet.create({
     padding: deviceHieght < 600 ? "5%" : "10%",
   },
   headingFirstCol: {
-    // fontFamily: "Hind-SemiBold",
     fontWeight: "bold",
     fontSize: deviceWidth < 370 ? 14 : 14,
-    // color: "white",
   },
   headingFont: {
-    // fontFamily: "Hind-SemiBold",
     fontWeight: "bold",
     fontSize: deviceWidth < 370 ? 14 : 14,
   },
   tableTopStyle: {
     flex: 2.2,
     padding: 10,
-    // bottom: deviceHieght < 600 ? "10%" : "1%",
-    // top: deviceHieght < 600 ? "1%" : "1%",
-  },
-  textInfo: {
-    fontSize: deviceWidth < 370 ? 18 : 20,
-    fontFamily: "HindRegular",
-    color: "black",
-    fontWeight: "normal",
-
-    // left: 10,
-  },
-  description: {
-    fontSize: deviceWidth < 370 ? 18 : 20,
-    fontFamily: "HindRegular",
-    marginBottom: 4,
-    fontWeight: "bold",
-    // fontWeight: "bold",
   },
   textColor: {
     color: "red",
@@ -603,65 +501,31 @@ const styles = StyleSheet.create({
   textPassColor: {
     color: "green",
   },
-  space: {
-    width: 20,
-    height: 20,
-  },
-  bottomLine: {
-    borderBottomColor: "#130BF0",
-    borderBottomWidth: 2,
-    borderBottomLeftRadius: 5,
-    borderBottomRightRadius: 5,
-    // borderRadius:5,
-    backgroundColor: "#CEE7FF",
-    alignSelf: "center",
-    paddingHorizontal: "12%",
-  },
+ 
   studentItem: {
     width: "90%",
     padding: 20,
     marginVertical: 20,
     marginHorizontal: 20,
-    //  backgroundColor: "#3e04c3",
     backgroundColor: "#02196E",
     flexDirection: "row",
     alignItems: "center",
-
     justifyContent: "space-between",
     borderRadius: 10,
   },
   textBase: {
     color: "white",
-    // color: "#0D98BA",
     marginRight: 10,
   },
   description: {
     fontSize: deviceWidth < 370 ? 20 : 17,
-
     marginBottom: 4,
-    // fontWeight: "bold",
     fontFamily: "HindSemiBold",
   },
   textStyleStudInfo: {
     fontSize: deviceWidth < 370 ? 20 : 17,
-
     marginBottom: 4,
-    // fontWeight: "bold",
     fontFamily: "HindMedium",
-  },
-  imageContainer: {
-    padding: 1,
-    backgroundColor: "white",
-    borderColor: "black",
-    borderWidth: 5,
-    justifyContent: "center",
-    alignItems: "center",
-
-    //minWidth: 80,
-  },
-  image: {
-    height: 85,
-    width: 75,
   },
   msgText: {
     fontSize: 18,

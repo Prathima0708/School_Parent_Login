@@ -2,7 +2,6 @@ import axios from "axios";
 import moment from "moment";
 import {
   Modal,
-  Popover,
   Text as NativeText,
   Button as NativeButton,
 } from "native-base";
@@ -71,7 +70,6 @@ function Attendance() {
       }
     }
     fetchData();
-    // customDatesStyles.pop()
   }, []);
 
   useEffect(() => {
@@ -181,7 +179,6 @@ function Attendance() {
     <View
       style={[
         {
-          // Try setting `flexDirection` to `"row"`.
           flex: 1,
           flexDirection: "column",
           backgroundColor: "white",
@@ -192,9 +189,6 @@ function Attendance() {
         <CalendarPicker
           onMonthChange={(month) => monthChangeHandler(month)}
           customDatesStyles={customDatesStyles}
-          selectedDayStyle={{}}
-          // selectedDayStyle={{backgroundColor:'transparent'}}
-          // selectedDayTextStyle={{color: 'black'}}
           enableDateChange={true}
           onDateChange={(day) => handlePress(day)}
           textStyle={{ fontFamily: "HindRegular" }}
@@ -205,25 +199,16 @@ function Attendance() {
         <View
           style={[
             {
-              // Try setting `flexDirection` to `"row"`.
               flex: 1,
               flexDirection: "column",
               marginTop: "15%",
               marginLeft: "10%",
-              // padding:30
             },
           ]}
         >
           <View style={{ flex: 0.3 }}>
             <View
-              style={[
-                {
-                  // Try setting `flexDirection` to `"row"`.
-                  flex: 1,
-                  flexDirection: "row",
-                },
-              ]}
-            >
+              style={styles.commonViewStyle}>
               <View style={{ flex: 0.1 }}>
                 <View style={styles.presentDot} />
               </View>
@@ -238,14 +223,7 @@ function Attendance() {
           </View>
           <View style={{ flex: 0.3 }}>
             <View
-              style={[
-                {
-                  // Try setting `flexDirection` to `"row"`.
-                  flex: 1,
-                  flexDirection: "row",
-                },
-              ]}
-            >
+              style={styles.commonViewStyle}>
               <View style={{ flex: 0.1 }}>
                 <View style={styles.absentDot} />
               </View>
@@ -260,14 +238,7 @@ function Attendance() {
           </View>
           <View style={{ flex: 1 }}>
             <View
-              style={[
-                {
-                  // Try setting `flexDirection` to `"row"`.
-                  flex: 1,
-                  flexDirection: "row",
-                },
-              ]}
-            >
+              style={styles.commonViewStyle}>
               <View style={{ flex: 0.1 }}>
                 <View style={styles.holidayDot} />
               </View>
@@ -321,25 +292,26 @@ export default Attendance;
 
 const styles = StyleSheet.create({
   presentDot: {
-    width: 20, // or whatever size you need
+    width: 20,
     height: 20,
     backgroundColor: "green",
-    // borderRadius:100
   },
   absentDot: {
-    width: 20, // or whatever size you need
+    width: 20,
     height: 20,
     backgroundColor: "red",
-    // borderRadius:100
   },
   holidayDot: {
-    width: 20, // or whatever size you need
+    width: 20,
     height: 20,
     backgroundColor: "#D4AC0D",
-    // borderRadius:100
   },
   textStyle: {
     fontFamily: "HindSemiBold",
     fontSize: 16,
   },
+  commonViewStyle:{
+    flex: 1,
+    flexDirection: "row",
+  }
 });
