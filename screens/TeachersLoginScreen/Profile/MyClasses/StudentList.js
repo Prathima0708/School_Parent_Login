@@ -25,16 +25,14 @@ const StudentList = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const [filteredData, setFilteredData] = useState([]);
+  const [data, setData] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
-
-  
 
   useEffect(() => {
     async function login() {
       try {
         const res = await axios.get(`${subURL}/Student/`);
-    
 
         let filteredclass = res.data.filter((ele) => ele.class_name == MYCLASS);
 
@@ -46,14 +44,10 @@ const StudentList = () => {
 
         let filteredc = filteredList.filter((ele) => ele.class_name == MYCLASS);
 
-
-
         if (filteredc) {
-          
           setFilteredData(filteredc);
+          setData(filteredc);
         }
-
-    
       } catch (error) {
         console.log(error);
       }
@@ -76,9 +70,8 @@ const StudentList = () => {
   }, []);
 
   const searchFilter = (text) => {
-
     if (text) {
-      const newData = filteredData.filter((item) => {
+      const newData = data.filter((item) => {
         const itemData = item.student_name
           ? item.student_name.toUpperCase()
           : "".toUpperCase();
@@ -88,15 +81,12 @@ const StudentList = () => {
       setFilteredData(newData);
       setSearchText(text);
     } else {
-      
-      setFilteredData(filteredData);
+      setFilteredData(data);
       setSearchText(text);
     }
   };
 
   function pressHandler(id) {
-  
-
     navigation.navigate("TeachersProfile", {
       studentid: id,
     });
@@ -166,9 +156,7 @@ const StudentList = () => {
                                 paddingVertical: 20,
                               }}
                             >
-                              <Text
-                                style={styles.headerTextValue}
-                              >
+                              <Text style={styles.headerTextValue}>
                                 {filteredData.reg_number}
                               </Text>
                             </View>
@@ -179,9 +167,7 @@ const StudentList = () => {
                                 paddingVertical: 20,
                               }}
                             >
-                              <Text
-                                style={styles.headerTextValue}
-                              >
+                              <Text style={styles.headerTextValue}>
                                 {filteredData.student_name}
                               </Text>
                             </View>
@@ -192,9 +178,7 @@ const StudentList = () => {
                                 paddingVertical: 20,
                               }}
                             >
-                              <Text
-                                style={styles.headerTextValue}
-                              >
+                              <Text style={styles.headerTextValue}>
                                 {filteredData.class_name} -{" "}
                                 {filteredData.section}
                               </Text>
@@ -244,7 +228,7 @@ const styles = StyleSheet.create({
   tableText: {
     flex: 1,
     flexDirection: "row",
-  
+
     borderBottomWidth: 1,
     borderRightWidth: 1,
     borderLeftWidth: 1,
@@ -261,13 +245,11 @@ const styles = StyleSheet.create({
   },
 
   searchBar: {
-  
     backgroundColor: "#F0F3F4",
     marginTop: 10,
     marginBottom: 20,
   },
   root: {
-  
     backgroundColor: "white",
     height: "100%",
   },

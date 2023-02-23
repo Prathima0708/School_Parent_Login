@@ -5,7 +5,6 @@ import {
   Text,
   ScrollView,
   Platform,
-  Button as Btn,
   Alert,
   Dimensions,
   LogBox,
@@ -16,48 +15,36 @@ import {
 import moment from "moment";
 import SelectList from "react-native-dropdown-select-list";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import {
-  HStack,
-  Spinner,
-  Text as NativeText,
-  Badge,
-  Box,
-  IconButton,
-} from "native-base";
+import { Text as NativeText, Badge, IconButton } from "native-base";
 import { Keyboard } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../../components/UI/Button";
 import axios from "axios";
 import { Button as NativeButton } from "native-base";
-import { TEST, Token } from "../../Login";
-import BgButton from "../../../components/UI/BgButton";
-import {
-  Section,
-  className,
-} from "../../../components/StudentItem/StudentItem";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+
+import { Ionicons } from "@expo/vector-icons";
 import TeachersHome from "../BottomTab/TeachersHome";
 import Input from "../../../components/UI/Input";
-import { Teacher, UserId } from "../../Login";
-import { Card, DataTable } from "react-native-paper";
+
+import { Card } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
 import BackButton from "../../../components/UI/BackButton";
 import { subURL } from "../../../components/utils/URL's";
-import { MYCLASS, MYSECTION } from "../Profile/MyClasses/DisplayClass";
+
 var ID, EDT_ID;
 var FROMDATE, TODATE;
-var BADGE;
+
 var USERNAME, TOKEN, USERROLE, USERID, KEY, VALUE;
 
 var firstData,
   KEY,
   VALUE,
-  newArray = [],
-  checkCT = [];
-var fisrtOption, firstKey, firstValue;
+  newArray = [];
+
+var firstKey, firstValue;
 const TeachersLeaveUpdated = () => {
   const [user, setUser] = useState("");
   const [userRole, setUserRole] = useState("");
@@ -66,14 +53,6 @@ const TeachersLeaveUpdated = () => {
   const [loading, setLoading] = useState(false);
 
   const scrollY = new Animated.Value(0);
-
-  const diffClamp = Animated.diffClamp(scrollY, 0, 100);
-
-  const headermax = 100;
-  const headermin = 10;
-
-  
-
 
   const [selectedClassSection, setSelectedClassSection] = useState("");
   const [enteredClassSectionTouched, setEnteredClassSectionTouched] =
@@ -99,7 +78,6 @@ const TeachersLeaveUpdated = () => {
   firstKey = leaveTypeData[0].key;
   firstValue = leaveTypeData[0].value;
 
- 
   const [typeLabel, setTypeLabel] = useState(false);
   const [reasonLabel, setReasonLabel] = useState(false);
   const [emailLabel, setEmailLabel] = useState(false);
@@ -107,22 +85,10 @@ const TeachersLeaveUpdated = () => {
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isLeavereasonFocused, setIsLeavereasonFocused] = useState(false);
 
-
   const [btn, setBtn] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [showList, setShowList] = useState(false);
   const [showTeachersList, setShowTeachersList] = useState(false);
-
-  const [forLeaveList, setForLeaveList] = useState({
-    color: "white",
-    backgroundColor: "#0C60F4",
-    borderRadius: 10,
-  });
-  const [forLeaveForm, setForLeaveForm] = useState({
-    color: "black",
-    backgroundColor: "#F4F6F6",
-    borderRadius: 10,
-  });
 
   const [leaveType, setEnteredLeaveType] = useState("");
   const [enteredLeaveTypeTouched, setEnteredLeaveTypeTouched] = useState(false);
@@ -177,8 +143,6 @@ const TeachersLeaveUpdated = () => {
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
   const [data, setData] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
-  const [deletePressed, setDeletePressed] = useState(false);
-  const [isSame, SetIsSame] = useState(false);
 
   const [showChoice, setShowChoice] = useState(true);
 
@@ -193,6 +157,7 @@ const TeachersLeaveUpdated = () => {
   const [token, setToken] = useState("");
 
   const [leaveByUsername, setLeaveByUsername] = useState([]);
+  const [searchLeaveByUsername, setSearchLeaveByUsername] = useState([]);
 
   const [leaveByClassSection, setLeaveByClassSection] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -200,8 +165,6 @@ const TeachersLeaveUpdated = () => {
   const [classTeacherData, setClassTeacherData] = useState([]);
   const [bgColor, setBgColor] = useState([]);
   const [showDefault, setShowDefault] = useState(false);
-
-  const [showNotfoundMsg, setShowNotFoundMsg] = useState(false);
 
   let i = 0;
 
@@ -341,17 +304,10 @@ const TeachersLeaveUpdated = () => {
     setenteredfrmdate(enteredValue);
   }
   function toDateHandler(enteredValue) {
-    // setToText(enteredValue);
     setToDate(enteredValue);
     setenteredtodate(enteredValue);
   }
 
-  function leaveTypeChangeHandler(enteredValue) {
-    setEnteredLeaveType(enteredValue);
-  }
-  function emailChangeHandler(enteredValue) {
-    setEnteredEmail(enteredValue);
-  }
   function handleChange(e) {
     if (emailRegex.test(e)) {
       setError(null);
@@ -380,7 +336,6 @@ const TeachersLeaveUpdated = () => {
 
     if (
       !enteredLeaveReasonIsValid ||
-      //!enteredLeaveTypeIsValid ||
       !enteredFromDateIsValid ||
       !enteredtoDateIsValid ||
       error != null
@@ -422,17 +377,6 @@ const TeachersLeaveUpdated = () => {
       setEnteredLeaveReasonTouched(false);
       setEnteredEmailTouched(false);
       setEmailLabel(false);
-
-      setForLeaveList({
-        backgroundColor: "#F4F6F6",
-        color: "black",
-        borderRadius: 10,
-      });
-      setForLeaveForm({
-        color: "white",
-        backgroundColor: "#1E8449",
-        borderRadius: 10,
-      });
     }
   }
 
@@ -510,16 +454,6 @@ const TeachersLeaveUpdated = () => {
       setEnteredFromDateTouched(false);
       setEnteredtoDateTouched(false);
       setEnteredEmailTouched(false);
-      setForLeaveList({
-        backgroundColor: "#F4F6F6",
-        color: "black",
-        borderRadius: 10,
-      });
-      setForLeaveForm({
-        color: "white",
-        backgroundColor: "#1E8449",
-        borderRadius: 10,
-      });
     }
   }
 
@@ -562,46 +496,6 @@ const TeachersLeaveUpdated = () => {
     setIsToDateFocused(true);
     setEnteredtoDateTouched(false);
     setendDateLabel(true);
-  }
-
-  function showLeaveForm() {
-    setEnteredLeaveType("");
-    setEnteredLeaveReason("");
-    setFromText("");
-    setToText("");
-    setForLeaveList({
-      backgroundColor: "#0C60F4",
-      color: "white",
-      borderRadius: 10,
-    });
-    setForLeaveForm({
-      color: "black",
-      backgroundColor: "#F4F6F6",
-      borderRadius: 10,
-    });
-    setShowForm(true);
-    setShowList(false);
-    //  setEnteredLeaveTypeTouched(false);
-    setEnteredLeaveReasonTouched(false);
-    setEnteredFromDateTouched(false);
-    setEnteredtoDateTouched(false);
-    setIsEdit(false);
-
-    setTypeLabel(false);
-    setReasonLabel(false);
-  }
-
-  function showLeave() {
-    async function fetchData() {
-      try {
-        const res = await axios.get(`${subURL}/LeaveByUsername/${user}/`);
-
-        setLeaveByUsername(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData();
   }
 
   function approveHandler(id) {
@@ -664,17 +558,17 @@ const TeachersLeaveUpdated = () => {
 
   const searchFilter = (text) => {
     if (text) {
-      const newData = leaveByClassSection.filter((item) => {
+      const newData = searchLeaveByUsername.filter((item) => {
         const itemData = item.leave_type
           ? item.leave_type.toUpperCase()
           : "".toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       });
-      setFilteredData(newData);
+      setLeaveByUsername(newData);
       setSearchText(text);
     } else {
-      setFilteredData(leaveByClassSection);
+      setLeaveByUsername(searchLeaveByUsername);
       setSearchText(text);
     }
   };
@@ -715,6 +609,7 @@ const TeachersLeaveUpdated = () => {
         const res = await axios.get(`${subURL}/LeaveByUsername/${user}/`);
 
         setLeaveByUsername(res.data);
+        setSearchLeaveByUsername(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -747,9 +642,7 @@ const TeachersLeaveUpdated = () => {
             setShowChoice(false);
             setLoading(true);
           }
-          // else if (newArray.length == 0) {
-          //   setBgColor(false);
-          // }
+
           firstData = newArray[0];
 
           KEY = firstData.key;
@@ -768,7 +661,7 @@ const TeachersLeaveUpdated = () => {
     setShowForm(false);
     setTypeLabel(false);
     setIsEdit(false);
-    //setEnteredLeaveTypeTouched(false);
+
     setReasonLabel(false);
     setEmailLabel(false);
     setEnteredSelectedTouched(false);
@@ -794,8 +687,6 @@ const TeachersLeaveUpdated = () => {
     setShowChoice(true);
     setShowTeachersList(false);
   }
-
-  function selecteHandler() {}
 
   function classsectionSelectHandler() {
     setShowDefault(true);
@@ -954,6 +845,7 @@ const TeachersLeaveUpdated = () => {
           const res = await axios.get(`${subURL}/LeaveByUsername/${user}/`);
 
           setLeaveByUsername(res.data);
+          setSearchLeaveByUsername(res.data);
         } catch (error) {
           console.log(error);
         }
@@ -1505,7 +1397,7 @@ const TeachersLeaveUpdated = () => {
               onSubmitEditing={Keyboard.dismiss}
               style={styles.searchBar}
               textInputStyle={{ fontFamily: "HindRegular", fontSize: 17 }}
-              placeholder="Search here by leave type"
+              placeholder="Search here"
               onChangeText={(text) => searchFilter(text)}
               value={searchText}
             />

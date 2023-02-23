@@ -122,7 +122,6 @@ const MyClasses = () => {
   }, []);
 
   const searchFilter = (text) => {
-  
     if (text) {
       const newData = data.filter((item) => {
         const itemData = item.class_name
@@ -156,11 +155,11 @@ const MyClasses = () => {
               <Text
                 style={{
                   marginVertical: 15,
-                  fontFamily: "HindBold",
+                  fontFamily: "HindSemiBold",
                   fontSize: 17,
                 }}
               >
-                Class List
+                My Classes
               </Text>
               <SearchBar
                 style={styles.searchBar}
@@ -168,7 +167,7 @@ const MyClasses = () => {
                   fontFamily: "HindRegular",
                   fontSize: 18,
                 }}
-                placeholder="Search here.."
+                placeholder="Search here"
                 onChangeText={(text) => searchFilter(text)}
                 value={searchText}
               />
@@ -195,7 +194,7 @@ const MyClasses = () => {
                     style={{
                       flex: 1,
                       alignItems: "flex-start",
-                      
+
                       ...Platform.select({
                         ios: {
                           top: "4%",

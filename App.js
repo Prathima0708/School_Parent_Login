@@ -42,7 +42,6 @@ import LandingScreen from "./screens/LandingScreen";
 import TeachersProfile from "./screens/TeachersLoginScreen/Profile/TeachersProfile";
 import ParentsProfile from "./screens/ParentsLoginScreen/Profile/ParentsProfile";
 import TeacherHomeworkScreenBuild from "./screens/TeachersLoginScreen/TeachersAcademics/Homework/TeacherHomeworkScreenBuild";
-import TeachersLeaveScreenBuild from "./screens/TeachersLoginScreen/Leave/TeachersLeaveScreenBuild";
 
 import { LogBox } from "react-native";
 
@@ -52,7 +51,7 @@ import ChatHeader from "./components/ChatApplication/ChatUI/ChatHeader";
 import MyClasses from "./screens/TeachersLoginScreen/Profile/MyClasses/MyClasses";
 import StudentList from "./screens/TeachersLoginScreen/Profile/MyClasses/StudentList";
 import ExamTimeTableSubjects from "./screens/TeachersLoginScreen/TimeTable/ExamTimeTableSubjects";
-import TeachersLeave from "./screens/TeachersLoginScreen/Leave/TeachersLeave";
+
 import TeachersLeaveUpdated from "./screens/TeachersLoginScreen/Leave/TeachersLeaveUpdated";
 import ExamTimeTable from "./screens/ParentsLoginScreen/Academics/TimeTable/ExamTimeTable";
 import TeachersAttendanceBuild from "./screens/TeachersLoginScreen/TeachersAcademics/Attendance/TeachersAttendanceBuild";

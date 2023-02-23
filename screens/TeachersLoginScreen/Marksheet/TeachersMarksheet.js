@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   ScrollView,
-  Button as Btn,
   Alert,
   Dimensions,
   Animated,
@@ -31,13 +30,6 @@ var newArray, firstData, KEY, VALUE, CANCELKEY, CANCELVALUE;
 const TeachersMarksheet = () => {
   const [defaultClass, setDefaultClass] = useState();
 
-  const scrollY = new Animated.Value(0);
-
-  const diffClamp = Animated.diffClamp(scrollY, 0, 100);
-
-  const headermax = 100;
-  const headermin = 10;
-
   const [showForm, setShowForm] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
   const [showBtn, setShowBtn] = useState(true);
@@ -47,7 +39,6 @@ const TeachersMarksheet = () => {
   const [searchText, setSearchText] = useState("");
 
   const [filteredMarks, setFilteredMarks] = useState([]);
-  const [searchMarks, setSearchMarks] = useState("");
 
   const [selected, setSelected] = useState("");
   const [studData, setStudData] = useState([]);
@@ -329,118 +320,8 @@ const TeachersMarksheet = () => {
                 />
               )}
             </View>
-            {/* <View
-              style={{
-                width: "50%",
-                // bottom:'2%',
-                marginLeft: 200,
-                position: "absolute",
-                // top: 160,
-              }}
-            >
-              <Button onPress={viewStudentList}>View List</Button>
-            </View> */}
           </>
         )}
-
-        {/* {showDefaultList && (
-          <>
-            <SearchBar
-              style={styles.searchBar}
-              textInputStyle={{ fontFamily: "HindRegular", fontSize: 18 }}
-              placeholder="Search here"
-              onChangeText={(text) => searchFilter(text)}
-              value={searchText}
-            />
-            <ScrollView horizontal={true}>
-              <DataTable style={styles.container}>
-                <DataTable.Header style={styles.tableHeader}>
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> REG NUMBER</Text>
-                  </View>
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> STUDENT NAME</Text>
-                  </View>
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> CLASS NAME</Text>
-                  </View>
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> SECTION</Text>
-                  </View>
-
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> ACTION</Text>
-                  </View>
-                </DataTable.Header>
-
-                <View style={styles.th}>
-                  <Text style={styles.tableTitle}>
-                    {" "}
-                    Default student list goes here...
-                  </Text>
-                </View>
-
-                {filteredData &&
-                  filteredData.map((data, key) => (
-                    <DataTable.Row style={styles.tableRow} key={key}>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 50,
-                        }}
-                      >
-                        {data.reg_number}
-                      </DataTable.Cell>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 80,
-                        }}
-                      >
-                        {data.student_name}
-                      </DataTable.Cell>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 90,
-                        }}
-                      >
-                        {data.class_name}
-                      </DataTable.Cell>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 70,
-                        }}
-                      >
-                        {data.section}
-                      </DataTable.Cell>
-
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 70,
-                        }}
-                      >
-                        <Ionicons
-                          name="eye"
-                          //size={deviceWidth < 370 ? 35 : 38}
-                          color="black"
-                          size={24}
-                          onPress={() => addForm(data.id)}
-                        />
-                      </DataTable.Cell>
-                    </DataTable.Row>
-                  ))}
-              </DataTable>
-            </ScrollView>
-          </>
-        )} */}
 
         {showForm && (
           <>
@@ -579,86 +460,6 @@ const TeachersMarksheet = () => {
                 <TeachersHome />
               </View>
             )}
-            {/* <ScrollView horizontal={true}>
-              <DataTable style={styles.container}>
-                <DataTable.Header style={styles.tableHeader}>
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> REG NUMBER</Text>
-                  </View>
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> STUDENT NAME</Text>
-                  </View>
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> CLASS NAME</Text>
-                  </View>
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> SECTION</Text>
-                  </View>
-
-                  <View style={styles.th}>
-                    <Text style={styles.tableTitle}> ACTION</Text>
-                  </View>
-                </DataTable.Header>
-
-                {filteredData &&
-                  filteredData.map((data, key) => (
-                    <DataTable.Row style={styles.tableRow} key={key}>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: deviceWidth < 370 ? 16 : 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 50,
-                        }}
-                      >
-                        {data.reg_number}
-                      </DataTable.Cell>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: deviceWidth < 370 ? 16 : 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 80,
-                        }}
-                      >
-                        {data.student_name}
-                      </DataTable.Cell>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: deviceWidth < 370 ? 16 : 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 90,
-                        }}
-                      >
-                        {data.class_name}
-                      </DataTable.Cell>
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: deviceWidth < 370 ? 16 : 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 70,
-                        }}
-                      >
-                        {data.section}
-                      </DataTable.Cell>
-
-                      <DataTable.Cell
-                        textStyle={{
-                          fontSize: deviceWidth < 370 ? 16 : 18,
-                          fontFamily: "HindRegular",
-                          marginLeft: 70,
-                        }}
-                      >
-                        <Ionicons
-                          name="eye"
-                          //size={deviceWidth < 370 ? 35 : 38}
-                          color="black"
-                          size={24}
-                          onPress={() => addForm(data.id)}
-                        />
-                      </DataTable.Cell>
-                    </DataTable.Row>
-                  ))}
-              </DataTable>
-            </ScrollView> */}
           </>
         )}
         {showMarksheet && !empty && (
@@ -692,8 +493,6 @@ const TeachersMarksheet = () => {
                         flex: 0.6,
 
                         marginLeft: "20%",
-                        // marginHorizontal: 60,
-                        // marginVertical: 10,
                       }}
                     >
                       <Text style={[styles.headingFont, { fontSize: 18 }]}>
@@ -781,7 +580,6 @@ const TeachersMarksheet = () => {
                   >
                     <View style={{ flex: 8, bottom: 10 }}>
                       <ScrollView>
-                        {/* {timeTable.length > 0 ? ( */}
                         <View style={[styles.flexrow]}>
                           <View style={[styles.rootMarkTable]}>
                             <>
@@ -862,12 +660,7 @@ const TeachersMarksheet = () => {
                                       { flexDirection: "row" },
                                     ]}
                                   >
-                                    <View
-                                      style={[
-                                        styles.colStyle,
-                                        // { left: "10%" },
-                                      ]}
-                                    >
+                                    <View style={[styles.colStyle]}>
                                       <Text
                                         style={[
                                           styles.tableTitleMarksTable,
@@ -953,27 +746,14 @@ const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   headingFont: {
-    // fontFamily: "Hind-SemiBold",
     fontFamily: "HindSemiBold",
     fontSize: deviceWidth < 370 ? 14 : 16,
   },
-  BtnContainer: {
-    fontSize: 24,
-    flexDirection: "row",
 
-    width: "100%",
-
-    // backgroundColor: "#FDFEFE",
-  },
   colStyle: {
     padding: deviceHieght < 600 ? "5%" : "3%",
   },
-  tableBtn: {
-    marginLeft: -15,
-  },
-  tableMarksBtn: {
-    marginLeft: 15,
-  },
+
   container: {
     padding: 10,
     top: "15%",
@@ -984,21 +764,14 @@ const styles = StyleSheet.create({
     bottom: 35,
   },
   containerMarkTable: {
-    // padding: 10,
     borderWidth: 1,
   },
-  containerMarkTableOBT: {
-    // padding: 16,
-    borderWidth: 1,
-  },
+
   home: {
     marginTop: 29,
   },
-  type: {
-    left: 30,
-  },
+
   root: {
-    // backgroundColor: "#EBECFO",
     backgroundColor: "white",
   },
   tableHead: {
@@ -1012,48 +785,19 @@ const styles = StyleSheet.create({
   tableText: {
     flex: 1,
     flexDirection: "row",
-    // paddingHorizontal:10,
-    // marginHorizontal:10,
+
     borderBottomWidth: 1,
     borderRightWidth: 1,
     borderLeftWidth: 1,
   },
-  inputForm: {
-    padding: 20,
-    paddingTop: 15,
-    paddingHorizontal: 10,
-    marginHorizontal: 10,
-    marginVertical: 10,
-    // backgroundColor: "white",
-    // height: "100%",
-  },
-  errorBorderColor: {
-    borderColor: "red",
-  },
+
   btnSubmit: {
     marginTop: 5,
-    //marginBottom: 30,
-    width: "50%",
-    marginLeft: deviceWidth < 370 ? 170 : 180,
-  },
-  btnSubmit1: {
-    //marginTop: 30,
-    //marginBottom: 30,
-    width: "50%",
-    marginLeft: deviceWidth < 370 ? 170 : 180,
-  },
-  btnCancel: {
-    //marginTop: -110,
 
     width: "50%",
-    position: "absolute",
-    top: "75%",
+    marginLeft: deviceWidth < 370 ? 170 : 180,
   },
-  th: {
-    padding: 5,
-    marginRight: 13,
-    //fontSize: 24,
-  },
+
   tableHeader: {
     flex: 0.2,
     flexDirection: "row",
@@ -1062,14 +806,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     backgroundColor: "#1E84A4",
   },
-  tableHeaderForMark: {
-    flex: 0.1,
-    flexDirection: "row",
-    top: "10%",
-    borderWidth: 1,
-    marginHorizontal: 20,
-    backgroundColor: "#1E84A4",
-  },
+
   headerText: {
     fontFamily: "HindSemiBold",
     fontSize: 16,
@@ -1081,7 +818,6 @@ const styles = StyleSheet.create({
     color: "black",
   },
   tableTitle: {
-    // padding: 5,
     margin: 7,
     fontFamily: "HindMedium",
     fontSize: deviceWidth < 370 ? 16 : 20,
@@ -1092,30 +828,15 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
 
-  tableCell: {
-    width: 110,
-
-    marginLeft: 35,
-  },
   rootMarkTable: {
     flex: 1,
     flexDirection: "column",
     backgroundColor: "white",
     borderRadius: 1,
   },
-  tableMarks: {
-    width: 10,
 
-    marginLeft: 35,
-  },
-
-  tableRow: {
-    height: "9%",
-    borderBottomColor: "black",
-    borderBottomWidth: 2,
-  },
   space: {
-    width: 20, // or whatever size you need
+    width: 20,
     height: 20,
   },
   searchBar: {
@@ -1123,112 +844,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#F0F3F4",
   },
 
-  focusStyle: {
-    borderColor: "blue",
-  },
-  // normal: {
-  //   position: "absolute",
-  //   top: 35,
-  //   left: 50,
-  // },
-  // up: {
-  //   position: "absolute",
-  //   top: 10,
-  //   left: 50,
-  // },
-  errorLabel: {
-    color: "red",
-    backgroundColor: "#F2F2F2",
-    // backgroundColor: "#F4F6F7",
-    paddingHorizontal: 5,
-    fontSize: deviceWidth < 370 ? 13 : 15,
-  },
-  normalLabel: {
-    color: "grey",
-    backgroundColor: "#F2F2F2",
-    // backgroundColor: "#F4F6F7",
-    paddingHorizontal: 7,
-    fontSize: deviceWidth < 370 ? 13 : 17,
-    fontFamily: "HindRegular",
-  },
-
-  normalRemark: {
-    position: "absolute",
-    top: 110,
-    left: 50,
-  },
-  upRemark: {
-    position: "absolute",
-    top: 88,
-    left: 50,
-  },
-  normalRemarkExtra: {
-    position: "absolute",
-    left: 50,
-    top: 130,
-  },
-  upRemarkExtra: {
-    position: "absolute",
-    left: 50,
-    top: 106,
-  },
-  normal: {
-    position: "absolute",
-    top: -7,
-    left: 10,
-  },
-  up: {
-    position: "absolute",
-    top: -5,
-    left: 15,
-  },
-  normalEng: {
-    position: "absolute",
-    top: 20,
-    left: 10,
-  },
-  upEng: {
-    position: "absolute",
-    top: 1,
-    left: 15,
-  },
-  spinnerTextStyle: {
-    color: "#FFF",
-  },
-  description: {
-    fontSize: deviceWidth < 370 ? 18 : 20,
-    fontFamily: "HindRegular",
-    marginBottom: 4,
-    fontWeight: "bold",
-    // fontWeight: "bold",
-  },
-  textBase: {
-    color: "white",
-    // color: "#0D98BA",
-    marginRight: 10,
-  },
-  studentItem: {
-    width: "90%",
-
-    marginVertical: 20,
-    marginHorizontal: 20,
-    //  backgroundColor: "#3e04c3",
-    backgroundColor: "#02196E",
-    flexDirection: "row",
-    alignItems: "center",
-
-    justifyContent: "space-between",
-    borderRadius: 10,
-  },
   flexrow: {
     flex: 1,
     flexDirection: "row",
-  },
-  textStyleStudInfo: {
-    fontSize: deviceWidth < 370 ? 20 : 17,
-
-    marginBottom: 4,
-    // fontWeight: "bold",
-    fontFamily: "HindMedium",
   },
 });

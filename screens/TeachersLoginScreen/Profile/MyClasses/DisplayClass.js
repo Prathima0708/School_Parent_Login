@@ -3,23 +3,19 @@ import React, { useEffect, useState } from "react";
 import { Card } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
-import { classData, filteredCT, length } from "./MyClasses";
 
+import { classData, filteredCT } from "./MyClasses";
 
 export var MYCLASS, MYSECTION;
-var USERID, CT, ID;
+var CT, ID;
 
 const DisplayClass = ({ class_name, section, id }) => {
   ID = id;
- 
-  const [userID, setUserID] = useState("");
+
   const [ctData, setCTData] = useState([]);
   const [bgColor, setBgColor] = useState(false);
- 
-  const naviagtion = useNavigation();
 
- 
+  const naviagtion = useNavigation();
 
   function navigateHander() {
     naviagtion.navigate("StudentList");
@@ -32,24 +28,16 @@ const DisplayClass = ({ class_name, section, id }) => {
     if (CT !== null) {
       setCTData(CT);
     }
-   
   }
   fetchCT();
-  function getBg(ID) {
-   
-    let result = classData.filter((ele) => ele.id == ID);
-    
-   
-  }
+
   let result = filteredCT?.filter((ele) => ele.id == ID);
 
   useEffect(() => {
     if (result.length == 0) {
       setBgColor(false);
-  
     } else {
       setBgColor(true);
- 
     }
   });
   return (
@@ -58,7 +46,6 @@ const DisplayClass = ({ class_name, section, id }) => {
       <View style={{ width: "30%" }}>
         <Pressable onPress={navigateHander}>
           <Card
-          
             style={{
               marginVertical: 15,
               marginHorizontal: 10,
@@ -68,7 +55,7 @@ const DisplayClass = ({ class_name, section, id }) => {
               paddingBottom: 15,
 
               backgroundColor: bgColor ? "#DE9317" : "#1E84A4",
-          
+
               width: "110%",
             }}
           >
