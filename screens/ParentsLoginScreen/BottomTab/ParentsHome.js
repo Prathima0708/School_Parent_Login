@@ -16,7 +16,6 @@ const ParentsHome = ({style}) => {
   function myClassesPressedHandler(){
     setChangeIconBackground(true);
     navigation.navigate("ParentsProfile")
-
   }
 
   const onShowUnderlayDashboard = () => {
@@ -46,26 +45,12 @@ const ParentsHome = ({style}) => {
   return (
     <View style={styles.root}>
       <View style={[{flex:1}, {
-        // Try setting `flexDirection` to `"row"`.
         flexDirection: "row"
       }]}>
         <View style={{ flex: 0.4,}} >
           <View style={[{flex:1}, {
-            // Try setting `flexDirection` to `"row"`.
             flexDirection: "column"
           }]}>
-            {/* <View style={{ flex: 1,alignItems:"center",justifyContent:'flex-end' }} >
-              <Ionicons
-                name="grid-outline"
-                size={25}
-                color="grey"
-                onPress={() => navigation.navigate("TeachersLogin")}
-
-              />
-            </View>
-            <View style={{ flex: 1,alignItems:'center', }} >
-              <Text style={styles.tabText}>Dashboard</Text>
-            </View> */}
             <TouchableHighlight
                 onPress={() => navigation.navigate("ParentsLoginScreen")}
                 underlayColor="#E5E7E9"
@@ -92,7 +77,6 @@ const ParentsHome = ({style}) => {
         </View>
         <View style={{ flex: 0.4}} >
           <View style={[{flex:1}, {
-            // Try setting `flexDirection` to `"row"`.
             flexDirection: "column",
           }]}>
              <TouchableHighlight
@@ -121,22 +105,8 @@ const ParentsHome = ({style}) => {
         </View>
         <View style={{ flex: 0.4}} >
           <View style={[{flex:1}, {
-              // Try setting `flexDirection` to `"row"`.
               flexDirection: "column",justifyContent:'flex-end' 
             }]}>
-              {/* <View style={{ flex: 1,alignItems:'center' }} >
-                <Ionicons
-                  name="person"
-                  size={25}
-                  //color='grey'
-                  color= "grey"
-                  onPress={myClassesPressedHandler}
-                />
-              </View>
-              <View style={{ flex: 1,alignItems:'center' }} >
-                <Text 
-                  style={[styles.tabText,]}>MyClasses</Text>
-              </View> */}
               <TouchableHighlight
                 onPress={myClassesPressedHandler}
                 onShowUnderlay={onShowUnderlayClass}
@@ -170,73 +140,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     padding:5,
-    // borderBottomEndRadius: 25,
-    // borderBottomStartRadius: 25,
     borderTopWidth:1,
     borderTopColor:'darkgrey',
     position: "absolute",
     width: "100%",
-    //top: 5,
     bottom: 0,
-    // paddingHorizontal: 35,
-    // paddingVertical: 10,
-    // borderColor: "white",
-    elevation: 2,
-    // borderTopLeftRadius:10,
-    // borderTopRightRadius:10
-    // borderWidth: 1,
   },
   tabText:{
     fontFamily:"HindSemiBold",
     color:'grey'
   },
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#333',
-    padding: 10,
-  },
+
 });
-
-
-
-// import { TouchableOpacity, StyleSheet } from 'react-native';
-// import { Ionicons } from '@expo/vector-icons';
-// import { useEffect, useState } from 'react';
-// import { useNavigation } from '@react-navigation/native';
-
-// const TeachersHome = ({ onPress, currentScreen }) => {
-//   const navigation = useNavigation();
-//   const [bgColor, setBgColor] = useState('red');
-// const myClasses=navigation.navigate('MyClasses')
-//   useEffect(() => {
-//     if (currentScreen === 'TeachersAcademics') {
-//       setBgColor('red');
-//     } else if (currentScreen === 'MyClasses') {
-//       console.log("else part")
-//       setBgColor('blue');
-//     }
-//   }, [currentScreen]);
-
-//   return (
-//     <>
-//      <TouchableOpacity onPress={()=>navigation.navigate('MyClasses')} style={[styles.iconContainer, { backgroundColor: myClasses?'blue':'red' }]}>
-//       <Ionicons name="ios-heart" size={32} color="#fff" />
-    
-    
-    
-//       </TouchableOpacity>
-    
-//     </>
-   
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   iconContainer: {
-//     borderRadius: 25,
-//     padding: 5,
-//   },
-// });
-
-// export default TeachersHome
-

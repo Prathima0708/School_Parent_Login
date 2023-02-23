@@ -30,32 +30,11 @@ const NoticeBoardList = ({
   const [open, setOpen] = useState(false);
 
   function pressHandler() {
-    console.log("Pressed");
     setOpen(true);
     setPlacement(placement);
   }
 
   return (
-    // <View style={[styles.listStyle]}>
-    //   <View style={{ flex: 3 }}>
-    //     <View style={[{ flex: 1 }, { flexDirection: "column" }]}>
-    //       <View
-    //         style={[{ flex: 1, borderTopLeftRadius: 10 }, styles.colorPadding]}
-    //       >
-    //         <Text style={styles.titleStyle}>{titlee}</Text>
-    //       </View>
-    //       <View style={[{ flex: 1 }, styles.colorPadding]}>
-    //         <Text style={[styles.titleStyle,{fontFamily:'HindRegular'}]}>{description}</Text>
-    //       </View>
-    //     </View>
-    //   </View>
-    //   <View style={[styles.dateViewStyle]}>
-    //     <Text style={[styles.titleStyle]}>
-    //       {moment(startdate).format("DD/MM/YYYY")}
-    //     </Text>
-    //   </View>
-    // </View>
-
     <>
       <Pressable onPress={pressHandler}>
         <Box
@@ -116,21 +95,13 @@ const NoticeBoardList = ({
         size="full"
       >
         <Modal.Content maxWidth="90%" minHeight="5%">
-          {/* <Modal.Header
-                  style={{ justifyContent: "center", alignItems: "center" }}
-                >
-                  Events
-                </Modal.Header> */}
-
           <Modal.Body>
             <ScrollView>
               <View
                 style={[
                   {
-                    // Try setting `flexDirection` to `"row"`.
                     flex: 1,
                     flexDirection: "column",
-                    //borderBottomWidth: filteredlist.length>1 ? 1 : 0,
                     borderBottomColor: "grey",
                   },
                 ]}
@@ -139,7 +110,6 @@ const NoticeBoardList = ({
                   <View
                     style={[
                       {
-                        // Try setting `flexDirection` to `"row"`.
                         flex: 1,
                         flexDirection: "row",
                         marginVertical: 10,
@@ -158,7 +128,6 @@ const NoticeBoardList = ({
                   <View
                     style={[
                       {
-                        // Try setting `flexDirection` to `"row"`.
                         flex: 1,
                         flexDirection: "row",
                       },
@@ -168,7 +137,6 @@ const NoticeBoardList = ({
                       <View
                         style={[
                           {
-                            // Try setting `flexDirection` to `"row"`.
                             flex: 1,
                             flexDirection: "row",
                           },
@@ -188,7 +156,6 @@ const NoticeBoardList = ({
                       <View
                         style={[
                           {
-                            // Try setting `flexDirection` to `"row"`.
                             flex: 1,
                             flexDirection: "row",
                           },
@@ -210,7 +177,6 @@ const NoticeBoardList = ({
                   <View
                     style={[
                       {
-                        // Try setting `flexDirection` to `"row"`.
                         flex: 1,
                         flexDirection: "row",
                       },
@@ -225,7 +191,6 @@ const NoticeBoardList = ({
                   </View>
                 </View>
               </View>
-              {/* <View style={styles.space} /> */}
             </ScrollView>
           </Modal.Body>
 
@@ -249,33 +214,11 @@ const NoticeBoardList = ({
 export default NoticeBoardList;
 const deviceWidth = Dimensions.get("window").width;
 const deviceHieght = Dimensions.get("window").height;
-const styles = StyleSheet.create({
-  listStyle: {
-    flex: 1,
-    flexDirection: "row",
-    padding: 10,
-    borderBottomWidth: 1,
-  },
-  titleStyle: {
-    fontSize: 16,
-    fontFamily: "HindSemiBold",
-  },
 
-  colorPadding: {
-    backgroundColor: "#DEE4FF",
-    padding: 15,
-  },
-  dateViewStyle: {
-    flex: 1,
-    paddingTop: 15,
-    paddingRight: 15,
-    backgroundColor: "#DEE4FF",
-    borderBottomRightRadius: 10,
-  },
+const styles = StyleSheet.create({
   cardTextStyle: {
     fontFamily: "HindSemiBold",
     fontSize: 16,
-    //left: 35,
   },
   textStyle: {
     fontSize: deviceWidth < 370 ? 14 : 16,

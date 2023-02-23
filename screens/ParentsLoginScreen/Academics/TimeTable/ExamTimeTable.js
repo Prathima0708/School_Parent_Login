@@ -1,11 +1,7 @@
 import axios from "axios";
 import moment from "moment";
 import {
-  Alert,
-  HStack,
-  VStack,
   Text as NativeText,
-  Box,
   Heading,
 } from "native-base";
 import { useEffect, useState } from "react";
@@ -81,14 +77,8 @@ function ExamTimeTable() {
                                     style={[
                                       styles.tableTitle,
                                       { justifyContent: "center" },
-                                      // { left: "35%" },
                                     ]}
                                   >
-                                    {/* {moment(
-                                                  data.exam_time,
-                                                  "HH:mm"
-                                                ).format("hh:mm ")} */}
-
                                     {moment(data.exam_time, "HH:mm").format(
                                       "LT"
                                     )}
@@ -114,7 +104,6 @@ function ExamTimeTable() {
                                 <View
                                   style={[
                                     styles.colStyle,
-                                    // { left: "80%" },
                                   ]}
                                 >
                                   <Text style={[styles.tableTitle]}>
@@ -149,11 +138,7 @@ const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
-  alertStyle: {
-    backgroundColor: "white",
-    flex: 1,
-    paddingHorizontal: 20,
-  },
+
   tableTopStyle: {
     flex: 4,
     padding: 10,
@@ -169,9 +154,6 @@ const styles = StyleSheet.create({
   },
   headingFont: {
     fontFamily: "HindSemiBold",
-
-    // justifyContent:'center',
-    //right:'15%',
     color: "white",
     fontSize: deviceWidth < 370 ? 14 : 16,
   },

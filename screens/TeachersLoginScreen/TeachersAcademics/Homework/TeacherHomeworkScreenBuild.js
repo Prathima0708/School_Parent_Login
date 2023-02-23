@@ -1907,7 +1907,7 @@ const styles = StyleSheet.create({
   },
   upRemark: {
     top: deviceHieght > 800 ? 30 : 25,
-    width: deviceWidth > 400 ? 70 : 70,
+    width: deviceWidth > 400 ? 80 : 70,
     left: deviceWidth < 370 ? 20 : 30,
     height: deviceHieght > 800 ? 25 : 25,
     zIndex: 100,
@@ -1918,7 +1918,7 @@ const styles = StyleSheet.create({
     left: deviceWidth < 370 ? 20 : 30,
   },
   upHomework: {
-    top: deviceWidth < 370 ? 15 : 24,
+    top: deviceWidth < 370 ? 15 : 50,
     left: deviceWidth < 370 ? 20 : 30,
     width: deviceWidth > 400 ? 100 : 95,
     zIndex: 100,

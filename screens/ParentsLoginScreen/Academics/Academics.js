@@ -1,5 +1,4 @@
 import { FlatList, StyleSheet, View } from "react-native";
-import CategoryGridTile from "../../../components/StudentItem/CategoryGridTile";
 import ParentAcademicsGridTile from "../../../components/StudentItem/ParentsAcademicsGridTile";
 import { ACADEMICS } from "../../../components/utils/Academics";
 import ParentsHome from "../BottomTab/ParentsHome";
@@ -62,17 +61,6 @@ function Academics({ navigation }) {
           <ParentsHome />
         </View>
       </View>
-
-     {/* <View style={{ backgroundColor: "white", height: "100%" }}>
-      <FlatList
-        style={styles.test}
-        data={ACADEMICS}
-        keyExtractor={(item) => item.id}
-        renderItem={renderCategoryItem}
-        numColumns={2}
-      />
-      <ParentsHome />
-      </View> */}
     </>
   );
 }
@@ -81,13 +69,5 @@ export default Academics;
 const styles = StyleSheet.create({
   rootContainer: {
     marginTop:'3%',
-    // justifyContent: "center",
-    // alignItems: "center",
-   // backgroundColor:'red'
-    //padding: 32,
   },
-  // test: {
-  //   top: 15,
-  //   //backgroundColor:'white'
-  // },
 });

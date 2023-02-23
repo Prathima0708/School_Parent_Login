@@ -1,36 +1,12 @@
 import { Alert, FlatList, StyleSheet, View } from "react-native";
-import CategoryGridTile from "../../components/StudentItem/CategoryGridTile";
 import { CATEGORIES } from "../../components/utils/DummyData";
 import IconButton from "../../components/UI/IconButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
 import { useLayoutEffect } from "react";
 import ParentCateogryGridTile from "../../components/StudentItem/ParentCateogryGridTile";
-import MainTab from "../ParentsLoginScreen/BottomTab/MainTab";
 import ParentsHome from "./BottomTab/ParentsHome";
 
 function StudentCategories({ navigation }) {
-  // async function logoutHandler() {
-  //   try {
-  //     // const value = await AsyncStorage.getItem('token');
-  //     const value = await AsyncStorage.removeItem("token");
-  //     if (value == null) {
-  //       console.log("Data removed");
-  //       navigation.navigate("LadingScreen");
-  //     } else {
-  //       console.log("Data not removed");
-  //     }
-
-  //     // if (value == null) {
-  //     //   console.log("Token is removed"+value)
-  //     //   //  AsyncStorage.removeItem("token");
-  //     //   //  console.log(value)
-  //     //   //  navigation.navigate("Login");
-  //     // }
-  //   } catch (error) {
-  //     // Error retrieving data
-  //   }
-  // }
 
   async function logoutHandler() {
     Alert.alert("Logout", "Are you sure you want to logout?", [
@@ -61,7 +37,6 @@ function StudentCategories({ navigation }) {
     navigation.setOptions({
       headerRight: () => {
         return (
-          // <LogoutButton onPress={LogoutBtnPressHandler}>Test</LogoutButton>
           <IconButton
             onPress={logoutHandler}
             icon="log-out-outline"
@@ -132,13 +107,6 @@ export default StudentCategories;
 
 const styles = StyleSheet.create({
   rootContainer: {
-    //flex: 1,
     marginTop: "3%",
-    // justifyContent: "center",
-    // alignItems: "center",
-    //padding: 32,
   },
-  // test: {
-  //   top: 15,
-  // },
 });
