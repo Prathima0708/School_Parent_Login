@@ -1,7 +1,6 @@
 import {
   View,
   StyleSheet,
-  TextInput,
   Text,
   ScrollView,
   Keyboard,
@@ -13,19 +12,15 @@ import { Button as NativeButton, Icon, IconButton } from "native-base";
 import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../../../components/UI/Button";
-import * as MediaLibrary from "expo-media-library";
+
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 
 import SelectList from "react-native-dropdown-select-list";
-import { Alert, Button as Btn, Image } from "react-native";
+import { Alert } from "react-native";
 import moment from "moment";
 
-import {
-  launchCameraAsync,
-  useCameraPermissions,
-  PermissionStatus,
-} from "expo-image-picker";
+import { useCameraPermissions, PermissionStatus } from "expo-image-picker";
 
 import BgButton from "../../../../components/UI/BgButton";
 import { Ionicons } from "@expo/vector-icons";
@@ -33,19 +28,18 @@ import { useEffect } from "react";
 import TeachersHome from "../../BottomTab/TeachersHome";
 import Input from "../../../../components/UI/Input";
 
-import { Card, DataTable } from "react-native-paper";
+import { Card } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import SearchBar from "react-native-dynamic-search-bar";
+
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 import { subURL } from "../../../../components/utils/URL's";
 import * as FileSystem from "expo-file-system";
 
-export var ID;
+var ID;
 var FROMDATE, TODATE;
 
-var SubjectID;
 let localUri, match, type, path;
-let ImageResult, filename;
+let filename;
 var newArray, TOKEN, USERNAME;
 var KEY, VALUE, SUBJECTVALUE, SUBJECTKEY;
 
@@ -73,7 +67,6 @@ const TeacherHomeworkScreenBuild = () => {
   const [remarkLabel, setRemarkLabel] = useState(false);
   const [homeworkLabel, setHomeworkLabel] = useState(false);
 
-  const [btn, setBtn] = useState(false);
   const [subBtn, setSubBtn] = useState(false);
 
   const [isSubjectFocused, setIsSubjectFocused] = useState(false);
@@ -110,7 +103,6 @@ const TeacherHomeworkScreenBuild = () => {
     !enteredSelcetdSubIsValid && enteredSelectedSubTouched;
 
   const [subjectData, setSubjectData] = useState([]);
-  const [subjectDataEdit, setSubjectDataEdit] = useState([]);
 
   const [subject, setEnteredSubject] = useState("");
   const [enteredSubjectTouched, setEnteredSubjectTouched] = useState(false);
@@ -155,7 +147,6 @@ const TeacherHomeworkScreenBuild = () => {
   const [enteredImageTouched, setEnteredImageTouched] = useState(false);
 
   const [filteredData, setFilteredData] = useState([]);
-  const [searchText, setSearchText] = useState("");
 
   const enteredImageIsValid = image !== "";
   const imageInputIsInValid = !enteredImageIsValid && enteredImageTouched;
@@ -227,19 +218,6 @@ const TeacherHomeworkScreenBuild = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   async function imageHandler() {
-  //     if (Platform.OS !== "web") {
-  //       const { status } =
-  //         await ImagePicker.requestMediaLibraryPermissionsAsync();
-  //       if (status !== "granted") {
-  //         alert("Permission denied!");
-  //       }
-  //     }
-  //   }
-  //   imageHandler();
-  // }, []);
-
   async function fetchToken() {
     TOKEN = await AsyncStorage.getItem("token");
 
@@ -286,68 +264,10 @@ const TeacherHomeworkScreenBuild = () => {
     const blob = await imageToBlob(source.uri);
     const myFile = new File([blob], fileName, { type: result.type });
 
-    // const { uri, base64 } = result;
-    // const body = JSON.stringify({
-    //   image: base64,
-    // });
-    // console.log(body);
-    // const convertedImage = JSON.stringify({
-    //   image: base64,
-    // });
-    // console.log(convertedImage);
-    // ImageResult = result;
-    // const reader = new FileReader();
-
-    // // ImageResult = File(result);
-    // console.log(ImageResult)
-
     location = result.uri;
     if (!result.cancelled) {
       setImage(myFile);
     }
-
-    //RNFetchBlob.config({ fileCache: true });
-
-    // const file = await FileSystem.readAsStringAsync(result.uri, {
-    //   encoding: FileSystem.EncodingType.Base64,
-    // });
-    // console.log(file);
-
-    // try {
-    //   filename = await ImageManipulator.manipulateAsync(file, [], {
-    //     base64: true,
-    //   });
-    // } catch (error) {
-    //   console.log("error::");
-    //   console.error(error);
-    // }
-    //filename = image;
-
-    // if (!result.cancelled) {
-    //   let fileUri = result.uri;
-    //   let fileInfo = await FileSystem.getInfoAsync(fileUri);
-
-    //   console.log(fileInfo);
-    // let fileName = fileInfo.name;
-    // console.log(fileName);
-
-    // let formData = new FormData();
-    // formData.append("homework_photo", {
-    //   uri: fileUri,
-    //   name: fileName,
-    //   type: "image/jpeg",
-    // });
-    // try {
-    //   let response = await fetch(`${subURL}/Homework/`, {
-    //     method: "POST",
-    //     body: formData,
-    //   });
-    //   let responseJson = await response.json();
-    //   console.log(responseJson);
-    // } catch (error) {
-    //   console.error(error);
-    // }
-    // }
 
     localUri = result.uri;
     filename = localUri.split("/").pop();
@@ -355,25 +275,8 @@ const TeacherHomeworkScreenBuild = () => {
 
     match = /\.(\w+)$/.exec(filename);
     type = match ? `image/${match[1]}` : `image`;
-
-    // const base64 = await FileSystem.readAsStringAsync(result.uri, {
-    //   encoding: FileSystem.EncodingType.Base64,
-    // });
-    // console.log(base64);
-
-    // const fileReader = new FileReader();
-    // fileReader.onload = (fileLoadedEvent) => {
-    //   const base64Image = fileLoadedEvent.target.result;
-    //   //  console.log(base64Image);
-    // };
-    // console.log(fileReader.readAsDataURL(result.uri));
-    // console.log(typeof result);
   };
   let imagePreView;
-
-  if (image) {
-    // imagePreView = <Image style={styles.image} source={{ uri: image }} />;
-  }
 
   useEffect(() => {
     async function fetchStudentClass() {
@@ -387,7 +290,6 @@ const TeacherHomeworkScreenBuild = () => {
               value: item.class_name + " - " + item.section,
               classname: item.class_name,
               section: item.section,
-              // SubjectID: item.id,
             };
           });
 
@@ -395,7 +297,6 @@ const TeacherHomeworkScreenBuild = () => {
             return obj1.value.localeCompare(obj2.value);
           });
 
-          //setSubjectData(newSubjects);
           setStudData(newArray);
           setData(newArray);
         })
@@ -458,7 +359,6 @@ const TeacherHomeworkScreenBuild = () => {
     if (event.type == "set") {
       setFromText(fDate);
     } else {
-      //cancel button clicked
     }
   };
 
@@ -501,23 +401,6 @@ const TeacherHomeworkScreenBuild = () => {
     setHW(enteredValue);
   }
 
-  async function verifyPermissions() {
-    if (cameraPermissionInformation.status === PermissionStatus.UNDERTERMINED) {
-      const permissionResponse = await requestPermission();
-
-      return permissionResponse.granted;
-    }
-
-    if (cameraPermissionInformation.status === PermissionStatus.DENIED) {
-      Alert.alert(
-        "Insuffcient Permissions",
-        "You need to grant camera permission to use this app."
-      );
-      return false;
-    }
-    return true;
-  }
-
   function updateHandler() {
     let filteredlist = newArray.filter((ele) => ele.key == selected);
 
@@ -536,9 +419,12 @@ const TeacherHomeworkScreenBuild = () => {
     };
 
     if (
-      !enteredSelcetdIsValid || !enteredSelcetdSubIsValid || 
-      !enteredFromDateIsValid || !enteredtoDateIsValid ||
-      !enteredHomeWorkIsValid || !enteredRemarkIsValid
+      !enteredSelcetdIsValid ||
+      !enteredSelcetdSubIsValid ||
+      !enteredFromDateIsValid ||
+      !enteredtoDateIsValid ||
+      !enteredHomeWorkIsValid ||
+      !enteredRemarkIsValid
     ) {
       Alert.alert("Please enter all fields");
     } else {
@@ -548,27 +434,29 @@ const TeacherHomeworkScreenBuild = () => {
             "Content-Type": "application/json; charset=utf-8",
           };
 
-          await axios.patch(`${subURL}/Homework/${ID}/`,formdata,{headers: headers}).then((res)=>{
-            if(res.status===200){
-              Alert.alert("Successfully updated", "", [
-                {
-                  text: "OK",
-                  onPress: () => {},
-                },
-              ]);
-              setLoading(true);
-              setTimeout(() => {
-                setLoading(false);
-              }, 2000);
-            }
-          });
+          await axios
+            .patch(`${subURL}/Homework/${ID}/`, formdata, { headers: headers })
+            .then((res) => {
+              if (res.status === 200) {
+                Alert.alert("Successfully updated", "", [
+                  {
+                    text: "OK",
+                    onPress: () => {},
+                  },
+                ]);
+                setLoading(true);
+                setTimeout(() => {
+                  setLoading(false);
+                }, 2000);
+              }
+            });
         } catch (error) {
           console.log(error);
         }
       }
 
       updateData();
-      
+
       async function fetchData() {
         try {
           const res = await axios.get(`${subURL}/Homework/`);
@@ -592,15 +480,13 @@ const TeacherHomeworkScreenBuild = () => {
       setShowInitialBtn(true);
     }
   }
-  function buttonPressedHandler(){
-
+  function buttonPressedHandler() {
     setEnteredSelectedTouched(true);
     setEnteredSelectedSubTouched(true);
     setEnteredFromDateTouched(true);
     setEnteredtoDateTouched(true);
     setEnteredRemarkTouched(true);
     setEnteredHomeWorkTouched(true);
-    // setEnteredImageTouched(true);
 
     let filteredlist = newArray.filter((ele) => ele.key == selected);
 
@@ -610,16 +496,21 @@ const TeacherHomeworkScreenBuild = () => {
       subject: selectedSubject,
       homework_date: FROMDATE,
       remark: remark,
-      //   homework_photo: null,
+
       homework: "",
       due_date: TODATE,
       description: hw,
     };
 
-    if(!enteredSelcetdIsValid || !enteredSelcetdSubIsValid || 
-      !enteredFromDateIsValid || !enteredtoDateIsValid ||
-      !enteredHomeWorkIsValid || !enteredRemarkIsValid){
-        return;
+    if (
+      !enteredSelcetdIsValid ||
+      !enteredSelcetdSubIsValid ||
+      !enteredFromDateIsValid ||
+      !enteredtoDateIsValid ||
+      !enteredHomeWorkIsValid ||
+      !enteredRemarkIsValid
+    ) {
+      return;
     }
 
     async function storeData() {
@@ -629,29 +520,30 @@ const TeacherHomeworkScreenBuild = () => {
           Authorization: "Token " + `${token}`,
         };
 
-        await axios.post(`${subURL}/Homework/`, formData, {
-          headers: headers,
-        }).then((res)=>{
-          if(res.status===201){
-            setShowForm(false);
-          
-            Alert.alert("Data Saved", "Homework Added Successfully");
-            setLoading(true);
-            setTimeout(() => {
-              setLoading(false);
-            }, 2000);
-            showHomework();
-            setShowList(true);
-          }else{
-            Alert.alert("Something went wrong", "Please try again later");
-          }
-        });
+        await axios
+          .post(`${subURL}/Homework/`, formData, {
+            headers: headers,
+          })
+          .then((res) => {
+            if (res.status === 201) {
+              setShowForm(false);
+
+              Alert.alert("Data Saved", "Homework added Successfully");
+              setLoading(true);
+              setTimeout(() => {
+                setLoading(false);
+              }, 2000);
+              showHomework();
+              setShowList(true);
+            } else {
+              Alert.alert("Something went wrong", "Please try again later");
+            }
+          });
       } catch (error) {
         console.log(error);
       }
     }
     storeData();
-
   }
 
   function onSubjectFocusHandler() {
@@ -706,7 +598,7 @@ const TeacherHomeworkScreenBuild = () => {
     setEnteredRemarkTouched(false);
     setEnteredHomeWorkTouched(false);
     setIsEdit(false);
-    
+
     setSubLabel(false);
     setRemarkLabel(false);
     setHomeworkLabel(false);
@@ -734,7 +626,6 @@ const TeacherHomeworkScreenBuild = () => {
     });
     setShowForm(false);
     setShowList(true);
-
   }
 
   function editItem(id) {
@@ -780,7 +671,7 @@ const TeacherHomeworkScreenBuild = () => {
   }
 
   function deleteItem(id) {
-    Alert.alert("Confirm Deletion", "You are about to delete this row!", [
+    Alert.alert("Confirm Deletion", "Are you sure you want to delete ?", [
       {
         text: "Cancel",
 
@@ -902,11 +793,6 @@ const TeacherHomeworkScreenBuild = () => {
         <>
           <ScrollView style={styles.root}>
             <View style={styles.inputForm}>
-              {/* <Image
-                // source={{ uri: `${filename}` }}
-                source={{ uri: filename.uri }}
-                style={{ width: 200, height: 200 }}
-              /> */}
               {!isEdit && (
                 <View style={styles.selectStyle}>
                   <SelectList
@@ -1014,38 +900,6 @@ const TeacherHomeworkScreenBuild = () => {
                 </View>
               )}
 
-              {/* <View>
-                <View style={!subLabel ? styles.normal : styles.up}>
-                  <Text
-                    onPress={onSubjectFocusHandler}
-                    style={
-                      subBtn
-                        ? styles.normalLabel
-                        : subjectInputIsInValid
-                        ? styles.errorLabel
-                        : styles.normalLabel
-                    }
-                  >
-                    Subject
-                  </Text>
-                </View>
-                <Input
-                  onChangeText={subjectChangeHandler}
-                  value={subject}
-                  onSubmitEditing={Keyboard.dismiss}
-                  blur={subjectInputBlur}
-                  onFocus={onSubjectFocusHandler}
-                  style={
-                    isSubjectFocused
-                      ? styles.focusStyle
-                      : subjectInputIsInValid && styles.errorBorderColor
-                  }
-                />
-                {subjectInputIsInValid && (
-                  <Text style={styles.errorText}>Enter subject</Text>
-                )}
-              </View> */}
-
               <View style={[{ flexDirection: "row", marginVertical: 10 }]}>
                 <View style={{ flex: 1 }}>
                   <View>
@@ -1069,8 +923,6 @@ const TeacherHomeworkScreenBuild = () => {
                         ? styles.focusStyle
                         : fromDateInputIsInValid && styles.errorBorderColorDate
                     }
-                    //   blur={fromDateBlurHandler}
-                    //  onFocus={onFocusFromHandler}
                     onChangeText={frmDateHandler}
                     onPressIn={() => showFromMode("date")}
                   />
@@ -1103,12 +955,7 @@ const TeacherHomeworkScreenBuild = () => {
                     />
                   </View>
                   <UnderlinedInput
-                    // value={moment(toText).format('DD/MM/YYYY') || moment(toDate).format('DD/MM/YYYY')}
                     value={toText || todate}
-                    // value={
-                    //   moment(toText).format("DD/MM/YYYY") ||
-                    //   moment(todate).format("DD/MM/YYYY")
-                    // }
                     placeholder="   End date"
                     onSubmitEditing={Keyboard.dismiss}
                     style={
@@ -1116,8 +963,6 @@ const TeacherHomeworkScreenBuild = () => {
                         ? styles.focusStyle
                         : toDateInputIsInValid && styles.errorBorderColorDate
                     }
-                    // blur={toDateBlurHandler}
-                    //  onFocus={onFocusToHandler}
                     onChangeText={toDateHandler}
                     onPressIn={() => showToMode("date")}
                   />
@@ -1206,6 +1051,7 @@ const TeacherHomeworkScreenBuild = () => {
                   <Text style={styles.errorText}>Enter homework</Text>
                 )}
               </View>
+
               {/* <View style={{ flexDirection: "row" }}>
                 <View style={styles.uploadImgBtn}>
                   <NativeButton
@@ -1256,27 +1102,17 @@ const TeacherHomeworkScreenBuild = () => {
                   Please upload or take homework image
                 </Text>
               )}
+              {imageInputIsInValid && (
+                <Text style={styles.errorText}>
+                  Please upload or take homework image
+                </Text>
+              )}
 
               {!isEdit && (
                 <View style={styles.btnSubmit}>
                   <Button onPress={buttonPressedHandler}>Add Homework</Button>
                 </View>
               )}
-              {/* <View
-                style={[
-                  {
-                    // Try setting `flexDirection` to `"row"`.
-                    flex:1,
-                    flexDirection: 'column',
-                  },
-                ]}>
-                <View style={{flex: 1, backgroundColor: 'red'}}>
-                  <Button onPress={updateHandler}>Update</Button>
-                </View>
-                <View style={{flex: 1, backgroundColor: 'darkorange'}}>
-
-                </View>
-              </View> */}
 
               {isEdit && (
                 <View style={styles.btnSubmit1}>
@@ -1299,27 +1135,13 @@ const TeacherHomeworkScreenBuild = () => {
       )}
       {showList && (
         <>
-          {/* <View style={{ backgroundColor: "white" }}>
-            <SearchBar
-              onSubmitEditing={Keyboard.dismiss}
-              style={styles.searchBar}
-              textInputStyle={{
-                fontFamily: "HindRegular",
-                fontSize: 18,
-              }}
-              placeholder="Search here"
-              onChangeText={(text) => searchFilter(text)}
-              value={searchText}
-            />
-          </View> */}
           <View style={{ backgroundColor: "white", flex: 1 }}>
             <View
               style={[
                 {
-                  //width: 170,
                   fontSize: 20,
                   backgroundColor: "white",
-                  // marginTop: 13,
+
                   margin: 10,
                   left: 20,
                   marginTop: "4%",
@@ -1351,7 +1173,6 @@ const TeacherHomeworkScreenBuild = () => {
               </Text>
               <View style={styles.space} />
               <SelectList
-                //  defaultOption={{ key: "1", value: "Second-A" }}
                 setSelected={setSelectedSearch}
                 data={studData}
                 save="key"
@@ -1363,7 +1184,6 @@ const TeacherHomeworkScreenBuild = () => {
                   fontFamily: "HindRegular",
                 }}
                 inputStyles={{ fontSize: 15, fontFamily: "HindRegular" }}
-                //dropdownStyles={{ width: "120%" }}
               />
             </View>
             <View
@@ -1531,14 +1351,7 @@ const TeacherHomeworkScreenBuild = () => {
                                           },
                                         ]}
                                       >
-                                        <View style={{ flex: 0.3 }}>
-                                          {/* <Ionicons
-                                          name="calendar"
-                                          size={25}
-                                          color="#D4AC0D"
-                                          style={{  }}
-                                        /> */}
-                                        </View>
+                                        <View style={{ flex: 0.3 }}></View>
                                         <View
                                           style={{
                                             flex: 1,
@@ -1632,7 +1445,6 @@ const TeacherHomeworkScreenBuild = () => {
                                               },
                                             ]}
                                           >
-                                           
                                             <View style={{ flex: 0.7 }}>
                                               <Text
                                                 style={styles.cardTextStyle}
@@ -1657,7 +1469,6 @@ const TeacherHomeworkScreenBuild = () => {
                                               },
                                             ]}
                                           >
-                                           
                                             <View style={{ flex: 0.7 }}>
                                               <Text
                                                 style={styles.cardTextStyle}
@@ -1830,20 +1641,12 @@ const styles = StyleSheet.create({
     backgroundColor: "lightblue",
   },
 
-  imageError: {
-    color: "red",
-    position: "absolute",
-    left: deviceWidth < 370 ? "120%" : "130%",
-    top: "50%",
-    fontSize: deviceWidth < 370 ? 14 : 16,
-  },
   image: {
     width: "100%",
     height: "100%",
   },
   space: {
-    width: 15, // or whatever size you need
-    // height: 15,
+    width: 15,
   },
 
   cardTextStyle: {
@@ -1851,12 +1654,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     left: 35,
   },
-  searchBar: {
-    marginTop: 20,
-    marginBottom: 20,
 
-    backgroundColor: "#F0F3F4",
-  },
   dropText: {
     fontSize: deviceWidth < 370 ? 16 : 15,
     fontFamily: "HindRegular",

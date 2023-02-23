@@ -3,48 +3,31 @@ import {
   StyleSheet,
   Text,
   ScrollView,
-  TextInput,
-  Button as Btn,
-  TouchableOpacity,
-  Pressable,
-  Alert,
   Dimensions,
   LogBox,
-  Animated,
   ActivityIndicator,
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Keyboard } from "react-native";
 import BgButton from "../../../components/UI/BgButton";
-import VerticalLine from "../../../components/UI/VerticalLine";
-import Button from "../../../components/UI/Button";
-import DateTimePicker from "@react-native-community/datetimepicker";
+
 import SelectList from "react-native-dropdown-select-list";
 import TeachersHome from "../BottomTab/TeachersHome";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+
 import { useEffect } from "react";
 import TecahersExamTimeTable from "./TecahersExamTimeTable";
-import { DataTable } from "react-native-paper";
-import Input from "../../../components/UI/Input";
+
 import moment from "moment";
-import TimeSlots from "./TimeSlots";
-import UnderlinedInput from "../../../components/UI/UnderlinedInput";
-import {
-  IconButton,
-  Button as NativeButton,
-  Text as NativeText,
-  Heading,
-} from "native-base";
+
 import { subURL } from "../../../components/utils/URL's";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export var CLASSNAME, SECTION, ID;
 export var idTimeTab = [];
 export var TimeTabID;
 export var FROMTIME, TOTIME;
 export var arr = [];
-var newArray, firstData, DISPLAYFIRST, KEY, VALUE, USERNAME;
+var newArray, firstData, KEY, VALUE;
 
 const TeachersTimetable = () => {
   const [loading, setLoading] = useState(false);
@@ -64,29 +47,24 @@ const TeachersTimetable = () => {
   const [isIdThere, setIsIdThere] = useState(false);
   const [showTable, setShowTable] = useState(false);
   const [forTimeTableList, setForTimeTableList] = useState({
-    // color: "#3d4590",
-
-    // backgroundColor: "#D6EAF8",
     color: "white",
     backgroundColor: "#1E84A4",
     borderRadius: 5,
-    // borderTopColor: "#3d4590",
+
     borderBottomWidth: 0,
     borderLeftWidth: 0,
     borderRightWidth: 0,
     fontFamily: "HindSemiBold",
   });
   const [forExamTimeTable, setForExamTimeTable] = useState({
-    // color: "#d9dffc",
     color: "black",
-    // borderTopColor: "#d9dffc",
+
     backgroundColor: "#F4F6F6",
     borderBottomWidth: 0,
     borderLeftWidth: 0,
     borderRightWidth: 0,
     fontFamily: "HindSemiBold",
   });
-  const [TimeTableData, setTimeTableData] = useState([]);
 
   const [selectedTimeTable, setSelectedTimeTable] = useState("");
   const [enteredSelectedTouched, setEnteredSelectedTouched] = useState(false);
@@ -98,7 +76,7 @@ const TeachersTimetable = () => {
   const [filteredTimeTable, setFilteredTimeTable] = useState([]);
   const [showDefaultList, setShowDefaultList] = useState(true);
   const [showSelected, setShowSelected] = useState(false);
-  const [defaultClass, setDefaultClass] = useState(true);
+
   useEffect(() => {
     LogBox.ignoreLogs(["Each child in a list should have a unique "]);
   }, []);
@@ -132,8 +110,6 @@ const TeachersTimetable = () => {
           };
         });
 
-        // setTimeTableData(newArray);
-
         newArray.sort(function (obj1, obj2) {
           return obj1.value.localeCompare(obj2.value);
         });
@@ -142,21 +118,7 @@ const TeachersTimetable = () => {
 
         KEY = firstData.key;
         VALUE = firstData.value;
-        // if (firstData == undefined) {
-        //   setDefaultClass(false);
-        // } else {
-        //   setDefaultClass(true);
-        //   firstData = newArray[0];
-        // }
 
-        //let selectedData = selectedClass.split(" - ");
-        // console.log(selectedData);
-
-        // try {
-        //   await AsyncStorage.setItem("defaultoption", firstData);
-        // } catch (error) {
-        //   // Error saving data
-        // }
         setStudentClassData(newArray);
       } catch (error) {
         console.log(error);
@@ -164,22 +126,6 @@ const TeachersTimetable = () => {
     }
     fetchClass();
   }, []);
-
-  // if (KEY == undefined) {
-  //   console.log("undefined key");
-  // }
-  // if (VALUE == undefined) {
-  //   console.log("undefined value");
-  // }
-  // async function fetchDefaultOption() {
-  //   DISPLAYFIRST = await AsyncStorage.getItem("defaultoption");
-  //   console.log("this is the default option from aysnc", DISPLAYFIRST);
-  //   if (DISPLAYFIRST !== null) {
-  //     setDefaultClass(DISPLAYFIRST);
-  //   }
-  // }
-
-  // fetchDefaultOption();
 
   useEffect(() => {
     async function fetchTimeTable() {
@@ -309,10 +255,6 @@ const TeachersTimetable = () => {
             setIsIdThere(true);
           }
         }
-
-        // if (isUndefined) {
-        //   Alert.alert("No data found", "No data found for respective search");
-        // }
       } catch (error) {
         console.log(error);
       }
@@ -336,48 +278,8 @@ const TeachersTimetable = () => {
 
         {showTimeTableList && (
           <>
-            {/* <Animated.View style={{transform:[
-              {translateY:translateY}
-            ]}}> */}
-            {/* <View style={[{flex:0.5}, {
-                flexDirection: "row",marginHorizontal:20,top:'10%'
-              }]}>
-                <View style={{ flex: 1 }} >
-                  <Text style={{fontFamily:'HindBold',fontSize:18,marginTop:10}}>
-                    Select Class
-                  </Text>
-                </View>
-                <View style={{ flex: 1,width:'30%',right:'12%' ,backgroundColor:'red'}} >
-                  <SelectList
-                    //defaultOption={firstData}
-                    defaultOption={{
-                      key: KEY,
-                      value: VALUE,
-                    }}
-                    //  defaultOption={{ key: "1", value: "abc" }}
-                    setSelected={setSelected}
-                    data={studClassData}
-                    // placeholder="Select class."
-                    boxStyles={{ borderRadius: 10 }}
-                    dropdownTextStyles={{
-                      fontSize: deviceWidth < 370 ? 16 : 18,
-                      fontFamily: "HindRegular",
-                    
-                    }}
-                    inputStyles={{
-                      fontSize: deviceWidth < 370 ? 16 : 18,
-                      fontFamily: "HindRegular",
-                      
-                    }}
-                    onSelect={viewTimeTableList}
-                    save="key"
-                  />
-                </View>
-              </View> */}
-
             <View
               style={{
-                // width: 170,
                 fontSize: 20,
                 marginTop: "10%",
                 margin: 10,
@@ -403,15 +305,12 @@ const TeachersTimetable = () => {
               <View style={styles.space} />
               <View style={styles.space} />
               <SelectList
-                //defaultOption={firstData}
                 defaultOption={{
                   key: String(KEY),
                   value: String(VALUE),
                 }}
-                //  defaultOption={{ key: "1", value: "abc" }}
                 setSelected={setSelected}
                 data={studClassData}
-                // placeholder="Select class."
                 boxStyles={{ borderRadius: 10 }}
                 dropdownTextStyles={{
                   fontSize: deviceWidth < 370 ? 16 : 15,
@@ -425,17 +324,6 @@ const TeachersTimetable = () => {
                 save="key"
               />
             </View>
-            {/* <View
-              style={{
-                width: "50%",
-                marginTop: -93,
-                marginLeft: 200,
-                position: "absolute",
-                top: 150,
-              }}
-            >
-              <Button onPress={viewTimeTableList}>View List</Button>
-            </View> */}
 
             <View
               style={[
@@ -460,7 +348,7 @@ const TeachersTimetable = () => {
                       style={{
                         flex: 1,
                         alignItems: "center",
-                        // justifyContent: "center",
+
                         marginTop: "2%",
                       }}
                     >
@@ -480,7 +368,6 @@ const TeachersTimetable = () => {
                     <>
                       <View
                         style={{
-                          //  backgroundColor: "red",
                           bottom: 10,
                           height: "170%",
                         }}
@@ -569,13 +456,6 @@ const TeachersTimetable = () => {
                                       SAT
                                     </Text>
                                   </View>
-                                  {/* <View style={styles.tableHead}>
-                              <Text
-                                style={[styles.headingFont, { color: "black" }]}
-                              >
-                                ACTIONS
-                              </Text>
-                            </View> */}
                                 </View>
 
                                 <View
@@ -597,21 +477,15 @@ const TeachersTimetable = () => {
                                               <Text
                                                 style={styles.headingFirstCol}
                                               >
-                                                    {moment(data.from_time, "HH:mm").format(
-                                            "LT"
-                                          )}{" "}
-                                          {"-"} {""} {moment(data.to_time, "HH:mm").format(
-                                            "LT"
-                                          )}
-                                                {/* {moment(
+                                                {moment(
                                                   data.from_time,
                                                   "HH:mm"
-                                                ).format("hh:mm ")}{" "}
-                                                {"-"} {""}
+                                                ).format("LT")}{" "}
+                                                {"-"} {""}{" "}
                                                 {moment(
                                                   data.to_time,
                                                   "HH:mm"
-                                                ).format("hh:mm ")} */}
+                                                ).format("LT")}
                                               </Text>
                                             </View>
                                           </View>
@@ -720,8 +594,6 @@ const TeachersTimetable = () => {
                                               <Text
                                                 style={[styles.headingFirstCol]}
                                               >
-                                                {/* {data.thursday} */}
-
                                                 {data.thursday}
                                               </Text>
                                             </View>
@@ -830,161 +702,45 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     top: "3%",
   },
-  deleteBtn: {
-    width: deviceWidth < 370 ? "20%" : "22%",
-    padding: 9,
-    fontFamily: "HindMedium",
-    borderRadius: 10,
-    marginLeft: deviceWidth < 370 ? 240 : 265,
-    color: "red",
-    fontSize: deviceWidth < 370 ? 16 : 20,
-    backgroundColor: "pink",
-    top: 20,
-  },
-  year: {
-    width: 70,
-    position: "absolute",
-    top: -80,
-  },
-  title: {
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginLeft: -10,
-  },
-  // root: {
-  //   backgroundColor: "#EBECFO",
-  // },
 
-  inputForm: {
-    padding: 20,
-    paddingTop: 5,
-  },
-  errorBorderColor: {
-    borderColor: "red",
-  },
-  errorBorderColorDate: {
-    borderBottomColor: "red",
-  },
-  errorSelectedColor: {
-    borderColor: "red",
-  },
   inputStyle: {
     color: "black",
     borderWidth: 2,
     borderColor: "lightgrey",
     backgroundColor: "white",
     padding: 10,
-    // paddingHorizontal: 15,
+
     paddingVertical: 5,
     borderRadius: 5,
     fontSize: 18,
-    //margin: 5,
   },
-  labels: {
-    margin: 5,
-    fontFamily: "HindRegular",
-    fontSize: 18,
-  },
-  btnSubmit: {
-    flexDirection: "row",
-    marginTop: 27,
-    marginRight: 10,
-    marginBottom: 19,
-  },
-  btnSubmit1: {
-    width: "50%",
-    flexDirection: "row",
-    marginTop: deviceWidth < 370 ? -118 : -123,
-    marginLeft: deviceWidth < 370 ? 205 : 230,
-    marginBottom: 69,
-  },
+
   space: {
     width: 10, // or whatever size you need
     height: 20,
   },
 
-  edit: {
-    flexDirection: "row",
-    marginTop: 27,
-    marginRight: 10,
-    marginBottom: 19,
-  },
-  timetablebtnIcon: {
-    width: "15%",
-    marginLeft: deviceWidth < 370 ? 260 : 310,
-    marginTop: 10,
-  },
-  edit1: {
-    width: "50%",
-    flexDirection: "row",
-    marginTop: -128,
-    marginLeft: 230,
-    marginBottom: 69,
-  },
   tableRow: {
     height: "5%",
     borderBottomColor: "black",
     borderBottomWidth: 2,
   },
-  focusStyle: {
-    borderColor: "blue",
-  },
-  normal: {
-    position: "absolute",
-    top: 20,
-    left: 10,
-  },
-  up: {
-    position: "absolute",
-    top: -5,
-    left: 15,
-  },
-  errorLabel: {
-    color: "red",
-    backgroundColor: "#F2F2F2",
-    backgroundColor: "white",
-    paddingHorizontal: 5,
-    fontSize: deviceWidth < 370 ? 13 : 15,
-  },
-  normalLabel: {
-    color: "grey",
-    backgroundColor: "#F2F2F2",
-    backgroundColor: "white",
-    paddingHorizontal: 7,
-    fontSize: deviceWidth < 370 ? 13 : 17,
-    fontFamily: "HindRegular",
-  },
-  commonErrorMsg: {
-    color: "red",
-    left: deviceWidth < 370 ? 5 : 20,
-    fontFamily: "HindRegular",
-    fontSize: deviceWidth < 370 ? 16 : 18,
-  },
 
-  //new design table
   root: {
     flex: 1,
     flexDirection: "column",
     marginVertical: 10,
-    // backgroundColor: "red",
-    // borderRadius: 1,
   },
   tableHead: {
     flex: 1,
-    // borderRightColor: "grey",
+
     borderRightWidth: 1.5,
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: "#00B8AC",
-    // backgroundColor: "#02196E",
-    // marginHorizontal:10
   },
   headingFont: {
     fontFamily: "HindSemiBold",
-    // fontWeight: "bold",
+
     fontSize: deviceWidth < 370 ? 14 : 15,
   },
   flex: {
@@ -995,29 +751,6 @@ const styles = StyleSheet.create({
     padding: 5,
     marginRight: 13,
     //fontSize: 24,
-  },
-  tableHeader: {
-    backgroundColor: "skyblue",
-
-    height: 50,
-    fontWeight: "bold",
-  },
-  tableTitle: {
-    // padding: 5,
-    margin: 7,
-    fontFamily: "HindMedium",
-    fontSize: deviceWidth < 370 ? 16 : 20,
-  },
-  tableCell: {
-    width: 110,
-
-    marginLeft: 35,
-  },
-
-  tableMarks: {
-    width: 10,
-
-    marginLeft: 35,
   },
 
   tableRow: {

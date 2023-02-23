@@ -44,13 +44,12 @@ import TeachersProfile from "./screens/TeachersLoginScreen/Profile/TeachersProfi
 import ParentsProfile from "./screens/ParentsLoginScreen/Profile/ParentsProfile";
 import TeacherHomeworkScreenBuild from "./screens/TeachersLoginScreen/TeachersAcademics/Homework/TeacherHomeworkScreenBuild";
 import TeachersLeaveScreenBuild from "./screens/TeachersLoginScreen/Leave/TeachersLeaveScreenBuild";
-import TeachersCalendarScreenBuild from "./screens/TeachersLoginScreen/Calendar/TeachersCalendarScreenBuild";
+
 import { LogBox } from "react-native";
-import TeachersAttendance from "./screens/TeachersLoginScreen/TeachersAcademics/Attendance/TeachersAttendance";
+
 import { NativeBaseProvider, extendTheme } from "native-base";
 import StudentDetails from "./screens/ParentsLoginScreen/Profile/StudentDetails";
-import EditTransport from "./screens/TeachersLoginScreen/Transport/EditTransport";
-import EditCalendar from "./screens/TeachersLoginScreen/Calendar/EditCalendar";
+
 import ChatHeader from "./components/ChatApplication/ChatUI/ChatHeader";
 import MyClasses from "./screens/TeachersLoginScreen/Profile/MyClasses/MyClasses";
 import StudentList from "./screens/TeachersLoginScreen/Profile/MyClasses/StudentList";

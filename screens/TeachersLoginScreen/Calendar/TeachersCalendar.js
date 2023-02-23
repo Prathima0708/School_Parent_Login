@@ -1,13 +1,10 @@
 import {
   View,
   StyleSheet,
-  TextInput,
   Text,
   ScrollView,
   Alert,
-  Button as Btn,
   Dimensions,
-  LogBox,
   Pressable,
   ActivityIndicator,
   Platform,
@@ -15,8 +12,7 @@ import {
 import SelectList from "react-native-dropdown-select-list";
 import * as Notifications from "expo-notifications";
 import Checkbox from "expo-checkbox";
-import React, { useEffect, useLayoutEffect, useState } from "react";
-// import { CheckBox } from "react-native";
+import React, { useEffect, useState } from "react";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../../components/UI/Button";
@@ -41,35 +37,27 @@ import { useNavigation } from "@react-navigation/native";
 import {
   HStack,
   IconButton,
-  Radio,
   Button as NativeButton,
-  Text as NativeText,
   Icon,
   Modal,
   Badge,
 } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
 import CalendarPicker from "react-native-calendar-picker";
-import BackButton from "../../../components/UI/BackButton";
 
-export var ID;
+var ID;
 var FROMDATE, TODATE;
 var USERNAME, TOKEN;
-var Group, NotificationId;
+var Group;
 const TeachersCalendar = () => {
-  const [isAllChecked, setAllChecked] = useState(false);
   const [adminChecked, setAdminChecked] = useState(false);
   const [teacherChecked, setTeacherChecked] = useState(false);
   const [parentChecked, setParentChecked] = useState(false);
 
   const [selectedTouched, setSelectedTouched] = useState(false);
-  // const checkedIsInvalid =
-  //   !adminChecked && !parentChecked && !teacherChecked && !checked;
 
   const [user, setUser] = useState("");
   const [token, setToken] = useState("");
-
-  const [value, setValue] = useState("");
 
   const navigation = useNavigation();
 
@@ -100,15 +88,13 @@ const TeachersCalendar = () => {
     outputRange: [headermax, headermin],
     extrapolate: "clamp",
   });
-  const br = "\n";
+
   const [showForm, setShowForm] = useState(true);
   const [showList, setShowList] = useState(false);
   const [showSearchBar, setShowSearchBar] = useState(false);
 
   const [label, setLabel] = useState(false);
   const [descriptionLabel, setDescriptionLabel] = useState(false);
-  const [startDateLabel, setstartDateLabel] = useState(false);
-  const [endDateLabel, setendDateLabel] = useState(false);
 
   const [isTitleFocused, setIsTitleFocused] = useState(false);
   const [isDescFocused, setIsDescFocused] = useState(false);
@@ -127,7 +113,7 @@ const TeachersCalendar = () => {
     backgroundColor: "#F4F6F6",
     borderRadius: 5,
   });
-  const [listBtnPressed, setListBtnPressed] = useState(false);
+
   const [updateBtnPressed, setUpdateBtnPressed] = useState(false);
 
   const [selected, setSelected] = useState("");
@@ -171,12 +157,10 @@ const TeachersCalendar = () => {
   const toDateInputIsInValid = !enteredtoDateIsValid && enteredtoDateTouched;
 
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
-  const [dateIsInCorrect, setDateIsInCorrect] = useState(false);
+
   const [data, setData] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
-  const [isDelete, setIsDelete] = useState(false);
-  const [isSame, SetIsSame] = useState(false);
-  const [isSelected, setSelection] = useState(false);
+
   const [filteredData, setFilteredData] = useState([]);
   const [customDatesStyles, setCustomDatesStyles] = useState([]);
   const [specificData, setSpecificData] = useState([]);
@@ -195,10 +179,9 @@ const TeachersCalendar = () => {
   const [group, setGroup] = useState("");
   const [notificationId, setNotificationId] = useState();
   const [viewOnlyGrp, setViewOnlyGrp] = useState("");
-  const [badge, setBadge] = useState(false);
 
   const [classData, setClassData] = useState([]);
-  const [showParentClass, setShowParentClass] = useState(false);
+
   var sendAlert;
 
   useEffect(() => {
@@ -206,25 +189,15 @@ const TeachersCalendar = () => {
       try {
         const res = await axios.get(`${subURL}/Calendar/`);
 
-        // const filtredRes = res.data.filter((event) => {
-        //   const viewOnly = event.viewOnly;
-        //   return (
-        //     viewOnly.includes("staff") &&
-        //     (viewOnly === "admin,parents,staff" || viewOnly === "parents,staff")
-        //   );
-        // });
-
         const filtredRes = res.data.filter((event) =>
           event.viewOnly.includes("staff")
         );
-
-        console.log(filtredRes);
 
         const keys = Object.keys(res.data[0]);
 
         setData(res.data);
         setFilteredData(res.data);
-        //console.log(res.data);
+
         setCustomDatesStyles(
           res.data.map((d) => ({
             date: d.startdate,
@@ -242,11 +215,6 @@ const TeachersCalendar = () => {
         });
 
         setSaveYear(newArray);
-        let test = 0;
-
-        if (test == value) {
-          SetIsSame(true);
-        }
       } catch (error) {
         console.log(error);
       }
@@ -281,15 +249,13 @@ const TeachersCalendar = () => {
   useEffect(() => {
     async function getGroup() {
       Group = await AsyncStorage.getItem("datagroup");
-      // console.log(Group);
+
       setGroup(Group);
-      console.log("group is", group);
     }
     getGroup();
   }, []);
 
   async function updateDataTeacher() {
-    console.log("notification id is", notificationId);
     try {
       const response = await axios.patch(
         `${subURL}/Calendar/${notificationId}/`,
@@ -297,7 +263,6 @@ const TeachersCalendar = () => {
           isNotified: true,
         }
       );
-      console.log(response.data);
 
       setSpecificData(response.data);
     } catch (error) {
@@ -308,35 +273,22 @@ const TeachersCalendar = () => {
   useEffect(() => {
     const subscription1 = Notifications.addNotificationReceivedListener(
       async (notification) => {
-        console.log(notification.request.content.data.id);
-        console.log(notification.request.content.data.viewOnly);
-        //  NotificationId = notification.request.content.data.id;
         setNotificationId(notification.request.content.data.id);
         setViewOnlyGrp(notification.request.content.data.viewOnly);
 
-        console.log("Notification received");
-
         setOpenCardModal(false);
-
-        //  console.log("id is", specificData.id);
       }
     );
-    console.log("id is", specificData.id);
+
     new Date(specificData.startdate) >= new Date() ||
       (new Date(specificData.startdate).toDateString() ===
         new Date().toDateString() &&
         updateDataTeacher());
 
-    // if (viewOnlyGrp == "parents") {
-    //   updateDataParent();
-    // }
-
     const subscription2 = Notifications.addNotificationResponseReceivedListener(
       (response) => {
-        console.log(response.notification.request);
         const currgroup = Group;
         if (currgroup == "staff") {
-          console.log("currgroup is", currgroup);
           navigation.navigate("TeachersNoticeBoard");
         }
       }
@@ -360,19 +312,6 @@ const TeachersCalendar = () => {
       hideSubscription.remove();
     };
   }, []);
-
-  // useLayoutEffect(() => {
-
-  //   if (showList) {
-  //     navigation.setOptions({ headerShown: false });
-  //   }else if(calendarViewBtnPressed){
-  //     navigation.setOptions({ headerShown: false });
-  //   }
-  //   else {
-  //     navigation.setOptions({ headerShown: true });
-  //   }
-
-  // }, [showList,calendarViewBtnPressed]);
 
   const showFromMode = (currentFromMode) => {
     setFromShow(true);
@@ -405,10 +344,7 @@ const TeachersCalendar = () => {
     if (event.type == "set") {
       setFromText(fDate);
     } else {
-      //cancel button clicked
     }
-
-    //console.log(fDate);
   };
 
   const toDateChangeHandler = (event, selectedToDate) => {
@@ -429,9 +365,7 @@ const TeachersCalendar = () => {
     if (event.type == "set") {
       setToText(tDate);
     } else {
-      //cancel button clicked
     }
-    // console.log(fDate);
   };
 
   function titleChangeHandler(enteredValue) {
@@ -451,7 +385,6 @@ const TeachersCalendar = () => {
   }
 
   function updateHandler() {
-    //setShowInitialBtn(true);
     var viewOnlyData = [];
 
     if (adminChecked) {
@@ -473,14 +406,9 @@ const TeachersCalendar = () => {
       startdate: FROMDATE,
       enddate: TODATE,
       titlee: title,
-      //viewOnly: "",
     };
 
-    if (
-      !enteredTitleIsValid ||
-      !enteredDescriptionIsValid
-      //  checkedIsInvalid
-    ) {
+    if (!enteredTitleIsValid || !enteredDescriptionIsValid) {
       Alert.alert("Please enter all fields");
     } else {
       async function updateData() {
@@ -507,12 +435,11 @@ const TeachersCalendar = () => {
           onPress: () => {
             showCalendar();
             setShowListCalOptionBtn(false);
-            //setShowInitialBtn(false);
+
             setShowInitialBtn(true);
             setShowToggleBtn(true);
             setShowList(true);
             setShowForm(false);
-            //  setShowList(true);
           },
         },
       ]);
@@ -566,15 +493,9 @@ const TeachersCalendar = () => {
       startdate: FROMDATE,
       enddate: TODATE,
       titlee: title,
-      //viewOnly: "",
+
       viewOnly: viewOnlyData.toString(),
     };
-
-    const formIsValid =
-      enteredTitleIsValid &&
-      enteredDescriptionIsValid &&
-      enteredFromDateIsValid &&
-      enteredtoDateIsValid;
 
     setEnteredTitleTouched(true);
     setEnteredDescriptionTouched(true);
@@ -585,9 +506,7 @@ const TeachersCalendar = () => {
     if (!enteredTitleIsValid) {
       return;
     }
-    // if (checkedIsInvalid) {
-    //   return;
-    // }
+
     if (!enteredDescriptionIsValid) {
       return;
     }
@@ -603,20 +522,6 @@ const TeachersCalendar = () => {
     async function getData() {
       try {
         const res = await axios.get(`${subURL}/Calendar/`);
-
-        let filteredlist = res.data.filter(
-          (ele) => ele.description == description
-        );
-        // if (filteredlist.length > 0) {
-
-        //   Alert.alert("Data already exists", "please enter a new data", [
-        //     {
-        //       text: "OK",
-
-        //       style: "cancel",
-        //     },
-        //   ]);
-        // } else {
 
         async function storeData() {
           try {
@@ -667,7 +572,6 @@ const TeachersCalendar = () => {
 
         setShowForm(false);
         setShowList(true);
-        // }
       } catch (error) {
         console.log(error);
       }
@@ -702,7 +606,6 @@ const TeachersCalendar = () => {
   function onFocusFromHandler() {
     setIsFromDateFocused(true);
     setEnteredFromDateTouched(false);
-    setstartDateLabel(true);
   }
 
   function toDateBlurHandler() {
@@ -712,7 +615,6 @@ const TeachersCalendar = () => {
   function onFocusToHandler() {
     setIsToDateFocused(true);
     setEnteredtoDateTouched(false);
-    setendDateLabel(true);
   }
 
   function showCalendarForm() {
@@ -745,11 +647,11 @@ const TeachersCalendar = () => {
     setIsTitleFocused(false);
     setIsDescFocused(false);
     setShowToggleBtn(false);
-    //setChecked(false);
+
     setAdminChecked(false);
     setTeacherChecked(false);
     setParentChecked(false);
-    //setCalendarViewBtnPressed(false);
+
     setShowListCalOptionBtn(false);
     setShowSearchBar(false);
     setCalendarViewBtnPressed(false);
@@ -761,7 +663,6 @@ const TeachersCalendar = () => {
 
         setData(res.data);
         setFilteredData(res.data);
-        //  setSpecificData(res.data)
       } catch (error) {
         console.log(error);
       }
@@ -782,11 +683,9 @@ const TeachersCalendar = () => {
     setShowList(true);
     setShowToggleBtn(true);
     setCalendarViewBtnPressed(false);
-    //setAnyChecked(false);
+
     setListActive(true);
     setCalendarActive(false);
-    // setShowListCalOptionBtn(true);
-    //setShowSearchBar(true)
   }
 
   function editItem(id) {
@@ -798,40 +697,13 @@ const TeachersCalendar = () => {
     ID = id;
 
     const filteredDummuyData = data.find((data) => data.id == id);
-    console.log(filteredDummuyData);
+
     setnewData(filteredDummuyData);
     setEnteredDescription(filteredDummuyData.description);
 
     setFromText(moment(filteredDummuyData.startdate).format("DD/MM/YYYY"));
     setToText(moment(filteredDummuyData.enddate).format("DD/MM/YYYY"));
     setEnteredTitle(filteredDummuyData.titlee);
-
-    // if (filteredDummuyData.viewOnly === "staff") {
-    //   setTeacherChecked(!teacherChecked);
-    //   // setParentChecked(parentChecked);
-    //   // setAdminChecked(adminChecked);
-    //   // setChecked(checked);
-    // } else if (filteredDummuyData.viewOnly === "parents") {
-    //   setParentChecked(!parentChecked);
-    //   // setTeacherChecked(teacherChecked);
-
-    //   // setAdminChecked(adminChecked);
-    //   // setChecked(checked);
-    // } else if (filteredDummuyData.viewOnly === "admin") {
-    //   setAdminChecked(!adminChecked);
-    //   // setTeacherChecked(teacherChecked);
-    //   // setParentChecked(parentChecked);
-
-    //   // setChecked(checked);
-    // } else {
-    //   setChecked(!checked);
-    //   setTeacherChecked(!teacherChecked);
-    //   setParentChecked(!parentChecked);
-    //   setAdminChecked(!adminChecked);
-    // }
-    // setAdminChecked(filteredDummuyData.viewOnly === "admin");
-    // setTeacherChecked(filteredDummuyData.viewOnly === "teacher");
-    // setParentChecked(filteredDummuyData.viewOnly === "parent");
 
     setForCalendarList({
       backgroundColor: "#F4F6F6",
@@ -848,14 +720,14 @@ const TeachersCalendar = () => {
     setIsEdit(true);
   }
   function deleteItem(id) {
-    Alert.alert("Confirm Deletion", "You are about to delete this row!", [
+    Alert.alert("Confirm Deletion", "Are you sure you want to delete ?", [
       {
         text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
+
         style: "cancel",
       },
       {
-        text: "Yes,delete",
+        text: "Delete",
         onPress: () => deleteData(),
       },
     ]);
@@ -913,7 +785,6 @@ const TeachersCalendar = () => {
     setAdminChecked(adminChecked);
     setParentChecked(parentChecked);
     setTeacherChecked(teacherChecked);
-    //setChecked(checked);
   }
 
   async function fetchUser() {
@@ -933,15 +804,6 @@ const TeachersCalendar = () => {
     }
   }
   fetchToken();
-
-  function allCheckHandler() {
-    //setTest(true);
-
-    //setChecked(!checked);
-    setTeacherChecked(!teacherChecked);
-    setAdminChecked(!adminChecked);
-    setParentChecked(!parentChecked);
-  }
 
   function linkPressedHandler() {
     setShowForm(true);
@@ -986,12 +848,6 @@ const TeachersCalendar = () => {
   }
 
   function handleDayPress(day) {
-    // const filteredData = data.
-    // filter((data) =>
-    //   moment(data.startdate).format("YYYY-MM-DD") == moment(day).format("YYYY-MM-DD")
-    // );
-    // setFilteredData(filteredData)
-
     let allHavePropertiesWithValues = data.some(
       (obj) =>
         moment(obj.startdate).format("YYYY-MM-DD") ===
@@ -1007,10 +863,6 @@ const TeachersCalendar = () => {
     if (filteredList === undefined) {
       return;
     } else {
-      // setEventTitle(filteredList.titlee);
-      // setEventStartDate(filteredList.startdate);
-      // setEventEndDate(filteredList.enddate);
-      // setEventDescription(filteredList.description);
       setFilteredList(filteredList);
     }
 
@@ -1022,20 +874,6 @@ const TeachersCalendar = () => {
     }
   }
 
-  function backCalendarBtnHandler() {
-    setShowList(false);
-    setListBtnPressed(false);
-    setShowInitialBtn(true);
-    setShowListCalOptionBtn(true);
-    setCalendarViewBtnPressed(false);
-  }
-  function backButtonHandler() {
-    setShowList(false);
-    setShowInitialBtn(true);
-    setListBtnPressed(false);
-    setShowListCalOptionBtn(true);
-  }
-
   function cardPressedHandler(filteredData) {
     setSpecificData(filteredData);
 
@@ -1044,16 +882,9 @@ const TeachersCalendar = () => {
   }
 
   async function sendPushNotificationHanlder() {
-    console.log(specificData.id);
     setNotificationId(specificData.id);
 
     const today = new Date();
-    // console.log(today);
-    // const sendAlert =
-    //   moment(specificData.startdate).format("DD-MM-YYYY") <
-    //   moment(today).format("DD-MM-YYYY");
-
-    // console.log(sendAlert);
 
     sendAlert =
       new Date(specificData.startdate) >= today ||
@@ -1067,38 +898,13 @@ const TeachersCalendar = () => {
     const response = await axios.get(
       `${subURL}/NotificationByGroup/${specificData.viewOnly}`
     );
-    console.log("************");
 
     const filteredData = response.data.filter(
       (item) => item.user_id.groups[0].name === specificData.viewOnly
     );
     const tokens = response.data;
-    // console.log(tokens);
-    // //  console.log(filteredData[0].user_id.groups[0].name);
-
-    // // Loop through the array of tokens and send a notification to each one
-    // // tokens.forEach(async (token) => {
-    // //   //  console.log("token", token.notification_token);
-    // //   // Send the notification to the current token
-    // //   await fetch("https://exp.host/--/api/v2/push/send", {
-    // //     method: "POST",
-    // //     headers: {
-    // //       "Content-Type": "application/json",
-    // //     },
-
-    // //     body: JSON.stringify({
-    // //       to: token.notification_token,
-
-    // //       title: titlee,
-    // //       body: description,
-    // //     }),
-    // //   });
-    // // });
 
     tokens.forEach(async (token) => {
-      // Send the notification to the current token
-
-      //  console.log(filteredData);
       await axios.post(
         "https://exp.host/--/api/v2/push/send",
         {
@@ -1118,24 +924,9 @@ const TeachersCalendar = () => {
         }
       );
     });
-
-    // try {
-    //   const response = await axios.put(
-    //     `${subURL}/Calendar/${specificData.id}/`,
-    //     {
-    //       isNotified: true,
-    //     }
-    //   );
-    //   console.log(response.data);
-    // } catch (error) {
-    //   console.error(error);
-    // }
   }
 
   useEffect(() => {
-    if (newData.viewOnly?.includes("admin,staff,parents")) {
-      setAllChecked(true);
-    }
     if (newData.viewOnly?.includes("admin")) {
       setAdminChecked(true);
     }
@@ -1150,12 +941,7 @@ const TeachersCalendar = () => {
   function adminCheckedHandler() {
     setAdminChecked(!adminChecked);
   }
-  function allCheckedHandler() {
-    setAllChecked(!isAllChecked);
-    setAdminChecked(!adminChecked);
-    setTeacherChecked(!teacherChecked);
-    setParentChecked(!parentChecked);
-  }
+
   function teacherCheckedHandler() {
     setTeacherChecked(!teacherChecked);
   }
@@ -1189,7 +975,6 @@ const TeachersCalendar = () => {
             <View
               style={[
                 {
-                  // Try setting `flexDirection` to `"row"`.
                   flex: 0.09,
                   flexDirection: "row",
                   backgroundColor: "white",
@@ -1198,27 +983,9 @@ const TeachersCalendar = () => {
               ]}
             >
               <View style={styles.space} />
-              <View style={{ flex: 0.5 }}>
-                {/* <IconButton
-                    colorScheme="blue"
-                    onPress={listViewPressHandler}
-                    variant="subtle"
-                    _icon={{
-                      as: Ionicons,
-                      name: "list",
-                  }}/> */}
-              </View>
+              <View style={{ flex: 0.5 }}></View>
               <View style={styles.spaceBetween} />
-              <View style={{ flex: 0.5 }}>
-                {/* <IconButton
-                    colorScheme="blue"
-                    onPress={listViewPressHandler}
-                    variant="subtle"
-                    _icon={{
-                      as: Ionicons,
-                      name: "list",
-                  }}/> */}
-              </View>
+              <View style={{ flex: 0.5 }}></View>
               <View style={{ flex: 0.5 }}>
                 <IconButton
                   colorScheme={listActive ? "blue" : "coolGray"}
@@ -1248,75 +1015,6 @@ const TeachersCalendar = () => {
         </>
       )}
 
-      {/* {showListCalOptionBtn && (
-        <View
-          style={[
-            { flex: 1 },
-            { flexDirection: "column", backgroundColor: "white" },
-          ]}
-        >
-          <View style={{ flex: 1, marginHorizontal: "20%", top: "10%" }}>
-            <Pressable onPress={listViewPressHandler}>
-              <Card style={styles.cardStyle}>
-                <Card.Content style={{ margin: 1, marginTop: 0 }}>
-                  <View style={{ alignItems: "center" }}>
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        fontFamily: "HindSemiBold",
-                        color: "white",
-                      }}
-                    >
-                      List
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        fontFamily: "HindSemiBold",
-                        color: "white",
-                      }}
-                    >
-                      View
-                    </Text>
-                  </View>
-                </Card.Content>
-              </Card>
-            </Pressable>
-          </View>
-
-          <View style={{ flex: 1, marginHorizontal: "20%" }}>
-            <Pressable onPress={calendarViewPressHandler}>
-              <Card style={styles.cardStyle}>
-                <Card.Content style={{ margin: 1, marginTop: 0 }}>
-                  <View style={{ alignItems: "center" }}>
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        fontFamily: "HindSemiBold",
-                        color: "white",
-                      }}
-                    >
-                      Calendar
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        fontFamily: "HindSemiBold",
-                        color: "white",
-                      }}
-                    >
-                      View
-                    </Text>
-                  </View>
-                </Card.Content>
-              </Card>
-            </Pressable>
-          </View>
-          <View style={{ flex: 0.2 }}>
-            <TeachersHome />
-          </View>
-        </View>
-      )} */}
       {showForm && (
         <>
           <ScrollView style={{ backgroundColor: "white" }}>
@@ -1483,7 +1181,6 @@ const TeachersCalendar = () => {
                 <View
                   style={[
                     {
-                      // Try setting `flexDirection` to `"row"`.
                       flex: 1,
                       flexDirection: "row",
                       left: "15%",
@@ -1495,7 +1192,6 @@ const TeachersCalendar = () => {
                     <View
                       style={[
                         {
-                          // Try setting `flexDirection` to `"row"`.
                           flex: 1,
                           flexDirection: "row",
                         },
@@ -1517,7 +1213,6 @@ const TeachersCalendar = () => {
                     <View
                       style={[
                         {
-                          // Try setting `flexDirection` to `"row"`.
                           flex: 1,
                           flexDirection: "row",
                         },
@@ -1539,7 +1234,6 @@ const TeachersCalendar = () => {
                     <View
                       style={[
                         {
-                          // Try setting `flexDirection` to `"row"`.
                           flex: 1,
                           flexDirection: "row",
                         },
@@ -1558,22 +1252,6 @@ const TeachersCalendar = () => {
                     </View>
                   </View>
                 </View>
-                {showParentClass && (
-                  <>
-                    <SelectList
-                      setSelected={setSelected}
-                      data={classData}
-                      save="key"
-                      placeholder="Select class"
-                      // boxStyles={
-                      //   selectInputIsInValid && styles.errorSelectedColor
-                      // }
-                      // dropdownTextStyles={styles.dropText}
-                      // inputStyles={styles.dropText}
-                      // onSelect={fetchSubjects}
-                    />
-                  </>
-                )}
               </View>
               {!isEdit && (
                 <View style={[btn ? styles.btnSubmitNew : styles.btnSubmit]}>
@@ -1628,12 +1306,6 @@ const TeachersCalendar = () => {
               size="full"
             >
               <Modal.Content maxWidth="90%" minHeight="5%">
-                {/* <Modal.Header
-                  style={{ justifyContent: "center", alignItems: "center" }}
-                >
-                  Events
-                </Modal.Header> */}
-
                 <Modal.Body>
                   {filteredlist &&
                     filteredlist.map((data) => (
@@ -1641,7 +1313,6 @@ const TeachersCalendar = () => {
                         <View
                           style={[
                             {
-                              // Try setting `flexDirection` to `"row"`.
                               flex: 1,
                               flexDirection: "column",
                               borderBottomWidth:
@@ -1654,7 +1325,6 @@ const TeachersCalendar = () => {
                             <View
                               style={[
                                 {
-                                  // Try setting `flexDirection` to `"row"`.
                                   flex: 1,
                                   flexDirection: "row",
                                   marginVertical: 10,
@@ -1679,7 +1349,6 @@ const TeachersCalendar = () => {
                             <View
                               style={[
                                 {
-                                  // Try setting `flexDirection` to `"row"`.
                                   flex: 1,
                                   flexDirection: "row",
                                 },
@@ -1689,7 +1358,6 @@ const TeachersCalendar = () => {
                                 <View
                                   style={[
                                     {
-                                      // Try setting `flexDirection` to `"row"`.
                                       flex: 1,
                                       flexDirection: "row",
                                     },
@@ -1720,7 +1388,6 @@ const TeachersCalendar = () => {
                                 <View
                                   style={[
                                     {
-                                      // Try setting `flexDirection` to `"row"`.
                                       flex: 1,
                                       flexDirection: "row",
                                     },
@@ -1753,7 +1420,6 @@ const TeachersCalendar = () => {
                             <View
                               style={[
                                 {
-                                  // Try setting `flexDirection` to `"row"`.
                                   flex: 1,
                                   flexDirection: "row",
                                 },
@@ -1774,7 +1440,6 @@ const TeachersCalendar = () => {
                             </View>
                           </View>
                         </View>
-                        {/* <View style={styles.space} /> */}
                       </ScrollView>
                     ))}
                 </Modal.Body>
@@ -1805,10 +1470,6 @@ const TeachersCalendar = () => {
             { flex: 1, flexDirection: "column", backgroundColor: "white" },
           ]}
         >
-          {/* {backAndSearchBar &&
-          <View style={{flex: 0.1,paddingTop:20}} >
-            <BackButton onPress={backButtonHandler} />
-          </View>} */}
           <View style={{ flex: 1 }}>
             <SearchBar
               style={styles.searchBar}
@@ -2152,7 +1813,6 @@ const TeachersCalendar = () => {
                         <View
                           style={[
                             {
-                              // Try setting `flexDirection` to `"row"`.
                               flex: 1,
                               flexDirection: "row",
                             },
@@ -2178,7 +1838,6 @@ const TeachersCalendar = () => {
                             {specificData.isNotified == false ? (
                               <NativeButton
                                 size="sm"
-                                //variant={!isTueActive ? "outline" : "solid"}
                                 rightIcon={
                                   <Icon
                                     as={Ionicons}
@@ -2211,7 +1870,6 @@ const TeachersCalendar = () => {
                         <View
                           style={[
                             {
-                              // Try setting `flexDirection` to `"row"`.
                               flex: 1,
                               flexDirection: "column",
                               borderBottomColor: "grey",
@@ -2222,7 +1880,6 @@ const TeachersCalendar = () => {
                             <View
                               style={[
                                 {
-                                  // Try setting `flexDirection` to `"row"`.
                                   flex: 1,
                                   flexDirection: "row",
                                 },
@@ -2246,7 +1903,6 @@ const TeachersCalendar = () => {
                             <View
                               style={[
                                 {
-                                  // Try setting `flexDirection` to `"row"`.
                                   flex: 1,
                                   flexDirection: "row",
                                 },
@@ -2256,7 +1912,6 @@ const TeachersCalendar = () => {
                                 <View
                                   style={[
                                     {
-                                      // Try setting `flexDirection` to `"row"`.
                                       flex: 1,
                                       flexDirection: "row",
                                     },
@@ -2287,7 +1942,6 @@ const TeachersCalendar = () => {
                                 <View
                                   style={[
                                     {
-                                      // Try setting `flexDirection` to `"row"`.
                                       flex: 1,
                                       flexDirection: "row",
                                     },
@@ -2318,7 +1972,6 @@ const TeachersCalendar = () => {
                             <View
                               style={[
                                 {
-                                  // Try setting `flexDirection` to `"row"`.
                                   flex: 1,
                                   flexDirection: "row",
                                 },
@@ -2382,12 +2035,7 @@ const styles = StyleSheet.create({
 
     backgroundColor: "white",
   },
-  viewContainer: {
-    fontSize: 24,
-    flexDirection: "row",
-    width: "100%",
-    backgroundColor: "white",
-  },
+
   eventName: {
     fontFamily: "HindSemiBold",
     fontSize: 18,
@@ -2396,7 +2044,6 @@ const styles = StyleSheet.create({
   },
 
   root: {
-    // backgroundColor: "whi",
     height: "100%",
   },
   inputForm: {
@@ -2462,12 +2109,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     fontSize: deviceWidth < 370 ? 13 : 15,
   },
-  btnSubmit1: {
-    marginTop: 90,
-    marginBottom: 30,
-    marginLeft: 190,
-    width: "50%",
-  },
+
   cancel: {
     marginTop: -130,
     marginLeft: -15,
@@ -2559,14 +2201,5 @@ const styles = StyleSheet.create({
     fontSize: deviceWidth < 370 ? 14 : 16,
     fontFamily: "HindSemiBold",
     color: "grey",
-  },
-  cardStyle: {
-    marginVertical: 15,
-    marginHorizontal: 27,
-    elevation: 5,
-    borderRadius: 10,
-    padding: 10,
-    backgroundColor: "#1E84A4",
-    width: "80%",
   },
 });

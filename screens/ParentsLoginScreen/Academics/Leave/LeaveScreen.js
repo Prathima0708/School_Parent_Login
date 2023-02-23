@@ -35,7 +35,7 @@ import { subURL } from "../../../../components/utils/URL's";
 var ID;
 var FROMDATE, TODATE, KEY, VALUE;
 
-var newArray, USERNAME, USERID, USERROLE, TOKEN;
+var newArray, USERNAME, USERID, USERROLE, TOKEN, firstKey, firstValue;
 const LeaveScreen = () => {
   const [user, setUser] = useState("");
   const [userRole, setUserRole] = useState("");
@@ -161,7 +161,8 @@ const LeaveScreen = () => {
     { key: "Casual Leave", value: "Casual Leave" },
     { key: "Maternity Leave", value: "Maternity Leave" },
   ];
-
+  firstKey = leaveTypeData[0].key;
+  firstValue = leaveTypeData[0].value;
   useEffect(() => {
     async function fetchData() {
       try {
@@ -213,6 +214,7 @@ const LeaveScreen = () => {
     console.log("my leave");
     setShowList(true);
     setShowForm(false);
+    setShowInitialBtn(true);
 
     async function fetchData() {
       try {
@@ -757,125 +759,127 @@ const LeaveScreen = () => {
         <>
           <ScrollView style={styles.root}>
             <View style={styles.inputForm}>
-              <View
-                style={[
-                  { flex: 1 },
-                  {
-                    flexDirection: "column",
-                    paddingVertical: 10,
-                  },
-                ]}
-              >
-                <View style={{ flex: 1, marginHorizontal: 16 }}>
-                  <View
-                    style={[
-                      { flex: 1 },
-                      {
-                        flexDirection: "row",
-                        marginRight: 6,
-                      },
-                    ]}
-                  >
-                    <View style={{ flex: 1, justifyContent: "center" }}>
-                      <Text style={[styles.labelStyle]}>User name</Text>
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <TextInput
-                        style={[
-                          styles.labelStyle,
-                          {
-                            borderWidth: 1,
-                            padding: 7,
-                            borderColor: "#A3A5A5",
-                          },
-                        ]}
-                        editable={false}
-                        selectTextOnFocus={false}
-                        value={user}
-                      />
-                    </View>
-                  </View>
-                </View>
-
-                <View style={styles.space} />
-
-                <View style={{ flex: 1 }}>
-                  <View
-                    style={[
-                      { flex: 1 },
-                      {
-                        flexDirection: "row",
-                        marginHorizontal: 8,
-                        marginRight: 20,
-                      },
-                    ]}
-                  >
+              {!isEdit && (
+                <View
+                  style={[
+                    { flex: 1 },
+                    {
+                      flexDirection: "column",
+                      paddingVertical: 10,
+                    },
+                  ]}
+                >
+                  <View style={{ flex: 1, marginHorizontal: 16 }}>
                     <View
-                      style={{
-                        flex: 1,
-                        justifyContent: "center",
-                        marginLeft: "3%",
-                      }}
+                      style={[
+                        { flex: 1 },
+                        {
+                          flexDirection: "row",
+                          marginRight: 6,
+                        },
+                      ]}
                     >
-                      <Text style={styles.labelStyle}>User role</Text>
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <TextInput
-                        style={[
-                          styles.labelStyle,
-                          {
-                            borderWidth: 1,
-                            padding: 7,
-                            borderColor: "#A3A5A5",
-                          },
-                        ]}
-                        editable={false}
-                        selectTextOnFocus={false}
-                        value={userRole}
-                      />
+                      <View style={{ flex: 1, justifyContent: "center" }}>
+                        <Text style={[styles.labelStyle]}>User name</Text>
+                      </View>
+                      <View style={{ flex: 1 }}>
+                        <TextInput
+                          style={[
+                            styles.labelStyle,
+                            {
+                              borderWidth: 1,
+                              padding: 7,
+                              borderColor: "#A3A5A5",
+                            },
+                          ]}
+                          editable={false}
+                          selectTextOnFocus={false}
+                          value={user}
+                        />
+                      </View>
                     </View>
                   </View>
-                </View>
-                <View style={styles.space} />
 
-                <View style={{ flex: 1 }}>
-                  <View
-                    style={[
-                      { flex: 1 },
-                      {
-                        flexDirection: "row",
-                        marginHorizontal: 8,
-                        marginRight: 20,
-                      },
-                    ]}
-                  >
+                  <View style={styles.space} />
+
+                  <View style={{ flex: 1 }}>
                     <View
-                      style={{
-                        flex: 1,
-                        justifyContent: "center",
-                        marginLeft: "3%",
-                      }}
+                      style={[
+                        { flex: 1 },
+                        {
+                          flexDirection: "row",
+                          marginHorizontal: 8,
+                          marginRight: 20,
+                        },
+                      ]}
                     >
-                      <Text style={styles.labelStyle}>Student reg no</Text>
+                      <View
+                        style={{
+                          flex: 1,
+                          justifyContent: "center",
+                          marginLeft: "3%",
+                        }}
+                      >
+                        <Text style={styles.labelStyle}>User role</Text>
+                      </View>
+                      <View style={{ flex: 1 }}>
+                        <TextInput
+                          style={[
+                            styles.labelStyle,
+                            {
+                              borderWidth: 1,
+                              padding: 7,
+                              borderColor: "#A3A5A5",
+                            },
+                          ]}
+                          editable={false}
+                          selectTextOnFocus={false}
+                          value={userRole}
+                        />
+                      </View>
                     </View>
-                    <View style={{ flex: 1 }}>
-                      <TextInput
-                        style={[
-                          styles.labelStyle,
-                          {
-                            borderWidth: 1,
-                            padding: 7,
-                            borderColor: "#A3A5A5",
-                          },
-                        ]}
-                        editable={false}
-                        selectTextOnFocus={false}
-                        value={StudentRegNo.toString()}
-                      />
+                  </View>
+                  <View style={styles.space} />
+
+                  <View style={{ flex: 1 }}>
+                    <View
+                      style={[
+                        { flex: 1 },
+                        {
+                          flexDirection: "row",
+                          marginHorizontal: 8,
+                          marginRight: 20,
+                        },
+                      ]}
+                    >
+                      <View
+                        style={{
+                          flex: 1,
+                          justifyContent: "center",
+                          marginLeft: "3%",
+                        }}
+                      >
+                        <Text style={styles.labelStyle}>Student reg no</Text>
+                      </View>
+                      <View style={{ flex: 1 }}>
+                        <TextInput
+                          style={[
+                            styles.labelStyle,
+                            {
+                              borderWidth: 1,
+                              padding: 7,
+                              borderColor: "#A3A5A5",
+                            },
+                          ]}
+                          editable={false}
+                          selectTextOnFocus={false}
+                          value={StudentRegNo.toString()}
+                        />
+                      </View>
                     </View>
                   </View>
                 </View>
-              </View>
+              )}
 
               {/* {!isEdit && (
                 <>
@@ -938,6 +942,10 @@ const LeaveScreen = () => {
                   </View>
                   <View style={{ flex: 1, paddingRight: 20 }}>
                     <SelectList
+                      defaultOption={{
+                        key: String(firstKey),
+                        value: String(firstValue),
+                      }}
                       //setSelected={(val) => setSelected(val)}
                       setSelected={setSelected}
                       data={leaveTypeData}
@@ -1139,7 +1147,7 @@ const LeaveScreen = () => {
               {leavereasonInputIsInValid && (
                 <Text style={styles.errorText}>Enter leave reason</Text>
               )}
-              <View>
+              {/* <View>
                 <View
                   style={
                     !btn
@@ -1181,7 +1189,7 @@ const LeaveScreen = () => {
               {EmailInputIsInValid && (
                 <Text style={styles.errorText}>Enter email address</Text>
               )}
-              {error && <Text style={styles.errorText}>{error}</Text>}
+              {error && <Text style={styles.errorText}>{error}</Text>} */}
 
               {!isEdit && (
                 <View style={styles.btnSubmit}>
@@ -1488,7 +1496,7 @@ const LeaveScreen = () => {
                                             {data.leave_status == "Approved" ? (
                                               <Badge
                                                 colorScheme="success"
-                                                style={{ width: "65%" }}
+                                                style={{ width: "67%" }}
                                               >
                                                 {data.leave_status}
                                               </Badge>

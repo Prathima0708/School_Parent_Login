@@ -1,33 +1,27 @@
 import {
   View,
   StyleSheet,
-  TextInput,
   Text,
   ScrollView,
   Button as Btn,
   Alert,
   Dimensions,
   Animated,
-  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import Button from "../../../components/UI/Button";
+
 import axios from "axios";
 import { Keyboard } from "react-native";
-import { UserId } from "../../Login";
-import BgButton from "../../../components/UI/BgButton";
+
 import TeachersHome from "../BottomTab/TeachersHome";
-import Input from "../../../components/UI/Input";
-import VerticalLine from "../../../components/UI/VerticalLine";
-import { FlatList } from "react-native";
-import { DataTable } from "react-native-paper";
+
 import SearchBar from "react-native-dynamic-search-bar";
 
 import SelectList from "react-native-dropdown-select-list";
 import { Ionicons } from "@expo/vector-icons";
-import UnderlinedInput from "../../../components/UI/UnderlinedInput";
+
 import { subURL } from "../../../components/utils/URL's";
-import { style } from "@mui/system";
+
 import { IconButton, Text as NativeText } from "native-base";
 import BackButton from "../../../components/UI/BackButton";
 import { useNavigation } from "@react-navigation/native";
@@ -36,103 +30,13 @@ export var StudentList = [];
 var newArray, firstData, KEY, VALUE, CANCELKEY, CANCELVALUE;
 const TeachersMarksheet = () => {
   const [defaultClass, setDefaultClass] = useState();
-  const [mathsLabel, setMathsLabel] = useState(true);
-  const [engLabel, setEngLabel] = useState(true);
-  const [sciLabel, setSciLabel] = useState(true);
-  const [hindiLabel, setHindiLabel] = useState(true);
-  const [socLabel, setSocLabel] = useState(true);
-  const [kanLabel, setKanLabel] = useState(true);
-  const [compLabel, setCompLabel] = useState(true);
+
   const scrollY = new Animated.Value(0);
 
   const diffClamp = Animated.diffClamp(scrollY, 0, 100);
 
   const headermax = 100;
   const headermin = 10;
-
-  const animateHeaderBackGround = scrollY.interpolate({
-    inputRange: [0, headermax - headermin],
-    outputRange: ["#F2F2F2", "#F2F2F2"],
-    extrapolate: "clamp",
-  });
-
-  const animateHeaderHeight = diffClamp.interpolate({
-    inputRange: [0, headermax - headermin],
-    outputRange: [headermax, headermin],
-    extrapolate: "clamp",
-  });
-  // const [mathsLabel, setMathsLabel] = useState(false);
-  // const [engLabel, setEngLabel] = useState(false);
-  // const [sciLabel, setSciLabel] = useState(false);
-  // const [hindiLabel, setHindiLabel] = useState(false);
-  // const [socLabel, setSocLabel] = useState(false);
-  // const [kanLabel, setKanLabel] = useState(false);
-  // const [compLabel, setCompLabel] = useState(false);
-
-  const [isMathFocused, setIsMathFocused] = useState(false);
-  const [isEngFocused, setIsEngFocused] = useState(false);
-  const [isSciFocused, setIsSciFocused] = useState(false);
-  const [isHindiFocused, setIsHindiFocused] = useState(false);
-  const [isSocFocused, setIsSocFocused] = useState(false);
-  const [isKanFocused, setIsKanFocused] = useState(false);
-  const [isComFocused, setIsComFocused] = useState(false);
-
-  const [mathsMarks, setMathsMarks] = useState("");
-  const [enteredMathsMarksTouched, setEnteredMathsMarksTouched] =
-    useState(false);
-  const enteredMathsMarksIsValid = mathsMarks.toString().trim() !== "";
-  const mathsMarksInputIsInValid =
-    !enteredMathsMarksIsValid && enteredMathsMarksTouched;
-
-  const [engMarks, setEngMarks] = useState("");
-  const [enteredEngMarksTouched, setEnteredEngMarksTouched] = useState(false);
-  const enteredEngMarksIsValid = engMarks.toString().trim() !== "";
-  //const enteredEngMarksIsValid = engMarks.length >= 1 && engMarks.length <= 3;
-  const engMarksInputIsInValid =
-    !enteredEngMarksIsValid && enteredEngMarksTouched;
-
-  const [sciMarks, setSciMarks] = useState("");
-  const [enteredSciMarksTouched, setEnteredSciMarksTouched] = useState(false);
-  const enteredSciMarksIsValid = sciMarks.toString().trim() !== "";
-  const sciMarksInputIsInValid =
-    !enteredSciMarksIsValid && enteredSciMarksTouched;
-
-  const [hindiMarks, setHindiMarks] = useState("");
-  const [enteredHindiMarksTouched, setEnteredHindiMarksTouched] =
-    useState(false);
-  const enteredHindiMarksIsValid = hindiMarks.toString().trim() !== "";
-  const hindiMarksInputIsInValid =
-    !enteredHindiMarksIsValid && enteredHindiMarksTouched;
-
-  const [socMarks, setSocMarks] = useState("");
-  const [enteredSocMarksTouched, setEnteredSocMarksTouched] = useState(false);
-  const enteredSocMarksIsValid = socMarks.toString().trim() !== "";
-  const socMarksInputIsInValid =
-    !enteredSocMarksIsValid && enteredSocMarksTouched;
-
-  const [kanMarks, setKanMarks] = useState("");
-  const [enteredKanMarksTouched, setEnteredKanMarksTouched] = useState(false);
-  const enteredKanMarksIsValid = kanMarks.toString().trim() !== "";
-  const kanMarksInputIsInValid =
-    !enteredKanMarksIsValid && enteredKanMarksTouched;
-
-  const [compMarks, setCompMarks] = useState("");
-  const [enteredCompMarksTouched, setEnteredCompMarksTouched] = useState(false);
-  const enteredCompMarksIsValid = compMarks.toString().trim() !== "";
-  const compMarksInputIsInValid =
-    !enteredCompMarksIsValid && enteredCompMarksTouched;
-
-  const [overallperct, setEnteredOverallPerct] = useState("");
-  const [enteredOverallPercentageTouched, setEnteredOverallPercentageTouched] =
-    useState(false);
-  const enteredOverallPercentageIsValid = overallperct.trim() !== "";
-  const overallpercentageInputIsInValid =
-    !enteredOverallPercentageIsValid && enteredOverallPercentageTouched;
-
-  const [remark, setEnteredRemark] = useState("");
-  const [enteredReamrkTouched, setEnteredReamrkTouched] = useState(false);
-  // const enteredReamrkIsValid = remark.trim() !== "";
-  // const remarkInputIsInValid = !enteredReamrkIsValid && enteredReamrkTouched;
 
   const [showForm, setShowForm] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -145,19 +49,6 @@ const TeachersMarksheet = () => {
   const [filteredMarks, setFilteredMarks] = useState([]);
   const [searchMarks, setSearchMarks] = useState("");
 
-  const [loading, setLoading] = useState(false);
-
-  const [forMarkssheetList, setForMarkssheetList] = useState({
-    backgroundColor: "#0C60F4",
-    color: "white",
-    borderRadius: 10,
-  });
-  const [forMarkssheetForm, setForMarkssheetForm] = useState({
-    color: "black",
-    backgroundColor: "#F4F6F6",
-    borderRadius: 10,
-  });
-
   const [selected, setSelected] = useState("");
   const [studData, setStudData] = useState([]);
 
@@ -168,7 +59,6 @@ const TeachersMarksheet = () => {
   const [showDefaultList, setShowDefaultList] = useState(true);
   const [showInitialBtn, setShowInitialBtn] = useState(true);
 
-  const [btn, setBtn] = useState(false);
   const [keyboardStatus, setKeyboardStatus] = useState("Keyboard Hidden");
 
   const [empty, setEmpty] = useState(false);
@@ -196,411 +86,7 @@ const TeachersMarksheet = () => {
       hideSubscription.remove();
     };
   }, []);
-  function mathsMarksChangeHandler(enteredValue) {
-    setMathsMarks(enteredValue);
-  }
-  function engMarksChangeHandler(enteredValue) {
-    setEngMarks(enteredValue);
-  }
-  function sciMarksChangeHandler(enteredValue) {
-    setSciMarks(enteredValue);
-  }
-  function hindiMarksChangeHandler(enteredValue) {
-    setHindiMarks(enteredValue);
-  }
-  function socMarksChangeHandler(enteredValue) {
-    setSocMarks(enteredValue);
-  }
-  function kanMarksChangeHandler(enteredValue) {
-    setKanMarks(enteredValue);
-  }
-  function compMarksChangeHandler(enteredValue) {
-    setCompMarks(enteredValue);
-  }
-  function percentageChangeHandler(enteredValue) {
-    setEnteredOverallPerct(enteredValue);
-  }
-  function remarkChangeHandler(enteredValue) {
-    setEnteredRemark(enteredValue);
-  }
 
-  function mathsMarksBlurHandler() {
-    setEnteredMathsMarksTouched(true);
-    setIsMathFocused(false);
-  }
-  function onFocusMathHandler() {
-    setIsMathFocused(true);
-    setEnteredMathsMarksTouched(false);
-    setMathsLabel(true);
-  }
-
-  function engMarksBlurHandler() {
-    setEnteredEngMarksTouched(true);
-    setIsEngFocused(false);
-  }
-  function onFocusEngHandler() {
-    setIsEngFocused(true);
-    setEnteredEngMarksTouched(false);
-    setEngLabel(true);
-  }
-
-  function sciMarksBlurHandler() {
-    setEnteredSciMarksTouched(true);
-    setIsSciFocused(false);
-  }
-  function onFocusSciHandler() {
-    setIsSciFocused(true);
-    setEnteredSciMarksTouched(false);
-    setSciLabel(true);
-  }
-
-  function hindiMarksBlurHandler() {
-    setEnteredHindiMarksTouched(true);
-    setIsHindiFocused(false);
-  }
-  function onFocusHindiHandler() {
-    setIsHindiFocused(true);
-    setEnteredHindiMarksTouched(false);
-    setHindiLabel(true);
-  }
-
-  function socMarksBlurHandler() {
-    setEnteredSocMarksTouched(true);
-    setIsSocFocused(false);
-  }
-  function onFocusSocHandler() {
-    setIsSocFocused(true);
-    setEnteredSocMarksTouched(false);
-    setSocLabel(true);
-  }
-
-  function kanMarksBlurHandler() {
-    setEnteredKanMarksTouched(true);
-    setIsKanFocused(false);
-  }
-  function onFocusKanHandler() {
-    setIsKanFocused(true);
-    setEnteredKanMarksTouched(false);
-    setKanLabel(true);
-  }
-
-  function compMarksBlurHandler() {
-    setEnteredCompMarksTouched(true);
-    setIsComFocused(false);
-  }
-  function onFocusComHandler() {
-    setIsComFocused(true);
-    setEnteredCompMarksTouched(false);
-    setCompLabel(true);
-  }
-
-  function overallpercentageBlurHandler() {
-    setEnteredOverallPercentageTouched(true);
-  }
-  function remarkBlurHandler() {
-    setEnteredReamrkTouched(true);
-  }
-
-  function updateHandler() {
-    setShowInitialBtn(true);
-
-    setIsMathFocused(false);
-    setIsEngFocused(false);
-    setIsSciFocused(false);
-    setIsHindiFocused(false);
-    setIsSocFocused(false);
-    setIsKanFocused(false);
-    setIsComFocused(false);
-
-    setMathsLabel(true);
-    setEngLabel(true);
-    setSciLabel(true);
-    setHindiLabel(true);
-    setSocLabel(true);
-    setKanLabel(true);
-    setCompLabel(true);
-
-    const FormData = {
-      // student_name: StudentList.student_name,
-      // class_name: StudentList.class_name,
-      // Roll_no: StudentList.reg_number,
-      //student_reg_no: StudentList.reg_number,
-      maths_max_marks: 0,
-      maths_obt_mark: mathsMarks,
-      maths_min_mark: 0,
-      maths_tot_mark: 0,
-      maths_percentg: 0,
-      english_max_marks: 0,
-
-      english_obt_mark: engMarks,
-      english_min_mark: 0,
-      english_tot_mark: 0,
-      english_percentg: 0,
-      science_max_mark: 0,
-
-      science_obt_mark: sciMarks,
-      science_min_mark: 0,
-      science_tot_mark: 0,
-      science_percentg: 0,
-      hindi_max_mark: 0,
-
-      hindi_obt_mark: hindiMarks,
-      hindi_min_mark: 0,
-      hindi_tot_mark: 0,
-      hindi_percentg: 0,
-      social_max_mark: 0,
-
-      social_obt_mark: socMarks,
-      social_min_mark: 0,
-      social_tot_mark: 0,
-      social_percentg: 0,
-      kannada_max_mark: 0,
-
-      kannada_obt_mark: kanMarks,
-
-      kannada_min_mark: 0,
-      kannada_tot_mark: 0,
-      kannada_percentg: 0,
-      computer_max_mark: 0,
-
-      computer_obt_mark: compMarks,
-      computer_min_mark: 0,
-      computer_tot_mark: 0,
-      computer_percentg: 0,
-    };
-
-    async function updateData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
-        const resLogin = await axios.put(
-          `${subURL}/Marksheet/${ID}/`,
-          FormData,
-          {
-            headers: headers,
-          }
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    updateData();
-
-    if (
-      !enteredMathsMarksIsValid ||
-      !enteredEngMarksIsValid ||
-      !enteredSciMarksIsValid ||
-      !enteredHindiMarksIsValid ||
-      !enteredSocMarksIsValid ||
-      !enteredKanMarksIsValid ||
-      !enteredCompMarksIsValid
-    ) {
-      Alert.alert("Please enter all fields");
-    } else {
-      Alert.alert("Successfully updated", "", [
-        { text: "OK", onPress: () => showMarksheetList() },
-      ]);
-
-      setMathsMarks("");
-      setEngMarks("");
-      setSciMarks("");
-      setSocMarks("");
-      setKanMarks("");
-      setHindiMarks("");
-      setCompMarks("");
-      setEnteredOverallPerct("");
-      setEnteredRemark("");
-      setShowAddForm(false);
-      setShowMarksheet(true);
-      setForMarkssheetList({
-        backgroundColor: "#F4F6F6",
-        color: "black",
-        borderRadius: 10,
-      });
-      setForMarkssheetForm({
-        color: "white",
-        backgroundColor: "#1E8449",
-        borderRadius: 10,
-      });
-    }
-  }
-
-  function buttonPressedHandler() {
-    const FormData = {
-      student_name: StudentList.student_name,
-      class_name: StudentList.class_name,
-
-      Roll_no: StudentList.reg_number,
-      maths_max_marks: 0,
-      maths_obt_mark: mathsMarks,
-      maths_min_mark: 0,
-      maths_tot_mark: 0,
-      maths_percentg: 0,
-      english_max_marks: 0,
-
-      english_obt_mark: engMarks,
-      english_min_mark: 0,
-      english_tot_mark: 0,
-      english_percentg: 0,
-      science_max_mark: 0,
-
-      science_obt_mark: sciMarks,
-      science_min_mark: 0,
-      science_tot_mark: 0,
-      science_percentg: 0,
-      hindi_max_mark: 0,
-
-      hindi_obt_mark: hindiMarks,
-      hindi_min_mark: 0,
-      hindi_tot_mark: 0,
-      hindi_percentg: 0,
-      social_max_mark: 0,
-
-      social_obt_mark: socMarks,
-      social_min_mark: 0,
-      social_tot_mark: 0,
-      social_percentg: 0,
-      kannada_max_mark: 0,
-
-      kannada_obt_mark: kanMarks,
-
-      kannada_min_mark: 0,
-      kannada_tot_mark: 0,
-      kannada_percentg: 0,
-      computer_max_mark: 0,
-
-      computer_obt_mark: compMarks,
-      computer_min_mark: 0,
-      computer_tot_mark: 0,
-      computer_percentg: 0,
-    };
-
-    const formIsValid =
-      enteredMathsMarksIsValid &&
-      engMarksInputIsInValid &&
-      enteredSciMarksIsValid &&
-      enteredHindiMarksIsValid &&
-      enteredSocMarksIsValid &&
-      enteredKanMarksIsValid &&
-      enteredCompMarksIsValid;
-
-    // if (formIsValid) {
-
-    //  }
-    setEnteredMathsMarksTouched(true);
-    setEnteredMathsMarksTouched(true);
-    setEnteredEngMarksTouched(true);
-    setEnteredSciMarksTouched(true);
-    setEnteredSocMarksTouched(true);
-    setEnteredHindiMarksTouched(true);
-    setEnteredKanMarksTouched(true);
-    setEnteredCompMarksTouched(true);
-
-    if (!enteredMathsMarksIsValid) {
-      return;
-    }
-    if (!enteredEngMarksIsValid) {
-      return;
-    }
-    if (!enteredSciMarksIsValid) {
-      return;
-    }
-    if (!enteredHindiMarksIsValid) {
-      return;
-    }
-    if (!enteredSocMarksIsValid) {
-      return;
-    }
-    if (!enteredKanMarksIsValid) {
-      return;
-    }
-    if (!enteredCompMarksIsValid) {
-      return;
-    }
-
-    async function storeData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
-
-        const resLogin = await axios.post(`${subURL}/Marksheet/`, FormData, {
-          headers: headers,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    storeData();
-
-    Alert.alert("Saved Data", "Saved Data successfully", [
-      {
-        text: "OK",
-        onPress: () => {
-          setShowForm(false);
-          setShowAddForm(false);
-          showMarksheetList();
-        },
-      },
-    ]);
-
-    setMathsMarks("");
-    setEngMarks("");
-    setSciMarks("");
-    setSocMarks("");
-    setKanMarks("");
-    setHindiMarks("");
-    setCompMarks("");
-    setEnteredOverallPerct("");
-    setEnteredRemark("");
-    setEnteredMathsMarksTouched(false);
-    setEnteredMathsMarksTouched(false);
-    setEnteredEngMarksTouched(false);
-    setEnteredSciMarksTouched(false);
-    setEnteredSocMarksTouched(false);
-    setEnteredHindiMarksTouched(false);
-    setEnteredKanMarksTouched(false);
-    setEnteredCompMarksTouched(false);
-    setForMarkssheetList({
-      backgroundColor: "#F4F6F6",
-      color: "black",
-      borderRadius: 10,
-    });
-    setForMarkssheetForm({
-      color: "white",
-      backgroundColor: "#1E8449",
-      borderRadius: 10,
-    });
-    // }
-  }
-
-  function showMarkssheetForm() {
-    // setShowDefaultList(true);
-    setShowAddForm(false);
-    setShowForm(false);
-    setForMarkssheetList({
-      backgroundColor: "#0C60F4",
-      color: "white",
-      borderRadius: 10,
-    });
-    setForMarkssheetForm({
-      color: "black",
-      backgroundColor: "#F4F6F6",
-      borderRadius: 10,
-    });
-    setShowBtn(true);
-    setShowMarksheet(false);
-    setEnteredMathsMarksTouched(false);
-    setEnteredMathsMarksTouched(false);
-    setEnteredEngMarksTouched(false);
-    setEnteredSciMarksTouched(false);
-    setEnteredSocMarksTouched(false);
-    setEnteredHindiMarksTouched(false);
-    setEnteredKanMarksTouched(false);
-    setEnteredCompMarksTouched(false);
-    setIsEdit(false);
-  }
   function showMarksheetList() {
     setShowDefaultList(false);
     setForMarkssheetForm({
@@ -736,106 +222,6 @@ const TeachersMarksheet = () => {
     getData();
   }
 
-  function cancelPressHandler() {
-    setIsCancelState(true);
-
-    let filteredlist = newArray.filter((ele) => ele.key == selected);
-
-    CANCELKEY = filteredlist[0].key;
-    CANCELVALUE = filteredlist[0].value;
-    setShowInitialBtn(true);
-    setShowBtn(true);
-    setShowForm(true);
-    setShowAddForm(false);
-    setMathsLabel(false);
-    setEngLabel(false);
-    setSciLabel(false);
-    setHindiLabel(false);
-    setSocLabel(false);
-    setKanLabel(false);
-    setCompLabel(false);
-    setShowMarksheet(false);
-    {
-      isEdit && showMarksheetList(true);
-    }
-  }
-
-  function editItem(id) {
-    setShowInitialBtn(false);
-    setMathsLabel(true);
-    setEngLabel(true);
-    setSciLabel(true);
-    setSocLabel(true);
-    setHindiLabel(true);
-    setCompLabel(true);
-    setKanLabel(true);
-
-    ID = id;
-    const filteredDummuyData = marksheetData.find((data) => data.id == id);
-    setMathsMarks(filteredDummuyData.maths_obt_mark);
-    setEngMarks(filteredDummuyData.english_obt_mark);
-    setSciMarks(filteredDummuyData.science_obt_mark);
-    setHindiMarks(filteredDummuyData.hindi_obt_mark);
-    setSocMarks(filteredDummuyData.social_obt_mark);
-    setKanMarks(filteredDummuyData.kannada_obt_mark);
-    setCompMarks(filteredDummuyData.computer_obt_mark);
-    setForMarkssheetList({
-      backgroundColor: "#F4F6F6",
-      color: "black",
-      borderRadius: 10,
-    });
-    setForMarkssheetForm({
-      color: "white",
-      backgroundColor: "#1E8449",
-      borderRadius: 10,
-    });
-    setShowAddForm(true);
-    setShowMarksheet(false);
-    setIsEdit(true);
-  }
-
-  function deleteItem(id) {
-    Alert.alert("Confirm Deletion", "You are about to delete this row!", [
-      {
-        text: "Cancel",
-
-        style: "cancel",
-      },
-      {
-        text: "Yes,delete",
-        onPress: () => deleteData(),
-      },
-    ]);
-    async function deleteData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
-        // const dataForm = FormData;
-        const resLogin = await axios.delete(
-          `${subURL}/Marksheet/${id}/`,
-
-          {
-            headers: headers,
-          }
-        );
-      } catch (error) {
-        console.log(error);
-      }
-      async function fetchData() {
-        try {
-          const res = await axios.get(`${subURL}/Marksheet/`);
-
-          setMarksheetData(res.data);
-          setFilteredMarks(res.data);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-      fetchData();
-    }
-  }
-
   function backHandler() {
     setIsCancelState(true);
 
@@ -863,47 +249,17 @@ const TeachersMarksheet = () => {
         return itemData.indexOf(textData) > -1;
       });
       setFilteredData(newData);
-      // setStudList(newData);
+
       setSearchText(text);
     } else {
       setFilteredData(studList);
-      //setStudList(studList);
+
       setSearchText(text);
-    }
-  };
-
-  const search = (text) => {
-    if (text) {
-      const newData = marksheetData.filter((item) => {
-        const itemData = item.student_name
-          ? item.student_name.toUpperCase()
-          : "".toUpperCase();
-        const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
-      });
-      setFilteredMarks(newData);
-
-      setSearchMarks(text);
-    } else {
-      setFilteredMarks(marksheetData);
-      setSearchMarks(text);
     }
   };
 
   return (
     <>
-      {/* {showInitialBtn && (
-        <Animated.View
-          style={[
-            {
-              height: animateHeaderHeight,
-              backgroundColor: animateHeaderBackGround,
-            },
-          ]}
-        >
-          <Text>View List</Text>
-        </Animated.View>
-      )} */}
       <View style={{ flex: 1, backgroundColor: "white" }}>
         {showBtn && (
           <>

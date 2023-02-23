@@ -72,17 +72,8 @@ const TeachersLeaveUpdated = () => {
   const headermax = 100;
   const headermin = 10;
 
-  const animateHeaderBackGround = scrollY.interpolate({
-    inputRange: [0, headermax - headermin],
-    outputRange: ["white", "white"],
-    extrapolate: "clamp",
-  });
+  
 
-  const animateHeaderHeight = diffClamp.interpolate({
-    inputRange: [0, headermax - headermin],
-    outputRange: [headermax, headermin],
-    extrapolate: "clamp",
-  });
 
   const [selectedClassSection, setSelectedClassSection] = useState("");
   const [enteredClassSectionTouched, setEnteredClassSectionTouched] =
@@ -108,15 +99,14 @@ const TeachersLeaveUpdated = () => {
   firstKey = leaveTypeData[0].key;
   firstValue = leaveTypeData[0].value;
 
-  const [offset, SetOffset] = useState(0);
+ 
   const [typeLabel, setTypeLabel] = useState(false);
   const [reasonLabel, setReasonLabel] = useState(false);
   const [emailLabel, setEmailLabel] = useState(false);
 
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isLeavereasonFocused, setIsLeavereasonFocused] = useState(false);
-  const [isFromFocused, setIsFromFocused] = useState(false);
-  const [isToFocused, setIsToFocused] = useState(false);
+
 
   const [btn, setBtn] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -392,7 +382,8 @@ const TeachersLeaveUpdated = () => {
       !enteredLeaveReasonIsValid ||
       //!enteredLeaveTypeIsValid ||
       !enteredFromDateIsValid ||
-      !enteredtoDateIsValid
+      !enteredtoDateIsValid ||
+      error != null
     ) {
       Alert.alert("Please enter all fields");
     } else {
@@ -444,6 +435,7 @@ const TeachersLeaveUpdated = () => {
       });
     }
   }
+
   function buttonPressedHandler() {
     setLoading(true);
     setTimeout(() => {
@@ -477,7 +469,8 @@ const TeachersLeaveUpdated = () => {
       !enteredFromDateIsValid ||
       !enteredtoDateIsValid ||
       !enteredSelcetdIsValid ||
-      !enteredEmailIsValid
+      !enteredEmailIsValid ||
+      error != null
     ) {
       return;
     } else {
@@ -1851,7 +1844,9 @@ const TeachersLeaveUpdated = () => {
             },
           ]}
         >
-          <View style={{ flex: 0.1,top:'3%', marginVertical: 10,left:'3%' }}>
+          <View
+            style={{ flex: 0.1, top: "3%", marginVertical: 10, left: "3%" }}
+          >
             <BackButton onPress={leaveBackHandler} />
           </View>
           <View style={{ flex: 1 }}>

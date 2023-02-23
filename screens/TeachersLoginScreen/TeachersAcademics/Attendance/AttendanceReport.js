@@ -4,15 +4,14 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
-  Pressable,
   TouchableHighlight,
   Keyboard,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRoute } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { subURL } from "../../../../components/utils/URL's";
-import { Button as NativeButton, Text as NativeText } from "native-base";
+
 import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 import moment from "moment";
@@ -20,14 +19,7 @@ import SelectList from "react-native-dropdown-select-list";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 import BgButton from "../../../../components/UI/BgButton";
 import TeachersHome from "../../BottomTab/TeachersHome";
-var TOKEN,
-  FROMDATE,
-  SELECTEDYEAR,
-  firstData,
-  KEY,
-  VALUE,
-  singleReportKey,
-  singleReportValue;
+var TOKEN, FROMDATE, firstData, singleReportKey, singleReportValue;
 const AttendanceReport = () => {
   const [frommode, setFromMode] = useState("date");
   const [fromDate, setFromDate] = useState(new Date());
@@ -73,7 +65,6 @@ const AttendanceReport = () => {
     "Dec",
   ];
   const months = [
-    // { key: "Month", value: "Month" },
     { key: "01", value: "January" },
     { key: "02", value: "Feburary" },
 
@@ -98,7 +89,7 @@ const AttendanceReport = () => {
   VALUE = firstData.value;
 
   const [selected, setSelected] = useState("");
-  const [listSelected, setListSelected] = useState([]);
+
   const [showFirstOption, setShowFirstOption] = useState(false);
 
   async function fetchToken() {
@@ -181,14 +172,12 @@ const AttendanceReport = () => {
   function onFocusFromHandler() {
     setIsFromDateFocused(true);
     setEnteredFromDateTouched(false);
-    //setstartDateLabel(true);
   }
   const fromDateChangeHandler = (event, selectedFromDate) => {
     const currentFromDate = selectedFromDate;
     FROMDATE = selectedFromDate;
 
     setFromShow(Platform.OS === "ios");
-    // setFromDate(currentFromDate);
 
     let tempFromDate = new Date(currentFromDate);
 
@@ -206,10 +195,6 @@ const AttendanceReport = () => {
       setShowFirstOption(true);
       viewList();
     } else {
-      // if (event?.type === "dismissed") {
-      //   setFromText("");
-      //   return;
-      // }
     }
   };
 
@@ -760,10 +745,6 @@ const AttendanceReport = () => {
               </View>
               <View style={{ flex: 1, paddingRight: 27 }}>
                 <SelectList
-                  // defaultOption={{
-                  //   key: KEY,
-                  //   value: VALUE,
-                  // }}
                   setSelected={setSelected}
                   data={months}
                   onSelect={viewYearMonthReport}

@@ -1007,7 +1007,7 @@ const TimeTable = () => {
               </View>
             )}
           </View>
-          <View style={{ flex: 0.1 }}>
+          <View style={{ flex: 0.1, backgroundColor: "white" }}>
             <ParentsHome />
           </View>
         </>
