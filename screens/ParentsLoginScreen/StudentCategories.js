@@ -39,8 +39,8 @@ function StudentCategories({ navigation }) {
         return (
           <IconButton
             onPress={logoutHandler}
-            icon="log-out-outline"
-            size={30}
+            icon="power"
+            size={25}
           />
         );
       },
