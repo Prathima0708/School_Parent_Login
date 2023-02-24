@@ -46,11 +46,27 @@ const NoticeBoard = () => {
         );
 
         const today = new Date();
-        const filteredData = filtredRes.filter(
-          (item) =>
-            new Date(item.startdate) >= today ||
-            new Date(item.startdate).toDateString() === today.toDateString()
+        const currentWeekStart = new Date(
+          today.getFullYear(),
+          today.getMonth(),
+          today.getDate() - today.getDay()
         );
+        const currentWeekEnd = new Date(
+          today.getFullYear(),
+          today.getMonth(),
+          today.getDate() + (6 - today.getDay())
+        );
+
+        const filteredData = filtredRes.filter((item) => {
+          const itemDate = new Date(item.startdate);
+          return itemDate >= currentWeekStart && itemDate <= currentWeekEnd;
+        });
+
+        // const filteredData = filtredRes.filter(
+        //   (item) =>
+        //     new Date(item.startdate) >= today ||
+        //     new Date(item.startdate).toDateString() === today.toDateString()
+        // );
 
         arr = filteredData;
 

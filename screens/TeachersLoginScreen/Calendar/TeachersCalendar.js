@@ -1808,62 +1808,65 @@ const TeachersCalendar = () => {
                   size="full"
                 >
                   <Modal.Content maxWidth="90%" minHeight="5%">
-                    {specificData.created_by === USERNAME && (
-                      <Modal.Header style={{ height: "20%" }}>
-                        <View
-                          style={[
-                            {
-                              flex: 1,
-                              flexDirection: "row",
-                            },
-                          ]}
-                        >
-                          <View style={{ flex: 0.5, justifyContent: "center" }}>
-                            <Text style={[styles.cardTextStyle, { left: 0 }]}>
-                              Notify to:
-                            </Text>
-                          </View>
+                    {specificData.created_by === USERNAME &&
+                      specificData.viewOnly !== "" && (
+                        <Modal.Header style={{ height: "20%" }}>
                           <View
-                            style={{
-                              flex: 1,
-                              justifyContent: "center",
-                            }}
+                            style={[
+                              {
+                                flex: 1,
+                                flexDirection: "row",
+                              },
+                            ]}
                           >
-                            <Text style={styles.textStyle}>
-                              {" "}
-                              {specificData.viewOnly}
-                            </Text>
-                          </View>
-                          <View style={{ flex: 0.7 }}>
-                            {specificData.isNotified == false ? (
-                              <NativeButton
-                                size="sm"
-                                rightIcon={
-                                  <Icon
-                                    as={Ionicons}
-                                    name="notifications"
-                                    size="sm"
-                                  />
-                                }
-                                onPress={sendPushNotificationHanlder}
-                              >
-                                <Text
-                                  style={{
-                                    fontSize: 16,
-                                    fontFamily: "HindSemiBold",
-                                    color: "white",
-                                  }}
+                            <View
+                              style={{ flex: 0.5, justifyContent: "center" }}
+                            >
+                              <Text style={[styles.cardTextStyle, { left: 0 }]}>
+                                Notify to:
+                              </Text>
+                            </View>
+                            <View
+                              style={{
+                                flex: 1,
+                                justifyContent: "center",
+                              }}
+                            >
+                              <Text style={styles.textStyle}>
+                                {" "}
+                                {specificData.viewOnly}
+                              </Text>
+                            </View>
+                            <View style={{ flex: 0.7 }}>
+                              {specificData.isNotified == false ? (
+                                <NativeButton
+                                  size="sm"
+                                  rightIcon={
+                                    <Icon
+                                      as={Ionicons}
+                                      name="notifications"
+                                      size="sm"
+                                    />
+                                  }
+                                  onPress={sendPushNotificationHanlder}
                                 >
-                                  Notify
-                                </Text>
-                              </NativeButton>
-                            ) : (
-                              <Badge colorScheme="success">Notified</Badge>
-                            )}
+                                  <Text
+                                    style={{
+                                      fontSize: 16,
+                                      fontFamily: "HindSemiBold",
+                                      color: "white",
+                                    }}
+                                  >
+                                    Notify
+                                  </Text>
+                                </NativeButton>
+                              ) : (
+                                <Badge colorScheme="success">Notified</Badge>
+                              )}
+                            </View>
                           </View>
-                        </View>
-                      </Modal.Header>
-                    )}
+                        </Modal.Header>
+                      )}
 
                     <Modal.Body>
                       <ScrollView>
