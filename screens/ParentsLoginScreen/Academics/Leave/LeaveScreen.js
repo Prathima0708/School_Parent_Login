@@ -10,14 +10,14 @@ import {
   ActivityIndicator,
   Platform,
 } from "react-native";
-import { Badge, Button as NativeButton, Icon, IconButton } from "native-base";
+import { Badge, IconButton } from "native-base";
 import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../../../components/UI/Button";
 import SelectList from "react-native-dropdown-select-list";
 import axios from "axios";
 
-import { Alert, Button as Btn, Image } from "react-native";
+import { Alert } from "react-native";
 import moment from "moment";
 
 import BgButton from "../../../../components/UI/BgButton";
@@ -26,7 +26,7 @@ import { useEffect } from "react";
 import ParentsHome from "../../BottomTab/ParentsHome";
 import Input from "../../../../components/UI/Input";
 
-import { Card, DataTable } from "react-native-paper";
+import { Card } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
@@ -35,7 +35,7 @@ import { subURL } from "../../../../components/utils/URL's";
 var ID;
 var FROMDATE, TODATE, KEY, VALUE;
 
-var newArray, USERNAME, USERID, USERROLE, TOKEN, firstKey, firstValue;
+var USERNAME, USERID, USERROLE, TOKEN, firstKey, firstValue;
 const LeaveScreen = () => {
   const [user, setUser] = useState("");
   const [userRole, setUserRole] = useState("");
@@ -98,8 +98,6 @@ const LeaveScreen = () => {
   const [show, setShow] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
 
-  const [homeworkData, setHomeworkData] = useState([]);
-  const [isSame, SetIsSame] = useState(false);
   const [showInitialBtn, setShowInitialBtn] = useState(true);
 
   const [loading, setLoading] = useState(false);
@@ -110,8 +108,6 @@ const LeaveScreen = () => {
 
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isLeavereasonFocused, setIsLeavereasonFocused] = useState(false);
-  const [isFromFocused, setIsFromFocused] = useState(false);
-  const [isToFocused, setIsToFocused] = useState(false);
 
   const [leaveType, setEnteredLeaveType] = useState("");
   const [enteredLeaveTypeTouched, setEnteredLeaveTypeTouched] = useState(false);
@@ -153,7 +149,7 @@ const LeaveScreen = () => {
     outputRange: [headermax, headermin],
     extrapolate: "clamp",
   });
-  let i = 0;
+
   const leaveTypeData = [
     { key: "Sick Leave", value: "Sick Leave" },
     { key: "Planned Leave", value: "Planned Leave" },
@@ -163,31 +159,6 @@ const LeaveScreen = () => {
   ];
   firstKey = leaveTypeData[0].key;
   firstValue = leaveTypeData[0].value;
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await axios.get(`${subURL}/Leave/`);
-        setHomeworkData(res.data);
-        setFilteredData(res.data);
-        let test = 0;
-        const value = await AsyncStorage.getItem("key");
-        for (i = 0; i < res.data.length; i++) {
-          if (value == res.data[i].created_by) {
-            test = res.data[i].created_by;
-          } else {
-            // console.log('false')
-          }
-        }
-        if (test == value) {
-          // console.log("is same")
-          SetIsSame(true);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData();
-  }, []);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -211,7 +182,6 @@ const LeaveScreen = () => {
   }, []);
 
   function myLeaveList() {
-    console.log("my leave");
     setShowList(true);
     setShowForm(false);
     setShowInitialBtn(true);
@@ -219,9 +189,9 @@ const LeaveScreen = () => {
     async function fetchData() {
       try {
         const res = await axios.get(`${subURL}/LeaveReg/${StudentRegNo}/`);
-        console.log(res.data);
 
         setData(res.data);
+        setFilteredData(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -233,7 +203,6 @@ const LeaveScreen = () => {
     USERNAME = await AsyncStorage.getItem("UserName");
     USERROLE = await AsyncStorage.getItem("datagroup");
     USERID = await AsyncStorage.getItem("key");
-    // console.log("this is the username from aysnc", USERNAME);
 
     if (USERNAME !== null) {
       setUser(USERNAME);
@@ -287,21 +256,18 @@ const LeaveScreen = () => {
     if (event.type == "set") {
       setFromText(fDate);
     } else {
-      //cancel button clicked
     }
-
-    //console.log(fDate);
   };
 
   const toDateChangeHandler = (event, selectedToDate) => {
     const currentToDate = selectedToDate;
     TODATE = selectedToDate;
-    console.log("to date inside function:", TODATE);
+
     setToShow(Platform.OS === "ios");
     setToDate(currentToDate);
 
     let tempToDate = new Date(currentToDate);
-    console.log(tempToDate);
+
     let tDate =
       tempToDate.getDate() +
       "/" +
@@ -312,50 +278,29 @@ const LeaveScreen = () => {
     if (event.type == "set") {
       setToText(tDate);
     } else {
-      //cancel button clicked
     }
-    // console.log(fDate);
+
     TODATE = selectedToDate;
   };
 
   function frmDateHandler(enteredValue) {
-    // setFromText(enteredValue);
-    // setEnteredFromDate(enteredValue);
     setFromDate(enteredValue);
     setenteredfrmdate(enteredValue);
   }
   function toDateHandler(enteredValue) {
-    // setToText(enteredValue);
     setToDate(enteredValue);
     setenteredtodate(enteredValue);
   }
 
   function frmDateHandler(enteredValue) {
-    // setFromText(enteredValue);
-    // setEnteredFromDate(enteredValue);
     setFromDate(enteredValue);
     setenteredfrmdate(enteredValue);
   }
   function toDateHandler(enteredValue) {
-    // setToText(enteredValue);
     setToDate(enteredValue);
     setenteredtodate(enteredValue);
   }
 
-  function leaveTypeChangeHandler(enteredValue) {
-    setEnteredLeaveType(enteredValue);
-  }
-  function emailChangeHandler(enteredValue) {
-    setEnteredEmail(enteredValue);
-  }
-  function handleChange(e) {
-    if (emailRegex.test(e)) {
-      setError(null);
-    } else {
-      setError("Invalid email");
-    }
-    setEnteredEmail(e);
-  }
   function leaveReasonChangeHandler(enteredValue) {
     setEnteredLeaveReason(enteredValue);
   }
@@ -369,8 +314,6 @@ const LeaveScreen = () => {
       email: email,
       leave_type: selected,
     };
-
-    console.log("edited" + FormData);
 
     if (
       !enteredLeaveReasonIsValid ||
@@ -393,8 +336,6 @@ const LeaveScreen = () => {
               headers: headers,
             }
           );
-
-          console.log(resLogin.data);
         } catch (error) {
           console.log(error);
         }
@@ -467,9 +408,6 @@ const LeaveScreen = () => {
       return;
     } else {
       async function storeData() {
-        console.log("post req to /leave");
-        console.log(FormData);
-        console.log(token);
         try {
           let headers = {
             "Content-Type": "application/json; charset=utf-8",
@@ -479,8 +417,6 @@ const LeaveScreen = () => {
           const resLogin = await axios.post(`${subURL}/Leave/`, FormData, {
             headers: headers,
           });
-
-          console.log("post req response -", resLogin.data);
         } catch (error) {
           console.log(error);
         }
@@ -588,13 +524,12 @@ const LeaveScreen = () => {
     setReasonLabel(false);
   }
   function showHomework() {
-    console.log("leaves");
     async function fetchData() {
       try {
         const res = await axios.get(`${subURL}/LeaveReg/${StudentRegNo}`);
-        console.log(res.data);
+
         setData(res.data);
-        // setFilteredData(res.data);
+        setFilteredData(res.data);
         setForHomeworkForm({
           color: "white",
           backgroundColor: "#1E84A4",
@@ -650,10 +585,10 @@ const LeaveScreen = () => {
 
   function deleteItem(id) {
     ID = id;
-    Alert.alert("Confirm Deletion", "You are about to delete this row!", [
+    Alert.alert("Confirm Deletion", "Are you sure you want to delete ?", [
       {
         text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
+
         style: "cancel",
       },
       {
@@ -674,16 +609,15 @@ const LeaveScreen = () => {
             headers: headers,
           }
         );
-        // const token = resLogin.data.token;
-        // const userId = resLogin.data.user_id;
       } catch (error) {
         console.log(error);
       }
       async function fetchData() {
         try {
           const res = await axios.get(`${subURL}/LeaveReg/${StudentRegNo}/`);
-          // console.log(res.data);
+
           setData(res.data);
+          setFilteredData(res.data);
         } catch (error) {
           console.log(error);
         }
@@ -700,11 +634,10 @@ const LeaveScreen = () => {
   }
 
   const searchFilter = (text) => {
-    console.log("search function");
     if (text) {
       const newData = data.filter((item) => {
-        const itemData = item.class_name
-          ? item.class_name.toUpperCase()
+        const itemData = item.leave_type
+          ? item.leave_type.toUpperCase()
           : "".toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
@@ -712,7 +645,7 @@ const LeaveScreen = () => {
       setFilteredData(newData);
       setSearchText(text);
     } else {
-      setFilteredData(homeworkData);
+      setFilteredData(data);
       setSearchText(text);
     }
   };
@@ -1244,7 +1177,7 @@ const LeaveScreen = () => {
                   { useNativeDriver: false }
                 )}
               >
-                {data.length <= 0 ? (
+                {filteredData.length <= 0 ? (
                   <View style={{ alignItems: "center", marginTop: "5%" }}>
                     <Text style={styles.msgText}>
                       No Leaves are found,
@@ -1266,7 +1199,7 @@ const LeaveScreen = () => {
                         textStyle={styles.spinnerTextStyle}
                       />
                     ) : (
-                      data.map((data, key) => (
+                      filteredData.map((data, key) => (
                         <>
                           <View>
                             <Card
