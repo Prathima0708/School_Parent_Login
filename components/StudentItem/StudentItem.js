@@ -110,6 +110,9 @@ function StudentItem({
       });
     }
   }, [myRef, loading]);
+  const handleImageLoad = () => {
+    setLoading(false);
+  };
 
   return (
     <>
@@ -135,6 +138,7 @@ function StudentItem({
                 size="lg"
                 resizeMode="contain"
                 ref={myRef}
+               // onLoad={handleImageLoad}
               />
             )}
           </View>

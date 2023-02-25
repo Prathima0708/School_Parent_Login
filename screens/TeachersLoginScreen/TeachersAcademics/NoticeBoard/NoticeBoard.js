@@ -92,7 +92,7 @@ const NoticeBoard = ({
               color="coolGray.800"
               alignSelf="flex-start"
             >
-              {moment(modifiedDate).format("LT")}
+              {moment(modifiedDate).format('Do MMM h:mm a')}
             </Text>
           </HStack>
         </Box>

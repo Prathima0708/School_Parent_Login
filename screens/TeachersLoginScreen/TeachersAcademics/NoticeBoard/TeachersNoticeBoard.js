@@ -51,10 +51,19 @@ const TeachersNoticeBoard = () => {
           today.getDate() + (6 - today.getDay())
         );
 
+        // const filteredData = filtredRes.filter((item) => {
+        //   const itemDate = new Date(item.startdate);
+        //   return itemDate >= currentWeekStart && itemDate <= currentWeekEnd;
+        // });
         const filteredData = filtredRes.filter((item) => {
           const itemDate = new Date(item.startdate);
-          return itemDate >= currentWeekStart && itemDate <= currentWeekEnd;
+          return (
+            (itemDate >= currentWeekStart && itemDate <= currentWeekEnd) ||
+            itemDate.toDateString() === today.toDateString()
+          );
         });
+
+        console.log("filtered data",filteredData)
 
         arr = filteredData;
 
@@ -67,6 +76,7 @@ const TeachersNoticeBoard = () => {
 
         arr.sort(dateComparison);
         setData(arr);
+        
       } catch (error) {
         console.log(error);
       }

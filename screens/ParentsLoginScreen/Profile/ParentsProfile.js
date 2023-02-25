@@ -111,7 +111,7 @@ const ParentsProfile = () => {
                   <Text style={[styles.description]}>Name</Text>
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Text style={[styles.textStyleStudInfo]}>{StudentName}</Text>
+                  <Text style={[styles.textStyleStudInfo]}>{StudentName.charAt(0).toUpperCase() + StudentName.slice(1)}</Text>
                 </View>
               </View>
               <View
@@ -127,7 +127,7 @@ const ParentsProfile = () => {
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={[styles.textStyleStudInfo]}>
-                    {className} - {Section}
+                    {className.charAt(0).toUpperCase() + className.slice(1)} - {Section.charAt(0).toUpperCase() + Section.slice(1)}
                   </Text>
                 </View>
               </View>
@@ -222,7 +222,7 @@ const ParentsProfile = () => {
                     <Text style={styles.labelStyle}>Gender</Text>
                   </View>
                   <View style={styles.commonViewStyle}>
-                    <Text style={styles.labelStyleValue}>{Gendar}</Text>
+                    <Text style={styles.labelStyleValue}>{Gendar.charAt(0).toUpperCase() + Gendar.slice(1)}</Text>
                   </View>
                 </View>
                 <View style={[styles.viewStyle]}>
@@ -240,7 +240,7 @@ const ParentsProfile = () => {
                     <Text style={styles.labelStyle}>Student Address</Text>
                   </View>
                   <View style={styles.commonViewStyle}>
-                    <Text style={styles.labelStyleValue}>{StudentAddress}</Text>
+                    <Text style={styles.labelStyleValue}>{StudentAddress.charAt(0).toUpperCase() + StudentAddress.slice(1)}</Text>
                   </View>
                 </View>
                 <View style={[styles.viewStyle]}>
@@ -248,7 +248,7 @@ const ParentsProfile = () => {
                     <Text style={styles.labelStyle}>City</Text>
                   </View>
                   <View style={styles.commonViewStyle}>
-                    <Text style={styles.labelStyleValue}>{City}</Text>
+                    <Text style={styles.labelStyleValue}>{City.charAt(0).toUpperCase() + City.slice(1)}</Text>
                   </View>
                 </View>
 
@@ -257,7 +257,7 @@ const ParentsProfile = () => {
                     <Text style={styles.labelStyle}>State</Text>
                   </View>
                   <View style={styles.commonViewStyle}>
-                    <Text style={styles.labelStyleValue}>{State}</Text>
+                    <Text style={styles.labelStyleValue}>{State.charAt(0).toUpperCase() + State.slice(1)}</Text>
                   </View>
                 </View>
 
@@ -266,7 +266,7 @@ const ParentsProfile = () => {
                     <Text style={styles.labelStyle}>Country</Text>
                   </View>
                   <View style={styles.commonViewStyle}>
-                    <Text style={styles.labelStyleValue}>{Country}</Text>
+                    <Text style={styles.labelStyleValue}>{Country.charAt(0).toUpperCase() + Country.slice(1)}</Text>
                   </View>
                 </View>
                 <View style={[styles.viewStyle]}>
@@ -314,11 +314,11 @@ const ParentsProfile = () => {
                         >
                           <View style={{ flex: 1, right: "10%" }}>
                             <Text style={styles.labelStyle}>
-                              Father Name : {FatherName}
+                              Father Name : {FatherName.charAt(0).toUpperCase() + FatherName.slice(1)}
                             </Text>
                           </View>
                           <View style={styles.space} />
-                          <View style={{ flex: 1 }}>
+                          <View style={{ flex: 1,right:'5%' }}>
                             <Text style={styles.labelStyle}>
                               Conatct Number : {ContactNumber}{" "}
                             </Text>
@@ -346,11 +346,11 @@ const ParentsProfile = () => {
                         >
                           <View style={{ flex: 1, right: "10%" }}>
                             <Text style={styles.labelStyle}>
-                              Mother name : {MotherName}
+                              Mother name : {MotherName.charAt(0).toUpperCase() + MotherName.slice(1)}
                             </Text>
                           </View>
                           <View style={styles.space} />
-                          <View style={{ flex: 1 }}>
+                          <View style={{ flex: 1,right:'7%' }}>
                             <Text style={styles.labelStyle}>
                               Contact Number : {AlternateNumber}
                             </Text>
@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
     borderRadius: 0,
   },
   labelStyle: {
-    fontFamily: "HindSemiBold",
+    fontFamily: "HindMedium",
     fontSize: 16,
   },
   labelStyleValue: {
