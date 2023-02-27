@@ -65,26 +65,25 @@ Notifications.setNotificationHandler({
 
 async function registerForPushNotificationsAsync() {
   let token;
-  if (Device.isDevice) {
-    console.log("device is", Device.isDevice);
-    const { status: existingStatus } =
-      await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    console.log("existing status", existingStatus);
-    if (existingStatus !== "granted") {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    console.log("status is", finalStatus);
-    if (finalStatus !== "granted") {
-      alert("Failed to get push token for push notification!");
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
-  } else {
-    alert("Must use physical device for Push Notifications");
+  // if (Device.isDevice) {
+  console.log("device is", Device.isDevice);
+  const { status: existingStatus } = await Notifications.getPermissionsAsync();
+  let finalStatus = existingStatus;
+  console.log("existing status", existingStatus);
+  if (existingStatus !== "granted") {
+    const { status } = await Notifications.requestPermissionsAsync();
+    finalStatus = status;
   }
+  console.log("status is", finalStatus);
+  if (finalStatus !== "granted") {
+    alert("Failed to get push token for push notification!");
+    return;
+  }
+  token = (await Notifications.getExpoPushTokenAsync()).data;
+  console.log(token);
+  // } else {
+  //   alert("Must use physical device for Push Notifications");
+  // }
 
   if (Platform.OS === "android") {
     Notifications.setNotificationChannelAsync("custom", {
