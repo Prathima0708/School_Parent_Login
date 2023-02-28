@@ -280,10 +280,27 @@ const TeachersCalendar = () => {
       }
     );
 
-    new Date(specificData.startdate) >= new Date() ||
-      (new Date(specificData.startdate).toDateString() ===
-        new Date().toDateString() &&
-        updateDataTeacher());
+    // new Date(specificData.startdate) >= new Date() ||
+    //   (new Date(specificData.startdate).toDateString() ===
+    //     new Date().toDateString() &&
+    //     updateDataTeacher());
+    const DAYS_IN_ADVANCE = 30; // Change this to the number of days in advance you want to allow
+
+    const startDate = new Date(specificData.startdate);
+    const currentDate = new Date();
+
+    // Calculate the difference in days between the start date and the current date
+    const daysUntilStart = Math.floor(
+      (startDate - currentDate) / (1000 * 60 * 60 * 24)
+    );
+
+    if (
+      startDate >= currentDate ||
+      (daysUntilStart <= DAYS_IN_ADVANCE &&
+        startDate.getMonth() === currentDate.getMonth())
+    ) {
+      updateDataTeacher();
+    }
 
     const subscription2 = Notifications.addNotificationResponseReceivedListener(
       (response) => {
