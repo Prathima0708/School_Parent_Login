@@ -7,6 +7,7 @@ import {
   Dimensions,
   Animated,
   ActivityIndicator,
+  Image,
 } from "react-native";
 import { Button as NativeButton, Icon, IconButton } from "native-base";
 import React, { useState } from "react";
@@ -42,6 +43,7 @@ let localUri, match, type, path;
 let filename;
 var newArray, TOKEN, USERNAME;
 var KEY, VALUE, SUBJECTVALUE, SUBJECTKEY;
+var FORMDATA;
 
 const TeacherHomeworkScreenBuild = () => {
   const scrollY = new Animated.Value(0);
@@ -171,6 +173,8 @@ const TeacherHomeworkScreenBuild = () => {
   const [selectedSearch, setSelectedSearch] = useState("");
   const [studData, setStudData] = useState([]);
 
+  const [fileName, setFileName] = useState("");
+  const [fileUri, setFileUri] = useState("");
   let i = 0;
 
   useEffect(() => {
@@ -250,6 +254,53 @@ const TeacherHomeworkScreenBuild = () => {
     return blob;
   };
 
+  // const PickImage = async () => {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.All,
+  //     allowsEditing: true,
+  //     aspect: [4, 3],
+  //     quality: 1,
+  //   });
+
+  //   const source = { uri: result.uri };
+  //   const fileName = result.uri.split("/").pop();
+
+  //   const blob = await imageToBlob(source.uri);
+  //   const myFile = new File([blob], fileName, { type: result.type });
+
+  //   if (!result.cancelled) {
+  //     setImage(myFile);
+  //   }
+
+  //   const localUri = result.uri;
+  //   filename = localUri.split("/").pop();
+  //   path = FileSystem.documentDirectory + filename;
+
+  //   match = /\.(\w+)$/.exec(filename);
+  //   type = match ? `image/${match[1]}` : `image`;
+  // };
+
+  // const PickImage = async () => {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.All,
+  //     allowsEditing: true,
+  //     aspect: [4, 3],
+  //     quality: 1,
+  //   });
+
+  //   console.log(result);
+
+  //   if (!result.cancelled) {
+  //     setImage(result.uri);
+  //     FORMDATA = new FormData();
+  //     FORMDATA.append("homework_photo", {
+  //       uri: result.uri,
+  //       name: result.uri.split("/").pop(),
+  //       type: "image/jpeg",
+  //     });
+  //   }
+  // };
+
   const PickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -258,25 +309,17 @@ const TeacherHomeworkScreenBuild = () => {
       quality: 1,
     });
 
-    const source = { uri: result.uri };
-    const fileName = result.uri.split("/").pop();
-
-    const blob = await imageToBlob(source.uri);
-    const myFile = new File([blob], fileName, { type: result.type });
-
-    location = result.uri;
     if (!result.cancelled) {
-      setImage(myFile);
+      setImage(result.uri);
+      setFileName(result.uri.split("/").pop());
+      setFileUri(result.uri);
     }
-
-    localUri = result.uri;
-    filename = localUri.split("/").pop();
-    path = FileSystem.documentDirectory + filename;
-
-    match = /\.(\w+)$/.exec(filename);
-    type = match ? `image/${match[1]}` : `image`;
   };
+
   let imagePreView;
+  if (image) {
+    imagePreView = <Image style={styles.image} source={{ uri: image }} />;
+  }
 
   useEffect(() => {
     async function fetchStudentClass() {
@@ -480,7 +523,7 @@ const TeacherHomeworkScreenBuild = () => {
       setShowInitialBtn(true);
     }
   }
-  function buttonPressedHandler() {
+  async function buttonPressedHandler() {
     setEnteredSelectedTouched(true);
     setEnteredSelectedSubTouched(true);
     setEnteredFromDateTouched(true);
@@ -488,19 +531,45 @@ const TeacherHomeworkScreenBuild = () => {
     setEnteredRemarkTouched(true);
     setEnteredHomeWorkTouched(true);
 
-    let filteredlist = newArray.filter((ele) => ele.key == selected);
+    let filteredlist = newArray?.filter((ele) => ele.key == selected);
+    // const formData = new FormData();
+    // formData.append("class_name", filteredlist[0]?.classname);
+    // formData.append("section", filteredlist[0]?.section);
+    // formData.append("subject", selectedSubject);
+    // formData.append("homework_date", new Date(FROMDATE).toISOString());
+    // formData.append("remark", remark);
+    // formData.append("homework_photo", {
+    //   uri: fileUri,
+    //   type: "image/jpeg",
+    //   name: fileName,
+    // });
+    // formData.append("homework", "");
+    // formData.append("due_date", new Date(TODATE).toISOString());
+    // formData.append("description", hw);
 
-    var formData = {
-      class_name: filteredlist[0]?.classname,
-      section: filteredlist[0]?.section,
-      subject: selectedSubject,
-      homework_date: FROMDATE,
-      remark: remark,
+    // try {
+    //   const response = await axios.post(`${subURL}/Homework/`, formData, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //       Authorization: "Token " + `${token}`,
+    //     },
+    //   });
+    //   console.log(response.data);
+    // } catch (error) {
+    //   console.log(error);
+    // }
 
-      homework: "",
-      due_date: TODATE,
-      description: hw,
-    };
+    // var formData = {
+    //   class_name: filteredlist[0]?.classname,
+    //   section: filteredlist[0]?.section,
+    //   subject: selectedSubject,
+    //   homework_date: FROMDATE,
+    //   remark: remark,
+    //   homework_photo: file.name,
+    //   homework: "",
+    //   due_date: TODATE,
+    //   description: hw,
+    // };
 
     if (
       !enteredSelcetdIsValid ||
@@ -517,8 +586,23 @@ const TeacherHomeworkScreenBuild = () => {
       try {
         let headers = {
           "Content-Type": "multipart/form-data",
+
           Authorization: "Token " + `${token}`,
         };
+        const formData = new FormData();
+        formData.append("class_name", filteredlist[0]?.classname);
+        formData.append("section", filteredlist[0]?.section);
+        formData.append("subject", selectedSubject);
+        formData.append("homework_date", new Date(FROMDATE).toISOString());
+        formData.append("remark", remark);
+        formData.append("homework_photo", {
+          uri: fileUri,
+          type: "image/jpeg",
+          name: fileName,
+        });
+        formData.append("homework", "");
+        formData.append("due_date", new Date(TODATE).toISOString());
+        formData.append("description", hw);
 
         await axios
           .post(`${subURL}/Homework/`, formData, {
@@ -1052,7 +1136,7 @@ const TeacherHomeworkScreenBuild = () => {
                 )}
               </View>
 
-              {/* <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: "row" }}>
                 <View style={styles.uploadImgBtn}>
                   <NativeButton
                     backgroundColor="#1E84A4"
@@ -1086,9 +1170,8 @@ const TeacherHomeworkScreenBuild = () => {
                       No image taken yet
                     </Text>
                   )}
-              
                 </View>
-              </View> */}
+              </View>
               <View
                 // style={
                 //   imageInputIsInValid ? styles.imageError : styles.imagePreView
@@ -1716,7 +1799,7 @@ const styles = StyleSheet.create({
     left: deviceWidth < 370 ? 20 : 30,
   },
   upHomework: {
-    top: deviceWidth < 370 ? 15 : 50,
+    top: deviceWidth < 370 ? 15 : 29,
     left: deviceWidth < 370 ? 20 : 30,
     width: deviceWidth > 400 ? 100 : 95,
     zIndex: 100,
