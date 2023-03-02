@@ -33,7 +33,7 @@ import { Card } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
-import { subURL } from "../../../../components/utils/URL's";
+import { mainURL, subURL } from "../../../../components/utils/URL's";
 import * as FileSystem from "expo-file-system";
 
 var ID;
@@ -146,6 +146,8 @@ const TeacherHomeworkScreenBuild = () => {
   const toDateInputIsInValid = !enteredtoDateIsValid && enteredtoDateTouched;
 
   const [image, setImage] = useState(null);
+  const [imageEditMode, setImageEditMode] = useState(null);
+
   const [enteredImageTouched, setEnteredImageTouched] = useState(false);
 
   const [filteredData, setFilteredData] = useState([]);
@@ -175,6 +177,7 @@ const TeacherHomeworkScreenBuild = () => {
 
   const [fileName, setFileName] = useState("");
   const [fileUri, setFileUri] = useState("");
+  const [imageEdit, setImageEdit] = useState(false);
   let i = 0;
 
   useEffect(() => {
@@ -444,22 +447,105 @@ const TeacherHomeworkScreenBuild = () => {
     setHW(enteredValue);
   }
 
+  // function updateHandler() {
+  //   let filteredlist = newArray.filter((ele) => ele.key == selected);
+
+  //   let uploaduri = image;
+
+  //   const formdata = {
+  //     class_name: filteredlist[0].classname,
+  //     section: filteredlist[0].section,
+
+  //     subject:
+  //       selected.toString() == selectedSubject ? SUBJECTVALUE : selectedSubject,
+  //     homework_date: FROMDATE,
+  //     remark: remark,
+
+  //     due_date: TODATE,
+  //   };
+
+  //   if (
+  //     !enteredSelcetdIsValid ||
+  //     !enteredSelcetdSubIsValid ||
+  //     !enteredFromDateIsValid ||
+  //     !enteredtoDateIsValid ||
+  //     !enteredHomeWorkIsValid ||
+  //     !enteredRemarkIsValid
+  //   ) {
+  //     Alert.alert("Please enter all fields");
+  //   } else {
+  //     async function updateData() {
+  //       try {
+  //         let headers = {
+  //           "Content-Type": "application/json; charset=utf-8",
+  //         };
+
+  //         await axios
+  //           .patch(`${subURL}/Homework/${ID}/`, formdata, { headers: headers })
+  //           .then((res) => {
+  //             if (res.status === 200) {
+  //               Alert.alert("Successfully updated", "", [
+  //                 {
+  //                   text: "OK",
+  //                   onPress: () => {},
+  //                 },
+  //               ]);
+  //               setLoading(true);
+  //               setTimeout(() => {
+  //                 setLoading(false);
+  //               }, 2000);
+  //             }
+  //           });
+  //       } catch (error) {
+  //         console.log(error);
+  //       }
+  //     }
+
+  //     updateData();
+
+  //     async function fetchData() {
+  //       try {
+  //         const res = await axios.get(`${subURL}/Homework/`);
+  //         setHomeworkData(res.data);
+  //         setFilteredData(res.data);
+  //       } catch (error) {
+  //         console.log(error);
+  //       }
+  //     }
+  //     fetchData();
+
+  //     setEnteredSubject("");
+  //     setFromText("");
+  //     setToText("");
+  //     setPickedImage("");
+  //     setEnteredRemark("");
+  //     setHW("");
+  //     setShowForm(false);
+  //     setShowList(true);
+
+  //     setShowInitialBtn(true);
+  //   }
+  // }
+
   function updateHandler() {
     let filteredlist = newArray.filter((ele) => ele.key == selected);
-
     let uploaduri = image;
 
-    const formdata = {
-      class_name: filteredlist[0].classname,
-      section: filteredlist[0].section,
-
-      subject:
-        selected.toString() == selectedSubject ? SUBJECTVALUE : selectedSubject,
-      homework_date: FROMDATE,
-      remark: remark,
-
-      due_date: TODATE,
-    };
+    const formdata = new FormData();
+    formdata.append("class_name", filteredlist[0].classname);
+    formdata.append("section", filteredlist[0].section);
+    formdata.append(
+      "subject",
+      selected.toString() == selectedSubject ? SUBJECTVALUE : selectedSubject
+    );
+    formdata.append("homework_date", FROMDATE);
+    formdata.append("remark", remark);
+    // formData.append("homework_photo", {
+    //   uri: fileUri,
+    //   type: "image/jpeg",
+    //   name: fileName,
+    // });
+    formdata.append("due_date", TODATE);
 
     if (
       !enteredSelcetdIsValid ||
@@ -473,9 +559,18 @@ const TeacherHomeworkScreenBuild = () => {
     } else {
       async function updateData() {
         try {
-          let headers = {
-            "Content-Type": "application/json; charset=utf-8",
+          const headers = {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Token ${token}`,
           };
+
+          if (image) {
+            formdata.append("homework_photo", {
+              uri: image.uri,
+              type: image.type,
+              name: image.fileName || "homework_photo.jpg",
+            });
+          }
 
           await axios
             .patch(`${subURL}/Homework/${ID}/`, formdata, { headers: headers })
@@ -523,6 +618,7 @@ const TeacherHomeworkScreenBuild = () => {
       setShowInitialBtn(true);
     }
   }
+
   async function buttonPressedHandler() {
     setEnteredSelectedTouched(true);
     setEnteredSelectedSubTouched(true);
@@ -717,6 +813,7 @@ const TeacherHomeworkScreenBuild = () => {
 
     setRemarkLabel(true);
     setHomeworkLabel(true);
+    setImageEdit(true);
     setShowInitialBtn(false);
 
     const filteredDummuyData = homeworkData.find((data) => data.id == id);
@@ -738,6 +835,12 @@ const TeacherHomeworkScreenBuild = () => {
 
     setEnteredRemark(filteredDummuyData.remark);
     setHW(filteredDummuyData.description);
+    //setImage(filteredDummuyData.homework_photo);
+    const str = filteredDummuyData.homework_photo;
+    const parts = str.split("/");
+    const fileName = parts[2];
+
+    setImageEditMode(filteredDummuyData.homework_photo);
 
     setForHomeworkList({
       backgroundColor: "#F4F6F6",
@@ -753,6 +856,14 @@ const TeacherHomeworkScreenBuild = () => {
     setShowList(false);
     setIsEdit(true);
   }
+  let editImagePreview;
+
+  editImagePreview = (
+    <Image
+      style={styles.image}
+      source={{ uri: `${mainURL}${imageEditMode}` }}
+    />
+  );
 
   function deleteItem(id) {
     Alert.alert("Confirm Deletion", "Are you sure you want to delete ?", [
@@ -1159,7 +1270,8 @@ const TeacherHomeworkScreenBuild = () => {
                       Upload Image
                     </Text>
                   </NativeButton>
-                  {!image && (
+
+                  {!image && !imageEdit && (
                     <Text
                       style={
                         imageInputIsInValid
@@ -1172,14 +1284,18 @@ const TeacherHomeworkScreenBuild = () => {
                   )}
                 </View>
               </View>
-              <View
-                // style={
-                //   imageInputIsInValid ? styles.imageError : styles.imagePreView
-                // }
-                style={image ? styles.imagePreView : styles.noImage}
-              >
-                {imagePreView}
-              </View>
+
+              {!imageEdit && (
+                <View style={image ? styles.imagePreView : styles.noImage}>
+                  {imagePreView}
+                </View>
+              )}
+              {imageEdit && (
+                <View style={image ? styles.imagePreView : styles.noImage}>
+                  {editImagePreview}
+                </View>
+              )}
+
               {imageInputIsInValid && (
                 <Text style={styles.errorText}>
                   Please upload or take homework image
