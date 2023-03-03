@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/logo512.png",
     "userInterfaceStyle": "light",
+  
     "splash": {
       "image": "./assets/images/Kinarascreenlogo3.png",
       "resizeMode": "contain",

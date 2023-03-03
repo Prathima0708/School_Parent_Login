@@ -316,6 +316,7 @@ const TeacherHomeworkScreenBuild = () => {
       setImage(result.uri);
       setFileName(result.uri.split("/").pop());
       setFileUri(result.uri);
+      imageEdit && setImageEditMode(result.uri);
     }
   };
 
@@ -323,6 +324,17 @@ const TeacherHomeworkScreenBuild = () => {
   if (image) {
     imagePreView = <Image style={styles.image} source={{ uri: image }} />;
   }
+
+  // if (imageEditMode) {
+  //   editImagePreview = (
+  //     <Image style={styles.image} source={{ uri: imageEditMode }} />
+  //   );
+  // } else if (image) {
+  //   imagePreView = <Image style={styles.image} source={{ uri: image }} />;
+  // } else {
+  //   editImagePreview = null;
+  //   imagePreView = null;
+  // }
 
   useEffect(() => {
     async function fetchStudentClass() {
@@ -449,15 +461,17 @@ const TeacherHomeworkScreenBuild = () => {
 
   // function updateHandler() {
   //   let filteredlist = newArray.filter((ele) => ele.key == selected);
+  //   console.log(selected, selected.toString());
+  //   console.log(selectedSubject);
 
-  //   let uploaduri = image;
-
+  //   console.log(SUBJECTVALUE);
   //   const formdata = {
-  //     class_name: filteredlist[0].classname,
-  //     section: filteredlist[0].section,
+  //     class_name: filteredlist[0]?.classname,
+  //     section: filteredlist[0]?.section,
 
   //     subject:
   //       selected.toString() == selectedSubject ? SUBJECTVALUE : selectedSubject,
+
   //     homework_date: FROMDATE,
   //     remark: remark,
 
@@ -487,7 +501,7 @@ const TeacherHomeworkScreenBuild = () => {
   //               Alert.alert("Successfully updated", "", [
   //                 {
   //                   text: "OK",
-  //                   onPress: () => {},
+  //                   onPress: () => fetchData(),
   //                 },
   //               ]);
   //               setLoading(true);
@@ -528,95 +542,101 @@ const TeacherHomeworkScreenBuild = () => {
   // }
 
   function updateHandler() {
-    let filteredlist = newArray.filter((ele) => ele.key == selected);
-    let uploaduri = image;
+    console.log("id is ", ID);
+    let filteredlist = newArray?.filter((ele) => ele.key == selected);
+    console.log(selected);
 
     const formdata = new FormData();
-    formdata.append("class_name", filteredlist[0].classname);
-    formdata.append("section", filteredlist[0].section);
+    formdata.append("class_name", filteredlist[0]?.classname);
+    formdata.append("section", filteredlist[0]?.section);
     formdata.append(
       "subject",
       selected.toString() == selectedSubject ? SUBJECTVALUE : selectedSubject
     );
-    formdata.append("homework_date", FROMDATE);
-    formdata.append("remark", remark);
-    // formData.append("homework_photo", {
-    //   uri: fileUri,
-    //   type: "image/jpeg",
-    //   name: fileName,
-    // });
-    formdata.append("due_date", TODATE);
-
-    if (
-      !enteredSelcetdIsValid ||
-      !enteredSelcetdSubIsValid ||
-      !enteredFromDateIsValid ||
-      !enteredtoDateIsValid ||
-      !enteredHomeWorkIsValid ||
-      !enteredRemarkIsValid
-    ) {
-      Alert.alert("Please enter all fields");
-    } else {
-      async function updateData() {
-        try {
-          const headers = {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Token ${token}`,
-          };
-
-          if (image) {
-            formdata.append("homework_photo", {
-              uri: image.uri,
-              type: image.type,
-              name: image.fileName || "homework_photo.jpg",
-            });
-          }
-
-          await axios
-            .patch(`${subURL}/Homework/${ID}/`, formdata, { headers: headers })
-            .then((res) => {
-              if (res.status === 200) {
-                Alert.alert("Successfully updated", "", [
-                  {
-                    text: "OK",
-                    onPress: () => {},
-                  },
-                ]);
-                setLoading(true);
-                setTimeout(() => {
-                  setLoading(false);
-                }, 2000);
-              }
-            });
-        } catch (error) {
-          console.log(error);
-        }
-      }
-
-      updateData();
-
-      async function fetchData() {
-        try {
-          const res = await axios.get(`${subURL}/Homework/`);
-          setHomeworkData(res.data);
-          setFilteredData(res.data);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-      fetchData();
-
-      setEnteredSubject("");
-      setFromText("");
-      setToText("");
-      setPickedImage("");
-      setEnteredRemark("");
-      setHW("");
-      setShowForm(false);
-      setShowList(true);
-
-      setShowInitialBtn(true);
+    if (!isNaN(Date.parse(FROMDATE))) {
+      formdata.append("homework_date", new Date(FROMDATE).toISOString());
     }
+    formdata.append("remark", remark);
+    formdata.append("homework_photo", {
+      uri: fileUri,
+      type: "image/jpeg",
+      name: fileName,
+    });
+    if (!isNaN(Date.parse(TODATE))) {
+      formdata.append("due_date", new Date(TODATE).toISOString());
+    }
+
+    // if (
+    //   !enteredSelcetdIsValid ||
+    //   !enteredSelcetdSubIsValid ||
+    //   !enteredFromDateIsValid ||
+    //   !enteredtoDateIsValid ||
+    //   !enteredHomeWorkIsValid ||
+    //   !enteredRemarkIsValid
+    // ) {
+    //   Alert.alert("Please enter all fields");
+    // } else {
+    async function updateData() {
+      try {
+        const headers = {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Token ${token}`,
+        };
+        console.log(formdata);
+        // if (image) {
+        //   formdata.append("homework_photo", {
+        //     uri: image.uri,
+        //     type: image.type,
+        //     name: image.fileName || "homework_photo.jpg",
+        //   });
+        // }
+
+        await axios
+          .patch(`${subURL}/Homework/${ID}/`, formdata, { headers: headers })
+          .then((res) => {
+            console.log("inside update fun");
+            if (res.status === 200) {
+              Alert.alert("Successfully updated", "", [
+                {
+                  text: "OK",
+                  onPress: () => {},
+                },
+              ]);
+              setLoading(true);
+              setTimeout(() => {
+                setLoading(false);
+              }, 2000);
+            }
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    updateData();
+
+    async function fetchData() {
+      try {
+        const res = await axios.get(`${subURL}/Homework/`);
+        setHomeworkData(res.data);
+        setFilteredData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+
+    setEnteredSubject("");
+    setFromText("");
+    setToText("");
+    setPickedImage("");
+    setEnteredRemark("");
+    setHW("");
+    setShowForm(false);
+    setShowList(true);
+
+    setShowInitialBtn(true);
+    // }
   }
 
   async function buttonPressedHandler() {
@@ -826,9 +846,10 @@ const TeacherHomeworkScreenBuild = () => {
       filteredDummuyData.section;
 
     let filteredlistC = newArray.filter((ele) => ele.value == VALUE);
-    KEY = filteredlistC[0].key;
+    KEY = filteredlistC[0]?.key;
 
     SUBJECTVALUE = filteredDummuyData.subject;
+    console.log(SUBJECTVALUE);
 
     setFromText(moment(filteredDummuyData.homework_date).format("DD/MM/YYYY"));
     setToText(moment(filteredDummuyData.due_date).format("DD/MM/YYYY"));
@@ -1078,7 +1099,7 @@ const TeacherHomeworkScreenBuild = () => {
                       key: String(KEY),
                       value: String(SUBJECTVALUE),
                     }}
-                    save="value"
+                    save="key"
                   />
                   {selectInputIsInValid ? (
                     <Text style={[styles.errorText, { top: 10, left: 10 }]}>
@@ -1285,13 +1306,16 @@ const TeacherHomeworkScreenBuild = () => {
                 </View>
               </View>
 
-              {!imageEdit && (
-                <View style={image ? styles.imagePreView : styles.noImage}>
-                  {imagePreView}
-                </View>
-              )}
+              {/* {!imageEdit && ( */}
+              <View style={image ? styles.imagePreView : styles.noImage}>
+                {imagePreView}
+              </View>
+              {/* )} */}
+
               {imageEdit && (
-                <View style={image ? styles.imagePreView : styles.noImage}>
+                <View
+                  style={imageEditMode ? styles.imagePreView : styles.noImage}
+                >
                   {editImagePreview}
                 </View>
               )}

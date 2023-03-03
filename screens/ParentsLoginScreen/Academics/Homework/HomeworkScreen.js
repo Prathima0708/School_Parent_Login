@@ -53,7 +53,7 @@ const HomeworkScreen = () => {
     }
     fetchData();
   }, []);
-  
+
   return (
     <>
       <View
@@ -80,10 +80,16 @@ const HomeworkScreen = () => {
                               styles.subDesign,
                             ]}
                           >
-                            <View style={{ flex: 2,marginLeft:'5%' }}>
+                            <View style={{ flex: 2, marginLeft: "5%" }}>
                               <Text style={styles.labelStyle}>Subject</Text>
                             </View>
-                            <View style={{ flex: 5 ,alignItems:'flex-end',marginRight:'16%'}}>
+                            <View
+                              style={{
+                                flex: 5,
+                                alignItems: "flex-end",
+                                marginRight: "16%",
+                              }}
+                            >
                               <Text style={styles.textStyle}>
                                 {item.subject}
                               </Text>
@@ -175,10 +181,8 @@ const HomeworkScreen = () => {
                               </Text>
                             </View>
                           </View>
-                          {/* <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
-                            <View style={{ flex: 6 }}>
-                             
-                            </View>
+                          <View style={[{ flex: 1 }, { flexDirection: "row" }]}>
+                            <View style={{ flex: 6 }}></View>
                             <View style={{ flex: 1, right: "75%" }}>
                               <IconButton
                                 colorScheme="blue"
@@ -196,7 +200,7 @@ const HomeworkScreen = () => {
                                 }}
                               />
                             </View>
-                          </View> */}
+                          </View>
                         </Card.Content>
                       </Card>
                     );
@@ -309,4 +313,3 @@ const styles = StyleSheet.create({
     color: "#6B0202",
   },
 });
-
