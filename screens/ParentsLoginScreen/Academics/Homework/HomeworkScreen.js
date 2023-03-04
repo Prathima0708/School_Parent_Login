@@ -108,7 +108,7 @@ const HomeworkScreen = () => {
       Toast.show({
         type: 'info',
         text1: 'File Downloaded',
-        visibilityTime: 1000,
+        visibilityTime: 2000,
       });
       console.log("File saved to camera roll");
     } catch (error) {
