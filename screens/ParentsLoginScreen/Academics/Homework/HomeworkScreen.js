@@ -8,7 +8,7 @@ import {
   Dimensions,
   ToastAndroid,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Notifications } from 'expo';
 import {
@@ -30,6 +30,7 @@ import { mainURL, subURL } from "../../../../components/utils/URL's";
 import * as MediaLibrary from 'expo-media-library';
 import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
+import Toast from 'react-native-toast-message';
 
 const HomeworkScreen = () => {
   const [data, setData] = useState([]);
@@ -39,6 +40,7 @@ const HomeworkScreen = () => {
 
   const [onlyImg,setOnlyImg]=useState()
   const [saveUri,setSaveUri]=useState(``);
+  const ref=useRef();
 
   const openModal = (placement, id, img) => {
     setOnlyImg(img.split("/images/")[1])
@@ -102,12 +104,19 @@ const HomeworkScreen = () => {
       } else {
         await MediaLibrary.createAlbumAsync("Download", asset, false);
       }
-      ToastAndroid.show('Image downloaded!', ToastAndroid.SHORT);
+      ToastAndroid.show('File downloaded!', ToastAndroid.SHORT);
+      Toast.show({
+        type: 'info',
+        text1: 'File Downloaded',
+        visibilityTime: 1000,
+      });
+      console.log("File saved to camera roll");
     } catch (error) {
       console.error(error);
     }
   }
   
+
   return (
     <>
       <View
@@ -302,6 +311,7 @@ const HomeworkScreen = () => {
             </Modal.Footer>
           </Modal.Content>
         </Modal>
+        <Toast ref={(ref) => Toast.setRef(ref)} />
         <View style={{ flex: 1 }}>
           <ParentsHome />
         </View>
