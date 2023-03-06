@@ -442,67 +442,127 @@
 
 // export default TeachersTransport;
 
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text } from "react-native";
+// import React, { useState, useEffect } from "react";
+// import { StyleSheet, View, Text } from "react-native";
+// import MapView, { Marker } from "react-native-maps";
+// import * as Location from "expo-location";
+
+// function TeachersTransport() {
+//   const [location, setLocation] = useState(null);
+//   const [errorMsg, setErrorMsg] = useState(null);
+//   const [subscription, setSubscription] = useState(null);
+
+//   useEffect(() => {
+//     (async () => {
+//       let { status } = await Location.requestBackgroundPermissionsAsync();
+//       if (status !== "granted") {
+//         setErrorMsg("Permission to access location was denied");
+//         return;
+//       }
+
+//       let sub = await Location.watchPositionAsync(
+//         { accuracy: Location.Accuracy.High, timeInterval: 1000 },
+//         (location) => {
+//           setLocation(location.coords);
+//         }
+//       );
+
+//       setSubscription(sub);
+//     })();
+
+//     return () => {
+//       if (subscription) {
+//         subscription.remove();
+//         setSubscription(null);
+//       }
+//     };
+//   }, []);
+
+//   let marker = null;
+//   if (location) {
+//     marker = <Marker coordinate={location} />;
+//   }
+
+//   return (
+//     <View style={styles.container}>
+//       <MapView
+//         style={styles.map}
+//         region={{ ...location, latitudeDelta: 0.01, longitudeDelta: 0.01 }}
+//       >
+//         {marker}
+//       </MapView>
+//       {errorMsg && <Text>{errorMsg}</Text>}
+//     </View>
+//   );
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//   },
+//   map: {
+//     flex: 1,
+//   },
+// });
+
+// export default TeachersTransport;
+
+import { View, Text, StyleSheet } from "react-native";
+import React, { useRef, useState } from "react";
 import MapView, { Marker } from "react-native-maps";
-import * as Location from "expo-location";
+import MapViewDirections from "react-native-maps-directions";
 
-function TeachersTransport() {
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-  const [subscription, setSubscription] = useState(null);
-
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestBackgroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
-
-      let sub = await Location.watchPositionAsync(
-        { accuracy: Location.Accuracy.High, timeInterval: 1000 },
-        (location) => {
-          setLocation(location.coords);
-        }
-      );
-
-      setSubscription(sub);
-    })();
-
-    return () => {
-      if (subscription) {
-        subscription.remove();
-        setSubscription(null);
-      }
-    };
-  }, []);
-
-  let marker = null;
-  if (location) {
-    marker = <Marker coordinate={location} />;
-  }
-
+const TeachersTransport = () => {
+  const [state, setState] = useState({
+    pickUpCords: {
+      latitude: 12.9141,
+      longitude: 74.856,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    },
+    dropLocationCords: {
+      latitude: 13.3409,
+      longitude: 74.7421,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    },
+  });
+  const mapRef = useRef();
+  const { pickUpCords, dropLocationCords } = state;
   return (
-    <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        region={{ ...location, latitudeDelta: 0.01, longitudeDelta: 0.01 }}
-      >
-        {marker}
-      </MapView>
-      {errorMsg && <Text>{errorMsg}</Text>}
-    </View>
+    <MapView
+      style={StyleSheet.absoluteFill}
+      initialRegion={pickUpCords}
+      ref={mapRef}
+    >
+      <Marker coordinate={pickUpCords} />
+      <Marker coordinate={dropLocationCords} />
+      <MapViewDirections
+        origin={pickUpCords}
+        destination={dropLocationCords}
+        apikey="AIzaSyAUSeU7kuqfNJ_vpxmO1rO9gEOkSGWEpgQ"
+        strokeWidth={3}
+        strokeColor="hotpink"
+        optimizeWaypoints={true}
+        onReady={(result) => {
+          mapRef.current.fitToCoordinates(result.coordinates, {
+            edgePadding: {
+              right: 30,
+              bottom: 300,
+              left: 30,
+              top: 100,
+            },
+          });
+        }}
+      />
+    </MapView>
   );
-}
+};
+
+export default TeachersTransport;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-  },
-  map: {
-    flex: 1,
+    //  flex: 1,
   },
 });
-
-export default TeachersTransport;

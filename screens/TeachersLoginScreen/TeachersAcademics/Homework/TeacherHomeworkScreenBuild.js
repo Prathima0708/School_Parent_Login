@@ -178,6 +178,8 @@ const TeacherHomeworkScreenBuild = () => {
   const [fileName, setFileName] = useState("");
   const [fileUri, setFileUri] = useState("");
   const [imageEdit, setImageEdit] = useState(false);
+
+  const [newlyEditedImage, setNewlyEditedImage] = useState(false);
   let i = 0;
 
   useEffect(() => {
@@ -316,13 +318,38 @@ const TeacherHomeworkScreenBuild = () => {
       setImage(result.uri);
       setFileName(result.uri.split("/").pop());
       setFileUri(result.uri);
-      imageEdit && setImageEditMode(result.uri);
+      setImageEditMode(result.uri);
+    }
+  };
+
+  const PickImageEdit = async () => {
+    setNewlyEditedImage(true);
+    setImageEdit(false);
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+      setFileName(result.uri.split("/").pop());
+      setFileUri(result.uri);
+      //  setImageEditMode(result.uri);
     }
   };
 
   let imagePreView;
   if (image) {
-    imagePreView = <Image style={styles.image} source={{ uri: image }} />;
+    imagePreView = (
+      <Image
+        style={styles.image}
+        source={{
+          uri: imageEdit ? `${mainURL}${image}` : !imageEdit && image,
+        }}
+      />
+    );
   }
 
   // if (imageEditMode) {
@@ -542,9 +569,7 @@ const TeacherHomeworkScreenBuild = () => {
   // }
 
   function updateHandler() {
-    console.log("id is ", ID);
     let filteredlist = newArray?.filter((ele) => ele.key == selected);
-    console.log(selected);
 
     const formdata = new FormData();
     formdata.append("class_name", filteredlist[0]?.classname);
@@ -557,86 +582,74 @@ const TeacherHomeworkScreenBuild = () => {
       formdata.append("homework_date", new Date(FROMDATE).toISOString());
     }
     formdata.append("remark", remark);
-    formdata.append("homework_photo", {
-      uri: fileUri,
-      type: "image/jpeg",
-      name: fileName,
-    });
+    if (image && fileName && fileUri) {
+      formdata.append("homework_photo", {
+        uri: fileUri,
+        type: "image/jpeg",
+        name: fileName,
+      });
+    } else {
+      console.log("Image not selected or invalid file data.");
+    }
+
     if (!isNaN(Date.parse(TODATE))) {
       formdata.append("due_date", new Date(TODATE).toISOString());
     }
+    formdata.append("description", hw);
 
-    // if (
-    //   !enteredSelcetdIsValid ||
-    //   !enteredSelcetdSubIsValid ||
-    //   !enteredFromDateIsValid ||
-    //   !enteredtoDateIsValid ||
-    //   !enteredHomeWorkIsValid ||
-    //   !enteredRemarkIsValid
-    // ) {
-    //   Alert.alert("Please enter all fields");
-    // } else {
-    async function updateData() {
-      try {
-        const headers = {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Token ${token}`,
-        };
-        console.log(formdata);
-        // if (image) {
-        //   formdata.append("homework_photo", {
-        //     uri: image.uri,
-        //     type: image.type,
-        //     name: image.fileName || "homework_photo.jpg",
-        //   });
-        // }
+    if (
+      !enteredSelcetdIsValid ||
+      !enteredSelcetdSubIsValid ||
+      !enteredFromDateIsValid ||
+      !enteredtoDateIsValid ||
+      !enteredHomeWorkIsValid ||
+      !enteredRemarkIsValid
+    ) {
+      Alert.alert("Please enter all fields");
+    } else {
+      async function updateData() {
+        try {
+          const headers = {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Token ${token}`,
+          };
+          console.log(formdata);
 
-        await axios
-          .patch(`${subURL}/Homework/${ID}/`, formdata, { headers: headers })
-          .then((res) => {
-            console.log("inside update fun");
-            if (res.status === 200) {
-              Alert.alert("Successfully updated", "", [
-                {
-                  text: "OK",
-                  onPress: () => {},
-                },
-              ]);
-              setLoading(true);
-              setTimeout(() => {
-                setLoading(false);
-              }, 2000);
-            }
-          });
-      } catch (error) {
-        console.log(error);
+          await axios
+            .patch(`${subURL}/Homework/${ID}/`, formdata, { headers: headers })
+            .then((res) => {
+              console.log("inside update fun");
+            });
+        } catch (error) {
+          console.log(error);
+        }
       }
+      updateData();
+      Alert.alert("Successfully updated", "", [
+        {
+          text: "OK",
+          onPress: () => {
+            showHomework();
+
+            setShowInitialBtn(true);
+
+            setShowList(true);
+            setShowForm(false);
+          },
+        },
+      ]);
+
+      setEnteredSubject("");
+      setFromText("");
+      setToText("");
+      setPickedImage("");
+      setEnteredRemark("");
+      setHW("");
+      setShowForm(false);
+      setShowList(true);
+
+      setShowInitialBtn(true);
     }
-
-    updateData();
-
-    async function fetchData() {
-      try {
-        const res = await axios.get(`${subURL}/Homework/`);
-        setHomeworkData(res.data);
-        setFilteredData(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchData();
-
-    setEnteredSubject("");
-    setFromText("");
-    setToText("");
-    setPickedImage("");
-    setEnteredRemark("");
-    setHW("");
-    setShowForm(false);
-    setShowList(true);
-
-    setShowInitialBtn(true);
-    // }
   }
 
   async function buttonPressedHandler() {
@@ -776,7 +789,10 @@ const TeacherHomeworkScreenBuild = () => {
     setEnteredSubject("");
     setFromText("");
     setToText("");
-    setPickedImage("");
+    setImage(null);
+
+    setFileName(null);
+    setFileUri(null);
     setEnteredRemark("");
     setHW("");
     setForHomeworkList({
@@ -804,6 +820,10 @@ const TeacherHomeworkScreenBuild = () => {
     setHomeworkLabel(false);
   }
   function showHomework() {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
     async function fetchData() {
       try {
         const res = await axios.get(`${subURL}/Homework/`);
@@ -830,7 +850,7 @@ const TeacherHomeworkScreenBuild = () => {
 
   function editItem(id) {
     ID = id;
-
+    setIsEdit(true);
     setRemarkLabel(true);
     setHomeworkLabel(true);
     setImageEdit(true);
@@ -856,12 +876,9 @@ const TeacherHomeworkScreenBuild = () => {
 
     setEnteredRemark(filteredDummuyData.remark);
     setHW(filteredDummuyData.description);
-    //setImage(filteredDummuyData.homework_photo);
-    const str = filteredDummuyData.homework_photo;
-    const parts = str.split("/");
-    const fileName = parts[2];
+    setImage(filteredDummuyData.homework_photo);
 
-    setImageEditMode(filteredDummuyData.homework_photo);
+    //setImageEditMode(filteredDummuyData.homework_photo);
 
     setForHomeworkList({
       backgroundColor: "#F4F6F6",
@@ -875,16 +892,15 @@ const TeacherHomeworkScreenBuild = () => {
     });
     setShowForm(true);
     setShowList(false);
-    setIsEdit(true);
   }
-  let editImagePreview;
+  // let editImagePreview;
 
-  editImagePreview = (
-    <Image
-      style={styles.image}
-      source={{ uri: `${mainURL}${imageEditMode}` }}
-    />
-  );
+  // editImagePreview = (
+  //   <Image
+  //     style={styles.image}
+  //     source={{ uri: `${mainURL}${imageEditMode}` }}
+  //   />
+  // );
 
   function deleteItem(id) {
     Alert.alert("Confirm Deletion", "Are you sure you want to delete ?", [
@@ -1270,29 +1286,54 @@ const TeacherHomeworkScreenBuild = () => {
 
               <View style={{ flexDirection: "row" }}>
                 <View style={styles.uploadImgBtn}>
-                  <NativeButton
-                    backgroundColor="#1E84A4"
-                    onPress={PickImage}
-                    leftIcon={
-                      <Icon
-                        as={Ionicons}
-                        name="cloud-upload-outline"
-                        size="md"
-                      />
-                    }
-                  >
-                    <Text
-                      style={{
-                        fontSize: 15,
-                        fontFamily: "HindSemiBold",
-                        color: "white",
-                      }}
+                  {!isEdit && (
+                    <NativeButton
+                      backgroundColor="#1E84A4"
+                      onPress={PickImage}
+                      leftIcon={
+                        <Icon
+                          as={Ionicons}
+                          name="cloud-upload-outline"
+                          size="md"
+                        />
+                      }
                     >
-                      Upload Image
-                    </Text>
-                  </NativeButton>
+                      <Text
+                        style={{
+                          fontSize: 15,
+                          fontFamily: "HindSemiBold",
+                          color: "white",
+                        }}
+                      >
+                        Upload Image
+                      </Text>
+                    </NativeButton>
+                  )}
+                  {isEdit && (
+                    <NativeButton
+                      backgroundColor="#1E84A4"
+                      onPress={PickImageEdit}
+                      leftIcon={
+                        <Icon
+                          as={Ionicons}
+                          name="cloud-upload-outline"
+                          size="md"
+                        />
+                      }
+                    >
+                      <Text
+                        style={{
+                          fontSize: 15,
+                          fontFamily: "HindSemiBold",
+                          color: "white",
+                        }}
+                      >
+                        Upload Image
+                      </Text>
+                    </NativeButton>
+                  )}
 
-                  {!image && !imageEdit && (
+                  {!image && (
                     <Text
                       style={
                         imageInputIsInValid
@@ -1312,13 +1353,13 @@ const TeacherHomeworkScreenBuild = () => {
               </View>
               {/* )} */}
 
-              {imageEdit && (
+              {/* {imageEdit && (
                 <View
                   style={imageEditMode ? styles.imagePreView : styles.noImage}
                 >
                   {editImagePreview}
                 </View>
-              )}
+              )} */}
 
               {imageInputIsInValid && (
                 <Text style={styles.errorText}>

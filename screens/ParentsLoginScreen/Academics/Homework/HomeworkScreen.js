@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { Notifications } from 'expo';
+import { Notifications } from "expo";
 import {
   className,
   Section,
@@ -27,10 +27,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { Card } from "react-native-paper";
 import moment from "moment";
 import { mainURL, subURL } from "../../../../components/utils/URL's";
-import * as MediaLibrary from 'expo-media-library';
-import * as FileSystem from 'expo-file-system';
-import * as Permissions from 'expo-permissions';
-import Toast from 'react-native-toast-message';
+import * as MediaLibrary from "expo-media-library";
+import * as FileSystem from "expo-file-system";
+import * as Permissions from "expo-permissions";
+// import Toast from 'react-native-toast-message';
 
 const HomeworkScreen = () => {
   const [data, setData] = useState([]);
@@ -38,13 +38,13 @@ const HomeworkScreen = () => {
   const [open, setOpen] = useState(false);
   const [saveImg, setSaveImg] = useState(``);
 
-  const [onlyImg,setOnlyImg]=useState()
-  const [saveUri,setSaveUri]=useState(``);
-  const ref=useRef();
+  const [onlyImg, setOnlyImg] = useState();
+  const [saveUri, setSaveUri] = useState(``);
+  const ref = useRef();
 
   const openModal = (placement, id, img) => {
-    setOnlyImg(img.split("/images/")[1])
-    setSaveUri(mainURL.concat(img))
+    setOnlyImg(img.split("/images/")[1]);
+    setSaveUri(mainURL.concat(img));
     setOpen(true);
     setSaveImg(img);
     setPlacement(placement);
@@ -70,11 +70,14 @@ const HomeworkScreen = () => {
     setOpen(false);
     const uri = saveUri;
     let fileUri = FileSystem.documentDirectory + onlyImg;
-    console.log(fileUri)
+    console.log(fileUri);
     try {
       const { status } = await Permissions.askAsync(Permissions.CAMERA);
       if (status === "granted") {
-        const downloadResumable = FileSystem.createDownloadResumable(uri, fileUri);
+        const downloadResumable = FileSystem.createDownloadResumable(
+          uri,
+          fileUri
+        );
         const { uri: localUri } = await downloadResumable.downloadAsync();
         saveFile(localUri);
       } else {
@@ -83,39 +86,43 @@ const HomeworkScreen = () => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   saveFile = async (fileUri) => {
     const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
 
-    if (status !== 'granted') {
-      console.error('Permission to access media library denied');
+    if (status !== "granted") {
+      console.error("Permission to access media library denied");
       return;
     }
     const options = {
-      album: '',
-      permissionText: 'Please allow this app to save the file to your media library.'
+      album: "",
+      permissionText:
+        "Please allow this app to save the file to your media library.",
     };
     try {
-      const asset = await MediaLibrary.createAssetAsync(fileUri,options);
+      const asset = await MediaLibrary.createAssetAsync(fileUri, options);
       const albumExists = await MediaLibrary.getAlbumAsync("Download");
       if (albumExists) {
-        await MediaLibrary.addAssetsToAlbumAsync([asset], albumExists.id, false);
+        await MediaLibrary.addAssetsToAlbumAsync(
+          [asset],
+          albumExists.id,
+          false
+        );
       } else {
         await MediaLibrary.createAlbumAsync("Download", asset, false);
       }
-      ToastAndroid.show('File downloaded!', ToastAndroid.SHORT);
-      Toast.show({
-        type: 'info',
-        text1: 'File Downloaded',
-        visibilityTime: 2000,
-      });
+      // ToastAndroid.show('File downloaded!', ToastAndroid.SHORT);
+      // Toast.show({
+      //   type: 'info',
+      //   text1: 'File Downloaded',
+      //   visibilityTime: 2000,
+      // });
       console.log("File saved to camera roll");
     } catch (error) {
       console.error(error);
     }
-  }
-  
+  };
 
   return (
     <>
@@ -302,16 +309,12 @@ const HomeworkScreen = () => {
             </Modal.Body>
             <Modal.Footer>
               <NativeButton.Group space={2}>
-                <NativeButton
-                  onPress={downloadFile}
-                  >
-                  Download
-                </NativeButton>
+                <NativeButton onPress={downloadFile}>Download</NativeButton>
               </NativeButton.Group>
             </Modal.Footer>
           </Modal.Content>
         </Modal>
-        <Toast ref={(ref) => Toast.setRef(ref)} />
+        {/* <Toast ref={(ref) => Toast.setRef(ref)} /> */}
         <View style={{ flex: 1 }}>
           <ParentsHome />
         </View>
