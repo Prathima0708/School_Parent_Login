@@ -110,7 +110,6 @@ const HomeworkScreen = () => {
         text1: 'File Downloaded',
         visibilityTime: 2000,
       });
-      console.log("File saved to camera roll");
     } catch (error) {
       console.error(error);
     }
