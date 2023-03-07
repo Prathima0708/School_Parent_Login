@@ -6,6 +6,7 @@ import {
   Alert,
   Dimensions,
   Animated,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 
@@ -21,7 +22,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { subURL } from "../../../components/utils/URL's";
 
-import { IconButton, Text as NativeText } from "native-base";
+import { HStack, IconButton, Text as NativeText } from "native-base";
 import BackButton from "../../../components/UI/BackButton";
 import { useNavigation } from "@react-navigation/native";
 export var ID;
@@ -54,6 +55,7 @@ const TeachersMarksheet = () => {
 
   const [empty, setEmpty] = useState(false);
   const [cancelState, setIsCancelState] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
   useLayoutEffect(() => {
     if (showForm) {
@@ -143,7 +145,7 @@ const TeachersMarksheet = () => {
   function viewStudentList() {
     setShowDefaultList(false);
     setShowForm(true);
-
+    setLoading(true);
     async function login() {
       let filteredlist = newArray.filter((ele) => ele.key == selected);
 
@@ -171,11 +173,14 @@ const TeachersMarksheet = () => {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     }
     login();
   }
   function addForm(id) {
+    setLoading(true);
     setShowAddForm(true);
 
     const filteredDummuyData = studList.find((data) => data.id == id);
@@ -208,6 +213,8 @@ const TeachersMarksheet = () => {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     }
     getData();
@@ -384,15 +391,42 @@ const TeachersMarksheet = () => {
             >
               <View style={{ flex: 8, bottom: 10 }}>
                 {filteredData.length <= 0 ? (
-                  <View style={{ alignItems: "center", top: "5%" }}>
-                    <NativeText fontSize="lg" bold color="error.900">
-                      No Data Found
-                    </NativeText>
-                  </View>
+                  loading ? (
+                    <HStack
+                      space={8}
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <ActivityIndicator
+                        size="large"
+                        visible={loading}
+                        textContent={"Loading..."}
+                      />
+                    </HStack>
+                  ) : (
+                    <View style={{ alignItems: "center", top: "5%" }}>
+                      <NativeText fontSize="lg" bold color="error.900">
+                        No Data Found
+                      </NativeText>
+                    </View>
+                  )
                 ) : (
                   <ScrollView>
                     <View style={styles.root}>
-                      {filteredData &&
+                      {loading ? (
+                        <HStack
+                          space={8}
+                          justifyContent="center"
+                          alignItems="center"
+                        >
+                          <ActivityIndicator
+                            size="large"
+                            visible={loading}
+                            textContent={"Loading..."}
+                          />
+                        </HStack>
+                      ) : (
+                        filteredData &&
                         filteredData.map((filteredData, key) => (
                           <>
                             <View style={styles.tableText}>
@@ -449,7 +483,8 @@ const TeachersMarksheet = () => {
                               </View>
                             </View>
                           </>
-                        ))}
+                        ))
+                      )}
                     </View>
                   </ScrollView>
                 )}

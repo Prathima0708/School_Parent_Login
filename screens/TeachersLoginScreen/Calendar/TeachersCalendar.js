@@ -484,9 +484,9 @@ const TeachersCalendar = () => {
 
   function buttonPressedHandler() {
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
+    // setTimeout(() => {
+    //   setLoading(false);
+    // }, 3000);
     setBtn(true);
 
     var viewOnlyData = [];
@@ -553,6 +553,8 @@ const TeachersCalendar = () => {
             });
           } catch (error) {
             console.log(error);
+          } finally {
+            setLoading(false);
           }
         }
         storeData();
@@ -674,6 +676,8 @@ const TeachersCalendar = () => {
     setCalendarViewBtnPressed(false);
   }
   function showCalendar() {
+    setLoading(true);
+
     async function fetchData() {
       try {
         const res = await axios.get(`${subURL}/Calendar/`);
@@ -682,6 +686,8 @@ const TeachersCalendar = () => {
         setFilteredData(res.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     }
     fetchData();

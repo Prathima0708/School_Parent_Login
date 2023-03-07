@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { subURL } from "../../../components/utils/URL's";
@@ -22,16 +29,14 @@ import { useRoute } from "@react-navigation/native";
 const ExamTimeTableSubjects = () => {
   const [data, setData] = useState([]);
   const [dataIsThere, setDataIsThere] = useState(false);
+  const [loading, setLoading] = useState(false);
   const route = useRoute();
 
-  //console.log("this is class name", route.params.className);
-
-  //console.log("id -", ID);
   useEffect(() => {
+    setLoading(true);
     async function viewExamList() {
       try {
         const res = await axios.get(`${subURL}/AddmoreExam_list_by_exam/${ID}`);
-        //  console.log(res.data);
 
         setData(res.data);
 
@@ -42,6 +47,8 @@ const ExamTimeTableSubjects = () => {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     }
     viewExamList();
@@ -49,229 +56,214 @@ const ExamTimeTableSubjects = () => {
 
   return (
     <>
-      
-        <View style={styles.root}>
-          {/* <View style={{alignItems:'center',marginVertical:20}}>
-                <Heading fontSize={20}>Exam Time Table</Heading>
-            </View> */}
-          <View
-            style={[
-              {
-                // Try setting `flexDirection` to `"row"`.
-                flex: 1,
-                flexDirection: "column",
-                padding: 10,
-                marginTop: "10%",
-              },
-            ]}
-          >
-            <View style={{ flex: 1 }}>
+      <View style={styles.root}>
+        <View
+          style={[
+            {
+              flex: 1,
+              flexDirection: "column",
+              padding: 10,
+              marginTop: "10%",
+            },
+          ]}
+        >
+          <View style={{ flex: 1 }}>
+            <View
+              style={[
+                {
+                  flex: 1,
+                  flexDirection: "row",
+                },
+              ]}
+            >
               <View
-                style={[
-                  {
-                    // Try setting `flexDirection` to `"row"`.
-                    flex: 1,
-                    flexDirection: "row",
-                  },
-                ]}
+                style={{ flex: 1, alignItems: "center", marginLeft: "20%" }}
               >
-                <View
-                  style={{ flex: 1, alignItems: "center", marginLeft: "20%" }}
-                >
-                  <Text style={styles.labelFont}>Class name </Text>
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={[styles.labelFontValue, {}]}>
-                    {route.params.className}
-                  </Text>
-                </View>
+                <Text style={styles.labelFont}>Class name </Text>
               </View>
-            </View>
-            <View style={{ flex: 1 }}>
-              <View
-                style={[
-                  {
-                    // Try setting `flexDirection` to `"row"`.
-                    flex: 1,
-                    flexDirection: "row",
-                  },
-                ]}
-              >
-                <View
-                  style={{ flex: 1, alignItems: "center", marginLeft: "20%" }}
-                >
-                  <Text style={styles.labelFont}>Exam name</Text>
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={[styles.labelFontValue, {}]}>
-                    {route.params.examName}
-                  </Text>
-                </View>
-              </View>
-            </View>
-            <View style={{ flex: 1 }}>
-              <View
-                style={[
-                  {
-                    // Try setting `flexDirection` to `"row"`.
-                    flex: 1,
-                    flexDirection: "row",
-                  },
-                ]}
-              >
-                <View
-                  style={{
-                    flex: 1,
-                    alignItems: "flex-start",
-                    marginLeft: "28%",
-                  }}
-                >
-                  <Text style={styles.labelFont}>Hour</Text>
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={[styles.labelFontValue, {}]}>
-                    {route.params.hour}
-                  </Text>
-                </View>
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.labelFontValue, {}]}>
+                  {route.params.className}
+                </Text>
               </View>
             </View>
           </View>
-
-          <View style={[styles.tableTopStyle]}>
-            <>
-              <View style={[{ flexDirection: "row", marginVertical: 20 }]}>
-                <View style={styles.tableHead}>
-                  <Text style={styles.headingFont}>Exam date</Text>
-                </View>
-                <View style={styles.tableHead}>
-                  <Text style={styles.headingFont}>Time</Text>
-                </View>
-                {/* <View style={styles.tableHead}>
-                      <Text style={styles.headingFont}>Hour</Text>
-                    </View> */}
-                <View style={[styles.tableHead,{right:'1%'}]}>
-                  <Text style={styles.headingFont}>Subject</Text>
-                </View>
-              </View>
+          <View style={{ flex: 1 }}>
+            <View
+              style={[
+                {
+                  flex: 1,
+                  flexDirection: "row",
+                },
+              ]}
+            >
               <View
-                style={[
-                  { flex: 1 },
-                  { flexDirection: "column", backgroundColor: "white" },
-                ]}
+                style={{ flex: 1, alignItems: "center", marginLeft: "20%" }}
               >
-                <View style={{ flex: 8, bottom: 20 }}>
-                  <ScrollView>
-                    <View style={[styles.flexrow]}>
-                      <View style={[styles.root, {}]}>
-                        {data &&
-                          data.map((data) => (
-                            <>
-                              <View
-                                style={[
-                                  styles.container,
-                                  { flexDirection: "row" },
-                                ]}
-                              >
-                                <View style={[styles.colStyle]}>
-                                  <Text
-                                    style={[
-                                      styles.tableTitle,
-                                      // { left: "" },
-                                    ]}
-                                  >
-                                    {/* {moment(data.exam_date).format(
-                                      "DD/MM/YYYY"
-                                    )} */}
-                                    {moment(data.exam_date).format(
-                                            "DD-MM-YYYY"
-                                          )}
-                                  </Text>
-                                </View>
-                              </View>
-                            </>
-                          ))}
-                      </View>
-                      <View style={[styles.root, {}]}>
-                        {data &&
-                          data.map((data) => (
-                            <>
-                              <View
-                                style={[
-                                  styles.container,
-                                  { flexDirection: "row" },
-                                ]}
-                              >
-                                <View
-                                  style={[styles.colStyle, { left: "95%" }]}
-                                >
-                                  <Text style={[styles.tableTitle]}>
-                                    {/* {moment(data.exam_time).format('hh:mm')} */}
-                                    {/* {moment(data.exam_time, "HH:mm").format(
-                                      "hh:mm "
-                                    )} */}
-                                    {moment(data.exam_time, "HH:mm").format(
-                                            "LT"
-                                          )}
-                                    {/* {data.exam_time} */}
-                                  </Text>
-                                </View>
-                              </View>
-                            </>
-                          ))}
-                      </View>
-                      {/* <View style={[styles.root, {}]}>
-                            {data &&
-                              data.map((data) => (
-                                <>
-                                  <View
-                                    style={[
-                                      styles.container,
-                                      { flexDirection: "row" },
-                                    ]}
-                                  >
-                                    <View
-                                      style={[
-                                        styles.colStyle,
-                                        // { left: "80%" },
-                                      ]}
-                                    >
-                                      <Text style={[styles.tableTitle]}>
-                                        {route.params.hour}
-                                      </Text>
-                                    </View>
-                                  </View>
-                                </>
-                              ))}
-                          </View> */}
-                      <View style={[styles.root, {right:'1%'}]}>
-                        {data &&
-                          data.map((data) => (
-                            <>
-                              <View
-                                style={[
-                                  styles.container,
-                                  { flexDirection: "row" },
-                                ]}
-                              >
-                                <View
-                                  style={[styles.colStyle, { left: "80%" }]}
-                                >
-                                  <Text style={[styles.tableTitle]}>
-                                    {data.subject}
-                                  </Text>
-                                </View>
-                              </View>
-                            </>
-                          ))}
-                      </View>
-                    </View>
-                  </ScrollView>
-                </View>
+                <Text style={styles.labelFont}>Exam name</Text>
               </View>
-            </>
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.labelFontValue, {}]}>
+                  {route.params.examName}
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View style={{ flex: 1 }}>
+            <View
+              style={[
+                {
+                  flex: 1,
+                  flexDirection: "row",
+                },
+              ]}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "flex-start",
+                  marginLeft: "28%",
+                }}
+              >
+                <Text style={styles.labelFont}>Hour</Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={[styles.labelFontValue, {}]}>
+                  {route.params.hour}
+                </Text>
+              </View>
+            </View>
           </View>
         </View>
-      
+
+        <View style={[styles.tableTopStyle]}>
+          <>
+            <View style={[{ flexDirection: "row", marginVertical: 20 }]}>
+              <View style={styles.tableHead}>
+                <Text style={styles.headingFont}>Exam date</Text>
+              </View>
+              <View style={styles.tableHead}>
+                <Text style={styles.headingFont}>Time</Text>
+              </View>
+
+              <View style={[styles.tableHead, { right: "1%" }]}>
+                <Text style={styles.headingFont}>Subject</Text>
+              </View>
+            </View>
+            <View
+              style={[
+                { flex: 1 },
+                { flexDirection: "column", backgroundColor: "white" },
+              ]}
+            >
+              <View style={{ flex: 8, bottom: 20 }}>
+                <ScrollView>
+                  <View style={[styles.flexrow]}>
+                    <View style={[styles.root, {}]}>
+                      {data && loading ? (
+                        <HStack
+                          space={8}
+                          justifyContent="center"
+                          alignItems="center"
+                        >
+                          <ActivityIndicator
+                            size={40}
+                            visible={loading}
+                            textContent={"Loading..."}
+                          />
+                        </HStack>
+                      ) : (
+                        data.map((data) => (
+                          <>
+                            <View
+                              style={[
+                                styles.container,
+                                { flexDirection: "row" },
+                              ]}
+                            >
+                              <View style={[styles.colStyle]}>
+                                <Text style={[styles.tableTitle]}>
+                                  {moment(data.exam_date).format("DD-MM-YYYY")}
+                                </Text>
+                              </View>
+                            </View>
+                          </>
+                        ))
+                      )}
+                    </View>
+                    <View style={[styles.root, {}]}>
+                      {data && loading ? (
+                        <HStack
+                          space={8}
+                          justifyContent="center"
+                          alignItems="center"
+                        >
+                          <ActivityIndicator
+                            size={40}
+                            visible={loading}
+                            textContent={"Loading..."}
+                          />
+                        </HStack>
+                      ) : (
+                        data.map((data) => (
+                          <>
+                            <View
+                              style={[
+                                styles.container,
+                                { flexDirection: "row" },
+                              ]}
+                            >
+                              <View style={[styles.colStyle, { left: "95%" }]}>
+                                <Text style={[styles.tableTitle]}>
+                                  {moment(data.exam_time, "HH:mm").format("LT")}
+                                </Text>
+                              </View>
+                            </View>
+                          </>
+                        ))
+                      )}
+                    </View>
+
+                    <View style={[styles.root, { right: "1%" }]}>
+                      {data && loading ? (
+                        <HStack
+                          space={8}
+                          justifyContent="center"
+                          alignItems="center"
+                        >
+                          <ActivityIndicator
+                            size={40}
+                            visible={loading}
+                            textContent={"Loading..."}
+                          />
+                        </HStack>
+                      ) : (
+                        data.map((data) => (
+                          <>
+                            <View
+                              style={[
+                                styles.container,
+                                { flexDirection: "row" },
+                              ]}
+                            >
+                              <View style={[styles.colStyle, { left: "80%" }]}>
+                                <Text style={[styles.tableTitle]}>
+                                  {data.subject}
+                                </Text>
+                              </View>
+                            </View>
+                          </>
+                        ))
+                      )}
+                    </View>
+                  </View>
+                </ScrollView>
+              </View>
+            </View>
+          </>
+        </View>
+      </View>
+
       <View style={{ flex: 0.1 }}>
         <TeachersHome />
       </View>

@@ -145,12 +145,12 @@ const TeachersTimetable = () => {
     fetchTimeTable();
   }, []);
 
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  }, []);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 1000);
+  // }, []);
 
   function viewExam() {
     setForTimeTableList({
@@ -177,12 +177,15 @@ const TeachersTimetable = () => {
     setShowAddBtn(false);
   }
   function timeTableList() {
+    setLoading(true);
     async function fetchDailyTimeTable() {
       try {
         const res = await axios.get(`${subURL}/AddmoreTimetable_list/`);
         setShowTimeTableData(res.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     }
     fetchDailyTimeTable();
@@ -223,6 +226,7 @@ const TeachersTimetable = () => {
   }, []);
 
   function viewTimeTableList() {
+    setLoading(true);
     setShowDefaultList(false);
     setShowSelected(true);
     async function login() {
@@ -257,6 +261,8 @@ const TeachersTimetable = () => {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     }
 

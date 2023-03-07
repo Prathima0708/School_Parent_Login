@@ -507,12 +507,15 @@
 
 // export default TeachersTransport;
 
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useRef, useState } from "react";
 import MapView, { Marker } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
+import TeachersHome from "../BottomTab/TeachersHome";
+import { useNavigation } from "@react-navigation/native";
 
 const TeachersTransport = () => {
+  const navigation = useNavigation();
   const [state, setState] = useState({
     pickUpCords: {
       latitude: 12.9141,
@@ -527,42 +530,94 @@ const TeachersTransport = () => {
       longitudeDelta: 0.0421,
     },
   });
+
   const mapRef = useRef();
+
   const { pickUpCords, dropLocationCords } = state;
+
+  const navigateLocation = () => {
+    navigation.navigate("chooseLocation", {
+      getCordinates: fetchValues,
+    });
+  };
+
+  const fetchValues = (data) => {
+    console.log(data);
+    // setState({
+    //   pickUpCords: {
+    //     latitude: data.pickUpCords.latitude,
+    //     longitude: data.pickUpCords.longitude,
+    //   },
+    //   dropLocationCords: {
+    //     latitude: data.destinationCords.latitude,
+    //     longitude: data.destinationCords.longitude,
+    //   },
+    // });
+  };
+
   return (
-    <MapView
-      style={StyleSheet.absoluteFill}
-      initialRegion={pickUpCords}
-      ref={mapRef}
-    >
-      <Marker coordinate={pickUpCords} />
-      <Marker coordinate={dropLocationCords} />
-      <MapViewDirections
-        origin={pickUpCords}
-        destination={dropLocationCords}
-        apikey="AIzaSyAUSeU7kuqfNJ_vpxmO1rO9gEOkSGWEpgQ"
-        strokeWidth={3}
-        strokeColor="hotpink"
-        optimizeWaypoints={true}
-        onReady={(result) => {
-          mapRef.current.fitToCoordinates(result.coordinates, {
-            edgePadding: {
-              right: 30,
-              bottom: 300,
-              left: 30,
-              top: 100,
-            },
-          });
-        }}
-      />
-    </MapView>
+    <>
+      <View style={{ flex: 1 }}>
+        <MapView
+          style={StyleSheet.absoluteFill}
+          initialRegion={pickUpCords}
+          ref={mapRef}
+        >
+          <Marker
+            coordinate={pickUpCords}
+            image={require("../../../assets/images/Oval.png")}
+          />
+          <Marker
+            coordinate={dropLocationCords}
+            image={require("../../../assets/images/greenMarker.png")}
+          />
+          <MapViewDirections
+            origin={pickUpCords}
+            destination={dropLocationCords}
+            apikey="AIzaSyAUSeU7kuqfNJ_vpxmO1rO9gEOkSGWEpgQ"
+            strokeWidth={3}
+            strokeColor="hotpink"
+            optimizeWaypoints={true}
+            onReady={(result) => {
+              mapRef.current.fitToCoordinates(result.coordinates, {
+                edgePadding: {
+                  right: 30,
+                  bottom: 300,
+                  left: 30,
+                  top: 100,
+                },
+              });
+            }}
+          />
+        </MapView>
+      </View>
+      <View style={styles.bottomCard}>
+        <Text>Track your Child's live location</Text>
+        <TouchableOpacity style={styles.inputStyle} onPress={navigateLocation}>
+          <Text>Choose your location</Text>
+        </TouchableOpacity>
+      </View>
+    </>
   );
 };
 
 export default TeachersTransport;
 
 const styles = StyleSheet.create({
-  container: {
-    //  flex: 1,
+  bottomCard: {
+    backgroundColor: "white",
+    width: "100%",
+    padding: 30,
+    borderTopEndRadius: 24,
+    borderTopStartRadius: 24,
+  },
+  inputStyle: {
+    backgroundColor: "white",
+    borderRadius: 4,
+    borderWidth: 1,
+    alignItems: "center",
+    height: 48,
+    justifyContent: "center",
+    marginTop: 16,
   },
 });

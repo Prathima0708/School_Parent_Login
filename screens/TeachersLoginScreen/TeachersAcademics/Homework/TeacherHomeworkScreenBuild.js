@@ -346,7 +346,7 @@ const TeacherHomeworkScreenBuild = () => {
       <Image
         style={styles.image}
         source={{
-          uri: imageEdit ? `${mainURL}${image}` : !imageEdit && image,
+          uri: imageEdit ? `${mainURL}${image}` : image,
         }}
       />
     );
@@ -724,11 +724,14 @@ const TeacherHomeworkScreenBuild = () => {
         formData.append("subject", selectedSubject);
         formData.append("homework_date", new Date(FROMDATE).toISOString());
         formData.append("remark", remark);
-        formData.append("homework_photo", {
-          uri: fileUri,
-          type: "image/jpeg",
-          name: fileName,
-        });
+        if (image) {
+          formData.append("homework_photo", {
+            uri: fileUri,
+            type: "image/jpeg",
+            name: fileName,
+          });
+        }
+
         formData.append("homework", "");
         formData.append("due_date", new Date(TODATE).toISOString());
         formData.append("description", hw);
@@ -821,9 +824,9 @@ const TeacherHomeworkScreenBuild = () => {
   }
   function showHomework() {
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    // setTimeout(() => {
+    //   setLoading(false);
+    // }, 2000);
     async function fetchData() {
       try {
         const res = await axios.get(`${subURL}/Homework/`);
@@ -831,6 +834,8 @@ const TeacherHomeworkScreenBuild = () => {
         setFilteredData(res.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     }
     fetchData();

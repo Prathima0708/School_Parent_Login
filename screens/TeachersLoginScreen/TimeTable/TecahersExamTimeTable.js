@@ -27,7 +27,7 @@ import { Card, DataTable } from "react-native-paper";
 import moment from "moment";
 import SearchBar from "react-native-dynamic-search-bar";
 import UnderlinedInput from "../../../components/UI/UnderlinedInput";
-import { Badge, Button as NativeBtn, IconButton } from "native-base";
+import { Badge, Button as NativeBtn, HStack, IconButton } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
 import { useNavigation } from "@react-navigation/native";
 import { Text as NativeText } from "native-base";
@@ -160,6 +160,7 @@ const TecahersExamTimeTable = () => {
   }, []);
 
   useEffect(() => {
+    setLoading(true);
     async function viewExamList() {
       try {
         const res = await axios.get(`${subURL}/Exam/`);
@@ -168,6 +169,8 @@ const TecahersExamTimeTable = () => {
         setFilteredData(res.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     }
     viewExamList();
@@ -278,9 +281,9 @@ const TecahersExamTimeTable = () => {
   }
   function addExamTimeTableHandler() {
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
+    // setTimeout(() => {
+    //   setLoading(false);
+    // }, 3000);
     subBtn(true);
 
     let selectedData = selectedExamTimeTable.split(" - ");
@@ -354,6 +357,8 @@ const TecahersExamTimeTable = () => {
           // UserId = userId;
         } catch (error) {
           console.log(error);
+        } finally {
+          setLoading(false);
         }
       }
       storeData();
@@ -458,6 +463,7 @@ const TecahersExamTimeTable = () => {
   }
 
   function viewExamList() {
+    setLoading(true);
     async function viewExamList() {
       try {
         const res = await axios.get(`${subURL}/Exam/`);
@@ -466,6 +472,8 @@ const TecahersExamTimeTable = () => {
         setFilteredData(res.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     }
     viewExamList();
@@ -520,72 +528,6 @@ const TecahersExamTimeTable = () => {
     setHourLabel(true);
   }
 
-  function editItem(id) {
-    setShowAddBtn(false);
-    setExamLabel(true);
-    setTotalLabel(true);
-    setHourLabel(true);
-    ID = id;
-
-    const filteredDummuyData = showExamData.find((data) => data.id == id);
-
-    setEnteredExamName(filteredDummuyData.exam_name);
-    //  setEnteredcreatedby(filteredDummuyData.created_by);
-    setFromText(moment(filteredDummuyData.start_date).format("DD/MM/YYYY"));
-    setToText(moment(filteredDummuyData.end_date).format("DD/MM/YYYY"));
-    setEnteredTotalMarks(filteredDummuyData.Total_marks);
-    setEnteredHour(filteredDummuyData.hour);
-    //  setEnteredMobile(filteredDummuyData.exam_name);
-    //  setEnteredRouteName(filteredDummuyData.hour);
-    // setForCalendarList({ fontWeight: "bold", color: "black" });
-    // setForCalendarForm({ color: "black" });
-    setShowForm(true);
-    setShowExamList(false);
-    setIsEdit(true);
-  }
-  function deleteItem(id) {
-    // const newFilteredData=data.filter((data)=>data.id != id);
-    Alert.alert("Confirm Deletion", "You are about to delete this row!", [
-      {
-        text: "Cancel",
-
-        style: "cancel",
-      },
-      {
-        text: "Yes,delete",
-        onPress: () => deleteData(),
-      },
-    ]);
-    async function deleteData() {
-      try {
-        let headers = {
-          "Content-Type": "application/json; charset=utf-8",
-        };
-        // const dataForm = FormData;
-        const resLogin = await axios.delete(
-          `${subURL}/Exam/${id}/`,
-          // FormData,
-          {
-            headers: headers,
-          }
-        );
-      } catch (error) {
-        console.log(error);
-      }
-      async function fetchData() {
-        try {
-          const res = await axios.get(`${subURL}/Exam/`);
-
-          setShowExamData(res.data);
-          setFilteredData(res.data);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-      fetchData();
-    }
-  }
-
   function cancelHandler() {
     setShowAddBtn(true);
     setShowExamList(true);
@@ -630,22 +572,10 @@ const TecahersExamTimeTable = () => {
           (ele) => ele.class_name == class_name
         );
 
-        // const id = filteredc.map((id) => id.reg_number);
-        // console.log(id);
-
-        // console.log(filteredc);
-        // StudentList = filteredc;
-        // console.log(StudentList);
-
         if (filteredc) {
-          //console.log(studList);
           setStudList(filteredc);
           setFilteredData(filteredc);
         }
-
-        // if (filteredc.length == 0) {
-        //   Alert.alert("No data found", "No data found for respective search");
-        // }
       } catch (error) {
         console.log(error);
       }
@@ -802,12 +732,17 @@ const TecahersExamTimeTable = () => {
                 {filteredData.length > 0 ? (
                   <View style={styles.root}>
                     {loading ? (
-                      <ActivityIndicator
-                        size="large"
-                        visible={loading}
-                        textContent={"Loading..."}
-                        // textStyle={styles.spinnerTextStyle}
-                      />
+                      <HStack
+                        space={8}
+                        justifyContent="center"
+                        alignItems="center"
+                      >
+                        <ActivityIndicator
+                          size="large"
+                          visible={loading}
+                          textContent={"Loading..."}
+                        />
+                      </HStack>
                     ) : (
                       filteredData.map((data, key) => (
                         <>
@@ -860,11 +795,6 @@ const TecahersExamTimeTable = () => {
                                             "DD/MM/YYYY"
                                           )}
                                         </Text>
-                                        {/* <Badge colorScheme="info" variant='solid'>
-                                      {moment(data.start_date).format(
-                                          "DD/MM/YYYY"
-                                        )}
-                                        </Badge> */}
                                       </View>
                                       <View
                                         style={{
@@ -905,11 +835,6 @@ const TecahersExamTimeTable = () => {
                                             "DD/MM/YYYY"
                                           )}
                                         </Text>
-                                        {/* <Badge colorScheme="info" variant='solid'>
-                                        {moment(data.end_date).format(
-                                          "DD/MM/YYYY"
-                                        )}
-                                      </Badge> */}
                                       </View>
                                     </View>
                                   </View>
@@ -991,11 +916,7 @@ const TecahersExamTimeTable = () => {
                                     >
                                       {data.Total_marks}
                                     </Text>
-                                    {/* <Badge 
-                                    colorScheme="info"
-                                    variant='solid'
-                                    style={{marginVertical:7,marginHorizontal:20,right:'12%'}}>
-                                      {data.Total_marks}</Badge> */}
+
                                     <Text
                                       style={[
                                         [
@@ -1010,10 +931,6 @@ const TecahersExamTimeTable = () => {
                                     >
                                       {data.hour}
                                     </Text>
-                                    {/* <Badge 
-                                    colorScheme="info" 
-                                    variant='solid'
-                                    style={{marginHorizontal:20,right:'12%'}}>{data.hour}</Badge> */}
                                   </View>
                                 </View>
                                 <View
@@ -1025,29 +942,7 @@ const TecahersExamTimeTable = () => {
                                       //  top: "2%",
                                     },
                                   ]}
-                                >
-                                  {/* <View
-                                style={{
-                                  flex: 2,
-                                  left: deviceWidth < 370 ? "400%" : "450%",
-                                }}
-                              >
-                                <Ionicons
-                                  name="md-pencil-sharp"
-                                  size={24}
-                                  color="green"
-                                  onPress={() => editItem(data.id)}
-                                />
-                              </View> */}
-                                  {/* <View style={{ flex: 2, left: -10 }}>
-                                <Ionicons
-                                  name="trash"
-                                  size={24}
-                                  color="red"
-                                  onPress={() => deleteItem(data.id)}
-                                />
-                              </View> */}
-                                </View>
+                                ></View>
                               </Card.Content>
                             </Card>
                           </Pressable>

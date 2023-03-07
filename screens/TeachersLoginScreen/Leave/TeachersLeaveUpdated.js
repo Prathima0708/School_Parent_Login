@@ -15,7 +15,7 @@ import {
 import moment from "moment";
 import SelectList from "react-native-dropdown-select-list";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Text as NativeText, Badge, IconButton } from "native-base";
+import { Text as NativeText, Badge, IconButton, HStack } from "native-base";
 import { Keyboard } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -382,10 +382,10 @@ const TeachersLeaveUpdated = () => {
 
   function buttonPressedHandler() {
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 5000);
-    setBtn(true);
+    // setTimeout(() => {
+    //   setLoading(false);
+    // }, 5000);
+    // setBtn(true);
 
     const FormData = {
       student_reg_number: 0,
@@ -430,6 +430,8 @@ const TeachersLeaveUpdated = () => {
           });
         } catch (error) {
           console.log(error);
+        } finally {
+          setLoading(false);
         }
       }
       storeData();
@@ -603,6 +605,7 @@ const TeachersLeaveUpdated = () => {
     setShowTeachersList(true);
     setShowForm(false);
     setShowChoice(false);
+    setLoading(true);
 
     async function fetchData() {
       try {
@@ -612,6 +615,8 @@ const TeachersLeaveUpdated = () => {
         setSearchLeaveByUsername(res.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     }
     fetchData();
@@ -640,7 +645,7 @@ const TeachersLeaveUpdated = () => {
             setShowList(true);
             setShowForm(false);
             setShowChoice(false);
-            setLoading(true);
+            // setLoading(true);
           }
 
           firstData = newArray[0];
@@ -690,7 +695,7 @@ const TeachersLeaveUpdated = () => {
 
   function classsectionSelectHandler() {
     setShowDefault(true);
-
+    setLoading(true);
     let filteredlist = newArray?.filter(
       (ele) => ele.key == selectedClassSection
     );
@@ -708,6 +713,8 @@ const TeachersLeaveUpdated = () => {
         setFilteredData(res.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     }
     fetchData();
@@ -909,37 +916,6 @@ const TeachersLeaveUpdated = () => {
           </View>
 
           <View style={{ flex: 1, marginHorizontal: "20%", bottom: "10%" }}>
-            {/* <Pressable onPress={showLeaveList}> */}
-            {/* <Card
-                style={[
-                  styles.cardStyle,
-                  // { backgroundColor: bgColor ? "darkblue" : "gray" },
-                  {
-                    backgroundColor: bgColor.length >= 1 ? "darkblue" : "gray",
-                  },
-                ]}
-              >
-                <Card.Content style={{ margin: 1, marginTop: 0 }}>
-                  <View style={{ alignItems: "center" }}>
-                    <Text
-                      style={{
-                        fontSize: 15,
-                        fontFamily: "HindSemiBold",
-                        color: "white",
-                      }}
-                    >
-                      View Student Leave
-                    </Text>
-                  </View>
-                </Card.Content>
-              </Card> */}
-
-            {/* <Btn
-              title="show leave list"
-              disabled={bgColor.length == 0 ? true : false}
-              onPress={showLeaveList}
-              style={styles.cardStyle}
-            /> */}
             <View>
               <NativeButton
                 isDisabled={bgColor.length == 0 ? true : false}
@@ -947,9 +923,6 @@ const TeachersLeaveUpdated = () => {
                 style={[styles.cardStyle]}
                 size="md"
                 padding={7}
-                // textStyle={{ fontFamily: "HindSemiBold", fontSize: 18 }}
-
-                //  colorScheme="blue"
               >
                 <Text
                   style={{
@@ -962,8 +935,6 @@ const TeachersLeaveUpdated = () => {
                 </Text>
               </NativeButton>
             </View>
-
-            {/* </Pressable> */}
           </View>
 
           {keyboardStatus == "Keyboard Hidden" && (
@@ -1402,14 +1373,24 @@ const TeachersLeaveUpdated = () => {
               value={searchText}
             />
             {leaveByUsername.length <= 0 ? (
-              <View style={{ alignItems: "center", top: "2%" }}>
-                <Text style={styles.msgText}>
-                  No Leaves are found,
-                  <Text style={styles.linkText} onPress={linkPressedHandler}>
-                    Start adding here
+              loading ? (
+                <HStack space={8} justifyContent="center" alignItems="center">
+                  <ActivityIndicator
+                    size="large"
+                    visible={loading}
+                    textContent={"Loading..."}
+                  />
+                </HStack>
+              ) : (
+                <View style={{ alignItems: "center", top: "2%" }}>
+                  <Text style={styles.msgText}>
+                    No Leaves are found,
+                    <Text style={styles.linkText} onPress={linkPressedHandler}>
+                      Start adding here
+                    </Text>
                   </Text>
-                </Text>
-              </View>
+                </View>
+              )
             ) : (
               <ScrollView
                 scrollEventThrottle={15}
@@ -1762,7 +1743,6 @@ const TeachersLeaveUpdated = () => {
                 }}
                 setSelected={setSelectedClassSection}
                 data={classTeacherData}
-                //dropdownStyles={{ marginTop: "-5%" }}
                 onSelect={classsectionSelectHandler}
                 placeholder="Select class"
                 dropdownTextStyles={{
@@ -1774,18 +1754,9 @@ const TeachersLeaveUpdated = () => {
               />
             </View>
             {leaveByClassSection.length > 0 && (
-              // <SearchBar
-              //   onSubmitEditing={Keyboard.dismiss}
-              //   style={styles.searchBarNew}
-              //   textInputStyle={{ fontFamily: "HindRegular", fontSize: 17 }}
-              //   placeholder="Search here by leave type"
-              //   onChangeText={(text) => searchFilter(text)}
-              //   value={searchText}
-              // />
               <View
                 style={[
                   {
-                    // Try setting `flexDirection` to `"row"`.
                     flex: 0.7,
                     flexDirection: "column",
                   },
@@ -1795,7 +1766,6 @@ const TeachersLeaveUpdated = () => {
                   <View
                     style={[
                       {
-                        // Try setting `flexDirection` to `"row"`.
                         flex: 1,
                         flexDirection: "row",
                         marginHorizontal: 30,
@@ -1854,7 +1824,6 @@ const TeachersLeaveUpdated = () => {
                   <View
                     style={[
                       {
-                        // Try setting `flexDirection` to `"row"`.
                         flex: 1,
                         flexDirection: "row",
                         marginHorizontal: 30,
@@ -1914,29 +1883,38 @@ const TeachersLeaveUpdated = () => {
                 >
                   <View style={{ flex: 8, bottom: 50 }}>
                     {leaveByClassSection.length <= 0 ? (
-                      // <View style={{ alignItems: "center", top: "16%" }}>
-                      //   <NativeText fontSize="lg" bold color="error.900">
-                      //     Select class to view Student leaves
-                      //   </NativeText>
-                      // </View>
-                      <View
-                        style={{
-                          flex: 1,
-                          alignItems: "center",
-                          //justifyContent: "center",
-                          marginTop: "20%",
-                        }}
-                      >
-                        <Text
+                      loading ? (
+                        <HStack
+                          space={8}
+                          justifyContent="center"
+                          alignItems="center"
+                        >
+                          <ActivityIndicator
+                            size="large"
+                            visible={loading}
+                            textContent={"Loading..."}
+                          />
+                        </HStack>
+                      ) : (
+                        <View
                           style={{
-                            fontFamily: "HindSemiBold",
-                            fontSize: 18,
-                            color: "#6B0202",
+                            flex: 1,
+                            alignItems: "center",
+
+                            marginTop: "20%",
                           }}
                         >
-                          Data not found
-                        </Text>
-                      </View>
+                          <Text
+                            style={{
+                              fontFamily: "HindSemiBold",
+                              fontSize: 18,
+                              color: "#6B0202",
+                            }}
+                          >
+                            Data not found
+                          </Text>
+                        </View>
+                      )
                     ) : (
                       <ScrollView
                         scrollEventThrottle={15}
@@ -1946,15 +1924,19 @@ const TeachersLeaveUpdated = () => {
                         )}
                       >
                         <View style={[styles.root]}>
-                          {/* {!filteredData && <Spinner size="lg" />} */}
-                          {/* {!filteredData && <Text>no data founds</Text>} */}
                           {loading ? (
-                            <ActivityIndicator
-                              size={40}
-                              visible={loading}
-                              textContent={"Loading..."}
-                              textStyle={styles.spinnerTextStyle}
-                            />
+                            <HStack
+                              space={8}
+                              justifyContent="center"
+                              alignItems="center"
+                            >
+                              <ActivityIndicator
+                                size={40}
+                                visible={loading}
+                                textContent={"Loading..."}
+                                textStyle={styles.spinnerTextStyle}
+                              />
+                            </HStack>
                           ) : (
                             showDefault &&
                             filteredData.map((data) => (
