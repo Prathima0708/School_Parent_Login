@@ -41,7 +41,7 @@ import TeachersMarksheet from "./screens/TeachersLoginScreen/Marksheet/TeachersM
 import LandingScreen from "./screens/LandingScreen";
 import TeachersProfile from "./screens/TeachersLoginScreen/Profile/TeachersProfile";
 import ParentsProfile from "./screens/ParentsLoginScreen/Profile/ParentsProfile";
-import TeacherHomeworkScreenBuild from "./screens/TeachersLoginScreen/TeachersAcademics/Homework/TeacherHomeworkScreenBuild";
+import TeacherHomeworkScreen from "./screens/TeachersLoginScreen/TeachersAcademics/Homework/HomeworkScreen";
 
 import { LogBox } from "react-native";
 
@@ -259,7 +259,7 @@ export default function App() {
         {/* <Stack.Screen name="TeachersHomework" component={TeachersHomework} /> */}
         <Stack.Screen
           name="TeachersHomework"
-          component={TeacherHomeworkScreenBuild}
+          component={TeacherHomeworkScreen}
           options={{ title: "Homework" }}
         />
         <Stack.Screen
@@ -524,7 +524,7 @@ export default function App() {
         {/* <Stack.Screen name="TeachersHomework" component={TeachersHomework} /> */}
         <Stack.Screen
           name="TeachersHomework"
-          component={TeacherHomeworkScreenBuild}
+          component={TeacherHomeworkScreen}
           options={{ title: "Homework" }}
         />
         <Stack.Screen
@@ -631,7 +631,7 @@ export default function App() {
         {/* <Stack.Screen name="TeachersHomework" component={TeachersHomework} /> */}
         <Stack.Screen
           name="TeachersHomework"
-          component={TeacherHomeworkScreenBuild}
+          component={TeacherHomeworkScreen}
           options={{ title: "Homework" }}
         />
         <Stack.Screen
