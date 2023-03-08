@@ -180,6 +180,9 @@ const TeacherHomeworkScreenBuild = () => {
   const [imageEdit, setImageEdit] = useState(false);
 
   const [newlyEditedImage, setNewlyEditedImage] = useState(false);
+  const myRef = useRef(null);
+  const [aspectRatio, setAspectRatio] = useState(null);
+
   let i = 0;
 
   useEffect(() => {
@@ -213,6 +216,17 @@ const TeacherHomeworkScreenBuild = () => {
     return () => clearTimeout(timeout);
   }, [show]);
 
+  useEffect(() => {
+    if (myRef.current && myRef.current.setNativeProps) {
+      const styleObj = {
+        // borderWidth: 3,
+        // borderColor: "black",
+      };
+      myRef.current.setNativeProps({
+        style: styleObj,
+      });
+    }
+  }, [myRef]);
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardStatus("Keyboard Shown");
@@ -310,7 +324,7 @@ const TeacherHomeworkScreenBuild = () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      //  aspect: [4, 3],
       quality: 1,
     });
 
@@ -319,6 +333,11 @@ const TeacherHomeworkScreenBuild = () => {
       setFileName(result.uri.split("/").pop());
       setFileUri(result.uri);
       setImageEditMode(result.uri);
+      const { width, height } = await Image.getSize(result.uri);
+
+      // Calculate the aspect ratio dynamically
+      const imageAspectRatio = width / height;
+      setAspectRatio(imageAspectRatio);
     }
   };
 
@@ -328,7 +347,7 @@ const TeacherHomeworkScreenBuild = () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      // aspect: [4, 3],
       quality: 1,
     });
 
@@ -337,6 +356,11 @@ const TeacherHomeworkScreenBuild = () => {
       setFileName(result.uri.split("/").pop());
       setFileUri(result.uri);
       //  setImageEditMode(result.uri);
+      const { width, height } = await Image.getSize(result.uri);
+
+      // Calculate the aspect ratio dynamically
+      const imageAspectRatio = width / height;
+      setAspectRatio(imageAspectRatio);
     }
   };
 
@@ -1353,7 +1377,12 @@ const TeacherHomeworkScreenBuild = () => {
               </View>
 
               {/* {!imageEdit && ( */}
-              <View style={image ? styles.imagePreView : styles.noImage}>
+              <View
+                style={[
+                  image ? styles.imagePreView : styles.noImage,
+                  { aspectRatio: aspectRatio },
+                ]}
+              >
                 {imagePreView}
               </View>
               {/* )} */}
