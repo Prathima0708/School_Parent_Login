@@ -57,7 +57,7 @@ import ExamTimeTable from "./screens/ParentsLoginScreen/Academics/TimeTable/Exam
 import TeachersAttendanceBuild from "./screens/TeachersLoginScreen/TeachersAcademics/Attendance/TeachersAttendanceBuild";
 import AttendanceReport from "./screens/TeachersLoginScreen/TeachersAcademics/Attendance/AttendanceReport";
 import ChooseLocation from "./screens/TeachersLoginScreen/Transport/ChooseLocation";
-import TeacherHomeworkScreenBuild from "./screens/TeachersLoginScreen/TeachersAcademics/Homework/HomeworkScreen";
+import TeacherHomeworkScreenBuild from "./screens/TeachersLoginScreen/TeachersAcademics/Homework/TeacherHomeworkScreenBuild";
 var value, Group, GroupP, GroupT;
 // function Bottom() {
 //   return (

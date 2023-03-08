@@ -10,7 +10,7 @@ import {
   Image,
 } from "react-native";
 import { Button as NativeButton, Icon, IconButton } from "native-base";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../../../components/UI/Button";
 

@@ -138,7 +138,8 @@ function StudentItem({
                 size="lg"
                 resizeMode="contain"
                 ref={myRef}
-               // onLoad={handleImageLoad}
+                // onError={() => setLoading(false)}
+                // onLoad={handleImageLoad}
               />
             )}
           </View>

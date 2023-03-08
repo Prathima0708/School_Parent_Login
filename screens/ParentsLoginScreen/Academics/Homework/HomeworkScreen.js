@@ -22,6 +22,9 @@ import {
   Button as NativeButton,
   IconButton,
   Text as NativeText,
+  Center,
+  VStack,
+  Skeleton,
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { Card } from "react-native-paper";
@@ -30,7 +33,7 @@ import { mainURL, subURL } from "../../../../components/utils/URL's";
 import * as MediaLibrary from "expo-media-library";
 import * as FileSystem from "expo-file-system";
 import * as Permissions from "expo-permissions";
-// import Toast from 'react-native-toast-message';
+import Toast from "react-native-toast-message";
 
 const HomeworkScreen = () => {
   const [data, setData] = useState([]);
@@ -40,6 +43,8 @@ const HomeworkScreen = () => {
 
   const [onlyImg, setOnlyImg] = useState();
   const [saveUri, setSaveUri] = useState(``);
+
+  const [loading, setLoading] = useState(false);
   const ref = useRef();
 
   const openModal = (placement, id, img) => {
@@ -65,6 +70,10 @@ const HomeworkScreen = () => {
     }
     fetchData();
   }, []);
+
+  setTimeout(() => {
+    setLoading(false);
+  }, 3000);
 
   downloadFile = async () => {
     setOpen(false);
@@ -112,12 +121,12 @@ const HomeworkScreen = () => {
       } else {
         await MediaLibrary.createAlbumAsync("Download", asset, false);
       }
-      // ToastAndroid.show('File downloaded!', ToastAndroid.SHORT);
-      // Toast.show({
-      //   type: 'info',
-      //   text1: 'File Downloaded',
-      //   visibilityTime: 2000,
-      // });
+      ToastAndroid.show("File downloaded!", ToastAndroid.SHORT);
+      Toast.show({
+        type: "info",
+        text1: "File Downloaded",
+        visibilityTime: 2000,
+      });
       console.log("File saved to camera roll");
     } catch (error) {
       console.error(error);
@@ -165,7 +174,7 @@ const HomeworkScreen = () => {
                               </Text>
                             </View>
                           </View>
-                          <View
+                          {/* <View
                             style={[
                               { flex: 1 },
                               { flexDirection: "row", marginVertical: 10 },
@@ -212,26 +221,54 @@ const HomeworkScreen = () => {
                                 {moment(item.due_date).format("DD/MM/YYYY")}
                               </Text>
                             </View>
+                          </View> */}
+
+                          <View
+                            style={[
+                              { flex: 1 },
+                              {
+                                flexDirection: "row",
+                                marginHorizontal: 15,
+                                marginVertical: 10,
+                              },
+                            ]}
+                          >
+                            <View style={{ flex: 2.9 }}>
+                              <Text
+                                style={[styles.textStyle, { color: "black" }]}
+                              >
+                                Homework date :
+                              </Text>
+                            </View>
+                            <View style={{ flex: 2.6 }}>
+                              <Text style={[styles.cardText]}>
+                                {moment(item.homework_date).format(
+                                  "DD/MM/YYYY"
+                                )}
+                              </Text>
+                            </View>
                           </View>
+
                           <View
                             style={[
                               { flex: 1 },
                               { flexDirection: "row", marginHorizontal: 15 },
                             ]}
                           >
-                            <View style={{ flex: 1 }}>
+                            <View style={{ flex: 1.2 }}>
                               <Text
                                 style={[styles.textStyle, { color: "black" }]}
                               >
-                                Remark :
+                                Due date:
                               </Text>
                             </View>
                             <View style={{ flex: 2.6 }}>
                               <Text style={[styles.cardText]}>
-                                {item.remark}
+                                {moment(item.due_date).format("DD/MM/YYYY")}
                               </Text>
                             </View>
                           </View>
+
                           <View
                             style={[
                               { flex: 1 },
@@ -260,7 +297,28 @@ const HomeworkScreen = () => {
                                   openModal(
                                     "center",
                                     item.id,
-                                    item.homework_photo
+                                    loading ? (
+                                      <Center w="100%">
+                                        <VStack
+                                          w="90%"
+                                          maxW="400"
+                                          borderWidth="1"
+                                          space={8}
+                                          overflow="hidden"
+                                          rounded="md"
+                                          _dark={{
+                                            borderColor: "coolGray.500",
+                                          }}
+                                          _light={{
+                                            borderColor: "coolGray.200",
+                                          }}
+                                        >
+                                          <Skeleton h="40" />
+                                        </VStack>
+                                      </Center>
+                                    ) : (
+                                      item.homework_photo
+                                    )
                                   )
                                 }
                                 variant="subtle"
@@ -314,7 +372,7 @@ const HomeworkScreen = () => {
             </Modal.Footer>
           </Modal.Content>
         </Modal>
-        {/* <Toast ref={(ref) => Toast.setRef(ref)} /> */}
+        <Toast ref={(ref) => Toast.setRef(ref)} />
         <View style={{ flex: 1 }}>
           <ParentsHome />
         </View>
