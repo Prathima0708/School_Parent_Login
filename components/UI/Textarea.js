@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Dimensions, StyleSheet } from "react-native";
 import { TextInput, View } from "react-native";
 
-function Input({
+function Textarea({
   onChangeText,
   placeholder,
   keyboardType,
@@ -29,7 +29,7 @@ function Input({
         onBlur={blur}
         onFocus={onFocus}
         multiline
-        numberOfLines={1}
+        numberOfLines={3}
         onPressIn={onPressIn}
         maxLength={maxLength}
         ref={ref}
@@ -38,7 +38,7 @@ function Input({
   );
 }
 
-export default Input;
+export default Textarea;
 const deviceHieght = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 
@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
     // borderBottomLeftRadius: 5,
     borderRadius: 5,
     borderColor: "#A3A5A5",
-    padding: 9,
-
+    // padding: 9,
+    paddingLeft:10,
     margin: deviceHieght < 600 ? "2%" : "4%",
     fontSize: deviceWidth < 370 ? 16 : 17,
 

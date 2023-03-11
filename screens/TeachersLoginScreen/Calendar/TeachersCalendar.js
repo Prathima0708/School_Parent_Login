@@ -44,6 +44,7 @@ import {
 } from "native-base";
 import { subURL } from "../../../components/utils/URL's";
 import CalendarPicker from "react-native-calendar-picker";
+import Textarea from "../../../components/UI/Textarea";
 
 var ID;
 var FROMDATE, TODATE;
@@ -1093,7 +1094,7 @@ const TeachersCalendar = () => {
                   Description
                 </Text>
               </View>
-              <Input
+              <Textarea
                 onChangeText={descriptionChangeHandler}
                 blur={descriptionBlurHandler}
                 onFocus={onFocusDescHandler}
@@ -2173,7 +2174,7 @@ const styles = StyleSheet.create({
         top: deviceWidth < 370 ? 93 : 110,
       },
       android: {
-        top: 107,
+        top: 120,
       },
     }),
 
@@ -2186,7 +2187,7 @@ const styles = StyleSheet.create({
   },
   descriptionDownExtra: {
     position: "absolute",
-    top: deviceWidth < 370 ? 115 : 137,
+    top: deviceWidth < 370 ? 115 : 147,
     left: 50,
   },
   commonErrorMsg: {

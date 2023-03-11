@@ -665,6 +665,7 @@ const TeachersLeaveUpdated = () => {
     setShowChoice(true);
     setShowForm(false);
     setTypeLabel(false);
+    setEmailLabel(false);
     setIsEdit(false);
 
     setReasonLabel(false);
@@ -674,6 +675,7 @@ const TeachersLeaveUpdated = () => {
     setIsLeavereasonFocused(false);
     setEnteredFromDateTouched(false);
     setEnteredtoDateTouched(false);
+    setIsEmailFocused(false);
 
     setEnteredEmailTouched(false);
     setEnteredLeaveReason("");
@@ -2532,13 +2534,15 @@ const styles = StyleSheet.create({
     left: deviceWidth < 370 ? 20 : 30,
   },
   upEmail: {
-    top: deviceHieght > 800 ? 60 : 28,
+    top: deviceHieght > 800 ? 27 : 28,
     left: deviceWidth < 370 ? 20 : 30,
     width: deviceWidth > 400 ? 120 : 130,
+    height: deviceHieght > 800 ? 25 : 25,
   },
   upEmailExtra: {
     top: deviceHieght > 800 ? 25 : 28,
     left: deviceWidth < 370 ? 20 : 30,
+    height: deviceHieght > 800 ? 25 : 25,
     width: deviceWidth > 400 ? 120 : 115,
   },
   normalRemarkExtra: {

@@ -30,7 +30,7 @@ import { mainURL, subURL } from "../../../../components/utils/URL's";
 import * as MediaLibrary from "expo-media-library";
 import * as FileSystem from "expo-file-system";
 import * as Permissions from "expo-permissions";
-// import Toast from 'react-native-toast-message';
+import Toast from 'react-native-toast-message';
 
 const HomeworkScreen = () => {
   const [data, setData] = useState([]);
@@ -112,12 +112,12 @@ const HomeworkScreen = () => {
       } else {
         await MediaLibrary.createAlbumAsync("Download", asset, false);
       }
-      // ToastAndroid.show('File downloaded!', ToastAndroid.SHORT);
-      // Toast.show({
-      //   type: 'info',
-      //   text1: 'File Downloaded',
-      //   visibilityTime: 2000,
-      // });
+      ToastAndroid.show('File downloaded!', ToastAndroid.SHORT);
+      Toast.show({
+        type: 'info',
+        text1: 'File Downloaded',
+        visibilityTime: 2000,
+      });
       console.log("File saved to camera roll");
     } catch (error) {
       console.error(error);

@@ -10,7 +10,7 @@ import {
   Image,
 } from "react-native";
 import { Button as NativeButton, Icon, IconButton } from "native-base";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Button from "../../../../components/UI/Button";
 
@@ -35,6 +35,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import UnderlinedInput from "../../../../components/UI/UnderlinedInput";
 import { mainURL, subURL } from "../../../../components/utils/URL's";
 import * as FileSystem from "expo-file-system";
+import Textarea from "../../../../components/UI/Textarea";
 
 var ID;
 var FROMDATE, TODATE;
@@ -605,7 +606,7 @@ const TeacherHomeworkScreenBuild = () => {
     if (!isNaN(Date.parse(FROMDATE))) {
       formdata.append("homework_date", new Date(FROMDATE).toISOString());
     }
-    formdata.append("remark", remark);
+    formdata.append("remark", "");
     if (image && fileName && fileUri) {
       formdata.append("homework_photo", {
         uri: fileUri,
@@ -626,8 +627,7 @@ const TeacherHomeworkScreenBuild = () => {
       !enteredSelcetdSubIsValid ||
       !enteredFromDateIsValid ||
       !enteredtoDateIsValid ||
-      !enteredHomeWorkIsValid ||
-      !enteredRemarkIsValid
+      !enteredHomeWorkIsValid 
     ) {
       Alert.alert("Please enter all fields");
     } else {
@@ -667,7 +667,6 @@ const TeacherHomeworkScreenBuild = () => {
       setFromText("");
       setToText("");
       setPickedImage("");
-      setEnteredRemark("");
       setHW("");
       setShowForm(false);
       setShowList(true);
@@ -681,7 +680,6 @@ const TeacherHomeworkScreenBuild = () => {
     setEnteredSelectedSubTouched(true);
     setEnteredFromDateTouched(true);
     setEnteredtoDateTouched(true);
-    setEnteredRemarkTouched(true);
     setEnteredHomeWorkTouched(true);
 
     let filteredlist = newArray?.filter((ele) => ele.key == selected);
@@ -729,8 +727,7 @@ const TeacherHomeworkScreenBuild = () => {
       !enteredSelcetdSubIsValid ||
       !enteredFromDateIsValid ||
       !enteredtoDateIsValid ||
-      !enteredHomeWorkIsValid ||
-      !enteredRemarkIsValid
+      !enteredHomeWorkIsValid 
     ) {
       return;
     }
@@ -747,7 +744,7 @@ const TeacherHomeworkScreenBuild = () => {
         formData.append("section", filteredlist[0]?.section);
         formData.append("subject", selectedSubject);
         formData.append("homework_date", new Date(FROMDATE).toISOString());
-        formData.append("remark", remark);
+        formData.append("remark", "");
         if (image) {
           formData.append("homework_photo", {
             uri: fileUri,
@@ -838,7 +835,6 @@ const TeacherHomeworkScreenBuild = () => {
     setEnteredSelectedSubTouched(false);
     setEnteredFromDateTouched(false);
     setEnteredtoDateTouched(false);
-    setEnteredRemarkTouched(false);
     setEnteredHomeWorkTouched(false);
     setIsEdit(false);
 
@@ -880,7 +876,6 @@ const TeacherHomeworkScreenBuild = () => {
   function editItem(id) {
     ID = id;
     setIsEdit(true);
-    setRemarkLabel(true);
     setHomeworkLabel(true);
     setImageEdit(true);
     setShowInitialBtn(false);
@@ -902,8 +897,6 @@ const TeacherHomeworkScreenBuild = () => {
 
     setFromText(moment(filteredDummuyData.homework_date).format("DD/MM/YYYY"));
     setToText(moment(filteredDummuyData.due_date).format("DD/MM/YYYY"));
-
-    setEnteredRemark(filteredDummuyData.remark);
     setHW(filteredDummuyData.description);
     setImage(filteredDummuyData.homework_photo);
 
@@ -999,13 +992,11 @@ const TeacherHomeworkScreenBuild = () => {
     setEnteredSubjectTouched(false);
     setEnteredFromDateTouched(false);
     setEnteredHomeWorkTouched(false);
-    setEnteredRemarkTouched(false);
     setEnteredtoDateTouched(false);
     setEnteredImageTouched(false);
     setIsEdit(false);
 
     setSubLabel(false);
-    setRemarkLabel(false);
     setHomeworkLabel(false);
   }
 
@@ -1243,7 +1234,7 @@ const TeacherHomeworkScreenBuild = () => {
                   )}
                 </View>
               </View>
-              <View>
+              {/* <View>
                 <View
                   style={!remarkLabel ? styles.normalRemark : styles.upRemark}
                 >
@@ -1275,7 +1266,7 @@ const TeacherHomeworkScreenBuild = () => {
                 {remarkInputIsInValid && (
                   <Text style={styles.errorText}>Enter remark</Text>
                 )}
-              </View>
+              </View> */}
 
               <View>
                 <View
@@ -1293,10 +1284,10 @@ const TeacherHomeworkScreenBuild = () => {
                         : styles.normalLabel
                     }
                   >
-                    Homework
+                    Description
                   </Text>
                 </View>
-                <Input
+                <Textarea
                   onChangeText={hwChangeHandler}
                   value={hw}
                   onSubmitEditing={Keyboard.dismiss}
@@ -1309,7 +1300,7 @@ const TeacherHomeworkScreenBuild = () => {
                   }
                 />
                 {homeworkInputIsInValid && (
-                  <Text style={styles.errorText}>Enter homework</Text>
+                  <Text style={styles.errorText}>Enter Description</Text>
                 )}
               </View>
 
@@ -1758,29 +1749,7 @@ const TeacherHomeworkScreenBuild = () => {
                                           </View>
                                         </View>
 
-                                        <View style={{ flex: 1 }}>
-                                          <View
-                                            style={[
-                                              { flex: 1 },
-                                              {
-                                                flexDirection: "row",
-                                              },
-                                            ]}
-                                          >
-                                            <View style={{ flex: 0.7 }}>
-                                              <Text
-                                                style={styles.cardTextStyle}
-                                              >
-                                                Remark:
-                                              </Text>
-                                            </View>
-                                            <View style={{ flex: 1 }}>
-                                              <Text style={styles.textStyle}>
-                                                {homeworkData.remark}
-                                              </Text>
-                                            </View>
-                                          </View>
-                                        </View>
+                                        
                                       </View>
 
                                       <View
@@ -1930,14 +1899,15 @@ const styles = StyleSheet.create({
     marginLeft: 130,
   },
   imagePreView: {
-    width: "100%",
-    height: 200,
-    marginVertical: 8,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 8,
-    backgroundColor: "lightblue",
+      width: "100%",
+      height: 200,
+      marginVertical: 8,
+    //   justifyContent: "flex-start",
+    //   alignItems: "flex-start",
+      borderRadius: 8,
+      left:'2%',
   },
+
 
   image: {
     width: "100%",
@@ -2010,13 +1980,14 @@ const styles = StyleSheet.create({
   },
   normalHomework: {
     position: "absolute",
-    top: deviceWidth < 370 ? 23 : 27,
+    top: deviceWidth < 370 ? 23 : 35,
     left: deviceWidth < 370 ? 20 : 30,
   },
   upHomework: {
-    top: deviceWidth < 370 ? 15 : 29,
+    top: deviceWidth < 370 ? 15 : 25,
+    
     left: deviceWidth < 370 ? 20 : 30,
-    width: deviceWidth > 400 ? 100 : 95,
+    width: deviceWidth > 400 ? 120 : 100,
     zIndex: 100,
   },
   errorLabel: {
