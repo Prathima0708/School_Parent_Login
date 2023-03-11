@@ -14,35 +14,35 @@ const DATA = [
     coverImageUri: image1,
     // coverImageUri:
     //   "https://kinaraeducation.in/wp-content/uploads/2023/01/WhatsApp-Image-2023-01-18-at-10.19.00-AM.jpeg",
-    // cornerLabelColor: '#FFD300',
-    // cornerLabelText: 'GOTY',
+     cornerLabelColor: '#000B3C',
+    imageText: 'New Year Celebration',
   },
   {
     coverImageUri: image2,
     // coverImageUri:
     //   "https://kinaraeducation.in/wp-content/uploads/2023/01/New-Year-celebration-8.jpeg",
-    // cornerLabelColor: '#0080ff',
-    // cornerLabelText: 'NEW',
+     cornerLabelColor: '#7E7405',
+    imageText: 'Sports Day',
   },
   {
     coverImageUri: image3,
     // coverImageUri:
     //   "https://kinaraeducation.in/wp-content/uploads/2023/01/WhatsApp-Image-2023-01-18-at-10.19.03-AM.jpeg",
-    // cornerLabelColor: '#2ECC40',
-    // cornerLabelText: '-75%',
+    cornerLabelColor: '#670164',
+    imageText: "Children\'s Day"
   },
   {
     coverImageUri: image4,
     // coverImageUri:
     //   "https://kinaraeducation.in/wp-content/uploads/2023/01/WhatsApp-Image-2023-01-17-at-10.23.05.jpeg",
-    // cornerLabelColor: '#2ECC40',
-    // cornerLabelText: '-20%',
+    cornerLabelColor: '#C85C08',
+    imageText: 'Independence Day',
   },
   {
     coverImageUri: image5,
     //coverImageUri: "http://kinaraeducation.in/wp-content/uploads/2021/10/1.jpg",
-    // cornerLabelColor: '#2ECC40',
-    // cornerLabelText: '-20%',
+    cornerLabelColor: '#C80531',
+    imageText: 'Annual Sports Day',
   },
 ];
 
@@ -68,7 +68,7 @@ const ImageSlider = () => {
             { backgroundColor: data.cornerLabelColor },
           ]}
         >
-          <Text style={styles.cornerLabelText}>{data.cornerLabelText}</Text>
+          <Text style={styles.cornerLabelText}>{data.imageText}</Text>
         </View>
       </View>
     </View>
@@ -133,16 +133,21 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     right: 0,
+ 
     borderTopLeftRadius: 8,
   },
   cornerLabelText: {
-    fontSize: 12,
-    color: "#fff",
-    fontWeight: "600",
-    paddingLeft: 5,
-    paddingRight: 5,
-    paddingTop: 2,
-    paddingBottom: 2,
+    fontSize: 15,
+ color:'#FDFEFE',
+borderColor:'white',
+borderWidth:1,
+borderTopLeftRadius:5,
+    fontWeight: "500",
+    paddingLeft: 6,
+    paddingRight: 6,
+    paddingTop: 4,
+    paddingBottom: 4,
+    fontFamily:'HindSemiBold'
   },
 });
 
