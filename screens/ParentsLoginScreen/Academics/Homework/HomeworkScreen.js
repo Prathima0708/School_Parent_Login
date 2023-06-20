@@ -7,6 +7,7 @@ import {
   LogBox,
   Dimensions,
   ToastAndroid,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
@@ -25,6 +26,7 @@ import {
   Center,
   VStack,
   Skeleton,
+  HStack,
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { Card } from "react-native-paper";
@@ -48,7 +50,7 @@ const HomeworkScreen = () => {
   const ref = useRef();
 
   const openModal = (placement, id, img) => {
-    setOnlyImg(img.split("/images/")[1]);
+    setOnlyImg(img?.split("/images/")[1]);
     setSaveUri(mainURL.concat(img));
     setOpen(true);
     setSaveImg(img);
@@ -56,8 +58,11 @@ const HomeworkScreen = () => {
   };
 
   useEffect(() => {
+   
     async function fetchData() {
+      setLoading(true)
       try {
+       
         const res = await axios.get(
           `${subURL}/HomeworkListByClass/${className}/${Section}`
         );
@@ -66,6 +71,8 @@ const HomeworkScreen = () => {
         setData(res.data);
       } catch (error) {
         console.log(error);
+      }finally{
+        setLoading(false)
       }
     }
     fetchData();
@@ -144,7 +151,30 @@ const HomeworkScreen = () => {
         <View style={{ flex: 8, bottom: 10 }}>
           <ScrollView>
             <View style={styles.root}>
-              {data.length > 0 ? (
+              {data.length <=0 && <View style={{ alignItems: "center", marginVertical: 10 }}>
+                  <Text style={styles.errText}>
+                    No Assigned homework found.
+                  </Text>
+                </View>}
+              {data.length > 0 && (
+               
+                loading ? (
+                  <HStack
+                  space={8}
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                    <ActivityIndicator
+                size={40}
+                visible={loading}
+                textContent={"Loading..."}
+                //textStyle={styles.spinnerTextStyle}
+              />
+              </HStack>
+                ) 
+              :
+             
+            
                 <FlatList
                   data={data}
                   style={{ width: "95%" }}
@@ -174,54 +204,7 @@ const HomeworkScreen = () => {
                               </Text>
                             </View>
                           </View>
-                          {/* <View
-                            style={[
-                              { flex: 1 },
-                              { flexDirection: "row", marginVertical: 10 },
-                            ]}
-                          >
-                            <View
-                              style={{
-                                flex: 1,
-                                alignItems: "center",
-                                right: "20%",
-                              }}
-                            >
-                              <Text
-                                style={[styles.textStyle, { color: "black" }]}
-                              >
-                                {moment(item.homework_date).format(
-                                  "DD/MM/YYYY"
-                                )}
-                              </Text>
-                            </View>
-                            <View
-                              style={{
-                                flex: 0.2,
-                                alignItems: "center",
-                                top: "1%",
-                              }}
-                            >
-                              <Text
-                                style={[
-                                  {
-                                    fontFamily: "HindSemiBold",
-                                    color: "black",
-                                    fontSize: 18,
-                                  },
-                                ]}
-                              >
-                                to
-                              </Text>
-                            </View>
-                            <View style={{ flex: 1, alignItems: "center" }}>
-                              <Text
-                                style={[styles.textStyle, { color: "black" }]}
-                              >
-                                {moment(item.due_date).format("DD/MM/YYYY")}
-                              </Text>
-                            </View>
-                          </View> */}
+                        
 
                           <View
                             style={[
@@ -297,29 +280,9 @@ const HomeworkScreen = () => {
                                   openModal(
                                     "center",
                                     item.id,
-                                    loading ? (
-                                      <Center w="100%">
-                                        <VStack
-                                          w="90%"
-                                          maxW="400"
-                                          borderWidth="1"
-                                          space={8}
-                                          overflow="hidden"
-                                          rounded="md"
-                                          _dark={{
-                                            borderColor: "coolGray.500",
-                                          }}
-                                          _light={{
-                                            borderColor: "coolGray.200",
-                                          }}
-                                        >
-                                          <Skeleton h="40" />
-                                        </VStack>
-                                      </Center>
-                                    ) : (
-                                      item.homework_photo
+                                    item.homework_photo
                                     )
-                                  )
+                                  
                                 }
                                 variant="subtle"
                                 _icon={{
@@ -334,12 +297,9 @@ const HomeworkScreen = () => {
                     );
                   }}
                 />
-              ) : (
-                <View style={{ alignItems: "center", marginVertical: 10 }}>
-                  <Text style={styles.errText}>
-                    No Assigned homework found.
-                  </Text>
-                </View>
+           
+
+              
               )}
             </View>
           </ScrollView>
@@ -354,9 +314,16 @@ const HomeworkScreen = () => {
             <Modal.Header
               style={{ justifyContent: "center", alignItems: "center" }}
             >
-              Homework
+              Homework Image
             </Modal.Header>
             <Modal.Body>
+            {saveImg ? (
+              loading ?<ActivityIndicator
+              size={40}
+              visible={loading}
+              textContent={"Loading..."}
+             
+            />:
               <Image
                 style={styles.img}
                 resizeMode="cover"
@@ -364,10 +331,11 @@ const HomeworkScreen = () => {
                   uri: `${mainURL}${saveImg}`,
                 }}
               />
+            ) :<Text>No image uploaded</Text>}
             </Modal.Body>
             <Modal.Footer>
               <NativeButton.Group space={2}>
-                <NativeButton onPress={downloadFile}>Download</NativeButton>
+              {saveImg ? <NativeButton onPress={downloadFile}>Download</NativeButton>: <NativeButton onPress={()=>setOpen(false)}>Okay</NativeButton>}
               </NativeButton.Group>
             </Modal.Footer>
           </Modal.Content>
@@ -406,7 +374,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
   },
   subDesign: {
-    backgroundColor: "darkblue",
+    backgroundColor: "#1E84A4",
     padding: 5,
   },
   labelStyle: {
